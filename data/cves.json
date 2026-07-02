@@ -3,53 +3,54 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 2,
-    "last_updated": "2026-07-02T08:32:38.477023",
+    "last_updated": "2026-07-02T11:15:05.854431",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
+      "high": 0,
       "medium": 0,
       "low": 0,
-      "none": 1
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-9563",
-      "publishedDate": "2026-07-02T07:33:25.218Z",
-      "lastModifiedDate": "2026-07-02T07:33:25.218Z",
-      "description": "In Eclipse Parsson published Maven Central artifacts before version 1.1.8, the JSON parser did not enforce a default maximum on the number of characters consumed while parsing a single JSON document. Applications that parse attacker- controlled JSON can be forced to consume excessive CPU and memory by processing very large documents, including large arrays, objects, strings, numbers, whitespace, or nested structures, resulting in a denial of service. Eclipse Parsson 1.1.8 introduces a configurable maximum parsing limit with a default limit of 15 million parser-consumed characters.",
-      "severity": 7.5,
+      "id": "CVE-2026-54431",
+      "publishedDate": "2026-07-02T10:30:57.655Z",
+      "lastModifiedDate": "2026-07-02T10:30:57.655Z",
+      "description": "In liboauth2 the Demonstrating Proof-of-Possession (DPoP) verifier accepts a proof whose JSON Web Key (jwk) header contains private key material. RFC 9449 section 4.3 step 7 requires the verifier to reject such a proof but oauth2_token_verify() function returns success for a malformed DPoP proof that embeds the private Elliptic Curve (EC) key in the header.\n\nThis issue was fixed in version 2.3.0",
+      "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/eclipse-ee4j/parsson/commit/134e8d101aa74c8b9302d0cb62f6ccb4912a9d0c",
+          "url": "https://cert.pl/en/posts/2026/06/CVE-2026-54430",
           "type": "reference"
         },
         {
-          "url": "https://github.com/eclipse-ee4j/parsson/pull/169",
+          "url": "https://github.com/OpenIDC/liboauth2",
           "type": "reference"
         },
         {
-          "url": "https://repo.maven.apache.org/maven2/org/eclipse/parsson/parsson/1.1.8/",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/eclipse-ee4j/parsson/tree/1.1.8",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/work_items/444",
+          "url": "https://github.com/OpenIDC/liboauth2/commit/c0b57152ed6a0af33aeb04a60bd7f5bff5ab8800",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Eclipse Foundation",
-          "product": "Eclipse Parsson",
+          "vendor": "OpenIDC",
+          "product": "liboauth2",
+          "repo": "https://github.com/OpenIDC/liboauth2",
+          "programFiles": [
+            "src/dpop.c"
+          ],
+          "programRoutines": [
+            {
+              "name": "_oauth2_dpop_parse_and_validate()"
+            }
+          ],
           "versions": [
             {
               "status": "affected",
-              "version": "1.0.0",
-              "lessThanOrEqual": "1.1.7",
+              "version": "0",
+              "lessThan": "2.3.0",
               "versionType": "semver"
             }
           ],
@@ -57,43 +58,54 @@
         }
       ],
       "problemType": [
-        "CWE-400 Uncontrolled Resource Consumption",
-        "CWE-770 Allocation of Resources Without Limits or Throttling"
+        "CWE-358 Improperly Implemented Security Check for Standard"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-8147",
-      "publishedDate": "2026-07-02T07:32:58.308Z",
-      "lastModifiedDate": "2026-07-02T07:32:58.308Z",
-      "description": "In MLflow versions prior to 3.14.0, when running with authentication enabled, the trace API endpoints lack proper authorization validators. This allows any authenticated user to bypass experiment-level authorization controls on all trace operations, including reading, deleting, and modifying traces on experiments they do not have permission to access. The issue arises from the `_before_request` handler, which does not register authorization validators for trace endpoints, resulting in requests proceeding without validation. This vulnerability can expose sensitive data, destroy audit logs, and allow unauthorized modifications.",
+      "id": "CVE-2026-54430",
+      "publishedDate": "2026-07-02T10:30:33.766Z",
+      "lastModifiedDate": "2026-07-02T10:30:33.766Z",
+      "description": "liboauth2 is vulnerable to Server-Side Request Forgery in oauth2_jose_jwks_aws_alb_resolve() function. The AWS ALB verifier reads both signer and kid from the unverified JWT\nheader. If signer matches the configured ARN, kid is appended to\nalb_base_url without URL encoding or path sanitization, and the HTTP GET\nis issued before signature verification. This allows an attacker to force\nthe server to send a GET request to an attacker-chosen internal path.\n\nThis issue was fixed in version 2.3.0",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://huntr.com/bounties/b00c3ddd-373e-492f-9bf0-41a28bb21ed5",
+          "url": "https://cert.pl/en/posts/2026/06/CVE-2026-54430",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mlflow/mlflow/commit/f9b1eb510478570609ef451984a255775aa4b937",
+          "url": "https://github.com/OpenIDC/liboauth2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/OpenIDC/liboauth2/commit/347507ac5b51f48c2933bbe49b2ee07c2af4712b",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "mlflow",
-          "product": "mlflow/mlflow",
+          "vendor": "OpenIDC",
+          "product": "liboauth2",
+          "repo": "https://github.com/OpenIDC/liboauth2",
+          "modules": [
+            "oauth2_jose_jwks_aws_alb_resolve()"
+          ],
+          "programFiles": [
+            "src/jose.c"
+          ],
           "versions": [
             {
-              "version": "unspecified",
-              "lessThan": "3.14.0",
               "status": "affected",
-              "versionType": "custom"
+              "version": "0",
+              "lessThan": "2.3.0",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-284 Improper Access Control"
+        "CWE-918 Server-Side Request Forgery (SSRF)"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
