@@ -2,53 +2,109 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 5,
-    "last_updated": "2026-07-03T02:08:45.218179",
+    "total_count": 15,
+    "last_updated": "2026-07-03T06:03:54.824386",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 4,
+      "critical": 1,
+      "high": 2,
+      "medium": 6,
       "low": 0,
-      "none": 0
+      "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-14327",
-      "publishedDate": "2026-07-03T01:28:21.367Z",
-      "lastModifiedDate": "2026-07-03T01:28:21.367Z",
-      "description": "The AR for WordPress plugin for WordPress is vulnerable to Directory Traversal in all versions up to, and including, 8.40 via the 'file' parameter parameter. This makes it possible for unauthenticated attackers to read the contents of arbitrary files on the server, which can contain sensitive information. Exploitation requires an attacker to first obtain a valid nonce and secure nonce via the publicly accessible ar_get_fresh_nonce and ar_process_user_image nopriv AJAX handlers, and to reproduce the encryption key locally — both steps are fully achievable by an unauthenticated attacker on any default free or unlicensed installation where ar_licence_key is unset.",
+      "id": "CVE-2026-9725",
+      "publishedDate": "2026-07-03T04:30:17.688Z",
+      "lastModifiedDate": "2026-07-03T04:30:17.688Z",
+      "description": "The Printcart Web to Print Product Designer for WooCommerce plugin for WordPress is vulnerable to Arbitrary File Deletion in versions up to, and including, 2.5.2 This is due to insufficient path validation in the store_design_data() function, which constructs a filesystem path from the user-supplied 'nbd_item_key' POST parameter sanitized only with sanitize_text_field() — which does not strip path traversal sequences — and then passes that path directly to Nbdesigner_IO::delete_folder() and PHP's rename(). The nonce protecting the nbd_save_customer_design AJAX action is freely obtainable by unauthenticated users via the nbd_check_use_logged_in endpoint. This makes it possible for unauthenticated attackers to delete arbitrary files on the affected site's server which may make remote code execution possible.",
+      "severity": 9.1,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5bb962bd-9b23-4820-885e-d8095250c3c7?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/printcart-integration/tags/2.4.8/includes/class.nbdesigner.php#L3246",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/printcart-integration/tags/2.4.8/includes/class.nbdesigner.php#L3698",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/printcart-integration/tags/2.4.8/includes/class.nbdesigner.php#L214",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3593521/printcart-integration/trunk/includes/class.nbdesigner.php",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Fprintcart-integration/tags/2.5.2&new_path=%2Fprintcart-integration/tags/2.5.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "printcart",
+          "product": "Printcart Web to Print Product Designer for WooCommerce",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.5.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14352",
+      "publishedDate": "2026-07-03T04:30:16.557Z",
+      "lastModifiedDate": "2026-07-03T04:30:16.557Z",
+      "description": "The AR for WooCommerce plugin for WordPress is vulnerable to Directory Traversal in all versions up to, and including, 8.40 via the 'file' parameter parameter. This makes it possible for unauthenticated attackers to read the contents of arbitrary files on the server, which can contain sensitive information. The three intended access controls all fail: valid nonces are freely minted by unauthenticated callers via the nopriv ar_get_fresh_nonce and ar_process_user_image AJAX handlers; the AES-256-CBC encryption key is derived from get_option('ar_licence_key'), which returns false on default free installations and yields a predictable key attackers can use to encrypt their own path payloads; and the Referer check is trivially bypassed because the Referer header is attacker-controlled.",
       "severity": 7.5,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/cfa375a8-ab07-45da-bc77-1e7edc996e05?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/2049712a-6ff2-4e2a-98f8-93a493a5bfd3?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/ar-for-wordpress/tags/8.40/includes/ar-secure-download.php#L64",
+          "url": "https://plugins.trac.wordpress.org/browser/ar-for-woocommerce/tags/8.40/ar-woocommerce.php#L249",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/ar-for-wordpress/tags/8.40/includes/ar-secure-download.php#L98",
+          "url": "https://plugins.trac.wordpress.org/browser/ar-for-woocommerce/tags/8.40/includes/ar-secure-download.php#L64",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/ar-for-wordpress/tags/8.40/ar-wordpress.php#L118",
+          "url": "https://plugins.trac.wordpress.org/browser/ar-for-woocommerce/tags/8.40/includes/ar-secure-download.php#L95",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/ar-for-wordpress/tags/8.40/ar-wordpress.php#L130",
+          "url": "https://plugins.trac.wordpress.org/browser/ar-for-woocommerce/tags/8.40/ar-woocommerce.php#L143",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3593272%40ar-for-wordpress&new=3593272%40ar-for-wordpress&sfp_email=&sfph_mail=",
+          "url": "https://plugins.trac.wordpress.org/changeset/3593279/ar-for-woocommerce/trunk/includes/ar-secure-download.php",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Far-for-woocommerce/tags/8.40&new_path=%2Far-for-woocommerce/tags/8.41",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "webandprint",
-          "product": "AR for WordPress",
+          "product": "AR for WooCommerce",
           "versions": [
             {
               "version": "0",
@@ -66,42 +122,78 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12731",
-      "publishedDate": "2026-07-03T01:28:21.006Z",
-      "lastModifiedDate": "2026-07-03T01:28:21.006Z",
-      "description": "The weDocs: AI Powered Knowledge Base, Docs, Documentation, Wiki & AI Chatbot plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'sectionTitleTag' and 'articleTitleTag' Block Attributes in all versions up to, and including, 2.3.0 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
-      "severity": 6.4,
+      "id": "CVE-2026-13040",
+      "publishedDate": "2026-07-03T04:30:17.322Z",
+      "lastModifiedDate": "2026-07-03T04:30:17.322Z",
+      "description": "The NEX-Forms – Ultimate Forms Plugin for WordPress plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'real_val__' parameter in all versions up to, and including, 9.2.2 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The submission endpoint is registered via wp_ajax_nopriv_submit_nex_form with no nonce verification, making it fully accessible to unauthenticated attackers without any CSRF token.",
+      "severity": 7.2,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/cda6d5d5-b49a-40f4-9c83-c1c569891339?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/49dc267a-48cf-487f-bedc-fd892666e9a0?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/assets/build/blocks/Sidebar/render.php#L540",
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.2.2/main.php#L467",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/assets/build/blocks/Sidebar/render.php#L634",
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.2.2/main.php#L4896",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/assets/build/blocks/Sidebar/render.php#L154",
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.2.2/main.php#L4870",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3589430%40wedocs&new=3589430%40wedocs&sfp_email=&sfph_mail=",
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.2.2/main.php#L5323",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.2.2/includes/classes/class.functions.php#L2461",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.2.2/main.php#L2660",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.1.11/main.php#L467",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.1.11/main.php#L4896",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.1.11/main.php#L4870",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.1.11/main.php#L5323",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.1.11/includes/classes/class.functions.php#L2461",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/nex-forms-express-wp-form-builder/tags/9.1.11/main.php#L2660",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3584399%40nex-forms-express-wp-form-builder&new=3584399%40nex-forms-express-wp-form-builder&sfp_email=&sfph_mail=",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wedevs",
-          "product": "weDocs: AI Powered Knowledge Base, Docs, Documentation, Wiki & AI Chatbot",
+          "vendor": "webaways",
+          "product": "NEX-Forms – Ultimate Forms Plugin for WordPress",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "2.3.0",
+              "lessThanOrEqual": "9.2.2",
               "versionType": "semver"
             }
           ],
@@ -114,38 +206,50 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12734",
-      "publishedDate": "2026-07-03T01:28:19.126Z",
-      "lastModifiedDate": "2026-07-03T01:28:19.126Z",
-      "description": "The weDocs: AI Powered Knowledge Base, Docs, Documentation, Wiki & AI Chatbot plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'connectorWidth' Block Attribute in all versions up to, and including, 2.3.0 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "id": "CVE-2026-8892",
+      "publishedDate": "2026-07-03T04:30:19.430Z",
+      "lastModifiedDate": "2026-07-03T04:30:19.430Z",
+      "description": "The CM Business Directory – Optimise and showcase local business plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Business Address Meta Fields in all versions up to, and including, 1.5.7 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. Because the malicious payload is stored in post meta rather than post_content, WordPress's unfiltered_html capability restriction does not apply, meaning contributors who lack that capability can still inject executable HTML via the address meta fields such as cmbd_address, cmbd_cityTown, cmbd_stateCounty, cmbd_postalcode, cmbd_region, and cmbd_country.",
       "severity": 6.4,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/11d68c98-3d7e-42af-be61-6bb5428b73b6?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/ce3861a3-3a0f-4414-bea7-941c2d36fc39?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/assets/build/blocks/Sidebar/render.php#L138",
+          "url": "https://plugins.trac.wordpress.org/browser/cm-business-directory/trunk/frontend/cm-business-directory-business-page-sc.php#L151",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/assets/build/blocks/Sidebar/render.php#L161",
+          "url": "https://plugins.trac.wordpress.org/browser/cm-business-directory/trunk/frontend/cm-business-directory-business-page-sc.php#L107",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3589430%40wedocs&new=3589430%40wedocs&sfp_email=&sfph_mail=",
+          "url": "https://plugins.trac.wordpress.org/browser/cm-business-directory/trunk/frontend/cm-business-directory-business-page-sc.php#L190",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/cm-business-directory/trunk/backend/cm-business-directory-backend.php#L385",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/cm-business-directory/trunk/backend/cm-business-directory-backend.php#L366",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3590314%40cm-business-directory&new=3590314%40cm-business-directory&sfp_email=&sfph_mail=",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wedevs",
-          "product": "weDocs: AI Powered Knowledge Base, Docs, Documentation, Wiki & AI Chatbot",
+          "vendor": "creativemindssolutions",
+          "product": "CM Business Directory – Optimise and showcase local business",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "2.3.0",
+              "lessThanOrEqual": "1.5.7",
               "versionType": "semver"
             }
           ],
@@ -158,46 +262,46 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12920",
-      "publishedDate": "2026-07-03T01:28:20.021Z",
-      "lastModifiedDate": "2026-07-03T01:28:20.021Z",
-      "description": "The Cookie Banner for GDPR / CCPA – WPLP Cookie Consent plugin for WordPress is vulnerable to generic SQL Injection via the 's' parameter in all versions up to, and including, 4.3.5 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with administrator-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
-      "severity": 4.9,
+      "id": "CVE-2026-9626",
+      "publishedDate": "2026-07-03T04:30:19.039Z",
+      "lastModifiedDate": "2026-07-03T04:30:19.039Z",
+      "description": "The JSON API User plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'content' parameter of the post_comment API endpoint in versions up to, and including, 4.1.0 This is due to insufficient input sanitization in the post_comment() function, which passes the attacker-controlled comment_content value directly to wp_insert_comment() without applying any HTML sanitization, and additionally allows the caller to set comment_approved=1 to self-approve the comment and bypass moderation. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/572bfa82-92f5-4801-8710-0626ca563a6c?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/c41b0370-2881-4053-98b1-9c70251a3b63?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/admin/data-req/class-wpl-data-req-table.php#L492",
+          "url": "https://plugins.trac.wordpress.org/browser/json-api-user/tags/4.1.0/controllers/User.php#L1007",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/admin/data-req/class-wpl-data-req-table.php#L322",
+          "url": "https://plugins.trac.wordpress.org/browser/json-api-user/tags/4.1.0/controllers/User.php#L995",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/admin/data-req/class-wpl-data-req-table.php#L377",
+          "url": "https://plugins.trac.wordpress.org/browser/json-api-user/tags/4.1.0/controllers/User.php#L979",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/admin/data-req/class-wpl-data-req-table.php#L513",
+          "url": "https://plugins.trac.wordpress.org/changeset/3576431/json-api-user/trunk/controllers/User.php",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3593450%40gdpr-cookie-consent&new=3593450%40gdpr-cookie-consent&sfp_email=&sfph_mail=",
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Fjson-api-user/tags/4.1.0&new_path=%2Fjson-api-user/tags/4.1.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wplegalpages",
-          "product": "Cookie Banner for GDPR / CCPA – WPLP Cookie Consent",
+          "vendor": "parorrey",
+          "product": "JSON API User",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "4.3.5",
+              "lessThanOrEqual": "4.1.0",
               "versionType": "semver"
             }
           ],
@@ -205,51 +309,211 @@
         }
       ],
       "problemType": [
-        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12729",
-      "publishedDate": "2026-07-03T01:28:19.653Z",
-      "lastModifiedDate": "2026-07-03T01:28:19.653Z",
-      "description": "The weDocs: AI Powered Knowledge Base, Docs, Documentation, Wiki & AI Chatbot plugin for WordPress is vulnerable to Missing Authorization in versions up to and including 2.3.0. This is due to a missing capability check on the do_migration() function registered as the wedocs_migrate_betterdocs_to_wedocs AJAX action, which performs no nonce verification via check_ajax_referer() and no capability check via current_user_can() before executing sensitive operations. This makes it possible for authenticated attackers, with Subscriber-level access and above, to trigger a full BetterDocs-to-weDocs data migration, creating and modifying 'docs' custom post type entries with attacker-controlled titles, updating site options, and deactivating the BetterDocs and BetterDocs Pro plugins via deactivate_plugins().",
-      "severity": 4.3,
+      "id": "CVE-2026-8489",
+      "publishedDate": "2026-07-03T04:30:16.942Z",
+      "lastModifiedDate": "2026-07-03T04:30:16.942Z",
+      "description": "The Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction & Membership Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'about_me' parameter in all versions up to, and including, 2.11.4 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/228d63a5-5053-4692-9801-4860325da153?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/229a4e61-571c-44c6-9972-4dfc743afffe?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/includes/Admin/Migrate.php#L206",
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/core/um-filters-fields.php#L271",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/includes/Ajax.php#L39",
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/core/class-profile.php#L479",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/includes/Admin/Migrate.php#L183",
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/core/class-fields.php#L4577",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/wedocs/tags/2.3.0/includes/Admin/Migrate.php#L56",
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/core/class-form.php#L854",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&old=3589430%40wedocs&new=3589430%40wedocs&sfp_email=&sfph_mail=",
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/core/um-actions-form.php#L628",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.2/includes/core/um-filters-fields.php#L271",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.2/includes/core/class-profile.php#L479",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.2/includes/core/class-fields.php#L4577",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.2/includes/core/class-form.php#L854",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.2/includes/core/um-actions-form.php#L628",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wedevs",
-          "product": "weDocs: AI Powered Knowledge Base, Docs, Documentation, Wiki & AI Chatbot",
+          "vendor": "ultimatemember",
+          "product": "Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction & Membership Plugin",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "2.3.0",
+              "lessThanOrEqual": "2.11.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-11397",
+      "publishedDate": "2026-07-03T04:30:18.659Z",
+      "lastModifiedDate": "2026-07-03T04:30:18.659Z",
+      "description": "The WP Import Export Lite plugin for WordPress is vulnerable to Server-Side Request Forgery in all versions up to and including 3.9.30 via the wpie_import_upload_file_from_url AJAX action. The plugin's URL downloader first calls wp_safe_remote_get() (which correctly blocks private/reserved IP ranges), but when that call returns a WP_Error — the exact outcome for any blocked internal host — the Download::download_file() method falls back to GuzzleHttp\\Client::request() with the original attacker-supplied URL and no SSRF protection (and with TLS verification disabled). This makes it possible for authenticated attackers, with administrator-level access and above, to make web requests to arbitrary locations originating from the web application and can be used to query and modify information from internal services such as the cloud metadata endpoint at 169.",
+      "severity": 5.5,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/94384812-fa6e-48db-a84a-b1769e62ca58?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-import-export-lite/tags/3.9.30/includes/classes/import/downloader/download.php#L97",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-import-export-lite/tags/3.9.30/includes/classes/import/downloader/download.php#L31",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-import-export-lite/tags/3.9.30/includes/classes/import/extensions/url-upload/wpie_url_upload.php#L44",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-import-export-lite/tags/3.9.30/includes/classes/import/extensions/url-upload/class-wpie-url-upload.php#L29",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-import-export-lite/trunk/includes/classes/import/downloader/download.php?rev=3587811",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vjinfotech",
+          "product": "WP Import Export Lite",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.9.30",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-918 Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-9180",
+      "publishedDate": "2026-07-03T04:30:19.902Z",
+      "lastModifiedDate": "2026-07-03T04:30:19.902Z",
+      "description": "The MotoPress Appointment Booking plugin for WordPress is vulnerable to Authorization Bypass Through User-Controlled Key in all versions up to, and including, 2.4.4. This is due to the `POST /motopress/appointment/v1/bookings` REST endpoint being registered with `'permission_callback' => '__return_true'`, allowing unauthenticated access, while the `createBooking` handler in `BookingsRestController.php` accepts an attacker-supplied `payment_details.booking_id` value and loads the referenced booking via `findById()` without verifying that the caller owns or has any rights to that booking. This makes it possible for unauthenticated attackers to overwrite the customer name, email address, phone number, and `customer_id` of any non-confirmed victim booking by submitting a request with no reservation items, causing `BookingService::createBooking()` to load the existing victim booking object and persist it with attacker-controlled customer data. Victim booking IDs can be harvested prior to exploitation without authentication by querying the also-publicly-accessible `GET /motopress/appointment/v1/bookings/reservations` endpoint with a guessable `service_id` and date range, and only bookings whose status is not `STATUS_CONFIRMED` (e.g., pending or auto-draft) are valid targets.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e9a6521d-39b2-48f4-834b-888047619df5?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motopress-appointment-lite/tags/2.4.3/includes/rest/controllers/motopress/appointment/v1/BookingsRestController.php#L98",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motopress-appointment-lite/tags/2.4.3/includes/rest/controllers/motopress/appointment/v1/BookingsRestController.php#L308",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motopress-appointment-lite/tags/2.4.3/includes/rest/controllers/motopress/appointment/v1/BookingsRestController.php#L30",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motopress-appointment-lite/tags/2.4.3/includes/services/BookingService.php#L29",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3583168/motopress-appointment-lite/trunk/includes/rest/controllers/motopress/appointment/v1/BookingsRestController.php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "jetmonsters",
+          "product": "MotoPress Appointment Booking",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.4.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-12557",
+      "publishedDate": "2026-07-03T04:30:16.018Z",
+      "lastModifiedDate": "2026-07-03T04:30:16.018Z",
+      "description": "The Ninja Forms - File Uploads plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 3.3.29. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to read all plugin debug log entries stored in the wp_nf3_log table or permanently delete all rows from that table.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1a54f8cc-cadb-4496-bcc4-ef8387b72300?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ninja-forms-uploads/trunk/includes/Common/Routes/DebugLog.php#L88",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "SaturdayDrive",
+          "product": "Ninja Forms - File Uploads",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.3.29",
               "versionType": "semver"
             }
           ],
@@ -258,6 +522,843 @@
       ],
       "problemType": [
         "CWE-862 Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54891",
+      "publishedDate": "2026-07-02T16:06:30.982Z",
+      "lastModifiedDate": "2026-07-03T04:29:42.794Z",
+      "description": "Improper Enforcement of Message Integrity During Transmission in a Communication Channel vulnerability in Erlang/OTP ssl (tls_gen_connection module) allows a network-positioned attacker to inject unauthenticated plaintext that the TLS client application later treats as authenticated server data.\n\nThe function tls_gen_connection:handle_protocol_record/3 rejects APPLICATION_DATA records that arrive in pre-handshake states when the TLS endpoint acts as a server, but does not apply the same check when the endpoint acts as a client. A network-positioned attacker can send plaintext APPLICATION_DATA records to the client during the handshake. The records are buffered and, once the handshake completes successfully, delivered to the application as if they were authenticated post-handshake data. The attacker cannot observe the client's response or steer the connection, so the impact is limited to blind injection of unauthenticated bytes. The injection window is wider for TLS versions prior to TLS 1.3 than for TLS 1.3.\n\nThis vulnerability is associated with program file lib/ssl/src/tls_gen_connection.erl.\n\nThis issue affects OTP from OTP 17.0 before 29.0.3, 28.5.0.3 and 27.3.4.14 corresponding to ssl from 5.3.4 before 11.7.3, 11.6.0.3 and 11.2.12.10. TLS 1.3 is affected starting with OTP 22.0, when TLS 1.3 support was added.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/erlang/otp/security/advisories/GHSA-gf6r-99xw-6qg6",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-54891.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-54891",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.erlang.org/doc/system/versions.html#order-of-versions",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/07d2d0e93f6aaf7652a81e8df075fc1728da5e96",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "tls_gen_connection"
+          ],
+          "packageName": "ssl",
+          "packageURL": "pkg:otp/ssl?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Fotp&vcs_url=git%20https:%2F%2Fgithub.com%2Ferlang%2Fotp.git",
+          "product": "OTP",
+          "programFiles": [
+            "src/tls_gen_connection.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "tls_gen_connection:handle_protocol_record/3"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "11.7.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.6.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.2.12.10",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "5.3.4",
+              "versionType": "otp"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "tls_gen_connection"
+          ],
+          "packageName": "erlang/otp",
+          "packageURL": "pkg:github/erlang/otp",
+          "product": "OTP",
+          "programFiles": [
+            "lib/ssl/src/tls_gen_connection.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "tls_gen_connection:handle_protocol_record/3"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "29.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "28.5.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "27.3.4.14",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "17.0",
+              "versionType": "otp"
+            },
+            {
+              "lessThan": "07d2d0e93f6aaf7652a81e8df075fc1728da5e96",
+              "status": "affected",
+              "version": "84adefa331c4159d432d22840663c38f155cd4c1",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-924 Improper Enforcement of Message Integrity During Transmission in a Communication Channel"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55950",
+      "publishedDate": "2026-07-02T16:06:24.783Z",
+      "lastModifiedDate": "2026-07-03T04:29:33.147Z",
+      "description": "Time-of-check Time-of-use (TOCTOU) race condition vulnerability in Erlang/OTP ssl (dtls_packet_demux module) allows an unauthenticated remote attacker to crash all active DTLS sessions on a listener.\n\nA DTLS server listener uses a single shared dtls_packet_demux gen_server process to route incoming UDP datagrams to the correct connection handler. When a DTLS client reconnects rapidly from the same source address and port (sending multiple ClientHello messages in quick succession), a race condition in the demux's internal gb_trees key-value store causes a {key_exists, {old, Client}} crash, terminating the demux process. Because the demux is shared across all DTLS associations on that listener, its crash immediately kills every active DTLS session, not just the attacker's.\n\nThe attack is pre-authentication: the attacker only needs to send UDP datagrams containing valid ClientHello messages from the same source IP and port before the intermediate DOWN monitor message is processed by the gen_server. No credentials, no completed handshake, and no special configuration are required, and the crash can be repeated indefinitely to create a persistent denial of service for all clients of that listener.\n\nThis vulnerability is associated with program file lib/ssl/src/dtls_packet_demux.erl.\n\nThis issue affects OTP from OTP 25.3 before 29.0.3, 28.5.0.3, and 27.3.4.14 corresponding to ssl from 10.9 before 11.7.3, 11.6.0.3, and 11.2.12.10.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/erlang/otp/security/advisories/GHSA-hwfc-5hf4-gvr3",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-55950.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-55950",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.erlang.org/doc/system/versions.html#order-of-versions",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/e44d2bf01c4473ef2ea7f09e3523cf96de6e4a04",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "dtls_packet_demux"
+          ],
+          "packageName": "ssl",
+          "packageURL": "pkg:otp/ssl?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Fotp&vcs_url=git%20https:%2F%2Fgithub.com%2Ferlang%2Fotp.git",
+          "product": "OTP",
+          "programFiles": [
+            "src/dtls_packet_demux.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "dtls_packet_demux:handle_call/3"
+            },
+            {
+              "name": "dtls_packet_demux:handle_info/2"
+            },
+            {
+              "name": "dtls_packet_demux:new_connection/2"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "11.7.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.6.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.2.12.10",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "10.9",
+              "versionType": "otp"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "dtls_packet_demux"
+          ],
+          "packageName": "erlang/otp",
+          "packageURL": "pkg:github/erlang/otp",
+          "product": "OTP",
+          "programFiles": [
+            "lib/ssl/src/dtls_packet_demux.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "dtls_packet_demux:handle_call/3"
+            },
+            {
+              "name": "dtls_packet_demux:handle_info/2"
+            },
+            {
+              "name": "dtls_packet_demux:new_connection/2"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "29.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "28.5.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "27.3.4.14",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "25.3",
+              "versionType": "otp"
+            },
+            {
+              "lessThan": "e44d2bf01c4473ef2ea7f09e3523cf96de6e4a04",
+              "status": "affected",
+              "version": "44dcb4c3d900777493ce2a6129f451aa475811f9",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54886",
+      "publishedDate": "2026-07-02T16:06:20.502Z",
+      "lastModifiedDate": "2026-07-03T04:29:26.056Z",
+      "description": "Loop with Unreachable Exit Condition ('Infinite Loop') vulnerability in Erlang OTP ssh (ssh_sftpd module) allows an authenticated SFTP user to render an SFTP channel permanently unresponsive.\n\nThe handle_data/4 function in ssh_sftpd contains a catch-all clause that accepts channel data of any type. When channel data with a non-zero type code (SSH_MSG_CHANNEL_EXTENDED_DATA) arrives with an empty pending buffer and a payload at or below the SFTP packet size limit, the clause tail-calls itself with identical arguments, creating an infinite loop.\n\nThe SFTP protocol operates exclusively on normal channel data (type 0). Extended data (non-zero type) is meaningless for SFTP and is never sent by conforming clients. However, the SSH protocol permits any channel participant to send extended data on an open channel, so an authenticated SFTP client can trigger the loop by sending SSH_MSG_CHANNEL_EXTENDED_DATA with any data_type_code and any non-empty payload at or below the size limit.\n\nThe targeted ssh_sftpd process enters an infinite tail-recursive loop. It never processes another message, its message queue grows without bound, and it can only be stopped by killing the process. BEAM's reduction-based scheduler preemption continues to function, so other processes on the node are not starved, but each stuck channel process consumes its full CPU time share continuously and accumulates unbounded message queue memory. Opening many channels amplifies the CPU and memory impact.\n\nErlang/OTP SSH configurations using the default max_channels setting (infinity) allow an authenticated user to open unlimited channels per connection, amplifying the attack without requiring multiple TCP connections or authentications.\n\nNo file contents, credentials, or write access are obtainable through this issue. The impact is limited to denial of service on targeted SFTP channels, with secondary CPU degradation and memory growth.\n\nThis vulnerability is associated with program file lib/ssh/src/ssh_sftpd.erl and program routine ssh_sftpd:handle_data/4.\n\nThis issue affects OTP from OTP 17.0 until OTP 29.0.3, 28.5.0.3, and 27.3.4.14 corresponding to ssh from 3.0.1 until 6.0.2, 5.5.2.2, and 5.2.11.9.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/erlang/otp/security/advisories/GHSA-7wp4-pc27-2vj9",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-54886.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-54886",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.erlang.org/doc/system/versions.html#order-of-versions",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/eaf9550b8ad4738b81149d3f617102d980c6dd18",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "ssh_sftpd"
+          ],
+          "packageName": "ssh",
+          "packageURL": "pkg:otp/ssh?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Fotp&vcs_url=git%20https:%2F%2Fgithub.com%2Ferlang%2Fotp.git",
+          "product": "OTP",
+          "programFiles": [
+            "src/ssh_sftpd.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "ssh_sftpd:handle_data/4"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "6.0.2",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "5.5.2.2",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "5.2.11.9",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "3.0.1",
+              "versionType": "otp"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "ssh_sftpd"
+          ],
+          "packageName": "erlang/otp",
+          "packageURL": "pkg:github/erlang/otp",
+          "product": "OTP",
+          "programFiles": [
+            "lib/ssh/src/ssh_sftpd.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "ssh_sftpd:handle_data/4"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "29.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "28.5.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "27.3.4.14",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "17.0",
+              "versionType": "otp"
+            },
+            {
+              "lessThan": "eaf9550b8ad4738b81149d3f617102d980c6dd18",
+              "status": "affected",
+              "version": "84adefa3318eef8631bf25cd233246a86eea18cd",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')",
+        "CWE-400 Uncontrolled Resource Consumption"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55952",
+      "publishedDate": "2026-07-02T16:06:08.474Z",
+      "lastModifiedDate": "2026-07-03T04:29:07.026Z",
+      "description": "The Erlang/OTP ssl application does not validate that the PSK identity list and binder list carried in a TLS 1.3 ClientHello pre-shared key extension have equal length before passing them to the session ticket handler. In tls_handshake_1_3:handle_pre_shared_key/3, an OfferedPreSharedKeys record with a mismatched number of identities and binders is forwarded directly to tls_server_session_ticket:use/4, which crashes the session ticket handler process.\n\nAn unauthenticated remote attacker can send a single crafted ClientHello to a TLS 1.3 server with session tickets enabled (stateful or stateless mode) and permanently disrupt session ticket handling on that listener. New TLS 1.3 handshakes complete but subsequently crash when the server attempts to issue a session ticket, effectively making TLS 1.3 unusable on the affected listener until the ssl application is restarted. TLS 1.2 connections are not affected.\n\nThis issue affects OTP from 22.2 before 29.0.3, 28.5.0.3 and 27.3.4.14 corresponding to ssl from 9.5 before 11.7.3, 11.6.0.3 and 11.2.12.10.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/erlang/otp/security/advisories/GHSA-8c57-44c9-pc59",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-55952.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-55952",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.erlang.org/doc/system/versions.html#order-of-versions",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/e77823e6d980b2ec0b4fe4ea3f2d098ca239e3ce",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/2c3e599797644310e5d4aa39c7193420e59dadff",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/9b5437c72fa3403a75c1aba28e5c532bc191c662",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "tls_handshake_1_3"
+          ],
+          "packageName": "ssl",
+          "packageURL": "pkg:otp/ssl?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Fotp&vcs_url=git%20https:%2F%2Fgithub.com%2Ferlang%2Fotp.git",
+          "product": "OTP",
+          "programFiles": [
+            "src/tls_handshake_1_3.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "tls_handshake_1_3:handle_pre_shared_key/3"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "11.7.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.6.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.2.12.10",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "9.5",
+              "versionType": "otp"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "tls_handshake_1_3"
+          ],
+          "packageName": "erlang/otp",
+          "packageURL": "pkg:github/erlang/otp",
+          "product": "OTP",
+          "programFiles": [
+            "lib/ssl/src/tls_handshake_1_3.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "tls_handshake_1_3:handle_pre_shared_key/3"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "29.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "28.5.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "27.3.4.14",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "22.2",
+              "versionType": "otp"
+            },
+            {
+              "changes": [
+                {
+                  "at": "e77823e6d980b2ec0b4fe4ea3f2d098ca239e3ce",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "2c3e599797644310e5d4aa39c7193420e59dadff",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "9b5437c72fa3403a75c1aba28e5c532bc191c662",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "339a279f02ce38a7b23010e56000613e19abb21f",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1284 Improper Validation of Specified Quantity in Input"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54887",
+      "publishedDate": "2026-07-02T16:06:04.156Z",
+      "lastModifiedDate": "2026-07-03T04:29:00.191Z",
+      "description": "Use of Default Cryptographic Key vulnerability in Erlang/OTP ssl (DTLS server) allows predictable DTLS cookie computation during the startup window, enabling source address verification bypass.\n\nOn DTLS server startup, dtls_server_connection:initial_hello/3 initializes previous_cookie_secret to the empty binary (<<>>) instead of a random value. Because HMAC with an empty key is deterministic, anyone who observes the plaintext ClientHello can compute dtls_handshake:cookie(<<>>, IP, Port, Hello) and forge a valid DTLS cookie before the first rotation of the cookie secret. The DTLS cookie (RFC 6347 §4.2.1) is a denial-of-service mitigation that prevents spoofed source IPs from forcing the server to allocate state and perform expensive cryptographic operations; it is not an authentication mechanism. During the window from server startup until the first secret rotation (0 to 15 seconds), an attacker who can observe the plaintext ClientHello can bypass the source address verification, enabling DTLS handshake amplification with spoofed source addresses.\n\nThis vulnerability is associated with program file lib/ssl/src/dtls_server_connection.erl and program routine dtls_server_connection:initial_hello/3.\n\nThis issue affects OTP from OTP 20.0 before 29.0.3, 28.5.0.3 and 27.3.4.14 corresponding to ssl from 8.2 before 11.7.3, 11.6.0.3 and 11.2.12.10.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/erlang/otp/security/advisories/GHSA-p2m2-3c2w-8jp8",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-54887.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-54887",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.erlang.org/doc/system/versions.html#order-of-versions",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/888e3bcd72d5406016b9e0de741026bc2a6f114d",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "dtls_server_connection"
+          ],
+          "packageName": "ssl",
+          "packageURL": "pkg:otp/ssl?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Fotp&vcs_url=git%20https:%2F%2Fgithub.com%2Ferlang%2Fotp.git",
+          "product": "OTP",
+          "programFiles": [
+            "src/dtls_server_connection.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "dtls_server_connection:initial_hello/3"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "11.7.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.6.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "11.2.12.10",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "8.2",
+              "versionType": "otp"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "dtls_server_connection"
+          ],
+          "packageName": "erlang/otp",
+          "packageURL": "pkg:github/erlang/otp",
+          "product": "OTP",
+          "programFiles": [
+            "lib/ssl/src/dtls_server_connection.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "dtls_server_connection:initial_hello/3"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "29.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "28.5.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "27.3.4.14",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "20.0",
+              "versionType": "otp"
+            },
+            {
+              "lessThan": "888e3bcd72d5406016b9e0de741026bc2a6f114d",
+              "status": "affected",
+              "version": "e594aad2f87aab39e99fccf9e021bc94e0bbf7d4",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1394 Use of Default Cryptographic Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-53422",
+      "publishedDate": "2026-07-02T16:06:03.802Z",
+      "lastModifiedDate": "2026-07-03T04:28:59.578Z",
+      "description": "Observable Response Discrepancy vulnerability in Erlang OTP ssh (ssh_sftpd module) allows an authenticated SFTP user to enumerate the existence of files and directories outside the configured root directory.\n\nThe SSH_FXP_REALPATH handler in ssh_sftpd calls relate_file_name/3 with Canonicalize=false, unlike every other SFTP operation handler. This allows .. components in the requested path to bypass the is_within_root/2 check without being resolved. The un-canonicalized path then enters resolve_symlinks/2, which walks up the directory tree above the configured root and issues read_link() syscalls on arbitrary filesystem paths.\n\nAn authenticated SFTP client can exploit this by sending a REALPATH request with a crafted traversal path. The server response differs depending on whether the target path exists on the host filesystem (SSH_FXP_NAME when the path resolves successfully, SSH_FX_NO_SUCH_FILE when it does not). This creates a path-existence oracle that an attacker can use to enumerate the filesystem structure outside the configured root, including the existence of sensitive files, directories, and mount points.\n\nThe vulnerability leaks only the existence of paths. No file contents, credentials, or write access are obtainable through this issue alone. The information gained may assist further attacks when combined with other vulnerabilities.\n\nThis vulnerability is associated with program files lib/ssh/src/ssh_sftpd.erl and program routine ssh_sftpd:handle_op/4.\n\nThis issue affects OTP from OTP 17.0 until OTP 29.0.3, 28.5.0.3, and 27.3.4.14 corresponding to ssh from 3.0.1 until 6.0.2, 5.5.2.2, and 5.2.11.9.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/erlang/otp/security/advisories/GHSA-h9pw-h5w4-h976",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-53422.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-53422",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.erlang.org/doc/system/versions.html#order-of-versions",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/059e5785ef8c1d423820ca633fb7b37f47645172",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/86622cfaacf57a02c7645d1999f946846b504c94",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/erlang/otp/commit/c5a8f50ae68888ff243c5c741a06d2b3a4b48b7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "ssh_sftpd"
+          ],
+          "packageName": "ssh",
+          "packageURL": "pkg:otp/ssh?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Fotp&vcs_url=git%20https:%2F%2Fgithub.com%2Ferlang%2Fotp.git",
+          "product": "OTP",
+          "programFiles": [
+            "src/ssh_sftpd.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "ssh_sftpd:handle_op/4"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "6.0.2",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "5.5.2.2",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "5.2.11.9",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "3.0.1",
+              "versionType": "otp"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:erlang:erlang\\/otp:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "ssh_sftpd"
+          ],
+          "packageName": "erlang/otp",
+          "packageURL": "pkg:github/erlang/otp",
+          "product": "OTP",
+          "programFiles": [
+            "lib/ssh/src/ssh_sftpd.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "ssh_sftpd:handle_op/4"
+            }
+          ],
+          "repo": "https://github.com/erlang/otp",
+          "vendor": "Erlang",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "29.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "28.5.0.3",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "27.3.4.14",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "17.0",
+              "versionType": "otp"
+            },
+            {
+              "changes": [
+                {
+                  "at": "059e5785ef8c1d423820ca633fb7b37f47645172",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "86622cfaacf57a02c7645d1999f946846b504c94",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "c5a8f50ae68888ff243c5c741a06d2b3a4b48b7a",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "*",
+              "status": "affected",
+              "version": "84adefa331c4159d432d22840663c38f155cd4c1",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-204 Observable Response Discrepancy"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
