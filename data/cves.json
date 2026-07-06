@@ -2,56 +2,59 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-07-06T22:36:02.827701",
+    "total_count": 4,
+    "last_updated": "2026-07-06T23:43:58.094457",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 0,
+      "medium": 1,
       "low": 0,
       "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-43928",
-      "publishedDate": "2026-07-06T21:53:31.172Z",
-      "lastModifiedDate": "2026-07-06T21:53:31.172Z",
-      "description": "FOSSBilling is a free, open-source billing and client management system. Prior to version 0.8.0, the PayPalEmail payment adapter accepts PayPal IPN callbacks and credits the IPN-supplied amount (`mc_gross`) to the client's balance without validating it against the invoice total. Combined with a $0.05 floating-point epsilon tolerance in the invoice credit-payment logic, this allows a client to underpay an invoice by up to $0.04 and still have it marked as fully paid. Version 0.8.0 patches the issue. There is no effective workaround without modifying the source code. Merchants using the PayPalEmail adapter should monitor IPN transactions for amounts that do not match their corresponding invoice totals, and manually review and refund suspicious payments.",
-      "severity": "N/A",
+      "id": "CVE-2024-56141",
+      "publishedDate": "2026-07-06T23:17:54.978Z",
+      "lastModifiedDate": "2026-07-06T23:17:54.978Z",
+      "description": "Minosoft is an open-source, multi-version Minecraft Java Edition client written in Kotlin. Starting in commit f1ae30e2b046a490026a8413b075685deb795122, the CryptManager  encryption routine ( CryptManager.kt ) initializes its AES cipher using an initialization vector (IV) that is set equal to the secret key rather than to a sufficiently random value. Because the IV is not random and is derived directly from the key, the encryption is vulnerable to chosen-ciphertext/chosen-plaintext attacks: an attacker who can submit specific messages for encryption can recover the secret key. This affects all versions supporting Minecraft protocol 1.7 and later. No patched version is available, and no known workarounds are available.",
+      "severity": 5,
       "references": [
         {
-          "url": "https://github.com/FOSSBilling/FOSSBilling/security/advisories/GHSA-xjc6-g382-h942",
+          "url": "https://github.com/Bixilon/Minosoft/security/advisories/GHSA-rvr6-48rj-c94j",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Bixilon/Minosoft/blob/3a608abe2d0999e4e702cc1b2d28366884c7f31e/src/main/java/de/bixilon/minosoft/protocol/protocol/encryption/CryptManager.kt#L72",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "FOSSBilling",
-          "product": "FOSSBilling",
+          "vendor": "Bixilon",
+          "product": "Minosoft",
           "versions": [
             {
-              "version": "< 0.8.0",
+              "version": ">= f1ae30e2b046a490026a8413b075685deb795122",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-754: Improper Check for Unusual or Exceptional Conditions",
-        "CWE-1284: Improper Validation of Specified Quantity in Input"
+        "CWE-329: Generation of Predictable IV with CBC Mode"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-43927",
-      "publishedDate": "2026-07-06T21:49:26.181Z",
-      "lastModifiedDate": "2026-07-06T21:49:26.181Z",
-      "description": "FOSSBilling is a free, open-source billing and client management system. Prior to version 0.8.0, a race condition in the cart checkout flow allows an authenticated client to apply a promo code beyond its configured maximum uses. By sending concurrent checkout requests before any single request completes the usage increment, a client can obtain unlimited discounted or free orders from a single-use or limited-use promo code. Version 0.8.0 patches the issue. Some workarounds are available. Disable promo codes entirely until a patch is available or monitor the `promo` table for `used` values exceeding `maxuses` and manually review affected orders.",
+      "id": "CVE-2026-53648",
+      "publishedDate": "2026-07-06T23:12:09.614Z",
+      "lastModifiedDate": "2026-07-06T23:12:09.614Z",
+      "description": "FOSSBilling is a free, open-source billing and client management system. Prior to version 0.8.1, downloadable product files are stored using a deterministic filename-derived path. When an administrator uploads a file for a downloadable product, FOSSBilling stores the file as `md5(<original filename>)` under the uploads directory. Because the stored path depends only on the client-supplied filename, two different downloadable products, or product/order files, uploaded with the same original filename will resolve to the same stored file path. A later upload can overwrite an earlier upload, causing customers or administrators downloading the earlier product to receive the later file instead. Version 0.8.1 patches the issue. Some workarounds are available. Restrict the `servicedownloadable.manage` permission to fully trusted administrators only. As an operational mitigation, ensure downloadable product files use unique filenames before upload. This reduces accidental collisions but does not fully address the underlying issue.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/FOSSBilling/FOSSBilling/security/advisories/GHSA-w898-cx35-25gh",
+          "url": "https://github.com/FOSSBilling/FOSSBilling/security/advisories/GHSA-x7p2-xhvc-cfp9",
           "type": "reference"
         }
       ],
@@ -61,26 +64,27 @@
           "product": "FOSSBilling",
           "versions": [
             {
-              "version": "< 0.8.0",
+              "version": "< 0.8.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
+        "CWE-73: External Control of File Name or Path",
+        "CWE-668: Exposure of Resource to Wrong Sphere"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-43925",
-      "publishedDate": "2026-07-06T21:41:00.174Z",
-      "lastModifiedDate": "2026-07-06T21:41:00.174Z",
-      "description": "FOSSBilling is a free, open-source billing and client management system. Prior to version 0.8.0, an unauthenticated mass assignment vulnerability in the client self-registration endpoint allows any visitor to assign themselves to an arbitrary client group during sign-up. Because client groups can gate promo code eligibility, an attacker may apply group-restricted discount codes and receive unauthorized discounts. Version 0.8.0 contains a patch. As a workaround, administrators can either remove group restrictions from promo codes or disable client self-registration (Settings → Clients → Disable signup).",
+      "id": "CVE-2026-53647",
+      "publishedDate": "2026-07-06T23:10:29.692Z",
+      "lastModifiedDate": "2026-07-06T23:10:29.692Z",
+      "description": "FOSSBilling is a free, open-source billing and client management system. In versions 0.5.3 through 0.7.2, the Guest `serviceapikey/get_info` API endpoint is accessible without authentication. Any caller with a valid API key can retrieve all custom configuration parameters (`custom_*` fields) stored in the key's database record. These custom fields are populated by billing administrators and can contain business-sensitive data such as pricing tiers, feature flags, rate limits, expiry overrides, or access scope data. Version 0.8.0 patches the issue. Some workarounds are available. Administrators can avoid storing sensitive data in `custom_*` API key configuration fields, monitor API logs for suspicious calls to `/api/guest/serviceapikey/get_info`, and/or disable the Serviceapikey module if not in active use.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/FOSSBilling/FOSSBilling/security/advisories/GHSA-q4rq-9844-r9w2",
+          "url": "https://github.com/FOSSBilling/FOSSBilling/security/advisories/GHSA-737q-9gpr-6mpq",
           "type": "reference"
         }
       ],
@@ -90,15 +94,50 @@
           "product": "FOSSBilling",
           "versions": [
             {
-              "version": "< 0.8.0",
+              "version": ">= 0.5.3, < 0.8.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+        "CWE-306: Missing Authentication for Critical Function",
+        "CWE-862: Missing Authorization"
       ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13356",
+      "publishedDate": "2026-07-06T23:07:42.721Z",
+      "lastModifiedDate": "2026-07-06T23:07:42.721Z",
+      "description": "A malicious webpage could interrupt a pending navigation by enqueuing a synchronous JavaScript dialog, causing the browser UI to display the destination origin in the address bar while continuing to render attacker-controlled content. This vulnerability was fixed in Firefox for iOS 152.3.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2047768",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-65/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Firefox for iOS",
+          "vendor": "Mozilla",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "152.3",
+              "lessThanOrEqual": "*",
+              "versionType": "rpm"
+            }
+          ]
+        }
+      ],
+      "problemType": [],
       "fix_suggestion": "无法生成修复建议"
     }
   ]
