@@ -2,134 +2,82 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 35,
-    "last_updated": "2026-07-08T13:13:03.740146",
+    "total_count": 58,
+    "last_updated": "2026-07-08T15:37:02.774483",
     "severity_distribution": {
-      "critical": 1,
-      "high": 20,
-      "medium": 12,
-      "low": 0,
-      "none": 2
+      "critical": 5,
+      "high": 16,
+      "medium": 18,
+      "low": 2,
+      "none": 17
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-8307",
-      "publishedDate": "2026-07-08T12:14:08.005Z",
-      "lastModifiedDate": "2026-07-08T12:17:11.073Z",
-      "description": "Improper neutralization of special elements used in an SQL command ('SQL injection') vulnerability in Webbeyaz Web Design Mediküm Web allows SQL Injection.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "id": "CVE-2026-9181",
+      "publishedDate": "2026-07-06T18:22:08.233Z",
+      "lastModifiedDate": "2026-07-08T14:44:31.974Z",
+      "description": "Esri ArcGIS Server contains a directory traversal vulnerability. ArcGIS Enterprise on Kubernetes is not impacted. An unauthenticated attacker could exploit this issue by sending crafted path parameters. Successful exploitation could allow overwriting sensitive files on the system. Abuse of this issue can allow full administrative access to ArcGIS Server, with high impact to confidentiality, integrity, and availability. This issue impacts all versions of ArcGIS Server on Windows and Linux 12.0 and prior. This issue does not impact ArcGIS Enterprise for Kubernetes.",
       "severity": 9.8,
       "references": [
         {
-          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "url": "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/may-2026-arcgis-security-bulletin",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Webbeyaz Web Design",
-          "product": "Mediküm Web",
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "Windows",
+            "Linux"
+          ],
+          "product": "ArcGIS Server",
+          "vendor": "Esri",
           "versions": [
             {
+              "lessThanOrEqual": "12.0",
               "status": "affected",
               "version": "0",
-              "lessThanOrEqual": "08072026",
               "versionType": "custom"
             }
-          ],
-          "defaultStatus": "unknown"
+          ]
         }
       ],
       "problemType": [
-        "CWE-89 Improper neutralization of special elements used in an SQL command ('SQL injection')"
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-14495",
-      "publishedDate": "2026-07-08T05:34:07.285Z",
-      "lastModifiedDate": "2026-07-08T12:44:30.272Z",
-      "description": "The DoLogin Security plugin for WordPress is vulnerable to Authentication Bypass via Insufficient Randomness in all versions up to, and including, 4.3. The vulnerability exists because `dologin\\s::rrand()` seeds the Mersenne Twister with `mt_srand((double) microtime() * 1000000)` — discarding the integer-seconds component of `microtime()` and constraining the seed to a range of approximately 10^6 values (~20 bits of entropy) — after which every character of the 32-character magic-link token is drawn sequentially with `mt_rand()`, making the entire token a deterministic function of that seed. Because `Pswdless::try_login()` is registered on the unauthenticated `init` hook, resolves the target account by the auto-increment numeric ID embedded in the `?dologin=<id>.<hash>` parameter, performs the hash comparison using a non-constant-time `!=` operator, and then calls `wp_set_auth_cookie()` directly — never passing through `wp_authenticate()` and therefore never triggering the plugin's own `Auth::_has_login_err()` lockout — an unauthenticated attacker can brute-force the ~10^6-candidate seed space to reconstruct an active passwordless login token and authenticate as any targeted user, including administrators, without a password. Exploitation requires that a valid, unexpired passwordless login link (active for up to 7 days) exists for the target account at the time of the attack, and that the numeric link ID is known or guessable from the auto-increment primary key.",
-      "severity": 8.8,
+      "id": "CVE-2026-9182",
+      "publishedDate": "2026-07-06T18:21:11.940Z",
+      "lastModifiedDate": "2026-07-08T14:45:28.749Z",
+      "description": "ArcGIS Server contains an unrestricted file upload vulnerability. An unauthenticated attacker could exploit this issue by uploading a crafted file to the affected endpoint. Successful exploitation could allow arbitrary file upload.",
+      "severity": 9.8,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/16bce371-b524-48eb-8537-3f9df802abd3?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/pswdless.cls.php#L86",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/s.cls.php#L240",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/pswdless.cls.php#L197",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/pswdless.cls.php#L27",
+          "url": "https://www.esri.com/arcgis-blog/products/arcgis-enterprise/administration/may-2026-arcgis-security-bulletin",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wpdo5ea",
-          "product": "DoLogin Security",
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "Windows",
+            "Linux"
+          ],
+          "product": "ArcGIS Server",
+          "vendor": "Esri",
           "versions": [
             {
-              "version": "0",
+              "lessThanOrEqual": "12.0",
               "status": "affected",
-              "lessThanOrEqual": "4.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-338 Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-14158",
-      "publishedDate": "2026-07-08T04:30:49.869Z",
-      "lastModifiedDate": "2026-07-08T12:45:11.101Z",
-      "description": "The Widget Logic Visual plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 1.52 via the widget_logic_visual_check_visibility function. This is due to missing capability check and nonce verification on the widget-logic-update-conditional-tags AJAX action combined with insufficient sanitization of the 'nwlv[cod-tag]' parameter before storage and subsequent use in an eval() call. This makes it possible for authenticated attackers, with subscriber-level access and above, to execute code on the server.",
-      "severity": 8.8,
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5d82e9e2-c572-4911-a6a5-1384844214b0?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/widget-logic-visual/trunk/custom.php#L50",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/widget-logic-visual/trunk/ajax.php#L91",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/widget-logic-visual/trunk/ajax.php#L14",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "totalbounty",
-          "product": "Widget Logic Visual",
-          "versions": [
-            {
               "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "1.52",
-              "versionType": "semver"
+              "versionType": "custom"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
@@ -138,1299 +86,585 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-11610",
-      "publishedDate": "2026-07-07T09:17:36.519Z",
-      "lastModifiedDate": "2026-07-08T12:27:01.290Z",
-      "description": "A heap buffer overflow flaw was found in the SASL I/O layer of 389 Directory Server\n(389-ds-base). After a successful SASL bind with integrity protection (SSF > 0),\nan authenticated attacker can send a specially crafted oversized LDAP UNBIND packet\nthat is copied into a 512-byte heap receive buffer without a bounds check in\nsasl_io_recv() in sasl_io.c. This allows up to approximately 2 megabytes of\nattacker-controlled data to overflow the buffer, causing a denial of service (server\ncrash). In FreeIPA and Red Hat Identity Management deployments, any domain user with\na valid Kerberos ticket, any enrolled host, or any service account can trigger this\nvulnerability over the network after authenticating via GSSAPI.\nThe vulnerable code path has existed since approximately 2013 (389-ds-base 1.3.2) and\nwas not addressed by the CVE-2025-14905 fix, which patched a separate heap overflow\nin schema.c only.",
+      "id": "CVE-2026-15062",
+      "publishedDate": "2026-07-08T14:32:12.165Z",
+      "lastModifiedDate": "2026-07-08T14:32:12.165Z",
+      "description": "SQL injection vulnerabilities in the Snowflake Snowpark Python SDK (snowpark-python) versions prior to 1.53.0 could allow authenticated low-privilege users to execute SQL beyond their authorization scope. An attacker could exploit these vulnerabilities by embedding SQL payloads in source database column names to escalate privileges via the DataFrameReader.dbapi() API by supplying a specially crafted location parameter to DataFrameWriter write methods to redirect a COPY INTO to an arbitrary source query, or by including a backslash-single-quote sequence in an export path to defeat the normalize_path() sanitizer and inject SQL via DataFrame.to_csv(). Successful exploitation may result in source database compromise, unauthorized cross-tenant data exfiltration, or unauthorized read of Snowflake account data.",
+      "severity": 9.6,
+      "references": [
+        {
+          "url": "https://github.com/snowflakedb/snowpark-python/blob/main/CHANGELOG.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Snowflake",
+          "product": "Snowpark Python SDK",
+          "versions": [
+            {
+              "version": "0.1.0",
+              "lessThan": "1.53.0",
+              "versionType": "semver",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54061",
+      "publishedDate": "2026-07-08T13:23:56.884Z",
+      "lastModifiedDate": "2026-07-08T14:26:13.341Z",
+      "description": "Dgraph is an open source distributed GraphQL database. Prior to version 25.3.5, Dgraph Alpha exposes the RPCs used for external snapshot import on the public gRPC port `:9080` without authentication or authorization. As a result, an unauthenticated network client can open `StreamExtSnapshot` and send Badger stream data to the target group’s store. In addition, the receiver calls `Prepare()` before processing the stream. This operation deletes and replaces the existing DB data. Version 25.3.5 patches the issue.",
+      "severity": 9.1,
+      "references": [
+        {
+          "url": "https://github.com/dgraph-io/dgraph/security/advisories/GHSA-rrwh-6jrq-wp5v",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dgraph-io/dgraph/releases/tag/v25.3.5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "dgraph-io",
+          "product": "dgraph",
+          "versions": [
+            {
+              "version": "< 25.3.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-306: Missing Authentication for Critical Function"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58473",
+      "publishedDate": "2026-07-07T20:34:54.943Z",
+      "lastModifiedDate": "2026-07-08T14:14:48.608Z",
+      "description": "Cognee before 1.2.0 contains an improper access control vulnerability that allows unauthenticated attackers to overwrite the global LLM provider configuration by self-registering an account and calling the settings endpoint, which performs no admin or superuser check. Attackers can redirect all LLM operations instance-wide to an attacker-controlled endpoint by exploiting the process-wide singleton configuration cache, enabling exfiltration of prompts, uploaded documents, extracted entities, and knowledge graph content from all users.",
+      "severity": 9.1,
+      "references": [
+        {
+          "url": "https://github.com/topoteretes/cognee/releases/tag/v1.2.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/topoteretes/cognee/issues/3084",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/topoteretes/cognee/commit/d10b1b77e2157c6238fd4d1acb1923a048991699",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cognee-unauthorized-llm-configuration-overwrite-via-api-v1-settings",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "topoteretes",
+          "product": "cognee",
+          "repo": "https://github.com/topoteretes/cognee",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "1.2.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization",
+        "Missing Authentication for Critical Function"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15067",
+      "publishedDate": "2026-07-08T14:43:32.006Z",
+      "lastModifiedDate": "2026-07-08T14:43:32.006Z",
+      "description": "Snowflake Terraform Provider versions prior to 2.18.0 contain several security vulnerabilities, including SQL injection via an unsanitized data source input could result in arbitrary SQL execution under the provider's privileged Snowflake session, potentially enabling sensitive data exfiltration and minting of long-lived access credentials. Exploitation requires the ability for an attacker to  influence a workspace variable in a pipeline where this data source was enabled. Improper neutralization of identifier content in user resource inputs could allow DDL injection into user management statements, potentially causing accounts to be created with attacker-controlled credentials and without the  security controls configured by the operator. The fix is available in Snowflake Terraform Provider version 2.18.0. Users must manually upgrade.",
       "severity": 8.8,
       "references": [
         {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36195",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36196",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36197",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36198",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36200",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36201",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36202",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36204",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36205",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36206",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36208",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36209",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36585",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36641",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36660",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36670",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:36671",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-11610",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2484414",
+          "url": "https://github.com/snowflakedb/terraform-provider-snowflake/releases",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 11.5 E4S for RHEL 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:11",
-          "defaultStatus": "affected",
+          "vendor": "Snowflake",
+          "product": "Terraform Provider for Snowflake",
           "versions": [
             {
-              "version": "8060020260702180044.0ca98e7e",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "version": "0.1.0",
+              "lessThan": "2.18.0",
+              "versionType": "semver",
+              "status": "affected"
             }
           ],
-          "cpes": [
-            "cpe:/a:redhat:directory_server_e4s:11.5::el8"
-          ]
-        },
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56086",
+      "publishedDate": "2026-07-08T13:34:04.194Z",
+      "lastModifiedDate": "2026-07-08T14:22:41.041Z",
+      "description": "Dell PowerProtect Data Domain, versions 7.7.1.0 through 8.6, LTS2026 release version 8.6.1.0 through 8.6.1.10, LTS2025 release version 8.3.1.0 through 8.3.1.30, LTS2024 release versions 7.13.1.0 through 7.13.1.70 contain an Incorrect Authorization vulnerability. A low privileged attacker with remote access could potentially exploit this vulnerability, leading to unauthorized access.",
+      "severity": 8.8,
+      "references": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 11.7 E4S for RHEL 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:11",
-          "defaultStatus": "affected",
+          "url": "https://www.dell.com/support/kbdoc/en-us/000481268/dsa-2026-278-security-update-for-dell-powerprotect-data-domain-multiple-vulnerabilities?msockid=3021cac2195069ed3194ddad186a68f9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dell",
+          "product": "PowerProtect Data Domain",
           "versions": [
             {
-              "version": "8080020260702180836.f969626e",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.7.0.0 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.6.1.20 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.3.1.40 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "7.13.1.80 or later",
+              "versionType": "semver"
             }
           ],
-          "cpes": [
-            "cpe:/a:redhat:directory_server_e4s:11.7::el8"
-          ]
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55429",
+      "publishedDate": "2026-07-08T00:00:33.785Z",
+      "lastModifiedDate": "2026-07-08T14:41:39.988Z",
+      "description": "Coder allows organizations to provision remote development environments via Terraform. Prior to versions 2.29.7, 2.32.7, 2.33.8, and 2.34.2, `UpsertWorkspaceApp` overwrites an existing app's `agent_id` on a primary-key conflict and `insertAgentApp` accepts the app ID from the provisioner's `CompleteJob` payload without verifying it belongs to the workspace being built. `CompleteJob` runs under `dbauthz.AsProvisionerd` so the authorization layer does not block the cross-workspace upsert. Exploitation requires elevated access as a template author or external provisioner operator. The fix in versions 2.29.7, 2.32.7, 2.33.8, and 2.34.2 verifies that any existing `workspace_apps` row matching the supplied ID belongs to the workspace being built and rejects cross-workspace agent reassignment. No known workarounds are available.",
+      "severity": 8.7,
+      "references": [
+        {
+          "url": "https://github.com/coder/coder/security/advisories/GHSA-9rjw-3gwp-f59v",
+          "type": "reference"
         },
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 11.9 for RHEL 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:11",
-          "defaultStatus": "affected",
+          "url": "https://github.com/coder/coder/pull/26103",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.29.17",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.32.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.33.8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.34.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "coder",
+          "product": "coder",
           "versions": [
             {
-              "version": "8100020260702145313.37ed7c03",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "version": ">= 2.34.0, < 2.34.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.33.0, < 2.33.8",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.30.0, < 2.32.7",
+              "status": "affected"
+            },
+            {
+              "version": "< 2.29.17",
+              "status": "affected"
             }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:directory_server:11.9::el8"
           ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54652",
+      "publishedDate": "2026-07-08T14:52:42.752Z",
+      "lastModifiedDate": "2026-07-08T14:52:42.752Z",
+      "description": "Frigate is an open source network video recorder. In version 0.17.1, the GET /api/logs/{service} endpoint allows any authenticated user including the viewer role to download Frigate and nginx logs, exposing auto-generated admin passwords and camera credentials logged in request query strings and enabling viewer-to-admin privilege escalation. A fixed release has not been identified.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/blakeblackshear/frigate/security/advisories/GHSA-c4qf-xxq4-vf55",
+          "type": "reference"
         },
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 12.2 E4S for RHEL 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:12",
-          "defaultStatus": "affected",
+          "url": "https://github.com/blakeblackshear/frigate/commit/68e8afd35c76f05f68de47ee9588d2c91796de4b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/blakeblackshear/frigate/commit/bd1fc1cc72cd4fa371464a087cbf3d7f3142edc6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "blakeblackshear",
+          "product": "frigate",
           "versions": [
             {
-              "version": "9020020260703060155.1674d574",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "version": "<= 0.17.1",
+              "status": "affected"
             }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:directory_server_e4s:12.2::el9"
           ]
+        }
+      ],
+      "problemType": [
+        "CWE-269: Improper Privilege Management",
+        "CWE-532: Insertion of Sensitive Information into Log File",
+        "CWE-598: Use of GET Request Method With Sensitive Query Strings",
+        "CWE-863: Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56246",
+      "publishedDate": "2026-07-08T13:48:57.049Z",
+      "lastModifiedDate": "2026-07-08T14:23:48.803Z",
+      "description": "Capgo before 12.128.2 contains a broken access control vulnerability in the organization management API where a scoped API key (limited_to_orgs) inherits its owner-user's permissions, allowing destructive cross-organization actions. When a user is an admin in two organizations and creates a write-mode API key restricted to one organization, that key can still perform destructive operations (e.g., DELETE /organization, DELETE /organization/members) against another organization. The root cause is route-level authorization (rbac_check_permission_direct) that evaluates the key owner's user privileges before enforcing the API key's limited_to_orgs scope.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-ccm4-hf72-p28m",
+          "type": "reference"
         },
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 12.4 E4S for RHEL 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:12",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "9040020260703055735.1674d574",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:directory_server_e4s:12.4::el9"
-          ]
-        },
+          "url": "https://www.vulncheck.com/advisories/capgo-cross-organization-authorization-bypass-via-scoped-api-key-privilege-inheritance",
+          "type": "reference"
+        }
+      ],
+      "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:3.2.0-8.el10_2",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10.2"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10.0 Extended Update Support",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:3.0.6-19.el10_0",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux_eus:10.0"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7 Extended Lifecycle Support",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:1.3.11.1-13.el7_9",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/o:redhat:rhel_els:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8100020260626120929.25e700aa",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:enterprise_linux:8::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8.4 Advanced Mission Critical Update Support",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8040020260629123121.96015a92",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_aus:8.4::appstream",
-            "cpe:/a:redhat:rhel_eus_long_life:8.4::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8.4 Extended Update Support Long-Life Add-On",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8040020260629123121.96015a92",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_aus:8.4::appstream",
-            "cpe:/a:redhat:rhel_eus_long_life:8.4::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8.6 Advanced Mission Critical Update Support",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8060020260626130540.824efc52",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_aus:8.6::appstream",
-            "cpe:/a:redhat:rhel_eus_long_life:8.6::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8.6 Extended Update Support Long-Life Add-On",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8060020260626130540.824efc52",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_aus:8.6::appstream",
-            "cpe:/a:redhat:rhel_eus_long_life:8.6::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8.8 Telecommunications Update Service",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8080020260630025241.6dbb3803",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_e4s:8.8::appstream",
-            "cpe:/a:redhat:rhel_tus:8.8::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8.8 Update Services for SAP Solutions",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "8080020260630025241.6dbb3803",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_e4s:8.8::appstream",
-            "cpe:/a:redhat:rhel_tus:8.8::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:2.8.0-8.el9_8",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:enterprise_linux:9::appstream",
-            "cpe:/a:redhat:enterprise_linux:9::crb"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9.2 Update Services for SAP Solutions",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:2.2.4-19.el9_2",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_e4s:9.2::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9.4 Update Services for SAP Solutions",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:2.4.5-26.el9_4",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_e4s:9.4::appstream"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9.6 Extended Update Support",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0:2.6.1-22.el9_6",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:rhel_eus:9.6::appstream",
-            "cpe:/a:redhat:rhel_eus:9.6::crb"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 13.2",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "dirsrv/dirsrv-container-rhel10",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "1783452100",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:directory_server:13.2::el10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 12",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:12/389-ds-base",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:directory_server:12"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 13",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
+          "vendor": "Capgo",
+          "product": "Capgo",
           "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:/a:redhat:directory_server:13"
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
           ]
+        }
+      ],
+      "problemType": [
+        "Improper Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-11903",
+      "publishedDate": "2026-07-08T14:19:16.759Z",
+      "lastModifiedDate": "2026-07-08T14:19:16.759Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Progress MOVEit Transfer (Ad Hoc module).\n\nThis issue affects MOVEit Transfer: from 2026.0.0 before 2026.0.1, from 2025.1.0 before 2025.1.4, from 2025.0.0 before 2025.0.8.",
+      "severity": 8,
+      "references": [
+        {
+          "url": "https://community.progress.com/s/article/MOVEit-Transfer-Critical-Security-Bulletin-June-2026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Progress",
+          "product": "MOVEit Transfer",
+          "modules": [
+            "Ad Hoc"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2026.0.0",
+              "lessThan": "2026.0.1",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2025.1.0",
+              "lessThan": "2025.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2025.0.0",
+              "lessThan": "2025.0.8",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-22927",
+      "publishedDate": "2026-07-08T13:37:24.925Z",
+      "lastModifiedDate": "2026-07-08T14:28:09.103Z",
+      "description": "Omnissa Workspace ONE® Tunnel for Windows addresses a   Local Privilege Escalation Vulnerability.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.omnissa.com/omsa-2026-0002",
+          "type": "reference"
         },
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
+          "url": "https://www.omnissa.com/omnissa-security-response/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Omnissa",
+          "product": "Omnissa Workspace ONE® Tunnel for Windows",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Omnissa Workspace ONE® Tunnel for Windows prior to 26.03"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57851",
+      "publishedDate": "2026-07-07T16:02:05.937Z",
+      "lastModifiedDate": "2026-07-08T14:37:50.922Z",
+      "description": "MSI Feature Manager contains a local privilege escalation vulnerability in the KernCoreLib64.sys kernel driver that allows any locally logged-on user to perform arbitrary physical memory read/write and unrestricted I/O port operations by accessing exposed IOCTL handlers without administrator privileges. Attackers can exploit the accessible device object through IOCTL handlers to manipulate kernel objects, tamper with kernel-mode callbacks, bypass Protected Process Light protections, and disable security software.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://github.com/readmsr/MSI_FeatureManager_CVE",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/msi-gamegaraj-kerncorelib64-sys-privilege-escalation-via-ioctl-handlers",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
           "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
+          "vendor": "Micro-Star International (MSI)",
+          "product": "KernCoreLib64.sys",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom",
+              "lessThanOrEqual": "1.0.2605.1301"
+            }
           ]
         }
       ],
       "problemType": [
-        "Heap-based Buffer Overflow"
+        "Exposed IOCTL with Insufficient Access Control"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-56003",
-      "publishedDate": "2026-07-08T09:25:41.723Z",
-      "lastModifiedDate": "2026-07-08T12:06:51.966Z",
-      "description": "A heap buffer overflow due to missing size checking in the property buffer when parsing PCF files in libXfont2 ComputeScaledProperties() before libXfont2 before 2.0.8 could be used by attackers using authenticated X clients to execute code within the X server.",
-      "severity": 8.5,
+      "id": "CVE-2026-55874",
+      "publishedDate": "2026-07-08T14:43:40.155Z",
+      "lastModifiedDate": "2026-07-08T14:43:40.155Z",
+      "description": "SeaweedFS is a distributed storage system. Prior to 4.34, the S3 API gateway does not reject dot-dot path segments in the X-Amz-Copy-Source header used by CopyObject and UploadPartCopy, allowing an authenticated identity scoped to one bucket to read objects from other buckets through server-side copy. This issue is fixed in version 4.34.",
+      "severity": 7.7,
       "references": [
         {
-          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/1",
+          "url": "https://github.com/seaweedfs/seaweedfs/security/advisories/GHSA-56wq-x3wv-3ff4",
           "type": "reference"
         },
         {
-          "url": "https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/dff957a5158da038a282a59a31fe736702732939",
+          "url": "https://github.com/seaweedfs/seaweedfs/pull/9929",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/seaweedfs/seaweedfs/commit/b44cf51fe931bd75aa4d37ae766bea90d7f85ccd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/seaweedfs/seaweedfs/releases/tag/4.34",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "X.Org",
-          "product": "libXfont2",
-          "packageName": "libXfont2",
-          "repo": "https://gitlab.freedesktop.org/xorg/lib/libxfont/",
+          "vendor": "seaweedfs",
+          "product": "seaweedfs",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "2.0.8",
-              "versionType": "rpm"
+              "version": "< 4.34",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-122 Heap-based buffer overflow"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-56002",
-      "publishedDate": "2026-07-08T09:12:51.480Z",
-      "lastModifiedDate": "2026-07-08T12:07:36.415Z",
-      "description": "A heap bufferflow in pcfReadFont() due to missing glyph bounds checking in libXfont2 before 2.0.8  allows attackers authenticated as X client to execute code within the X server.",
-      "severity": 8.5,
-      "references": [
-        {
-          "url": "https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/b4389e0b1d84a690b819bb27b1439968811a3674",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "X.Org",
-          "product": "libXfont2",
-          "packageName": "libXfont2",
-          "repo": "https://gitlab.freedesktop.org/xorg/lib/libxfont",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "2.0.8",
-              "versionType": "rpm"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-122 Heap-based buffer overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-56001",
-      "publishedDate": "2026-07-08T08:49:24.706Z",
-      "lastModifiedDate": "2026-07-08T12:08:45.252Z",
-      "description": "A heap buffer overflow in BitmapScaleBitmaps in libXfont2 before 2.0.8 due to an overflowing 32bit size could be used by attackers able to access the X Server to execute code within the X server cont",
-      "severity": 8.5,
-      "references": [
-        {
-          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/1",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/be0b08e2d354138d3222b4490e2a77c6ee42f778",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "X.Org",
-          "product": "libXfont2",
-          "packageName": "libXfont2",
-          "repo": "https://gitlab.freedesktop.org/xorg/lib/libxfont",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "2.0.8",
-              "versionType": "rpm"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-122 Heap-based buffer overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-55999",
-      "publishedDate": "2026-07-08T08:07:11.088Z",
-      "lastModifiedDate": "2026-07-08T12:10:11.301Z",
-      "description": "Local attackers with a X connection able to provide PCX fonts to the X \nserver xorg-server before 21.2.24 and xwayland before 24.1.13 could \ncause a heap buffer overflow via SetFont due to missing glyph boundary checks.",
-      "severity": 8.5,
-      "references": [
-        {
-          "url": "https://gitlab.freedesktop.org/xorg/xserver/-/commit/fbf7bac22e2c6bd627fb042742a23318263edae1",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "X.Org",
-          "product": "xorg-server",
-          "packageName": "xorg-server",
-          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "21.1.24",
-              "versionType": "rpm"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "X.Org",
-          "product": "xwayland",
-          "packageName": "xwayland",
-          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "24.1.13",
-              "versionType": "rpm"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-122 Heap-based buffer overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57239",
-      "publishedDate": "2026-07-08T07:36:33.186Z",
-      "lastModifiedDate": "2026-07-08T12:17:07.949Z",
-      "description": "The user-controllable executable files will be directly executed by high-privilege processes, allowing low-privilege users to have the opportunity to elevate their privileges to NT AUTHORITY\\SYSTEM.",
-      "severity": 8.2,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Uncontrolled Search Path Element (CWE‑427)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-13126",
-      "publishedDate": "2026-07-08T07:36:37.927Z",
-      "lastModifiedDate": "2026-07-08T12:13:27.791Z",
-      "description": "The embedded JavaScript in the PDF deleted the pages, making the object invalid. The application attempted to perform a write operation on the invalid pop-up annotations, resulting in the program crashing.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-13127",
-      "publishedDate": "2026-07-08T07:36:36.349Z",
-      "lastModifiedDate": "2026-07-08T12:13:59.482Z",
-      "description": "The application opens the PDF file. JavaScript then rewrites the document to modify the page structure, resulting in the invalidation of the page objects. However, the thumbnails still use the invalid page objects, ultimately causing the application to crash.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-13128",
-      "publishedDate": "2026-07-08T07:36:34.775Z",
-      "lastModifiedDate": "2026-07-08T12:14:25.870Z",
-      "description": "Embedding JavaScript within a PDF file will cause the page to be deleted. Subsequent scripts will continue to access the relevant properties of the document view, eventually leading to the crash of the application.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57240",
-      "publishedDate": "2026-07-08T07:36:31.636Z",
-      "lastModifiedDate": "2026-07-08T12:20:15.388Z",
-      "description": "When the application opens a PDF file and JavaScript deletes the PDF fields, the subsequent logic still uses the old field pointers, resulting in invalid pointer references and causing the application to crash.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57246",
-      "publishedDate": "2026-07-08T07:36:20.437Z",
-      "lastModifiedDate": "2026-07-08T12:37:10.445Z",
-      "description": "When dealing with abnormally constructed objects, there is a lack of argument validation; JavaScript triggers signature verification, but the signature plugin does not perform validation when copying the abnormal string, causing the application to crash.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows",
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Buffer Copy without Checking Size of Input (CWE-120)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57248",
-      "publishedDate": "2026-07-08T07:36:18.835Z",
-      "lastModifiedDate": "2026-07-08T12:38:26.513Z",
-      "description": "When the application opens a PDF file and JavaScript writes annotation attributes, there is a lack of sufficient object type and argument checks. As a result, due to the damage to the internal structure of the annotations, it causes the application to crash during subsequent release.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-763 Release of invalid pointer or reference"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57249",
-      "publishedDate": "2026-07-08T07:36:17.227Z",
-      "lastModifiedDate": "2026-07-08T12:40:28.820Z",
-      "description": "After the application opened the PDF file, the script first reset the annotation status, then triggered the reset form event by additional action. During the re-entry process, the application access invalid objects and crashed.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57251",
-      "publishedDate": "2026-07-08T07:36:15.661Z",
-      "lastModifiedDate": "2026-07-08T12:41:07.653Z",
-      "description": "The application opens a PDF, but the cloud-like appearance of the construction process lacks proper setting of an upper limit and consistency checks. Out-of-bounds access to the underlying array is exposed, ultimately leading to a crash of the application.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-129 Improper validation of array index"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57252",
-      "publishedDate": "2026-07-08T07:36:12.539Z",
-      "lastModifiedDate": "2026-07-08T12:43:57.683Z",
-      "description": "When the application opens a PDF file, during the process of JavaScript deleting pages and removing attachment annotations, it will cause the attachment panel to continue accessing invalid pointers, eventually leading to the application crashing.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57256",
-      "publishedDate": "2026-07-08T07:35:59.810Z",
-      "lastModifiedDate": "2026-07-08T12:38:50.575Z",
-      "description": "When the application opens a PDF and executes JavaScript, it performs abnormal operations on the list box field, and this operation is repeated after the form is reset. During this process, the application failed to adequately verify the validity of the form objects and their internal dictionary pointers, resulting in accessing internal members of invalid or improperly initialized fields. This led to an illegal pointer read, ultimately causing the application to crash.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.3 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows",
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-5356",
-      "publishedDate": "2026-07-08T12:33:15.433Z",
-      "lastModifiedDate": "2026-07-08T12:33:15.433Z",
-      "description": "The LatePoint – Calendar Booking Plugin for Appointments and Events plugin for WordPress is vulnerable to Improper Input Validation in all versions up to, and including, 5.4.0. This is due to the plugin's Stripe Connect payment processor accepting a client-supplied PaymentIntent ID. This makes it possible for unauthenticated attackers to pay an arbitrary amount by supplying a previously succeeded PaymentIntent token.",
+      "id": "CVE-2026-59703",
+      "publishedDate": "2026-07-08T14:55:33.342Z",
+      "lastModifiedDate": "2026-07-08T14:55:33.342Z",
+      "description": "repomix contains a local file inclusion vulnerability in the git clone endpoint that allows unauthenticated attackers to read arbitrary local git repositories. The isValidRemoteValue function in src/core/git/gitRemoteParse.ts fails to block file:// URLs, permitting attackers to supply file:// scheme URLs that bypass validation and are passed directly to git clone, enabling unauthorized access to all tracked file contents on the server filesystem.",
       "severity": 7.5,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1b1338c4-36a8-47b0-b3cf-c5dc690f8c1c?source=cve",
+          "url": "https://github.com/yamadashy/repomix/issues/1704",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset/3509569/latepoint",
+          "url": "https://github.com/yamadashy/repomix",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/CrazyForks/repomix/commit/c748b524f41225e7fc6f89ad0084520901a453cf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/repomix-local-file-inclusion-via-file-url-scheme-in-git-clone-endpoint",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "latepoint",
-          "product": "LatePoint – Calendar Booking Plugin for Appointments and Events",
+          "vendor": "repomix",
+          "product": "repomix",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:npm/repomix",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "5.4.0",
+              "versionType": "custom",
+              "lessThan": "1.14.1"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom",
+              "lessThanOrEqual": "c748b52"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Files or Directories Accessible to External Parties"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-10699",
+      "publishedDate": "2026-07-08T14:18:00.255Z",
+      "lastModifiedDate": "2026-07-08T14:18:00.255Z",
+      "description": "Missing release of memory after effective lifetime vulnerability in Progress MOVEit Transfer (Custom Reports modules).\n\nThis issue affects MOVEit Transfer: from 2025.0.0 before 2025.0.8, from 2025.1.0 before 2025.1.4, from 2026.0.0 before 2026.0.1.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://community.progress.com/s/article/MOVEit-Transfer-Critical-Security-Bulletin-June-2026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Progress",
+          "product": "MOVEit Transfer",
+          "modules": [
+            "Custom Reports"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2025.0.0",
+              "lessThan": "2025.0.8",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2025.1.0",
+              "lessThan": "2025.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2026.0.0",
+              "lessThan": "2026.0.1",
               "versionType": "semver"
             }
           ],
@@ -1438,39 +672,130 @@
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-401 Missing release of memory after effective lifetime"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-6820",
-      "publishedDate": "2026-07-08T12:33:17.186Z",
-      "lastModifiedDate": "2026-07-08T12:33:17.186Z",
-      "description": "The VikBooking Hotel Booking Engine & PMS plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'email' parameter in all versions up to, and including, 1.8.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "id": "CVE-2026-56250",
+      "publishedDate": "2026-07-08T13:48:57.743Z",
+      "lastModifiedDate": "2026-07-08T14:23:22.128Z",
+      "description": "Capgo before 12.128.2 allows upload-scoped API keys to modify the mutable app_versions.r2_path field through PostgREST, enabling retargeting to arbitrary R2 bundle objects. Attackers can patch r2_path to point to victim objects, soft-delete the attacker-controlled version, and trigger the on_version_update cleanup function to delete the victim R2 object, causing denial of service and bundle availability disruption.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-pw8p-5jg6-cxj3",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/capgo-arbitrary-r2-object-deletion-via-mutable-r2-path-in-app-versions",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Capgo",
+          "product": "Capgo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15053",
+      "publishedDate": "2026-07-08T13:46:40.902Z",
+      "lastModifiedDate": "2026-07-08T14:27:37.033Z",
+      "description": "Tanium addressed a denial of service vulnerability in Tanium Server.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://security.tanium.com/TAN-2026-016",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Tanium Server",
+          "vendor": "Tanium",
+          "versions": [
+            {
+              "version": "7.7.3.8298",
+              "status": "affected",
+              "lessThan": "7.7.3.8298",
+              "versionType": "custom"
+            },
+            {
+              "version": "7.8.2.1198",
+              "status": "affected",
+              "lessThan": "7.8.2.1198",
+              "versionType": "custom"
+            },
+            {
+              "version": "7.8.4.1327",
+              "status": "affected",
+              "lessThan": "7.8.4.1327",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Memory Allocation with Excessive Size Value"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-10698",
+      "publishedDate": "2026-07-08T14:16:25.696Z",
+      "lastModifiedDate": "2026-07-08T14:16:25.696Z",
+      "description": "Improper Neutralization of Special Elements in Data Query Logic vulnerability in Progress MOVEit Transfer (Custom Reports modules).\n\nThis issue affects MOVEit Transfer: from 2025.0.0 before 2025.0.8, from 2025.1.0 before 2025.1.4, from 2026.0.0 before 2026.0.1.",
       "severity": 7.2,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e2b4586a-f87d-4a51-8f4e-932d7254518e?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/site/controller.php#L307",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/admin/controller.php#L11208",
+          "url": "https://community.progress.com/s/article/MOVEit-Transfer-Critical-Security-Bulletin-June-2026",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "e4jvikwp",
-          "product": "VikBooking Hotel Booking Engine & PMS",
+          "vendor": "Progress",
+          "product": "MOVEit Transfer",
+          "modules": [
+            "Custom Reports"
+          ],
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.8.8",
+              "version": "2025.0.0",
+              "lessThan": "2025.0.8",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2025.1.0",
+              "lessThan": "2025.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2026.0.0",
+              "lessThan": "2026.0.1",
               "versionType": "semver"
             }
           ],
@@ -1478,82 +803,256 @@
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-943 Improper Neutralization of Special Elements in Data Query Logic"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-6280",
-      "publishedDate": "2026-07-08T08:45:18.361Z",
-      "lastModifiedDate": "2026-07-08T12:09:27.160Z",
-      "description": "Exposure of sensitive information due to incompatible policies vulnerability in NOMYSOFT Informatics Education and Consulting Inc. Nomysem allows Accessing Functionality Not Properly Constrained by ACLs.\n\nThis issue affects Nomysem: through 08072026. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.",
+      "id": "CVE-2026-41122",
+      "publishedDate": "2026-07-08T13:26:09.809Z",
+      "lastModifiedDate": "2026-07-08T14:25:18.019Z",
+      "description": "Dell PowerProtect Data Domain, versions 7.7.1.0 through 8.7, LTS2026 release version 8.6.1.0 through 8.6.1.10, LTS2025 release version 8.3.1.0 through 8.3.1.30, LTS2024 release versions 7.13.1.0 through 7.13.1.70 contain a stored cross-site scripting vulnerability. An unauthenticated attacker with remote access could potentially exploit this vulnerability. Exploitation may lead to information disclosure, session theft, or client-side request forgery.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://www.dell.com/support/kbdoc/en-us/000481268/dsa-2026-278-security-update-for-dell-powerprotect-data-domain-multiple-vulnerabilities?msockid=3021cac2195069ed3194ddad186a68f9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dell",
+          "product": "PowerProtect Data Domain",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.8.0.0 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.6.1.20 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.3.1.40 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "7.13.1.80 or later",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56297",
+      "publishedDate": "2026-07-08T13:49:01.343Z",
+      "lastModifiedDate": "2026-07-08T14:23:00.749Z",
+      "description": "FreeRDP before 3.22.0 contains a use-after-free vulnerability in dvcman_channel_close and dvcman_call_on_receive due to improper synchronization of channel_callback access. A malicious RDP server can trigger a race condition by sending DYNVC_DATA and DYNVC_CLOSE messages concurrently, causing heap-use-after-free in the drdynvc client thread and potentially enabling remote code execution or denial of service.",
+      "severity": 7,
+      "references": [
+        {
+          "url": "https://github.com/FreeRDP/FreeRDP/security/advisories/GHSA-3mv2-5q57-2v8h",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/freerdp-use-after-free-via-race-condition-in-drdynvc-channel-callback",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "FreeRDP",
+          "product": "FreeRDP",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.22.0"
+            },
+            {
+              "version": "3.22.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56401",
+      "publishedDate": "2026-07-08T13:49:05.553Z",
+      "lastModifiedDate": "2026-07-08T14:22:15.248Z",
+      "description": "Wazuh wazuh-modulesd before 5.0.0-beta3 contains a null pointer dereference vulnerability in inventory_sync FlatBuffer DataValue handling. An enrolled agent can send a verifier-valid DataValue message omitting the optional id field, causing wazuh-modulesd to crash when dereferencing data->id()->string_view() without null validation, resulting in denial of service.",
       "severity": 6.5,
       "references": [
         {
-          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0516",
+          "url": "https://github.com/wazuh/wazuh/security/advisories/GHSA-6hxp-c9x3-qc7p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wazuh/wazuh/commit/3adf4f87942705aa0ceeba1e145c259cc9dcd242",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/wazuh-null-pointer-dereference-in-inventory-sync-datavalue-flatbuffer-handling",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "NOMYSOFT Informatics Education and Consulting Inc.",
-          "product": "Nomysem",
+          "vendor": "Wazuh",
+          "product": "Wazuh",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "status": "affected",
               "version": "0",
-              "lessThanOrEqual": "08072026",
-              "versionType": "custom"
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.0.0-beta3"
+            },
+            {
+              "version": "5.0.0-beta3",
+              "status": "unaffected",
+              "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unknown"
+          ]
         }
       ],
       "problemType": [
-        "CWE-213 Exposure of sensitive information due to incompatible policies"
+        "NULL Pointer Dereference"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-6740",
-      "publishedDate": "2026-07-08T12:33:17.582Z",
-      "lastModifiedDate": "2026-07-08T12:33:17.582Z",
-      "description": "The Nexter Blocks – Gutenberg Blocks, Page Builder & AI Website Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'commentIcon' parameter in all versions up to, and including, 4.7.4 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
-      "severity": 6.4,
+      "id": "CVE-2026-55434",
+      "publishedDate": "2026-07-07T20:14:00.531Z",
+      "lastModifiedDate": "2026-07-08T14:15:15.446Z",
+      "description": "Coder allows organizations to provision remote development environments via Terraform. Starting in version 2.33.0 and prior to versions 2.33.8 and 2.34.2, AI Bridge provider handlers read request bodies with `io.ReadAll` without a maximum size so an authenticated user with AI Bridge access could send an arbitrarily large body and exhaust memory. Exploitation requires authenticated access to the AI Bridge endpoints and the impact is limited to availability (denial of service). Versions 2.33.8 and 2.34.2 patch the issue. No known workarounds are available.",
+      "severity": 6.5,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f5184598-b0bd-4026-971c-da36d79497df?source=cve",
+          "url": "https://github.com/coder/coder/security/advisories/GHSA-f5vp-w269-392g",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset/3512686/the-plus-addons-for-block-editor/trunk/classes/blocks/tp-post-meta/index.php",
+          "url": "https://github.com/coder/coder/pull/26164",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.33.8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.34.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "posimyththemes",
-          "product": "Nexter Blocks – Gutenberg Blocks, Page Builder & AI Website Builder",
+          "vendor": "coder",
+          "product": "coder",
+          "versions": [
+            {
+              "version": ">= 2.34.0, < 2.34.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.33.0, < 2.33.8",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56778",
+      "publishedDate": "2026-07-08T13:49:07.670Z",
+      "lastModifiedDate": "2026-07-08T14:25:29.900Z",
+      "description": "n8n before 2.25.7 and 2.26.x before 2.26.2 contains an authorization bypass in the Public API execution retry endpoint, which authorizes access using the workflow:read scope instead of workflow:execute. An authenticated user with read-only access to a shared workflow can use the Public API to retry executions of that workflow, bypassing the intended permission boundary between read and execute access. This affects instances where workflows are shared with other users or across projects.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://github.com/n8n-io/n8n/security/advisories/GHSA-h3jj-5f3v-3685",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/n8n-authorization-bypass-in-public-api-execution-retry-endpoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "4.7.4",
+              "versionType": "semver",
+              "lessThan": "2.26.2"
+            },
+            {
+              "version": "2.26.2",
+              "status": "unaffected",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
+        },
+        {
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.25.7"
+            },
+            {
+              "version": "2.25.7",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "Incorrect Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
       "id": "CVE-2026-6459",
       "publishedDate": "2026-07-08T12:33:16.005Z",
-      "lastModifiedDate": "2026-07-08T12:33:16.005Z",
+      "lastModifiedDate": "2026-07-08T14:11:23.298Z",
       "description": "The Essential Addons for Elementor – Popular Elementor Templates & Widgets plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the Event Calendar widget in all versions up to, and including, 6.6.2 due to insufficient input sanitization and output escaping on event titles sourced from The Events Calendar. This makes it possible for authenticated attackers, with Author-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
       "severity": 6.4,
       "references": [
@@ -1591,433 +1090,766 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-10570",
-      "publishedDate": "2026-07-08T05:34:10.677Z",
-      "lastModifiedDate": "2026-07-08T12:40:35.027Z",
-      "description": "The Sympl Repeater for ACF and Elementor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via ACF repeater field values in all versions up to, and including, 2.3. This is due to insufficient input sanitization and output escaping in the symp_arfe_replace_content() function, which uses str_replace() to substitute raw ACF field values (retrieved via get_field()) directly into Elementor-rendered HTML without any escaping. This makes it possible for authenticated attackers, with Author-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
-      "severity": 6.4,
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/daa38c2c-9992-400b-acef-dcd37f9c7269?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/acf-repeater-for-elementor/tags/2.3/sympl-repeater-for-acf-and-elementor.php#L179",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/acf-repeater-for-elementor/tags/2.3/sympl-repeater-for-acf-and-elementor.php#L99",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "idocoh",
-          "product": "Sympl Repeater for ACF and Elementor",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "2.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-14250",
-      "publishedDate": "2026-07-08T11:30:33.205Z",
-      "lastModifiedDate": "2026-07-08T12:38:09.291Z",
-      "description": "The Themehunk Login Registration plugin for WordPress is vulnerable to privilege escalation in versions up to, and including, 1.0.2. This is due to the handle_frontend_register() function in the unauthenticated /thlogin/v1/register REST endpoint accepting a user-controlled 'role' parameter and validating it only against get_editable_roles() — which returns every defined editable site role, including 'editor' — before passing it to wp_insert_user(). This makes it possible for unauthenticated attackers, when public user registration is enabled, to create new accounts with the editor role.",
+      "id": "CVE-2026-55668",
+      "publishedDate": "2026-07-08T14:55:25.433Z",
+      "lastModifiedDate": "2026-07-08T14:55:25.433Z",
+      "description": "File Browser provides a web file managing interface. Prior to 2.63.16, ScopedFs validates the nearest existing ancestor of a dangling symlink as in scope and then follows the symlink during file creation, allowing an authenticated user with Create and Modify permissions to create attacker-controlled files outside the user's scope. This issue is fixed in version 2.63.16.",
       "severity": 6.3,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/8eee3809-133e-4fd9-ad49-cc6fe3822457?source=cve",
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-8wc8-hf36-mjh9",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L811",
+          "url": "https://github.com/filebrowser/filebrowser/commit/64511ce45e3be379e965f7f4fb0929a068d5bb81",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L782",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L82",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L243",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3592690%40themehunk-login-registration&new=3592690%40themehunk-login-registration",
+          "url": "https://github.com/filebrowser/filebrowser/releases/tag/v2.63.16",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "themehunk",
-          "product": "TH Login Registration",
+          "vendor": "filebrowser",
+          "product": "filebrowser",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "1.0.2",
-              "versionType": "semver"
+              "version": "< 2.63.16",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-269 Improper Privilege Management"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-8310",
-      "publishedDate": "2026-07-08T12:19:09.073Z",
-      "lastModifiedDate": "2026-07-08T12:19:09.073Z",
-      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Webbeyaz Web Design Mediküm Web allows Reflected XSS.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "id": "CVE-2026-15044",
+      "publishedDate": "2026-07-08T14:37:22.054Z",
+      "lastModifiedDate": "2026-07-08T14:37:22.054Z",
+      "description": "A flaw was found in the TrustyAI Service Operator. When deploying services like gorch or NemoGuardrails, if a specific security setting is not enabled, these services can expose their communication channels without requiring users to prove their identity. This allows any other program within the cluster to access the AI guardrails and orchestrator without proper authorization. An attacker could exploit this to gain unauthorized access to sensitive information and potentially make limited changes to the AI models.",
+      "severity": 6.3,
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-15044",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498039",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift AI (RHOAI)",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhoai/odh-trustyai-service-operator-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift_ai"
+          ]
+        }
+      ],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60092",
+      "publishedDate": "2026-07-08T13:51:30.509Z",
+      "lastModifiedDate": "2026-07-08T14:18:11.696Z",
+      "description": "AVideo (Meet plugin) through commit e8d6119f3cb1b849149906efeb0a41fc024f59f8 contains a stored cross-site scripting vulnerability in the Meet plugin's getMeetInfo.json.php endpoint. When a participant joins a public meeting, the raw HTTP User-Agent header is stored (meet_join_log.user_agent) without sanitization (bypassing AVideo's setter-level xss_esc() layer) and later echoed without output encoding (no htmlspecialchars()) in the Participants management panel, which is accessible to the meeting host and site administrators. An anonymous, unauthenticated attacker can join any public meeting while supplying a User-Agent header containing an HTML/JavaScript payload; the payload is persisted and executes in the privileged, authenticated browser session of the meeting host or a site administrator when they open the participant list. The issue was unpatched at the time of the report.",
       "severity": 6.1,
       "references": [
         {
-          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-7cqp-7cfv-6c3q",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/WWBN/AVideo/commit/e8d6119f3cb1b849149906efeb0a41fc024f59f8",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/avideo-stored-cross-site-scripting-via-unescaped-user-agent-in-participants-panel",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Webbeyaz Web Design",
-          "product": "Mediküm Web",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "08072026",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unknown"
+          "vendor": "AVideo",
+          "product": "AVideo",
+          "defaultStatus": "affected"
         }
       ],
       "problemType": [
-        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-57253",
-      "publishedDate": "2026-07-08T07:36:14.101Z",
-      "lastModifiedDate": "2026-07-08T12:43:06.097Z",
-      "description": "An abnormal image object causes the renderer to enter the wrong processing branch. When converting the scan lines, an invalid image buffer pointer is used, resulting in the application crashing.",
-      "severity": 6.1,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-125 Out-of-bounds read"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57257",
-      "publishedDate": "2026-07-08T07:35:58.222Z",
-      "lastModifiedDate": "2026-07-08T12:39:33.187Z",
-      "description": "During the PRC parsing stage, there is a lack of boundary verification for the PRC entity index, which leads to an out-of-bounds read of the entity array. As a result, the application crashes.",
-      "severity": 6.1,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.3 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.3 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows",
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-125 Out-of-bounds read"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57258",
-      "publishedDate": "2026-07-08T07:35:56.660Z",
-      "lastModifiedDate": "2026-07-08T12:40:12.497Z",
-      "description": "The PRC file header parsing logic trusts the constructed file structure description information, assumes that the underlying array contains elements and reads them, leading to out-of-bounds reads and application crashes.",
-      "severity": 6.1,
-      "references": [
-        {
-          "url": "https://www.foxit.com/support/security-bulletins.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.4 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.4 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Editor",
-          "platforms": [
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 14.0.3 and earlier"
-            },
-            {
-              "status": "affected",
-              "version": "Versions 13.2.3 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Foxit Software Inc.",
-          "product": "Foxit PDF Reader",
-          "platforms": [
-            "Windows",
-            "MacOS"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "Versions 2026.1.1 and earlier"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-125 Out-of-bounds read"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-8315",
-      "publishedDate": "2026-07-08T12:21:59.106Z",
-      "lastModifiedDate": "2026-07-08T12:21:59.106Z",
-      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Webbeyaz Web Design Mediküm Web allows Stored XSS.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "id": "CVE-2026-56775",
+      "publishedDate": "2026-07-08T13:49:06.267Z",
+      "lastModifiedDate": "2026-07-08T14:31:22.470Z",
+      "description": "n8n before 1.123.55, 2.25.7, and 2.26.2 contains an authorization vulnerability in three mutating evaluation test-run endpoints that authorize state-changing actions using the workflow:read scope instead of the action-appropriate workflow:execute scope. On instances using Advanced Permissions (Enterprise/Cloud) with projects and viewer roles, an authenticated user with the project:viewer role can start new evaluation test runs, cancel in-flight runs, and delete run records for workflows they only have read access to.",
       "severity": 5.4,
       "references": [
         {
-          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "url": "https://github.com/n8n-io/n8n/security/advisories/GHSA-664h-gpgq-h6xx",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/n8n-incorrect-oauth-scope-validation-in-evaluation-test-runs-endpoints",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Webbeyaz Web Design",
-          "product": "Mediküm Web",
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
           "versions": [
             {
-              "status": "affected",
               "version": "0",
-              "lessThanOrEqual": "08072026",
-              "versionType": "custom"
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.123.55"
+            },
+            {
+              "version": "1.123.55",
+              "status": "unaffected",
+              "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unknown"
+          ]
+        },
+        {
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.26.2"
+            },
+            {
+              "version": "2.26.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.25.7"
+            },
+            {
+              "version": "2.25.7",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+        "Incorrect Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-5459",
-      "publishedDate": "2026-07-08T12:33:16.401Z",
-      "lastModifiedDate": "2026-07-08T12:33:16.401Z",
-      "description": "The User Frontend: AI Powered Frontend Posting, User Directory, Profile, Membership & User Registration plugin for WordPress is vulnerable to Insecure Direct Object Reference in all versions up to, and including, 4.3.1 via the payment_page() function due to missing validation on the 'user_id' user controlled key. This makes it possible for unauthenticated attackers to activate a free subscription pack for any user on the site, overwriting their existing paid subscription and causing loss of paid features.",
+      "id": "CVE-2026-56283",
+      "publishedDate": "2026-07-08T13:48:59.142Z",
+      "lastModifiedDate": "2026-07-08T14:27:40.018Z",
+      "description": "Capgo before 12.128.2 contains an html injection vulnerability in the organization settings endpoint that allows attackers to inject malicious HTML content. Attackers can craft payloads in the organization name field to redirect users to untrusted websites, enabling phishing attacks and reputational damage.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-vhvc-gxfh-m85g",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/capgo-html-injection-leading-to-open-redirection-in-organization-settings",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Capgo",
+          "product": "Capgo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15035",
+      "publishedDate": "2026-07-08T14:00:09.786Z",
+      "lastModifiedDate": "2026-07-08T14:20:35.536Z",
+      "description": "A vulnerability was found in bentoml OpenLLM 0.6.30. This affects the function async_run_command of the file src/openllm/common.py of the component Model Repository Directory Name Handler. Performing a manipulation of the argument cmd results in command injection. Attacking locally is a requirement. The exploit has been made public and could be used. The project was informed of the problem early through an issue report but has not responded yet.",
       "severity": 5.3,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a02d9a01-1104-4935-8074-af4367c66278?source=cve",
+          "url": "https://vuldb.com/vuln/376786",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset/3514258/wp-user-frontend",
+          "url": "https://vuldb.com/vuln/376786/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15035",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/850895",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bentoml/OpenLLM/issues/1229",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/bentoml/OpenLLM/pull/1235",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bentoml/OpenLLM/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wedevs",
-          "product": "User Frontend: AI Powered Frontend Posting, User Directory, Profile Builder, Membership & User Registration",
+          "vendor": "bentoml",
+          "product": "OpenLLM",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "4.3.1",
-              "versionType": "semver"
+              "version": "0.6.30",
+              "status": "affected"
             }
           ],
-          "defaultStatus": "unaffected"
+          "cpes": [
+            "cpe:2.3:a:bentoml:openllm:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Model Repository Directory Name Handler"
+          ]
         }
       ],
       "problemType": [
-        "CWE-639 Authorization Bypass Through User-Controlled Key"
+        "Command Injection",
+        "Injection"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12002",
-      "publishedDate": "2026-07-08T12:33:16.785Z",
-      "lastModifiedDate": "2026-07-08T12:33:16.785Z",
-      "description": "The Smash Balloon Social Photo Feed – Easy Social Feeds Plugin plugin for WordPress is vulnerable to Cross-Site Request Forgery in all versions up to, and including, 6.11.1. This is due to missing or incorrect nonce validation on the maybe_connection_data function. This makes it possible for unauthenticated attackers to overwrite the site's Instagram and Facebook oEmbed access tokens via a forged request granted they can trick a site administrator into performing an action such as clicking on a link.",
-      "severity": 4.7,
+      "id": "CVE-2026-58657",
+      "publishedDate": "2026-07-08T13:49:12.183Z",
+      "lastModifiedDate": "2026-07-08T14:21:36.356Z",
+      "description": "Grav before 2.0.0 (affected through 2.0.0-rc.9 and the 2.0 branch) contains a stored CSS injection vulnerability in the Markdown image resize() media action. Prior media hardening rejects direct ?style= payloads and unsafe attribute() fallbacks, but the resize() action in Excerpts::processMediaActions() writes caller-controlled values directly into the image's styleAttributes. A lower-privileged content editor who can edit page Markdown can store a crafted image URL with semicolon-delimited CSS declarations in the resize parameters, which are rendered into the final <img style=...> attribute when a higher-privileged reviewer/admin views the page or preview. This does not require JavaScript execution but enables UI redress/overlay and content-manipulation attacks (e.g., a full-viewport fixed overlay). Fixed in 2.0.0.",
+      "severity": 4.8,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/abe6366a-3729-474f-8920-b5ed2eeab906?source=cve",
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-ffmg-hfvg-jhg9",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset/3575933/instagram-feed/trunk/admin/SBI_oEmbeds.php?old=3289310&old_path=instagram-feed%2Ftrunk%2Fadmin%2FSBI_oEmbeds.php",
+          "url": "https://github.com/getgrav/grav/commit/6582166173bb8eb5869d96aea384e0e73777c94c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/e03d29aa0d3ece16d73c1ffccfa78df8bf5f28b8",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-stored-css-injection-via-markdown-image-resize-action",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "smub",
-          "product": "Smash Balloon Social Photo Feed – Easy Social Feeds Plugin",
+          "vendor": "Grav",
+          "product": "Grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "2.0.0-rc.9",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.0"
+            },
+            {
+              "version": "2.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55873",
+      "publishedDate": "2026-07-08T14:48:37.000Z",
+      "lastModifiedDate": "2026-07-08T14:48:37.000Z",
+      "description": "SeaweedFS is a distributed storage system. In versions 4.08 through 4.33, requests signed with SigV4 service s3tables are routed to the S3Tables management API where authorization collapses account-less S3 identities into the shared admin account and fails open, allowing an authenticated low-privileged S3 user to enumerate administrator-owned table bucket names and ARNs. This issue is fixed in version 4.34.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/seaweedfs/seaweedfs/security/advisories/GHSA-hgpf-8634-g44c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/seaweedfs/seaweedfs/pull/9961",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/seaweedfs/seaweedfs/commit/b13463880c1fa62e255c058a9228b63cc95b4b36",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/seaweedfs/seaweedfs/releases/tag/4.34",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "seaweedfs",
+          "product": "seaweedfs",
+          "versions": [
+            {
+              "version": ">= 4.08, < 4.34",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15036",
+      "publishedDate": "2026-07-08T14:30:07.802Z",
+      "lastModifiedDate": "2026-07-08T14:30:07.802Z",
+      "description": "A vulnerability was determined in Harness up to 2.28.2. This vulnerability affects the function getAuthorizedSpaces of the file app/api/controller/gitspace/list_all.go of the component gitspaces Endpoint. Executing a manipulation can lead to authorization bypass. The attack can be executed remotely. The exploit has been publicly disclosed and may be utilized. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/376787",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/376787/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15036",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/851013",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/harness/harness/issues/3689",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/harness/harness/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "Harness",
+          "versions": [
+            {
+              "version": "2.28.0",
+              "status": "affected"
+            },
+            {
+              "version": "2.28.1",
+              "status": "affected"
+            },
+            {
+              "version": "2.28.2",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:harness:harness:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "gitspaces Endpoint"
+          ]
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass",
+        "Improper Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56298",
+      "publishedDate": "2026-07-08T13:49:02.073Z",
+      "lastModifiedDate": "2026-07-08T14:30:56.532Z",
+      "description": "Capgo before 12.128.2 fails to strip EXIF metadata from images uploaded via the app information endpoint, exposing sensitive geolocation data. Attackers can upload images containing EXIF metadata to extract geographic location information and other embedded metadata from uploaded files.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-62jm-xp28-x4xw",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/capgo-exif-metadata-exposure-in-app-information-image-upload",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Capgo",
+          "product": "Capgo",
+          "defaultStatus": "unaffected",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "6.11.1",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56217",
+      "publishedDate": "2026-07-08T13:48:54.936Z",
+      "lastModifiedDate": "2026-07-08T14:28:35.887Z",
+      "description": "Capgo before 12.128.2 contains a policy bypass vulnerability in app_versions update enforcement that allows app-scoped API keys to downgrade encrypted bundles to non-encrypted state. Attackers with app-scoped all API keys can directly update the app_versions table via PostgREST to clear session_key and key_id fields, bypassing organization-enforced encrypted-bundle policies and weakening OTA security controls.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-4qwf-mrgx-mvfx",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/capgo-encrypted-bundle-policy-bypass-via-direct-postgrest-update",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Capgo",
+          "product": "Capgo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Access Control"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15034",
+      "publishedDate": "2026-07-08T13:30:08.187Z",
+      "lastModifiedDate": "2026-07-08T14:21:20.699Z",
+      "description": "A vulnerability has been found in flask-dashboard Flask-MonitoringDashboard up to 5.0.2. Affected by this issue is some unknown functionality. Such manipulation leads to cross-site request forgery. The attack may be launched remotely. The exploit has been disclosed to the public and may be used. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/376785",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/376785/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15034",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/850877",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/850878",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/850879",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/850880",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/flask-dashboard/Flask-MonitoringDashboard/issues/557",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/flask-dashboard/Flask-MonitoringDashboard/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "flask-dashboard",
+          "product": "Flask-MonitoringDashboard",
+          "versions": [
+            {
+              "version": "5.0.0",
+              "status": "affected"
+            },
+            {
+              "version": "5.0.1",
+              "status": "affected"
+            },
+            {
+              "version": "5.0.2",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:flask-dashboard:flask-monitoringdashboard:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Cross-Site Request Forgery",
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46700",
+      "publishedDate": "2026-07-07T20:56:39.203Z",
+      "lastModifiedDate": "2026-07-08T14:43:18.586Z",
+      "description": "Actual is a local-first personal finance tool. Prior to 26.6.0, the GET /secret/:name endpoint in @actual-app/sync-server checks only that the caller has a valid session and does not verify the caller is an admin, while the sibling POST /secret/ handler enforces an admin check in OpenID mode. Any authenticated non-admin BASIC user in OpenID multi-user deployments can probe the secrets store and learn which admin-managed bank-sync integrations have been configured, including simplefin_accessKey, pluggyai_clientSecret, pluggyai_itemIds, and the gocardless secrets. This issue is fixed in version 26.6.0.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/actualbudget/actual/security/advisories/GHSA-3f62-qv96-4p78",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/actualbudget/actual/pull/7862",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/actualbudget/actual/commit/3494f78c9459ed9c412e28b500b675ba5eb72d4e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/actualbudget/actual/releases/tag/v26.6.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "actualbudget",
+          "product": "actual",
+          "versions": [
+            {
+              "version": "< 26.6.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-285: Improper Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56360",
+      "publishedDate": "2026-07-08T13:49:03.453Z",
+      "lastModifiedDate": "2026-07-08T14:26:33.242Z",
+      "description": "n8n before versions 1.123.18 and 2.6.2 fails to verify HMAC-SHA256 signatures on Zendesk webhooks in the ZendeskTrigger node. Attackers who know the webhook URL can send unsigned POST requests to trigger workflows with arbitrary malicious data.",
+      "severity": 4,
+      "references": [
+        {
+          "url": "https://github.com/n8n-io/n8n/security/advisories/GHSA-38c7-23hj-2wgq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/n8n-webhook-forgery-via-unsigned-post-requests-in-zendesktrigger",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.123.18"
+            },
+            {
+              "version": "1.123.18",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "2.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.6.2"
+            },
+            {
+              "version": "2.6.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Authentication Bypass by Spoofing"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55592",
+      "publishedDate": "2026-07-07T20:48:28.648Z",
+      "lastModifiedDate": "2026-07-08T14:30:28.126Z",
+      "description": "Dashy is a self-hostable personal dashboard. Prior to 4.3.7, Dashy's workspace view trusts the url query parameter and assigns it directly to an iframe source without scheme validation. If a logged-in user opens a crafted workspace link containing a javascript: URL, JavaScript runs on the Dashy origin and can read same-origin browser data, interact with the Dashy DOM, and send requests as the victim. This issue is fixed in version 4.3.7.",
+      "severity": 3.9,
+      "references": [
+        {
+          "url": "https://github.com/lissy93/dashy/security/advisories/GHSA-58mp-4qr3-vmrc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lissy93/dashy/commit/4bc620e21cc8e3466f32b8bc40614b0d0eb5648b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lissy93/dashy/releases/tag/4.3.7",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lissy93",
+          "product": "dashy",
+          "versions": [
+            {
+              "version": "< 4.3.7",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-53480",
+      "publishedDate": "2026-07-08T13:44:45.485Z",
+      "lastModifiedDate": "2026-07-08T14:29:57.118Z",
+      "description": "Dell PowerProtect Data Domain, versions 7.7.1.0 through 8.7, LTS2026 release version 8.6.1.0 through 8.6.1.10, LTS2025 release version 8.3.1.0 through 8.3.1.30, LTS2024 release versions 7.13.1.0 through 7.13.1.70 contain an improper limitation of a pathname to a restricted directory ('path traversal') vulnerability. A high privileged attacker with remote access could potentially exploit this vulnerability, leading to unauthorized file modification.",
+      "severity": 2.7,
+      "references": [
+        {
+          "url": "https://www.dell.com/support/kbdoc/en-us/000481268/dsa-2026-278-security-update-for-dell-powerprotect-data-domain-multiple-vulnerabilities?msockid=3021cac2195069ed3194ddad186a68f9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dell",
+          "product": "PowerProtect Data Domain",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.8.0.0 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.6.1.20 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.3.1.40 or later",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "7.13.1.80 or later",
               "versionType": "semver"
             }
           ],
@@ -2025,23 +1857,19 @@
         }
       ],
       "problemType": [
-        "CWE-352 Cross-Site Request Forgery (CSRF)"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-14454",
-      "publishedDate": "2026-07-08T12:30:20.230Z",
-      "lastModifiedDate": "2026-07-08T12:30:20.230Z",
-      "description": "Imager versions before 1.033 for Perl treat unsigned EXIF IFD entry counts as signed.\n\nImager mishandled large EXIF IFD entry count values, treating them as negative numbers.  This could lead to an attempt to allocate a block nearly the size of the address space, which fails and kills the process.\n\nAn attacker could craft an image with EXIF data that terminates a worker process.",
+      "id": "CVE-2026-49147",
+      "publishedDate": "2026-07-08T14:55:50.232Z",
+      "lastModifiedDate": "2026-07-08T14:55:50.232Z",
+      "description": "App::Ack versions through 3.10.0 for Perl print unsanitised terminal escape sequences from filenames in several output modes.\n\nWhen ack prints a filename whose basename contains terminal control bytes such as ANSI escape sequences, those bytes reach the terminal unchanged. Version 3.10.0 added a _safe_filename helper that sanitises the filenames printed by -f, -g, the colored match heading, and per-match lines, but the --show-types, -l/-L, and -c paths still emit the raw filename.\n\nA file whose name embeds cursor-movement or color escapes can overwrite or recolor earlier terminal output, or be passed unchanged to a downstream consumer.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://metacpan.org/release/TONYC/Imager-1.033/changes",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/tonycoz/imager/commit/06f01a5d0fd591259aeba589370d6888384a6b6d.patch",
+          "url": "https://metacpan.org/release/PETDANCE/ack-v3.10.0/source/Changes",
           "type": "reference"
         }
       ],
@@ -2049,21 +1877,28 @@
         {
           "collectionURL": "https://cpan.org/modules",
           "defaultStatus": "unaffected",
-          "packageName": "Imager",
-          "product": "Imager",
+          "packageName": "ack",
+          "product": "App::Ack",
           "programFiles": [
-            "imexif.c"
+            "lib/App/Ack.pm",
+            "ack"
           ],
           "programRoutines": [
             {
-              "name": "tiff_load_ifd"
+              "name": "App::Ack::show_types"
+            },
+            {
+              "name": "file_loop_lL"
+            },
+            {
+              "name": "file_loop_c"
             }
           ],
-          "repo": "https://github.com/tonycoz/imager",
-          "vendor": "TONYC",
+          "repo": "https://github.com/beyondgrep/ack3",
+          "vendor": "PETDANCE",
           "versions": [
             {
-              "lessThan": "1.033",
+              "lessThanOrEqual": "3.10.0",
               "status": "affected",
               "version": "0",
               "versionType": "custom"
@@ -2072,61 +1907,589 @@
         }
       ],
       "problemType": [
-        "CWE-196 Unsigned to Signed Conversion Error",
-        "CWE-789 Memory Allocation with Excessive Size Value"
+        "CWE-150 Improper Neutralization of Escape, Meta, or Control Sequences"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-56000",
-      "publishedDate": "2026-07-08T07:36:15.357Z",
-      "lastModifiedDate": "2026-07-08T12:42:16.061Z",
-      "description": "Local attackers with a X connection able to provide GLX commit to the X server xorg-server before 21.2.24 and xwayland before 24.1.13 could cause a Heap Use After Free, due to CommonMakeCurrent() pointing into potentially reallocated memory.",
+      "id": "CVE-2026-49146",
+      "publishedDate": "2026-07-08T14:55:37.207Z",
+      "lastModifiedDate": "2026-07-08T14:55:37.207Z",
+      "description": "App::Ack versions before 3.10.0 for Perl allow memory exhaustion via an unbounded context value in a project .ackrc.\n\nack searches up the directory hierarchy from the current directory for a project .ackrc and loads its options. The -B and -C context options accepted any positive integer, and ack sized the before-context buffer to that value, so a project .ackrc setting --before-context=100000000 made ack allocate a buffer of 100 million elements.\n\nA project .ackrc committed to an untrusted repository can abort ack with an out-of-memory condition.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://gitlab.freedesktop.org/xorg/xserver/-/commit/2779affbdb4354e894f490e56f962527d6125043",
+          "url": "https://github.com/beyondgrep/ack3/commit/45ff5fe77dbd96f7332f31943102291f878f30b8.patch",
           "type": "reference"
         },
         {
-          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/2",
+          "url": "https://metacpan.org/release/PETDANCE/ack-v3.10.0/source/Changes",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "X.Org",
-          "product": "xorg-x11-server",
-          "packageName": "xorg-x11-server",
-          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
-          "versions": [
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "ack",
+          "product": "App::Ack",
+          "programFiles": [
+            "lib/App/Ack/ConfigLoader.pm",
+            "ack"
+          ],
+          "programRoutines": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "21.1.24",
-              "versionType": "rpm"
+              "name": "App::Ack::ConfigLoader::_context_value"
             }
           ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "X.Org",
-          "product": "xwayland",
-          "packageName": "xwayland",
-          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
+          "repo": "https://github.com/beyondgrep/ack3",
+          "vendor": "PETDANCE",
           "versions": [
             {
+              "lessThan": "3.10.0",
               "status": "affected",
               "version": "0",
-              "lessThan": "24.1.13",
-              "versionType": "rpmver"
+              "versionType": "custom"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-416 Use after free"
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-49145",
+      "publishedDate": "2026-07-08T14:55:13.819Z",
+      "lastModifiedDate": "2026-07-08T14:55:13.819Z",
+      "description": "App::Ack versions through 3.10.0 for Perl read arbitrary files via --files-from in a project .ackrc.\n\nack searches up the directory hierarchy from the current directory for a project .ackrc and loads its options. The project-source option blocklist in App::Ack::ConfigLoader does not include --files-from, so a project .ackrc can set it to a path whose listed files ack then reads and searches. Version 3.10.0 added --follow to the blocklist; --files-from remains accepted.\n\nA project .ackrc committed to an untrusted repository can make ack read files outside the project and print their matching lines.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://metacpan.org/release/PETDANCE/ack-v3.10.0/source/Changes",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "ack",
+          "product": "App::Ack",
+          "programFiles": [
+            "lib/App/Ack/ConfigFinder.pm",
+            "lib/App/Ack/ConfigLoader.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "App::Ack::ConfigFinder::find_config_files"
+            },
+            {
+              "name": "App::Ack::ConfigLoader::_process_other"
+            }
+          ],
+          "repo": "https://github.com/beyondgrep/ack3",
+          "vendor": "PETDANCE",
+          "versions": [
+            {
+              "lessThanOrEqual": "3.10.0",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-73 External Control of File Name or Path",
+        "CWE-426 Untrusted Search Path"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-10706",
+      "publishedDate": "2026-07-08T14:06:34.842Z",
+      "lastModifiedDate": "2026-07-08T14:06:34.842Z",
+      "description": "In Adalo’s no-code app builder, (Versions 1 and 2) the attackers may extract full user records and correlate user behavior across multiple applications via dbId enumeration. The platform does not implement data minimization, privacy by design, or implement appropriate technical safeguards, allowing sensitive information to be exposed to unauthorized parties.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://kb.cert.org/vuls/id/849433",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Adalo No-Code App Builder",
+          "product": "App Builder",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1",
+              "lessThanOrEqual": "2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-10708",
+      "publishedDate": "2026-07-08T14:05:15.678Z",
+      "lastModifiedDate": "2026-07-08T14:05:15.678Z",
+      "description": "This vulnerability enables large‑scale data harvesting without requiring app‑specific secrets. A single request to a minimal leaderboard component may return user records containing emails, UUIDs, and custom fields. The combination of wildcard CORS behavior, long‑lived twenty‑day JWTs, and the absence of token revocation allows attackers to gather sensitive personal information from any Adalo application.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://kb.cert.org/vuls/id/849433",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Adalo No-Code App Builder",
+          "product": "App Builder",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1",
+              "lessThanOrEqual": "2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-522 Insufficiently Protected Credentials",
+        "CWE-346 Origin Validation Error",
+        "CWE-613 Insufficient Session Expiration"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59253",
+      "publishedDate": "2026-07-08T13:49:12.902Z",
+      "lastModifiedDate": "2026-07-08T14:31:44.900Z",
+      "description": "n8n before 2.28.0 contains an improper authorization vulnerability allowing authenticated users to assign workflows to folders in other projects. Attackers can bypass project and folder authorization boundaries by supplying crafted request payloads during workflow creation, causing logical integrity violations in target project folder structures.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/n8n-io/n8n/security/advisories/GHSA-2xgm-wc4g-5jvg",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/n8n-improper-authorization-in-workflow-assignment-to-folders",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n8n",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.28.0"
+            },
+            {
+              "version": "2.28.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60125",
+      "publishedDate": "2026-07-08T13:36:53.507Z",
+      "lastModifiedDate": "2026-07-08T14:31:14.444Z",
+      "description": "MISP’s importModule() path used getEnabledModule() to resolve a single import module by name, but this lookup did not enforce the per-organisation module restriction checked by getEnabledModules(). As a result, an authenticated user from an organisation that was not allowed to use a module restricted via Plugin.Import_<module>_restrict could still invoke that import module directly if they knew its name.\n\n\nThis could allow unauthorised access to restricted import-module functionality and, depending on the module and the user’s event permissions, may allow unauthorised import or modification of event data through a module that should have been unavailable to the user’s organisation.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/MISP/MISP/commit/0ed79b4d3177f4b9e44040962161a1a436d2587d",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "misp",
+          "repo": "https://github.com/misp/misp",
+          "vendor": "misp",
+          "versions": [
+            {
+              "lessThanOrEqual": "2.5.42",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60124",
+      "publishedDate": "2026-07-08T13:30:14.637Z",
+      "lastModifiedDate": "2026-07-08T14:36:23.494Z",
+      "description": "An authorization bypass in MISP’s EventsController::importModule() allowed authenticated users or read-only API keys with event view access to persist data to events they were not allowed to modify. When an import module returned results in the misp_standard format, the write path did not verify event modification rights before saving the module output. This could allow a view-only user to inject or alter event data, impacting the integrity of MISP event content. The issue was fixed by enforcing the same modification-rights check used by related module result handling paths before processing misp_standard imports.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/MISP/MISP/commit/d0725fc34fda256cc57e5a8f0543cd541033e008",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "misp",
+          "repo": "https://github.com/misp/misp",
+          "vendor": "misp",
+          "versions": [
+            {
+              "lessThanOrEqual": "2.5.42",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-24700",
+      "publishedDate": "2026-07-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T14:46:51.113Z",
+      "description": "An OS command injection vulnerability exists in the start_lltd() function of the \"rc\" binary in Cisco RV130/RV130W with firmware 1.0.3.55 and RV110W routers with firmware 1.2.2.5 / 1.2.2.8. The machine_name configuration parameter is not properly sanitized, which could allow an authenticated remote attacker to execute arbitrary OS commands with root privileges.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/glkfc/IoT-Vulnerability/blob/main/cisco/RV130/1/wp-en.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-24698",
+      "publishedDate": "2026-07-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T14:51:52.891Z",
+      "description": "An OS command injection vulnerability exists in the save_syslog_to_file() function of the \"httpd\" binary in Cisco RV130/RV130W with firmware 1.0.3.55 and RV110W routers with firmware 1.2.2.5 / 1.2.2.8. The model_name configuration parameter is not properly sanitized, which could allow an authenticated remote attacker to execute arbitrary OS commands with root privileges.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/glkfc/IoT-Vulnerability/blob/main/cisco/RV130/3/wp-en.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-24699",
+      "publishedDate": "2026-07-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T14:54:04.138Z",
+      "description": "An OS command injection vulnerability exists in the sub_34984() function of the \"rc\" binary in Cisco RV130/RV130W with firmware 1.0.3.55 and RV110W routers with firmware 1.2.2.5 / 1.2.2.8. The lan_ipv6_prefixlen configuration parameter is not properly sanitized, which could allow an authenticated remote attacker to execute arbitrary OS commands with root privileges.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/glkfc/IoT-Vulnerability/blob/main/cisco/RV130/4/wp-en.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-24697",
+      "publishedDate": "2026-07-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T14:49:55.215Z",
+      "description": "An OS command injection vulnerability exists in the start_bonjour() function of the \"rc\" binary in Cisco RV130/RV130W with firmware 1.0.3.55 and RV110W routers with firmware 1.2.2.5 / 1.2.2.8. The wan_hostname configuration parameter is not properly sanitized, which could allow an authenticated remote attacker to execute arbitrary OS commands with root privileges.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/glkfc/IoT-Vulnerability/blob/main/cisco/RV130/2/wp-en.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14895",
+      "publishedDate": "2026-07-07T22:12:22.460Z",
+      "lastModifiedDate": "2026-07-08T14:05:18.813Z",
+      "description": "String::Util versions before 1.36 for Perl are susceptible to a regular expression denial of service.\n\nThe trim and rtrim functions stripped trailing whitespace with s/\\s*$//u. Because \\s* matches greedily and the $ anchor fails whenever a non-whitespace character follows the whitespace, the regex engine retries the match at each offset of a long whitespace run, producing quadratic backtracking. The fix replaces \\s*$ with \\s+$.\n\nAny caller that passes untrusted input to trim or rtrim can trigger CPU exhaustion with a string containing a long run of whitespace.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/scottchiefbaker/String-Util/commit/f8150867aaeb8f57c59601aefb2193f2caed8745.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/BAKERSCOT/String-Util-1.36/diff/BAKERSCOT/String-Util-1.35#lib/String/Util.pm",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/scottchiefbaker/String-Util/releases",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "String-Util",
+          "product": "String::Util",
+          "programFiles": [
+            "lib/String/Util.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "String::Util::trim"
+            },
+            {
+              "name": "String::Util::rtrim"
+            }
+          ],
+          "repo": "https://github.com/scottchiefbaker/String-Util",
+          "vendor": "BAKERSCOT",
+          "versions": [
+            {
+              "lessThan": "1.36",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1333 Inefficient Regular Expression Complexity"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55408",
+      "publishedDate": "2026-07-07T21:02:43.310Z",
+      "lastModifiedDate": "2026-07-08T14:08:02.043Z",
+      "description": "Koodo Reader is an ebook reader. In version 2.3.0 and earlier, Koodo Reader is vulnerable to remote code execution through malicious EPUB files because the open-book IPC handler enables nodeIntegrationInSubFrames and EPUB chapter content is rendered with unsanitized innerHTML. An attacker can craft an EPUB book that, when imported and opened by the victim, instantiates a hidden iframe with Node.js API access and executes arbitrary operating system commands with the victim user's privileges. This issue is fixed in version 2.3.1.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/koodo-reader/koodo-reader/security/advisories/GHSA-mjr7-w4jq-2rq9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "koodo-reader",
+          "product": "koodo-reader",
+          "versions": [
+            {
+              "version": "< 2.3.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55633",
+      "publishedDate": "2026-07-07T20:27:28.491Z",
+      "lastModifiedDate": "2026-07-08T14:46:11.454Z",
+      "description": "DataEase is an open source data visualization and analysis tool. Prior to 2.10.24, a bypass of the H2 zip protocol and file dropper fix allows an authenticated attacker to upload a zip archive disguised with a .ttf extension through FontManage.saveFile and then exploit it through the zip protocol to achieve remote code execution. This issue is fixed in version 2.10.24.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/dataease/dataease/security/advisories/GHSA-8x36-774q-pwqg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dataease/dataease/commit/265b31179f1427c059f739841f2e39aaa6d1b937",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dataease/dataease/commit/8892a6945b0b7a329a156155270fae58afa895bc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dataease/dataease/releases/tag/v2.10.24",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "dataease",
+          "product": "dataease",
+          "versions": [
+            {
+              "version": "< 2.10.24",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-434: Unrestricted Upload of File with Dangerous Type"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-53729",
+      "publishedDate": "2026-07-07T20:23:08.560Z",
+      "lastModifiedDate": "2026-07-08T14:49:59.141Z",
+      "description": "DataEase is an open source data visualization and analysis tool. Prior to 2.10.24, any authenticated user can download (/exportCenter/download/{id}), delete (/exportCenter/delete), retry (/exportCenter/retry/{id}), or generate download links (/exportCenter/generateDownloadUri/{id}) for export tasks belonging to other users by manipulating the task ID parameter, and the /exportCenter/download/{id} endpoint is whitelisted from authentication, allowing unauthenticated access to exported files. This issue is fixed in version 2.10.24.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/dataease/dataease/security/advisories/GHSA-9423-78gr-xjj5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dataease/dataease/commit/57e90bdcc21c3fa2ec57184671603ad88a5b941b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dataease/dataease/releases/tag/v2.10.24",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "dataease",
+          "product": "dataease",
+          "versions": [
+            {
+              "version": "< 2.10.24",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-51937",
+      "publishedDate": "2026-07-07T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T14:17:11.579Z",
+      "description": "An issue in Oneblog V2.3.9 allows a remote attacker to obtain sensitive information via the RestApiController.java, JsApiTicketComponent.java, and the GetAccessTokenComponent.java component",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zhangyd-c/OneBlog/issues/43",
+          "type": "reference"
+        },
+        {
+          "url": "https://gist.github.com/Passwords404/2599df955cdb36b36b9551b5b7809114",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
