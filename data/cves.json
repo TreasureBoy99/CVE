@@ -2,42 +2,592 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-07-08T11:30:25.280249",
+    "total_count": 35,
+    "last_updated": "2026-07-08T13:13:03.740146",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 1,
-      "none": 0
+      "critical": 1,
+      "high": 20,
+      "medium": 12,
+      "low": 0,
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-15041",
-      "publishedDate": "2026-07-08T10:15:30.480Z",
-      "lastModifiedDate": "2026-07-08T11:06:57.873Z",
-      "description": "A flaw was found in 389 Directory Server. The PBKDF2-SHA256 password verification function uses standard memcmp() for comparing password hashes instead of a constant-time comparison function. A remote attacker could potentially use timing measurements of LDAP bind attempts to infer partial hash information, though practical exploitation is extremely difficult due to PBKDF2 computational overhead.",
-      "severity": 3.7,
+      "id": "CVE-2026-8307",
+      "publishedDate": "2026-07-08T12:14:08.005Z",
+      "lastModifiedDate": "2026-07-08T12:17:11.073Z",
+      "description": "Improper neutralization of special elements used in an SQL command ('SQL injection') vulnerability in Webbeyaz Web Design Mediküm Web allows SQL Injection.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "severity": 9.8,
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-15041",
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Webbeyaz Web Design",
+          "product": "Mediküm Web",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper neutralization of special elements used in an SQL command ('SQL injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14495",
+      "publishedDate": "2026-07-08T05:34:07.285Z",
+      "lastModifiedDate": "2026-07-08T12:44:30.272Z",
+      "description": "The DoLogin Security plugin for WordPress is vulnerable to Authentication Bypass via Insufficient Randomness in all versions up to, and including, 4.3. The vulnerability exists because `dologin\\s::rrand()` seeds the Mersenne Twister with `mt_srand((double) microtime() * 1000000)` — discarding the integer-seconds component of `microtime()` and constraining the seed to a range of approximately 10^6 values (~20 bits of entropy) — after which every character of the 32-character magic-link token is drawn sequentially with `mt_rand()`, making the entire token a deterministic function of that seed. Because `Pswdless::try_login()` is registered on the unauthenticated `init` hook, resolves the target account by the auto-increment numeric ID embedded in the `?dologin=<id>.<hash>` parameter, performs the hash comparison using a non-constant-time `!=` operator, and then calls `wp_set_auth_cookie()` directly — never passing through `wp_authenticate()` and therefore never triggering the plugin's own `Auth::_has_login_err()` lockout — an unauthenticated attacker can brute-force the ~10^6-candidate seed space to reconstruct an active passwordless login token and authenticate as any targeted user, including administrators, without a password. Exploitation requires that a valid, unexpired passwordless login link (active for up to 7 days) exists for the target account at the time of the attack, and that the numeric link ID is known or guessable from the auto-increment primary key.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/16bce371-b524-48eb-8537-3f9df802abd3?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498022",
+          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/pswdless.cls.php#L86",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/s.cls.php#L240",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/pswdless.cls.php#L197",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/dologin/tags/4.3/src/pswdless.cls.php#L27",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpdo5ea",
+          "product": "DoLogin Security",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-338 Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14158",
+      "publishedDate": "2026-07-08T04:30:49.869Z",
+      "lastModifiedDate": "2026-07-08T12:45:11.101Z",
+      "description": "The Widget Logic Visual plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 1.52 via the widget_logic_visual_check_visibility function. This is due to missing capability check and nonce verification on the widget-logic-update-conditional-tags AJAX action combined with insufficient sanitization of the 'nwlv[cod-tag]' parameter before storage and subsequent use in an eval() call. This makes it possible for authenticated attackers, with subscriber-level access and above, to execute code on the server.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5d82e9e2-c572-4911-a6a5-1384844214b0?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/widget-logic-visual/trunk/custom.php#L50",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/widget-logic-visual/trunk/ajax.php#L91",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/widget-logic-visual/trunk/ajax.php#L14",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "totalbounty",
+          "product": "Widget Logic Visual",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.52",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-11610",
+      "publishedDate": "2026-07-07T09:17:36.519Z",
+      "lastModifiedDate": "2026-07-08T12:27:01.290Z",
+      "description": "A heap buffer overflow flaw was found in the SASL I/O layer of 389 Directory Server\n(389-ds-base). After a successful SASL bind with integrity protection (SSF > 0),\nan authenticated attacker can send a specially crafted oversized LDAP UNBIND packet\nthat is copied into a 512-byte heap receive buffer without a bounds check in\nsasl_io_recv() in sasl_io.c. This allows up to approximately 2 megabytes of\nattacker-controlled data to overflow the buffer, causing a denial of service (server\ncrash). In FreeIPA and Red Hat Identity Management deployments, any domain user with\na valid Kerberos ticket, any enrolled host, or any service account can trigger this\nvulnerability over the network after authenticating via GSSAPI.\nThe vulnerable code path has existed since approximately 2013 (389-ds-base 1.3.2) and\nwas not addressed by the CVE-2025-14905 fix, which patched a separate heap overflow\nin schema.c only.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36195",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36196",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36197",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36198",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36200",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36201",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36202",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36204",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36205",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36206",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36208",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36209",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36585",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36641",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36660",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36670",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:36671",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-11610",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2484414",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "Red Hat",
-          "product": "Red Hat Directory Server 11",
+          "product": "Red Hat Directory Server 11.5 E4S for RHEL 8",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "redhat-ds:11/389-ds-base",
+          "packageName": "redhat-ds:11",
           "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8060020260702180044.0ca98e7e",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
           "cpes": [
-            "cpe:/a:redhat:directory_server:11"
+            "cpe:/a:redhat:directory_server_e4s:11.5::el8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Directory Server 11.7 E4S for RHEL 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-ds:11",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8080020260702180836.f969626e",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:directory_server_e4s:11.7::el8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Directory Server 11.9 for RHEL 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-ds:11",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8100020260702145313.37ed7c03",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:directory_server:11.9::el8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Directory Server 12.2 E4S for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-ds:12",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "9020020260703060155.1674d574",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:directory_server_e4s:12.2::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Directory Server 12.4 E4S for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-ds:12",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "9040020260703055735.1674d574",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:directory_server_e4s:12.4::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:3.2.0-8.el10_2",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10.2"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10.0 Extended Update Support",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:3.0.6-19.el10_0",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux_eus:10.0"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7 Extended Lifecycle Support",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:1.3.11.1-13.el7_9",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/o:redhat:rhel_els:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8100020260626120929.25e700aa",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:enterprise_linux:8::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8.4 Advanced Mission Critical Update Support",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8040020260629123121.96015a92",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_aus:8.4::appstream",
+            "cpe:/a:redhat:rhel_eus_long_life:8.4::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8.4 Extended Update Support Long-Life Add-On",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8040020260629123121.96015a92",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_aus:8.4::appstream",
+            "cpe:/a:redhat:rhel_eus_long_life:8.4::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8.6 Advanced Mission Critical Update Support",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8060020260626130540.824efc52",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_aus:8.6::appstream",
+            "cpe:/a:redhat:rhel_eus_long_life:8.6::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8.6 Extended Update Support Long-Life Add-On",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8060020260626130540.824efc52",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_aus:8.6::appstream",
+            "cpe:/a:redhat:rhel_eus_long_life:8.6::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8.8 Telecommunications Update Service",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8080020260630025241.6dbb3803",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_e4s:8.8::appstream",
+            "cpe:/a:redhat:rhel_tus:8.8::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8.8 Update Services for SAP Solutions",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds:1.4",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "8080020260630025241.6dbb3803",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_e4s:8.8::appstream",
+            "cpe:/a:redhat:rhel_tus:8.8::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:2.8.0-8.el9_8",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:enterprise_linux:9::appstream",
+            "cpe:/a:redhat:enterprise_linux:9::crb"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9.2 Update Services for SAP Solutions",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:2.2.4-19.el9_2",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_e4s:9.2::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9.4 Update Services for SAP Solutions",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:2.4.5-26.el9_4",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_e4s:9.4::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9.6 Extended Update Support",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "389-ds-base",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:2.6.1-22.el9_6",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:rhel_eus:9.6::appstream",
+            "cpe:/a:redhat:rhel_eus:9.6::crb"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Directory Server 13.2",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "dirsrv/dirsrv-container-rhel10",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1783452100",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:directory_server:13.2::el10"
           ]
         },
         {
@@ -55,19 +605,9 @@
           "product": "Red Hat Directory Server 13",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
           "packageName": "389-ds-base",
-          "defaultStatus": "affected",
+          "defaultStatus": "unaffected",
           "cpes": [
             "cpe:/a:redhat:directory_server:13"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
           ]
         },
         {
@@ -75,44 +615,1518 @@
           "product": "Red Hat Enterprise Linux 6",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
           "packageName": "389-ds-base",
-          "defaultStatus": "unaffected",
+          "defaultStatus": "affected",
           "cpes": [
             "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds:1.4/389-ds-base",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "389-ds-base",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
           ]
         }
       ],
       "problemType": [
-        "Observable Timing Discrepancy"
+        "Heap-based Buffer Overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56003",
+      "publishedDate": "2026-07-08T09:25:41.723Z",
+      "lastModifiedDate": "2026-07-08T12:06:51.966Z",
+      "description": "A heap buffer overflow due to missing size checking in the property buffer when parsing PCF files in libXfont2 ComputeScaledProperties() before libXfont2 before 2.0.8 could be used by attackers using authenticated X clients to execute code within the X server.",
+      "severity": 8.5,
+      "references": [
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/1",
+          "type": "reference"
+        },
+        {
+          "url": "https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/dff957a5158da038a282a59a31fe736702732939",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "X.Org",
+          "product": "libXfont2",
+          "packageName": "libXfont2",
+          "repo": "https://gitlab.freedesktop.org/xorg/lib/libxfont/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2.0.8",
+              "versionType": "rpm"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based buffer overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56002",
+      "publishedDate": "2026-07-08T09:12:51.480Z",
+      "lastModifiedDate": "2026-07-08T12:07:36.415Z",
+      "description": "A heap bufferflow in pcfReadFont() due to missing glyph bounds checking in libXfont2 before 2.0.8  allows attackers authenticated as X client to execute code within the X server.",
+      "severity": 8.5,
+      "references": [
+        {
+          "url": "https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/b4389e0b1d84a690b819bb27b1439968811a3674",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "X.Org",
+          "product": "libXfont2",
+          "packageName": "libXfont2",
+          "repo": "https://gitlab.freedesktop.org/xorg/lib/libxfont",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2.0.8",
+              "versionType": "rpm"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based buffer overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56001",
+      "publishedDate": "2026-07-08T08:49:24.706Z",
+      "lastModifiedDate": "2026-07-08T12:08:45.252Z",
+      "description": "A heap buffer overflow in BitmapScaleBitmaps in libXfont2 before 2.0.8 due to an overflowing 32bit size could be used by attackers able to access the X Server to execute code within the X server cont",
+      "severity": 8.5,
+      "references": [
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/1",
+          "type": "reference"
+        },
+        {
+          "url": "https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/be0b08e2d354138d3222b4490e2a77c6ee42f778",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "X.Org",
+          "product": "libXfont2",
+          "packageName": "libXfont2",
+          "repo": "https://gitlab.freedesktop.org/xorg/lib/libxfont",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2.0.8",
+              "versionType": "rpm"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based buffer overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55999",
+      "publishedDate": "2026-07-08T08:07:11.088Z",
+      "lastModifiedDate": "2026-07-08T12:10:11.301Z",
+      "description": "Local attackers with a X connection able to provide PCX fonts to the X \nserver xorg-server before 21.2.24 and xwayland before 24.1.13 could \ncause a heap buffer overflow via SetFont due to missing glyph boundary checks.",
+      "severity": 8.5,
+      "references": [
+        {
+          "url": "https://gitlab.freedesktop.org/xorg/xserver/-/commit/fbf7bac22e2c6bd627fb042742a23318263edae1",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "X.Org",
+          "product": "xorg-server",
+          "packageName": "xorg-server",
+          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "21.1.24",
+              "versionType": "rpm"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "X.Org",
+          "product": "xwayland",
+          "packageName": "xwayland",
+          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "24.1.13",
+              "versionType": "rpm"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based buffer overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57239",
+      "publishedDate": "2026-07-08T07:36:33.186Z",
+      "lastModifiedDate": "2026-07-08T12:17:07.949Z",
+      "description": "The user-controllable executable files will be directly executed by high-privilege processes, allowing low-privilege users to have the opportunity to elevate their privileges to NT AUTHORITY\\SYSTEM.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Search Path Element (CWE‑427)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13126",
+      "publishedDate": "2026-07-08T07:36:37.927Z",
+      "lastModifiedDate": "2026-07-08T12:13:27.791Z",
+      "description": "The embedded JavaScript in the PDF deleted the pages, making the object invalid. The application attempted to perform a write operation on the invalid pop-up annotations, resulting in the program crashing.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13127",
+      "publishedDate": "2026-07-08T07:36:36.349Z",
+      "lastModifiedDate": "2026-07-08T12:13:59.482Z",
+      "description": "The application opens the PDF file. JavaScript then rewrites the document to modify the page structure, resulting in the invalidation of the page objects. However, the thumbnails still use the invalid page objects, ultimately causing the application to crash.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13128",
+      "publishedDate": "2026-07-08T07:36:34.775Z",
+      "lastModifiedDate": "2026-07-08T12:14:25.870Z",
+      "description": "Embedding JavaScript within a PDF file will cause the page to be deleted. Subsequent scripts will continue to access the relevant properties of the document view, eventually leading to the crash of the application.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57240",
+      "publishedDate": "2026-07-08T07:36:31.636Z",
+      "lastModifiedDate": "2026-07-08T12:20:15.388Z",
+      "description": "When the application opens a PDF file and JavaScript deletes the PDF fields, the subsequent logic still uses the old field pointers, resulting in invalid pointer references and causing the application to crash.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57246",
+      "publishedDate": "2026-07-08T07:36:20.437Z",
+      "lastModifiedDate": "2026-07-08T12:37:10.445Z",
+      "description": "When dealing with abnormally constructed objects, there is a lack of argument validation; JavaScript triggers signature verification, but the signature plugin does not perform validation when copying the abnormal string, causing the application to crash.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows",
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Buffer Copy without Checking Size of Input (CWE-120)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57248",
+      "publishedDate": "2026-07-08T07:36:18.835Z",
+      "lastModifiedDate": "2026-07-08T12:38:26.513Z",
+      "description": "When the application opens a PDF file and JavaScript writes annotation attributes, there is a lack of sufficient object type and argument checks. As a result, due to the damage to the internal structure of the annotations, it causes the application to crash during subsequent release.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-763 Release of invalid pointer or reference"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57249",
+      "publishedDate": "2026-07-08T07:36:17.227Z",
+      "lastModifiedDate": "2026-07-08T12:40:28.820Z",
+      "description": "After the application opened the PDF file, the script first reset the annotation status, then triggered the reset form event by additional action. During the re-entry process, the application access invalid objects and crashed.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57251",
+      "publishedDate": "2026-07-08T07:36:15.661Z",
+      "lastModifiedDate": "2026-07-08T12:41:07.653Z",
+      "description": "The application opens a PDF, but the cloud-like appearance of the construction process lacks proper setting of an upper limit and consistency checks. Out-of-bounds access to the underlying array is exposed, ultimately leading to a crash of the application.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-129 Improper validation of array index"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57252",
+      "publishedDate": "2026-07-08T07:36:12.539Z",
+      "lastModifiedDate": "2026-07-08T12:43:57.683Z",
+      "description": "When the application opens a PDF file, during the process of JavaScript deleting pages and removing attachment annotations, it will cause the attachment panel to continue accessing invalid pointers, eventually leading to the application crashing.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57256",
+      "publishedDate": "2026-07-08T07:35:59.810Z",
+      "lastModifiedDate": "2026-07-08T12:38:50.575Z",
+      "description": "When the application opens a PDF and executes JavaScript, it performs abnormal operations on the list box field, and this operation is repeated after the form is reset. During this process, the application failed to adequately verify the validity of the form objects and their internal dictionary pointers, resulting in accessing internal members of invalid or improperly initialized fields. This led to an illegal pointer read, ultimately causing the application to crash.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.3 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows",
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-5356",
+      "publishedDate": "2026-07-08T12:33:15.433Z",
+      "lastModifiedDate": "2026-07-08T12:33:15.433Z",
+      "description": "The LatePoint – Calendar Booking Plugin for Appointments and Events plugin for WordPress is vulnerable to Improper Input Validation in all versions up to, and including, 5.4.0. This is due to the plugin's Stripe Connect payment processor accepting a client-supplied PaymentIntent ID. This makes it possible for unauthenticated attackers to pay an arbitrary amount by supplying a previously succeeded PaymentIntent token.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1b1338c4-36a8-47b0-b3cf-c5dc690f8c1c?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3509569/latepoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "latepoint",
+          "product": "LatePoint – Calendar Booking Plugin for Appointments and Events",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "5.4.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-6820",
+      "publishedDate": "2026-07-08T12:33:17.186Z",
+      "lastModifiedDate": "2026-07-08T12:33:17.186Z",
+      "description": "The VikBooking Hotel Booking Engine & PMS plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'email' parameter in all versions up to, and including, 1.8.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 7.2,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e2b4586a-f87d-4a51-8f4e-932d7254518e?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/site/controller.php#L307",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/admin/controller.php#L11208",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "e4jvikwp",
+          "product": "VikBooking Hotel Booking Engine & PMS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.8.8",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-6280",
+      "publishedDate": "2026-07-08T08:45:18.361Z",
+      "lastModifiedDate": "2026-07-08T12:09:27.160Z",
+      "description": "Exposure of sensitive information due to incompatible policies vulnerability in NOMYSOFT Informatics Education and Consulting Inc. Nomysem allows Accessing Functionality Not Properly Constrained by ACLs.\n\nThis issue affects Nomysem: through 08072026. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0516",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NOMYSOFT Informatics Education and Consulting Inc.",
+          "product": "Nomysem",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-213 Exposure of sensitive information due to incompatible policies"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-6740",
+      "publishedDate": "2026-07-08T12:33:17.582Z",
+      "lastModifiedDate": "2026-07-08T12:33:17.582Z",
+      "description": "The Nexter Blocks – Gutenberg Blocks, Page Builder & AI Website Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'commentIcon' parameter in all versions up to, and including, 4.7.4 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f5184598-b0bd-4026-971c-da36d79497df?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3512686/the-plus-addons-for-block-editor/trunk/classes/blocks/tp-post-meta/index.php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "posimyththemes",
+          "product": "Nexter Blocks – Gutenberg Blocks, Page Builder & AI Website Builder",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.7.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-6459",
+      "publishedDate": "2026-07-08T12:33:16.005Z",
+      "lastModifiedDate": "2026-07-08T12:33:16.005Z",
+      "description": "The Essential Addons for Elementor – Popular Elementor Templates & Widgets plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the Event Calendar widget in all versions up to, and including, 6.6.2 due to insufficient input sanitization and output escaping on event titles sourced from The Events Calendar. This makes it possible for authenticated attackers, with Author-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5b3214a5-7044-4005-a200-c969d4487be2?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://research.cleantalk.org/cve-2026-6459",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3519453/essential-addons-for-elementor-lite",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpdevteam",
+          "product": "Essential Addons for Elementor – Popular Elementor Templates & Widgets",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "6.6.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-10570",
+      "publishedDate": "2026-07-08T05:34:10.677Z",
+      "lastModifiedDate": "2026-07-08T12:40:35.027Z",
+      "description": "The Sympl Repeater for ACF and Elementor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via ACF repeater field values in all versions up to, and including, 2.3. This is due to insufficient input sanitization and output escaping in the symp_arfe_replace_content() function, which uses str_replace() to substitute raw ACF field values (retrieved via get_field()) directly into Elementor-rendered HTML without any escaping. This makes it possible for authenticated attackers, with Author-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/daa38c2c-9992-400b-acef-dcd37f9c7269?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/acf-repeater-for-elementor/tags/2.3/sympl-repeater-for-acf-and-elementor.php#L179",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/acf-repeater-for-elementor/tags/2.3/sympl-repeater-for-acf-and-elementor.php#L99",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "idocoh",
+          "product": "Sympl Repeater for ACF and Elementor",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14250",
+      "publishedDate": "2026-07-08T11:30:33.205Z",
+      "lastModifiedDate": "2026-07-08T12:38:09.291Z",
+      "description": "The Themehunk Login Registration plugin for WordPress is vulnerable to privilege escalation in versions up to, and including, 1.0.2. This is due to the handle_frontend_register() function in the unauthenticated /thlogin/v1/register REST endpoint accepting a user-controlled 'role' parameter and validating it only against get_editable_roles() — which returns every defined editable site role, including 'editor' — before passing it to wp_insert_user(). This makes it possible for unauthenticated attackers, when public user registration is enabled, to create new accounts with the editor role.",
+      "severity": 6.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/8eee3809-133e-4fd9-ad49-cc6fe3822457?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L811",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L782",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L82",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/themehunk-login-registration/tags/1.0.2/includes/class-thlogin-rest-api.php#L243",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3592690%40themehunk-login-registration&new=3592690%40themehunk-login-registration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "themehunk",
+          "product": "TH Login Registration",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.0.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-8310",
+      "publishedDate": "2026-07-08T12:19:09.073Z",
+      "lastModifiedDate": "2026-07-08T12:19:09.073Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Webbeyaz Web Design Mediküm Web allows Reflected XSS.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Webbeyaz Web Design",
+          "product": "Mediküm Web",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57253",
+      "publishedDate": "2026-07-08T07:36:14.101Z",
+      "lastModifiedDate": "2026-07-08T12:43:06.097Z",
+      "description": "An abnormal image object causes the renderer to enter the wrong processing branch. When converting the scan lines, an invalid image buffer pointer is used, resulting in the application crashing.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-125 Out-of-bounds read"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57257",
+      "publishedDate": "2026-07-08T07:35:58.222Z",
+      "lastModifiedDate": "2026-07-08T12:39:33.187Z",
+      "description": "During the PRC parsing stage, there is a lack of boundary verification for the PRC entity index, which leads to an out-of-bounds read of the entity array. As a result, the application crashes.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.3 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.3 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows",
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-125 Out-of-bounds read"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-57258",
+      "publishedDate": "2026-07-08T07:35:56.660Z",
+      "lastModifiedDate": "2026-07-08T12:40:12.497Z",
+      "description": "The PRC file header parsing logic trusts the constructed file structure description information, assumes that the underlying array contains elements and reads them, leading to out-of-bounds reads and application crashes.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://www.foxit.com/support/security-bulletins.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.4 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.4 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Editor",
+          "platforms": [
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 14.0.3 and earlier"
+            },
+            {
+              "status": "affected",
+              "version": "Versions 13.2.3 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Foxit Software Inc.",
+          "product": "Foxit PDF Reader",
+          "platforms": [
+            "Windows",
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "Versions 2026.1.1 and earlier"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-125 Out-of-bounds read"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-8315",
+      "publishedDate": "2026-07-08T12:21:59.106Z",
+      "lastModifiedDate": "2026-07-08T12:21:59.106Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Webbeyaz Web Design Mediküm Web allows Stored XSS.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Webbeyaz Web Design",
+          "product": "Mediküm Web",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-5459",
+      "publishedDate": "2026-07-08T12:33:16.401Z",
+      "lastModifiedDate": "2026-07-08T12:33:16.401Z",
+      "description": "The User Frontend: AI Powered Frontend Posting, User Directory, Profile, Membership & User Registration plugin for WordPress is vulnerable to Insecure Direct Object Reference in all versions up to, and including, 4.3.1 via the payment_page() function due to missing validation on the 'user_id' user controlled key. This makes it possible for unauthenticated attackers to activate a free subscription pack for any user on the site, overwriting their existing paid subscription and causing loss of paid features.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a02d9a01-1104-4935-8074-af4367c66278?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3514258/wp-user-frontend",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wedevs",
+          "product": "User Frontend: AI Powered Frontend Posting, User Directory, Profile Builder, Membership & User Registration",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.3.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-12002",
+      "publishedDate": "2026-07-08T12:33:16.785Z",
+      "lastModifiedDate": "2026-07-08T12:33:16.785Z",
+      "description": "The Smash Balloon Social Photo Feed – Easy Social Feeds Plugin plugin for WordPress is vulnerable to Cross-Site Request Forgery in all versions up to, and including, 6.11.1. This is due to missing or incorrect nonce validation on the maybe_connection_data function. This makes it possible for unauthenticated attackers to overwrite the site's Instagram and Facebook oEmbed access tokens via a forged request granted they can trick a site administrator into performing an action such as clicking on a link.",
+      "severity": 4.7,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/abe6366a-3729-474f-8920-b5ed2eeab906?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3575933/instagram-feed/trunk/admin/SBI_oEmbeds.php?old=3289310&old_path=instagram-feed%2Ftrunk%2Fadmin%2FSBI_oEmbeds.php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "smub",
+          "product": "Smash Balloon Social Photo Feed – Easy Social Feeds Plugin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "6.11.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-352 Cross-Site Request Forgery (CSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14454",
+      "publishedDate": "2026-07-08T12:30:20.230Z",
+      "lastModifiedDate": "2026-07-08T12:30:20.230Z",
+      "description": "Imager versions before 1.033 for Perl treat unsigned EXIF IFD entry counts as signed.\n\nImager mishandled large EXIF IFD entry count values, treating them as negative numbers.  This could lead to an attempt to allocate a block nearly the size of the address space, which fails and kills the process.\n\nAn attacker could craft an image with EXIF data that terminates a worker process.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://metacpan.org/release/TONYC/Imager-1.033/changes",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/tonycoz/imager/commit/06f01a5d0fd591259aeba589370d6888384a6b6d.patch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "Imager",
+          "product": "Imager",
+          "programFiles": [
+            "imexif.c"
+          ],
+          "programRoutines": [
+            {
+              "name": "tiff_load_ifd"
+            }
+          ],
+          "repo": "https://github.com/tonycoz/imager",
+          "vendor": "TONYC",
+          "versions": [
+            {
+              "lessThan": "1.033",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-196 Unsigned to Signed Conversion Error",
+        "CWE-789 Memory Allocation with Excessive Size Value"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56000",
+      "publishedDate": "2026-07-08T07:36:15.357Z",
+      "lastModifiedDate": "2026-07-08T12:42:16.061Z",
+      "description": "Local attackers with a X connection able to provide GLX commit to the X server xorg-server before 21.2.24 and xwayland before 24.1.13 could cause a Heap Use After Free, due to CommonMakeCurrent() pointing into potentially reallocated memory.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://gitlab.freedesktop.org/xorg/xserver/-/commit/2779affbdb4354e894f490e56f962527d6125043",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/07/08/2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "X.Org",
+          "product": "xorg-x11-server",
+          "packageName": "xorg-x11-server",
+          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "21.1.24",
+              "versionType": "rpm"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "X.Org",
+          "product": "xwayland",
+          "packageName": "xwayland",
+          "repo": "https://gitlab.freedesktop.org/xorg/xserver/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "24.1.13",
+              "versionType": "rpmver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
