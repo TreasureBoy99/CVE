@@ -2,261 +2,755 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 9,
-    "last_updated": "2026-07-08T17:06:34.161545",
+    "total_count": 33,
+    "last_updated": "2026-07-08T18:43:17.217621",
     "severity_distribution": {
-      "critical": 0,
-      "high": 4,
-      "medium": 4,
-      "low": 0,
-      "none": 1
+      "critical": 4,
+      "high": 6,
+      "medium": 17,
+      "low": 1,
+      "none": 5
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-60102",
-      "publishedDate": "2026-07-08T16:25:19.153Z",
-      "lastModifiedDate": "2026-07-08T16:25:19.153Z",
-      "description": "Horde Virtual File System (VFS) API before 3.0.1 contains an OS command injection vulnerability in the Horde_Vfs_Smb driver where the _escapeShellCommand() method fails to sanitize command substitution sequences, allowing authenticated attackers to inject arbitrary shell commands through user-controlled filenames. Attackers can supply malicious filenames containing unescaped command substitution payloads through operations such as file upload, folder creation, rename, or deletion, which are interpolated into a double-quoted shell context and executed via proc_open() through /bin/sh -c before smbclient runs, resulting in arbitrary command execution on the underlying system.",
-      "severity": 8.8,
+      "id": "CVE-2026-8307",
+      "publishedDate": "2026-07-08T12:14:08.005Z",
+      "lastModifiedDate": "2026-07-08T17:09:39.953Z",
+      "description": "Improper neutralization of special elements used in an SQL command ('SQL injection') vulnerability in Webbeyaz Web Design Mediküm Web allows SQL Injection.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "severity": 9.8,
       "references": [
         {
-          "url": "https://github.com/horde/Vfs/releases/tag/v3.0.1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/horde/Vfs/pull/10",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/horde/Vfs/commit/41f74b4acfc144e09013d04dd121e0a5da808361",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/horde-vfs-os-command-injection-via-horde-vfs-smb-driver",
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "vendor": "horde",
-          "product": "Vfs",
-          "repo": "https://github.com/horde/Vfs",
+          "vendor": "Webbeyaz Web Design",
+          "product": "Mediküm Web",
           "versions": [
             {
               "status": "affected",
               "version": "0",
-              "versionType": "semver",
-              "lessThan": "3.0.1"
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper neutralization of special elements used in an SQL command ('SQL injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-12153",
+      "publishedDate": "2026-07-08T05:34:09.230Z",
+      "lastModifiedDate": "2026-07-08T17:10:10.951Z",
+      "description": "The WP Learn Manager plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.1.8. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to install and activate arbitrary plugins from the WordPress.org repository on the vulnerable site.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/8cbf5121-2511-4e21-a346-67fa1e34fc02?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learn-manager/tags/1.1.8/modules/jslearnmanager/model.php#L879",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learn-manager/tags/1.1.8/modules/jslearnmanager/model.php#L920",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learn-manager/tags/1.1.8/includes/ajax.php#L15",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learn-manager/tags/1.1.8/includes/ajax.php#L8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "rabilal",
+          "product": "WP Learn Manager",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.1.8",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-9701",
+      "publishedDate": "2026-07-08T04:30:50.562Z",
+      "lastModifiedDate": "2026-07-08T17:10:20.940Z",
+      "description": "The Eventer plugin for WordPress is vulnerable to an insecure password reset mechanism in all versions up to, and including, 4.4.2. The plugin stores a plaintext copy of the password reset key in the `eventer_verification_code` user meta field when a user requests a password reset. The plaintext key stored in `wp_usermeta` can be used with the plugin's custom reset action to set a new password for any user. Combined with another vulnerability such as SQL Injection (CVE-2026-9700), this makes it possible for unauthenticated attackers to extract the plaintext reset key and take over any user account, including administrators. Note: The password reset function only works up to PHP version 7.4.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/bc656765-1eac-4a96-99e9-c22d64984923?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://codecanyon.net/item/eventer-wordpress-event-manager-plugin/20972534",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "joe007",
+          "product": "Eventer",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.4.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-289 Authentication Bypass by Alternate Name"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14345",
+      "publishedDate": "2026-07-07T05:34:19.628Z",
+      "lastModifiedDate": "2026-07-08T17:11:20.954Z",
+      "description": "The WPFunnels – Funnel Builder for WooCommerce with Checkout & One Click Upsell plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 3.12.7 via the 'postData' parameter parameter. This is due to unsanitized write of attacker-controlled postData values into a PHP-includeable .log file combined with the use of include_once to render that file in wpfnl_show_log. This makes it possible for unauthenticated attackers to execute code on the server. Exploitation requires that the Log Settings \"Enable Logs\" toggle is on and that an administrator subsequently opens the polluted log file via the plugin's Log Settings View UI; however, the nonce required to reach the optin endpoint is publicly emitted on every funnel step page, so the injection step itself is fully unauthenticated.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5d84d749-0ab5-49dd-8e4f-45681f197742?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.7/admin/modules/settings/class-wpfnl-settings.php#L709",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.7/public/class-wpfnl-public.php#L1185",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.7/includes/core/classes/class-wpfnl-ajax-handler.php#L523",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.7/includes/core/classes/class-wpfnl-ajax-handler.php#L39",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.5/admin/modules/settings/class-wpfnl-settings.php#L709",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.5/public/class-wpfnl-public.php#L1185",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.5/includes/core/classes/class-wpfnl-ajax-handler.php#L523",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wpfunnels/tags/3.12.5/includes/core/classes/class-wpfnl-ajax-handler.php#L39",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3597260/wpfunnels/trunk/admin/modules/settings/class-wpfnl-settings.php",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Fwpfunnels/tags/3.12.7&new_path=%2Fwpfunnels/tags/3.12.8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getwpfunnels",
+          "product": "WPFunnels – Funnel Builder for WooCommerce with Checkout & One Click Upsell",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.12.7",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59707",
+      "publishedDate": "2026-07-07T20:37:53.194Z",
+      "lastModifiedDate": "2026-07-08T17:10:50.946Z",
+      "description": "LocalAI contains an unauthenticated server-side request forgery vulnerability in the POST /models/apply endpoint that allows attackers to fetch arbitrary internal URLs. The endpoint passes unsanitized gallery URL fields directly to gallery.GetGalleryConfigFromURLWithContext without proper validation, enabling attackers to force the server to issue HTTP GET requests to private and loopback ranges with partial response content leaked through error messages.",
+      "severity": 8.6,
+      "references": [
+        {
+          "url": "https://github.com/mudler/LocalAI/issues/10665",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mudler/LocalAI",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mudler/LocalAI/commit/f9b968e19d7cbc556d59dceb2e0e450b828a3fda",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/localai-server-side-request-forgery-via-post-models-apply",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "LocalAI",
+          "product": "LocalAI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/mudler/LocalAI",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThanOrEqual": "v4.3.1"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        "Server-Side Request Forgery (SSRF)"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-59731",
-      "publishedDate": "2026-07-08T16:27:18.496Z",
-      "lastModifiedDate": "2026-07-08T16:27:18.496Z",
-      "description": "Astro is a web framework for content-driven websites. Version 6.4.7 performs authorization decisions on a partially decoded pathname after reaching the iterative URL decoder limit, while later rewrite route matching performs an additional decodeURI() operation and can resolve the request to a protected route. This issue is fixed in version 6.4.8.",
-      "severity": 8.2,
+      "id": "CVE-2026-55874",
+      "publishedDate": "2026-07-08T14:43:40.155Z",
+      "lastModifiedDate": "2026-07-08T17:01:02.948Z",
+      "description": "SeaweedFS is a distributed storage system. Prior to 4.34, the S3 API gateway does not reject dot-dot path segments in the X-Amz-Copy-Source header used by CopyObject and UploadPartCopy, allowing an authenticated identity scoped to one bucket to read objects from other buckets through server-side copy. This issue is fixed in version 4.34.",
+      "severity": 7.7,
       "references": [
         {
-          "url": "https://github.com/withastro/astro/security/advisories/GHSA-vj59-8hwv-xxmv",
+          "url": "https://github.com/seaweedfs/seaweedfs/security/advisories/GHSA-56wq-x3wv-3ff4",
           "type": "reference"
         },
         {
-          "url": "https://github.com/withastro/astro/pull/17109",
+          "url": "https://github.com/seaweedfs/seaweedfs/pull/9929",
           "type": "reference"
         },
         {
-          "url": "https://github.com/withastro/astro/commit/27c80ea92248993e5fce94b2c26d87d611ab6785",
+          "url": "https://github.com/seaweedfs/seaweedfs/commit/b44cf51fe931bd75aa4d37ae766bea90d7f85ccd",
           "type": "reference"
         },
         {
-          "url": "https://github.com/withastro/astro/releases/tag/astro@6.4.8",
+          "url": "https://github.com/seaweedfs/seaweedfs/releases/tag/4.34",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "withastro",
-          "product": "astro",
+          "vendor": "seaweedfs",
+          "product": "seaweedfs",
           "versions": [
             {
-              "version": ">= 6.4.7, < 6.4.8",
+              "version": "< 4.34",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-647: Use of Non-Canonical URL Paths for Authorization Decisions"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-29009",
-      "publishedDate": "2026-07-08T16:16:04.460Z",
-      "lastModifiedDate": "2026-07-08T16:39:41.178Z",
-      "description": "U-Boot through 2026.04-rc3 contains a buffer overflow vulnerability in nfs_readlink_reply() (net/nfs-common.c) when CONFIG_CMD_NFS is enabled, allowing a malicious or compromised NFS server to overflow the 2048-byte nfs_path_buff buffer by returning multiple relative symlink targets that are appended without cumulative length validation. Attackers can send two or more READLINK responses containing relative symlink targets of approximately 1100 bytes each to corrupt adjacent BSS variables including nfs_server_ip, nfs_server_mount_port, nfs_server_port, nfs_our_port, nfs_state, and rpc_id, potentially achieving memory corruption and control over the NFS client state machine.",
-      "severity": 8.2,
+      "id": "CVE-2026-59725",
+      "publishedDate": "2026-07-08T15:37:52.293Z",
+      "lastModifiedDate": "2026-07-08T17:00:32.946Z",
+      "description": "Socket.IO enables bidirectional and low-latency communication for every platform. From 4.1.0 before 6.6.7, Engine.IO protocol v4 polling transport does not properly close the HTTP response for invalid binary POST requests with Content-Type: application/octet-stream, allowing an unauthenticated attacker to exhaust server-side connections and sockets. This issue is fixed in version 6.6.7.",
+      "severity": 7.5,
       "references": [
         {
-          "url": "https://lists.denx.de/pipermail/u-boot/2026-May/617853.html",
+          "url": "https://github.com/socketio/socket.io/security/advisories/GHSA-r635-g3xr-vw7x",
           "type": "reference"
         },
         {
-          "url": "https://u-boot.org/",
+          "url": "https://github.com/socketio/socket.io/commit/fc11285e14964c2132d122164bf130c355f60671",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/u-boot-rc3-buffer-overflow-in-nfs-readlink-reply-via-nfs-readlink",
+          "url": "https://github.com/socketio/socket.io/releases/tag/engine.io@6.6.7",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "vendor": "u-boot",
-          "product": "u-boot",
-          "repo": "https://github.com/u-boot/u-boot",
+          "vendor": "socketio",
+          "product": "socket.io",
           "versions": [
+            {
+              "version": ">= 4.1.0, < 6.6.7",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-404: Improper Resource Shutdown or Release"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59703",
+      "publishedDate": "2026-07-08T14:55:33.342Z",
+      "lastModifiedDate": "2026-07-08T17:00:52.946Z",
+      "description": "repomix contains a local file inclusion vulnerability in the git clone endpoint that allows unauthenticated attackers to read arbitrary local git repositories. The isValidRemoteValue function in src/core/git/gitRemoteParse.ts fails to block file:// URLs, permitting attackers to supply file:// scheme URLs that bypass validation and are passed directly to git clone, enabling unauthorized access to all tracked file contents on the server filesystem.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/yamadashy/repomix/issues/1704",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamadashy/repomix",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/CrazyForks/repomix/commit/c748b524f41225e7fc6f89ad0084520901a453cf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/repomix-local-file-inclusion-via-file-url-scheme-in-git-clone-endpoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "repomix",
+          "product": "repomix",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:npm/repomix",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "1.14.1"
+            },
             {
               "status": "affected",
               "version": "0",
               "versionType": "custom",
-              "lessThanOrEqual": "2026.04-rc3"
+              "lessThanOrEqual": "c748b52"
             }
           ]
         }
       ],
       "problemType": [
-        "Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
+        "Files or Directories Accessible to External Parties"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-59928",
-      "publishedDate": "2026-07-08T16:23:21.000Z",
-      "lastModifiedDate": "2026-07-08T16:23:21.000Z",
-      "description": "Mistune is a Python Markdown parser with renderers and plugins. Prior to 3.3.0, a Markdown document containing many repeated or distinct reference-link definitions causes quadratic work in src/mistune/block_parser.py and the ref_links environment dictionary handling, allowing denial of service through CPU exhaustion. This issue is fixed in version 3.3.0.",
-      "severity": 7.5,
+      "id": "CVE-2026-6818",
+      "publishedDate": "2026-07-08T11:30:31.756Z",
+      "lastModifiedDate": "2026-07-08T17:09:59.950Z",
+      "description": "The VikBooking Hotel Booking Engine & PMS plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'special_requests' parameter in all versions up to, and including, 1.8.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 7.2,
       "references": [
         {
-          "url": "https://github.com/lepture/mistune/security/advisories/GHSA-ffq3-xpv3-j92q",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/13a96e78-c83c-4ff1-a751-3dbaeb683d9d?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lepture/mistune/commit/2b04d7ba341c16ac78fe82d3076bdd5c3de87c69",
+          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/admin/helpers/widgets/booking_details.php#L684",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lepture/mistune/releases/tag/v3.3.0",
+          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/admin/views/editorder/tmpl/default.php#L2717",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/vikbooking/tags/1.8.9/admin/views/orders/tmpl/default.php#L769",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "lepture",
-          "product": "mistune",
+          "vendor": "e4jvikwp",
+          "product": "VikBooking Hotel Booking Engine & PMS",
           "versions": [
             {
-              "version": "< 3.3.0",
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.8.8",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59261",
+      "publishedDate": "2026-07-08T16:01:14.371Z",
+      "lastModifiedDate": "2026-07-08T17:00:01.941Z",
+      "description": "OpenClaw before 2026.5.28 contains a credential exposure vulnerability where workspace dotenv files can override provider credentials. Attackers with lower-trust access to configured input paths can expose sensitive data and credentials that should remain within trusted boundaries.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-4pqj-3c56-5fqq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-credential-override-via-workspace-dotenv-files",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.28"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incomplete List of Disallowed Inputs"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59896",
+      "publishedDate": "2026-07-08T16:08:07.975Z",
+      "lastModifiedDate": "2026-07-08T16:59:09.169Z",
+      "description": "Hono is a Web application framework that provides support for any JavaScript runtime. From 4.11.8 before 4.12.27, hono/jsx did not isolate context values per request during server-side rendering, allowing createContext, useContext, jsxRenderer, or useRequestContext data from a different in-flight request to be used after an await in an async component. This issue is fixed in version 4.12.27.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/honojs/hono/security/advisories/GHSA-hvrm-45r6-mjfj",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/honojs/hono/commit/fab3b13639339cbd5ba1166a5b23d9ac30c5f64f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/honojs/hono/releases/tag/v4.12.27",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "honojs",
+          "product": "hono",
+          "versions": [
+            {
+              "version": ">= 4.11.8, < 4.12.27",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-407: Inefficient Algorithmic Complexity",
-        "CWE-1333: Inefficient Regular Expression Complexity"
+        "CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-59923",
-      "publishedDate": "2026-07-08T16:14:39.266Z",
-      "lastModifiedDate": "2026-07-08T16:41:52.111Z",
-      "description": "Mistune is a Python Markdown parser with renderers and plugins. Prior to 3.3.0, HTMLRenderer.safe_url() does not block percent-encoded javascript URIs, allowing attacker-supplied Markdown links or images to bypass URL protections and execute script in rendered HTML. This issue is fixed in version 3.3.0.",
+      "id": "CVE-2026-56220",
+      "publishedDate": "2026-07-08T13:48:55.633Z",
+      "lastModifiedDate": "2026-07-08T17:08:48.937Z",
+      "description": "Capgo before 12.128.2 contains an authorization bypass vulnerability in the public.manifest INSERT policy that allows read-only org members to insert OTA manifest rows. Attackers with read-only org access can inject malicious manifest entries with arbitrary s3_path values that are served to devices via the unauthenticated /updates endpoint, enabling OTA metadata poisoning and potential malicious asset delivery.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-vmgg-crr8-887p",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/capgo-unauthorized-manifest-insertion-via-read-only-org-member",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Capgo",
+          "product": "Capgo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-6740",
+      "publishedDate": "2026-07-08T12:33:17.582Z",
+      "lastModifiedDate": "2026-07-08T17:09:09.937Z",
+      "description": "The Nexter Blocks – Gutenberg Blocks, Page Builder & AI Website Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'commentIcon' parameter in all versions up to, and including, 4.7.4 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f5184598-b0bd-4026-971c-da36d79497df?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3512686/the-plus-addons-for-block-editor/trunk/classes/blocks/tp-post-meta/index.php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "posimyththemes",
+          "product": "Nexter Blocks – Gutenberg Blocks, Page Builder & AI Website Builder",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.7.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2025-14785",
+      "publishedDate": "2026-07-08T11:30:34.021Z",
+      "lastModifiedDate": "2026-07-08T17:09:49.942Z",
+      "description": "The Website Builder by SeedProd - Theme Builder, Landing Page Builder, Coming Soon Page, Maintenance Mode plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's `seedprodnestedmenuwidget` shortcode in all versions up to, and including, 6.20.2 due to insufficient input sanitization and output escaping on user supplied attributes. This makes it possible for authenticated attackers, with contributor level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/ba751f98-f86c-451b-8a12-a2e9e76768e5?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3565979/coming-soon/trunk/app/nestednavmenu.php?old=3422960&old_path=coming-soon%2Ftrunk%2Fapp%2Fnestednavmenu.php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "seedprod",
+          "product": "Website Builder by SeedProd — Theme Builder, Landing Page Builder, Coming Soon Page, Maintenance Mode",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "6.20.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15033",
+      "publishedDate": "2026-07-08T13:15:07.664Z",
+      "lastModifiedDate": "2026-07-08T17:08:58.946Z",
+      "description": "A flaw has been found in christopherthielen check-peer-dependencies up to 4.3.4. Affected by this vulnerability is the function shelljs.exec of the file dist/packageUtils.js of the component peerDependencies. This manipulation causes os command injection. The attack may be initiated remotely. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 6.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/376784",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/376784/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15033",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/850875",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/christopherthielen/check-peer-dependencies/issues/74",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/christopherthielen/check-peer-dependencies/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "christopherthielen",
+          "product": "check-peer-dependencies",
+          "versions": [
+            {
+              "version": "4.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "4.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "4.3.2",
+              "status": "affected"
+            },
+            {
+              "version": "4.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "4.3.4",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:christopherthielen:check-peer-dependencies:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "peerDependencies"
+          ]
+        }
+      ],
+      "problemType": [
+        "OS Command Injection",
+        "Command Injection"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-8310",
+      "publishedDate": "2026-07-08T12:19:09.073Z",
+      "lastModifiedDate": "2026-07-08T17:09:29.954Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Webbeyaz Web Design Mediküm Web allows Reflected XSS.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
       "severity": 6.1,
       "references": [
         {
-          "url": "https://github.com/lepture/mistune/security/advisories/GHSA-8c25-4j27-2rv3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lepture/mistune/commit/c7101fcbb6e8790e8e39157c5ca2238fc6dd6cbc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lepture/mistune/releases/tag/v3.3.0",
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "lepture",
-          "product": "mistune",
+          "vendor": "Webbeyaz Web Design",
+          "product": "Mediküm Web",
           "versions": [
             {
-              "version": "< 3.3.0",
-              "status": "affected"
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
             }
-          ]
+          ],
+          "defaultStatus": "unknown"
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-59890",
-      "publishedDate": "2026-07-08T16:02:07.519Z",
-      "lastModifiedDate": "2026-07-08T16:44:52.269Z",
-      "description": "setuptools is a package that allows users to download, build, install, upgrade, and uninstall Python packages. Prior to 83.0.0, FileList applied MANIFEST.in exclude, global-exclude, recursive-exclude, and prune directives by matching compiled glob patterns against on-disk file names without Unicode normalization, so on macOS APFS or HFS+ an NFD file name could bypass an NFC exclusion rule and be packed into a source distribution. This issue is fixed in version 83.0.0.",
+      "id": "CVE-2026-50813",
+      "publishedDate": "2026-07-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T17:23:19.786Z",
+      "description": "An issue in SQLite before Fossil check-in 869a51ae84df allows a local attacker to obtain sensitive information via the Session Extension changeset concat/changegroup merge path",
       "severity": 6.1,
       "references": [
         {
-          "url": "https://github.com/pypa/setuptools/security/advisories/GHSA-h35f-9h28-mq5c",
+          "url": "https://sqlite.org/src/info/869a51ae84df",
           "type": "reference"
         },
         {
-          "url": "https://github.com/pypa/setuptools/commit/dd9f436a36486b4cb8a4c70a2321548b0be09b8f",
+          "url": "https://github.com/sqlite/sqlite/commit/c597ed79d1bd03f57198d10d1f431adda293cf2e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/pypa/setuptools/releases/tag/v83.0.0",
+          "url": "https://gist.github.com/junius-sec/f8acb66bafb80134c8e1a1c8c7c9f4f4",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "pypa",
-          "product": "setuptools",
+          "vendor": "n/a",
+          "product": "n/a",
           "versions": [
             {
-              "version": "< 83.0.0",
+              "version": "n/a",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-176: Improper Handling of Unicode Encoding",
-        "CWE-697: Incorrect Comparison"
+        "n/a"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
       "id": "CVE-2026-59924",
       "publishedDate": "2026-07-08T16:22:11.116Z",
-      "lastModifiedDate": "2026-07-08T16:22:11.116Z",
+      "lastModifiedDate": "2026-07-08T17:10:47.834Z",
       "description": "Mistune is a Python Markdown parser with renderers and plugins. Prior to 3.3.0, Include.parse() joins and normalizes user-supplied include paths without verifying that the result remains within the intended markdown directory, allowing crafted include paths to access files outside that directory when markdown files are processed using md.read(). This issue is fixed in version 3.3.0.",
       "severity": 5.9,
       "references": [
@@ -291,72 +785,668 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-59927",
-      "publishedDate": "2026-07-08T16:24:37.985Z",
-      "lastModifiedDate": "2026-07-08T16:24:37.985Z",
-      "description": "Mistune is a Python Markdown parser with renderers and plugins. Prior to 3.3.0, the Include directive in src/mistune/directives/include.py detects only direct self-includes and not indirect cycles, allowing two markdown files that include each other to trigger unbounded recursion, raise RecursionError, and crash the rendering request. This issue is fixed in version 3.3.0.",
-      "severity": 5.3,
+      "id": "CVE-2026-55438",
+      "publishedDate": "2026-07-08T00:31:20.573Z",
+      "lastModifiedDate": "2026-07-08T17:10:30.943Z",
+      "description": "Coder allows organizations to provision remote development environments via Terraform. Prior to versions 2.29.17, 2.32.7, 2.33.8, and 2.34.2, Coder's subdomain-based workspace app proxy allowed the same-owner CORS check to be bypassed. When a workspace-name subdomain segment parsed as a UUID, the workspace was resolved by ID without confirming the URL's username matched the real owner, while the CORS middleware trusted the unverified username in the hostname. Practical exploitation requires subdomain app routing (wildcard hostname) enabled and a victim who visits the attacker's crafted app URL while authenticated. The fix in versions 2.29.17, 2.32.7, 2.33.8, and 2.34.2 validates the subdomain username against the resolved workspace's actual owner and bases the same-owner CORS decision on the authoritative owner identity. No known workarounds are available.",
+      "severity": 5.8,
       "references": [
         {
-          "url": "https://github.com/lepture/mistune/security/advisories/GHSA-8mpj-m6qm-5qr8",
+          "url": "https://github.com/coder/coder/security/advisories/GHSA-5wg6-jmq2-53pw",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lepture/mistune/commit/1bef343ade163fc3bb95572b15be720084cdb993",
+          "url": "https://github.com/coder/coder/pull/26085",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lepture/mistune/releases/tag/v3.3.0",
+          "url": "https://github.com/coder/coder/pull/26086",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.29.17",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.32.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.33.8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.34.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "lepture",
-          "product": "mistune",
+          "vendor": "coder",
+          "product": "coder",
           "versions": [
             {
-              "version": "< 3.3.0",
+              "version": ">= 2.34.0, < 2.34.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.33.0, < 2.33.8",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.30.0, < 2.32.7",
+              "status": "affected"
+            },
+            {
+              "version": "< 2.29.17",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-674: Uncontrolled Recursion",
-        "CWE-755: Improper Handling of Exceptional Conditions"
+        "CWE-346: Origin Validation Error"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2025-3110",
-      "publishedDate": "2026-07-08T16:19:38.337Z",
-      "lastModifiedDate": "2026-07-08T16:30:47.077Z",
-      "description": "OpenVPN Access Server 2.7.2 through 3.1.0 accepts bare line-feed sequences inside HTTP header values, allowing remote attackers to perform HTTP request smuggling when deployed behind a reverse proxy",
-      "severity": "N/A",
+      "id": "CVE-2026-55430",
+      "publishedDate": "2026-07-08T00:03:29.728Z",
+      "lastModifiedDate": "2026-07-08T17:10:40.949Z",
+      "description": "Coder allows organizations to provision remote development environments via Terraform. Prior to versions 2.29.7, 2.32.7, 2.33.8, and 2.34.2, the workspace app proxy resolves the target app from `httpapi.RequestHost()` which prefers the `X-Forwarded-Host` header over the real `Host` header. No middleware strips `X-Forwarded-Host` before routing and the header is not browser-forbidden so client-side JavaScript can set it on `fetch()` calls. Practical exploitation requires subdomain app routing (wildcard hostname) enabled, a victim who visits the attacker's shared app and a deployment whose upstream proxy does not strip `X-Forwarded-Host`. The fix in versions 2.29.7, 2.32.7, 2.33.8, and 2.34.2 trusts `X-Forwarded-Host` only from configured trusted proxies and otherwise resolves the routing host from the verified request host. As a workaround, place an upstream reverse proxy that strips or overwrites `X-Forwarded-Host` on untrusted requests.",
+      "severity": 5.8,
       "references": [
         {
-          "url": "https://openvpn.net/as-docs/as-3-2-release-notes.html",
+          "url": "https://github.com/coder/coder/security/advisories/GHSA-5g4w-3vw9-478w",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/pull/26204",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.29.17",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.32.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.33.8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/coder/coder/releases/tag/v2.34.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "OpenVPN",
-          "product": "Access Server",
+          "vendor": "coder",
+          "product": "coder",
           "versions": [
             {
-              "status": "affected",
-              "version": "2.7.2",
-              "lessThanOrEqual": "3.1.0",
-              "versionType": "semver"
+              "version": ">= 2.34.0, < 2.34.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.33.0, < 2.33.8",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.30.0, < 2.32.7",
+              "status": "affected"
+            },
+            {
+              "version": "< 2.29.17",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-444 Inconsistent interpretation of HTTP requests ('HTTP Request/Response smuggling')"
+        "CWE-345: Insufficient Verification of Data Authenticity",
+        "CWE-441: Unintended Proxy or Intermediary ('Confused Deputy')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58468",
+      "publishedDate": "2026-07-07T19:27:58.922Z",
+      "lastModifiedDate": "2026-07-08T17:11:00.937Z",
+      "description": "NocoBase through 2.1.20 contains a server-side request forgery vulnerability in the serverRequest wrapper that allows authenticated administrators to issue arbitrary outbound HTTP requests by supplying malicious URLs to workflow request nodes, custom request action buttons, or the AI plugin. Attackers can target loopback addresses, RFC-1918 private ranges, and cloud instance metadata endpoints to perform internal network port enumeration, host discovery, and retrieval of IAM role credentials from the instance metadata service. v2.1.18 added a warning message for when SERVER_REQUEST_WHITELIST is not configured.",
+      "severity": 5.5,
+      "references": [
+        {
+          "url": "https://github.com/nocobase/nocobase/issues/9962",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/nocobase/nocobase/pull/9966",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nocobase/nocobase/commit/5706fb48d9bbe190f9e0044c6d5c87fc5b68c7f1",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/nocobase-server-side-request-forgery-via-serverrequest-wrapper",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "nocobase",
+          "product": "nocobase",
+          "repo": "https://github.com/nocobase/nocobase",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.1.20"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-8315",
+      "publishedDate": "2026-07-08T12:21:59.106Z",
+      "lastModifiedDate": "2026-07-08T17:09:20.183Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Webbeyaz Web Design Mediküm Web allows Stored XSS.\n\nThis issue affects Mediküm Web: through 08072026. NOTE: The vendor was contacted and it was learned that the product is not supported.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0518",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Webbeyaz Web Design",
+          "product": "Mediküm Web",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "08072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56284",
+      "publishedDate": "2026-07-08T13:48:59.885Z",
+      "lastModifiedDate": "2026-07-08T17:08:38.955Z",
+      "description": "Capgo (Cap-go/capgo) before 12.128.2 contains an information disclosure vulnerability in the Supabase PostgREST RPC function public.get_total_metrics(org_id), which is callable by the anon role using only the public sb_publishable_* key. An unauthenticated attacker can probe organization existence and leak sensitive usage metrics including MAU, bandwidth, and install counts by sending POST requests to /rest/v1/rpc/get_total_metrics with valid organization UUIDs.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://github.com/Cap-go/capgo/security/advisories/GHSA-h5jf-xgvh-hgjw",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/capgo-unauthenticated-metrics-disclosure-via-get-total-metrics-rpc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cap-go",
+          "product": "capgo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "12.128.2"
+            },
+            {
+              "version": "12.128.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14362",
+      "publishedDate": "2026-07-08T17:14:18.218Z",
+      "lastModifiedDate": "2026-07-08T17:14:18.218Z",
+      "description": "HashiCorp memberlist before version 0.6.0 is vulnerable to a denial-of-service issue in its push/pull state handling that may allow an attacker with network access to the gossip port to exhaust memory on a receiving node and cause the process to terminate. This vulnerability (CVE-2026-14362) is fixed in memberlist 0.6.0.",
+      "severity": 4.9,
+      "references": [
+        {
+          "url": "https://discuss.hashicorp.com/t/hcsec-2026-18-memberlist-vulnerable-to-denial-of-service-via-gossip-message/77556",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "64 bit",
+            "32 bit",
+            "x86",
+            "ARM",
+            "MacOS",
+            "Windows",
+            "Linux"
+          ],
+          "product": "Shared library",
+          "repo": "https://github.com/hashicorp/memberlist",
+          "vendor": "HashiCorp",
+          "versions": [
+            {
+              "lessThan": "0.6.0",
+              "status": "affected",
+              "version": "0.1.5",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58654",
+      "publishedDate": "2026-07-08T13:49:08.711Z",
+      "lastModifiedDate": "2026-07-08T17:05:11.960Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) 1.0.0 contains an unrestricted file upload vulnerability in the avatar upload endpoint (/api/v1/users/user/avatar). The endpoint validates only the client-declared MIME type (getClientMediaType) beginning with 'image/' and does not inspect the actual file content or restrict the resulting extension, allowing an authenticated user to store arbitrary content — including PHP code, SVG with embedded JavaScript, and polyglot payloads — under user/accounts/avatars/ with predictable filenames. Direct HTTP access to the stored files is blocked by .htaccess (returns 403), but the files persist on disk and could lead to remote code execution or stored XSS in the presence of a path traversal flaw or server misconfiguration. Fixed in 1.0.1.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-xc64-vh46-vph6",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-arbitrary-file-upload-via-avatar-endpoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Grav",
+          "product": "Grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.1"
+            },
+            {
+              "version": "1.0.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Unrestricted Upload of File with Dangerous Type"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59709",
+      "publishedDate": "2026-07-07T14:12:23.972Z",
+      "lastModifiedDate": "2026-07-08T17:11:10.952Z",
+      "description": "Ghostfolio's PUT /api/v1/portfolio/holding/:dataSource/:symbol/tags endpoint fails to verify Access.permissions field when processing the Impersonation-Id header, allowing read-only access grantees to modify portfolio holding tags. Attackers with valid read-only share tokens can assign or remove tags on victim holdings, corrupting portfolio categorization and reports.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/ghostfolio/ghostfolio/issues/7196",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ghostfolio/ghostfolio",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ghostfolio/ghostfolio/commit/697ef59e3b58bebc5c21a9e482e4f5643390f316",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ghostfolio-unauthorized-portfolio-holding-tag-modification-via-missing-permission-check",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Ghostfolio",
+          "product": "Ghostfolio",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/ghostfolio",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "git",
+              "lessThanOrEqual": "3.6.0"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "git",
+              "lessThan": "697ef59"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59882",
+      "publishedDate": "2026-07-08T15:50:03.077Z",
+      "lastModifiedDate": "2026-07-08T17:00:22.945Z",
+      "description": "guzzlehttp/psr7 is a PSR-7 HTTP message library implementation in PHP. Prior to 2.12.3, Uri::assertValidHost() does not reject URI host components containing authority delimiters, embedded ports, or malformed IPv6 brackets, allowing Uri::getHost() to disagree with the URI authority used for security or routing decisions. This issue is fixed in version 2.12.3.",
+      "severity": 4.2,
+      "references": [
+        {
+          "url": "https://github.com/guzzle/psr7/security/advisories/GHSA-c2w2-prh8-qm98",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/guzzle/psr7/pull/811",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/guzzle/psr7/commit/ddd64f17d4cc1f7e5ffe6fd2c989ec7221712580",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/guzzle/psr7/releases/tag/2.12.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "guzzle",
+          "product": "psr7",
+          "versions": [
+            {
+              "version": "< 2.12.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-436: Interpretation Conflict"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56362",
+      "publishedDate": "2026-07-08T13:49:04.142Z",
+      "lastModifiedDate": "2026-07-08T17:08:28.947Z",
+      "description": "ImageMagick before 7.1.2-15 contains a heap-buffer-overflow read vulnerability in GetPixelIndex caused by OpenPixelCache updating image channel metadata before pixel cache memory allocation. Attackers can trigger memory and disk allocation failures to cause a heap-buffer-overflow read affecting any writer calling GetPixelIndex.",
+      "severity": 3.3,
+      "references": [
+        {
+          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-gq5v-qf8q-fp77",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/imagemagick-heap-buffer-overflow-read-in-getpixelindex-via-openpixelcache-metadata-desynchronization",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.1.2-15"
+            },
+            {
+              "version": "7.1.2-15",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "6.9.13-40"
+            },
+            {
+              "version": "6.9.13-40",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Out-of-bounds Read"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59937",
+      "publishedDate": "2026-07-08T17:25:34.026Z",
+      "lastModifiedDate": "2026-07-08T17:25:34.026Z",
+      "description": "pypdf is a free and open-source pure-python PDF library. Prior to 6.14.0, an attacker can craft a PDF with repeated malformed cross-reference streams that cause pypdf to spend long runtimes recovering broken cross-reference table entries. This issue is fixed in version 6.14.0.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-55h5-xmcq-c37v",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/py-pdf/pypdf/pull/3887",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/py-pdf/pypdf/commit/b5fc5aa714f4b696fb9b1deaa35a9e4a4eb50dae",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/py-pdf/pypdf/releases/tag/6.14.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "py-pdf",
+          "product": "pypdf",
+          "versions": [
+            {
+              "version": "< 6.14.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59938",
+      "publishedDate": "2026-07-08T17:24:29.959Z",
+      "lastModifiedDate": "2026-07-08T17:24:29.959Z",
+      "description": "pypdf is a free and open-source pure-python PDF library. Prior to 6.14.0, an attacker can craft a PDF with declared image size values that are much too large compared to the actual data, causing large memory usage in pypdf image parsing. This issue is fixed in version 6.14.0.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-5qjq-93h5-hrgp",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/py-pdf/pypdf/pull/3888",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/py-pdf/pypdf/commit/c64583be16b8e8763d8777075f8ecbf382014b7a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/py-pdf/pypdf/releases/tag/6.14.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "py-pdf",
+          "product": "pypdf",
+          "versions": [
+            {
+              "version": "< 6.14.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-789: Memory Allocation with Excessive Size Value"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59874",
+      "publishedDate": "2026-07-08T15:23:47.527Z",
+      "lastModifiedDate": "2026-07-08T17:00:42.937Z",
+      "description": "node-tar is a tar archive manipulation library for Node.js. Prior to 7.5.18, tar.replace accepts a checksum-valid tar header with a negative base-256 encoded entry size, causing the archive scanner to make no progress while repeatedly parsing the same header. This issue is fixed in version 7.5.18.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-8x88-c5mf-7j5w",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/commit/9e78bf058b2c22dd4d52e00d8922d5c06fc2f7b5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/releases/tag/v7.5.18",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "isaacs",
+          "product": "node-tar",
+          "versions": [
+            {
+              "version": "< 7.5.18",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-835: Loop with Unreachable Exit Condition ('Infinite Loop')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-50812",
+      "publishedDate": "2026-07-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-08T17:19:31.916Z",
+      "description": "A NULL pointer dereference in the SQLite Session Extension in SQLite 3.53.1 and SQLite trunk builds before check-in e807d4e3798efd53 allows an attacker who can supply a malformed changeset blob to cause a denial of service. The issue occurs when sqlite3changeset_apply_v3() applies a corrupt changeset and reaches sqlite3_value_type() with a NULL sqlite3_value pointer.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://sqlite.org/src/info/e807d4e3798efd53",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/sqlite/sqlite/commit/b869ed6b067d623cb1383549f2a18aa35508385d",
+          "type": "reference"
+        },
+        {
+          "url": "https://gist.github.com/junius-sec/bb556f333957c5226dede314db0e9e91",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13753",
+      "publishedDate": "2026-07-06T18:00:06.663Z",
+      "lastModifiedDate": "2026-07-08T17:00:16.985Z",
+      "description": "A missing authorization vulnerability exists in the embedded webserver of HP Deskjet 2800 Series Printers running firmware version <=TBP1CN2612AR. An unauthenticated attacker with network access can send GET requests to multiple exposed administrative API endpoints and retrieve sensitive configuration data such as plaintext Wi‑Fi Direct credentials, unique device identity information, and other administrative security state details. When accessed through the web interface, these setting pages explicitly require administrator credentials before sensitive information is displayed.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://kb.cert.org/vuls/id/828543",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HP Inc.",
+          "product": "HP 2800 Printer Series",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "TBP1CN2612AR.",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
