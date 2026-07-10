@@ -2,155 +2,106 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-07-09T23:50:31.169241",
+    "total_count": 1,
+    "last_updated": "2026-07-10T02:23:49.633783",
     "severity_distribution": {
       "critical": 0,
-      "high": 3,
-      "medium": 0,
+      "high": 0,
+      "medium": 1,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-12598",
-      "publishedDate": "2026-07-09T23:30:09.783Z",
-      "lastModifiedDate": "2026-07-09T23:30:09.783Z",
-      "description": "The LoginPress Pro plugin for WordPress is vulnerable to authentication bypass in versions up to and including 6.2.3 via the Spotify Social Login addon. This is due to the loginpress_on_spotify_login() function trusting the unverified 'email' field returned by Spotify's /v1/me endpoint and using it directly with get_user_by('email', $profile['email']) to identify and log in an existing WordPress account, without confirming that the Spotify user actually owns the email address (Spotify documents that the profile email is unverified) and without requiring the user to prove ownership of the matching WordPress account. This makes it possible for unauthenticated attackers to log in as any existing WordPress user, including Administrators, by registering a Spotify account using the targeted user's email address and authenticating via the Spotify provider.",
-      "severity": 8.1,
+      "id": "CVE-2026-15318",
+      "publishedDate": "2026-07-10T01:30:09.422Z",
+      "lastModifiedDate": "2026-07-10T01:30:09.422Z",
+      "description": "A weakness has been identified in Sipeed PicoClaw up to 0.2.9. Affected by this issue is some unknown functionality of the file pkg/channels/mqtt/mqtt.go of the component MQTT Channel Handler. This manipulation of the argument client_id causes incorrect authorization. The attack is possible to be carried out remotely. The exploit has been made available to the public and could be used for attacks. The reported GitHub issue was closed automatically due to inactivity.",
+      "severity": 6.3,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/bef61f05-a2dc-4f61-a5da-7161a9912196?source=cve",
+          "url": "https://vuldb.com/vuln/377258",
           "type": "reference"
         },
         {
-          "url": "https://loginpress.pro/",
+          "url": "https://vuldb.com/vuln/377258/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15318",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/852879",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/sipeed/picoclaw/issues/3068",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/sipeed/picoclaw/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "LoginPress",
-          "product": "LoginPress Pro",
+          "vendor": "Sipeed",
+          "product": "PicoClaw",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "6.2.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-287 Improper Authentication"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-12595",
-      "publishedDate": "2026-07-09T23:30:09.414Z",
-      "lastModifiedDate": "2026-07-09T23:30:09.414Z",
-      "description": "The LoginPress Pro plugin for WordPress is vulnerable to Authentication Bypass via Unverified OAuth Email in all versions up to and including 6.2.3. The vulnerability exists in the loginpress_on_discord_login() Discord OAuth callback handler, which accepts the email field returned by Discord's /users/@me endpoint without ever checking that the profile's verified flag is true, then directly maps that email to a local WordPress account via get_user_by('email', $profile['email']) and issues an authenticated session cookie via wp_set_auth_cookie(). This makes it possible for unauthenticated attackers to take over any existing WordPress account — including administrator accounts — by registering a Discord account configured with an unverified email address that matches the target user's registered WordPress email and completing the standard Discord OAuth flow.",
-      "severity": 8.1,
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5949980f-2506-49be-9105-40ec2d2a4f77?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://loginpress.pro/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "LoginPress",
-          "product": "LoginPress Pro",
-          "versions": [
+              "version": "0.2.0",
+              "status": "affected"
+            },
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "6.2.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-287 Improper Authentication"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-12597",
-      "publishedDate": "2026-07-09T23:30:08.882Z",
-      "lastModifiedDate": "2026-07-09T23:30:08.882Z",
-      "description": "The LoginPress Pro plugin for WordPress is vulnerable to Authentication Bypass via the GitHub OAuth callback in versions up to, and including, 6.2.3. The vulnerability exists in the loginpress_on_github_login() function, which blindly trusts the first element (profile[0]['email']) of the array returned by GitHub's /user/emails endpoint as an account-binding identifier without verifying that the email carries a verified === true status. This makes it possible for unauthenticated attackers to log in as any existing WordPress user, including administrators, by adding an unverified email address matching a local account to their GitHub profile and triggering the OAuth callback via a crafted code parameter — causing the plugin to call get_user_by('email', ...) and establish an authenticated session for the matched account. Practical exploitation is conditional on GitHub returning the attacker-added unverified email at index 0 of the /user/emails response, as GitHub typically prioritizes the primary verified address first; nonetheless, the absence of any email verification check in the plugin constitutes a fundamental authentication bypass flaw.",
-      "severity": 8.1,
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4f3ee9f6-6465-4caf-9aef-72dd37c61a2c?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://loginpress.pro/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "LoginPress",
-          "product": "LoginPress Pro",
-          "versions": [
+              "version": "0.2.1",
+              "status": "affected"
+            },
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "6.2.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-287 Improper Authentication"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-55615",
-      "publishedDate": "2026-07-09T23:40:44.576Z",
-      "lastModifiedDate": "2026-07-09T23:40:44.576Z",
-      "description": "Langroid is a framework for building large-language-model-powered applications. Prior to version 0.65.5, Neo4jChatAgent passes LLM-generated Cypher queries straight to the Neo4j driver with no validation, no statement-type allowlist, and no opt-out gate. The query text is influenceable by prompt injection (direct user input or indirect content the agent reads back via RAG), so an attacker who can influence the prompt can read or destroy all graph data and, when APOC or dbms.security procedures are enabled on the server, achieve OS-command and filesystem access. This is the same defect class and threat model as the SQLChatAgent prompt-to-SQL-to-RCE issue fixed in version 0.63.0 (CVE-2026-25879); that fix did not extend to the neo4j module. Version 0.65.5 contains a fix for the neo4j module.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/langroid/langroid/security/advisories/GHSA-2pq5-3q89-j7cc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/langroid/langroid/commit/5a3097d9dd6378b08ced5480b0caf76cc58d00fa",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "langroid",
-          "product": "langroid",
-          "versions": [
+              "version": "0.2.2",
+              "status": "affected"
+            },
             {
-              "version": "< 0.65.5",
+              "version": "0.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.5",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.6",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.7",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.8",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.9",
               "status": "affected"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:sipeed:picoclaw:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "MQTT Channel Handler"
           ]
         }
       ],
       "problemType": [
-        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+        "Incorrect Authorization",
+        "Improper Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
