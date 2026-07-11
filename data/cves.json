@@ -2,64 +2,751 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-07-11T01:08:01.723198",
+    "total_count": 12,
+    "last_updated": "2026-07-11T04:28:08.026025",
     "severity_distribution": {
-      "critical": 1,
-      "high": 0,
-      "medium": 0,
+      "critical": 0,
+      "high": 3,
+      "medium": 9,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-14480",
-      "publishedDate": "2026-07-10T22:17:49.406Z",
-      "lastModifiedDate": "2026-07-10T22:17:49.406Z",
-      "description": "OpenPLC Runtime v3 contains an authenticated arbitrary file write \nvulnerability in the legacy web UI program‑upload workflow. The \napplication stores an attacker‑supplied filename (prog_file) directly \ninto the Programs.File database field and later uses this value as the \ndestination path for an uploaded file without validating or restricting \nthe path. Because Python os.path.join() honors attacker‑controlled \nabsolute paths, an authenticated user can write arbitrary files anywhere\n writable by the OpenPLC webserver process. In the default build \npipeline, all C++ source files within the OpenPLC runtime core directory\n are automatically compiled into the executable runtime binary. By \nwriting a malicious .cpp file into this directory, an authenticated \nattacker can escalate the arbitrary file write into arbitrary native \ncode execution when the operator triggers a normal program compilation \nand runtime start.",
-      "severity": 9.9,
+      "id": "CVE-2026-13353",
+      "publishedDate": "2026-07-11T02:31:19.579Z",
+      "lastModifiedDate": "2026-07-11T02:31:19.579Z",
+      "description": "The WP Ultimate CSV Importer – WordPress Import & Export for CSV, XML & Excel plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 8.0.1 via the 'MappedFields' parameter. This is due to missing capability checks on the AJAX handlers for install_addon, saveMappedFields, and StartImport, combined with the plugin nonce being exposed to any authenticated user who can load an admin page, allowing a Subscriber to install the Import WooCommerce add-on, persist attacker-controlled PHP expressions in the MappedFields parameter, and trigger evaluation via eval() in ImportHelpers::get_meta_values(). This makes it possible for authenticated attackers, with subscriber-level access and above, to execute code on the server.",
+      "severity": 8.8,
       "references": [
         {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-190-01",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e89fc348-1146-4593-8bf5-127f783ab786?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-190-01.json",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-ultimate-csv-importer/tags/8.0.1/wp-ultimate-csv-importer.php#L419",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-ultimate-csv-importer/tags/8.0.1/InstallAddons.php#L66",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-ultimate-csv-importer/tags/8.0.1/SaveMapping.php#L185",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-ultimate-csv-importer/tags/8.0.1/SaveMapping.php#L1562",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3591135/wp-ultimate-csv-importer",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "OpenPLC",
-          "product": "OpenPLC",
+          "vendor": "smackcoders",
+          "product": "WP Ultimate CSV Importer – WordPress Import & Export for CSV, XML & Excel",
           "versions": [
             {
+              "version": "0",
               "status": "affected",
-              "version": "v3"
-            },
-            {
-              "status": "unaffected",
-              "version": "v4"
+              "lessThanOrEqual": "8.0.1",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-73"
+        "CWE-94 Improper Control of Generation of Code ('Code Injection')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-14286",
-      "publishedDate": "2026-07-11T01:08:00.848461+00:00",
-      "lastModifiedDate": "2026-07-10T22:19:56.752Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
+      "id": "CVE-2026-15338",
+      "publishedDate": "2026-07-11T02:31:18.532Z",
+      "lastModifiedDate": "2026-07-11T02:31:18.532Z",
+      "description": "The LA-Studio Element Kit for Elementor plugin for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 1.6.1 via the get_type_template function. This makes it possible for authenticated attackers, with contributor-level access and above, to include and execute arbitrary .php files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where .php file types can be uploaded and included. The wp_normalize_path function used in get_template only normalizes directory separators and does not resolve or reject path traversal sequences, while the extension check is trivially bypassed because the caller already appends the required extension to the traversal payload.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/c4c3f136-fa26-4813-9e69-f94eba9e4df7?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lastudio-element-kit/tags/1.6.1/includes/addons/progress-bar.php#L869",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lastudio-element-kit/tags/1.6.1/lastudio-element-kit.php#L430",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lastudio-element-kit/tags/1.6.1/includes/addons/progress-bar.php#L866",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lastudio-element-kit/tags/1.6.1/templates/progress-bar/global/index.php#L6",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lastudio-element-kit/tags/1.6.1/templates/progress-bar/global/index.php#L20",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3602507%40lastudio-element-kit&new=3602507%40lastudio-element-kit",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "choijun",
+          "product": "LA-Studio Element Kit for Elementor",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.6.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-98 Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13114",
+      "publishedDate": "2026-07-11T02:31:19.945Z",
+      "lastModifiedDate": "2026-07-11T02:31:19.945Z",
+      "description": "The Motors – Car Dealership & Classified Listings Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Comment Content and User Biographical Info in all versions up to, and including, 1.4.112 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 7.2,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f4e25aa6-8028-4c85-98c4-6f47a1502427?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motors-car-dealership-classified-listings/tags/1.4.112/assets/js/listing-manager/libs/tooltip.js#L59",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motors-car-dealership-classified-listings/tags/1.4.112/assets/js/listing-manager/libs/tooltip.js#L73",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motors-car-dealership-classified-listings/tags/1.4.112/includes/helpers.php#L278",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motors-car-dealership-classified-listings/tags/1.4.108/assets/js/listing-manager/libs/tooltip.js#L59",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motors-car-dealership-classified-listings/tags/1.4.108/assets/js/listing-manager/libs/tooltip.js#L73",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/motors-car-dealership-classified-listings/tags/1.4.108/includes/helpers.php#L278",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3594971/motors-car-dealership-classified-listings",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "stylemix",
+          "product": "Motors – Car Dealership & Classified Listings Plugin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.4.112",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15072",
+      "publishedDate": "2026-07-11T02:31:18.884Z",
+      "lastModifiedDate": "2026-07-11T02:31:18.884Z",
+      "description": "The KiviCare – Clinic & Patient Management System (EHR) plugin for WordPress is vulnerable to generic SQL Injection via the 'orderby' parameter in all versions up to, and including, 4.5.0 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with doctor-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. This requires that the attacker hold at minimum a KiviCare Doctor-level account, or a Receptionist or Clinic Admin role that grants the doctor_session_list capability.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e2857fd0-2401-4e38-aa8a-3f0a89e14b78?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/controllers/api/DoctorSessionController.php#L1282",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/baseClasses/KCQueryBuilder.php#L470",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/controllers/api/DoctorSessionController.php#L1208",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/baseClasses/KCQueryBuilder.php#L245",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/baseClasses/KCQueryBuilder.php#L1283",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/controllers/api/DoctorSessionController.php#L87",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3602561%40kivicare-clinic-management-system&new=3602561%40kivicare-clinic-management-system",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "iqonicdesign",
+          "product": "KiviCare – Clinic & Patient Management System (EHR)",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13262",
+      "publishedDate": "2026-07-11T02:31:17.133Z",
+      "lastModifiedDate": "2026-07-11T02:31:17.133Z",
+      "description": "The Majestic Support – The Leading-Edge Help Desk & Customer Support Plugin plugin for WordPress is vulnerable to generic SQL Injection via the 'val' parameter in all versions up to, and including, 1.1.9 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. Exploitation requires a valid 'get-smart-reply' nonce, which any Subscriber-level user can obtain by creating a ticket via the public frontend and visiting the resulting ticket detail page, making this effectively exploitable by any authenticated user.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/502577dd-49e3-419d-8b37-591be69ad131?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.8/includes/ajax.php#L19",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.9/modules/smartreply/model.php#L184",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.9/modules/smartreply/model.php#L183",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.9/includes/ajax.php#L19",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.9/modules/ticket/tpls/ticketdetail.php#L672",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.8/modules/smartreply/model.php#L184",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.8/modules/smartreply/model.php#L183",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.1.8/modules/ticket/tpls/ticketdetail.php#L672",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/majestic-support/tags/1.2.0/modules/smartreply/model.php?rev=3599140#L212",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ahmadmj",
+          "product": "Majestic Support – The Leading-Edge Help Desk & Customer Support Plugin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.1.9",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15073",
+      "publishedDate": "2026-07-11T02:31:16.800Z",
+      "lastModifiedDate": "2026-07-11T02:31:16.800Z",
+      "description": "The KiviCare – Clinic & Patient Management System (EHR) plugin for WordPress is vulnerable to generic SQL Injection via the 'orderby' parameter in all versions up to, and including, 4.5.0 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with Doctor-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. Exploitation requires a KiviCare Doctor, Receptionist, or Clinic Admin role at minimum, as the vulnerable REST endpoint is restricted to authenticated users with custom plugin-level access.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4f5ff7bc-9443-4b34-abd3-dac800f162a1?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/controllers/api/DoctorSessionController.php#L660",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/controllers/api/DoctorSessionController.php#L648",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kivicare-clinic-management-system/tags/4.5.0/app/baseClasses/KCQueryBuilder.php#L470",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3602561%40kivicare-clinic-management-system&new=3602561%40kivicare-clinic-management-system",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "iqonicdesign",
+          "product": "KiviCare – Clinic & Patient Management System (EHR)",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-5743",
+      "publishedDate": "2026-07-11T02:31:16.457Z",
+      "lastModifiedDate": "2026-07-11T02:31:16.457Z",
+      "description": "The SimpLy Gallery Block & Lightbox plugin for WordPress is vulnerable to Stored Cross-Site Scripting via block attributes in all versions up to, and including, 3.3.3.2. This is due to insufficient input sanitization and output escaping on the sliderMaxHeight block attribute in the pgc_sgb_render_callback() function. The vulnerability exists because the pgc_sgb_sanitize_custom_css() function uses a flawed regex pattern that only removes event handlers with quoted values (e.g., onfocus=\"alert()\") but fails to catch unquoted event handlers (e.g., onfocus=alert(document.cookie)), allowing the malicious code to bypass sanitization. This makes it possible for authenticated attackers, with Author-level access and above, to inject arbitrary web scripts in pages via block attributes that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/29b1984d-e6da-49d5-8b40-cdf2f1bcc1bb?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/tags/3.3.2.2/blocks/init.php#L95",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/trunk/blocks/init.php#L95",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/trunk/blocks/init.php#L122",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/tags/3.3.2.2/blocks/init.php#L122",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/trunk/blocks/init.php#L142",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/tags/3.3.2.2/blocks/init.php#L142",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/trunk/blocks/init.php#L151",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/simply-gallery-block/tags/3.3.2.2/blocks/init.php#L151",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3581386%40simply-gallery-block&new=3581386%40simply-gallery-block",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "gallerycreator",
+          "product": "SimpLy Gallery",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.3.3.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-12426",
+      "publishedDate": "2026-07-11T02:31:18.186Z",
+      "lastModifiedDate": "2026-07-11T02:31:18.186Z",
+      "description": "The Members – Membership & User Role Editor Plugin plugin for WordPress is vulnerable to Sensitive Information Exposure in all versions up to, and including, 3.2.22 via the members_filter_protected_posts_for_rest. This makes it possible for unauthenticated attackers to extract determine the existence and exact count of access-restricted posts, and use per-page pagination as a boolean oracle to infer keywords and content contained within those hidden restricted posts.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/9c3557a6-aa72-496c-8515-2f6055de6b22?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/members/tags/3.2.22/inc/functions-content-permissions.php#L337",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/members/tags/3.2.22/inc/functions-private-site.php#L42",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/members/tags/3.2.19/inc/functions-content-permissions.php#L337",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/members/tags/3.2.19/inc/functions-private-site.php#L42",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&new=3594293%40members%2Ftrunk&old=3552545%40members%2Ftrunk&sfp_email=&sfph_mail=",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "supercleanse",
+          "product": "Members – Membership & User Role Editor Plugin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.2.22",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-3367",
+      "publishedDate": "2026-07-11T02:31:17.819Z",
+      "lastModifiedDate": "2026-07-11T02:31:17.819Z",
+      "description": "The Lockme OAuth2 calendars integration plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'App ID' setting in all versions up to, and including, 2.11.0. This is due to insufficient input sanitization and output escaping. The register_setting() call on line 197 lacks a sanitize callback, allowing unsanitized data to be stored via update_option(). When the settings page is rendered, the stored value is echoed directly into an HTML input's value attribute without esc_attr() on line 212. This makes it possible for authenticated attackers, with administrator-level access and above, to inject arbitrary web scripts in the settings page that will execute whenever a user accesses the plugin settings page. Multiple fields are affected: App ID (client_id), App Secret (client_secret), Bookings ID prefix (id_prefix), and API domain (api_domain). This vulnerability is particularly impactful in WordPress multisite installations where administrators of individual sites should not be able to execute JavaScript affecting other users.",
+      "severity": 4.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/800b1a44-4173-4b8e-bc69-9a64218e64d6?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/trunk/src/Plugin.php#L212",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/tags/2.9.3/src/Plugin.php#L212",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/trunk/src/Plugin.php#L223",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/tags/2.9.3/src/Plugin.php#L223",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/trunk/src/Plugin.php#L245",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/tags/2.9.3/src/Plugin.php#L245",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/trunk/src/Plugin.php#L256",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/tags/2.9.3/src/Plugin.php#L256",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/trunk/src/Plugin.php#L197",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/tags/2.9.3/src/Plugin.php#L197",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/trunk/src/Plugin.php#L54",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/lockme-calendars-integration/tags/2.9.3/src/Plugin.php#L54",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3495564%40lockme-calendars-integration&new=3495564%40lockme-calendars-integration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lustmored",
+          "product": "Lockme calendars integration",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.11.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-7544",
+      "publishedDate": "2026-07-11T02:31:19.224Z",
+      "lastModifiedDate": "2026-07-11T02:31:19.224Z",
+      "description": "The Mux Video Uploader plugin for WordPress is vulnerable to Sensitive Information Exposure in all versions up to, and including, 1.1.4 via the muxvideo_enqueue_settings_script. This makes it possible for authenticated attackers, with subscriber-level access and above, to extract sensitive data including Mux API credentials.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e462a7ba-887c-408d-87a6-9260a33dcff5?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/2coders-integration-mux-video/trunk/includes/functions.php#L672",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/2coders-integration-mux-video/tags/1.1.4/includes/functions.php#L672",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/2coders-integration-mux-video/trunk/includes/functions.php#L668",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/2coders-integration-mux-video/tags/1.1.4/includes/functions.php#L668",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3543763%402coders-integration-mux-video&new=3543763%402coders-integration-mux-video",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "2coders",
+          "product": "Mux Video Uploader",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.1.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-10628",
+      "publishedDate": "2026-07-11T02:31:17.468Z",
+      "lastModifiedDate": "2026-07-11T02:31:17.468Z",
+      "description": "The Points and Rewards for WooCommerce plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 2.10.0. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to convert and drain any user's reward points into wallet balance, exfiltrate all users' emails and point balances to an attacker-controlled Klaviyo account, overwrite the site's Klaviyo public API key, block or unblock arbitrary users from the points system, and modify campaign banner and heading settings. The nonce used for authentication of these requests (wps-wpr-verify-nonce) is injected into every public-facing page via wp_localize_script(), and the wps_wpr_generate_custom_wallet handler is additionally registered on the wp_ajax_nopriv_ hook, meaning unauthenticated visitors can also obtain a valid nonce and exploit that specific action.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/582e15cb-b924-4c24-818e-dfc2900f82c3?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.10.0/public/class-points-rewards-for-woocommerce-public.php#L3493",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.10.0/admin/class-points-rewards-for-woocommerce-admin.php#L2568",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.10.0/admin/class-points-rewards-for-woocommerce-admin.php#L1814",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.10.0/admin/class-points-rewards-for-woocommerce-admin.php#L2657",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.10.0/public/class-points-rewards-for-woocommerce-public.php#L191",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.9.7/public/class-points-rewards-for-woocommerce-public.php#L3493",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.9.7/admin/class-points-rewards-for-woocommerce-admin.php#L2568",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.9.7/admin/class-points-rewards-for-woocommerce-admin.php#L1814",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.9.7/admin/class-points-rewards-for-woocommerce-admin.php#L2657",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/points-and-rewards-for-woocommerce/tags/2.9.7/public/class-points-rewards-for-woocommerce-public.php#L191",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3602815%40points-and-rewards-for-woocommerce&new=3602815%40points-and-rewards-for-woocommerce",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpswings",
+          "product": "Points and Rewards for WooCommerce",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.10.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-8678",
+      "publishedDate": "2026-07-11T02:31:15.950Z",
+      "lastModifiedDate": "2026-07-11T02:31:15.950Z",
+      "description": "The MyParcel plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 4.25.1. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to view and modify shipment options — including carrier, delivery type, package type, number of labels, weight, signature requirement, and insurance — on any arbitrary order.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1a7bdae1-b28a-4fc6-9538-944ffeb32796?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/woocommerce-myparcel/tags/4.25.1/includes/admin/class-wcmypa-admin.php#L872",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/woocommerce-myparcel/tags/4.25.1/includes/admin/class-wcmypa-admin.php#L653",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/woocommerce-myparcel/tags/4.25.1/includes/admin/class-wcmypa-admin.php#L118",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/woocommerce-myparcel/tags/4.24.3/includes/admin/class-wcmypa-admin.php#L872",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/woocommerce-myparcel/tags/4.24.3/includes/admin/class-wcmypa-admin.php#L653",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/woocommerce-myparcel/tags/4.24.3/includes/admin/class-wcmypa-admin.php#L118",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3585914%40woocommerce-myparcel&new=3585914%40woocommerce-myparcel",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "richardperdaan",
+          "product": "MyParcel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.25.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
       "fix_suggestion": "无法生成修复建议"
     }
   ]
