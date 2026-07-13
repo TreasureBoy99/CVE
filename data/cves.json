@@ -2,26 +2,210 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 11,
-    "last_updated": "2026-07-13T20:22:57.869528",
+    "total_count": 6,
+    "last_updated": "2026-07-13T21:28:45.909723",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 3,
+      "high": 3,
+      "medium": 1,
       "low": 0,
-      "none": 8
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-58408",
-      "publishedDate": "2026-07-13T19:43:48.352Z",
-      "lastModifiedDate": "2026-07-13T19:43:48.352Z",
-      "description": "ChurchCRM is an open-source church management system. Prior to version 7.4.0, a low-privileged user can bypass the /admin/export UI and exfiltrate the entire member directory. The POST /CSVCreateFile.php endpoint generates and streams a CSV containing the full Personally Identifiable Information (PII) of every Person/Family record in the database, without performing any feature-level or object-level authorization check beyond the coarse \"has any admin permission\" gate inherited from the legacy page bootstrap. In other words, any single non-admin permission flag is enough to reach the CSV bulk-export endpoint, even though such users should not have data export rights. The export script is missing a dedicated isAdmin() (or a new bExportData) authorization check of its own. This issue has been fixed in version 7.4.0.",
-      "severity": 6.5,
+      "id": "CVE-2026-62242",
+      "publishedDate": "2026-07-13T21:04:26.002Z",
+      "lastModifiedDate": "2026-07-13T21:04:26.002Z",
+      "description": "Spring Boot Admin Server before 4.1.2 contains a server-side request forgery vulnerability that allows unauthenticated attackers to register instances with attacker-controlled healthUrl and managementUrl parameters without validation against private IP ranges or metadata endpoints. Attackers can force the server to make HTTP requests to arbitrary internal addresses and retrieve response bodies via the actuator proxy to exfiltrate cloud credentials.",
+      "severity": 8.6,
       "references": [
         {
-          "url": "https://github.com/ChurchCRM/CRM/security/advisories/GHSA-4vj2-gm78-3q63",
+          "url": "https://github.com/codecentric/spring-boot-admin/releases/tag/4.1.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/issues/5452",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/pull/5464",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/commit/1f991ea013e46360b8f8fb63fe4ad20a9bf0d551",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/spring-boot-admin-server-ssrf-via-unauthenticated-instance-registration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "codecentric",
+          "product": "spring-boot-admin",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:maven/de.codecentric/spring-boot-admin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.1.2"
+            }
+          ],
+          "repo": "https://github.com/codecentric/spring-boot-admin"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58500",
+      "publishedDate": "2026-07-13T21:17:29.497Z",
+      "lastModifiedDate": "2026-07-13T21:17:29.497Z",
+      "description": "MCP Appium is an MCP server that provides AI assistants with tools to automate mobile app testing on Android and iOS. In versions prior to 1.85.10, the createLocatorGeneratorUI function interpolates attacker-controlled element attributes — text, content-desc, resource-id, and locator selector values — directly into an HTML template literal without any HTML or JavaScript context escaping. An attacker who controls the UI of the app under test can inject arbitrary HTML and JavaScript into the MCP UI resource returned by the generate_locators tool. When a victim's MCP client renders this resource, the injected script executes and can invoke arbitrary MCP tools via window.parent.postMessage, leading to unauthorized MCP tool execution such as taking screenshots, reading page source, or any other registered capability. This issue has been fixed in version 1.85.10.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://github.com/appium/appium-mcp/security/advisories/GHSA-x975-rgx4-5fh4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/appium/appium-mcp/commit/e222bbbd6fe2b656a320efcd143563f08061a83d",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "appium",
+          "product": "appium-mcp",
+          "versions": [
+            {
+              "version": "< 1.85.10",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62240",
+      "publishedDate": "2026-07-13T21:04:03.774Z",
+      "lastModifiedDate": "2026-07-13T21:04:03.774Z",
+      "description": "CrewAI before 1.15.1 contains a server-side request forgery vulnerability in the validate_url function that performs one-shot DNS resolution and blocklist checks before returning the original URL unchanged. Attackers can bypass the security filter by supplying URLs that redirect to internal addresses or use DNS rebinding techniques to access internal services and cloud metadata endpoints.",
+      "severity": 7.4,
+      "references": [
+        {
+          "url": "https://github.com/crewAIInc/crewAI/releases/tag/1.15.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/crewAIInc/crewAI/issues/6520",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/crewAIInc/crewAI/pull/6331",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/crewAIInc/crewAI/commit/5d4851eac797cafc45b726f65747fe2c9520fc42",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/crewai-ssrf-filter-bypass-via-http-redirect-in-scrape-tools",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "crewAIInc",
+          "product": "crewAI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/crewai-workspace",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.15.1"
+            }
+          ],
+          "repo": "https://github.com/crewAIInc/crewAI"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62239",
+      "publishedDate": "2026-07-13T21:03:32.262Z",
+      "lastModifiedDate": "2026-07-13T21:03:32.262Z",
+      "description": "FlashAttention through 2.8.3.post1, fixed in commit 0816ef1, contains a symlink attack vulnerability in the download_and_copy() function within hopper/setup.py that extracts NVIDIA toolchain archives without validating symlinks or filtering tar members. A local attacker can pre-plant a symlink in the predictable cache directory to redirect extracted binaries to an attacker-chosen location, enabling arbitrary file write with victim privileges during build time.",
+      "severity": 6.6,
+      "references": [
+        {
+          "url": "https://github.com/Dao-AILab/flash-attention/issues/2637",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/Dao-AILab/flash-attention/pull/2702",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dao-AILab/flash-attention/commit/0816ef12f424c6ec94b057a72c275b14f6e6edb2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/flashattention-symlink-attack-via-tarfile-extractall-in-hopper-setup-py",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dao-AILab",
+          "product": "flash-attention",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/flash_attn_2_cuda",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThanOrEqual": "2.8.3.post1"
+            },
+            {
+              "status": "unaffected",
+              "version": "0816ef12f424c6ec94b057a72c275b14f6e6edb2",
+              "versionType": "git"
+            }
+          ],
+          "repo": "https://github.com/Dao-AILab/flash-attention"
+        }
+      ],
+      "problemType": [
+        "Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58411",
+      "publishedDate": "2026-07-13T21:05:18.739Z",
+      "lastModifiedDate": "2026-07-13T21:05:18.739Z",
+      "description": "ChurchCRM is an open-source church management system. Prior to version 7.4.0, Cross-Site Scripting (XSS) vulnerabilities were identified due to insufficient output encoding of user-controlled request parameter names and parameter values. The application reflects attacker-controlled input into JavaScript string contexts and HTML attribute contexts without proper sanitization or contextual output encoding. Affected endpoints observed during testing: /FamilyCustomFieldsEditor.php, /PaddleNumList.php and /admin/system/church-info. Potential consequences include session-token theft, account takeover, unauthorized actions on behalf of authenticated users, exposure of sensitive church member information, credential harvesting, phishing, and privilege escalation when administrators are targeted. This issue has been resolved in version 7.4.0.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/ChurchCRM/CRM/security/advisories/GHSA-p6j6-vrpg-4pp8",
           "type": "reference"
         }
       ],
@@ -38,370 +222,27 @@
         }
       ],
       "problemType": [
-        "CWE-862: Missing Authorization",
-        "CWE-863: Incorrect Authorization"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12536",
-      "publishedDate": "2026-07-13T19:33:56.237Z",
-      "lastModifiedDate": "2026-07-13T19:33:56.237Z",
-      "description": "The Avada (Fusion) Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the ‘Module Title’ parameter in all versions up to, and including, 3.15.5 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
-      "severity": 6.4,
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/6199b852-3270-4456-934b-68c3ef11b9e5?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://themeforest.net/item/avada-responsive-multipurpose-theme/2833226",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "themefusion",
-          "product": "Avada (Fusion) Builder",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "3.15.5",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-12385",
-      "publishedDate": "2026-07-13T19:33:56.776Z",
-      "lastModifiedDate": "2026-07-13T19:33:56.776Z",
-      "description": "The Smart Slider 3 plugin for WordPress is vulnerable to Sensitive Information Exposure in all versions up to, and including, 3.5.1.37 via the 'keyword' parameter. This makes it possible for authenticated attackers, with contributor-level access and above, to extract titles and full content excerpts of private, draft, pending, trashed, and auto-draft posts authored by any user, including Administrators and Editors. The required nonce is emitted on /wp-admin/post-new.php, which is accessible to Contributor-level users via the edit_posts capability, meaning any Contributor can obtain the nonce needed to trigger the injection.",
-      "severity": 4.3,
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a782d975-74ce-4265-9312-435b3585a5c6?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/smart-slider-3/tags/3.5.1.37/Nextend/Framework/Content/WordPress/WordPressContent.php#L45",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/smart-slider-3/tags/3.5.1.37/Nextend/Framework/Content/WordPress/WordPressContent.php#L20",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/smart-slider-3/tags/3.5.1.37/Nextend/Framework/Content/ControllerAjaxContent.php#L22",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/smart-slider-3/tags/3.5.1.37/Nextend/Framework/Content/ControllerAjaxContent.php#L15",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/smart-slider-3/tags/3.5.1.37/Nextend/Framework/Form/WordPress/PlatformForm.php#L22",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset/3599123/smart-slider-3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "nextendweb",
-          "product": "Smart Slider 3",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "3.5.1.37",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-58407",
-      "publishedDate": "2026-07-13T20:22:53.370354+00:00",
-      "lastModifiedDate": "2026-07-13T19:49:29.385Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-14906",
-      "publishedDate": "2026-07-13T18:27:03.771Z",
-      "lastModifiedDate": "2026-07-13T19:32:16.220Z",
-      "description": "Pages with malicious titles could potentially allow saved PDF content to overwrite PDF files or bundled content within the Firefox for iOS application sandbox. This vulnerability was fixed in Firefox for iOS 152.4.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2045842",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-66/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox for iOS",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "152.4",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-13221",
-      "publishedDate": "2026-07-13T15:40:11.035Z",
-      "lastModifiedDate": "2026-07-13T19:30:45.640Z",
-      "description": "Perl versions through 5.43.9 produce silently incorrect regular expression matches when an alternation of more than 65535 fixed string branches is compiled into a trie in Perl_study_chunk.\n\nWhen such branches are combined into a trie, the delta between the first branch and the shared tail is stored in a 16-bit field. A branch count above 65535 overflows the field, and the trie's match decision table is truncated with no warning or error.\n\nA pattern of this shape produces false positive matches (matching strings it should not) and false negative matches (failing to match strings it should). When such a pattern gates an access or filtering decision, the result is wrong.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/Perl/perl5/commit/03f74bbbd3a68350d926ee93d56ee4808c28c4c7.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Perl/perl5/issues/23388",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "perl",
-          "product": "perl",
-          "programFiles": [
-            "regcomp_study.c"
-          ],
-          "programRoutines": [
-            {
-              "name": "Perl_study_chunk"
-            }
-          ],
-          "repo": "https://github.com/Perl/perl5",
-          "vendor": "SHAY",
-          "versions": [
-            {
-              "lessThanOrEqual": "5.43.9",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-190 Integer Overflow or Wraparound"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57432",
-      "publishedDate": "2026-07-13T15:38:20.728Z",
-      "lastModifiedDate": "2026-07-13T19:30:46.712Z",
-      "description": "Perl versions through 5.43.10 have an integer overflow in S_measure_struct leading to an out-of-bounds heap read in pack and unpack.\n\nS_measure_struct adds each item's size times its repeat count to a running total with no overflow check, so a large repeat count in a pack or unpack template wraps the signed SSize_t total negative. The @, X, and x position codes then guard their moves with a signed length comparison that passes when the length is negative, advancing the buffer pointer out of bounds.\n\nA template derived from untrusted input can read heap memory past the buffer and return it to the caller.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/Perl/perl5/commit/5f7eb6bbbe0510964e3fb1d6bb691e5445913e55.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Perl/perl5/commit/40754edc72dd3e513d758153c0e2f0215897740e.patch",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "perl",
-          "product": "perl",
-          "programFiles": [
-            "pp_pack.c"
-          ],
-          "programRoutines": [
-            {
-              "name": "S_measure_struct"
-            }
-          ],
-          "repo": "https://github.com/Perl/perl5",
-          "vendor": "SHAY",
-          "versions": [
-            {
-              "lessThanOrEqual": "5.43.10",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-190 Integer Overflow or Wraparound",
-        "CWE-125 Out-of-bounds Read"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57433",
-      "publishedDate": "2026-07-13T15:37:04.517Z",
-      "lastModifiedDate": "2026-07-13T19:30:47.772Z",
-      "description": "Storable versions before 3.41 for Perl have a signed integer overflow when deserializing a crafted SX_HOOK record.\n\nretrieve_hook_common reads a signed 32-bit item count from an SX_HOOK record and calls av_extend with that count plus one. A count of I32_MAX wraps the addition to a negative value.\n\nA crafted blob passed to thaw or retrieve triggers the overflow; av_extend receives the negative count and dies with a panic, terminating the deserialization.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/Perl/perl5/commit/e4f681784bcdeaa91ff02a2fa4cdcae5c46779d7.patch",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "Storable",
-          "product": "Storable",
-          "programFiles": [
-            "Storable.xs"
-          ],
-          "programRoutines": [
-            {
-              "name": "retrieve_hook_common"
-            }
-          ],
-          "repo": "https://github.com/Perl/perl5",
-          "vendor": "HAARG",
-          "versions": [
-            {
-              "lessThan": "3.41",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-190 Integer Overflow or Wraparound"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-59245",
-      "publishedDate": "2026-07-13T15:05:21.156Z",
-      "lastModifiedDate": "2026-07-13T19:30:49.937Z",
-      "description": "In the Apache Airflow FAB auth manager, a DAG whose `dag_id` is `DAGs` collided with the global all-DAGs permission resource name produced by `resource_name()`, so a user granted per-DAG `access_control` on that one DAG was silently granted the global all-DAGs permission (privilege escalation). The escalation triggers when a DAG named `DAGs` exists and a lower-privileged user is given per-DAG access to it, granting that user read/edit access to every DAG. Users are advised to upgrade to `apache-airflow-providers-fab` 3.7.2 or later, which disambiguates the resource-name collision.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/apache/airflow/pull/69106",
-          "type": "reference"
-        },
-        {
-          "url": "https://lists.apache.org/thread/70f37q3mwov1vm3zolrfxlzds278c78h",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://pypi.python.org",
-          "defaultStatus": "unaffected",
-          "packageName": "apache-airflow-providers-fab",
-          "product": "Apache Airflow FAB provider",
-          "vendor": "Apache Software Foundation",
-          "versions": [
-            {
-              "lessThan": "3.7.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-269: Improper Privilege Management"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-58065",
-      "publishedDate": "2026-07-13T15:00:49.159Z",
-      "lastModifiedDate": "2026-07-13T19:30:48.835Z",
-      "description": "The Apache Airflow Git provider runs its git-over-SSH operations with `StrictHostKeyChecking=no` by default, disabling SSH host-key verification. An attacker who can intercept the network path between an Airflow worker and the Git server can impersonate the server (man-in-the-middle), capturing the SSH deploy key or injecting malicious repository content. Deployments that use the Git DAG bundle or Git provider to clone over SSH with a deploy key are affected. The fix changes the default to verify host keys; upgrade to apache-airflow-providers-git `0.4.1` or later and configure a `known_hosts` file.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/apache/airflow/pull/69103",
-          "type": "reference"
-        },
-        {
-          "url": "https://lists.apache.org/thread/fjmclngfksz2kp7llpcjxzdz568h0zhc",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://pypi.python.org",
-          "defaultStatus": "unaffected",
-          "packageName": "apache-airflow-providers-git",
-          "product": "Apache Airflow Git provider",
-          "vendor": "Apache Software Foundation",
-          "versions": [
-            {
-              "lessThan": "0.4.1",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-322: Key Exchange without Entity Authentication"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-26396",
+      "id": "CVE-2026-52533",
       "publishedDate": "2026-07-13T00:00:00.000Z",
-      "lastModifiedDate": "2026-07-13T19:45:59.471Z",
-      "description": "OpenBMB XAgent v1.0.0 and before is vulnerable to path traversal in the file() function in XAgent/XAgentServer/application/routers/workspace.py. The input parameter “filename” is user-controllable and is concatenated into the file path to be read without proper validation, leading to a directory traversal vulnerability that may result in sensitive information disclosure.",
+      "lastModifiedDate": "2026-07-13T21:15:17.092Z",
+      "description": "An issue in D-Link DIR-1253 v.1.0.1.250923.142435 allows an attacker to escalate privileges via the etc/shadow component file",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://gist.github.com/jack2223333/f79f233b67d6506b9dd184399525cbf4",
+          "url": "https://www.dlink.com/en/security-bulletin/",
+          "type": "reference"
+        },
+        {
+          "url": "https://codeberg.org/zuhri/advisory#recent-poc",
+          "type": "reference"
+        },
+        {
+          "url": "https://zuh.re/cve/2026-52533/",
           "type": "reference"
         }
       ],
