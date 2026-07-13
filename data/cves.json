@@ -2,264 +2,196 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-07-13T21:28:45.909723",
+    "total_count": 4,
+    "last_updated": "2026-07-13T22:31:49.953436",
     "severity_distribution": {
       "critical": 0,
-      "high": 3,
+      "high": 0,
       "medium": 1,
       "low": 0,
-      "none": 2
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-62242",
-      "publishedDate": "2026-07-13T21:04:26.002Z",
-      "lastModifiedDate": "2026-07-13T21:04:26.002Z",
-      "description": "Spring Boot Admin Server before 4.1.2 contains a server-side request forgery vulnerability that allows unauthenticated attackers to register instances with attacker-controlled healthUrl and managementUrl parameters without validation against private IP ranges or metadata endpoints. Attackers can force the server to make HTTP requests to arbitrary internal addresses and retrieve response bodies via the actuator proxy to exfiltrate cloud credentials.",
-      "severity": 8.6,
+      "id": "CVE-2026-56877",
+      "publishedDate": "2026-07-13T21:51:43.515Z",
+      "lastModifiedDate": "2026-07-13T22:23:04.895Z",
+      "description": "The SCORM lab launch endpoint in Skillable (scorm.skillable.com) through 2026-07-13 does not validate the client-supplied userId parameter against the authenticated SCORM session token. An authenticated user can substitute arbitrary userId values to bypass per-user lab launch rate limits and consume other users' lab allocations, resulting in denial of service against targeted users' lab and exam access. Skillable was formerly named Learn on Demand Systems.",
+      "severity": 6.3,
       "references": [
         {
-          "url": "https://github.com/codecentric/spring-boot-admin/releases/tag/4.1.2",
+          "url": "https://www.skillable.com/security/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/codecentric/spring-boot-admin/issues/5452",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/codecentric/spring-boot-admin/pull/5464",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/codecentric/spring-boot-admin/commit/1f991ea013e46360b8f8fb63fe4ad20a9bf0d551",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/spring-boot-admin-server-ssrf-via-unauthenticated-instance-registration",
+          "url": "https://www.openwall.com/lists/oss-security/2026/07/12/1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "codecentric",
-          "product": "spring-boot-admin",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/de.codecentric/spring-boot-admin",
+          "defaultStatus": "unknown",
+          "product": "SCORM Lab Launch Integration",
+          "vendor": "Skillable",
           "versions": [
             {
-              "version": "0",
+              "lessThanOrEqual": "2026-07-13",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.1.2"
-            }
-          ],
-          "repo": "https://github.com/codecentric/spring-boot-admin"
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-58500",
-      "publishedDate": "2026-07-13T21:17:29.497Z",
-      "lastModifiedDate": "2026-07-13T21:17:29.497Z",
-      "description": "MCP Appium is an MCP server that provides AI assistants with tools to automate mobile app testing on Android and iOS. In versions prior to 1.85.10, the createLocatorGeneratorUI function interpolates attacker-controlled element attributes — text, content-desc, resource-id, and locator selector values — directly into an HTML template literal without any HTML or JavaScript context escaping. An attacker who controls the UI of the app under test can inject arbitrary HTML and JavaScript into the MCP UI resource returned by the generate_locators tool. When a victim's MCP client renders this resource, the injected script executes and can invoke arbitrary MCP tools via window.parent.postMessage, leading to unauthorized MCP tool execution such as taking screenshots, reading page source, or any other registered capability. This issue has been fixed in version 1.85.10.",
-      "severity": 8.2,
-      "references": [
-        {
-          "url": "https://github.com/appium/appium-mcp/security/advisories/GHSA-x975-rgx4-5fh4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/appium/appium-mcp/commit/e222bbbd6fe2b656a320efcd143563f08061a83d",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "appium",
-          "product": "appium-mcp",
-          "versions": [
-            {
-              "version": "< 1.85.10",
-              "status": "affected"
+              "version": "0",
+              "versionType": "custom"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-472 External Control of Assumed-Immutable Web Parameter"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-62240",
-      "publishedDate": "2026-07-13T21:04:03.774Z",
-      "lastModifiedDate": "2026-07-13T21:04:03.774Z",
-      "description": "CrewAI before 1.15.1 contains a server-side request forgery vulnerability in the validate_url function that performs one-shot DNS resolution and blocklist checks before returning the original URL unchanged. Attackers can bypass the security filter by supplying URLs that redirect to internal addresses or use DNS rebinding techniques to access internal services and cloud metadata endpoints.",
-      "severity": 7.4,
+      "id": "CVE-2026-58102",
+      "publishedDate": "2026-07-13T22:22:48.618Z",
+      "lastModifiedDate": "2026-07-13T22:22:48.618Z",
+      "description": "Crypt::OpenSSL::X509 versions before 2.1.3 for Perl allow a heap out-of-bounds read via a long certificate extension OID in hv_exts.\n\nWhen building the extension hash (via extensions(), extensions_by_long_name(), extensions_by_oid(), or has_extension_oid()), the code passes OBJ_obj2txt()'s return value as the hash-key length; because that value is the OID's full text length rather than the bytes written to the fixed-size buffer (129 bytes), an OID whose text is longer than the 129-byte buffer causes a read past the allocation, exposing adjacent heap memory as the returned hash key. extensions_by_name() uses the static shortname path and is not affected.",
+      "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/crewAIInc/crewAI/releases/tag/1.15.1",
+          "url": "https://github.com/dsully/perl-crypt-openssl-x509/commit/757289bfce095455c104d4adfe9312e7b339620f.patch",
           "type": "reference"
         },
         {
-          "url": "https://github.com/crewAIInc/crewAI/issues/6520",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/crewAIInc/crewAI/pull/6331",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/crewAIInc/crewAI/commit/5d4851eac797cafc45b726f65747fe2c9520fc42",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/crewai-ssrf-filter-bypass-via-http-redirect-in-scrape-tools",
+          "url": "https://metacpan.org/release/JONASBN/Crypt-OpenSSL-X509-2.1.3/source/Changes.md",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "crewAIInc",
-          "product": "crewAI",
+          "collectionURL": "https://cpan.org/modules",
           "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/crewai-workspace",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.15.1"
-            }
+          "packageName": "Crypt-OpenSSL-X509",
+          "product": "Crypt::OpenSSL::X509",
+          "programFiles": [
+            "X509.xs"
           ],
-          "repo": "https://github.com/crewAIInc/crewAI"
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62239",
-      "publishedDate": "2026-07-13T21:03:32.262Z",
-      "lastModifiedDate": "2026-07-13T21:03:32.262Z",
-      "description": "FlashAttention through 2.8.3.post1, fixed in commit 0816ef1, contains a symlink attack vulnerability in the download_and_copy() function within hopper/setup.py that extracts NVIDIA toolchain archives without validating symlinks or filtering tar members. A local attacker can pre-plant a symlink in the predictable cache directory to redirect extracted binaries to an attacker-chosen location, enabling arbitrary file write with victim privileges during build time.",
-      "severity": 6.6,
-      "references": [
-        {
-          "url": "https://github.com/Dao-AILab/flash-attention/issues/2637",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/Dao-AILab/flash-attention/pull/2702",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Dao-AILab/flash-attention/commit/0816ef12f424c6ec94b057a72c275b14f6e6edb2",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/flashattention-symlink-attack-via-tarfile-extractall-in-hopper-setup-py",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Dao-AILab",
-          "product": "flash-attention",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/flash_attn_2_cuda",
-          "versions": [
+          "programRoutines": [
             {
-              "version": "0",
-              "status": "affected",
-              "versionType": "custom",
-              "lessThanOrEqual": "2.8.3.post1"
+              "name": "hv_exts"
             },
             {
-              "status": "unaffected",
-              "version": "0816ef12f424c6ec94b057a72c275b14f6e6edb2",
-              "versionType": "git"
+              "name": "Crypt::OpenSSL::X509::extensions"
+            },
+            {
+              "name": "Crypt::OpenSSL::X509::extensions_by_long_name"
+            },
+            {
+              "name": "Crypt::OpenSSL::X509::extensions_by_oid"
             }
           ],
-          "repo": "https://github.com/Dao-AILab/flash-attention"
+          "repo": "https://github.com/dsully/perl-crypt-openssl-x509",
+          "vendor": "JONASBN",
+          "versions": [
+            {
+              "lessThan": "2.1.3",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
         }
       ],
       "problemType": [
-        "Improper Link Resolution Before File Access ('Link Following')"
+        "CWE-125 Out-of-bounds Read"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-58411",
-      "publishedDate": "2026-07-13T21:05:18.739Z",
-      "lastModifiedDate": "2026-07-13T21:05:18.739Z",
-      "description": "ChurchCRM is an open-source church management system. Prior to version 7.4.0, Cross-Site Scripting (XSS) vulnerabilities were identified due to insufficient output encoding of user-controlled request parameter names and parameter values. The application reflects attacker-controlled input into JavaScript string contexts and HTML attribute contexts without proper sanitization or contextual output encoding. Affected endpoints observed during testing: /FamilyCustomFieldsEditor.php, /PaddleNumList.php and /admin/system/church-info. Potential consequences include session-token theft, account takeover, unauthorized actions on behalf of authenticated users, exposure of sensitive church member information, credential harvesting, phishing, and privilege escalation when administrators are targeted. This issue has been resolved in version 7.4.0.",
+      "id": "CVE-2026-58101",
+      "publishedDate": "2026-07-13T22:17:48.375Z",
+      "lastModifiedDate": "2026-07-13T22:17:48.375Z",
+      "description": "Crypt::OpenSSL::X509 versions before 2.1.3 for Perl allow denial of service via NULL pointer dereference.\n\nX509V3_EXT_d2i(ext) returns NULL when an extension's DER value fails to parse. basicC, ia5string, and auth_att dereference its result without a NULL check. keyid_data also dereferences akid->keyid, which is NULL for an empty AKI SEQUENCE (DER 30 00) even when the parse succeeds.\n\nA caller invoking an affected helper on an extension from an untrusted certificate triggers a SIGSEGV that crashes the Perl process.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/ChurchCRM/CRM/security/advisories/GHSA-p6j6-vrpg-4pp8",
+          "url": "https://github.com/dsully/perl-crypt-openssl-x509/commit/4c1e2370556097c253ae27abe9e1097ea377fbd2.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/JONASBN/Crypt-OpenSSL-X509-2.1.3/source/Changes.md",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ChurchCRM",
-          "product": "CRM",
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "Crypt-OpenSSL-X509",
+          "product": "Crypt::OpenSSL::X509",
+          "programFiles": [
+            "X509.xs"
+          ],
+          "programRoutines": [
+            {
+              "name": "Crypt::OpenSSL::X509::Extension::basicC"
+            },
+            {
+              "name": "Crypt::OpenSSL::X509::Extension::ia5string"
+            },
+            {
+              "name": "Crypt::OpenSSL::X509::Extension::auth_att"
+            },
+            {
+              "name": "Crypt::OpenSSL::X509::Extension::keyid_data"
+            }
+          ],
+          "repo": "https://github.com/dsully/perl-crypt-openssl-x509",
+          "vendor": "JONASBN",
           "versions": [
             {
-              "version": "< 7.4.0",
+              "lessThan": "2.1.3",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-476 NULL Pointer Dereference"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58486",
+      "publishedDate": "2026-07-13T22:12:37.837Z",
+      "lastModifiedDate": "2026-07-13T22:12:37.837Z",
+      "description": "HedgeDoc is an open source, real-time, collaborative, markdown notes application. Prior to version 1.11.0, HedgeDoc was vulnerable to a YAML alias bomb due to unsafe processing of the note frontmatter. HedgeDoc parsed frontmatter with js-yaml.load (js-yaml v3) via @hedgedoc/meta-marked, which resolved YAML anchor aliases. A compact malicious payload could therefore expand into a huge object structure, consuming excessive CPU. This expansion ran on every request to the publish view (/s/<shortid>) and, when placed under the opengraph key, the editor view (/<noteId>). A ten-level alias bomb could block the single Node.js event loop for roughly 235 seconds per request, causing concurrent requests to hang or drop and rendering the instance unavailable (DoS). Because the note was stored in the database, the impact survived process restarts until the note was removed. toobusy-js did not reliably mitigate the worst cases, as the event loop was saturated before the middleware could respond. This issue was fixed in version 1.11.0.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/hedgedoc/hedgedoc/security/advisories/GHSA-qj78-mjch-wwrv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/hedgedoc/hedgedoc/commit/c489497e451887bfe400434c5a010940051e9890",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "hedgedoc",
+          "product": "hedgedoc",
+          "versions": [
+            {
+              "version": "< 1.11.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-52533",
-      "publishedDate": "2026-07-13T00:00:00.000Z",
-      "lastModifiedDate": "2026-07-13T21:15:17.092Z",
-      "description": "An issue in D-Link DIR-1253 v.1.0.1.250923.142435 allows an attacker to escalate privileges via the etc/shadow component file",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://www.dlink.com/en/security-bulletin/",
-          "type": "reference"
-        },
-        {
-          "url": "https://codeberg.org/zuhri/advisory#recent-poc",
-          "type": "reference"
-        },
-        {
-          "url": "https://zuh.re/cve/2026-52533/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-409: Improper Handling of Highly Compressed Data (Data Amplification)"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
