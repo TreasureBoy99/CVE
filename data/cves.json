@@ -2,366 +2,314 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 9,
-    "last_updated": "2026-07-14T06:27:12.603703",
+    "total_count": 8,
+    "last_updated": "2026-07-14T08:38:06.971059",
     "severity_distribution": {
-      "critical": 0,
-      "high": 2,
-      "medium": 1,
+      "critical": 1,
+      "high": 0,
+      "medium": 2,
       "low": 0,
-      "none": 6
+      "none": 5
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-15676",
-      "publishedDate": "2026-07-14T06:00:08.240Z",
-      "lastModifiedDate": "2026-07-14T06:00:08.240Z",
-      "description": "A security flaw has been discovered in code-projects Online Job Portal up to 1.0. The impacted element is an unknown function of the file /Admin/DeleteUser.php. Performing a manipulation results in sql injection. Remote exploitation of the attack is possible. The exploit has been released to the public and may be used for attacks.",
-      "severity": 7.3,
+      "id": "CVE-2026-57898",
+      "publishedDate": "2026-07-14T07:51:19.002Z",
+      "lastModifiedDate": "2026-07-14T07:51:19.002Z",
+      "description": "In Eclipse BaSyx Java Server SDK versions 2.0.0-milestone-05 to 2.0.0-milestone-12, deployments using the MongoDB backend are vulnerable to an unauthenticated arbitrary file write through the AAS thumbnail API.\n\n\n\n\nThe AAS thumbnail upload path accepted a client-controlled fileName request parameter and passed it through repository file handling as both a repository key and, during thumbnail retrieval, a local filesystem path. With the MongoDB file repository, the supplied filename was treated as an opaque GridFS key and was not normalized or restricted as a filesystem path. A remote attacker could upload thumbnail content using an absolute or traversal-style filename, then trigger thumbnail retrieval so that the uploaded bytes were written to the attacker-chosen path on the server filesystem.\n\n\n\n\nThis could allow writing files anywhere the Java process has permission to write and may lead to remote code execution. The default InMemory backend is not affected by this specific path because it normalizes and restricts file paths to its temporary directory.\n\n\n\n\nThe issue is fixed in Eclipse BaSyx Java Server SDK 2.0.0-milestone-13.",
+      "severity": 9,
       "references": [
         {
-          "url": "https://vuldb.com/vuln/378166",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/378166/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15676",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/855976",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/shihuizhang-dazhi/MY-CVE/issues/4",
-          "type": "poc"
-        },
-        {
-          "url": "https://code-projects.org/",
+          "url": "https://gitlab.eclipse.org/security/cve-assignment/-/work_items/159",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "code-projects",
-          "product": "Online Job Portal",
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse BaSyx - Java Server SDK",
+          "repo": "https://github.com/eclipse-basyx/basyx-java-server-sdk",
           "versions": [
             {
-              "version": "1.0",
-              "status": "affected"
+              "status": "affected",
+              "version": "2.0.0-milestone-05",
+              "lessThan": "2.0.0-milestone-13",
+              "versionType": "semver"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:code-projects:online_job_portal:*:*:*:*:*:*:*:*"
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-73: External Control of File Name or Path"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-5005",
+      "publishedDate": "2026-07-09T14:13:00.362Z",
+      "lastModifiedDate": "2026-07-14T07:43:40.417Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in Twiser Informatics Technology Consulting, Trade and Education Inc. OKRs & Goals allows Stored XSS.\n\nThis issue affects OKRs & Goals: from 28220 before 28398.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0524",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Twiser Informatics Technology Consulting, Trade and Education Inc.",
+          "product": "OKRs & Goals",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "28220",
+              "lessThan": "28398",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13699",
+      "publishedDate": "2026-07-14T07:38:23.271Z",
+      "lastModifiedDate": "2026-07-14T07:38:23.271Z",
+      "description": "In Eclipse KUKSA Databroker version 0.6.1, the kuksa.val.v2.VAL/PublishValue gRPC handler fails to validate the existence of the optional data_point field in PublishValueRequest. When a request contains a valid signal_id but omits data_point, the server directly calls unwrap() on request.data_point, triggering a panic in the Tokio worker thread. This issue can be triggered by any client holding a valid JWT token. Unauthenticated or invalid-token requests are rejected and do not reach the vulnerable path. The panic causes the individual gRPC call to be cancelled but does not terminate the Databroker process, which remains available for subsequent requests.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://gitlab.eclipse.org/security/cve-assignment/-/work_items/148",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse KUKSA - Databroker",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0.6.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15075",
+      "publishedDate": "2026-07-14T08:15:53.650Z",
+      "lastModifiedDate": "2026-07-14T08:15:53.650Z",
+      "description": "In Eclipse Vert.x versions up to and including 4.5.29 (4.x branch) and 5.1.4 (5.x branch), DefaultRedirectHandler (vertx-core) propagates all request headers as-is across cross-origin HTTP 30x redirects. Only Content-Length is stripped; no origin comparison (scheme, host, port) is performed before copying headers to the redirect target.\nAs a result, credential headers, including Authorization, Cookie, Proxy-Authorization, and arbitrary custom headers such as X-API-Token, are forwarded to the redirect destination without the caller's knowledge.\n\n\n\n\nAn attacker who can cause a Vert.x HttpClient to issue a request that is redirected to an attacker-controlled host (for example, by supplying a URL to a webhook dispatcher, image proxy, or microservice URL fetcher) can capture bearer tokens, basic-auth credentials, session cookies, and API keys attached to the original request.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://gitlab.eclipse.org/security/cve-assignment/-/work_items/161",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse Vert.x",
+          "repo": "https://github.com/eclipse-vertx/vert.x",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.0",
+              "lessThanOrEqual": "4.5.29",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+        "CWE-346: Origin Validation Error"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59083",
+      "publishedDate": "2026-07-14T08:13:04.861Z",
+      "lastModifiedDate": "2026-07-14T08:13:04.861Z",
+      "description": "Improper Handling of URL Encoding (Hex Encoding) vulnerability in Apache Tomcat's rewrite valve allowed security constraint bypass for some configurations.\n\nThis issue affects Apache Tomcat: from 11.0.0-M1 through 11.0.23, from 10.1.0-M1 through 10.1.56, from 9.0.0.M1 through 9.0.119, from 8.5.0 through 8.5.100. Other versions that have reached end of support may also be affected.\n\nUsers are recommended to upgrade to version 11.0.24, 10.1.57 or 9.0.120, which fix the issue.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/3g63zos2gkjo5vgnrk8kxmosv47w6wbq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Apache Tomcat",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThanOrEqual": "11.0.23",
+              "status": "affected",
+              "version": "11.0.0-M1",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.1.56",
+              "status": "affected",
+              "version": "10.1.0-M1",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "9.0.119",
+              "status": "affected",
+              "version": "9.0.0.M1",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "8.5.100",
+              "status": "affected",
+              "version": "8.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "8.0.0",
+              "status": "unaffected",
+              "version": "0",
+              "versionType": "semver"
+            }
           ]
         }
       ],
       "problemType": [
-        "SQL Injection",
-        "Injection"
+        "CWE-177 Improper Handling of URL Encoding (Hex Encoding)"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-15675",
-      "publishedDate": "2026-07-14T05:45:07.884Z",
-      "lastModifiedDate": "2026-07-14T05:45:07.884Z",
-      "description": "A vulnerability was identified in code-projects Online Job Portal 1.0. The affected element is an unknown function of the file /Admin/EditUser.php. Such manipulation of the argument UserId leads to sql injection. The attack may be launched remotely. The exploit is publicly available and might be used.",
-      "severity": 7.3,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/378165",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/378165/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15675",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/855969",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/shihuizhang-dazhi/MY-CVE/issues/3",
-          "type": "poc"
-        },
-        {
-          "url": "https://code-projects.org/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "code-projects",
-          "product": "Online Job Portal",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:code-projects:online_job_portal:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15672",
-      "publishedDate": "2026-07-14T05:30:08.657Z",
-      "lastModifiedDate": "2026-07-14T05:30:08.657Z",
-      "description": "A vulnerability was determined in itsourcecode Electronic Judging System 1.0. Impacted is an unknown function of the file /intrams/admin/add_judges.php. This manipulation of the argument fname causes sql injection. The attack may be initiated remotely. The exploit has been publicly disclosed and may be utilized.",
-      "severity": 6.3,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/378164",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/378164/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15672",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/855930",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sjmycz/cve/issues/1",
-          "type": "poc"
-        },
-        {
-          "url": "https://itsourcecode.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "itsourcecode",
-          "product": "Electronic Judging System",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:itsourcecode:electronic_judging_system:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-12988",
-      "publishedDate": "2026-07-14T06:00:02.858Z",
-      "lastModifiedDate": "2026-07-14T06:00:02.858Z",
-      "description": "The WP 2FA  WordPress plugin before 3.1.1.2 does not verify that the email address supplied during two-factor authentication setup belongs to the user, allowing an attacker who has obtained a user's credentials to redirect the setup verification code to an attacker-controlled email address and take over the account.",
+      "id": "CVE-2026-15076",
+      "publishedDate": "2026-07-14T08:09:12.951Z",
+      "lastModifiedDate": "2026-07-14T08:09:12.951Z",
+      "description": "In versions up to and including 4.5.29 (4.x branch) and 5.1.4 (5.x branch), the WebClientSession component of Eclipse Vert.x Web Client does not validate that the Domain attribute of a Set-Cookie response header matches the originating server's domain, in violation of RFC 6265 section 5.3.\nAn attacker who controls any server that the victim application contacts can inject a cookie scoped to an arbitrary third-party domain; because the session store performs no cross-domain ownership check, it stores and later transmits that cookie to the targeted domain.\n\n\n\n\nWhen the victim application subsequently sends a request to the targeted domain using the same WebClientSession, it presents the attacker-injected cookie, causing the receiving service to process the request under the attacker's account. Sensitive data included in the victim application's requests, such as payment amounts, card details, or other API payloads, may then be accessible to the attacker through their own account on that service.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/8aa6bf91-54ee-4326-a477-31f42284be22/",
-          "type": "poc"
+          "url": "https://gitlab.eclipse.org/security/cve-assignment/-/work_items/162",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "WP 2FA",
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse Vert.x",
+          "repo": "https://github.com/vert-x3/vertx-web",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "3.1.1.2"
+              "version": "4.0.0",
+              "lessThanOrEqual": "4.5.29",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.4",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-346: Origin Validation Error"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12583",
-      "publishedDate": "2026-07-14T06:00:02.660Z",
-      "lastModifiedDate": "2026-07-14T06:00:02.660Z",
-      "description": "The Newsletters WordPress plugin before 4.15 does not prevent deserialization of untrusted input that is stored through a public form, allowing unauthenticated attackers to inject a PHP object and, via a property-oriented gadget chain bundled with the Newsletters WordPress plugin before 4.15, write arbitrary files and execute code on the server.",
+      "id": "CVE-2026-9561",
+      "publishedDate": "2026-07-14T07:59:20.706Z",
+      "lastModifiedDate": "2026-07-14T07:59:20.706Z",
+      "description": "Eclipse Kura versions prior to 5.6.2 trust the client-supplied X-Forwarded-For HTTP header as the authoritative source of the client IP address in audit log entries. The org.eclipse.kura.web2 (Web Console) and org.eclipse.kura.rest.provider (REST API) components use this header as the primary IP source when initializing audit context, and org.eclipse.kura.jetty.customizer unconditionally installs Jetty's ForwardedRequestCustomizer on all HTTP/HTTPS connectors, causing HttpServletRequest.getRemoteAddr() to reflect the attacker-controlled header value. An unauthenticated remote attacker can exploit this vulnerability to bypass IP-based brute-force protections — such as fail2ban — by spoofing the logged IP address to a non-routable value, allowing a brute-force attack to proceed undetected, or to cause a denial of service against a third party by injecting a victim's IP address and triggering a ban on that address.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/e4c44105-f43d-4dff-8487-7d8ae2691c4e/",
-          "type": "poc"
+          "url": "https://gitlab.eclipse.org/security/cve-assignment/-/work_items/117",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "Newsletters",
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse Kura",
+          "repo": "https://github.com/eclipse-kura/kura",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.15"
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.6.1",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-502 Deserialization of Untrusted Data"
+        "CWE-348: Use of Less Trusted Source",
+        "CWE-807: Reliance on Untrusted Inputs in a Security Decision",
+        "CWE-345: Insufficient Verification of Data Authenticity"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-12511",
-      "publishedDate": "2026-07-14T06:00:02.489Z",
-      "lastModifiedDate": "2026-07-14T06:00:02.489Z",
-      "description": "The AI Engine  WordPress plugin before 3.5.5 does not sanitize a user-supplied filename before using it to write a downloaded file, allowing authenticated users with editor-level access to write attacker-controlled bytes to an arbitrary location on the server via path traversal.",
+      "id": "CVE-2025-8412",
+      "publishedDate": "2026-07-14T07:42:47.016Z",
+      "lastModifiedDate": "2026-07-14T07:42:47.016Z",
+      "description": "A Buffer Copy without Checking Size of Input ('Classic Buffer Overflow') vulnerability in SUSE Virtual Machine Driver Pack allows an attacker with the ability to modify the registry to affect the integrity of the driver. We're not aware of a feasible way to exploit this currently.\n\n\n\n\n\n\nThis issue affects Virtual Machine Driver Pack: before e7a602ec232756ead019bdf19d6d3b9d010cc94b.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/cf3cf59e-da36-429b-8794-5a46587e8462/",
-          "type": "poc"
+          "url": "https://bugzilla.suse.com/show_bug.cgi?id=CVE-2025-8412",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "AI Engine",
+          "vendor": "SUSE",
+          "product": "Virtual Machine Driver Pack",
+          "packageName": "vmdp",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
               "version": "0",
-              "lessThan": "3.5.5"
+              "lessThan": "e7a602ec232756ead019bdf19d6d3b9d010cc94b",
+              "versionType": "git"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-11567",
-      "publishedDate": "2026-07-14T06:00:02.299Z",
-      "lastModifiedDate": "2026-07-14T06:00:02.299Z",
-      "description": "The SureForms  WordPress plugin before 2.11.1 does not properly validate the payment amount on forms that use a dynamically-sourced (variable/hidden) payment amount, allowing unauthenticated users to underpay for the configured product or subscription. Forms using a fixed configured price are not affected.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/bd738da7-f950-4da9-bcc1-c1fe845d7faa/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "SureForms",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "2.11.1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-11563",
-      "publishedDate": "2026-07-14T06:00:02.086Z",
-      "lastModifiedDate": "2026-07-14T06:00:02.086Z",
-      "description": "The Word Count and Social Shares WordPress plugin through 1.0 does not validate a user-supplied file path before deletion, nor does it have proper authorization or CSRF checks, allowing any authenticated user, such as a Subscriber, to delete arbitrary files on the server, which can lead to a full site takeover (e.g. by deleting wp-config.php).",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/7f4b5f16-6c31-4dcc-94a4-120cb45631bb/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Word Count and Social Shares",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThanOrEqual": "1.0"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-73 External Control of File Name or Path",
-        "CWE-352 Cross-Site Request Forgery (CSRF)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2025-15665",
-      "publishedDate": "2026-07-14T06:00:01.908Z",
-      "lastModifiedDate": "2026-07-14T06:00:01.908Z",
-      "description": "The Ultimate Before After Image Slider & Gallery  WordPress plugin before 4.7.1 does not escape the value of the BEAF Slider widget's shortcode field before outputting it on the front end (the value is passed through do_shortcode, which echoes non-shortcode content verbatim), allowing users with administrator-level access to store a script that executes in the browser of any visitor who loads a page displaying the widget.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/754f0960-efc8-426f-bb1d-7cceec920910/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Ultimate Before After Image Slider & Gallery",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.7.1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Cross-Site Scripting (XSS)"
+        "CWE-120: Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
