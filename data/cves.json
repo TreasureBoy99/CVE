@@ -2,340 +2,184 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 61,
-    "last_updated": "2026-07-14T21:41:30.389042",
+    "total_count": 43,
+    "last_updated": "2026-07-14T22:41:10.834325",
     "severity_distribution": {
       "critical": 4,
-      "high": 27,
-      "medium": 11,
-      "low": 0,
-      "none": 19
+      "high": 20,
+      "medium": 13,
+      "low": 1,
+      "none": 5
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-48334",
-      "publishedDate": "2026-07-14T21:16:07.327Z",
-      "lastModifiedDate": "2026-07-14T21:17:33.074Z",
-      "description": "Illustrator is affected by an Improper Input Validation vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file. Scope is changed.",
-      "severity": 9.3,
+      "id": "CVE-2026-58479",
+      "publishedDate": "2026-07-14T14:44:49.018Z",
+      "lastModifiedDate": "2026-07-14T22:03:17.020Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a command injection vulnerability in the optional cli_control plugin that allows unauthenticated or cross-site request forgery attackers to execute arbitrary operating-system commands by storing a malicious payload via the plugin's HTTP endpoint. Attackers can trigger execution by activating the associated irrigation station, exploiting the absence of passphrase protection or the default passphrase 'opendoor', to achieve arbitrary command execution on the underlying host.",
+      "severity": 9.8,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/illustrator/apsb26-79.html",
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5999",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-rce-via-cli-control-plugin-command-injection",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2026",
-          "vendor": "Adobe",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
           "versions": [
             {
-              "lessThanOrEqual": "30.5",
               "status": "affected",
               "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "30.6",
-              "versionType": "semver"
+              "versionType": "semver",
+              "lessThanOrEqual": "5.2.16"
             }
           ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61500",
+      "publishedDate": "2026-07-13T17:21:55.747Z",
+      "lastModifiedDate": "2026-07-14T22:03:39.527Z",
+      "description": "Rejetto HFS 3.0.0 through 3.2.0 derives its session-cookie signing key from the non-cryptographic Math.random() generator and discloses outputs of the same generator to unauthenticated clients during login. A remote attacker can collect a small number of login responses, reconstruct the generator's state, recover the signing key, and forge a valid administrator session cookie, leading to full administrative access and remote code execution via the server_code configuration feature.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://github.com/rejetto/hfs/releases/tag/v3.2.1",
+          "type": "reference"
         },
+        {
+          "url": "https://www.vulncheck.com/advisories/rejetto-hfs-session-forgery-via-predictable-signing-key",
+          "type": "reference"
+        }
+      ],
+      "affected": [
         {
           "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2025",
-          "vendor": "Adobe",
+          "packageURL": "pkg:github/rejetto/hfs",
+          "vendor": "rejetto",
+          "product": "hfs",
+          "repo": "https://github.com/rejetto/hfs",
           "versions": [
             {
-              "lessThanOrEqual": "29.8.7",
               "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "29.8.9",
-              "versionType": "semver"
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThan": "3.2.1"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Input Validation (CWE-20)"
+        "Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-45363",
-      "publishedDate": "2026-07-14T21:32:26.676Z",
-      "lastModifiedDate": "2026-07-14T21:34:05.174Z",
-      "description": "ruby-jwt is a Ruby implementation of the RFC 7519 OAuth JSON Web Token standard. Prior to 2.10.3 and 3.2.0, JWT.decode(token, '', true, algorithm: 'HS256') accepts an attacker-forged token because OpenSSL::HMAC.digest('SHA256', '', payload) returns a valid digest under an empty key and no empty-key precondition exists in the HMAC algorithm. The same path is reached when a keyfinder block or key_finder: argument returns an empty string, nil, or an array containing nil for an unknown key, affecting HS256, HS384, and HS512 verification through JWT.decode and JWT::EncodedToken#verify_signature!. This issue is fixed in versions 2.10.3 and 3.2.0.",
-      "severity": 9.1,
+      "id": "CVE-2026-61459",
+      "publishedDate": "2026-07-10T18:34:27.969Z",
+      "lastModifiedDate": "2026-07-14T22:03:38.209Z",
+      "description": "MCP Server Kubernetes before 3.9.0 contains an argument injection vulnerability in structured tools (kubectl_get, kubectl_describe, kubectl_delete) that allows attackers to bypass the assertNoDangerousFlags security check by supplying resourceType and name parameters with leading dashes. Attackers can inject the --server flag to redirect kubectl commands to an attacker-controlled API server, causing the operator's bearer token to be transmitted externally and enabling full cluster compromise.",
+      "severity": 9.8,
       "references": [
         {
-          "url": "https://github.com/jwt/ruby-jwt/security/advisories/GHSA-c32j-vqhx-rx3x",
+          "url": "https://github.com/Flux159/mcp-server-kubernetes/releases/tag/3.9.0",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jwt/ruby-jwt/commit/9820020869ad147b941e49d96ab8beba35532964",
+          "url": "https://github.com/Flux159/mcp-server-kubernetes/issues/328",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/Flux159/mcp-server-kubernetes/pull/329",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jwt/ruby-jwt/commit/db560b769a07bd9724e77ff505011ac01872106f",
+          "url": "https://github.com/Flux159/mcp-server-kubernetes/commit/d7890f50a4567bf5d9842541ba6f41e180227f9a",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jwt/ruby-jwt/releases/tag/v2.10.3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jwt/ruby-jwt/releases/tag/v3.2.0",
+          "url": "https://www.vulncheck.com/advisories/mcp-server-kubernetes-argument-injection-via-kubectl-structured-tools",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "jwt",
-          "product": "ruby-jwt",
-          "versions": [
-            {
-              "version": "< 2.10.3",
-              "status": "affected"
-            },
-            {
-              "version": ">= 3.0.0, < 3.2.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-287: Improper Authentication",
-        "CWE-326: Inadequate Encryption Strength",
-        "CWE-1391: Use of Weak Credentials"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-56260",
-      "publishedDate": "2026-07-12T12:06:31.568Z",
-      "lastModifiedDate": "2026-07-14T21:34:09.393Z",
-      "description": "Crawl4AI before 0.8.7 contains an arbitrary file write vulnerability in the Docker API server's /screenshot and /pdf endpoints. The output_path parameter accepts arbitrary filesystem paths without validation, allowing an attacker to supply absolute or path-traversal values to write to any location writable by the application's user, overwriting server files and causing denial of service.",
-      "severity": 9.1,
-      "references": [
-        {
-          "url": "https://github.com/unclecode/crawl4ai/security/advisories/GHSA-365w-hqf6-vxfg",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/unclecode/crawl4ai",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/crawl4ai-arbitrary-file-write-via-output-path-parameter",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Crawl4AI",
-          "product": "Crawl4AI",
+          "vendor": "Flux159",
+          "product": "mcp-server-kubernetes",
           "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/crawl4ai",
+          "packageURL": "pkg:npm/mcp-server-kubernetes",
           "versions": [
             {
               "version": "0",
               "status": "affected",
               "versionType": "semver",
-              "lessThan": "0.8.7"
+              "lessThan": "3.9.0"
+            }
+          ],
+          "repo": "https://github.com/Flux159/mcp-server-kubernetes"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58480",
+      "publishedDate": "2026-07-08T13:05:02.727Z",
+      "lastModifiedDate": "2026-07-14T22:03:17.700Z",
+      "description": "Blocksy Companion Pro plugin for WordPress before 2.1.47 contains an unauthenticated arbitrary file upload vulnerability that allows attackers to upload executable files by bypassing extension validation in the save_attachments function exposed through the Advanced Reviews feature. Attackers can exploit the Custom Fonts extension's flawed strpos() substring check by uploading double-extension filenames such as shell.woff2.php, causing the validation to pass on the substring match while the web server executes the file as PHP, achieving remote code execution.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/blocksy-companion/blocksy-companion-2146-unauthenticated-arbitrary-file-upload-via-blc-review-images-parameter",
+          "type": "reference"
+        },
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/blocksy-companion/vulnerability/wordpress-blocksy-companion-plugin-2-1-46-unauthenticated-arbitrary-file-upload-vulnerability",
+          "type": "reference"
+        },
+        {
+          "url": "https://wordpress.org/plugins/blocksy-companion/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/blocksy-companion-pro-unauthenticated-file-upload-via-save-attachments",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "Creative Themes",
+          "product": "Blocksy Companion",
+          "repo": "https://wordpress.org/plugins/blocksy-companion/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.1.46"
             },
             {
-              "version": "0.8.7",
               "status": "unaffected",
+              "version": "2.1.47",
               "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-58122",
-      "publishedDate": "2026-07-09T21:30:17.166Z",
-      "lastModifiedDate": "2026-07-14T21:34:49.210Z",
-      "description": "Hermes WebUI before 0.51.307 contains an authentication bypass vulnerability that allows unauthenticated remote attackers to circumvent local-origin IP restrictions on onboarding endpoints by supplying a spoofed X-Forwarded-For header with a loopback address. Attackers can exploit this bypass to perform server-side request forgery against internal services including cloud metadata endpoints, overwrite LLM provider configuration and API keys with attacker-controlled values, or initiate OAuth device-code flows to obtain persistent access tokens stored in auth.json.",
-      "severity": 9.1,
-      "references": [
-        {
-          "url": "https://github.com/nesquena/hermes-webui/releases/tag/v0.51.307",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/nesquena/hermes-webui/pull/3758",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/nesquena/hermes-webui/commit/70596e6993be0d4cee083c1c1a86f5e7ad5d57b7",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/hermes-webui-authentication-bypass-via-x-forwarded-for-header-spoofing",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "packageURL": "pkg:github/nesquena/hermes-webui",
-          "vendor": "nesquena",
-          "product": "hermes-webui",
-          "repo": "https://github.com/nesquena/hermes-webui",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "0.51.307"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Use of Less Trusted Source"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57856",
-      "publishedDate": "2026-07-13T22:41:23.183Z",
-      "lastModifiedDate": "2026-07-14T21:34:35.949Z",
-      "description": "Cockpit CMS contains a path traversal vulnerability in the Bucket file storage API (/system/buckets/api). The api() method in modules/System/Controller/Buckets.php sanitizes the bucket name with preg_replace('/[^a-zA-Z0-9-_\\\\.]/','', $bucket), which permits '..' and '../' sequences. The sanitized value is interpolated into a Flysystem path as uploads://buckets/{bucket}. Flysystem's WhitespacePathNormalizer resolves 'buckets/..' to the empty string (the uploads storage root) without raising PathTraversalDetected because the '..' has a preceding component to consume. An authenticated low-privileged user can send a crafted request with a '../' bucket name to list, upload, and delete files across all buckets, including those belonging to other users or roles",
-      "severity": 8.8,
-      "references": [
-        {
-          "url": "https://github.com/cockpit-hq/cockpit",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Cockpit-HQ/Cockpit/commit/dde2d1d74f5f4e11de42a298918ea8c9684f932c",
-          "type": "reference"
-        },
-        {
-          "url": "https://gist.github.com/sermikr0/821c4edd3c34e98a62a50b07707785bd",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/cockpit-cms-missing-authorization-in-bucket-file-storage-api",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/cockpit-cms-path-traversal-via-bucket-name-in-bucket-file-storage-api",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "Cockpit HQ",
-          "product": "Cockpit CMS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "git",
-              "lessThan": "2.14.0"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-57855",
-      "publishedDate": "2026-07-13T22:33:39.717Z",
-      "lastModifiedDate": "2026-07-14T21:34:35.253Z",
-      "description": "Cockpit CMS contains a missing authorization vulnerability in the Bucket file storage API (/system/buckets/api). The api() method in modules/System/Controller/Buckets.php executes bucket commands (ls, upload, removefiles, rename, createfolder) without performing any ACL or role check. Any authenticated user, regardless of role, can perform all bucket operations on any named bucket, including buckets intended for admin use only.",
-      "severity": 8.8,
-      "references": [
-        {
-          "url": "https://github.com/cockpit-hq/cockpit",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Cockpit-HQ/Cockpit/commit/dde2d1d74f5f4e11de42a298918ea8c9684f932c",
-          "type": "reference"
-        },
-        {
-          "url": "https://gist.github.com/sermikr0/821c4edd3c34e98a62a50b07707785bd",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/cockpit-cms-missing-authorization-in-bucket-file-storage-api",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "Cockpit HQ",
-          "product": "Cockpit CMS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "git",
-              "lessThan": "2.14.0"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Access Control"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-49972",
-      "publishedDate": "2026-07-13T18:16:02.131Z",
-      "lastModifiedDate": "2026-07-14T21:33:33.422Z",
-      "description": "Laravel-Mediable before 7.0.0 contains a file upload vulnerability that allows unauthenticated attackers to achieve remote code execution by uploading a file with an embedded PHP extension disguised within a double extension such as shell.php.jpg. The PATHINFO_FILENAME extraction preserves the inner .php extension in the base name, and on misconfigured Apache or nginx servers that execute any filename containing .php as PHP, the stored file is interpreted as executable code while all MIME type, extension, and aggregate type validation checks pass due to the outer .jpg extension.",
-      "severity": 8.8,
-      "references": [
-        {
-          "url": "https://github.com/plank/laravel-mediable/releases/tag/7.0.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/plank/laravel-mediable/commit/49e3583bed13423611b3391f89e6b002571eed73",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/laravel-mediable-file-upload-rce-via-extension-bypass",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "packageURL": "pkg:github/plank/laravel-mediable",
-          "vendor": "plank",
-          "product": "laravel-mediable",
-          "repo": "https://github.com/plank/laravel-mediable",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "7.0.0"
             }
           ]
         }
@@ -346,38 +190,629 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-49970",
-      "publishedDate": "2026-07-13T18:11:36.832Z",
-      "lastModifiedDate": "2026-07-14T21:33:32.071Z",
-      "description": "Laravel-Mediable before 7.0.0 contains a path traversal vulnerability in the File::sanitizePath() function that allows attackers to write uploaded files to arbitrary locations by controlling the directory argument passed to MediaUploader::toDestination(). Attackers can exploit the permissive character-class regex that allows both dot and slash characters combined with an ineffective trailing trim() call to bypass sanitization and upload files to sensitive locations such as the document root, environment configuration files, or application configuration directories, enabling remote code execution.",
+      "id": "CVE-2026-61876",
+      "publishedDate": "2026-07-12T12:07:55.788Z",
+      "lastModifiedDate": "2026-07-14T22:03:45.641Z",
+      "description": "LuCI versions fail to properly encode DHCPv6 lease hostnames before rendering in status tables, allowing adjacent network attackers to inject HTML markup. Attackers can send a DHCPv6 Client FQDN containing script tags that execute in the administrator's browser when viewing DHCP lease pages.",
       "severity": 8.8,
       "references": [
         {
-          "url": "https://github.com/plank/laravel-mediable/releases/tag/7.0.0",
+          "url": "https://github.com/openwrt/luci/security/advisories/GHSA-686p-p8p9-x6fh",
           "type": "reference"
         },
         {
-          "url": "https://github.com/plank/laravel-mediable/commit/6d1e7fb39922fdfb3b2d120e13f4eb2e653ae082",
+          "url": "https://www.vulncheck.com/advisories/luci-dhcpv6-lease-hostname-stored-cross-site-scripting",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openwrt",
+          "product": "luci",
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61875",
+      "publishedDate": "2026-07-12T12:06:36.956Z",
+      "lastModifiedDate": "2026-07-14T22:03:44.956Z",
+      "description": "luci-app-upnp contains a stored cross-site scripting vulnerability that allows unauthenticated LAN clients to inject JavaScript via UPnP IGD AddPortMapping SOAP requests. Attackers can send malicious HTML in the NewPortMappingDescription field, which miniupnpd stores and luci-app-upnp renders without output encoding, executing the payload when administrators view the UPnP or Status pages.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openwrt/luci/security/advisories/GHSA-8v49-6387-7f89",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/laravel-mediable-path-traversal-via-file-sanitizepath",
+          "url": "https://www.vulncheck.com/advisories/luci-app-upnp-stored-xss-via-upnp-port-mapping-description",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openwrt",
+          "product": "luci",
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59260",
+      "publishedDate": "2026-07-12T12:06:35.592Z",
+      "lastModifiedDate": "2026-07-14T22:03:27.226Z",
+      "description": "OpenWrt luci-app-samba4 read ACL grants file.exec permission on /usr/sbin/smbd, allowing authenticated delegated users to execute the Samba daemon with caller-controlled command-line arguments. Attackers can pass arbitrary Samba global options such as message command to a root smbd process, triggering command execution when SMB protocol messages are processed.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openwrt/luci/security/advisories/GHSA-vx64-mmp7-h36c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openwrt-luci-app-samba4-read-acl-remote-code-execution-via-smbd",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openwrt",
+          "product": "luci",
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Improper Privilege Management"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61461",
+      "publishedDate": "2026-07-10T18:10:35.462Z",
+      "lastModifiedDate": "2026-07-14T22:03:38.857Z",
+      "description": "Dify before 1.16.0-rc1 contains a SQL injection vulnerability in the MyScale vector store backend that allows attackers to execute arbitrary SQL by supplying unsanitized search parameters to the search_by_full_text method without escaping or parameterization. Attackers can inject malicious SQL through the search parameters to read, modify, or delete data in the underlying ClickHouse database.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/langgenius/dify/releases/tag/1.16.0-rc1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langgenius/dify/issues/38281",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/langgenius/dify/pull/38295",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langgenius/dify/commit/d9884efaeea8322706e24c560d2c17e5bf3fab5f",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/dify-rc1-sql-injection-via-myscale-vector-store-search-by-full-text",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "langgenius",
+          "product": "dify",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/dify",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.16.0-rc1"
+            }
+          ],
+          "repo": "https://github.com/langgenius/dify"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60102",
+      "publishedDate": "2026-07-08T16:25:19.153Z",
+      "lastModifiedDate": "2026-07-14T22:03:29.942Z",
+      "description": "Horde Virtual File System (VFS) API before 3.0.1 contains an OS command injection vulnerability in the Horde_Vfs_Smb driver where the _escapeShellCommand() method fails to sanitize command substitution sequences, allowing authenticated attackers to inject arbitrary shell commands through user-controlled filenames. Attackers can supply malicious filenames containing unescaped command substitution payloads through operations such as file upload, folder creation, rename, or deletion, which are interpolated into a double-quoted shell context and executed via proc_open() through /bin/sh -c before smbclient runs, resulting in arbitrary command execution on the underlying system.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/horde/Vfs/releases/tag/v3.0.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/horde/Vfs/pull/10",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/horde/Vfs/commit/41f74b4acfc144e09013d04dd121e0a5da808361",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/horde-vfs-os-command-injection-via-horde-vfs-smb-driver",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "packageURL": "pkg:github/plank/laravel-mediable",
-          "vendor": "plank",
-          "product": "laravel-mediable",
-          "repo": "https://github.com/plank/laravel-mediable",
+          "packageURL": "pkg:github/horde/Vfs",
+          "vendor": "horde",
+          "product": "Vfs",
+          "repo": "https://github.com/horde/Vfs",
           "versions": [
             {
               "status": "affected",
               "version": "0",
               "versionType": "semver",
-              "lessThan": "7.0.0"
+              "lessThan": "3.0.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60104",
+      "publishedDate": "2026-07-08T19:34:49.127Z",
+      "lastModifiedDate": "2026-07-14T22:03:31.357Z",
+      "description": "Bitwarden Server before 2026.6.0 does not verify that the email in a POST /auth-requests/admin-request body belongs to the authenticated caller, allowing a low-privileged organization member to obtain another user's vault key and a victim-scoped access token by creating a Trusted Device Encryption authentication request, bound to an attacker-controlled public key, that is readable from an unauthenticated endpoint once approved resulting in disclosure of the victim's vault key and account takeover.",
+      "severity": 8.7,
+      "references": [
+        {
+          "url": "https://sanjokkarki.com.np/blog/bitwarden-vault-key-heist",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/bitwarden/server/releases#release-v2026.6.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bitwarden/server/pull/7615",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bitwarden/server/commit/dcf4c486b2b5bedecc03a48b427243328cc74a9a",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/bitwarden-server-authorization-bypass-via-admin-auth-request",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/bitwarden/server",
+          "vendor": "bitwarden",
+          "product": "server",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "2026.6.0"
+            }
+          ],
+          "repo": "https://github.com/bitwarden/server"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62242",
+      "publishedDate": "2026-07-13T21:04:26.002Z",
+      "lastModifiedDate": "2026-07-14T22:03:47.621Z",
+      "description": "Spring Boot Admin Server before 4.1.2 contains a server-side request forgery vulnerability that allows unauthenticated attackers to register instances with attacker-controlled healthUrl and managementUrl parameters without validation against private IP ranges or metadata endpoints. Attackers can force the server to make HTTP requests to arbitrary internal addresses and retrieve response bodies via the actuator proxy to exfiltrate cloud credentials.",
+      "severity": 8.6,
+      "references": [
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/releases/tag/4.1.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/issues/5452",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/pull/5464",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/codecentric/spring-boot-admin/commit/1f991ea013e46360b8f8fb63fe4ad20a9bf0d551",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/spring-boot-admin-server-ssrf-via-unauthenticated-instance-registration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "codecentric",
+          "product": "spring-boot-admin",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:maven/de.codecentric/spring-boot-admin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.1.2"
+            }
+          ],
+          "repo": "https://github.com/codecentric/spring-boot-admin"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60105",
+      "publishedDate": "2026-07-08T21:02:37.204Z",
+      "lastModifiedDate": "2026-07-14T22:03:32.053Z",
+      "description": "Monsta FTP before 2.14.5 contains a server-side request forgery vulnerability in the fetchRemoteFile action caused by an incomplete IP blocklist check in the isBlockedIP() function, which fails to detect embedded IPv4 addresses within IPv4-mapped IPv6 addresses. An unauthenticated attacker can obtain a CSRF token from the public getSystemVars endpoint and submit a fetchRemoteFile request with a source URL resolving to an IPv4-mapped address, causing the server to issue HTTP requests to internal services and write responses to an attacker-controlled FTP destination, enabling retrieval of cloud instance metadata credentials.",
+      "severity": 8.6,
+      "references": [
+        {
+          "url": "https://www.vulncheck.com/blog/monsta-ftp-ssrf-ipv6-blocklist-bypass",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.monstaftp.com/notes/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/monsta-ftp-ssrf-via-ipv4-mapped-ipv6-address-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "Monsta Limited of New Zealand",
+          "product": "Monsta FTP",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "2.14.5"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58477",
+      "publishedDate": "2026-07-14T14:39:51.652Z",
+      "lastModifiedDate": "2026-07-14T22:03:15.674Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a mass assignment vulnerability that allows unauthenticated attackers to overwrite sensitive configuration settings by supplying arbitrary parameter names in HTTP requests. Attackers can manipulate parameters corresponding to sensitive values such as the passphrase and listening port, and can also achieve the same result through cross-site request forgery due to the absence of adequate request validation.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5997",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-mass-assignment-via-http-parameters",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "5.2.16"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59802",
+      "publishedDate": "2026-07-08T19:42:07.906Z",
+      "lastModifiedDate": "2026-07-14T22:03:28.588Z",
+      "description": "PasswordPusher before 2.8.1 accepts data URI schemes in URL push payloads due to insufficient validation in the valid_url function. Attackers can create malicious pushes containing data:text/html URIs that execute arbitrary JavaScript in victims' browsers when clicked, enabling phishing and credential theft under the trusted PasswordPusher domain.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://github.com/pglombardo/PasswordPusher/security/advisories/GHSA-76c2-66pg-fj2f",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/passwordpusher-redirect-based-xss-via-data-uri-in-url-push-payload",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "PasswordPusher",
+          "product": "PasswordPusher",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/pglombardo/PasswordPusher",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.8.1"
+            },
+            {
+              "version": "2.8.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/pglombardo/PasswordPusher"
+        }
+      ],
+      "problemType": [
+        "Permissive List of Allowed Inputs"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58476",
+      "publishedDate": "2026-07-14T14:25:41.659Z",
+      "lastModifiedDate": "2026-07-14T22:03:14.963Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a cross-site request forgery vulnerability that allows remote attackers to perform state-changing administrative actions by luring a logged-in administrator into visiting a malicious page that issues HTTP GET requests without CSRF token validation or origin verification. Attackers can trigger actions such as disabling the passphrase, rebooting the device, deleting programs, or installing plugins, with the default configuration exposing these endpoints to unauthenticated users due to no required passphrase and a default credential of 'opendoor'.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5995",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-csrf-via-administrative-get-requests",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "5.2.16"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Cross-Site Request Forgery (CSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58459",
+      "publishedDate": "2026-07-09T16:14:02.757Z",
+      "lastModifiedDate": "2026-07-14T22:03:07.004Z",
+      "description": "gpsd through release-3.27.5, fixed at commit 4c06658, contains a command injection vulnerability in gpsprof that allows attackers who control the GPS device subtype value to execute arbitrary shell commands by embedding backtick payloads in the gnuplot plot title without proper escaping. The subtype field sourced from a DEVICES JSON log entry or NMEA PGRMT sentence is written into a generated gnuplot program via a set title statement with only double-quote characters escaped, enabling arbitrary shell command execution as the user running gnuplot when the victim renders the generated plot through the gpsprof and gnuplot workflow.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://gitlab.com/gpsd/gpsd/-/work_items/404#note_3534119267",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ntpsec/gpsd/commit/5581ba196d826a984fbfaf792b7d58535f9911ce",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ntpsec/gpsd/commit/1a6bb7bcbdf58aa940132e630870af061dc88537",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ntpsec/gpsd/commit/4c06658e988f4ced1a7a574ce082a22ef625df56",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/gpsd-gpsprof-command-injection-via-gnuplot-plot-title-subtype-field",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/ntpsec/gpsd",
+          "vendor": "ntpsec",
+          "product": "gpsd",
+          "repo": "https://github.com/ntpsec/gpsd",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "3.27.5"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "git",
+              "lessThanOrEqual": "4c06658e988f4ced1a7a574ce082a22ef625df56"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61520",
+      "publishedDate": "2026-07-14T20:17:15.901Z",
+      "lastModifiedDate": "2026-07-14T22:03:43.601Z",
+      "description": "Simple Machines Forum 2.1 prior to commit 4bf35cf and 3.0 prior to commit b4d23df contains a server-side request forgery vulnerability in the image proxy that allows authenticated attackers to trigger internal HTTP requests by embedding attacker-controlled URLs in BBCode image tags, which the proxy fetches without validating resolved destination IPs against private address ranges, loopback, or link-local addresses. Attackers can leverage SMF's automatic HMAC signature generation for any embedded image URL to obtain valid signed proxy requests targeting internal services such as cloud instance metadata endpoints, internal web applications, and container network services.",
+      "severity": 7.7,
+      "references": [
+        {
+          "url": "https://github.com/SimpleMachines/SMF/commit/4bf35cf9e45573a5f55a6f52995086c1da89c096",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/SimpleMachines/SMF/commit/b4d23dfd74a511587c605f9d294cefc3a75b4b26",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/simple-machines-forum-ssrf-via-image-proxy",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/SimpleMachines/SMF",
+          "vendor": "SimpleMachines",
+          "product": "SMF",
+          "repo": "https://github.com/SimpleMachines/SMF",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.1.0",
+              "versionType": "semver",
+              "lessThan": "2.1.7"
+            },
+            {
+              "status": "unaffected",
+              "version": "4bf35cf9e45573a5f55a6f52995086c1da89c096",
+              "versionType": "git"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.0.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "b4d23dfd74a511587c605f9d294cefc3a75b4b26",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62185",
+      "publishedDate": "2026-07-13T21:31:23.660Z",
+      "lastModifiedDate": "2026-07-14T22:03:46.962Z",
+      "description": "Argo CD Helm Chart before 10.0.0 fails to install network policies by default, allowing any pod on a cluster to access repo-server and other Argo APIs. Attackers can exploit this unrestricted network access through combined attacks to achieve cluster compromise and remote code execution.",
+      "severity": 7.6,
+      "references": [
+        {
+          "url": "https://github.com/argoproj/argo-helm/security/advisories/GHSA-47m3-95c7-g2g8",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/argo-cd-helm-chart-missing-network-policy-rce",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "argoproj",
+          "product": "argo-helm",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/argoproj/argo-helm",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "10.0.0"
+            },
+            {
+              "version": "10.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/argoproj/argo-helm"
+        }
+      ],
+      "problemType": [
+        "Initialization of a Resource with an Insecure Default"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60114",
+      "publishedDate": "2026-07-14T14:37:27.894Z",
+      "lastModifiedDate": "2026-07-14T22:03:34.158Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a path traversal vulnerability that allows attackers with access to the restore functionality to write files to arbitrary locations by uploading crafted JSON backup files with unvalidated keys used to construct file paths. Attackers can exploit the lack of key validation in the JSON restore process, combined with the absence of a required passphrase in the default configuration or the default passphrase 'opendoor', to write arbitrary JSON files outside the intended data directory.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5996",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-path-traversal-via-json-backup-restore",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "5.2.16"
             }
           ]
         }
@@ -388,97 +823,268 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-48275",
-      "publishedDate": "2026-07-14T21:16:06.604Z",
-      "lastModifiedDate": "2026-07-14T21:17:34.574Z",
-      "description": "Illustrator is affected by an Untrusted Search Path vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file. Scope is changed.",
-      "severity": 8.6,
+      "id": "CVE-2026-62184",
+      "publishedDate": "2026-07-13T21:30:09.248Z",
+      "lastModifiedDate": "2026-07-14T22:03:46.298Z",
+      "description": "luci-app-banip contains a log parsing vulnerability where the awk-based parser extracts the first IPv4 address from log lines regardless of field position, allowing attackers to inject arbitrary IPs via attacker-controlled fields like usernames. An unauthenticated remote attacker can inject an IP address into the login username field, causing banIP to block the wrong target while the real attacker remains unblocked.",
+      "severity": 7.5,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/illustrator/apsb26-79.html",
+          "url": "https://github.com/openwrt/luci/security/advisories/GHSA-r6hx-4f83-vp8m",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openwrt/luci/commit/d9bbc372e29618a8807b693a1ccf6d0e42cd196c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/luci-app-banip-log-monitor-ip-extraction-bypass",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2026",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "30.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "30.6",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2025",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "29.8.7",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "29.8.9",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Untrusted Search Path (CWE-426)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-56261",
-      "publishedDate": "2026-07-10T13:57:52.897Z",
-      "lastModifiedDate": "2026-07-14T21:34:10.071Z",
-      "description": "Crawl4AI before 0.8.7 contains a server-side request forgery (SSRF) vulnerability in the Docker API server's /crawl/job and /llm/job endpoints, which accept webhook URLs without destination validation. An attacker can supply webhook URLs pointing to private or internal IP ranges, Docker networks, or cloud metadata endpoints (e.g. 169.254.169.254), causing the server to make requests to internal services and potentially expose cloud metadata.",
-      "severity": 8.6,
-      "references": [
-        {
-          "url": "https://github.com/unclecode/crawl4ai/security/advisories/GHSA-365w-hqf6-vxfg",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/unclecode/crawl4ai",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/crawl4ai-server-side-request-forgery-via-webhook-urls",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Crawl4AI",
-          "product": "Crawl4AI",
+          "vendor": "openwrt",
+          "product": "luci-app-banip",
           "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/crawl4ai",
+          "packageURL": "pkg:github/openwrt/luci",
           "versions": [
             {
               "version": "0",
               "status": "affected",
               "versionType": "semver",
-              "lessThan": "0.8.7"
+              "lessThanOrEqual": "0.11.1"
             },
             {
-              "version": "0.8.7",
+              "status": "unaffected",
+              "version": "d9bbc372e29618a8807b693a1ccf6d0e42cd196c",
+              "versionType": "git"
+            }
+          ],
+          "repo": "https://github.com/openwrt/luci"
+        }
+      ],
+      "problemType": [
+        "Improper Encoding or Escaping of Output"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61458",
+      "publishedDate": "2026-07-13T21:30:07.937Z",
+      "lastModifiedDate": "2026-07-14T22:03:37.558Z",
+      "description": "PasswordPusher before 2.9.2 contains a brute-force vulnerability in the POST /p/:token/access endpoint that lacks route-specific rate limiting and per-push lockout mechanisms. Attackers who know a push token can systematically guess passphrases at 120 attempts per minute without triggering any push-level defense, making short or dictionary-derived passphrases practically recoverable within hours or days.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/pglombardo/PasswordPusher/security/advisories/GHSA-59w3-h5v2-c4xw",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/passwordpusher-passphrase-brute-force-via-unthrottled-endpoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "pglombardo",
+          "product": "PasswordPusher",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/pglombardo/PasswordPusher",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.9.2"
+            },
+            {
+              "version": "2.9.2",
               "status": "unaffected",
               "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/pglombardo/PasswordPusher"
+        }
+      ],
+      "problemType": [
+        "Improper Restriction of Excessive Authentication Attempts"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60109",
+      "publishedDate": "2026-07-09T14:19:17.970Z",
+      "lastModifiedDate": "2026-07-14T22:03:33.470Z",
+      "description": "Zeek before 8.0.9 contains a null pointer dereference vulnerability in its Kerberos protocol analyzer that allows unauthenticated remote attackers to crash the sensor by sending a crafted KRB_ERROR message with error-code 25 (KDC_ERR_PREAUTH_REQUIRED) containing a PA-DATA element with padata-type 2, 3, 11, or 19. Attackers can exploit a parser and analyzer state mismatch where proc_padata() dereferences an uninitialized pa_data_element field selected by the wrong parsing arm, triggering a crash via a single UDP or TCP packet to port 88 without any credentials or prior authentication.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/zeek/zeek/releases/tag/v8.0.9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zeek/zeek/commit/c82e3c734893d932e94310aec0dbeb1ffcea169d",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/zeek-null-pointer-dereference-dos-via-kerberos-krb-error-parsing",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/zeek/zeek",
+          "vendor": "zeek",
+          "product": "zeek",
+          "repo": "https://github.com/zeek/zeek",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "8.0.9"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "NULL Pointer Dereference"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60108",
+      "publishedDate": "2026-07-09T14:16:57.988Z",
+      "lastModifiedDate": "2026-07-14T22:03:32.780Z",
+      "description": "Zeek before 8.0.9 contains an uncontrolled memory consumption vulnerability in the FTP analyzer that allows unauthenticated remote attackers to cause process termination by sending a crafted FTP control session negotiating AUTH GSSAPI followed by a large ADAT control line. Attackers can exploit the NVT_Analyzer component's lack of a maximum line length check, causing it to continuously double its internal buffer without bounds during base64 decoding of an attacker-controlled ADAT token, resulting in denial of service of the Zeek sensor.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/zeek/zeek/releases/tag/v8.0.9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zeek/zeek/commit/93ff6950a90cfa9d00c1062cde429313a0402a01",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/zeek-uncontrolled-memory-consumption-dos-via-ftp-analyzer",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/zeek/zeek",
+          "vendor": "zeek",
+          "product": "zeek",
+          "repo": "https://github.com/zeek/zeek",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "8.0.9"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15752",
+      "publishedDate": "2026-07-14T22:15:12.207Z",
+      "lastModifiedDate": "2026-07-14T22:15:12.207Z",
+      "description": "A vulnerability was found in zhinianboke xianyu-auto-reply up to dcb445ad97816ad65299a7580ee0c8c8f929da84. Affected is an unknown function of the file /api/v1/users/ of the component Backend User Endpoint. Performing a manipulation results in missing authorization. The attack may be initiated remotely. The exploit has been made public and could be used. This product uses a rolling release model to deliver continuous updates. As a result, specific version information for affected or updated releases is not available. The patch is named 19fc3282a1bb78a05c34945c088525d20e081cbd. Applying a patch is the recommended action to fix this issue.",
+      "severity": 7.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/378334",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/378334/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15752",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/856716",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zhinianboke/xianyu-auto-reply/issues/192",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/zhinianboke/xianyu-auto-reply/commit/19fc3282a1bb78a05c34945c088525d20e081cbd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zhinianboke/xianyu-auto-reply/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zhinianboke",
+          "product": "xianyu-auto-reply",
+          "versions": [
+            {
+              "version": "dcb445ad97816ad65299a7580ee0c8c8f929da84",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:zhinianboke:xianyu-auto-reply:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Backend User Endpoint"
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization",
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58478",
+      "publishedDate": "2026-07-14T14:41:54.079Z",
+      "lastModifiedDate": "2026-07-14T22:03:16.334Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a server-side request forgery (SSRF) vulnerability that allows unauthenticated attackers to make the device issue arbitrary HTTP requests by supplying a malicious callback URL when the optional Node-RED plugin is installed. Attackers can exploit the lack of destination validation and the default passphrase 'opendoor' to send blind HTTP requests to arbitrary internal or external hosts not otherwise directly accessible.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5998",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-ssrf-via-node-red-callback-url",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "5.2.16"
             }
           ]
         }
@@ -489,1430 +1095,314 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-48290",
-      "publishedDate": "2026-07-14T21:33:01.048Z",
-      "lastModifiedDate": "2026-07-14T21:33:01.048Z",
-      "description": "CAI Content Credentials is affected by a Server-Side Request Forgery (SSRF) vulnerability that could result in arbitrary code execution in the context of the current user. An attacker could exploit this vulnerability to inject malicious scripts into a web page, potentially gaining elevated access or control over the victim's account or session. Exploitation of this issue requires user interaction in that a victim must visit a maliciously crafted URL or interact with a compromised web page. Scope is changed.",
-      "severity": 8.2,
+      "id": "CVE-2026-58475",
+      "publishedDate": "2026-07-14T14:19:19.512Z",
+      "lastModifiedDate": "2026-07-14T22:03:14.263Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a stored cross-site scripting vulnerability that allows unauthenticated attackers to inject arbitrary JavaScript by supplying malicious script payloads within program names submitted via HTTP requests. Attackers can exploit the lack of output encoding on rendered program names to execute arbitrary JavaScript in the browsers of any users viewing the affected page, with exploitation facilitated by the absence of a required passphrase or the default passphrase 'opendoor'.",
+      "severity": 6.1,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5994",
+          "type": "poc"
         },
         {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF) (CWE-918)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-56259",
-      "publishedDate": "2026-07-12T12:06:30.919Z",
-      "lastModifiedDate": "2026-07-14T21:34:08.713Z",
-      "description": "Crawl4AI before 0.8.8 contains credential exfiltration vulnerabilities in the Docker API server that allow attackers to redirect LLM API calls to attacker-controlled endpoints and read arbitrary environment variables. Attackers can exploit the unauthenticated /md, /llm, and /llm/job endpoints by supplying a malicious base_url parameter and setting api_token to env:VARIABLE_NAME to exfiltrate provider API keys and server secrets including JWT SECRET_KEY for authentication bypass.",
-      "severity": 8.2,
-      "references": [
-        {
-          "url": "https://github.com/unclecode/crawl4ai/security/advisories/GHSA-f989-c77f-r2cq",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/crawl4ai-llm-credential-exfiltration-via-base-url-and-environment-variable-resolution",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Crawl4AI",
-          "product": "Crawl4AI",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/crawl4ai",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.8"
-            },
-            {
-              "version": "0.8.8",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Exposure of Sensitive Information to an Unauthorized Actor"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48336",
-      "publishedDate": "2026-07-14T21:16:09.490Z",
-      "lastModifiedDate": "2026-07-14T21:17:33.439Z",
-      "description": "Illustrator is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/illustrator/apsb26-79.html",
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-stored-xss-via-program-name",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2026",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "30.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "30.6",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2025",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "29.8.7",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "29.8.9",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48335",
-      "publishedDate": "2026-07-14T21:16:08.774Z",
-      "lastModifiedDate": "2026-07-14T21:17:34.201Z",
-      "description": "Illustrator is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/illustrator/apsb26-79.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2026",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "30.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "30.6",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2025",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "29.8.7",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "29.8.9",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48337",
-      "publishedDate": "2026-07-14T21:16:08.056Z",
-      "lastModifiedDate": "2026-07-14T21:17:33.820Z",
-      "description": "Illustrator is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/illustrator/apsb26-79.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2026",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "30.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "30.6",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Illustrator Desktop 2025",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "29.8.7",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "29.8.9",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48367",
-      "publishedDate": "2026-07-14T20:07:32.432Z",
-      "lastModifiedDate": "2026-07-14T21:29:40.184Z",
-      "description": "After Effects is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/after_effects/apsb26-78.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "After Effects",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.2.1",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "After Effects",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48274",
-      "publishedDate": "2026-07-14T20:07:31.728Z",
-      "lastModifiedDate": "2026-07-14T21:29:39.825Z",
-      "description": "After Effects is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/after_effects/apsb26-78.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "After Effects",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.2.1",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "After Effects",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47971",
-      "publishedDate": "2026-07-14T19:58:56.119Z",
-      "lastModifiedDate": "2026-07-14T21:14:32.594Z",
-      "description": "Media Encoder is affected by a Stack-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/media-encoder/apsb26-72.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.2.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Stack-based Buffer Overflow (CWE-121)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48366",
-      "publishedDate": "2026-07-14T19:58:55.425Z",
-      "lastModifiedDate": "2026-07-14T21:14:33.694Z",
-      "description": "Media Encoder is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/media-encoder/apsb26-72.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.2.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47976",
-      "publishedDate": "2026-07-14T19:58:54.743Z",
-      "lastModifiedDate": "2026-07-14T21:14:33.323Z",
-      "description": "Media Encoder is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/media-encoder/apsb26-72.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.2.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48370",
-      "publishedDate": "2026-07-14T19:58:53.324Z",
-      "lastModifiedDate": "2026-07-14T21:14:32.961Z",
-      "description": "Media Encoder is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/media-encoder/apsb26-72.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.2.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47967",
-      "publishedDate": "2026-07-14T17:48:51.495Z",
-      "lastModifiedDate": "2026-07-14T21:12:41.152Z",
-      "description": "Audition is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/audition/apsb26-71.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.4",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48309",
-      "publishedDate": "2026-07-14T17:48:50.802Z",
-      "lastModifiedDate": "2026-07-14T21:12:41.534Z",
-      "description": "Audition is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/audition/apsb26-71.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.4",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48365",
-      "publishedDate": "2026-07-14T17:48:49.377Z",
-      "lastModifiedDate": "2026-07-14T21:12:40.093Z",
-      "description": "Audition is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/audition/apsb26-71.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.4",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47968",
-      "publishedDate": "2026-07-14T17:48:48.673Z",
-      "lastModifiedDate": "2026-07-14T21:12:41.895Z",
-      "description": "Audition is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/audition/apsb26-71.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.4",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48368",
-      "publishedDate": "2026-07-14T17:48:47.959Z",
-      "lastModifiedDate": "2026-07-14T21:12:40.802Z",
-      "description": "Audition is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/audition/apsb26-71.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.4",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48295",
-      "publishedDate": "2026-07-14T21:33:01.777Z",
-      "lastModifiedDate": "2026-07-14T21:33:01.777Z",
-      "description": "CAI Content Credentials is affected by an Insufficiently Protected Credentials vulnerability that could result in disclosure of sensitive information. An attacker could leverage this vulnerability to gain unauthorized read access. Exploitation of this issue does not require user interaction.",
-      "severity": 7.5,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Insufficiently Protected Credentials (CWE-522)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48351",
-      "publishedDate": "2026-07-14T21:32:57.308Z",
-      "lastModifiedDate": "2026-07-14T21:32:57.308Z",
-      "description": "CAI Content Credentials is affected by an Improper Input Validation vulnerability that could result in an application denial-of-service. An attacker could exploit this vulnerability to crash the application, leading to a denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 7.5,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Input Validation (CWE-20)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48352",
-      "publishedDate": "2026-07-14T21:32:54.225Z",
-      "lastModifiedDate": "2026-07-14T21:32:54.225Z",
-      "description": "CAI Content Credentials is affected by an Improper Input Validation vulnerability that could result in an application denial-of-service. An attacker could exploit this vulnerability to crash the application, leading to a denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 7.5,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Input Validation (CWE-20)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48287",
-      "publishedDate": "2026-07-14T21:32:58.807Z",
-      "lastModifiedDate": "2026-07-14T21:32:58.807Z",
-      "description": "CAI Content Credentials is affected by an Untrusted Search Path vulnerability that could result in arbitrary code execution in the context of the current user. Exploit depends on conditions beyond the attacker's control. Exploitation of this issue requires user interaction in that a victim must visit a maliciously crafted URL or interact with a compromised web page. Scope is changed.",
-      "severity": 7.4,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Untrusted Search Path (CWE-426)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-49969",
-      "publishedDate": "2026-07-13T18:09:31.010Z",
-      "lastModifiedDate": "2026-07-14T21:33:31.374Z",
-      "description": "Laravel-Mediable before 7.0.0 contains a server-side request forgery vulnerability that allows remote attackers to issue arbitrary HTTP requests from the server by supplying unvalidated caller-controlled URLs to endpoints backed by MediaUploader::fromSource(). Attackers can craft URLs targeting RFC-1918 addresses, loopback interfaces, cloud metadata endpoints, or file:// URIs through RemoteUrlAdapter to reach internal infrastructure, retrieve sensitive files, and exfiltrate cloud credentials such as IAM tokens from instance metadata services.",
-      "severity": 7.4,
-      "references": [
-        {
-          "url": "https://github.com/plank/laravel-mediable/releases/tag/7.0.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/plank/laravel-mediable/commit/7e9e3000fa05fe16e678f15bfb51a091e60c2cb8",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/laravel-mediable-ssrf-via-remoteurladapter-url-handling",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "packageURL": "pkg:github/plank/laravel-mediable",
-          "vendor": "plank",
-          "product": "laravel-mediable",
-          "repo": "https://github.com/plank/laravel-mediable",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
           "versions": [
             {
               "status": "affected",
               "version": "0",
               "versionType": "semver",
-              "lessThan": "7.0.0"
+              "lessThanOrEqual": "5.2.16"
             }
           ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery (SSRF)"
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-48312",
-      "publishedDate": "2026-07-14T21:32:58.069Z",
-      "lastModifiedDate": "2026-07-14T21:32:58.069Z",
-      "description": "CAI Content Credentials is affected by an Improper Input Validation vulnerability that could result in a Security feature bypass. An attacker could leverage this vulnerability to bypass security measures and gain unauthorized write access. Exploitation of this issue does not require user interaction.",
-      "severity": 6.8,
+      "id": "CVE-2026-60103",
+      "publishedDate": "2026-07-13T17:44:14.051Z",
+      "lastModifiedDate": "2026-07-14T22:03:30.646Z",
+      "description": "Blender 3.0.0 through 5.1.2 contains an out-of-bounds read vulnerability that allows attackers to trigger a crash or read adjacent heap memory by supplying a crafted .blend file with a malicious signed short member_index value in the SDNA block. The member_index field is used as an array index into the sdna->members[] array in sdna_expand_names() without bounds validation, allowing any value outside the allocated range to produce an invalid pointer subsequently passed to strlen(), resulting in a SIGSEGV crash or unintended heap memory disclosure.",
+      "severity": 6.1,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
+          "url": "https://projects.blender.org/blender/blender/pulls/161273",
+          "type": "reference"
+        },
+        {
+          "url": "https://projects.blender.org/blender/blender/commit/968972a918b5ed2d534295b639c54449d7de11cd",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/blender-out-of-bounds-read-via-crafted-blend-sdna-block",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
+          "defaultStatus": "affected",
+          "vendor": "blender",
+          "product": "blender",
+          "repo": "https://projects.blender.org/blender/blender",
           "versions": [
             {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
               "status": "affected",
-              "version": "0",
-              "versionType": "custom"
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThanOrEqual": "5.1.2"
             },
             {
               "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
+              "version": "968972a918b5ed2d534295b639c54449d7de11cd",
+              "versionType": "git"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Input Validation (CWE-20)"
+        "Out-of-bounds Read"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-15750",
-      "publishedDate": "2026-07-14T21:30:08.566Z",
-      "lastModifiedDate": "2026-07-14T21:30:08.566Z",
-      "description": "A weakness has been identified in mastergo-design mastergo-magic-mcp up to 0.2.0. Impacted is the function z.string of the file src/tools/get-component-link.ts of the component mcp__getComponentLink. Executing a manipulation of the argument url can lead to server-side request forgery. The attack may be performed from remote. The exploit has been made available to the public and could be used for attacks. The project was informed of the problem early through an issue report but has not responded yet.",
-      "severity": 6.3,
+      "id": "CVE-2026-61501",
+      "publishedDate": "2026-07-13T17:22:39.316Z",
+      "lastModifiedDate": "2026-07-14T22:03:40.215Z",
+      "description": "Rejetto HFS 3.0.0 through 3.2.0 renders log entries in the administration panel as HTML without sanitization. A remote unauthenticated attacker can submit a failed login with a crafted username that is written to the error log and executes JavaScript in an administrator's browser when the logs are viewed, allowing the attacker to create accounts or execute code on the server with the administrator's privileges.",
+      "severity": 6.1,
       "references": [
         {
-          "url": "https://vuldb.com/vuln/378329",
+          "url": "https://github.com/rejetto/hfs/releases/tag/v3.2.1",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/378329/cti",
+          "url": "https://www.vulncheck.com/advisories/rejetto-hfs-stored-xss-in-admin-log-viewer",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/rejetto/hfs",
+          "vendor": "rejetto",
+          "product": "hfs",
+          "repo": "https://github.com/rejetto/hfs",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThan": "3.2.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60092",
+      "publishedDate": "2026-07-08T13:51:30.509Z",
+      "lastModifiedDate": "2026-07-14T22:03:29.271Z",
+      "description": "AVideo (Meet plugin) through commit e8d6119f3cb1b849149906efeb0a41fc024f59f8 contains a stored cross-site scripting vulnerability in the Meet plugin's getMeetInfo.json.php endpoint. When a participant joins a public meeting, the raw HTTP User-Agent header is stored (meet_join_log.user_agent) without sanitization (bypassing AVideo's setter-level xss_esc() layer) and later echoed without output encoding (no htmlspecialchars()) in the Participants management panel, which is accessible to the meeting host and site administrators. An anonymous, unauthenticated attacker can join any public meeting while supplying a User-Agent header containing an HTML/JavaScript payload; the payload is persisted and executes in the privileged, authenticated browser session of the meeting host or a site administrator when they open the participant list. The issue was unpatched at the time of the report.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-7cqp-7cfv-6c3q",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-15750",
+          "url": "https://github.com/WWBN/AVideo/commit/e8d6119f3cb1b849149906efeb0a41fc024f59f8",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/856633",
+          "url": "https://www.vulncheck.com/advisories/avideo-stored-cross-site-scripting-via-unescaped-user-agent-in-participants-panel",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AVideo",
+          "product": "AVideo",
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60119",
+      "publishedDate": "2026-07-14T15:44:34.636Z",
+      "lastModifiedDate": "2026-07-14T22:03:35.556Z",
+      "description": "Hi.Events before 1.11.0 contains a cross-site scripting vulnerability that allows authenticated attackers with event creation or edit permissions to inject arbitrary HTML and JavaScript by embedding a malicious event title containing the </script> sequence, which is not escaped by JSON.stringify() when embedded in inline script tags. Attackers can craft an event title that breaks out of the script context in the application/ld+json structured data block or server-side rehydrated state, causing the payload to execute in the browser of any user who views the public event page, including unauthenticated visitors and authenticated administrators.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/HiEventsDev/Hi.Events/releases/tag/v.1.11.0-beta",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mastergo-design/mastergo-magic-mcp/issues/89",
+          "url": "https://github.com/HiEventsDev/Hi.Events/security/advisories/GHSA-2ggx-79g6-2jmj",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/HiEventsDev/Hi.Events/pull/1260",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/HiEventsDev/Hi.Events/commit/1e36b070771801ed7113255ef7b3a7f271a2a794",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hi-events-beta-xss-via-event-title-json-stringify-injection",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/HiEventsDev/Hi.Events",
+          "vendor": "HiEventsDev",
+          "product": "Hi.Events",
+          "repo": "https://github.com/HiEventsDev/Hi.Events",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "1.11.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61504",
+      "publishedDate": "2026-07-13T17:23:40.045Z",
+      "lastModifiedDate": "2026-07-14T22:03:42.271Z",
+      "description": "Rejetto HFS 3.0.0 through 3.2.0 does not escape file names in its fallback \"basic\" web listing, and this listing can be forced by any browser via the ?get=basic parameter. A user with upload permission - or an anonymous user on servers with an open upload folder - can store a file whose name contains script that executes in the browser of anyone viewing the listing.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/rejetto/hfs/releases/tag/v3.2.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rejetto-hfs-stored-xss-via-file-names-in-basic-web-listing",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/rejetto/hfs",
+          "vendor": "rejetto",
+          "product": "hfs",
+          "repo": "https://github.com/rejetto/hfs",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThan": "3.2.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60120",
+      "publishedDate": "2026-07-09T20:43:07.388Z",
+      "lastModifiedDate": "2026-07-14T22:03:36.229Z",
+      "description": "Bagisto before 2.4.4 contains a stored cross-site scripting vulnerability via client-side template injection that allows unauthenticated attackers to execute arbitrary JavaScript in administrator browsers by registering a customer account with malicious payload in the first or last name field. The create.blade.php template renders customer name fields without the Vue.js v-pre directive, causing Vue.js to evaluate stored template expressions as live JavaScript when an administrator opens the Create Order page for the affected customer.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/bagisto/bagisto/releases/tag/v2.4.4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bagisto/bagisto/commit/49d0c3fc90dedf8782c45c5979df4f4595d6bb97",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/bagisto-stored-xss-via-csti-in-create-blade-php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/bagisto/bagisto",
+          "vendor": "Webkul",
+          "product": "Bagisto",
+          "repo": "https://github.com/bagisto/bagisto",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "2.4.4"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15751",
+      "publishedDate": "2026-07-14T22:00:10.375Z",
+      "lastModifiedDate": "2026-07-14T22:00:10.375Z",
+      "description": "A security vulnerability has been detected in mastergo-design mastergo-magic-mcp up to 0.2.0. The affected element is the function execute of the file mastergo/component-workflow.md of the component mcp__getComponentGenerator. The manipulation of the argument rootPath leads to path traversal. An attack has to be approached locally. The exploit has been disclosed publicly and may be used. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/378330",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/378330/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15751",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/856634",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mastergo-design/mastergo-magic-mcp/issues/90",
           "type": "poc"
         },
         {
@@ -1938,1412 +1428,234 @@
             "cpe:2.3:a:mastergo-design:mastergo-magic-mcp:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "mcp__getComponentLink"
+            "mcp__getComponentGenerator"
           ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery"
+        "Path Traversal"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-48357",
-      "publishedDate": "2026-07-14T21:33:00.285Z",
-      "lastModifiedDate": "2026-07-14T21:33:00.285Z",
-      "description": "CAI Content Credentials is affected by an Uncontrolled Resource Consumption vulnerability that could lead to application denial-of-service. An attacker could exploit this vulnerability to exhaust system resources, resulting in an application denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 6.2,
+      "id": "CVE-2026-60118",
+      "publishedDate": "2026-07-14T15:42:31.865Z",
+      "lastModifiedDate": "2026-07-14T22:03:34.860Z",
+      "description": "Hi.Events before 1.11.0 contains a missing server-side visibility enforcement vulnerability that allows unauthenticated attackers to purchase hidden tickets by referencing hidden product and price IDs in order creation requests without authorization checks. Attackers can enumerate sequential hidden ticket IDs from visible ones and submit order creation requests referencing those IDs to purchase VIP, invite-only, or discounted tickets intentionally withheld from public sale.",
+      "severity": 5.3,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Uncontrolled Resource Consumption (CWE-400)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48296",
-      "publishedDate": "2026-07-14T21:32:59.536Z",
-      "lastModifiedDate": "2026-07-14T21:32:59.536Z",
-      "description": "CAI Content Credentials is affected by an Integer Underflow (Wrap or Wraparound) vulnerability that could result in an application denial-of-service. An attacker could exploit this vulnerability to crash the application, leading to a denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 6.2,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Integer Underflow (Wrap or Wraparound) (CWE-191)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48302",
-      "publishedDate": "2026-07-14T21:32:56.574Z",
-      "lastModifiedDate": "2026-07-14T21:32:56.574Z",
-      "description": "CAI Content Credentials is affected by an Improper Input Validation vulnerability that could result in an application denial-of-service. An attacker could exploit this vulnerability to crash the application, leading to a denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 6.2,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Input Validation (CWE-20)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48354",
-      "publishedDate": "2026-07-14T21:32:55.707Z",
-      "lastModifiedDate": "2026-07-14T21:32:55.707Z",
-      "description": "CAI Content Credentials is affected by an Integer Overflow or Wraparound vulnerability that could result in an application denial-of-service. An attacker could exploit this vulnerability to crash the application, leading to a denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 6.2,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Integer Overflow or Wraparound (CWE-190)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48298",
-      "publishedDate": "2026-07-14T21:32:54.977Z",
-      "lastModifiedDate": "2026-07-14T21:32:54.977Z",
-      "description": "CAI Content Credentials is affected by an Integer Underflow (Wrap or Wraparound) vulnerability that could result in an application denial-of-service. An attacker could exploit this vulnerability to crash the application, leading to a denial-of-service condition. Exploitation of this issue does not require user interaction.",
-      "severity": 6.2,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Integer Underflow (Wrap or Wraparound) (CWE-191)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-49971",
-      "publishedDate": "2026-07-13T18:13:29.473Z",
-      "lastModifiedDate": "2026-07-14T21:33:32.767Z",
-      "description": "Laravel-Mediable before 7.0.0 contains a stored cross-site scripting vulnerability that allows authenticated or anonymous users to execute arbitrary JavaScript by uploading unsanitized SVG files containing embedded scripts in onload event handlers, script tags, or foreignObject elements. Attackers can store persistent XSS payloads in uploaded SVG files that execute with full DOM access when victims open or preview the file, enabling session cookie theft, CSRF token capture, and account takeover.",
-      "severity": 6.1,
-      "references": [
-        {
-          "url": "https://github.com/plank/laravel-mediable/releases/tag/7.0.0",
+          "url": "https://github.com/HiEventsDev/Hi.Events/releases/tag/v.1.11.0-beta",
           "type": "reference"
         },
         {
-          "url": "https://github.com/plank/laravel-mediable/commit/65046b2162fac23ec5d5e8fbdff01a9a0804003e",
+          "url": "https://github.com/HiEventsDev/Hi.Events/security/advisories/GHSA-2h54-cprv-vj74",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/laravel-mediable-stored-xss-via-svg-file-upload",
+          "url": "https://github.com/HiEventsDev/Hi.Events/pull/1259",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/HiEventsDev/Hi.Events/commit/9eec95e6176f500b71bf633986243045ca78cefb",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hi-events-beta-hidden-ticket-enumeration-via-order-creation-endpoint",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "packageURL": "pkg:github/plank/laravel-mediable",
-          "vendor": "plank",
-          "product": "laravel-mediable",
-          "repo": "https://github.com/plank/laravel-mediable",
+          "packageURL": "pkg:github/HiEventsDev/Hi.Events",
+          "vendor": "HiEventsDev",
+          "product": "Hi.Events",
+          "repo": "https://github.com/HiEventsDev/Hi.Events",
           "versions": [
             {
               "status": "affected",
               "version": "0",
               "versionType": "semver",
-              "lessThan": "7.0.0"
+              "lessThan": "1.11.0"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "Missing Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-48353",
-      "publishedDate": "2026-07-14T21:32:53.498Z",
-      "lastModifiedDate": "2026-07-14T21:32:53.498Z",
-      "description": "CAI Content Credentials is affected by an Improper Input Validation vulnerability that could lead to arbitrary file system read. An attacker could exploit this vulnerability to access sensitive files and directories outside the intended access scope. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 5.5,
+      "id": "CVE-2026-61505",
+      "publishedDate": "2026-07-13T17:23:58.901Z",
+      "lastModifiedDate": "2026-07-14T22:03:42.947Z",
+      "description": "Rejetto HFS 3.0.0 through 3.2.0 allows path traversal through the lang query parameter, permitting a remote unauthenticated attacker to read certain JSON files outside the shared folders. Exploitation is constrained to files matching a narrow naming and format pattern, limiting practical impact.",
+      "severity": 5.3,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/content-authenticity-sdk/apsb26-80.html",
+          "url": "https://github.com/rejetto/hfs/releases/tag/v3.2.1",
           "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-rs",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.78.2,0.78.3,0.84.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.85.2",
-              "versionType": "custom"
-            }
-          ]
         },
         {
-          "defaultStatus": "unaffected",
-          "product": "c2patool",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.17.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.26.65",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "c2pa-js",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.7.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "0.9.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "contentauthenticity.org",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "n/a",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "38.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Input Validation (CWE-20)"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47979",
-      "publishedDate": "2026-07-14T19:58:54.039Z",
-      "lastModifiedDate": "2026-07-14T21:14:32.236Z",
-      "description": "Media Encoder is affected by an out-of-bounds read vulnerability that could lead to disclosure of sensitive memory. An attacker could leverage this vulnerability to disclose sensitive information. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 5.5,
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/media-encoder/apsb26-72.html",
+          "url": "https://www.vulncheck.com/advisories/rejetto-hfs-limited-file-disclosure-via-path-traversal-in-lang-parameter",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
+          "packageURL": "pkg:github/rejetto/hfs",
+          "vendor": "rejetto",
+          "product": "hfs",
+          "repo": "https://github.com/rejetto/hfs",
           "versions": [
             {
-              "lessThanOrEqual": "26.2.2",
               "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Media Encoder",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThan": "3.2.1"
             }
           ]
         }
       ],
       "problemType": [
-        "Out-of-bounds Read (CWE-125)"
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-47969",
-      "publishedDate": "2026-07-14T17:48:50.082Z",
-      "lastModifiedDate": "2026-07-14T21:12:40.444Z",
-      "description": "Audition is affected by an out-of-bounds read vulnerability that could lead to disclosure of sensitive memory. An attacker could leverage this vulnerability to disclose sensitive information. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 5.5,
+      "id": "CVE-2026-61503",
+      "publishedDate": "2026-07-13T17:23:20.688Z",
+      "lastModifiedDate": "2026-07-14T22:03:41.573Z",
+      "description": "Rejetto HFS 3.0.0 through 3.2.0 returns observably different responses from its login endpoint depending on whether the submitted username exists. A remote unauthenticated attacker can use this to confirm valid account names, including the default admin account, facilitating password-guessing and session-forgery attacks.",
+      "severity": 5.3,
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/audition/apsb26-71.html",
+          "url": "https://github.com/rejetto/hfs/releases/tag/v3.2.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rejetto-hfs-username-enumeration-via-login-response-differences",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
+          "packageURL": "pkg:github/rejetto/hfs",
+          "vendor": "rejetto",
+          "product": "hfs",
+          "repo": "https://github.com/rejetto/hfs",
           "versions": [
             {
-              "lessThanOrEqual": "26.0",
               "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.3",
-              "versionType": "semver"
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThan": "3.2.1"
             }
           ]
+        }
+      ],
+      "problemType": [
+        "Observable Response Discrepancy"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61502",
+      "publishedDate": "2026-07-13T17:22:59.734Z",
+      "lastModifiedDate": "2026-07-14T22:03:40.884Z",
+      "description": "Rejetto HFS 3.0.0 through 3.2.0 accepts state-changing API requests via the GET method and exempts GET requests from its anti-CSRF header check. A remote attacker can perform administrative actions including account creation and configuration changes leading to code execution - by causing a logged-in administrator's browser to navigate to a crafted URL, or without any credentials against default installations when the attack originates from the server's own machine.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://github.com/rejetto/hfs/releases/tag/v3.2.1",
+          "type": "reference"
         },
+        {
+          "url": "https://www.vulncheck.com/advisories/rejetto-hfs-cross-site-request-forgery-via-get-requests",
+          "type": "reference"
+        }
+      ],
+      "affected": [
         {
           "defaultStatus": "affected",
-          "product": "Audition",
-          "vendor": "Adobe",
+          "packageURL": "pkg:github/rejetto/hfs",
+          "vendor": "rejetto",
+          "product": "hfs",
+          "repo": "https://github.com/rejetto/hfs",
           "versions": [
             {
-              "lessThanOrEqual": "25.6.4",
               "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver",
+              "lessThan": "3.2.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Cross-Site Request Forgery (CSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61874",
+      "publishedDate": "2026-07-12T12:06:36.293Z",
+      "lastModifiedDate": "2026-07-14T22:03:44.276Z",
+      "description": "filebrowser versions before 2.63.17 fail to normalize paths before querying the share index in DeleteWithPathPrefix, allowing authenticated users to leave stale public shares behind. Attackers can delete a shared directory using a trailing-slash path, then recreate the same directory to expose new contents through the dormant public share URL.",
+      "severity": 3.1,
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-pp88-jhwj-5qh5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/commit/be23ab3a15bf957928ecfed88de5ab67850c1b9c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/filebrowser-before-stale-public-share-via-trailing-slash-delete",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "versions": [
+            {
               "version": "0",
-              "versionType": "semver"
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.63.17"
             },
             {
+              "version": "2.63.17",
               "status": "unaffected",
-              "version": "25.6.6",
               "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "Out-of-bounds Read (CWE-125)"
+        "Incorrect Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-48807",
-      "publishedDate": "2026-07-14T21:29:15.934Z",
-      "lastModifiedDate": "2026-07-14T21:29:15.934Z",
-      "description": "Twig is a template language for PHP. Prior to 3.27.0, the sandbox __toString() checks do not fully cover Traversable values passed to join and replace filters or operands evaluated by the in and not in operators, allowing contained Stringable objects to be coerced to strings without consulting the sandbox policy. This issue is fixed in version 3.27.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-8x9c-rmqh-456c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.27.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure",
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48806",
-      "publishedDate": "2026-07-14T21:28:08.781Z",
-      "lastModifiedDate": "2026-07-14T21:28:08.781Z",
-      "description": "Twig is a template language for PHP. Prior to 3.27.0, ArrayExpression does not guard dynamic mapping keys that are coerced to strings, allowing PHP to invoke __toString() on a Stringable object used as a mapping key without calling SandboxExtension::ensureToStringAllowed(). This issue is fixed in version 3.27.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-5v5v-ww74-355v",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/9ff41014639ef0e8eb50ac7669191c309d863105",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.27.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure",
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48808",
-      "publishedDate": "2026-07-14T21:27:21.812Z",
-      "lastModifiedDate": "2026-07-14T21:27:21.812Z",
-      "description": "Twig is a template language for PHP. Prior to 3.27.0, the column filter passes the active sandbox state as a boolean but does not forward the current Source to SandboxExtension::checkPropertyAllowed(), so SourcePolicyInterface decisions are lost and a template author can read public or magic properties not allowed by the sandbox policy. This issue is fixed in version 3.27.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-h8vq-8gpg-mhcg",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/09c6706407ed7b1cb2d7d1408004f811e47e0424",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.27.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure",
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-48805",
-      "publishedDate": "2026-07-14T21:26:34.876Z",
-      "lastModifiedDate": "2026-07-14T21:26:34.876Z",
-      "description": "Twig is a template language for PHP. Prior to 3.27.0, deprecated internal wrappers in src/Resources/core.php do not forward the current sandbox state to CoreExtension::checkArrow(), arraySome(), and arrayEvery(), allowing legacy calls such as twig_array_some(), twig_array_every(), and twig_check_arrow_in_sandbox() to bypass sandbox callable restrictions. This issue is fixed in version 3.27.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-p42q-9prx-q5wq",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/e235cae3a1d1e23edc24df4d675f18108c6b167b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.27.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-49981",
-      "publishedDate": "2026-07-14T21:26:00.460Z",
-      "lastModifiedDate": "2026-07-14T21:26:00.460Z",
-      "description": "Twig is a template language for PHP. Prior to 3.27.0, the per-template filter, tag, and function allow-list verdict is computed when a Template instance is constructed and can remain cached after sandbox state changes between renders, allowing a later sandboxed render to reuse a template that was originally checked with a different or empty policy. This issue is fixed in version 3.27.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-529h-vh3j-85hq",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/23eb6eb1267cb0d303b91eb5cff9b0c559c538a4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.27.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure",
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46637",
-      "publishedDate": "2026-07-14T21:25:20.141Z",
-      "lastModifiedDate": "2026-07-14T21:25:20.141Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, several filters in twig/markdown-extra and twig/cssinliner-extra are registered with is_safe => [all], causing Twig to treat plain text or HTML output as safe in HTML, JavaScript, CSS, URL, and other contexts where the output is not properly escaped. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-jv8m-2544-3pg3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/84982072c79a7417b0d158a401d91344f3658299",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/e36489d3521ecbfc08bdcc61294302557035f14a",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "twig",
-          "product": "cssinliner-extra",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "twig",
-          "product": "markdown-extra",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-116: Improper Encoding or Escaping of Output"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46638",
-      "publishedDate": "2026-07-14T21:23:50.961Z",
-      "lastModifiedDate": "2026-07-14T21:23:50.961Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, {% sandbox %}{% include %} can include a template that was previously loaded outside the sandbox without re-invoking checkSecurity(), allowing the cached template to use tags, filters, and functions that should have been denied by SecurityPolicy::checkSecurity(). This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-7fxw-r6jv-74c8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/819c6a89fe0f261b8555c4f4d5e27d31984223ea",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46640",
-      "publishedDate": "2026-07-14T21:22:57.332Z",
-      "lastModifiedDate": "2026-07-14T21:22:57.332Z",
-      "description": "Twig is a template language for PHP. From 3.15.0 until 3.26.0, _self.(<string>) and import-alias dynamic attribute syntax can concatenate an attacker-controlled string into a MacroReferenceExpression name without identifier validation, causing raw PHP to be emitted into the generated template source and executed at template-load time. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-45vw-wh46-2vx8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/324fa60545694fa6abe85ded9befcb82e1066bc2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": ">= 3.15.0, < 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46629",
-      "publishedDate": "2026-07-14T21:22:15.595Z",
-      "lastModifiedDate": "2026-07-14T21:22:15.595Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, twig/intl-extra memoises IntlDateFormatter and NumberFormatter instances in arrays keyed by template-controlled filter arguments such as locale, pattern, and attrs, allowing a template to allocate many ICU formatter objects that remain pinned for the lifetime of the Twig\\Environment. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-35wc-cvqg-78fp",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/6add9066fc5c0455eb764c1f3af6e4e4e3562419",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47730",
-      "publishedDate": "2026-07-14T21:21:10.185Z",
-      "lastModifiedDate": "2026-07-14T21:21:10.185Z",
-      "description": "Twig is a template language for PHP. From 3.0.0 until 3.26.0, Twig\\Profiler\\Dumper\\HtmlDumper writes Profile::getTemplate() and Profile::getName() into HTML output without escaping, allowing attacker-controlled template or profile names to inject arbitrary HTML when a browser renders the profiler dump. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-2g2g-8p8h-fgwm",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/a5f6e8793e603ef34fa86aed2a72f9fbe0b43745",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": ">= 3.0.0, < 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46628",
-      "publishedDate": "2026-07-14T21:19:54.501Z",
-      "lastModifiedDate": "2026-07-14T21:19:54.501Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, the deprecated spaceless filter is registered as safe for HTML, causing Twig autoescaping to emit attacker-controlled markup unescaped when spaceless is applied to untrusted input. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-4j38-f5cw-54h7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/3190b9ae12614dfd58cc5d8f394bac4708b17913",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-116: Improper Encoding or Escaping of Output"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46634",
-      "publishedDate": "2026-07-14T21:19:17.804Z",
-      "lastModifiedDate": "2026-07-14T21:19:17.804Z",
-      "description": "Twig is a template language for PHP. From 3.9.0 until 3.26.0, template_from_string() compiles an inner template under a synthesized __string_template__<hash> name that can fall outside a SourcePolicyInterface sandbox decision, allowing a sandboxed template that can call template_from_string and include to render an inner template without security policy enforcement. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-24x9-r6q4-q93w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/1cde8f2b62463f85d47995fc25f8241cb409d915",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": ">= 3.9.0, < 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46627",
-      "publishedDate": "2026-07-14T21:15:17.366Z",
-      "lastModifiedDate": "2026-07-14T21:15:17.366Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, the Twig sandbox does not prevent a template from consuming CPU, memory, or wall-clock time, even under the strictest allow-list, allowing untrusted templates to cause resource exhaustion. This issue is addressed in version 3.26.0 by documenting that the sandbox does not protect against resource exhaustion.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-923g-j88x-j34q",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/6bfa285e2f98651adb7aa480bf83a741d154f09f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46633",
-      "publishedDate": "2026-07-14T21:14:24.916Z",
-      "lastModifiedDate": "2026-07-14T21:14:24.916Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, Compiler::string() does not escape single quotes when a template name from a {% use %} tag is placed inside a PHP single-quoted string literal, allowing a crafted template name to terminate the string and inject arbitrary PHP expressions into the compiled cache file. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-7p85-w9px-jpjp",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/679447fa29083043665482ccf7d64372472621b8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/e9ff55f6910832428e48a35b2e0748189ad49ae3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46639",
-      "publishedDate": "2026-07-14T21:13:42.321Z",
-      "lastModifiedDate": "2026-07-14T21:13:42.321Z",
-      "description": "Twig is a template language for PHP. From 3.24.0 until 3.26.0, object-destructuring assignment compiles CoreExtension::getAttribute() with the sandbox argument hardcoded to false, disabling property and method policy checks and allowing an attacker with write access to a sandboxed Twig template to read public properties or invoke public getters on objects passed to the template engine. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-mm6w-gr99-p3jj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": ">= 3.24.0, < 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-693: Protection Mechanism Failure"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-46635",
-      "publishedDate": "2026-07-14T21:12:56.046Z",
-      "lastModifiedDate": "2026-07-14T21:12:56.046Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, the column filter passes object arrays to PHP array_column(), which reads public and magic properties without reaching CoreExtension::getAttribute() or SandboxExtension::checkPropertyAllowed(), allowing an untrusted template author with column in allowedFilters to read properties that are not in the sandbox allowlist. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-vcc8-phrv-43wj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/f05c5011c25caf17de37614b7e04662022532ac4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47732",
-      "publishedDate": "2026-07-14T21:12:13.071Z",
-      "lastModifiedDate": "2026-07-14T21:12:13.071Z",
-      "description": "Twig is a template language for PHP. Prior to 3.26.0, several Twig language constructs trigger PHP string coercion on a Stringable operand without consulting SecurityPolicy::checkMethodAllowed(), allowing a sandboxed template author to invoke __toString() on objects reachable in the render context through conditional expressions, comparison operators, tests, template-loading tags, dynamic attribute names, spread arguments, the do tag, and the .. range operator. This issue is fixed in version 3.26.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-pr2w-4gpj-cpq4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/commit/447d0b2331e01b8fc6e08119ac984e1ef50caef9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "twigphp",
-          "product": "Twig",
-          "versions": [
-            {
-              "version": "< 3.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-38450",
+      "id": "CVE-2025-56362",
       "publishedDate": "2026-07-14T00:00:00.000Z",
-      "lastModifiedDate": "2026-07-14T21:23:32.472Z",
-      "description": "An issue in Aetopia Digital Asset Management DAM v.1.0.0 allows a remote attacker to execute arbitrary code via the name and description parameter of the Add/Update Project function",
+      "lastModifiedDate": "2026-07-14T22:11:46.567Z",
+      "description": "A reachable assertion vulnerability exists in the Matter SDK (connectedhomeip) before 1.4.2, specifically within the Level Control cluster's periodic server tick logic. When a MoveToLevel command is sent and immediately followed by a write of OperationMode=2 (in the Pump Configuration and Control cluster), the server tick function violates the assertion `currentLevel < maxLevel`, resulting in a crash. This can be exploited remotely without authentication to cause denial of service. Affected versions include 1.3 and 1.4 (commit ab3d5ae).",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://eslam3kl.gitbook.io",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.aetopia.com/solutions/industry/enterprise-dam",
-          "type": "reference"
-        },
-        {
-          "url": "https://eslam3kl.gitbook.io/blog/web-application-findings/cve-2026-38450-aetopia-dam-server-side-template-injection",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2025-56361",
-      "publishedDate": "2026-07-14T00:00:00.000Z",
-      "lastModifiedDate": "2026-07-14T21:32:49.588Z",
-      "description": "A reachable assertion vulnerability exists in the Matter SDK (connectedhomeip) 1.3 thru 1.4, specifically within the Level Control cluster's server tick logic (`emberAfLevelControlClusterServerTickCallback`). When a MoveToLevel command is executed and followed by a conflicting write to the OperationMode attribute (in the Pump Configuration and Control cluster), an invariant check (`minLevel < currentLevel`) fails and causes the device to abort. This leads to a denial of service condition. The issue is confirmed in SDK versions 1.3 and 1.4 (commit ab3d5ae), and is triggered remotely without authentication.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/project-chip/connectedhomeip/issues/38619",
+          "url": "https://github.com/project-chip/connectedhomeip/issues/38618",
           "type": "reference"
         },
         {
@@ -3365,6 +1677,174 @@
       ],
       "problemType": [
         "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2025-56365",
+      "publishedDate": "2026-07-14T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-14T22:17:14.897Z",
+      "description": "A reachable assertion vulnerability exists in the Matter SDK (connectedhomeip) before 1.4.0, in the interaction model command processing logic. When an InvokeCommandRequest is sent to a nonexistent endpoint and cluster (e.g., 0x34), the code incorrectly treats the endpoint as valid due to missing checks in CodegenDataModelProvider::Invoke. This causes a VerifyOrDie failure in ProcessCommandDataIB and results in a crash (SIGABRT). The issue has been acknowledged and fixed in a later revision (PR #37207).",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/issues/37184",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/pull/37207",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2025-56363",
+      "publishedDate": "2026-07-14T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-14T22:19:59.869Z",
+      "description": "A null pointer dereference vulnerability exists in the Matter SDK (connectedhomeip) before 1.4.0, affecting the ReadRevisionAttribute function used in multiple clusters (Channel, Account Login, TargetNavigator, etc.). The function lacks proper validation of the delegate pointer before dereferencing. A remote unauthenticated attacker can exploit this issue by sending a crafted read request, causing the device to crash (denial of service). This issue has been confirmed in SDK version v1.4 (commit ab3d5ae).",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/issues/39173",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2025-56364",
+      "publishedDate": "2026-07-14T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-14T22:14:34.080Z",
+      "description": "A use of uninitialized value vulnerability exists in the Matter SDK (connectedhomeip) before 1.4.0, where the `GetDestinationGroupId().Value()` method is called without first checking whether a value exists. This leads to a crash when an InvokeCommand is sent without initializing the destination group ID. The issue affects all versions before commit 0360cc3 (Dec 5, 2024) and leads to denial of service through SIGABRT. It is fixed by adding a .HasValue() check before access.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/issues/36711",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/pull/36729",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/project-chip/connectedhomeip/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61448",
+      "publishedDate": "2026-07-11T13:01:05.852Z",
+      "lastModifiedDate": "2026-07-14T22:03:36.889Z",
+      "description": "Parse Server is affected by a stored cross-site scripting (XSS) vulnerability in versions >= 9.0.0, < 9.10.0-alpha.2 and <= 8.6.83. When an uploaded file's extension is not recognized by the mime package, Parse Server preserves the client-supplied Content-Type. A malformed Content-Type that is not a valid type/subtype media type (e.g., 'image', 'image/', or 'image//svg+xml') bypasses the fileUpload.fileExtensions blocklist and is stored unchanged. On storage adapters that persist and serve the uploaded Content-Type (such as Amazon S3, Google Cloud Storage, or Azure Blob Storage), a browser cannot parse the malformed value and falls back to MIME-sniffing; a file whose body begins with HTML is rendered as HTML, executing embedded script in the application's origin against other users who open the file URL. The default GridFS storage adapter is not affected. Fixed in 9.10.0-alpha.2 and 8.6.84.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-r899-h629-j84r",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/parse-server-stored-xss-via-malformed-content-type",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "parse-community",
+          "product": "parse-server",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/parse-server",
+          "versions": [
+            {
+              "version": "9.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "9.10.0-alpha.2"
+            },
+            {
+              "version": "9.10.0-alpha.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "parse-community",
+          "product": "parse-server",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/parse-server",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "8.6.84"
+            },
+            {
+              "version": "8.6.84",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Unrestricted Upload of File with Dangerous Type"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
