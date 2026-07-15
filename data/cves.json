@@ -2,586 +2,1038 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 32,
-    "last_updated": "2026-07-15T17:25:46.790048",
+    "total_count": 42,
+    "last_updated": "2026-07-15T18:39:40.704121",
     "severity_distribution": {
-      "critical": 2,
-      "high": 6,
-      "medium": 3,
-      "low": 0,
-      "none": 21
+      "critical": 1,
+      "high": 24,
+      "medium": 6,
+      "low": 4,
+      "none": 7
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-52842",
-      "publishedDate": "2026-07-15T16:18:26.157Z",
-      "lastModifiedDate": "2026-07-15T16:35:28.146Z",
-      "description": "Lightpanda is a headless browser designed for AI and automation. Prior to 0.3.1, Lightpanda searched for @ across the entire URL string instead of only the authority component when computing a page origin, so a URL such as `http://attacker.com/@victim.com/` was fetched from attacker.com but treated as `http://victim.com`, allowing a complete Same-Origin Policy bypass. This issue is fixed in version 0.3.1.",
-      "severity": 9.3,
+      "id": "CVE-2026-62948",
+      "publishedDate": "2026-07-15T17:50:43.790Z",
+      "lastModifiedDate": "2026-07-15T18:08:36.882Z",
+      "description": "OpenWrt is a Linux operating system targeting embedded devices. Prior to 25.12.5, odhcpd writes a DHCPv6 client FQDN option 39 hostname into /tmp/odhcpd.leases through src/statefiles.c statefiles_write_state6() and statefiles_write_state4() without escaping, allowing newline injection of forged lease lines that LuCI rpcd-mod-luci getDHCPLeases displays through htdocs/luci-static/resources/view/status/include/40_dhcp.js and htdocs/luci-static/resources/luci.js dom.append as live HTML in the Active DHCPv6 Leases admin page. This vulnerability is fixed in 25.12.5.",
+      "severity": 9.6,
       "references": [
         {
-          "url": "https://github.com/lightpanda-io/browser/security/advisories/GHSA-mq6p-m9cc-q432",
+          "url": "https://github.com/openwrt/openwrt/security/advisories/GHSA-hhmc-92hw-535f",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lightpanda-io/browser/pull/1998",
+          "url": "https://github.com/openwrt/odhcpd/pull/404",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lightpanda-io/browser/commit/0588cc374d4af9687cf6f45a7d52f7af04bbacfb",
+          "url": "https://github.com/openwrt/luci/commit/55379d04fcc3c605003a5001d6135cf02ae6048a",
           "type": "reference"
         },
         {
-          "url": "https://github.com/lightpanda-io/browser/releases/tag/0.3.1",
+          "url": "https://github.com/openwrt/odhcpd/commit/68f382690bfaec56d5b1f31c3c31c48bcb642e3a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openwrt/openwrt/releases/tag/v25.12.5",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "lightpanda-io",
-          "product": "browser",
+          "vendor": "openwrt",
+          "product": "openwrt",
           "versions": [
             {
-              "version": "< 0.3.1",
+              "version": "< 25.12.5",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-346: Origin Validation Error"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+        "CWE-117: Improper Output Neutralization for Logs",
+        "CWE-150: Improper Neutralization of Escape, Meta, or Control Sequences"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-62378",
-      "publishedDate": "2026-07-15T16:50:13.127Z",
-      "lastModifiedDate": "2026-07-15T16:50:13.127Z",
-      "description": "RustFS Console is a web management console for the RustFS distributed file system. From 0.1.7 until 0.1.10, the RustFS Console components/object/preview-modal.tsx and components/object/pdf-viewer.tsx extension-based PDF preview path can render HTML content uploaded as .pdf, allowing stored cross-site scripting in the management console and exposure of administrator AccessKeyId, SecretAccessKey, and SessionToken values. This is caused by a regression of CVE-2026-27822. This vulnerability is fixed in 0.1.10.",
-      "severity": 9,
+      "id": "CVE-2026-40501",
+      "publishedDate": "2026-07-15T17:41:01.459Z",
+      "lastModifiedDate": "2026-07-15T18:09:26.968Z",
+      "description": "Cherry Studio versions 1.2.2 through 1.9.12, fixed in commit 1518530, contain a remote code execution vulnerability in SearchService that allows remote attackers to execute arbitrary code by delivering malicious JavaScript through controlled search provider content loaded into an Electron BrowserWindow configured with nodeIntegration enabled and contextIsolation disabled. Attackers who control a search engine provider, individual search result pages, or provider settings pages can execute JavaScript with full Node.js privileges, gaining access to fs, child_process, os, and process.env under the operating-system account of the Cherry Studio process.",
+      "severity": 8.8,
       "references": [
         {
-          "url": "https://github.com/rustfs/rustfs/security/advisories/GHSA-7gcx-wg4x-q9x6",
+          "url": "https://gist.github.com/Mundi-Xu/99af1b08275fd437cfb79bfe481e68b7",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/CherryHQ/cherry-studio/commit/151853035e8e417a51559ebfc243eda98361a882",
           "type": "reference"
         },
         {
-          "url": "https://github.com/rustfs/console/commit/49630dc140e6818aaee8879ade038a129838a2f2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/rustfs/console/releases/tag/v0.1.10",
+          "url": "https://www.vulncheck.com/advisories/cherry-studio-rce-via-searchservice-nodeintegration-misconfiguration",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "rustfs",
-          "product": "console",
+          "defaultStatus": "affected",
+          "vendor": "CherryHQ",
+          "product": "cherry-studio",
+          "repo": "https://github.com/CherryHQ/cherry-studio",
           "versions": [
             {
-              "version": ">= 0.1.7, < 0.1.10",
-              "status": "affected"
+              "status": "affected",
+              "version": "1.2.2",
+              "versionType": "semver",
+              "lessThanOrEqual": "1.9.12"
+            },
+            {
+              "status": "affected",
+              "version": "f9c6bddae5b91cc50872c76e791105fa219d0d34",
+              "versionType": "git",
+              "lessThanOrEqual": "151853035e8e417a51559ebfc243eda98361a882"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "Inclusion of Functionality from Untrusted Control Sphere"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-61836",
-      "publishedDate": "2026-07-15T14:17:21.034Z",
-      "lastModifiedDate": "2026-07-15T16:32:52.619Z",
-      "description": "Directus is a real-time API and App dashboard for managing SQL database content. Prior to 12.0.0, when response caching is enabled, the cache-key derivation in api/src/utils/get-cache-key.ts includes version, path, query, and accountability.user but omits authorization context such as share, role, roles, admin, app, and policies. Directus share tokens and anonymous requests can both reduce to user null, so different shares or anonymous clients requesting the same URL and query can receive a permission-filtered cached response without permission re-evaluation. This issue is fixed in version 12.0.0.",
-      "severity": 8.6,
+      "id": "CVE-2026-10673",
+      "publishedDate": "2026-07-15T17:36:31.645Z",
+      "lastModifiedDate": "2026-07-15T18:01:15.864Z",
+      "description": "The Zephyr ADIN2111/ADIN1110 10BASE-T1S/T1L Ethernet driver (drivers/ethernet/eth_adin2111.c) reassembles received Ethernet frames in OPEN Alliance (OA) SPI mode by copying device-supplied 64-byte data chunks into a fixed static buffer ctx->buf of size CONFIG_ETH_ADIN2111_BUFFER_SIZE (default 1524 bytes). In eth_adin2111_oa_data_read(), each valid chunk was memcpy'd into ctx->buf[ctx->scur] and the write cursor scur advanced, with no check that scur + len stayed within the buffer. The number of chunks (up to 255, from the BUFSTS RCA field) and the per-chunk length are taken entirely from the frame data received off the wire; the cursor is only reset on a start-of-frame chunk. An attacker on the single-pair Ethernet segment can therefore send a frame whose reassembled size exceeds the configured buffer, causing the driver's RX offload thread to write attacker-controlled frame bytes past the end of the static buffer into adjacent driver/kernel memory (up to roughly 14.8 KB in the worst case). This is a remotely/adjacently reachable out-of-bounds write (CWE-787) that can corrupt memory and cause denial of service or potentially code execution. The defect was introduced when OA SPI support was added (commit 0ca8b0756b1) and shipped in releases v3.7.0 through v4.4.0. The fix adds a bounds check that drops the oversized frame and resets the cursor before the copy.",
+      "severity": 8.3,
       "references": [
         {
-          "url": "https://github.com/directus/directus/security/advisories/GHSA-c6w9-5g5j-jh2p",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/158df8d088316cdae20816fc07703892280b2acb",
           "type": "reference"
         },
         {
-          "url": "https://github.com/directus/directus/pull/27707",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/c98321cbfef23c0e3bdf043ccf6b421067c8d508",
           "type": "reference"
         },
         {
-          "url": "https://github.com/directus/directus/commit/7ba4efb97525d3af33570537c76e44baea767f13",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/directus/directus/releases/tag/v12.0.0",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-hm6v-4jh4-3qc4",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "directus",
-          "product": "directus",
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "drivers/ethernet/eth_adin2111.c",
+            "drivers/ethernet/eth_adin2111_priv.h"
+          ],
           "versions": [
             {
-              "version": "< 12.0.0",
+              "version": "3.7.0",
+              "status": "affected",
+              "lessThan": "4.5.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "memory-safety",
+        "memory-safety"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20296",
+      "publishedDate": "2026-07-15T17:18:23.696Z",
+      "lastModifiedDate": "2026-07-15T18:10:13.521Z",
+      "description": "In Splunk Enterprise versions below 10.4.1, 10.2.5, 10.0.8, and 9.4.13, and Splunk Cloud Platform versions below 10.5.2605.0, 10.4.2604.7, 10.3.2512.16, 10.2.2510.18, and 10.1.2507.24, an attacker could trick a user that holds a role with the `list_deployment_server` capability into running arbitrary Search Processing Language (SPL) searches on their behalf as `splunk-system-user`, allowing for access to stored credentials and indexed data.<br><br>The vulnerability is possible because Deployment Server endpoints in Splunk Web do not validate Cross-Site Request Forgery (CSRF) tokens on GET requests, and caller-supplied input is not correctly neutralized before it is placed into an SPL search.",
+      "severity": 8.3,
+      "references": [
+        {
+          "url": "https://advisory.splunk.com/advisories/SVD-2026-0702",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Splunk Enterprise",
+          "vendor": "Splunk",
+          "versions": [
+            {
+              "version": "10.4",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.4.1"
+            },
+            {
+              "version": "10.2",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.2.5"
+            },
+            {
+              "version": "10.0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.0.8"
+            },
+            {
+              "version": "9.4",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "9.4.13"
+            }
+          ]
+        },
+        {
+          "product": "Splunk Cloud Platform",
+          "vendor": "Splunk",
+          "versions": [
+            {
+              "version": "10.5.2605",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.5.2605.0"
+            },
+            {
+              "version": "10.4.2604",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.4.2604.7"
+            },
+            {
+              "version": "10.3.2512",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.3.2512.16"
+            },
+            {
+              "version": "10.2.2510",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.2.2510.18"
+            },
+            {
+              "version": "10.1.2507",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.1.2507.24"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "The web application does not, or can not, sufficiently verify whether a well-formed, valid, consistent request was intentionally provided by the user who submitted the request."
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59258",
+      "publishedDate": "2026-07-15T17:03:57.291Z",
+      "lastModifiedDate": "2026-07-15T18:13:20.235Z",
+      "description": "immich before 3.0.3 contains a broken access control vulnerability in the PUT /albums/:id/user/:userId endpoint that allows shared album editors to modify member roles without owner-only restrictions. Attackers with editor access can demote the album owner to editor and promote themselves to owner in sequential requests, gaining full control including deletion and eviction capabilities.",
+      "severity": 8.3,
+      "references": [
+        {
+          "url": "https://github.com/immich-app/immich/issues/29857",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/immich-app/immich/releases/tag/v3.0.3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/immich-app/immich/pull/29883",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/immich-app/immich/commit/84dff19ca9a467752d848ff54763d62c04ebf960",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/immich-shared-album-editor-ownership-takeover-via-updateuser",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "immich-app",
+          "product": "immich",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/immich-monorepo",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.0.3"
+            }
+          ],
+          "repo": "https://github.com/immich-app/immich"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-47158",
+      "publishedDate": "2026-07-15T15:01:51.955Z",
+      "lastModifiedDate": "2026-07-15T18:04:27.279Z",
+      "description": "Vaultwarden is a Bitwarden-compatible server written in Rust. Prior to 1.36.0, Vaultwarden's SSO authorization flow did not bind the OAuth state parameter accepted by /connect/authorize to the initiating browser session, allowed attacker-controlled PKCE parameters, and left SsoAuth records intact after failed token exchange, allowing an unauthenticated attacker to induce IdP authentication and redeem tokens for a fully authenticated session. This issue is fixed in version 1.36.0.",
+      "severity": 8.3,
+      "references": [
+        {
+          "url": "https://github.com/dani-garcia/vaultwarden/security/advisories/GHSA-pfp2-jhgq-6hg5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dani-garcia/vaultwarden/pull/7163",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dani-garcia/vaultwarden/commit/d297e274a35dccd0f5d935e9d5934e0f7e9c0a87",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dani-garcia/vaultwarden/releases/tag/1.36.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "dani-garcia",
+          "product": "vaultwarden",
+          "versions": [
+            {
+              "version": "< 1.36.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-524: Use of Cache Containing Sensitive Information",
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46485",
+      "publishedDate": "2026-07-15T18:08:48.278Z",
+      "lastModifiedDate": "2026-07-15T18:08:48.278Z",
+      "description": "Dashy is a self-hostable personal dashboard. Prior to 4.0.8, Dashy deployments using OIDC can allow unauthenticated users or non-admin authenticated users to write changes to the main config.yaml through the config-saving functionality despite configured permissions, allowing unauthorized modification of dashboard configuration and potential service disruption. This issue is fixed in version 4.0.8.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://github.com/lissy93/dashy/security/advisories/GHSA-vjj9-fmvr-6h3p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lissy93/dashy/releases/tag/4.0.8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lissy93",
+          "product": "dashy",
+          "versions": [
+            {
+              "version": "< 4.0.8",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-15: External Control of System or Configuration Setting",
+        "CWE-284: Improper Access Control",
+        "CWE-287: Improper Authentication",
+        "CWE-602: Client-Side Enforcement of Server-Side Security"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-12382",
+      "publishedDate": "2026-07-15T17:21:28.516Z",
+      "lastModifiedDate": "2026-07-15T18:09:45.985Z",
+      "description": "A flaw was found in the AAP Gateway Envoy proxy configuration. The non-mTLS route to EDA event streams does not remove the Subject HTTP header from client requests, despite the source code defining requestHeadersToRemove for this header. An unauthenticated remote attacker can inject a spoofed Subject header matching a legitimate client certificate DN to bypass mTLS authentication and inject arbitrary events into protected EDA event streams.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-12382",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2489126",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "ansible-automation-platform-27/gateway-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-gateway",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2"
+          ]
+        }
+      ],
+      "problemType": [
+        "Authentication Bypass by Spoofing"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58658",
+      "publishedDate": "2026-07-15T17:00:30.407Z",
+      "lastModifiedDate": "2026-07-15T18:12:23.313Z",
+      "description": "GPUStack through 2.2.1, fixed in commit 4e20551, contains an unauthenticated information disclosure vulnerability that allows unauthenticated attackers to access sensitive inference logs and modify worker configuration by exploiting unprotected /serveLogs and /debug endpoints on the worker port. Attackers can enumerate model instance IDs to stream serving logs containing prompts and completions, change log levels, and read memory profiling data without any authentication.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://github.com/gpustack/gpustack/issues/5836",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/gpustack/gpustack/issues/5836",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpustack/gpustack/commit/4e20551b5aaf76f93a8769d32b7fef999e22a4d3",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/gpustack-unauthenticated-information-disclosure-via-worker-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "gpustack",
+          "product": "gpustack",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/gpustack",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.2.1"
+            },
+            {
+              "status": "unaffected",
+              "version": "4e20551b5aaf76f93a8769d32b7fef999e22a4d3",
+              "versionType": "git"
+            }
+          ],
+          "repo": "https://github.com/gpustack/gpustack"
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61435",
+      "publishedDate": "2026-07-15T11:25:39.670Z",
+      "lastModifiedDate": "2026-07-15T17:58:50.469Z",
+      "description": "PraisonAI before 4.6.78 contains an authentication bypass in the Call API agent invocation endpoints (src/praisonai/praisonai/api/agent_invoke.py) when PRAISONAI_CALL_AUTH=disabled is configured. The safeguard intended to restrict the disabled-auth opt-out to localhost binding derives the bind host from request.url.hostname, which is taken from the client-controlled HTTP Host header. A remote, unauthenticated attacker who can reach the service over the network can send a spoofed 'Host: 127.0.0.1' header to bypass the localhost-only restriction and list (GET /api/v1/agents) and invoke (POST /api/v1/agents/{agent_id}/invoke) registered agents without authentication.",
+      "severity": 8.2,
+      "references": [
+        {
+          "url": "https://github.com/MervinPraison/PraisonAI/security/advisories/GHSA-2gpf-2492-q9jh",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/MervinPraison/PraisonAI/commit/2a855c470077c7d2e2479a575f7ef7f548d51c33",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/MervinPraison/PraisonAI/commit/846568c7a5d8ce9e71e56e4c213f027c04909753",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/praisonai-before-authentication-bypass-via-host-header-spoofing",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "MervinPraison",
+          "product": "PraisonAI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/praisonai",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.6.78"
+            },
+            {
+              "version": "4.6.78",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Authentication"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58660",
+      "publishedDate": "2026-07-15T17:03:17.834Z",
+      "lastModifiedDate": "2026-07-15T17:54:24.732Z",
+      "description": "Kanboard through 1.2.52, fixed in commit 564cc30, BoardAjaxController save() method (used by the kanban board drag-and-drop endpoint) validates the caller's role on the attacker-supplied project_id but never verifies that the supplied task_id actually belongs to that project. Because task identifiers are sequential integers shared across the entire instance, any authenticated user who is a member of at least one project can enumerate and move (corrupt/hide) tasks belonging to any other project on the same instance, including private projects they have no membership or role on.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/kanboard/kanboard/issues/5852",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/kanboard/kanboard/pull/5853",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/kanboard/kanboard/commit/564cc30e1e360959572e01e158734d9475c05903",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/kanboard-boardajaxcontroller-missing-ownership-check-via-drag-and-drop",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "kanboard",
+          "product": "kanboard",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:composer/kanboard/kanboard",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.2.52"
+            },
+            {
+              "status": "unaffected",
+              "version": "564cc30e1e360959572e01e158734d9475c05903",
+              "versionType": "git"
+            }
+          ],
+          "repo": "https://github.com/kanboard/kanboard"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20156",
+      "publishedDate": "2026-07-15T16:17:52.307Z",
+      "lastModifiedDate": "2026-07-15T18:05:46.644Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, the Cisco RoomOS engineering team has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities.\r\n\r\nThe vulnerabilities tracked by CVE-2026-20156 are related to improper restriction of operations within the bounds of a memory buffer that are grouped under the Common Weakness Enumeration (CWE) Pillar CWE-119.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-roomos-AqNMbEq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cisco",
+          "product": "Cisco RoomOS Software",
+          "versions": [
+            {
+              "version": "RoomOS 10.11.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.4.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.2.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.5.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.5.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.5.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19 StepUpg",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.8",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.28.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.31.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.33.1.7",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.0.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.34.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.1.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.35.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.2.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.5.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.3.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.36.1.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.37.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.5.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.38.1.1",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "Improper Restriction of Operations within the Bounds of a Memory Buffer"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61873",
+      "publishedDate": "2026-07-15T11:25:56.100Z",
+      "lastModifiedDate": "2026-07-15T18:00:53.105Z",
+      "description": "Grav before 9.1.8 contains an arbitrary file write vulnerability in the Form plugin's process.save.filename parameter, which is validated against path traversal before Twig processing but never re-validated after rendering. Attackers can submit form data containing path traversal sequences that are processed through Twig templates, allowing them to write arbitrary files including PHP webshells to the web root or other sensitive directories.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-q532-mvx7-42qg",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-arbitrary-file-write-via-twig-processed-filename",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "9.1.8"
+            },
+            {
+              "version": "9.1.8",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "External Control of File Name or Path"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-48799",
+      "publishedDate": "2026-07-15T16:11:24.967Z",
+      "lastModifiedDate": "2026-07-15T18:01:49.289Z",
+      "description": "Postiz is an AI social media scheduling tool. Prior to 2.21.8, Postiz fails to verify Nowpayments IPN callback authenticity against the payment provider shared secret and reads the target subscription identifier from the untrusted request body, allowing a low-privileged account to grant arbitrary organizations lifetime PRO subscriptions without payment. This issue is fixed in version 2.21.8.",
+      "severity": 7.7,
+      "references": [
+        {
+          "url": "https://github.com/gitroomhq/postiz-app/security/advisories/GHSA-j7rp-5mgj-qgg9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gitroomhq/postiz-app/commit/23696d2973510ae1f3f48bfa41a6bfbbf9827b05",
+          "type": "reference"
+        },
+        {
+          "url": "https://gadvisory.org/advisories/PSA-2026-Q3TCPK",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gitroomhq/postiz-app/releases/tag/v2.21.8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "gitroomhq",
+          "product": "postiz-app",
+          "versions": [
+            {
+              "version": "< 2.21.8",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-345: Insufficient Verification of Data Authenticity",
         "CWE-639: Authorization Bypass Through User-Controlled Key"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-46709",
-      "publishedDate": "2026-07-15T14:59:18.601Z",
-      "lastModifiedDate": "2026-07-15T16:32:30.643Z",
-      "description": "Tabby (formerly Terminus) is a highly configurable terminal emulator. Prior to 1.0.234, Tabby inserts dropped file paths from tabby-electron/src/pathDrop.ts into the active shell without neutralizing command substitution metacharacters such as $(…) and `…`, so the incomplete CVE-2026-45038 fix for control characters still allows code execution when the victim presses Enter. This issue is fixed in version 1.0.234.",
-      "severity": 7.8,
+      "id": "CVE-2026-45337",
+      "publishedDate": "2026-07-15T17:31:44.983Z",
+      "lastModifiedDate": "2026-07-15T18:02:58.506Z",
+      "description": "Better Auth is an authentication and authorization library for TypeScript. From 1.6.0 until 1.6.11, the deviceAuthorization plugin treats any authenticated session as the owner of any pending device code because GET /device does not claim the row and POST /device/approve and POST /device/deny short-circuit when userId is unset, allowing an authenticated attacker who learns a valid user_code to bind the polling device to the attacker's account or deny the legitimate flow. This issue is fixed in version 1.6.11.",
+      "severity": 7.6,
       "references": [
         {
-          "url": "https://github.com/Eugeny/tabby/security/advisories/GHSA-mq9v-2pgm-fxgh",
+          "url": "https://github.com/better-auth/better-auth/security/advisories/GHSA-cq3f-vc6p-68fh",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Eugeny/tabby/commit/e151472b951bbd472ddc0545ec8656e4c0f352da",
+          "url": "https://github.com/better-auth/better-auth/pull/9573",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Eugeny/tabby/releases/tag/v1.0.234",
+          "url": "https://github.com/better-auth/better-auth/commit/99a254a79b59d5a3f5ca2123260118cddb5beed7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/better-auth/better-auth/releases/tag/v1.6.11",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Eugeny",
-          "product": "tabby",
+          "vendor": "better-auth",
+          "product": "better-auth",
           "versions": [
             {
-              "version": "< 1.0.234",
+              "version": ">= 1.6.0, < 1.6.11",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')",
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        "CWE-285: Improper Authorization",
+        "CWE-345: Insufficient Verification of Data Authenticity"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-50471",
-      "publishedDate": "2026-07-14T17:07:12.417Z",
-      "lastModifiedDate": "2026-07-15T16:28:17.307Z",
-      "description": "Heap-based buffer overflow in Windows NTFS allows an unauthorized attacker to execute code locally.",
-      "severity": 7.8,
-      "references": [
-        {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-50471",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 1607",
-          "platforms": [
-            "32-bit Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.14393.0",
-              "lessThan": "10.0.14393.9339",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 1809",
-          "platforms": [
-            "32-bit Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.17763.0",
-              "lessThan": "10.0.17763.9020",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 21H2",
-          "platforms": [
-            "32-bit Systems",
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.19044.0",
-              "lessThan": "10.0.19044.7548",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 22H2",
-          "platforms": [
-            "32-bit Systems",
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.19045.0",
-              "lessThan": "10.0.19045.7548",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 version 23H2",
-          "platforms": [
-            "ARM64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.22631.0",
-              "lessThan": "10.0.22631.7376",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 Version 23H2",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.22631.0",
-              "lessThan": "10.0.22631.7376",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 Version 24H2",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.8875",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 Version 25H2",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26200.0",
-              "lessThan": "10.0.26100.8875",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 version 26H1",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.28000.0",
-              "lessThan": "10.0.28000.2525",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.2.9200.0",
-              "lessThan": "6.2.9200.26226",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.2.9200.0",
-              "lessThan": "6.2.9200.26226",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012 R2",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.3.9600.0",
-              "lessThan": "6.3.9600.23291",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012 R2 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.3.9600.0",
-              "lessThan": "6.3.9600.23291",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2016",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.14393.0",
-              "lessThan": "10.0.14393.9339",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2016 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.14393.0",
-              "lessThan": "10.0.14393.9339",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2019",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.17763.0",
-              "lessThan": "10.0.17763.9020",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2019 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.17763.0",
-              "lessThan": "10.0.17763.9020",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2022",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.20348.0",
-              "lessThan": "10.0.20348.5386",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2025",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2025 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-122: Heap-based Buffer Overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61644",
-      "publishedDate": "2026-07-15T14:30:26.693Z",
-      "lastModifiedDate": "2026-07-15T16:32:44.414Z",
-      "description": "FastGPT is a knowledge-based AI application platform. From 4.14.17 until 4.15.0-beta5, the POST /api/core/chat/record/getCollectionQuote endpoint authenticates the caller's chat and collection context, but the initialId center-node lookup is not bound to that authorized context. A low-privileged tenant user can call the endpoint with valid attacker-owned appId, chatId, chatItemDataId, and collectionId values while supplying another tenant's dataset data id as initialId, causing the response to include foreign dataset quote or full-text content. This issue is fixed in version 4.15.0-beta5.",
-      "severity": 7.7,
-      "references": [
-        {
-          "url": "https://github.com/labring/FastGPT/security/advisories/GHSA-mmg6-2g54-j896",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/labring/FastGPT/pull/7173",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/labring/FastGPT/commit/0c1840c7773c5be5d777f86228651479e02155db",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/labring/FastGPT/releases/tag/v4.15.0-beta5",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "labring",
-          "product": "FastGPT",
-          "versions": [
-            {
-              "version": ">= 4.14.17, < 4.15.0-beta5",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-59954",
-      "publishedDate": "2026-07-15T16:27:48.825Z",
-      "lastModifiedDate": "2026-07-15T16:27:48.825Z",
-      "description": "Apollo is a reliable configuration management system suitable for microservice configuration management scenarios. Prior to 2.5.2, Apollo ConfigService may allow unauthorized access to configuration data when AccessKey or management key authentication is enabled because ConfigService can accept a non-canonical appId variant during authentication while downstream request handling resolves it to the protected app, including accent variants under accent-insensitive collations or trailing-space variants under PAD SPACE collations on /configs and /configfiles endpoints. This issue is fixed in version 2.5.2.",
+      "id": "CVE-2026-62389",
+      "publishedDate": "2026-07-15T17:04:26.250Z",
+      "lastModifiedDate": "2026-07-15T17:55:32.359Z",
+      "description": "ws before 8.21.1 contains a memory exhaustion vulnerability in lib/receiver.js where the fragment guard only triggers when fragment count reaches maxFragments, allowing attackers to exhaust memory by sending incomplete fragmented WebSocket messages. Attackers can send a text frame with FIN=0 followed by continuation frames without completing the sequence, causing each fragment to be stored as a separate Buffer object with significant overhead, enabling denial of service through heap exhaustion.",
       "severity": 7.5,
       "references": [
         {
-          "url": "https://github.com/apolloconfig/apollo/security/advisories/GHSA-4w3q-qpfq-v992",
+          "url": "https://github.com/websockets/ws/issues/2331",
           "type": "reference"
         },
         {
-          "url": "https://github.com/apolloconfig/apollo/commit/310809d557e01c6803051736cd525e333ffe00ec",
+          "url": "https://github.com/websockets/ws/releases/tag/8.21.1",
           "type": "reference"
         },
         {
-          "url": "https://github.com/apolloconfig/apollo/releases/tag/v2.5.2",
+          "url": "https://github.com/websockets/ws/commit/f197ac65140920bdcecdab74bfc69c2d7858e55d",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ws-default-maxfragments-allows-memory-exhaustion-dos",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "apolloconfig",
-          "product": "apollo",
+          "vendor": "websockets",
+          "product": "ws",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/ws",
           "versions": [
             {
-              "version": "< 2.5.2",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "8.21.1"
             }
-          ]
+          ],
+          "repo": "https://github.com/websockets/ws"
         }
       ],
       "problemType": [
-        "CWE-20: Improper Input Validation",
-        "CWE-287: Improper Authentication"
+        "Allocation of Resources Without Limits or Throttling"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
       "id": "CVE-2026-59955",
       "publishedDate": "2026-07-15T16:26:05.005Z",
-      "lastModifiedDate": "2026-07-15T16:26:05.005Z",
+      "lastModifiedDate": "2026-07-15T18:11:39.238Z",
       "description": "Apollo is a reliable configuration management system suitable for microservice configuration management scenarios. Prior to 2.5.2, Apollo ConfigService may allow unauthorized access to raw configuration data when AccessKey or management key authentication is enabled because requests under /configfiles/raw/{appId}/{clusterName}/{namespace} are parsed for authentication as appId raw instead of the actual path appId, causing ConfigService to look up AccessKey secrets for raw before verifying the request signature and potentially continue without signature verification for the target appId. This issue is fixed in version 2.5.2.",
       "severity": 7.5,
       "references": [
@@ -617,18 +1069,1975 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-62843",
-      "publishedDate": "2026-07-15T15:42:19.122Z",
-      "lastModifiedDate": "2026-07-15T16:32:21.438Z",
-      "description": "File Browser is a file managing interface for uploading, deleting, previewing, renaming, and editing files within a specified directory. From 2.63.6 to 2.63.16, File Browser's archive builder uses strings.ReplaceAll(nameInArchive, \"\\\", \"/\"), which turns a POSIX filename such as ..\\..\\evil.sh into the archive entry ../../evil.sh, allowing a user with upload permission to plant a backslash-named file that escapes the extraction directory when another user downloads and extracts the generated zip or tar archive. This issue is fixed in version 2.63.17.",
-      "severity": 6.8,
+      "id": "CVE-2026-45793",
+      "publishedDate": "2026-07-15T16:22:19.418Z",
+      "lastModifiedDate": "2026-07-15T18:11:10.355Z",
+      "description": "Composer is a dependency Manager for the PHP language. Prior to 1.10.28, 2.2.28, and 2.9.8, Composer\\IO\\BaseIO::loadConfiguration() validates GitHub OAuth tokens with the regex ^[.A-Za-z0-9_]+$ and interpolates rejected tokens into an UnexpectedValueException; GitHub Actions GITHUB_TOKEN values using the ghs_<id>_<base64url-JWT> format can contain -, fail validation, and be disclosed to stderr or CI logs. This issue is fixed in versions 1.10.28, 2.2.28, and 2.9.8.",
+      "severity": 7.5,
       "references": [
         {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-83xp-526h-j3ww",
+          "url": "https://github.com/composer/composer/security/advisories/GHSA-f9f8-rm49-7jv2",
           "type": "reference"
         },
         {
-          "url": "https://github.com/filebrowser/filebrowser/commit/8503ba61ff51d48a7313896483d130eb6a5abfe0",
+          "url": "https://github.com/composer/composer/pull/12853",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/pull/12855",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/commit/3f5e7f9fbfa541137d6d1d5643ec3b718e9d5039",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/commit/65e6390c49f1a11cd8b660d81822086db51fe2d1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/commit/e66c8fdb7ff5409bd2f358c5f194038e49e93714",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/releases/tag/1.10.28",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/releases/tag/2.2.28",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/composer/composer/releases/tag/2.9.8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "composer",
+          "product": "composer",
+          "versions": [
+            {
+              "version": ">= 1.0, < 1.10.28",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.0.0, < 2.2.28",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.3.0, < 2.9.8",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20187",
+      "publishedDate": "2026-07-15T16:18:37.525Z",
+      "lastModifiedDate": "2026-07-15T18:05:01.949Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, the Cisco RoomOS engineering team has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities.\r\n\r\nThe vulnerabilities tracked by CVE-2026-20187 are related to improper handling of exceptional conditions that are grouped under the Common Weakness Enumeration (CWE) Pillar CWE-703.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-roomos-AqNMbEq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cisco",
+          "product": "Cisco RoomOS Software",
+          "versions": [
+            {
+              "version": "RoomOS 10.11.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.4.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.2.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.5.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.5.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.5.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19 StepUpg",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.8",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.28.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.31.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.33.1.7",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.0.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.34.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.1.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.35.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.2.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.5.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.3.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.36.1.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.37.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.5.2.0",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "Improper Check or Handling of Exceptional Conditions"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20158",
+      "publishedDate": "2026-07-15T16:18:27.994Z",
+      "lastModifiedDate": "2026-07-15T18:07:02.708Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, the Cisco RoomOS engineering team has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities.\r\n\r\nThe vulnerabilities tracked by CVE-2026-20158 are related to improper control of a resource through its lifetime that are grouped under the Common Weakness Enumeration (CWE) Pillar CWE-664.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-roomos-AqNMbEq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cisco",
+          "product": "Cisco RoomOS Software",
+          "versions": [
+            {
+              "version": "RoomOS 10.11.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.4.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.2.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.5.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.5.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.5.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19 StepUpg",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.8",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.28.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.31.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.33.1.7",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.0.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.34.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.1.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.35.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.2.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.5.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.3.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.36.1.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.37.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.5.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.38.1.1",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "Improper Control of a Resource Through its Lifetime"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20153",
+      "publishedDate": "2026-07-15T16:18:14.073Z",
+      "lastModifiedDate": "2026-07-15T18:06:37.684Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, the Cisco RoomOS engineering team has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities.\r\n\r\nThe vulnerabilities tracked by CVE-2026-20153 are related to improper input validation that are grouped under the Common Weakness Enumeration (CWE) Pillar CWE-20.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-roomos-AqNMbEq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cisco",
+          "product": "Cisco RoomOS Software",
+          "versions": [
+            {
+              "version": "RoomOS 10.11.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.4.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.2.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.5.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.5.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.5.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19 StepUpg",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.8",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.28.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.31.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.33.1.7",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.0.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.34.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.1.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.35.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.2.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.5.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.3.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.36.1.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.37.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.5.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.38.1.1",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "Improper Input Validation"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20157",
+      "publishedDate": "2026-07-15T16:18:04.406Z",
+      "lastModifiedDate": "2026-07-15T18:06:16.748Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, the Cisco RoomOS engineering team has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities.\r\n\r\nThe vulnerabilities tracked by CVE-2026-20157 are related to missing encryption that are grouped under the Common Weakness Enumeration (CWE) Pillar CWE-311.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-roomos-AqNMbEq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cisco",
+          "product": "Cisco RoomOS Software",
+          "versions": [
+            {
+              "version": "RoomOS 10.11.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.4.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.2.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.5.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.5.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.1.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.8.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.15.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19.5.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.11.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.5.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.9.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 10.19 StepUpg",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.2.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.14.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.17.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.20.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.23.1.8",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.2.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.24.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.28.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.31.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.33.1.7",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.0.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.34.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.27.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.1.1.5",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.35.1.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.2.2.2",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.32.5.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.6",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.4.1.4",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.3.1.3",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.36.1.1",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.37.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 26.5.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "RoomOS 11.38.1.1",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "Missing Encryption of Sensitive Data"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62328",
+      "publishedDate": "2026-07-13T21:37:52.094Z",
+      "lastModifiedDate": "2026-07-15T18:10:21.082Z",
+      "description": "9Router through version 0.4.41 contain an unauthenticated information disclosure vulnerability that allows remote attackers to access sensitive user data by sending requests to unprotected API endpoints. Attackers can enumerate paginated request logs and retrieve complete AI conversation histories including system prompts, user messages, assistant responses, tool calls, and user email addresses by querying the request-logs and request-details API routes which lack authentication middleware.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/decolua/9router/security/advisories/GHSA-vjc7-jrh9-9j86",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/9router-unauthenticated-information-disclosure-via-api-usage-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "decolua",
+          "product": "9Router",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/9router",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "0.4.41"
+            }
+          ],
+          "repo": "https://github.com/decolua/9router"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization",
+        "Exposure of Private Personal Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20297",
+      "publishedDate": "2026-07-15T17:18:13.390Z",
+      "lastModifiedDate": "2026-07-15T18:10:35.679Z",
+      "description": "In Splunk Enterprise versions below 10.4.1, 10.2.5, 10.0.8, 9.4.13, and 9.3.14, and Splunk Cloud Platform versions below 10.5.2605.0, 10.4.2604.6, 10.2.2510.18, and 10.1.2507.24, a user who holds a role that contains the `edit_local_apps` and `install_apps` capabilities could cause a legitimate app installation to write files outside the intended app directory, into `$SPLUNK_HOME/etc/` and its subdirectories.<br><br>The vulnerability is caused by a path traversal in the app installation workflow, which does not restrict the installation path to the intended app directory.",
+      "severity": 7.2,
+      "references": [
+        {
+          "url": "https://advisory.splunk.com/advisories/SVD-2026-0703",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Splunk Enterprise",
+          "vendor": "Splunk",
+          "versions": [
+            {
+              "version": "10.4",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.4.1"
+            },
+            {
+              "version": "10.2",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.2.5"
+            },
+            {
+              "version": "10.0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.0.8"
+            },
+            {
+              "version": "9.4",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "9.4.13"
+            },
+            {
+              "version": "9.3",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "9.3.14"
+            }
+          ]
+        },
+        {
+          "product": "Splunk Cloud Platform",
+          "vendor": "Splunk",
+          "versions": [
+            {
+              "version": "10.5.2605",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.5.2605.0"
+            },
+            {
+              "version": "10.4.2604",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.4.2604.6"
+            },
+            {
+              "version": "10.2.2510",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.2.2510.18"
+            },
+            {
+              "version": "10.1.2507",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.1.2507.24"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "The software uses external input to construct a pathname that is intended to identify a file or directory that is located underneath a restricted parent directory, but the software does not properly neutralize special elements within the pathname that can cause the pathname to resolve to a location that is outside of the restricted directory."
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59255",
+      "publishedDate": "2026-07-15T17:03:38.361Z",
+      "lastModifiedDate": "2026-07-15T18:04:05.990Z",
+      "description": "BloodHound through 9.4.0, fixed in commit 8f79035, contains a missing authorization vulnerability in the custom-nodes API endpoints that allows any authenticated user to modify the global graph schema. Attackers with valid session tokens can create, update, or delete custom node types affecting all users and tenants by invoking unprotected POST, PUT, and DELETE operations on the custom-nodes endpoints.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/SpecterOps/BloodHound/issues/2910",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/SpecterOps/BloodHound/pull/2989",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/SpecterOps/BloodHound/commit/8f790351349fd87bcb04377aba84cba6495825b3",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/bloodhound-missing-authorization-on-custom-node-management-api",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "SpecterOps",
+          "product": "BloodHound",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/bloodhound-ce",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "9.4.0"
+            },
+            {
+              "status": "unaffected",
+              "version": "8f790351349fd87bcb04377aba84cba6495825b3",
+              "versionType": "git"
+            }
+          ],
+          "repo": "https://github.com/SpecterOps/BloodHound"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-56434",
+      "publishedDate": "2026-07-15T14:33:46.142Z",
+      "lastModifiedDate": "2026-07-15T18:10:54.402Z",
+      "description": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_ssi_module module. This vulnerability may exist when the Server-Side Includes (SSI), proxy_pass, and proxy_buffering off directives are configured. With this configuration, an unauthenticated attacker with man-in-the-middle (MITM) ability to control responses from an upstream server may be able to cause a use-after-free in the NGINX worker process. This issue may lead to limited modification of memory or a restart of the NGINX worker process.\n\nImpact:\nThis vulnerability may allow remote attackers to have limited control to modify memory contents or restart the NGINX worker process. There is no control plane exposure; this is a data plane issue only.\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://my.f5.com/manage/s/article/K000162098",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "F5",
+          "product": "NGINX Plus",
+          "modules": [
+            "ngx_http_ssi_module"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "37.0.0.1",
+              "lessThan": "37.0.3.1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "R36",
+              "lessThan": "R36 P7",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "R33",
+              "lessThan": "*",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        },
+        {
+          "vendor": "F5",
+          "product": "NGINX Open Source",
+          "modules": [
+            "ngx_http_ssi_module"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.31.2",
+              "lessThan": "1.31.3",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0.8.11",
+              "lessThan": "1.30.4",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use After Free"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-58478",
+      "publishedDate": "2026-07-14T14:41:54.079Z",
+      "lastModifiedDate": "2026-07-15T18:11:54.117Z",
+      "description": "Sustainable Irrigation Platform (SIP) through version 5.2.16 contains a server-side request forgery (SSRF) vulnerability that allows unauthenticated attackers to make the device issue arbitrary HTTP requests by supplying a malicious callback URL when the optional Node-RED plugin is installed. Attackers can exploit the lack of destination validation and the default passphrase 'opendoor' to send blind HTTP requests to arbitrary internal or external hosts not otherwise directly accessible.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://www.zeroscience.mk/#/advisories/ZSL-2026-5998",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/sustainable-irrigation-platform-ssrf-via-node-red-callback-url",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/Dan-in-CA/SIP",
+          "vendor": "Dan-in-CA",
+          "product": "SIP",
+          "repo": "https://github.com/Dan-in-CA/SIP",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "5.2.16"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61453",
+      "publishedDate": "2026-07-15T11:25:45.830Z",
+      "lastModifiedDate": "2026-07-15T17:59:04.551Z",
+      "description": "Grav v2.0.0 contains a cross-site scripting vulnerability (fixed in 2.0.1). The XSS blueprint validator (Security::detectXss()) runs on raw page content before Twig processing. When Twig content processing is enabled (twig_content.process_enabled: true), an attacker with page-write API permission can use Twig's string concatenation operator (~) to dynamically construct event handler names, dangerous tag names, or dangerous protocols at render time (e.g. {% set x = \"on\" ~ \"error\" %}). The validator sees only the harmless Twig expression and allows the content, but after Twig rendering the output (rendered via {{ page.content|raw }}) contains an active payload such as <img src=1 onerror=alert(1)>, executing arbitrary JavaScript in visitors' browsers.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-2c4f-86xc-cr74",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-xss-via-twig-string-concatenation",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.1"
+            },
+            {
+              "version": "2.0.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-20146",
+      "publishedDate": "2026-07-15T16:17:30.420Z",
+      "lastModifiedDate": "2026-07-15T17:58:15.091Z",
+      "description": "A vulnerability in Cisco Identity Services Engine (ISE) and Cisco ISE Passive Identity Connector (ISE-PIC) could allow an authenticated, remote attacker to perform path traversal attacks on the underlying operating system to either read or delete arbitrary files. To exploit this vulnerability, the attacker must have valid administrative credentials.&nbsp;\r\n\r\nThis vulnerability is due to improper validation of user-supplied input. An attacker could exploit this vulnerability by sending a crafted HTTP request to an affected system. A successful exploit could allow the attacker to access sensitive files or delete arbitrary files on the affected system.",
+      "severity": 5.5,
+      "references": [
+        {
+          "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ise-traversal-xNt7wb2Y",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cisco",
+          "product": "Cisco Identity Services Engine Software",
+          "versions": [
+            {
+              "version": "3.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p1",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p3",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p2",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p4",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p5",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p1",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p6",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p2",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p7",
+              "status": "affected"
+            },
+            {
+              "version": "3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p3",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p4",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p8",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p5",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p6",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p9",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 2",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 1",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 3",
+              "status": "affected"
+            },
+            {
+              "version": "3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.2.0 p7",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 4",
+              "status": "affected"
+            },
+            {
+              "version": "3.4 Patch 1",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0 p10",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 5",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 6",
+              "status": "affected"
+            },
+            {
+              "version": "3.4 Patch 2",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 7",
+              "status": "affected"
+            },
+            {
+              "version": "3.4 Patch 3",
+              "status": "affected"
+            },
+            {
+              "version": "3.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.4 Patch 4",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 8",
+              "status": "affected"
+            },
+            {
+              "version": "3.2 Patch 8",
+              "status": "affected"
+            },
+            {
+              "version": "3.5 Patch 1",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 9",
+              "status": "affected"
+            },
+            {
+              "version": "3.2 Patch 9",
+              "status": "affected"
+            },
+            {
+              "version": "3.4 Patch 5",
+              "status": "affected"
+            },
+            {
+              "version": "3.5 Patch 3",
+              "status": "affected"
+            },
+            {
+              "version": "3.5 Patch 2",
+              "status": "affected"
+            },
+            {
+              "version": "3.3 Patch 10",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        },
+        {
+          "vendor": "Cisco",
+          "product": "Cisco ISE Passive Identity Connector",
+          "versions": [
+            {
+              "version": "3.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.5.0",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15753",
+      "publishedDate": "2026-07-14T22:30:09.981Z",
+      "lastModifiedDate": "2026-07-15T18:14:14.492Z",
+      "description": "A vulnerability was determined in zhinianboke xianyu-auto-reply on Server. Affected by this vulnerability is an unknown functionality of the file /api/v1/payment/withdraw/review?action=approve. Executing a manipulation can lead to trusting http permission methods on the server side. The attack may be launched remotely. The exploit has been publicly disclosed and may be utilized. This patch is called 19fc3282a1bb78a05c34945c088525d20e081cbd. It is best practice to apply a patch to resolve this issue.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/378335",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/378335/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-15753",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/856719",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zhinianboke/xianyu-auto-reply/issues/192",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/zhinianboke/xianyu-auto-reply/commit/19fc3282a1bb78a05c34945c088525d20e081cbd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zhinianboke/xianyu-auto-reply/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zhinianboke",
+          "product": "xianyu-auto-reply",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:zhinianboke:xianyu-auto-reply:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Trusting HTTP Permission Methods on the Server Side"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62947",
+      "publishedDate": "2026-07-15T17:55:12.240Z",
+      "lastModifiedDate": "2026-07-15T17:55:12.240Z",
+      "description": "OpenWrt is a Linux operating system targeting embedded devices. Prior to 25.12.5, the cgi-download handler in cgi-io authorizes the requested path against the caller's ubus session file ACL before canonicalization, and rpcd session.c uses fnmatch() without FNM_PATHNAME, allowing traversal such as an allowed wildcard prefix followed by ../ to read root-readable files including /etc/shadow. This vulnerability is fixed in 25.12.5.",
+      "severity": 4.9,
+      "references": [
+        {
+          "url": "https://github.com/openwrt/openwrt/security/advisories/GHSA-jw5r-xhf5-2xcq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openwrt/cgi-io/pull/4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openwrt/cgi-io/commit/72990b7489872112df31c94032637c907760bae4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openwrt/openwrt/releases/tag/v25.12.5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openwrt",
+          "product": "openwrt",
+          "versions": [
+            {
+              "version": "< 25.12.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61859",
+      "publishedDate": "2026-07-15T11:25:47.918Z",
+      "lastModifiedDate": "2026-07-15T17:56:16.565Z",
+      "description": "ImageMagick before 7.1.2-26 and 6.9.13-x before 6.9.13-51 contains a policy bypass vulnerability in the -script operation due to missing security policy checks. This allows reading files from paths that are otherwise disallowed by the configured security policy.",
+      "severity": 3.3,
+      "references": [
+        {
+          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-vghg-5jrg-2398",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/imagemagick-before-26-policy-bypass-via-script-operation",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.1.2-26"
+            },
+            {
+              "version": "7.1.2-26",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "6.9.13-51"
+            },
+            {
+              "version": "6.9.13-51",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62683",
+      "publishedDate": "2026-07-15T15:40:56.485Z",
+      "lastModifiedDate": "2026-07-15T18:02:39.173Z",
+      "description": "File Browser is a file managing interface for uploading, deleting, previewing, renaming, and editing files within a specified directory. Prior to 2.63.17, File Browser can leave a public directory share behind when the shared directory is deleted through a path with a trailing slash because the share cleanup path calls DeleteWithPathPrefix(file.Path, userID) and the Bolt backend performs the database prefix query with the unnormalized path before trimming the slash for boundary checks, so deleting /a/ does not delete the stored /a share and the stale public share exposes future content if the same path is recreated. This issue is fixed in version 2.63.17.",
+      "severity": 3.1,
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-pp88-jhwj-5qh5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/commit/f30fca636c1af9ef401e9a82ff60391cb3db97e1",
           "type": "reference"
         },
         {
@@ -642,516 +3051,264 @@
           "product": "filebrowser",
           "versions": [
             {
-              "version": ">= 2.63.6, < 2.63.17",
+              "version": "< 2.63.17",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-23: Relative Path Traversal"
+        "CWE-863: Incorrect Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2025-32781",
-      "publishedDate": "2026-07-15T16:31:56.122Z",
-      "lastModifiedDate": "2026-07-15T16:31:56.122Z",
-      "description": "Apollo is a reliable configuration management system suitable for microservice configuration management scenarios. Prior to 2.5.0, Apollo Portal does not verify application and namespace permissions when an authenticated user requests a release by ID through GET /envs/{env}/releases/{releaseId} while configView.memberOnly.envs is enabled, allowing a low-privileged Portal user who obtains or guesses a valid releaseId to read configuration data from other applications and namespaces without calling UserPermissionValidator.shouldHideConfigToCurrentUser(...). This issue is fixed in version 2.5.0.",
-      "severity": 6.5,
+      "id": "CVE-2026-61869",
+      "publishedDate": "2026-07-15T11:25:54.057Z",
+      "lastModifiedDate": "2026-07-15T18:03:42.319Z",
+      "description": "ImageMagick before 7.1.2-26 and 6.9.13-51 contains a memory leak in the MIFF encoder that occurs when a memory allocation fails during MIFF image processing, which can lead to denial of service.",
+      "severity": 2.9,
       "references": [
         {
-          "url": "https://github.com/apolloconfig/apollo/security/advisories/GHSA-jxpj-9j24-w337",
+          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-r628-69v2-2f9c",
           "type": "reference"
         },
         {
-          "url": "https://github.com/apolloconfig/apollo/pull/5378",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/apolloconfig/apollo/commit/362735ded4f13b62f6ab9df135d7096066e8e291",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/apolloconfig/apollo/releases/tag/v2.5.0",
+          "url": "https://www.vulncheck.com/advisories/imagemagick-before-26-memory-leak-in-miff-encoder",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "apolloconfig",
-          "product": "apollo",
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": "< 2.5.0",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.1.2-26"
+            },
+            {
+              "version": "7.1.2-26",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "6.9.13-51"
+            },
+            {
+              "version": "6.9.13-51",
+              "status": "unaffected",
+              "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key",
-        "CWE-862: Missing Authorization"
+        "Missing Release of Memory after Effective Lifetime"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-50445",
-      "publishedDate": "2026-07-14T17:07:09.141Z",
-      "lastModifiedDate": "2026-07-15T16:26:24.740Z",
-      "description": "Buffer over-read in Windows RDP allows an unauthorized attacker to disclose information over a network.",
-      "severity": 6.5,
+      "id": "CVE-2026-61866",
+      "publishedDate": "2026-07-15T11:25:51.999Z",
+      "lastModifiedDate": "2026-07-15T17:54:18.204Z",
+      "description": "ImageMagick before 7.1.2-26 contains a memory leak vulnerability in the JNG encoder when a blob cannot be opened. Attackers can trigger the memory leak by providing malformed JNG files that fail blob operations, causing resource exhaustion.",
+      "severity": 2.9,
       "references": [
         {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-50445",
+          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-99w9-hv66-rfv7",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/imagemagick-before-26-memory-leak-in-jng-encoder",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 1607",
-          "platforms": [
-            "32-bit Systems",
-            "x64-based Systems"
-          ],
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": "10.0.14393.0",
-              "lessThan": "10.0.14393.9339",
-              "versionType": "custom",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.1.2-26"
+            },
+            {
+              "version": "7.1.2-26",
+              "status": "unaffected",
+              "versionType": "semver"
             }
           ]
+        }
+      ],
+      "problemType": [
+        "Missing Release of Memory after Effective Lifetime"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-49987",
+      "publishedDate": "2026-07-15T18:06:27.018Z",
+      "lastModifiedDate": "2026-07-15T18:06:27.018Z",
+      "description": "Repomix is a tool that packs repositories into AI-friendly files. Prior to 1.14.1, src/core/git/gitCommand.ts execGitShallowClone passes the --remote-branch value directly to git fetch and git checkout without validation or --end-of-options, allowing --upload-pack or other Git option injection that bypasses validateGitUrl() dangerous parameter checks and can execute commands through local or SSH-style transports. This issue is fixed in version 1.14.1.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/yamadashy/repomix/security/advisories/GHSA-9mm9-rqhj-j5mx",
+          "type": "reference"
         },
         {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 1809",
-          "platforms": [
-            "32-bit Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.17763.0",
-              "lessThan": "10.0.17763.9020",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
+          "url": "https://github.com/yamadashy/repomix/commit/92bfa3193b5233a0d21beff929444153c088de82",
+          "type": "reference"
         },
         {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 21H2",
-          "platforms": [
-            "32-bit Systems",
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.19044.0",
-              "lessThan": "10.0.19044.7548",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
+          "url": "https://github.com/yamadashy/repomix/releases/tag/v1.14.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
         {
-          "vendor": "Microsoft",
-          "product": "Windows 10 Version 22H2",
-          "platforms": [
-            "32-bit Systems",
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
+          "vendor": "yamadashy",
+          "product": "repomix",
           "versions": [
             {
-              "version": "10.0.19045.0",
-              "lessThan": "10.0.19045.7548",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 Version 24H2",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.8875",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 Version 25H2",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26200.0",
-              "lessThan": "10.0.26200.8875",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 version 26H1",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.28000.0",
-              "lessThan": "10.0.28000.2269",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.2.9200.0",
-              "lessThan": "6.2.9200.26226",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.2.9200.0",
-              "lessThan": "6.2.9200.26226",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012 R2",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.3.9600.0",
-              "lessThan": "6.3.9600.23291",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2012 R2 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "6.3.9600.0",
-              "lessThan": "6.3.9600.23291",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2016",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.14393.0",
-              "lessThan": "10.0.14393.9339",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2016 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.14393.0",
-              "lessThan": "10.0.14393.9339",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2019",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.17763.0",
-              "lessThan": "10.0.17763.9020",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2019 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.17763.0",
-              "lessThan": "10.0.17763.9020",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2022",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.20348.0",
-              "lessThan": "10.0.20348.5386",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2025",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2025 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
+              "version": "< 1.14.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-126: Buffer Over-read"
+        "CWE-88: Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-62174",
-      "publishedDate": "2026-07-15T17:25:34.233702+00:00",
-      "lastModifiedDate": "2026-07-15T16:33:23.250Z",
-      "description": "",
+      "id": "CVE-2026-49988",
+      "publishedDate": "2026-07-15T18:05:10.789Z",
+      "lastModifiedDate": "2026-07-15T18:05:10.789Z",
+      "description": "Repomix is a tool that packs repositories into AI-friendly files. Prior to 1.14.1, the Repomix MCP server attach_packed_output and read_repomix_output flow can register and read arbitrary local .json, .txt, .md, or .xml files without the file_system_read_file runSecretLint() safety check or Repomix packed-output validation, allowing MCP callers to bypass the local file-read secret-scanning boundary. This issue is fixed in version 1.14.1.",
       "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
+      "references": [
+        {
+          "url": "https://github.com/yamadashy/repomix/security/advisories/GHSA-hwpp-h97w-2h3j",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamadashy/repomix/commit/e447f7dba6f51fdb26bcad0c280542fca291960e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamadashy/repomix/releases/tag/v1.14.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "yamadashy",
+          "product": "repomix",
+          "versions": [
+            {
+              "version": "< 1.14.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-62169",
-      "publishedDate": "2026-07-15T17:25:34.230095+00:00",
-      "lastModifiedDate": "2026-07-15T16:32:38.109Z",
-      "description": "",
+      "id": "CVE-2026-53518",
+      "publishedDate": "2026-07-15T17:17:06.410Z",
+      "lastModifiedDate": "2026-07-15T18:07:49.190Z",
+      "description": "Better Auth is an authentication and authorization library for TypeScript. From 1.6.0 until 1.6.11, the @better-auth/oauth-provider POST /oauth2/token endpoint for the authorization_code grant redeems a single-use authorization code through a non-atomic find-then-delete sequence, allowing two concurrent requests to pass the read step and mint independent access tokens, refresh tokens, and ID tokens; legacy /oauth2/token and /mcp/token paths in oidc-provider and mcp plugins share the same primitive. This issue is fixed in version 1.6.11.",
       "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
+      "references": [
+        {
+          "url": "https://github.com/better-auth/better-auth/security/advisories/GHSA-7w99-5wm4-3g79",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/better-auth/better-auth/commit/b4bc65a007784b2eb0efb459e5fa6fd8055d3ec9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/better-auth/better-auth/releases/tag/v1.6.11",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "better-auth",
+          "product": "better-auth",
+          "versions": [
+            {
+              "version": ">= 1.6.0, < 1.6.11",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')",
+        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-61839",
-      "publishedDate": "2026-07-15T17:25:34.222828+00:00",
-      "lastModifiedDate": "2026-07-15T16:37:38.802Z",
-      "description": "",
+      "id": "CVE-2026-50562",
+      "publishedDate": "2026-07-15T16:55:03.994Z",
+      "lastModifiedDate": "2026-07-15T18:13:13.693Z",
+      "description": "FastGPT is a knowledge-based AI application platform. At commit 22ebfacbb43311e9b73294040ae0eb87390c6bba and earlier, artifacts built from untrusted pull request code in .github/workflows/preview-docs-build.yml and .github/workflows/preview-fastgpt-build.yml can be downloaded by privileged workflow_run jobs in .github/workflows/preview-docs-push.yml and .github/workflows/preview-fastgpt-push.yml, allowing attacker-controlled Docker images from the document/ tree or FastGPT build context to be pushed to GHCR and, for documentation previews, deployed with secrets.KUBE_CONFIG_CN.",
       "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62180",
-      "publishedDate": "2026-07-15T17:25:34.221234+00:00",
-      "lastModifiedDate": "2026-07-15T16:35:05.507Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62168",
-      "publishedDate": "2026-07-15T17:25:34.216578+00:00",
-      "lastModifiedDate": "2026-07-15T16:35:35.255Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62172",
-      "publishedDate": "2026-07-15T17:25:34.216024+00:00",
-      "lastModifiedDate": "2026-07-15T16:33:59.812Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62173",
-      "publishedDate": "2026-07-15T17:25:34.211462+00:00",
-      "lastModifiedDate": "2026-07-15T16:31:59.976Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62248",
-      "publishedDate": "2026-07-15T17:25:34.207908+00:00",
-      "lastModifiedDate": "2026-07-15T16:34:31.397Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62165",
-      "publishedDate": "2026-07-15T17:25:34.201779+00:00",
-      "lastModifiedDate": "2026-07-15T16:36:55.021Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61710",
-      "publishedDate": "2026-07-15T17:25:34.188605+00:00",
-      "lastModifiedDate": "2026-07-15T16:38:45.444Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61841",
-      "publishedDate": "2026-07-15T17:25:34.171737+00:00",
-      "lastModifiedDate": "2026-07-15T16:36:14.260Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62287",
-      "publishedDate": "2026-07-15T17:25:34.152152+00:00",
-      "lastModifiedDate": "2026-07-15T16:39:49.897Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61606",
-      "publishedDate": "2026-07-15T17:25:34.139668+00:00",
-      "lastModifiedDate": "2026-07-15T16:39:13.051Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61829",
-      "publishedDate": "2026-07-15T17:25:34.127711+00:00",
-      "lastModifiedDate": "2026-07-15T16:38:16.465Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
+      "references": [
+        {
+          "url": "https://github.com/labring/FastGPT/security/advisories/GHSA-rvgc-2c29-g876",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "labring",
+          "product": "FastGPT",
+          "versions": [
+            {
+              "version": "<= 22ebfacbb43311e9b73294040ae0eb87390c6bba",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-266: Incorrect Privilege Assignment",
+        "CWE-494: Download of Code Without Integrity Check",
+        "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
       "id": "CVE-2026-1563",
       "publishedDate": "2026-07-15T16:38:21.778Z",
-      "lastModifiedDate": "2026-07-15T16:38:21.778Z",
+      "lastModifiedDate": "2026-07-15T18:12:40.935Z",
       "description": "Pega Platform versions 8.1.0 through 25.1.2 are affected by an Reflected Cross-site scripting (XSS) vulnerability in a user interface component. Requires a high privileged user with a developer role.",
       "severity": "N/A",
       "references": [
@@ -1183,7 +3340,7 @@
     {
       "id": "CVE-2026-1562",
       "publishedDate": "2026-07-15T16:37:13.384Z",
-      "lastModifiedDate": "2026-07-15T16:37:13.384Z",
+      "lastModifiedDate": "2026-07-15T18:13:03.446Z",
       "description": "Pega Platform versions 8.1.0 through 25.1.2 are affected by an Stored Cross-site scripting (XSS) vulnerability in a user interface component. Requires a high privileged user with a developer role.",
       "severity": "N/A",
       "references": [
@@ -1213,345 +3370,44 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-61828",
-      "publishedDate": "2026-07-15T14:52:35.212Z",
-      "lastModifiedDate": "2026-07-15T16:32:36.992Z",
-      "description": "Nixpkgs is a collection of software packages that can be installed with the Nix package manager. Prior to the 25.11 and 26.05 channel fixes, the NixOS module for MySQL services.mysql initializes the MySQL database in a way that allows local users, such as unprivileged web or CGI processes on the same host, to log in as the root user without a password when the service is used with mysql or percona-server. This issue is fixed in the 25.11 and 26.05.",
+      "id": "CVE-2026-62294",
+      "publishedDate": "2026-07-15T14:20:43.746Z",
+      "lastModifiedDate": "2026-07-15T18:00:42.038Z",
+      "description": "Flameshot is powerful yet simple to use screenshot software. Prior to 14.0.0, the Open With feature wrote screenshots to a predictable temporary path and followed symlinks, creating a time-of-check to time-of-use race that allowed a local unprivileged attacker on the same machine to pre-plant a symlink and cause Flameshot to write PNG data through it, overwriting any file the victim user could write. This issue is fixed in version 14.0.0.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/NixOS/nixpkgs/security/advisories/GHSA-6qxx-6rg8-c4p8",
+          "url": "https://github.com/flameshot-org/flameshot/security/advisories/GHSA-fqqf-4rj8-c392",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NixOS/nixpkgs/pull/534254",
+          "url": "https://github.com/flameshot-org/flameshot/pull/4716",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NixOS/nixpkgs/pull/534482",
+          "url": "https://github.com/flameshot-org/flameshot/commit/936716b8d8b7052be461c3d5e2f88492b6eb3b96",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NixOS/nixpkgs/pull/534484",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NixOS/nixpkgs/commit/3f68d7ad2a6865ff8b4910d89f173d7258bad8dd",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NixOS/nixpkgs/commit/4aed47116a8734922763cd8f477467b0a0bcd6d7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NixOS/nixpkgs/commit/f8ee41468a7a8f9ed3a8cc7d017151c2ca6f90b5",
+          "url": "https://github.com/flameshot-org/flameshot/releases/tag/v14.0.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "NixOS",
-          "product": "nixpkgs",
+          "vendor": "flameshot-org",
+          "product": "flameshot",
           "versions": [
             {
-              "version": "< 25.11",
-              "status": "affected"
-            },
-            {
-              "version": ">= 26.05-beta, < 26.05",
+              "version": "< 14.0.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-276: Incorrect Default Permissions"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15757",
-      "publishedDate": "2026-07-14T17:46:15.979Z",
-      "lastModifiedDate": "2026-07-15T16:50:16.246Z",
-      "description": "A security flaw was discovered in the NETGEAR DGND3700v1 that could\nallow someone on the same local WiFi network to send unauthorized commands to\nthe device.\n\n\n\nThis issue was identified through testing in a controlled research\nenvironment using a simulated version of the router's software and has not been\nconfirmed on physical production devices.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://www.netgear.com/support/product/dgnd3700v1",
-          "type": "reference"
-        },
-        {
-          "url": "https://kb.netgear.com/000070859/July-2026-NETGEAR-Security-Advisory",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NETGEAR",
-          "product": "DGND3700v1",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "V1.0.0.17",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-20 Improper input validation"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62656",
-      "publishedDate": "2026-07-14T17:46:15.194Z",
-      "lastModifiedDate": "2026-07-15T16:53:59.077Z",
-      "description": "A\nsecurity flaw was found in certain NETGEAR RAX models that could allow\na logged-in user to send specially crafted requests to the router and run\nunauthorized commands. This could enable the user to make unauthorized changes\nto the router and affect its security and operation.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://www.netgear.com/support/product/raxe450/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netgear.com/support/product/raxe500/",
-          "type": "reference"
-        },
-        {
-          "url": "https://kb.netgear.com/000070859/July-2026-NETGEAR-Security-Advisory",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NETGEAR",
-          "product": "RAXE450",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V1.2.14.114",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RAXE500",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V1.2.14.114",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-20 Improper input validation"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62655",
-      "publishedDate": "2026-07-14T17:46:14.452Z",
-      "lastModifiedDate": "2026-07-15T16:52:24.542Z",
-      "description": "A\nsecurity flaw was found in certain NETGEAR Orbi models that\ncould allow an unauthorized user to cause the device to stop responding or\nrestart unexpectedly, disrupting network connectivity and making the device\ntemporarily unavailable.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://www.netgear.com/support/product/rbr860/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netgear.com/support/product/rbre950/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netgear.com/support/product/rbs860/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netgear.com/support/product/rbre960/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netgear.com/support/product/rbse950/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netgear.com/support/product/rbse960/",
-          "type": "reference"
-        },
-        {
-          "url": "https://kb.netgear.com/000070859/July-2026-NETGEAR-Security-Advisory",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NETGEAR",
-          "product": "RBR860",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V7.2.7.15",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBRE950",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "v7.2.7.15",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBRE960",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V7.2.7.15",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBE970",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V9.10.1.4",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBE971",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V9.10.1.4",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBS860",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V7.2.7.15",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBSE950",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "v7.2.7.15",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "NETGEAR",
-          "product": "RBSE960",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "V7.2.7.15",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-121 Stack-based buffer overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15747",
-      "publishedDate": "2026-07-14T17:07:32.593Z",
-      "lastModifiedDate": "2026-07-15T16:32:58.629Z",
-      "description": "Mojolicious versions from 4.59 before 9.48 for Perl expose a stable representation of the session CSRF token to a BREACH compression oracle.\n\n_csrf_token generates and caches one token per session and returns the same value on every call, and _csrf_field places that value in a hidden `csrf_token` input. When a response carrying the token also echoes attacker-controlled input and is gzip-compressed, the chosen values and the resulting compressed lengths form a BREACH oracle.\n\nAn attacker able to query it can recover the token and pass csrf_protect validation.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/mojolicious/mojo/commit/01921fbbbbeca2d1397e082d4a647f9b84c24e27.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/SRI/Mojolicious-9.48/changes",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "Mojolicious",
-          "product": "Mojolicious",
-          "programFiles": [
-            "lib/Mojolicious/Plugin/DefaultHelpers.pm",
-            "lib/Mojolicious/Plugin/TagHelpers.pm",
-            "lib/Mojolicious/Renderer.pm"
-          ],
-          "programRoutines": [
-            {
-              "name": "Mojolicious::Plugin::DefaultHelpers::_csrf_token"
-            }
-          ],
-          "repo": "https://github.com/mojolicious/mojo",
-          "vendor": "SRI",
-          "versions": [
-            {
-              "lessThan": "9.48",
-              "status": "affected",
-              "version": "4.59",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-204 Observable Response Discrepancy",
-        "CWE-352 Cross-Site Request Forgery (CSRF)"
+        "CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')",
+        "CWE-377: Insecure Temporary File"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
