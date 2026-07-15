@@ -2,410 +2,184 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 41,
-    "last_updated": "2026-07-15T15:56:52.143128",
+    "total_count": 32,
+    "last_updated": "2026-07-15T17:25:46.790048",
     "severity_distribution": {
-      "critical": 1,
-      "high": 17,
-      "medium": 11,
-      "low": 3,
-      "none": 9
+      "critical": 2,
+      "high": 6,
+      "medium": 3,
+      "low": 0,
+      "none": 21
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-44986",
-      "publishedDate": "2026-07-15T15:08:37.367Z",
-      "lastModifiedDate": "2026-07-15T15:40:07.943Z",
-      "description": "Penpot is an open-source design tool for design and code collaboration. Prior to 2.14.5, Penpot exposed teams_invitations.clj invitation tokens from create-team-invitations, embedded an existing profile id in auth.clj prepare-register-profile, and had auth.clj register-profile issue a session based on the invitation email match without password verification, allowing a registered user to take over any non-blocked profile. This issue is fixed in version 2.14.5.",
-      "severity": 9.9,
+      "id": "CVE-2026-52842",
+      "publishedDate": "2026-07-15T16:18:26.157Z",
+      "lastModifiedDate": "2026-07-15T16:35:28.146Z",
+      "description": "Lightpanda is a headless browser designed for AI and automation. Prior to 0.3.1, Lightpanda searched for @ across the entire URL string instead of only the authority component when computing a page origin, so a URL such as `http://attacker.com/@victim.com/` was fetched from attacker.com but treated as `http://victim.com`, allowing a complete Same-Origin Policy bypass. This issue is fixed in version 0.3.1.",
+      "severity": 9.3,
       "references": [
         {
-          "url": "https://github.com/penpot/penpot/security/advisories/GHSA-4937-35vc-hqjj",
+          "url": "https://github.com/lightpanda-io/browser/security/advisories/GHSA-mq6p-m9cc-q432",
           "type": "reference"
         },
         {
-          "url": "https://github.com/penpot/penpot/pull/9380",
+          "url": "https://github.com/lightpanda-io/browser/pull/1998",
           "type": "reference"
         },
         {
-          "url": "https://github.com/penpot/penpot/commit/9e681260ccc4feb6c564ff0773fb9594b462c574",
+          "url": "https://github.com/lightpanda-io/browser/commit/0588cc374d4af9687cf6f45a7d52f7af04bbacfb",
           "type": "reference"
         },
         {
-          "url": "https://github.com/penpot/penpot/releases/tag/2.14.5",
+          "url": "https://github.com/lightpanda-io/browser/releases/tag/0.3.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "penpot",
-          "product": "penpot",
+          "vendor": "lightpanda-io",
+          "product": "browser",
           "versions": [
             {
-              "version": "< 2.14.5",
+              "version": "< 0.3.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-287: Improper Authentication",
+        "CWE-346: Origin Validation Error"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62378",
+      "publishedDate": "2026-07-15T16:50:13.127Z",
+      "lastModifiedDate": "2026-07-15T16:50:13.127Z",
+      "description": "RustFS Console is a web management console for the RustFS distributed file system. From 0.1.7 until 0.1.10, the RustFS Console components/object/preview-modal.tsx and components/object/pdf-viewer.tsx extension-based PDF preview path can render HTML content uploaded as .pdf, allowing stored cross-site scripting in the management console and exposure of administrator AccessKeyId, SecretAccessKey, and SessionToken values. This is caused by a regression of CVE-2026-27822. This vulnerability is fixed in 0.1.10.",
+      "severity": 9,
+      "references": [
+        {
+          "url": "https://github.com/rustfs/rustfs/security/advisories/GHSA-7gcx-wg4x-q9x6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rustfs/console/commit/49630dc140e6818aaee8879ade038a129838a2f2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rustfs/console/releases/tag/v0.1.10",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "rustfs",
+          "product": "console",
+          "versions": [
+            {
+              "version": ">= 0.1.7, < 0.1.10",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61836",
+      "publishedDate": "2026-07-15T14:17:21.034Z",
+      "lastModifiedDate": "2026-07-15T16:32:52.619Z",
+      "description": "Directus is a real-time API and App dashboard for managing SQL database content. Prior to 12.0.0, when response caching is enabled, the cache-key derivation in api/src/utils/get-cache-key.ts includes version, path, query, and accountability.user but omits authorization context such as share, role, roles, admin, app, and policies. Directus share tokens and anonymous requests can both reduce to user null, so different shares or anonymous clients requesting the same URL and query can receive a permission-filtered cached response without permission re-evaluation. This issue is fixed in version 12.0.0.",
+      "severity": 8.6,
+      "references": [
+        {
+          "url": "https://github.com/directus/directus/security/advisories/GHSA-c6w9-5g5j-jh2p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/directus/directus/pull/27707",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/directus/directus/commit/7ba4efb97525d3af33570537c76e44baea767f13",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/directus/directus/releases/tag/v12.0.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "directus",
+          "product": "directus",
+          "versions": [
+            {
+              "version": "< 12.0.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-524: Use of Cache Containing Sensitive Information",
         "CWE-639: Authorization Bypass Through User-Controlled Key"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-55242",
-      "publishedDate": "2026-07-15T15:38:31.577Z",
-      "lastModifiedDate": "2026-07-15T15:38:31.577Z",
-      "description": "ERPNext is a free and open source Enterprise Resource Planning tool. Prior to 15.111.0 and 16.22.0, an authenticated user with a standard operational role can trigger server-side template injection through a configuration field, resulting in unauthorized disclosure of data outside the user's normal permission scope. This issue is fixed in versions 15.111.0 and 16.22.0.",
-      "severity": 8.8,
-      "references": [
-        {
-          "url": "https://github.com/frappe/erpnext/security/advisories/GHSA-pxf3-4gvc-v45j",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "frappe",
-          "product": "erpnext",
-          "versions": [
-            {
-              "version": "< 15.111.0",
-              "status": "affected"
-            },
-            {
-              "version": ">= 16.0.0, < 16.22.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization",
-        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-45805",
-      "publishedDate": "2026-07-15T15:11:22.168Z",
-      "lastModifiedDate": "2026-07-15T15:44:45.199Z",
-      "description": "Penpot is an open-source design tool for design and code collaboration. Prior to 2.15.0, Penpot MCP's mcp/packages/server/src/ReplServer.ts bound the ReplServer to 0.0.0.0:4403 and exposed an unauthenticated /execute endpoint that passed the code field to PluginBridge.executePluginTask(), allowing anyone on the network to execute JavaScript on the server. This issue is fixed in version 2.15.0.",
-      "severity": 8.8,
-      "references": [
-        {
-          "url": "https://github.com/penpot/penpot/security/advisories/GHSA-22qr-rp27-j9wm",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/penpot/penpot/issues/9518",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/penpot/penpot/commit/798ee46b4a84ee6dfc756b001f33acbe0280d62f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/penpot/penpot/releases/tag/2.15.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "penpot",
-          "product": "penpot",
-          "versions": [
-            {
-              "version": "< 2.15.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-749: Exposed Dangerous Method or Function"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-55723",
-      "publishedDate": "2026-07-15T14:33:44.806Z",
-      "lastModifiedDate": "2026-07-15T15:36:16.145Z",
-      "description": "When NGINX Ingress Controller is configured with Custom Resource Definitions (CRDs) or Ingress annotations, an injection vulnerability exists in the configuration generator of NGINX Ingress Controller. Multiple user-controllable fields are written into the generated NGINX configuration without sanitization. An authenticated attacker with permission to create or modify these CRDs or annotations may craft values that inject arbitrary NGINX configuration directives. \n\nImpact:\nAn authenticated attacker granted write access to NGINX Ingress Controller CRDs or Ingress annotations through the Kubernetes API may be able to inject arbitrary NGINX configuration directives, create or delete files, or disable services. There is no data plane exposure; this is a control plane issue only.\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 8.3,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000161800",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "Custom Resource Definitions",
-            "Ingress Annotations"
-          ],
-          "product": "NGINX Ingress Controller",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "5.5.2",
-              "status": "affected",
-              "version": "5.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "2026-lts-r3",
-              "status": "affected",
-              "version": "2026-lts-r1",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-76 Improper Neutralization of Equivalent Special Elements"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-60005",
-      "publishedDate": "2026-07-15T15:04:21.040Z",
-      "lastModifiedDate": "2026-07-15T15:41:06.279Z",
-      "description": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_slice_module module. When the slice directive and unnamed regex captures are configured or when a background cache update happens, unauthenticated attackers can send requests that may cause uninitialized memory access in the NGINX worker process, leading to limited disclosure of memory or a restart.\n\nImpact:\nThis vulnerability may allow remote, unauthenticated attackers to have limited control to disclose memory contents or restart the NGINX worker process. There is no control plane exposure; this is a data plane issue only.\nNote: The ngx_http_slice_module module is not enabled by default; it's enabled with the --with-http_slice_module configuration parameter.\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 8.2,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000162100",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "F5",
-          "product": "NGINX Plus",
-          "modules": [
-            "ngx_http_slice_module"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "37.0.0.1",
-              "lessThan": "37.0.3.1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "R36",
-              "lessThan": "R36 P7",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "R33",
-              "lessThan": "*",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "affected"
-        },
-        {
-          "vendor": "F5",
-          "product": "NGINX Open Source",
-          "modules": [
-            "ngx_http_slice_module"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.31.2",
-              "lessThan": "1.31.3",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "1.15.8",
-              "lessThan": "1.30.4",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-908 Use of Uninitialized Resource"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62685",
-      "publishedDate": "2026-07-15T15:47:23.539Z",
-      "lastModifiedDate": "2026-07-15T15:47:23.539Z",
-      "description": "File Browser is a file managing interface for uploading, deleting, previewing, renaming, and editing files within a specified directory. Prior to 2.63.17, File Browser builds new user scopes from usernames passed through cleanUsername() when Signup=true and CreateUserDir=true, but the many-to-one normalization can collapse usernames such as team/one, team one, and team-one to the same home directory without checking whether the resulting scope is already taken, allowing a second registrant to gain full read and write access to another user's files. This issue is fixed in version 2.63.17.",
-      "severity": 8.1,
-      "references": [
-        {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-7rc3-g7h6-22m7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/commit/883a36f02fcb69566a8628cb47f18fdc73348387",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/releases/tag/v2.63.17",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "versions": [
-            {
-              "version": "< 2.63.17",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-647: Use of Non-Canonical URL Paths for Authorization Decisions",
-        "CWE-706: Use of Incorrectly-Resolved Name or Reference"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-42533",
-      "publishedDate": "2026-07-15T14:33:45.810Z",
-      "lastModifiedDate": "2026-07-15T15:37:57.712Z",
-      "description": "A vulnerability exists in NGINX Plus and NGINX Open Source when a map directive uses regex matching and a string expression references the map's regex capture variables before referencing the map output variable. Alternatively, the same result could be achieved by using a non-cacheable variable in a string expression under certain conditions. An unauthenticated attacker along with conditions beyond their control can exploit this vulnerability by sending crafted HTTP requests. This may cause a heap buffer overflow in the NGINX worker process leading to a restart. Additionally, attackers can execute code on systems with Address Space Layout Randomization (ASLR) disabled or when the attacker can bypass ASLR.\n\nImpact:\nThis vulnerability may allow remote attackers to cause a denial-of-service (DoS) on the NGINX system or to possibly trigger a code execution. There is no control plane exposure; this is a data plane issue only.\n\n\n\n\n Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 8.1,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000162097",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "map directive with regex matching"
-          ],
-          "product": "NGINX Plus",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "37.0.3.1",
-              "status": "affected",
-              "version": "37.0.0.1",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "R36 P7",
-              "status": "affected",
-              "version": "R36",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "*",
-              "status": "affected",
-              "version": "R33",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "map directive with regex matching"
-          ],
-          "product": "NGINX Open Source",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "1.31.3",
-              "status": "affected",
-              "version": "1.31.2",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "1.30.4",
-              "status": "affected",
-              "version": "0.9.6",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-122 Heap-based Buffer Overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-49169",
-      "publishedDate": "2026-07-14T17:04:29.073Z",
-      "lastModifiedDate": "2026-07-15T15:47:02.719Z",
-      "description": "Use after free in DNS Server allows an authorized attacker to execute code over a network.",
-      "severity": 8,
-      "references": [
-        {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-49169",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2025",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Server 2025 (Server Core installation)",
-          "platforms": [
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-416: Use After Free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-54987",
-      "publishedDate": "2026-07-14T17:04:42.898Z",
-      "lastModifiedDate": "2026-07-15T15:49:51.924Z",
-      "description": "Heap-based buffer overflow in Windows Overlay Filter allows an authorized attacker to elevate privileges locally.",
+      "id": "CVE-2026-46709",
+      "publishedDate": "2026-07-15T14:59:18.601Z",
+      "lastModifiedDate": "2026-07-15T16:32:30.643Z",
+      "description": "Tabby (formerly Terminus) is a highly configurable terminal emulator. Prior to 1.0.234, Tabby inserts dropped file paths from tabby-electron/src/pathDrop.ts into the active shell without neutralizing command substitution metacharacters such as $(…) and `…`, so the incomplete CVE-2026-45038 fix for control characters still allows code execution when the victim presses Enter. This issue is fixed in version 1.0.234.",
       "severity": 7.8,
       "references": [
         {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-54987",
+          "url": "https://github.com/Eugeny/tabby/security/advisories/GHSA-mq9v-2pgm-fxgh",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Eugeny/tabby/commit/e151472b951bbd472ddc0545ec8656e4c0f352da",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Eugeny/tabby/releases/tag/v1.0.234",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Eugeny",
+          "product": "tabby",
+          "versions": [
+            {
+              "version": "< 1.0.234",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')",
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-50471",
+      "publishedDate": "2026-07-14T17:07:12.417Z",
+      "lastModifiedDate": "2026-07-15T16:28:17.307Z",
+      "description": "Heap-based buffer overflow in Windows NTFS allows an unauthorized attacker to execute code locally.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-50471",
           "type": "reference"
         }
       ],
@@ -478,6 +252,36 @@
         },
         {
           "vendor": "Microsoft",
+          "product": "Windows 11 version 23H2",
+          "platforms": [
+            "ARM64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.22631.0",
+              "lessThan": "10.0.22631.7376",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows 11 Version 23H2",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.22631.0",
+              "lessThan": "10.0.22631.7376",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
           "product": "Windows 11 Version 24H2",
           "platforms": [
             "ARM64-based Systems",
@@ -502,7 +306,7 @@
           "versions": [
             {
               "version": "10.0.26200.0",
-              "lessThan": "10.0.26200.8875",
+              "lessThan": "10.0.26100.8875",
               "versionType": "custom",
               "status": "affected"
             }
@@ -518,7 +322,37 @@
           "versions": [
             {
               "version": "10.0.28000.0",
-              "lessThan": "10.0.28000.2269",
+              "lessThan": "10.0.28000.2525",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows Server 2012",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "6.2.9200.0",
+              "lessThan": "6.2.9200.26226",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows Server 2012 (Server Core installation)",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "6.2.9200.0",
+              "lessThan": "6.2.9200.26226",
               "versionType": "custom",
               "status": "affected"
             }
@@ -666,18 +500,247 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-49175",
-      "publishedDate": "2026-07-14T17:04:31.111Z",
-      "lastModifiedDate": "2026-07-15T15:48:35.157Z",
-      "description": "Heap-based buffer overflow in Windows DNS allows an authorized attacker to elevate privileges locally.",
-      "severity": 7.8,
+      "id": "CVE-2026-61644",
+      "publishedDate": "2026-07-15T14:30:26.693Z",
+      "lastModifiedDate": "2026-07-15T16:32:44.414Z",
+      "description": "FastGPT is a knowledge-based AI application platform. From 4.14.17 until 4.15.0-beta5, the POST /api/core/chat/record/getCollectionQuote endpoint authenticates the caller's chat and collection context, but the initialId center-node lookup is not bound to that authorized context. A low-privileged tenant user can call the endpoint with valid attacker-owned appId, chatId, chatItemDataId, and collectionId values while supplying another tenant's dataset data id as initialId, causing the response to include foreign dataset quote or full-text content. This issue is fixed in version 4.15.0-beta5.",
+      "severity": 7.7,
       "references": [
         {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-49175",
+          "url": "https://github.com/labring/FastGPT/security/advisories/GHSA-mmg6-2g54-j896",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/labring/FastGPT/pull/7173",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/labring/FastGPT/commit/0c1840c7773c5be5d777f86228651479e02155db",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/labring/FastGPT/releases/tag/v4.15.0-beta5",
           "type": "reference"
         }
       ],
       "affected": [
+        {
+          "vendor": "labring",
+          "product": "FastGPT",
+          "versions": [
+            {
+              "version": ">= 4.14.17, < 4.15.0-beta5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59954",
+      "publishedDate": "2026-07-15T16:27:48.825Z",
+      "lastModifiedDate": "2026-07-15T16:27:48.825Z",
+      "description": "Apollo is a reliable configuration management system suitable for microservice configuration management scenarios. Prior to 2.5.2, Apollo ConfigService may allow unauthorized access to configuration data when AccessKey or management key authentication is enabled because ConfigService can accept a non-canonical appId variant during authentication while downstream request handling resolves it to the protected app, including accent variants under accent-insensitive collations or trailing-space variants under PAD SPACE collations on /configs and /configfiles endpoints. This issue is fixed in version 2.5.2.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/apolloconfig/apollo/security/advisories/GHSA-4w3q-qpfq-v992",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/commit/310809d557e01c6803051736cd525e333ffe00ec",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/releases/tag/v2.5.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "apolloconfig",
+          "product": "apollo",
+          "versions": [
+            {
+              "version": "< 2.5.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-287: Improper Authentication"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59955",
+      "publishedDate": "2026-07-15T16:26:05.005Z",
+      "lastModifiedDate": "2026-07-15T16:26:05.005Z",
+      "description": "Apollo is a reliable configuration management system suitable for microservice configuration management scenarios. Prior to 2.5.2, Apollo ConfigService may allow unauthorized access to raw configuration data when AccessKey or management key authentication is enabled because requests under /configfiles/raw/{appId}/{clusterName}/{namespace} are parsed for authentication as appId raw instead of the actual path appId, causing ConfigService to look up AccessKey secrets for raw before verifying the request signature and potentially continue without signature verification for the target appId. This issue is fixed in version 2.5.2.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/apolloconfig/apollo/security/advisories/GHSA-h4pc-58cc-hc95",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/commit/310809d557e01c6803051736cd525e333ffe00ec",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/releases/tag/v2.5.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "apolloconfig",
+          "product": "apollo",
+          "versions": [
+            {
+              "version": "< 2.5.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-287: Improper Authentication"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62843",
+      "publishedDate": "2026-07-15T15:42:19.122Z",
+      "lastModifiedDate": "2026-07-15T16:32:21.438Z",
+      "description": "File Browser is a file managing interface for uploading, deleting, previewing, renaming, and editing files within a specified directory. From 2.63.6 to 2.63.16, File Browser's archive builder uses strings.ReplaceAll(nameInArchive, \"\\\", \"/\"), which turns a POSIX filename such as ..\\..\\evil.sh into the archive entry ../../evil.sh, allowing a user with upload permission to plant a backslash-named file that escapes the extraction directory when another user downloads and extracts the generated zip or tar archive. This issue is fixed in version 2.63.17.",
+      "severity": 6.8,
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-83xp-526h-j3ww",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/commit/8503ba61ff51d48a7313896483d130eb6a5abfe0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/releases/tag/v2.63.17",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "versions": [
+            {
+              "version": ">= 2.63.6, < 2.63.17",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-23: Relative Path Traversal"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2025-32781",
+      "publishedDate": "2026-07-15T16:31:56.122Z",
+      "lastModifiedDate": "2026-07-15T16:31:56.122Z",
+      "description": "Apollo is a reliable configuration management system suitable for microservice configuration management scenarios. Prior to 2.5.0, Apollo Portal does not verify application and namespace permissions when an authenticated user requests a release by ID through GET /envs/{env}/releases/{releaseId} while configView.memberOnly.envs is enabled, allowing a low-privileged Portal user who obtains or guesses a valid releaseId to read configuration data from other applications and namespaces without calling UserPermissionValidator.shouldHideConfigToCurrentUser(...). This issue is fixed in version 2.5.0.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/apolloconfig/apollo/security/advisories/GHSA-jxpj-9j24-w337",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/pull/5378",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/commit/362735ded4f13b62f6ab9df135d7096066e8e291",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apolloconfig/apollo/releases/tag/v2.5.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "apolloconfig",
+          "product": "apollo",
+          "versions": [
+            {
+              "version": "< 2.5.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key",
+        "CWE-862: Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-50445",
+      "publishedDate": "2026-07-14T17:07:09.141Z",
+      "lastModifiedDate": "2026-07-15T16:26:24.740Z",
+      "description": "Buffer over-read in Windows RDP allows an unauthorized attacker to disclose information over a network.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-50445",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Windows 10 Version 1607",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.14393.0",
+              "lessThan": "10.0.14393.9339",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows 10 Version 1809",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.17763.0",
+              "lessThan": "10.0.17763.9020",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
         {
           "vendor": "Microsoft",
           "product": "Windows 10 Version 21H2",
@@ -762,14 +825,14 @@
         },
         {
           "vendor": "Microsoft",
-          "product": "Windows Server 2022",
+          "product": "Windows Server 2012",
           "platforms": [
             "x64-based Systems"
           ],
           "versions": [
             {
-              "version": "10.0.20348.0",
-              "lessThan": "10.0.20348.5386",
+              "version": "6.2.9200.0",
+              "lessThan": "6.2.9200.26226",
               "versionType": "custom",
               "status": "affected"
             }
@@ -777,14 +840,14 @@
         },
         {
           "vendor": "Microsoft",
-          "product": "Windows Server 2025",
+          "product": "Windows Server 2012 (Server Core installation)",
           "platforms": [
             "x64-based Systems"
           ],
           "versions": [
             {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
+              "version": "6.2.9200.0",
+              "lessThan": "6.2.9200.26226",
               "versionType": "custom",
               "status": "affected"
             }
@@ -792,294 +855,14 @@
         },
         {
           "vendor": "Microsoft",
-          "product": "Windows Server 2025 (Server Core installation)",
+          "product": "Windows Server 2012 R2",
           "platforms": [
             "x64-based Systems"
           ],
           "versions": [
             {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.33158",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-122: Heap-based Buffer Overflow"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47164",
-      "publishedDate": "2026-07-15T15:03:22.800Z",
-      "lastModifiedDate": "2026-07-15T15:41:17.392Z",
-      "description": "Vaultwarden is a Bitwarden-compatible server written in Rust. Prior to 1.36.0, Vaultwarden's SSO login flow checked the IdP email_verified claim only for new-user creation and not when SSO_SIGNUPS_MATCH_EMAIL=true linked an IdP identity to an existing local account, allowing an attacker-controlled IdP identity asserting a victim email address to bind to and authenticate as that account. This issue is fixed in version 1.36.0.",
-      "severity": 7.7,
-      "references": [
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/security/advisories/GHSA-6x5c-84vm-5j56",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/pull/7163",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/commit/d297e274a35dccd0f5d935e9d5934e0f7e9c0a87",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/releases/tag/1.36.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "dani-garcia",
-          "product": "vaultwarden",
-          "versions": [
-            {
-              "version": "< 1.36.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-284: Improper Access Control"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-50147",
-      "publishedDate": "2026-07-15T15:21:23.107Z",
-      "lastModifiedDate": "2026-07-15T15:21:23.107Z",
-      "description": "Metabase is an open-source business intelligence and embedded analytics tool. From 1.57.0 until 1.57.19.1, 1.58.14.1, 1.59.10, and 1.60.4, an attacker who can configure a Metabase database connection can read arbitrary files from the Metabase server's filesystem by adding unsafe JDBC parameters to a MySQL or MariaDB connection, causing the driver to read files from the Metabase host and expose the contents through queries against the connected database or through validation error messages. This issue is fixed in versions 1.57.19.1, 1.58.14.1, 1.59.10, and 1.60.4.",
-      "severity": 7.6,
-      "references": [
-        {
-          "url": "https://github.com/metabase/metabase/security/advisories/GHSA-mfpj-crjq-xrcp",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "metabase",
-          "product": "metabase",
-          "versions": [
-            {
-              "version": ">= 1.57.0, < 1.57.19.1",
-              "status": "affected"
-            },
-            {
-              "version": ">= 1.58.0, < 1.58.14.1",
-              "status": "affected"
-            },
-            {
-              "version": ">= 1.59.0, < 1.59.10",
-              "status": "affected"
-            },
-            {
-              "version": ">= 1.60.0, < 1.60.4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-88: Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-59762",
-      "publishedDate": "2026-07-15T14:33:44.468Z",
-      "lastModifiedDate": "2026-07-15T15:35:16.895Z",
-      "description": "When an HTTP/2 profile is configured on a virtual server, undisclosed requests can cause an increase in memory resource utilization.  \n\n\n\n\n\n\n\n\n\nImpact:\nSystem performance can degrade until the TMM process is either forced to restart or is manually restarted. This vulnerability allows a remote, unauthenticated attacker to cause a degradation of service that can lead to a denial-of-service (DoS) on the BIG-IP system. There is no control plane exposure; this is a data plane issue only.\n\n\n\n\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 7.5,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000162231",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "All Modules"
-          ],
-          "product": "BIG-IP",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "21.1.0.1",
-              "status": "affected",
-              "version": "21.1.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "21.0.0.3",
-              "status": "affected",
-              "version": "21.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "17.5.1.8",
-              "status": "affected",
-              "version": "17.5.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "17.1.3.4",
-              "status": "affected",
-              "version": "17.1.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "TMM"
-          ],
-          "product": "BIG-IP Next for Kubernetes",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "2.3.2",
-              "status": "affected",
-              "version": "2.3.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "2.2.3",
-              "status": "affected",
-              "version": "2.0.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "TMM"
-          ],
-          "product": "BIG-IP Next SPK",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "*",
-              "status": "affected",
-              "version": "1.9.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "1.7.18",
-              "status": "affected",
-              "version": "1.7.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "TMM"
-          ],
-          "product": "BIG-IP Next CNF",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "2.3.2",
-              "status": "affected",
-              "version": "2.3.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "2.2.3",
-              "status": "affected",
-              "version": "2.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "1.4.3",
-              "status": "affected",
-              "version": "1.1.0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-59886",
-      "publishedDate": "2026-07-14T16:38:29.691Z",
-      "lastModifiedDate": "2026-07-15T15:44:02.717Z",
-      "description": "pyasn1 is a generic ASN.1 library for Python. Prior to 0.6.4, the univ.Real type converted its mantissa, base, and exponent value to a Python float using exact big-integer exponentiation. A BER, CER, or DER encoded REAL value only a few bytes long can carry a very large exponent, causing float conversion through prettyPrint(), str(), comparison, arithmetic, int(), or an explicit float() call to consume excessive CPU and memory and hang applications that decode untrusted ASN.1 data and then print, log, or compare decoded objects. This issue is fixed in version 0.6.4.",
-      "severity": 7.5,
-      "references": [
-        {
-          "url": "https://github.com/pyasn1/pyasn1/security/advisories/GHSA-hm4w-wwcw-mr6r",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/pyasn1/pyasn1/commit/e60c691cb91addb8fcefa2f537e85ede6fb1e886",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/pyasn1/pyasn1/releases/tag/v0.6.4",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "pyasn1",
-          "product": "pyasn1",
-          "versions": [
-            {
-              "version": "< 0.6.4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-54127",
-      "publishedDate": "2026-07-14T17:05:14.656Z",
-      "lastModifiedDate": "2026-07-15T15:50:47.581Z",
-      "description": "Use after free in Windows Hyper-V allows an unauthorized attacker to elevate privileges locally.",
-      "severity": 7.4,
-      "references": [
-        {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-54127",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Microsoft",
-          "product": "Windows 11 Version 24H2",
-          "platforms": [
-            "ARM64-based Systems",
-            "x64-based Systems"
-          ],
-          "versions": [
-            {
-              "version": "10.0.26100.0",
-              "lessThan": "10.0.26100.8875",
+              "version": "6.3.9600.0",
+              "lessThan": "6.3.9600.23291",
               "versionType": "custom",
               "status": "affected"
             }
@@ -1087,15 +870,14 @@
         },
         {
           "vendor": "Microsoft",
-          "product": "Windows 11 Version 25H2",
+          "product": "Windows Server 2012 R2 (Server Core installation)",
           "platforms": [
-            "ARM64-based Systems",
             "x64-based Systems"
           ],
           "versions": [
             {
-              "version": "10.0.26200.0",
-              "lessThan": "10.0.26100.8875",
+              "version": "6.3.9600.0",
+              "lessThan": "6.3.9600.23291",
               "versionType": "custom",
               "status": "affected"
             }
@@ -1103,15 +885,59 @@
         },
         {
           "vendor": "Microsoft",
-          "product": "Windows 11 version 26H1",
+          "product": "Windows Server 2016",
           "platforms": [
-            "ARM64-based Systems",
             "x64-based Systems"
           ],
           "versions": [
             {
-              "version": "10.0.28000.0",
-              "lessThan": "10.0.28000.2525",
+              "version": "10.0.14393.0",
+              "lessThan": "10.0.14393.9339",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows Server 2016 (Server Core installation)",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.14393.0",
+              "lessThan": "10.0.14393.9339",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows Server 2019",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.17763.0",
+              "lessThan": "10.0.17763.9020",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Windows Server 2019 (Server Core installation)",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.17763.0",
+              "lessThan": "10.0.17763.9020",
               "versionType": "custom",
               "status": "affected"
             }
@@ -1164,930 +990,14 @@
         }
       ],
       "problemType": [
-        "CWE-416: Use After Free"
+        "CWE-126: Buffer Over-read"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-15703",
-      "publishedDate": "2026-07-14T17:00:08.729Z",
-      "lastModifiedDate": "2026-07-15T15:45:27.209Z",
-      "description": "A vulnerability was detected in SourceCodester Simple and Nice Shopping Cart Script 1.0. This vulnerability affects unknown code of the file /admin/userproductdeletequery.php. Performing a manipulation of the argument user_id results in sql injection. It is possible to initiate the attack remotely. The exploit is now public and may be used.",
-      "severity": 7.3,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/378250",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/378250/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15703",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/856152",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Wut-sys/cve/issues/1",
-          "type": "poc"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SourceCodester",
-          "product": "Simple and Nice Shopping Cart Script",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:simple_and_nice_shopping_cart_script:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-54563",
-      "publishedDate": "2026-07-15T14:38:54.129Z",
-      "lastModifiedDate": "2026-07-15T15:34:04.861Z",
-      "description": "Cloudreve is a self-hosted file management and sharing system. Prior to 4.16.1, a Cloudreve WebDAV account rooted at a configured folder can send paths such as /dav/%2e%2e/outside.txt because stripPrefix in pkg/webdav/webdav.go joins the decoded request suffix to the account root with fs.URI.JoinRaw without checking containment, allowing the scoped credential to read and list files outside the configured folder and writable credentials to create, overwrite, move, or delete them. This issue is reported as fixed in version 4.16.1.",
-      "severity": 7.1,
-      "references": [
-        {
-          "url": "https://github.com/cloudreve/cloudreve/security/advisories/GHSA-w5fv-7x5q-g8qp",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "cloudreve",
-          "product": "cloudreve",
-          "versions": [
-            {
-              "version": "< 4.16.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15515",
-      "publishedDate": "2026-07-13T00:00:10.627Z",
-      "lastModifiedDate": "2026-07-15T15:34:37.479Z",
-      "description": "A security vulnerability has been detected in Tencent PC Manager 18.1.30242.301. This issue affects some unknown processing in the library qmudisk64.sys of the component QMUDisk Driver. The manipulation leads to uncontrolled search path. The attack must be carried out locally. The attack is considered to have high complexity. The exploitability is assessed as difficult. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way.",
-      "severity": 7,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/377844",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/377844/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15515",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/848643",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/subsubsub1231/qmukiller",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Tencent",
-          "product": "PC Manager",
-          "versions": [
-            {
-              "version": "18.1.30242.301",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:tencent:pc_manager:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "QMUDisk Driver"
-          ]
-        }
-      ],
-      "problemType": [
-        "Uncontrolled Search Path",
-        "Untrusted Search Path"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62843",
-      "publishedDate": "2026-07-15T15:42:19.122Z",
-      "lastModifiedDate": "2026-07-15T15:42:19.122Z",
-      "description": "File Browser is a file managing interface for uploading, deleting, previewing, renaming, and editing files within a specified directory. From 2.63.6 to 2.63.16, File Browser's archive builder uses strings.ReplaceAll(nameInArchive, \"\\\", \"/\"), which turns a POSIX filename such as ..\\..\\evil.sh into the archive entry ../../evil.sh, allowing a user with upload permission to plant a backslash-named file that escapes the extraction directory when another user downloads and extracts the generated zip or tar archive. This issue is fixed in version 2.63.17.",
-      "severity": 6.8,
-      "references": [
-        {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-83xp-526h-j3ww",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/commit/8503ba61ff51d48a7313896483d130eb6a5abfe0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/releases/tag/v2.63.17",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "versions": [
-            {
-              "version": ">= 2.63.6, < 2.63.17",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-23: Relative Path Traversal"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-56434",
-      "publishedDate": "2026-07-15T14:33:46.142Z",
-      "lastModifiedDate": "2026-07-15T15:38:21.639Z",
-      "description": "NGINX Plus and NGINX Open Source have a vulnerability in the ngx_http_ssi_module module. This vulnerability may exist when the Server-Side Includes (SSI), proxy_pass, and proxy_buffering off directives are configured. With this configuration, an unauthenticated attacker with man-in-the-middle (MITM) ability to control responses from an upstream server may be able to cause a heap buffer over-read in the NGINX worker process. This issue may lead to limited modification of memory or a restart of the NGINX worker process.\n\nImpact:\nThis vulnerability may allow remote attackers to have limited control to modify memory contents or restart the NGINX worker process. There is no control plane exposure; this is a data plane issue only.\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 6.5,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000162098",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "ngx_http_ssi_module"
-          ],
-          "product": "NGINX Plus",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "37.0.3.1",
-              "status": "affected",
-              "version": "37.0.0.1",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "R36 P7",
-              "status": "affected",
-              "version": "R36",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "*",
-              "status": "affected",
-              "version": "R33",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "ngx_http_ssi_module"
-          ],
-          "product": "NGINX Open Source",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "1.31.3",
-              "status": "affected",
-              "version": "1.31.2",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "1.30.4",
-              "status": "affected",
-              "version": "0.8.11",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use After Free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-52865",
-      "publishedDate": "2026-07-15T14:33:45.155Z",
-      "lastModifiedDate": "2026-07-15T15:36:57.172Z",
-      "description": "When NGINX Ingress Controller processes Ingress or TransportServer resources, an authenticated, remote attacker with permission to create or modify Ingress or TransportServer resources can cause the NGINX Ingress Controller process to terminate. \n\n\n\nImpact:\nThe NGINX Ingress Controller control plane process terminates and enters a persistent crash loop while the malformed Ingress or TransportServer resource remains in the cluster. This vulnerability allows a remote, authenticated attacker with at least Ingress or TransportServer resource write access to cause a denial-of-service (DoS) on the NGINX Ingress Controller system. There is no data plane exposure; this is a control plane issue only.\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 6.5,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000161834",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "Ingress",
-            "TransportServer"
-          ],
-          "product": "NGINX Ingress Controller",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "5.5.2",
-              "status": "affected",
-              "version": "5.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "2026-lts-r3",
-              "status": "affected",
-              "version": "2026-lts-r1",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-476 NULL Pointer Dereference"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-56185",
-      "publishedDate": "2026-07-14T17:05:15.865Z",
-      "lastModifiedDate": "2026-07-15T15:52:41.295Z",
-      "description": "Improper authentication in Windows Admin Center allows an authorized attacker to disclose information over a network.",
-      "severity": 6.5,
-      "references": [
-        {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-56185",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Microsoft",
-          "product": "Windows Admin Center",
-          "versions": [
-            {
-              "version": "1809.0",
-              "lessThan": "2.6.5.16",
-              "versionType": "custom",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-287: Improper Authentication",
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-60062",
-      "publishedDate": "2026-07-15T14:33:45.486Z",
-      "lastModifiedDate": "2026-07-15T15:37:18.438Z",
-      "description": "The NGINX Agent config_dirs directive allows a low-privileged attacker to gain limited read and write access to files outside of the designated secure directory. The config_dirs directive required for this issue can also be configured through NGINX Instance Manager. A successful exploit may allow an attacker to cross a security boundary.\n\nImpact:\nA remotely authenticated low-privileged attacker could gain limited read and write access outside of the list of directories specified in the NGINX Agent configuration.\n\n\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 6.4,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000161971",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "product": "NGINX Agent",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "*",
-              "status": "unaffected",
-              "version": "3.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "2.47.0",
-              "status": "affected",
-              "version": "2.0.0",
-              "versionType": "custom"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unknown",
-          "product": "NGINX Instance Manager",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "2.22.2",
-              "status": "affected",
-              "version": "2.22.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "*",
-              "status": "affected",
-              "version": "2.17.1",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15509",
-      "publishedDate": "2026-07-12T22:30:09.041Z",
-      "lastModifiedDate": "2026-07-15T15:36:02.287Z",
-      "description": "A vulnerability has been found in Leantime up to 3.8.0. This impacts the function editUser/addUser of the component JSON-RPC Endpoint. The manipulation of the argument role leads to improper authorization. The attack is possible to be carried out remotely. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.",
-      "severity": 6.3,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/377838",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/377838/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15509",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/846167",
-          "type": "reference"
-        },
-        {
-          "url": "https://bytium.com/insights/leantime-priv-escalation-vulnerability-low-priv-to-owner",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "Leantime",
-          "versions": [
-            {
-              "version": "3.0",
-              "status": "affected"
-            },
-            {
-              "version": "3.1",
-              "status": "affected"
-            },
-            {
-              "version": "3.2",
-              "status": "affected"
-            },
-            {
-              "version": "3.3",
-              "status": "affected"
-            },
-            {
-              "version": "3.4",
-              "status": "affected"
-            },
-            {
-              "version": "3.5",
-              "status": "affected"
-            },
-            {
-              "version": "3.6",
-              "status": "affected"
-            },
-            {
-              "version": "3.7",
-              "status": "affected"
-            },
-            {
-              "version": "3.8.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:leantime:leantime:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "JSON-RPC Endpoint"
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authorization",
-        "Incorrect Privilege Assignment"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-41580",
-      "publishedDate": "2026-07-15T14:56:36.902Z",
-      "lastModifiedDate": "2026-07-15T15:33:13.431Z",
-      "description": "Stirling-PDF is a locally hosted web application that facilitates various operations on PDF files. Prior to 2.0.0, Stirling-PDF's /get-info-on-pdf endpoint rendered PDF Title and Author metadata fields without proper HTML encoding or sanitization, allowing a crafted PDF to execute attacker-controlled JavaScript in the browser of a user who views the resulting page. This issue is fixed in version 2.0.0.",
-      "severity": 6.1,
-      "references": [
-        {
-          "url": "https://github.com/Stirling-Tools/Stirling-PDF/security/advisories/GHSA-rjjx-43g5-mp76",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Stirling-Tools/Stirling-PDF/releases/tag/v2.0.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Stirling-Tools",
-          "product": "Stirling-PDF",
-          "versions": [
-            {
-              "version": "< 2.0.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47160",
-      "publishedDate": "2026-07-15T15:04:15.990Z",
-      "lastModifiedDate": "2026-07-15T15:41:42.401Z",
-      "description": "Vaultwarden is a Bitwarden-compatible server written in Rust. Prior to 1.36.0, Vaultwarden's /icons/{domain}/icon.png endpoint used src/http_client.rs checks including should_block_address() and post_resolve() that missed decimal, hexadecimal, and octal IP representations, allowing SSRF through the icon-fetching HTTP client for blind internal network or port discovery. This issue is fixed in version 1.36.0.",
-      "severity": 5.8,
-      "references": [
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/security/advisories/GHSA-72vh-x5jq-m82g",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/pull/7162",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/commit/a354e57659d26149fde0d91b76f83fce94e8f277",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/releases/tag/1.36.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "dani-garcia",
-          "product": "vaultwarden",
-          "versions": [
-            {
-              "version": "< 1.36.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)",
-        "CWE-1389: Incorrect Parsing of Numbers with Different Radices"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-60118",
-      "publishedDate": "2026-07-14T15:42:31.865Z",
-      "lastModifiedDate": "2026-07-15T15:42:42.390Z",
-      "description": "Hi.Events before 1.11.0 contains a missing server-side visibility enforcement vulnerability that allows unauthenticated attackers to purchase hidden tickets by referencing hidden product and price IDs in order creation requests without authorization checks. Attackers can enumerate sequential hidden ticket IDs from visible ones and submit order creation requests referencing those IDs to purchase VIP, invite-only, or discounted tickets intentionally withheld from public sale.",
-      "severity": 5.3,
-      "references": [
-        {
-          "url": "https://github.com/HiEventsDev/Hi.Events/releases/tag/v.1.11.0-beta",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HiEventsDev/Hi.Events/security/advisories/GHSA-2h54-cprv-vj74",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HiEventsDev/Hi.Events/pull/1259",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HiEventsDev/Hi.Events/commit/9eec95e6176f500b71bf633986243045ca78cefb",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/hi-events-beta-hidden-ticket-enumeration-via-order-creation-endpoint",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "packageURL": "pkg:github/HiEventsDev/Hi.Events",
-          "vendor": "HiEventsDev",
-          "product": "Hi.Events",
-          "repo": "https://github.com/HiEventsDev/Hi.Events",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "1.11.0"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15521",
-      "publishedDate": "2026-07-13T01:30:09.205Z",
-      "lastModifiedDate": "2026-07-15T15:37:34.957Z",
-      "description": "A vulnerability was identified in makafeli n8n-workflow-builder up to 0.11.0. Affected is an unknown function of the file build/server.cjs of the component update_node_from_file. The manipulation of the argument filePath leads to path traversal. An attack has to be approached locally. The exploit is publicly available and might be used. The project was informed of the problem early through an issue report but has not responded yet.",
-      "severity": 5.3,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/377850",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/377850/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15521",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/854522",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/makafeli/n8n-workflow-builder/issues/28",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/makafeli/n8n-workflow-builder/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "makafeli",
-          "product": "n8n-workflow-builder",
-          "versions": [
-            {
-              "version": "0.1",
-              "status": "affected"
-            },
-            {
-              "version": "0.2",
-              "status": "affected"
-            },
-            {
-              "version": "0.3",
-              "status": "affected"
-            },
-            {
-              "version": "0.4",
-              "status": "affected"
-            },
-            {
-              "version": "0.5",
-              "status": "affected"
-            },
-            {
-              "version": "0.6",
-              "status": "affected"
-            },
-            {
-              "version": "0.7",
-              "status": "affected"
-            },
-            {
-              "version": "0.8",
-              "status": "affected"
-            },
-            {
-              "version": "0.9",
-              "status": "affected"
-            },
-            {
-              "version": "0.10",
-              "status": "affected"
-            },
-            {
-              "version": "0.11.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:makafeli:n8n-workflow-builder:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "update_node_from_file"
-          ]
-        }
-      ],
-      "problemType": [
-        "Path Traversal"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15607",
-      "publishedDate": "2026-07-13T23:00:15.192Z",
-      "lastModifiedDate": "2026-07-15T15:49:45.254Z",
-      "description": "A vulnerability was detected in tanstack db up to 0.6.8. Affected by this vulnerability is the function select of the file src/query/compiler/select.ts of the component Alias Path Handler. The manipulation results in improperly controlled modification of object prototype attributes. The attack may be launched remotely. The exploit is now public and may be used. The patch is identified as ac09b1177a100eafa85cba3cd09dd1f53f933ded. A patch should be applied to remediate this issue.",
-      "severity": 4.3,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/378115",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/378115/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15607",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/855677",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/TanStack/db/issues/1584",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/TanStack/db/pull/1595",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/TanStack/db/commit/ac09b1177a100eafa85cba3cd09dd1f53f933ded",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/TanStack/db/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "tanstack",
-          "product": "db",
-          "versions": [
-            {
-              "version": "0.6.0",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.1",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.2",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.3",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.4",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.5",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.6",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.7",
-              "status": "affected"
-            },
-            {
-              "version": "0.6.8",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:tanstack:db:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Alias Path Handler"
-          ]
-        }
-      ],
-      "problemType": [
-        "Improperly Controlled Modification of Object Prototype Attributes",
-        "Code Injection"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-60065",
-      "publishedDate": "2026-07-15T14:33:46.469Z",
-      "lastModifiedDate": "2026-07-15T15:39:17.208Z",
-      "description": "When NGINX Plus is configured to use the Message Queuing Telemetry Transport (MQTT) filter module (ngx_stream_mqtt_filter_module), unauthenticated attackers can send requests with conditions beyond the attacker's control to cause a heap buffer over-read in the NGINX worker process, leading to a restart.\n\nImpact:\nThis vulnerability may allow remote unauthenticated attackers to have limited control to restart the NGINX worker process. There is no control plane exposure; this is a data plane issue only.\n\nNote: Software versions which have reached End of Technical Support (EoTS) are not evaluated.",
-      "severity": 3.7,
-      "references": [
-        {
-          "url": "https://my.f5.com/manage/s/article/K000162101",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "ngx_stream_mqtt_filter_module"
-          ],
-          "product": "NGINX Plus",
-          "vendor": "F5",
-          "versions": [
-            {
-              "lessThan": "37.0.3.1",
-              "status": "affected",
-              "version": "37.0.0.1",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "R36 P7",
-              "status": "affected",
-              "version": "R36",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "*",
-              "status": "affected",
-              "version": "R33",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-125 Out-of-bounds Read"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15594",
-      "publishedDate": "2026-07-13T20:15:10.868Z",
-      "lastModifiedDate": "2026-07-15T15:45:06.732Z",
-      "description": "A vulnerability was found in waooAI waoowaoo up to 0.4.1. Impacted is the function stablePublicIdFromStorageKey in the library src/lib/media/hash.ts of the component Media Handler. The manipulation of the argument storageKey results in improper authorization. The attack may be performed from remote. The attack requires a high level of complexity. The exploitability is considered difficult. The exploit has been made public and could be used. The project was informed of the problem early through an issue report but has not responded yet.",
-      "severity": 3.7,
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/378109",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/378109/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-15594",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/855264",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/waooAI/waoowaoo/issues/201",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/waooAI/waoowaoo/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "waooAI",
-          "product": "waoowaoo",
-          "versions": [
-            {
-              "version": "0.4.0",
-              "status": "affected"
-            },
-            {
-              "version": "0.4.1",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:waooai:waoowaoo:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Media Handler"
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authorization",
-        "Incorrect Privilege Assignment"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-62683",
-      "publishedDate": "2026-07-15T15:40:56.485Z",
-      "lastModifiedDate": "2026-07-15T15:40:56.485Z",
-      "description": "File Browser is a file managing interface for uploading, deleting, previewing, renaming, and editing files within a specified directory. Prior to 2.63.17, File Browser can leave a public directory share behind when the shared directory is deleted through a path with a trailing slash because the share cleanup path calls DeleteWithPathPrefix(file.Path, userID) and the Bolt backend performs the database prefix query with the unnormalized path before trimming the slash for boundary checks, so deleting /a/ does not delete the stored /a share and the stale public share exposes future content if the same path is recreated. This issue is fixed in version 2.63.17.",
-      "severity": 3.1,
-      "references": [
-        {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-pp88-jhwj-5qh5",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/commit/f30fca636c1af9ef401e9a82ff60391cb3db97e1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/releases/tag/v2.63.17",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "versions": [
-            {
-              "version": "< 2.63.17",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61605",
-      "publishedDate": "2026-07-15T15:56:38.320087+00:00",
-      "lastModifiedDate": "2026-07-15T15:41:15.898Z",
+      "id": "CVE-2026-62174",
+      "publishedDate": "2026-07-15T17:25:34.233702+00:00",
+      "lastModifiedDate": "2026-07-15T16:33:23.250Z",
       "description": "",
       "severity": "N/A",
       "references": [],
@@ -2096,286 +1006,552 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-9007",
-      "publishedDate": "2026-07-15T15:41:34.362Z",
-      "lastModifiedDate": "2026-07-15T15:41:34.362Z",
-      "description": "Improper neutralization of input during web page generation ('cross-site scripting') vulnerability in HCL Notes from HCL Software allows reflected \n\n Cross-Site Scripting (XSS). \nSuccessful exploitation allows an attacker to execute arbitrary JavaScript in the context of another user.\n\n\nThis issue affects HCL Notes: Release 12.0.2FP5HF8 on Linux 4.18.0-553.52.1.El8_10.X64_64#1.",
+      "id": "CVE-2026-62169",
+      "publishedDate": "2026-07-15T17:25:34.230095+00:00",
+      "lastModifiedDate": "2026-07-15T16:32:38.109Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61839",
+      "publishedDate": "2026-07-15T17:25:34.222828+00:00",
+      "lastModifiedDate": "2026-07-15T16:37:38.802Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62180",
+      "publishedDate": "2026-07-15T17:25:34.221234+00:00",
+      "lastModifiedDate": "2026-07-15T16:35:05.507Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62168",
+      "publishedDate": "2026-07-15T17:25:34.216578+00:00",
+      "lastModifiedDate": "2026-07-15T16:35:35.255Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62172",
+      "publishedDate": "2026-07-15T17:25:34.216024+00:00",
+      "lastModifiedDate": "2026-07-15T16:33:59.812Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62173",
+      "publishedDate": "2026-07-15T17:25:34.211462+00:00",
+      "lastModifiedDate": "2026-07-15T16:31:59.976Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62248",
+      "publishedDate": "2026-07-15T17:25:34.207908+00:00",
+      "lastModifiedDate": "2026-07-15T16:34:31.397Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62165",
+      "publishedDate": "2026-07-15T17:25:34.201779+00:00",
+      "lastModifiedDate": "2026-07-15T16:36:55.021Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61710",
+      "publishedDate": "2026-07-15T17:25:34.188605+00:00",
+      "lastModifiedDate": "2026-07-15T16:38:45.444Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61841",
+      "publishedDate": "2026-07-15T17:25:34.171737+00:00",
+      "lastModifiedDate": "2026-07-15T16:36:14.260Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62287",
+      "publishedDate": "2026-07-15T17:25:34.152152+00:00",
+      "lastModifiedDate": "2026-07-15T16:39:49.897Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61606",
+      "publishedDate": "2026-07-15T17:25:34.139668+00:00",
+      "lastModifiedDate": "2026-07-15T16:39:13.051Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61829",
+      "publishedDate": "2026-07-15T17:25:34.127711+00:00",
+      "lastModifiedDate": "2026-07-15T16:38:16.465Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-1563",
+      "publishedDate": "2026-07-15T16:38:21.778Z",
+      "lastModifiedDate": "2026-07-15T16:38:21.778Z",
+      "description": "Pega Platform versions 8.1.0 through 25.1.2 are affected by an Reflected Cross-site scripting (XSS) vulnerability in a user interface component. Requires a high privileged user with a developer role.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://www.thalesgroup.com/en/search/cybersecurity/cybersecurity-services/CVE-2026-9007",
+          "url": "https://support.pega.com/support-doc/pega-security-advisory-e26-vulnerability-remediation-note",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "HCL Software",
-          "product": "HCL Notes",
+          "vendor": "Pegasystems",
+          "product": "Pega Infinity",
           "versions": [
             {
               "status": "affected",
-              "version": "Release 12.0.2FP5HF8 on Linux 4.18.0-553.52.1.el8_10.x64_64#1"
+              "version": "8.1.0",
+              "lessThan": "Infinity 25.1.2",
+              "versionType": "custom"
             }
           ],
-          "defaultStatus": "unknown"
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-45150",
-      "publishedDate": "2026-07-15T15:35:17.010Z",
-      "lastModifiedDate": "2026-07-15T15:35:17.010Z",
-      "description": "Zen is a firefox-based browser. Prior to 1.19.13b, Zen Browser did not provide a persistent, clearly visible security notification when a webpage entered fullscreen mode, allowing an attacker-controlled page to hide the real browser UI and origin information, imitate a trusted website UI, and combine with long-domain URL eliding to spoof a trusted origin for phishing and credential theft. This issue is fixed in version 1.19.13b.",
+      "id": "CVE-2026-1562",
+      "publishedDate": "2026-07-15T16:37:13.384Z",
+      "lastModifiedDate": "2026-07-15T16:37:13.384Z",
+      "description": "Pega Platform versions 8.1.0 through 25.1.2 are affected by an Stored Cross-site scripting (XSS) vulnerability in a user interface component. Requires a high privileged user with a developer role.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/zen-browser/desktop/security/advisories/GHSA-vjfv-85qf-v25c",
+          "url": "https://support.pega.com/support-doc/pega-security-advisory-e26-vulnerability-remediation-note",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "zen-browser",
-          "product": "desktop",
+          "vendor": "Pegasystems",
+          "product": "Pega Infinity",
           "versions": [
             {
-              "version": "< 1.19.13b",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-451: User Interface (UI) Misrepresentation of Critical Information"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-47159",
-      "publishedDate": "2026-07-15T15:02:46.349Z",
-      "lastModifiedDate": "2026-07-15T15:34:11.312Z",
-      "description": "Vaultwarden is a Bitwarden-compatible server written in Rust. Prior to 1.36.0, Vaultwarden's SSO discovery and pre-validation flow returned organization-related SSO metadata including organizationIdentifier values for arbitrary email addresses and allowed a valid pre-validation JWT to be obtained with only the discovered identifier, enabling SSO-enabled organization enumeration and authentication workflow abuse. This issue is fixed in version 1.36.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/security/advisories/GHSA-hxqh-ff5p-wfr3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/pull/7163",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/commit/d297e274a35dccd0f5d935e9d5934e0f7e9c0a87",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dani-garcia/vaultwarden/releases/tag/1.36.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "dani-garcia",
-          "product": "vaultwarden",
-          "versions": [
-            {
-              "version": "< 1.36.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-287: Improper Authentication"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61740",
-      "publishedDate": "2026-07-15T14:14:41.064Z",
-      "lastModifiedDate": "2026-07-15T15:30:39.185Z",
-      "description": "LightRAG provides simple and fast retrieval-augmented generation. Prior to 1.5.4, when LightRAG is deployed with LIGHTRAG_API_KEY set but AUTH_ACCOUNTS unset, X-API-Key protection can be bypassed because lightrag/api/auth.py falls back to a hardcoded DEFAULT_TOKEN_SECRET, /auth-status and /login can mint guest JWTs, and combined_dependency in lightrag/api/utils_api.py accepts a valid guest token before checking the API key. A remote unauthenticated attacker can call endpoints guarded by combined_auth, including document read, upload, deletion, graph mutation, and query endpoints. This vulnerability is fixed in 1.5.4.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/HKUDS/LightRAG/security/advisories/GHSA-f4vv-55c2-5789",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HKUDS/LightRAG/pull/3319",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HKUDS/LightRAG/commit/f7819aa3a49a9d8d92eed8251d82d6ebcafa8cba",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HKUDS/LightRAG/releases/tag/v1.5.4",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "HKUDS",
-          "product": "LightRAG",
-          "versions": [
-            {
-              "version": "< 1.5.4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-287: Improper Authentication",
-        "CWE-798: Use of Hard-coded Credentials"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-61371",
-      "publishedDate": "2026-07-15T00:00:00.000Z",
-      "lastModifiedDate": "2026-07-15T15:50:25.585Z",
-      "description": "Microsoft AVML before 0.17.0 could follow a symlink when opening a destination output path on Unix, allowing truncation/overwrite of the symlink target. The destructive effect is performed at open-time via O_TRUNC, and can happen before full input validation completes (“truncation-before-validation”).",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/microsoft/avml/pull/754",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/microsoft/avml/releases/tag/v0.17.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://gist.github.com/thesmartshadow/2d099071f847de8db3dc4bbaf4dfa6df",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15778",
-      "publishedDate": "2026-07-14T20:09:55.948Z",
-      "lastModifiedDate": "2026-07-15T15:20:03.789Z",
-      "description": "Insufficient validation of untrusted input in Navigation in Google Chrome prior to 150.0.7871.125 allowed a remote attacker who had compromised the renderer process to bypass navigation restrictions via a crafted HTML page. (Chromium security severity: Medium)",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0353146366.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/513795122",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "150.0.7871.125",
               "status": "affected",
-              "lessThan": "150.0.7871.125",
+              "version": "8.1.0",
+              "lessThan": "Infinity 25.1.2",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61828",
+      "publishedDate": "2026-07-15T14:52:35.212Z",
+      "lastModifiedDate": "2026-07-15T16:32:36.992Z",
+      "description": "Nixpkgs is a collection of software packages that can be installed with the Nix package manager. Prior to the 25.11 and 26.05 channel fixes, the NixOS module for MySQL services.mysql initializes the MySQL database in a way that allows local users, such as unprivileged web or CGI processes on the same host, to log in as the root user without a password when the service is used with mysql or percona-server. This issue is fixed in the 25.11 and 26.05.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/NixOS/nixpkgs/security/advisories/GHSA-6qxx-6rg8-c4p8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NixOS/nixpkgs/pull/534254",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NixOS/nixpkgs/pull/534482",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NixOS/nixpkgs/pull/534484",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NixOS/nixpkgs/commit/3f68d7ad2a6865ff8b4910d89f173d7258bad8dd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NixOS/nixpkgs/commit/4aed47116a8734922763cd8f477467b0a0bcd6d7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NixOS/nixpkgs/commit/f8ee41468a7a8f9ed3a8cc7d017151c2ca6f90b5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NixOS",
+          "product": "nixpkgs",
+          "versions": [
+            {
+              "version": "< 25.11",
+              "status": "affected"
+            },
+            {
+              "version": ">= 26.05-beta, < 26.05",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-276: Incorrect Default Permissions"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15757",
+      "publishedDate": "2026-07-14T17:46:15.979Z",
+      "lastModifiedDate": "2026-07-15T16:50:16.246Z",
+      "description": "A security flaw was discovered in the NETGEAR DGND3700v1 that could\nallow someone on the same local WiFi network to send unauthorized commands to\nthe device.\n\n\n\nThis issue was identified through testing in a controlled research\nenvironment using a simulated version of the router's software and has not been\nconfirmed on physical production devices.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://www.netgear.com/support/product/dgnd3700v1",
+          "type": "reference"
+        },
+        {
+          "url": "https://kb.netgear.com/000070859/July-2026-NETGEAR-Security-Advisory",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NETGEAR",
+          "product": "DGND3700v1",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "V1.0.0.17",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-20 Improper input validation"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62656",
+      "publishedDate": "2026-07-14T17:46:15.194Z",
+      "lastModifiedDate": "2026-07-15T16:53:59.077Z",
+      "description": "A\nsecurity flaw was found in certain NETGEAR RAX models that could allow\na logged-in user to send specially crafted requests to the router and run\nunauthorized commands. This could enable the user to make unauthorized changes\nto the router and affect its security and operation.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://www.netgear.com/support/product/raxe450/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netgear.com/support/product/raxe500/",
+          "type": "reference"
+        },
+        {
+          "url": "https://kb.netgear.com/000070859/July-2026-NETGEAR-Security-Advisory",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NETGEAR",
+          "product": "RAXE450",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V1.2.14.114",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RAXE500",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V1.2.14.114",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-20 Improper input validation"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62655",
+      "publishedDate": "2026-07-14T17:46:14.452Z",
+      "lastModifiedDate": "2026-07-15T16:52:24.542Z",
+      "description": "A\nsecurity flaw was found in certain NETGEAR Orbi models that\ncould allow an unauthorized user to cause the device to stop responding or\nrestart unexpectedly, disrupting network connectivity and making the device\ntemporarily unavailable.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://www.netgear.com/support/product/rbr860/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netgear.com/support/product/rbre950/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netgear.com/support/product/rbs860/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netgear.com/support/product/rbre960/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netgear.com/support/product/rbse950/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netgear.com/support/product/rbse960/",
+          "type": "reference"
+        },
+        {
+          "url": "https://kb.netgear.com/000070859/July-2026-NETGEAR-Security-Advisory",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NETGEAR",
+          "product": "RBR860",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V7.2.7.15",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBRE950",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "v7.2.7.15",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBRE960",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V7.2.7.15",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBE970",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V9.10.1.4",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBE971",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V9.10.1.4",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBS860",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V7.2.7.15",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBSE950",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "v7.2.7.15",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "NETGEAR",
+          "product": "RBSE960",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V7.2.7.15",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-121 Stack-based buffer overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15747",
+      "publishedDate": "2026-07-14T17:07:32.593Z",
+      "lastModifiedDate": "2026-07-15T16:32:58.629Z",
+      "description": "Mojolicious versions from 4.59 before 9.48 for Perl expose a stable representation of the session CSRF token to a BREACH compression oracle.\n\n_csrf_token generates and caches one token per session and returns the same value on every call, and _csrf_field places that value in a hidden `csrf_token` input. When a response carrying the token also echoes attacker-controlled input and is gzip-compressed, the chosen values and the resulting compressed lengths form a BREACH oracle.\n\nAn attacker able to query it can recover the token and pass csrf_protect validation.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/mojolicious/mojo/commit/01921fbbbbeca2d1397e082d4a647f9b84c24e27.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/SRI/Mojolicious-9.48/changes",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "Mojolicious",
+          "product": "Mojolicious",
+          "programFiles": [
+            "lib/Mojolicious/Plugin/DefaultHelpers.pm",
+            "lib/Mojolicious/Plugin/TagHelpers.pm",
+            "lib/Mojolicious/Renderer.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Mojolicious::Plugin::DefaultHelpers::_csrf_token"
+            }
+          ],
+          "repo": "https://github.com/mojolicious/mojo",
+          "vendor": "SRI",
+          "versions": [
+            {
+              "lessThan": "9.48",
+              "status": "affected",
+              "version": "4.59",
               "versionType": "custom"
             }
           ]
         }
       ],
       "problemType": [
-        "Insufficient validation of untrusted input"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15775",
-      "publishedDate": "2026-07-14T20:09:54.816Z",
-      "lastModifiedDate": "2026-07-15T15:44:12.137Z",
-      "description": "Inappropriate implementation in V8 in Google Chrome prior to 150.0.7871.125 allowed a remote attacker to bypass same origin policy via a crafted HTML page. (Chromium security severity: High)",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0353146366.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/531319201",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "150.0.7871.125",
-              "status": "affected",
-              "lessThan": "150.0.7871.125",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Insufficient policy enforcement"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15768",
-      "publishedDate": "2026-07-14T20:09:52.029Z",
-      "lastModifiedDate": "2026-07-15T15:22:09.181Z",
-      "description": "Insufficient policy enforcement in HTML-in-Canvas in Google Chrome prior to 150.0.7871.125 allowed a remote attacker to bypass same origin policy via a crafted HTML page. (Chromium security severity: High)",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0353146366.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/517931625",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "150.0.7871.125",
-              "status": "affected",
-              "lessThan": "150.0.7871.125",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Insufficient policy enforcement"
+        "CWE-204 Observable Response Discrepancy",
+        "CWE-352 Cross-Site Request Forgery (CSRF)"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
