@@ -3,10 +3,10 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 8,
-    "last_updated": "2026-07-16T21:45:42.677972",
+    "last_updated": "2026-07-16T22:42:25.690536",
     "severity_distribution": {
-      "critical": 1,
-      "high": 1,
+      "critical": 0,
+      "high": 2,
       "medium": 1,
       "low": 0,
       "none": 5
@@ -14,100 +14,151 @@
   },
   "cves": [
     {
-      "id": "CVE-2026-53412",
-      "publishedDate": "2026-07-16T21:15:25.664Z",
-      "lastModifiedDate": "2026-07-16T21:15:25.664Z",
-      "description": "Improper Input Validation in Zoom Desktop Client for Windows, Zoom VDI Client for Windows, and Zoom Meeting SDK for Windows may allow an unauthenticated user to conduct an account takeover via network access.",
-      "severity": 9.8,
+      "id": "CVE-2026-43978",
+      "publishedDate": "2026-07-16T22:11:57.629Z",
+      "lastModifiedDate": "2026-07-16T22:11:57.629Z",
+      "description": "wger is a free, open-source workout and fitness manager. In versions prior to 2.6, a gym trainer can escalate their session to any higher-privileged account (gym manager, general manager) by chaining two calls to the trainer-login endpoint. Once a trainer performs a legitimate switch into a low-privileged user, the session flag trainer.identity is set and this flag alone bypasses the permission check on all subsequent trainer-login calls. This grants full gym administration capabilities including viewing all member data, modifying contracts, managing gym configuration, and accessing other trainers' and managers' personal information. This issue has been fixed in version 2.6.",
+      "severity": 8.1,
       "references": [
         {
-          "url": "https://www.zoom.com/en/trust/security-bulletin/zsb-26014",
+          "url": "https://github.com/wger-project/wger/security/advisories/GHSA-9qpr-vc49-hqg2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Zoom Communications",
-          "product": "Zoom Workplace for Windows",
-          "platforms": [
-            "Windows"
-          ],
+          "vendor": "wger-project",
+          "product": "wger",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "7.0.0",
-              "versionType": "custom"
+              "version": "< 2.6",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-20 Improper input validation"
+        "CWE-269: Improper Privilege Management"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-53411",
-      "publishedDate": "2026-07-16T21:13:33.254Z",
-      "lastModifiedDate": "2026-07-16T21:13:33.254Z",
-      "description": "A time-of-check to time-of-use (TOCTOU) race condition in the installation and uninstallation process of certain Zoom Clients for Windows could allow an authenticated local user to escalate privileges.",
-      "severity": 7.8,
+      "id": "CVE-2026-43977",
+      "publishedDate": "2026-07-16T22:13:12.238Z",
+      "lastModifiedDate": "2026-07-16T22:13:12.238Z",
+      "description": "wger is a free, open-source workout and fitness manager. In versions prior to 2.6, any authenticated user can read another user's private workout session notes, exercise history, and training statistics by calling the /logs/ and /stats/ actions on a routine they do not own. The vulnerability exists in RoutineViewSet (wger/manager/api/views.py). The view defines two custom actions /logs/ and /stats/ that are intended to return data for the requesting user's own training history within a routine. However, the underlying permission check (RoutinePermission.has_object_permission) grants read access to any authenticated user when the routine has is_template=True, regardless of ownership. When the /logs/ or /stats/ actions are invoked against a routine the attacker does not own, they return the owner's private workout history, not the attacker's. This issue has been fixed in version 2.6.",
+      "severity": 7.5,
       "references": [
         {
-          "url": "https://www.zoom.com/en/trust/security-bulletin/zsb-26013",
+          "url": "https://github.com/wger-project/wger/security/advisories/GHSA-cj9g-27ph-4cgv",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Zoom Communications",
-          "product": "Zoom Workplace VDI Plugin",
-          "platforms": [
-            "Windows"
-          ],
+          "vendor": "wger-project",
+          "product": "wger",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "6.6.14",
-              "versionType": "custom"
+              "version": "< 2.6",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-20 Improper input validation"
+        "CWE-639: Authorization Bypass Through User-Controlled Key",
+        "CWE-863: Incorrect Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-14782",
-      "publishedDate": "2026-07-16T21:30:29.207Z",
-      "lastModifiedDate": "2026-07-16T21:30:29.207Z",
-      "description": "The Booking for Appointments and Events Calendar – Amelia plugin for WordPress is vulnerable to SQL Injection via the Customer Import in all versions up to, and including, 2.4.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for authenticated attackers, with wpamelia-manager role, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
-      "severity": 4.9,
+      "id": "CVE-2026-44433",
+      "publishedDate": "2026-07-16T22:23:17.247Z",
+      "lastModifiedDate": "2026-07-16T22:23:17.247Z",
+      "description": "Quicly is an IETF QUIC protocol implementation intended primarily for use within the H2O HTTP server. Prior to commit 8b178e6, an adversarial peer could send a STREAM frame carrying just one byte at the largest offset being permitted to obtain additional flow control credit, which under certain circumstances could lead to a Denial of Service. Assuming the application prepares a receive buffer for storing all data that arrive out-of-order, up to the largest offset being received, this behavior could lead to the application allocating large amount of memory with the peer sending only a handful of packets, resulting in memory exhaustion. In addition to the receive buffer allocation strategy, the severity of this vulnerability depends on how the application controls the stream concurrency. In case of the H2O HTTP server, under its default setting, this bug increases the maximum amount of memory allocated per connection by about 4 times. This issue has been fixed by commit 8b178e6.",
+      "severity": 5.3,
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b3a58e68-d1f1-4d4f-ac64-bc6cb7dbdbfc?source=cve",
+          "url": "https://github.com/h2o/quicly/security/advisories/GHSA-f7qr-4p37-9gx9",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/ameliabooking/tags/2.4.3/src/Infrastructure/Repository/User/UserRepository.php#L476",
+          "url": "https://github.com/h2o/quicly/commit/8b178e692c51a3b1031612ef89f03a53aac63c15",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "melograno",
-          "product": "Booking for Appointments and Events Calendar – Amelia",
+          "vendor": "h2o",
+          "product": "quicly",
           "versions": [
             {
-              "version": "0",
+              "version": "< 8b178e6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling",
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-11740",
+      "publishedDate": "2026-07-16T22:42:22.556929+00:00",
+      "lastModifiedDate": "2026-07-16T22:19:53.648Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-14253",
+      "publishedDate": "2026-07-16T22:42:22.530171+00:00",
+      "lastModifiedDate": "2026-07-16T22:19:53.781Z",
+      "description": "",
+      "severity": "N/A",
+      "references": [],
+      "affected": [],
+      "problemType": [],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15997",
+      "publishedDate": "2026-07-16T22:17:16.525Z",
+      "lastModifiedDate": "2026-07-16T22:17:16.525Z",
+      "description": "Out-of-bounds write vulnerability in Legion of the Bouncy Castle Inc. BC-LTS bcprov-lts8on on ARM allows Overflow Buffers.\n\n This vulnerability is associated with program files https://github.Com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/shake.C, https://github.Com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/sha3.C.\n\n\n\nThis issue affects BC-LTS: from 2.73.0 before 2.73.12.1.\n\n\n\nIssue is only applicable if application involved is accepting memoable SHA3 / SHAKE states from potentially untrusted sources.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/bcgit/bc-lts-java/wiki/CVE-2026-15997",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Legion of the Bouncy Castle Inc.",
+          "product": "BC-LTS",
+          "platforms": [
+            "ARM"
+          ],
+          "collectionURL": "https://www.bouncycastle.org/download/bouncy-castle-java-lts/",
+          "packageName": "bcprov-lts8on",
+          "repo": "https://github.com/bcgit/bc-lts-java",
+          "programFiles": [
+            "https://github.com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/shake.c",
+            "https://github.com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/sha3.c"
+          ],
+          "versions": [
+            {
               "status": "affected",
-              "lessThanOrEqual": "2.4.3",
+              "version": "2.73.0",
+              "lessThan": "2.73.12.1",
               "versionType": "semver"
             }
           ],
@@ -115,212 +166,73 @@
         }
       ],
       "problemType": [
-        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+        "CWE-787 Out-of-bounds write"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-44175",
-      "publishedDate": "2026-07-16T21:36:06.390Z",
-      "lastModifiedDate": "2026-07-16T21:36:06.390Z",
-      "description": "Kirby is an open-source content management system. In versions prior to 4.9.1 and 5.4.1, Kirby did not securely sanitize the contents of the list field on save, leaving it vulnerable to cross-site scripting (XSS). Kirby's list field stores its formatted content as HTML, and unlike other field types, its HTML special characters cannot be escaped without losing the formatting. Sanitization was only enforced client-side in the Panel, while the server did not sanitize the content on save. As a result, an attacker could bypass the Panel and send malicious HTML directly to Kirby's API, storing unsanitized markup in the content file. That markup would then be rendered on the site frontend and executed in the browsers of site visitors and logged-in users browsing the site, resulting in persistent XSS. This issue has been fixed in versions 4.9.1 and 5.4.1.",
+      "id": "CVE-2026-44182",
+      "publishedDate": "2026-07-16T22:05:09.576Z",
+      "lastModifiedDate": "2026-07-16T22:05:09.576Z",
+      "description": "Jupyter Enterprise Gateway launches remote Jupyter Notebook kernels across distributed clusters like Apache Spark, Kubernetes, and Docker Swarm. In versions prior to 3.3.0, the server interpolates untrusted environment variables (e.g., KERNEL_XXX) into Kubernetes manifests without YAML-aware escaping, enabling YAML injection attacks. Attackers can inject new fields, overwrite critical fields (e.g., duplicate securityContext keys, where the last one prevails), and inject document boundaries (--- for new documents, ... for end-of-document) to generate multiple resources, potentially creating arbitrary types, such as privileged pods. The Jinja2 template for the Kubernetes manifest contains several kernel_xxx variables, such as kernel_working_dir that are used when rendering the manifest and are all vectors for YAML injection. This issue has been fixed in version 3.3.0.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-5fhx-9q32-q257",
+          "url": "https://github.com/jupyter-server/enterprise_gateway/security/advisories/GHSA-cfw7-6c5v-2wjq",
           "type": "reference"
         },
         {
-          "url": "https://github.com/getkirby/kirby/releases/tag/5.4.1",
+          "url": "https://github.com/jupyter-server/enterprise_gateway/releases/tag/v3.3.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getkirby",
-          "product": "kirby",
+          "vendor": "jupyter-server",
+          "product": "enterprise_gateway",
           "versions": [
             {
-              "version": "< 4.9.1",
-              "status": "affected"
-            },
-            {
-              "version": ">= 5.0.0, < 5.4.1",
+              "version": "< 3.3.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-13713",
-      "publishedDate": "2026-07-16T21:35:31.477Z",
-      "lastModifiedDate": "2026-07-16T21:35:31.477Z",
-      "description": "YAML::Syck versions before 1.47 for Perl allow a use-after-free and double-free via an anchor node freed while still on the parser value stack.\n\nIn the bundled libsyck, when an anchor name is redefined or removed, syck_hdlr_add_anchor and syck_hdlr_remove_anchor free the node stored under that name with syck_free_node. That node can still be live on the parser's value stack, so syck_hdlr_add_node reaches it again and frees it a second time. On a normal build the 48-byte node chunk is freed twice and the interpreter aborts. Anchors need no special flags, so this is reached on the default Load path, and a 7-byte document that redefines an anchor triggers it.\n\nAny caller that runs Load or LoadFile on an untrusted document that redefines an anchor mid-parse crashes the interpreter, a denial of service.",
+      "id": "CVE-2026-44181",
+      "publishedDate": "2026-07-16T22:03:13.493Z",
+      "lastModifiedDate": "2026-07-16T22:03:13.493Z",
+      "description": "Jupyter Enterprise Gateway launches remote Jupyter Notebook kernels across distributed clusters like Apache Spark, Kubernetes, and Docker Swarm. In versions 2.0.0rc2 and above, prior to 3.3.0, the environment variables (KERNEL_XXX) used during the rendering of the Kubernetes manifest are vulnerable to Server Side Template Injection (SSTI). By including Jinja2 template expressions it is possible to execution Python code and OS Commands in the Enterprise Gateway service. The code can use or steal the Kubernetes service account token, which can steal Kubernetes secrets and be used to fully compromise the Kubernetes cluster by scheduling a privileged pod or a pod with a hostPath volume mount. This issue has been fixed in version 3.3.0.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://metacpan.org/release/TODDR/YAML-Syck-1.47/changes",
+          "url": "https://github.com/jupyter-server/enterprise_gateway/security/advisories/GHSA-f49j-v924-fx9w",
           "type": "reference"
         },
         {
-          "url": "https://github.com/toddr/YAML-Syck/commit/44c90a109ec3215ee7ce747bd11209835e123d8b.patch",
+          "url": "https://github.com/jupyter-server/enterprise_gateway/releases/tag/v3.3.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "YAML-Syck",
-          "product": "YAML::Syck",
-          "programFiles": [
-            "handler.c",
-            "syck_.c",
-            "syck.h"
-          ],
-          "programRoutines": [
-            {
-              "name": "syck_hdlr_add_anchor"
-            },
-            {
-              "name": "syck_hdlr_remove_anchor"
-            },
-            {
-              "name": "syck_hdlr_add_node"
-            }
-          ],
-          "repo": "https://github.com/toddr/YAML-Syck",
-          "vendor": "TODDR",
+          "vendor": "jupyter-server",
+          "product": "enterprise_gateway",
           "versions": [
             {
-              "lessThan": "1.47",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use After Free",
-        "CWE-415 Double Free"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-44176",
-      "publishedDate": "2026-07-16T21:24:04.415Z",
-      "lastModifiedDate": "2026-07-16T21:24:04.415Z",
-      "description": "Kirby is an open-source content management system. Versions prior to 4.9.1 and 5.4.1 do not check the `pages.access` permission  during page draft rendering. Permissions are defined for each user role in the user blueprint (site/blueprints/users/...). It is also possible to customize the permissions for each target model in the model blueprints (such as in site/blueprints/pages/...) using the options feature. The permissions and options together control the authorization of user actions. Kirby provides the pages.access and pages.list permissions (among others). The list permission controls whether affected models appear in lists throughout the Panel and REST API. The access permission has the same effect but also disables direct access to the affected models. This vulnerability affects the path resolver for the main CMS router. The resolver takes an input path from the requested URL and determines which model (page or file) should be rendered. When a path is requested that points to a page draft, the resolver checks that the request either contains a valid preview token or is authenticated by a valid user. In affected releases, Kirby allowed page drafts to be rendered if any valid user was authenticated, even if that user did not have access to the specific page model. Authenticated attackers with knowledge of the full path to an existing page draft could then access the rendered frontend page. This could lead to the disclosure of sensitive information, e.g. ahead of the launch of a new product or post. This issue has been fixed in versions 4.9.1 and 5.4.1.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-2xw4-v2wx-hqq9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getkirby/kirby/releases/tag/5.4.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getkirby",
-          "product": "kirby",
-          "versions": [
-            {
-              "version": "< 4.9.1",
-              "status": "affected"
-            },
-            {
-              "version": ">= 5.0.0, < 5.4.1",
+              "version": ">= 2.0.0rc2, < 3.3.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-862: Missing Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-44177",
-      "publishedDate": "2026-07-16T21:19:16.783Z",
-      "lastModifiedDate": "2026-07-16T21:19:16.783Z",
-      "description": "Kirby is an open-source content management system. In versions 5.3.0 and above but prior to 5.4.1, Kirby did not correctly validate the provided user ID, resulting in a path traversal vulnerability. Version 5.3.0 introduced a performance improvement to the Users collection that loaded user objects lazily when first needed. Users were queried by their ID, which was then used to locate the corresponding account directory under site/accounts. This affected the authentication API (accessible to unauthenticated requests), the users API (accessible only to authenticated users), and any other place that uses $users->find() to look up an individual user by a request-provided email or ID. As a result, an attacker could trigger arbitrary PHP file inclusion of files named  index.php (for example, the main PHP files of plugins), the impact of which depends on the logic those files contain. It also allowed probing for the existence of arbitrary directories on the server, letting attackers fingerprint the server and site setup, including installed plugins and the content structure. This issue has been fixed in version 5.4.1.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-9hx7-c53c-v6x8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getkirby/kirby/releases/tag/5.4.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getkirby",
-          "product": "kirby",
-          "versions": [
-            {
-              "version": ">= 5.3.0, < 5.4.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-44174",
-      "publishedDate": "2026-07-16T21:13:43.133Z",
-      "lastModifiedDate": "2026-07-16T21:13:43.133Z",
-      "description": "Kirby is an open-source content management system. Prior to 4.9.1 and 5.4.1, Kirby did not validate the model attributes that were used in its collection queries, allowing attackers to include arbitrary model methods in their queries. This includes methods with sensitive data such as password() (disclosing the password hash) or root() (disclosing the absolute filesystem path on the server) as well as methods that perform impactful actions such as loginPasswordless() (causing a privilege escalation to another user) or delete() (deleting all queried models in one go if the authenticated user has appropriate permissions). This issue has been fixed in versions 4.9.1 and 5.4.1.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-86rh-h242-j8xp",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getkirby/kirby/releases/tag/4.9.1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getkirby/kirby/releases/tag/5.4.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getkirby",
-          "product": "kirby",
-          "versions": [
-            {
-              "version": "< 4.9.1",
-              "status": "affected"
-            },
-            {
-              "version": ">= 5.0.0, < 5.4.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
