@@ -2,237 +2,48 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 8,
-    "last_updated": "2026-07-16T22:42:25.690536",
+    "total_count": 1,
+    "last_updated": "2026-07-16T23:41:33.243730",
     "severity_distribution": {
       "critical": 0,
-      "high": 2,
-      "medium": 1,
+      "high": 1,
+      "medium": 0,
       "low": 0,
-      "none": 5
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-43978",
-      "publishedDate": "2026-07-16T22:11:57.629Z",
-      "lastModifiedDate": "2026-07-16T22:11:57.629Z",
-      "description": "wger is a free, open-source workout and fitness manager. In versions prior to 2.6, a gym trainer can escalate their session to any higher-privileged account (gym manager, general manager) by chaining two calls to the trainer-login endpoint. Once a trainer performs a legitimate switch into a low-privileged user, the session flag trainer.identity is set and this flag alone bypasses the permission check on all subsequent trainer-login calls. This grants full gym administration capabilities including viewing all member data, modifying contracts, managing gym configuration, and accessing other trainers' and managers' personal information. This issue has been fixed in version 2.6.",
-      "severity": 8.1,
-      "references": [
-        {
-          "url": "https://github.com/wger-project/wger/security/advisories/GHSA-9qpr-vc49-hqg2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "wger-project",
-          "product": "wger",
-          "versions": [
-            {
-              "version": "< 2.6",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-269: Improper Privilege Management"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-43977",
-      "publishedDate": "2026-07-16T22:13:12.238Z",
-      "lastModifiedDate": "2026-07-16T22:13:12.238Z",
-      "description": "wger is a free, open-source workout and fitness manager. In versions prior to 2.6, any authenticated user can read another user's private workout session notes, exercise history, and training statistics by calling the /logs/ and /stats/ actions on a routine they do not own. The vulnerability exists in RoutineViewSet (wger/manager/api/views.py). The view defines two custom actions /logs/ and /stats/ that are intended to return data for the requesting user's own training history within a routine. However, the underlying permission check (RoutinePermission.has_object_permission) grants read access to any authenticated user when the routine has is_template=True, regardless of ownership. When the /logs/ or /stats/ actions are invoked against a routine the attacker does not own, they return the owner's private workout history, not the attacker's. This issue has been fixed in version 2.6.",
+      "id": "CVE-2026-54340",
+      "publishedDate": "2026-07-16T23:29:50.799Z",
+      "lastModifiedDate": "2026-07-16T23:29:50.799Z",
+      "description": "h2o is an HTTP server with support for HTTP/1.x, HTTP/2 and HTTP/3. Prior to commit 9265bdd, there is an HTTP/2 state amplification issue that combines HPACK decompression amplification with Slowloris-style stream stalling. Amplified decoded header state can be retained by stalled HTTP/2 streams, and depending on the configuration, additional limits are needed to bound decoded header state and prevent attack. This issue has been fixed by commit 9265bdd.",
       "severity": 7.5,
       "references": [
         {
-          "url": "https://github.com/wger-project/wger/security/advisories/GHSA-cj9g-27ph-4cgv",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "wger-project",
-          "product": "wger",
-          "versions": [
-            {
-              "version": "< 2.6",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key",
-        "CWE-863: Incorrect Authorization"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-44433",
-      "publishedDate": "2026-07-16T22:23:17.247Z",
-      "lastModifiedDate": "2026-07-16T22:23:17.247Z",
-      "description": "Quicly is an IETF QUIC protocol implementation intended primarily for use within the H2O HTTP server. Prior to commit 8b178e6, an adversarial peer could send a STREAM frame carrying just one byte at the largest offset being permitted to obtain additional flow control credit, which under certain circumstances could lead to a Denial of Service. Assuming the application prepares a receive buffer for storing all data that arrive out-of-order, up to the largest offset being received, this behavior could lead to the application allocating large amount of memory with the peer sending only a handful of packets, resulting in memory exhaustion. In addition to the receive buffer allocation strategy, the severity of this vulnerability depends on how the application controls the stream concurrency. In case of the H2O HTTP server, under its default setting, this bug increases the maximum amount of memory allocated per connection by about 4 times. This issue has been fixed by commit 8b178e6.",
-      "severity": 5.3,
-      "references": [
-        {
-          "url": "https://github.com/h2o/quicly/security/advisories/GHSA-f7qr-4p37-9gx9",
+          "url": "https://github.com/h2o/h2o/security/advisories/GHSA-qcrr-wrhc-pgq9",
           "type": "reference"
         },
         {
-          "url": "https://github.com/h2o/quicly/commit/8b178e692c51a3b1031612ef89f03a53aac63c15",
+          "url": "https://github.com/h2o/h2o/commit/9265bdd9a996ed992681055e3996baf3e09d2063",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "h2o",
-          "product": "quicly",
+          "product": "h2o",
           "versions": [
             {
-              "version": "< 8b178e6",
+              "version": "< 9265bdd",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling",
-        "CWE-400: Uncontrolled Resource Consumption"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-11740",
-      "publishedDate": "2026-07-16T22:42:22.556929+00:00",
-      "lastModifiedDate": "2026-07-16T22:19:53.648Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-14253",
-      "publishedDate": "2026-07-16T22:42:22.530171+00:00",
-      "lastModifiedDate": "2026-07-16T22:19:53.781Z",
-      "description": "",
-      "severity": "N/A",
-      "references": [],
-      "affected": [],
-      "problemType": [],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-15997",
-      "publishedDate": "2026-07-16T22:17:16.525Z",
-      "lastModifiedDate": "2026-07-16T22:17:16.525Z",
-      "description": "Out-of-bounds write vulnerability in Legion of the Bouncy Castle Inc. BC-LTS bcprov-lts8on on ARM allows Overflow Buffers.\n\n This vulnerability is associated with program files https://github.Com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/shake.C, https://github.Com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/sha3.C.\n\n\n\nThis issue affects BC-LTS: from 2.73.0 before 2.73.12.1.\n\n\n\nIssue is only applicable if application involved is accepting memoable SHA3 / SHAKE states from potentially untrusted sources.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/bcgit/bc-lts-java/wiki/CVE-2026-15997",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Legion of the Bouncy Castle Inc.",
-          "product": "BC-LTS",
-          "platforms": [
-            "ARM"
-          ],
-          "collectionURL": "https://www.bouncycastle.org/download/bouncy-castle-java-lts/",
-          "packageName": "bcprov-lts8on",
-          "repo": "https://github.com/bcgit/bc-lts-java",
-          "programFiles": [
-            "https://github.com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/shake.c",
-            "https://github.com/bcgit/bc-lts-java/blob/main/native_c/arm/sha/sha3.c"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "2.73.0",
-              "lessThan": "2.73.12.1",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-787 Out-of-bounds write"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-44182",
-      "publishedDate": "2026-07-16T22:05:09.576Z",
-      "lastModifiedDate": "2026-07-16T22:05:09.576Z",
-      "description": "Jupyter Enterprise Gateway launches remote Jupyter Notebook kernels across distributed clusters like Apache Spark, Kubernetes, and Docker Swarm. In versions prior to 3.3.0, the server interpolates untrusted environment variables (e.g., KERNEL_XXX) into Kubernetes manifests without YAML-aware escaping, enabling YAML injection attacks. Attackers can inject new fields, overwrite critical fields (e.g., duplicate securityContext keys, where the last one prevails), and inject document boundaries (--- for new documents, ... for end-of-document) to generate multiple resources, potentially creating arbitrary types, such as privileged pods. The Jinja2 template for the Kubernetes manifest contains several kernel_xxx variables, such as kernel_working_dir that are used when rendering the manifest and are all vectors for YAML injection. This issue has been fixed in version 3.3.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/jupyter-server/enterprise_gateway/security/advisories/GHSA-cfw7-6c5v-2wjq",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jupyter-server/enterprise_gateway/releases/tag/v3.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "jupyter-server",
-          "product": "enterprise_gateway",
-          "versions": [
-            {
-              "version": "< 3.3.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-44181",
-      "publishedDate": "2026-07-16T22:03:13.493Z",
-      "lastModifiedDate": "2026-07-16T22:03:13.493Z",
-      "description": "Jupyter Enterprise Gateway launches remote Jupyter Notebook kernels across distributed clusters like Apache Spark, Kubernetes, and Docker Swarm. In versions 2.0.0rc2 and above, prior to 3.3.0, the environment variables (KERNEL_XXX) used during the rendering of the Kubernetes manifest are vulnerable to Server Side Template Injection (SSTI). By including Jinja2 template expressions it is possible to execution Python code and OS Commands in the Enterprise Gateway service. The code can use or steal the Kubernetes service account token, which can steal Kubernetes secrets and be used to fully compromise the Kubernetes cluster by scheduling a privileged pod or a pod with a hostPath volume mount. This issue has been fixed in version 3.3.0.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/jupyter-server/enterprise_gateway/security/advisories/GHSA-f49j-v924-fx9w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jupyter-server/enterprise_gateway/releases/tag/v3.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "jupyter-server",
-          "product": "enterprise_gateway",
-          "versions": [
-            {
-              "version": ">= 2.0.0rc2, < 3.3.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
