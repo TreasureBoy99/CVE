@@ -2,26 +2,156 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 20,
-    "last_updated": "2026-07-16T17:14:14.029556",
+    "total_count": 27,
+    "last_updated": "2026-07-16T18:34:53.118036",
     "severity_distribution": {
-      "critical": 1,
+      "critical": 4,
       "high": 6,
-      "medium": 7,
-      "low": 0,
+      "medium": 10,
+      "low": 1,
       "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-44632",
-      "publishedDate": "2026-07-16T16:05:28.554Z",
-      "lastModifiedDate": "2026-07-16T16:46:26.159Z",
-      "description": "Yamcs is a mission control framework. Prior to 5.12.7, a server-side code injection vulnerability existed in the Yamcs algorithm evaluation engine org.yamcs.algorithms.JavaExprAlgorithmExecutionFactory, which dynamically compiled and evaluated user-controlled algorithm text through the Janino compiler without enforcing a secure sandbox, so an authenticated user with the ChangeMissionDatabase privilege could override an existing algorithm's text via the mission database REST API and inject Java code (for example using java.lang.Runtime) to achieve remote code execution on the underlying host operating system. This issue is fixed in versions 5.12.7 and 5.13.0, which disable algorithm editing by default.",
+      "id": "CVE-2026-46512",
+      "publishedDate": "2026-07-16T18:15:52.181Z",
+      "lastModifiedDate": "2026-07-16T18:15:52.181Z",
+      "description": "Frogman provides headless PBX control through MCP and HTTP API. Prior to 1.6.2, fm_dialplan_apply accepted template parameters including greeting, dest, url, extension, code, and file, and Tools/DialplanApply.php wrote Dialplan/Templates.php output to extensions_custom.conf while only Dialplan/TemplateBase.php:38-42 sanitized contextName(), allowing a PERM_WRITE caller using confirm:true to inject arbitrary Asterisk directives such as System(), Set(SHELL(...)), Goto, or Macro. This issue is fixed in version 1.6.2.",
+      "severity": 9.9,
+      "references": [
+        {
+          "url": "https://github.com/mwtcmi/frogman/security/advisories/GHSA-pxfc-q72v-jh8m",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/commit/36a05ffa2df1d256b6f6f7c3b66ef77ebe3e458a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "mwtcmi",
+          "product": "frogman",
+          "versions": [
+            {
+              "version": "< 1.6.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46562",
+      "publishedDate": "2026-07-16T16:06:39.148Z",
+      "lastModifiedDate": "2026-07-16T18:02:19.337Z",
+      "description": "Yamcs is a mission control framework. Prior to 5.12.7, the Nashorn ScriptEngine used to evaluate user-supplied JavaScript algorithm text in yamcs-core/src/main/java/org/yamcs/algorithms/ScriptAlgorithmExecutorFactory.java was constructed without a ClassFilter, so a user with the ChangeMissionDatabase privilege could override an algorithm through the MdbOverrideApi.updateAlgorithm endpoint and supply JavaScript that reaches arbitrary Java classes (for example Java.type(\"java.lang.Runtime\").getRuntime().exec(...)) to execute arbitrary OS commands as the Yamcs process; in the default configuration with no security.yaml the built-in guest user has superuser=true, making the issue reachable without authentication. This issue is fixed in versions 5.12.7 and 5.13.0, which disable algorithm editing by default.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://github.com/yamcs/yamcs/security/advisories/GHSA-vmwp-vh32-rj75",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/commit/3c550348f866af4675d2ba4a51d8d12b7c7c6011",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/commit/4ff8fda642ea8c3309a4d3f379aa77b763148992",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/releases/tag/yamcs-5.12.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/releases/tag/yamcs-5.13.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "yamcs",
+          "product": "yamcs",
+          "versions": [
+            {
+              "version": "< 5.12.7",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+        "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-45695",
+      "publishedDate": "2026-07-16T15:42:31.795Z",
+      "lastModifiedDate": "2026-07-16T18:08:13.371Z",
+      "description": "Kopia is a cross-platform backup tool for Windows, macOS, and Linux with fast incremental backups, client-side end-to-end encryption, compression, and data deduplication. Prior to 0.23.0, Kopia's HTTP server started with --without-password accepts unauthenticated requests to /api/v1/repo/exists and forwards attacker-supplied SFTP storage configuration to blob.NewStorage, where externalSSH: true and sshArguments containing -oProxyCommand=<cmd> can cause exec.CommandContext(\"ssh\") to invoke the command through OpenSSH. This issue is fixed in version 0.23.0.",
+      "severity": 9.8,
+      "references": [
+        {
+          "url": "https://github.com/kopia/kopia/security/advisories/GHSA-2q4c-3mrw-63c3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/kopia/kopia/pull/5354",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/kopia/kopia/commit/c26c6a1b9734c5089217986ffa5cd19f8a6b8900",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/kopia/kopia/releases/tag/v0.23.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "kopia",
+          "product": "kopia",
+          "versions": [
+            {
+              "version": "< 0.23.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "CWE-306: Missing Authentication for Critical Function"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46621",
+      "publishedDate": "2026-07-16T16:07:38.699Z",
+      "lastModifiedDate": "2026-07-16T18:00:50.323Z",
+      "description": "Yamcs is a mission control framework. Prior to 5.12.7, the Yamcs script evaluation engine for Python algorithms dynamically compiled and evaluated user-controlled algorithm text using Jython through the JSR-223 ScriptEngine API without enforcing a secure sandbox, so an authenticated user with the ChangeMissionDatabase privilege could override an existing Python algorithm's logic through the mission database REST API and import and execute arbitrary Java classes such as java.lang.Runtime to achieve remote code execution on the underlying host operating system. This issue is fixed in versions 5.12.7 and 5.13.0, which disable algorithm editing by default.",
       "severity": 9.1,
       "references": [
         {
-          "url": "https://github.com/yamcs/yamcs/security/advisories/GHSA-524g-x36v-9wm6",
+          "url": "https://github.com/yamcs/yamcs/security/advisories/GHSA-2g95-6x5q-xjwj",
           "type": "reference"
         },
         {
@@ -61,7 +191,7 @@
     {
       "id": "CVE-2026-63088",
       "publishedDate": "2026-07-16T16:40:56.120Z",
-      "lastModifiedDate": "2026-07-16T16:40:56.120Z",
+      "lastModifiedDate": "2026-07-16T18:00:29.429Z",
       "description": "stoatchat before 0.14.0 contains a server-side request forgery (SSRF) vulnerability that allows unauthenticated network-accessible attackers to bypass the DNS-based IP blocklist by exploiting incomplete address validation in the url_is_blacklisted function, which inspects only the first resolved address while the underlying HTTP client iterates all cached addresses.",
       "severity": 8.6,
       "references": [
@@ -104,158 +234,157 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-45325",
-      "publishedDate": "2026-07-16T16:41:30.157Z",
-      "lastModifiedDate": "2026-07-16T16:41:30.157Z",
-      "description": "Gestor de Oferta is a web application for managing mobility service offerings. Prior to 20260509.0340.15, @tmlmobilidade/utils has a prototype pollution vulnerability in setValueAtPath() in packages/utils/src/generic/value-at-path.ts because unsafe path segments are not blocked. This issue is fixed in version 20260509.0340.15.",
-      "severity": 8.2,
+      "id": "CVE-2026-46353",
+      "publishedDate": "2026-07-16T18:06:54.645Z",
+      "lastModifiedDate": "2026-07-16T18:06:54.645Z",
+      "description": "BigBlueButton is an open-source virtual classroom. Prior to 3.0.21, bbb-web checksum validation could be bypassed when a presentationUploadExternalUrl parameter was supplied to API request handling in CreateMeeting.java and ValidationService.java, allowing a user to send valid requests to some endpoints without a checksum. This issue is fixed in version 3.0.21.",
+      "severity": 8.1,
       "references": [
         {
-          "url": "https://github.com/tmlmobilidade/go/security/advisories/GHSA-cmxg-94mg-jq94",
+          "url": "https://github.com/bigbluebutton/bigbluebutton/security/advisories/GHSA-43hc-5g2m-cqff",
           "type": "reference"
         },
         {
-          "url": "https://github.com/tmlmobilidade/go/commit/b10505baa7ba0701f830a05f3007c0a6bdd00eb7",
+          "url": "https://github.com/bigbluebutton/bigbluebutton/commit/36fd1b407488a0c56ce620b91184d5a8aea68b3d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/releases/tag/v3.0.21",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "tmlmobilidade",
-          "product": "go",
+          "vendor": "bigbluebutton",
+          "product": "bigbluebutton",
           "versions": [
             {
-              "version": "< 20260509.0340.15",
+              "version": "< 3.0.21",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-1321: Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
+        "CWE-284: Improper Access Control"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-45367",
-      "publishedDate": "2026-07-16T16:52:04.901Z",
-      "lastModifiedDate": "2026-07-16T16:52:04.901Z",
-      "description": "HAPI FHIR is a complete implementation of the HL7 FHIR standard for healthcare interoperability in Java. Prior to 6.9.7, the FHIRPathEngine implementation passes user-controlled regular expressions from matches(), matchesFull(), and replaceMatches() to Java regex operations without effective timeouts, allowing catastrophic backtracking and denial of service. This issue is fixed in version 6.9.7.",
+      "id": "CVE-2026-46351",
+      "publishedDate": "2026-07-16T17:58:53.070Z",
+      "lastModifiedDate": "2026-07-16T18:05:24.665Z",
+      "description": "BigBlueButton is an open-source virtual classroom. Prior to 3.0.21, bbb-web generated conference sessionToken values with insufficiently secure randomness in bbb-common-web/src/main/java/org/bigbluebutton/api/Util.java and bigbluebutton-web/grails-app/controllers/org/bigbluebutton/web/controllers/ApiController.groovy, allowing a session user to predict other users' conference session tokens and impersonate them. This issue is fixed in version 3.0.21.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/security/advisories/GHSA-7959-pf2v-xc4h",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/commit/8457886c248aeba5597ee8749267602d6d117e98",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/releases/tag/v3.0.21",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bigbluebutton",
+          "product": "bigbluebutton",
+          "versions": [
+            {
+              "version": "< 3.0.21",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-330: Use of Insufficiently Random Values"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-59862",
+      "publishedDate": "2026-07-16T14:38:59.471Z",
+      "lastModifiedDate": "2026-07-16T18:11:00.835Z",
+      "description": "Kiota is an OpenAPI based HTTP Client code generator. Prior to 1.32.0, Kiota's Python generator let attacker-controlled enum value descriptions from x-ms-enum.values[].description flow through KiotaBuilder.SetEnumOptions into Documentation.DescriptionTemplate and PythonConventionService.RemoveInvalidDescriptionCharacters without newline sanitization, allowing generated inline comments to split and execute attacker-controlled Python code at module scope when generated modules were imported. This issue is fixed in version 1.32.0.",
       "severity": 7.5,
       "references": [
         {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/security/advisories/GHSA-3653-68v6-rq57",
+          "url": "https://github.com/microsoft/kiota/security/advisories/GHSA-7f3j-j7jj-r3vr",
           "type": "reference"
         },
         {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/pull/2403",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/pull/2463",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/commit/275d015c680ce9f90cbe285596e50118e472bf24",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/commit/e08982d2b6f6dcd6c670a762d9cf999179fbe4ed",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/releases/tag/6.9.7",
+          "url": "https://github.com/microsoft/kiota/releases/tag/v1.32.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "hapifhir",
-          "product": "org.hl7.fhir.core",
+          "vendor": "microsoft",
+          "product": "kiota",
           "versions": [
             {
-              "version": "< 6.9.7",
+              "version": "< 1.32.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-1333: Inefficient Regular Expression Complexity"
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-13104",
-      "publishedDate": "2026-07-16T16:49:06.878Z",
-      "lastModifiedDate": "2026-07-16T16:49:06.878Z",
-      "description": "A potential vulnerability was reported in Lenovo App Store, distributed exclusively in the Chinese market, that could allow a local authenticated user to execute arbitrary code with elevated privileges.",
-      "severity": 7.3,
+      "id": "CVE-2026-46513",
+      "publishedDate": "2026-07-16T18:14:05.454Z",
+      "lastModifiedDate": "2026-07-16T18:14:05.454Z",
+      "description": "Frogman provides headless PBX control through MCP and HTTP API. Prior to 1.6.2, Frogman stored API tokens generated by Tools/CreateApiToken.php:33-36 as raw bin2hex(random_bytes(32)) strings in oc_api_tokens, and Frogman.class.php:78 authenticated the X-Frogman-Token header by comparing it with the stored raw value, allowing database read access to recover reusable active tokens at their assigned permission level, including admin. This issue is fixed in version 1.6.2.",
+      "severity": 7.4,
       "references": [
         {
-          "url": "https://iknow.lenovo.com.cn/detail/441419",
+          "url": "https://github.com/mwtcmi/frogman/security/advisories/GHSA-9xf5-9ghq-p6cw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/commit/b10f314add08c8e7585ba4b27d071b07d026ab55",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Lenovo",
-          "product": "App Store",
+          "vendor": "mwtcmi",
+          "product": "frogman",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "9.0.2930.0514",
-              "versionType": "custom"
+              "version": "< 1.6.2",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-250: Execution with Unnecessary Privileges"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-13103",
-      "publishedDate": "2026-07-16T16:49:00.662Z",
-      "lastModifiedDate": "2026-07-16T16:49:00.662Z",
-      "description": "A potential path traversal vulnerability was reported in Lenovo App Store, distributed exclusively in the Chinese market, that could allow a local authenticated user to execute arbitrary code.",
-      "severity": 7.3,
-      "references": [
-        {
-          "url": "https://iknow.lenovo.com.cn/detail/441419",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Lenovo",
-          "product": "App Store",
-          "platforms": [
-            "Windows"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "9.0.2930.0514",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-256: Plaintext Storage of a Password"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
       "id": "CVE-2026-9046",
       "publishedDate": "2026-07-16T16:48:47.938Z",
-      "lastModifiedDate": "2026-07-16T16:48:47.938Z",
+      "lastModifiedDate": "2026-07-16T17:51:28.237Z",
       "description": "A potential insecure permissions vulnerability was reported in Legion Zone and the Lenovo App Store Windows applications, distributed exclusively in the Chinese market, that when installed on a non‑system partition, could allow a local user to execute arbitrary code.",
       "severity": 7,
       "references": [
@@ -304,1607 +433,195 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-10589",
-      "publishedDate": "2026-07-16T16:50:06.782Z",
-      "lastModifiedDate": "2026-07-16T16:50:06.782Z",
-      "description": "A potential out of bounds write vulnerability could allow a local privileged attacker to execute code in System Management Mode.",
-      "severity": 6,
+      "id": "CVE-2026-46404",
+      "publishedDate": "2026-07-16T18:04:11.116Z",
+      "lastModifiedDate": "2026-07-16T18:04:11.116Z",
+      "description": "BigBlueButton is an open-source virtual classroom. Prior to 3.0.23, the presentation URL validation did not properly restrict access to site local and link local addresses. The redirect following logic now pins resolved IPs. This issue is fixed in version 3.0.23.",
+      "severity": 6.8,
       "references": [
         {
-          "url": "https://support.lenovo.com/us/en/product_security/LEN-220440",
+          "url": "https://github.com/bigbluebutton/bigbluebutton/security/advisories/GHSA-xqm3-6q7q-4v5h",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/commit/7ccc60c965d744d9fb637715052352a1e59a2c27",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 7 15IPH11 BIOS",
+          "vendor": "bigbluebutton",
+          "product": "bigbluebutton",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "TNCN37WW",
-              "versionType": "custom"
+              "version": "< 3.0.23",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IPH11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "S4CN62WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16AGP11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TPCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16AGP11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "T8CN19WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "U5CN07WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G6 ARP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TYCN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15ARP10E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SUCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QEME23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16AFR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SMCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16AFR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RECN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ADR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SJCN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 AMN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN72WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G6 Rollable BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QWCN34WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S2CN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AKP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RYCN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QNCN28WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S9CN13WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 ADR BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R7CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RLCN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AHP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RGCN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IRX9H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "N2CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 9 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NXCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P2CN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "N0CN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MECN68WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN45WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G4 IRU BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LUCN47WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Slim 5 14APH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MACN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G5 Tab&ThinkBook Plus G5 Station BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "P8CN42WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 IAH BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "MCCN39WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G5 IRL BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PMCN38WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MBCN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "LTCN44WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "KZCN46WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 15AMN8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN51WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L4CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ARX8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo S14 G3 IAP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "JKCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad 5 15ABA7 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "KACN29WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G5 IRX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P5CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G2 IJL Laptop BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "HTCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NKCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 IAX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R2CN57WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RXCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q6CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IAX10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q7CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH10R BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QDCN23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PTCN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V14 G6 ITN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RHCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QECN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 14ITN9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QUCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16ARP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QBCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16ASP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "R1CN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15APH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PJCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14ILL10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q9CN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 13IMU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NVCN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PZCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15IAX9E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q8CN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NNCN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE‑787: Out‑of‑Bounds Read/Write"
+        "CWE-918: Server-Side Request Forgery (SSRF)"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-10587",
-      "publishedDate": "2026-07-16T16:49:51.166Z",
-      "lastModifiedDate": "2026-07-16T16:49:51.166Z",
-      "description": "A potential out-of-bounds write vulnerability could allow a local privileged attacker to modify power management settings in System Management Mode.",
-      "severity": 6,
+      "id": "CVE-2026-46514",
+      "publishedDate": "2026-07-16T18:11:11.738Z",
+      "lastModifiedDate": "2026-07-16T18:11:11.738Z",
+      "description": "Frogman provides headless PBX control through MCP and HTTP API. Prior to 1.6.2, fm_reset_password in Tools/ResetPassword.php:48-53 returned a plaintext password and fm_add_extension in Tools/AddExtension.php:172 returned a plaintext secret; Frogman.class.php:2207-2211 used auditOutcome to JSON-encode those responses into oc_audit_log.detail, allowing any PERM_READ caller with access to fm_audit_search to recover the stored credentials. This issue is fixed in version 1.6.2.",
+      "severity": 6.5,
       "references": [
         {
-          "url": "https://support.lenovo.com/us/en/product_security/LEN-220440",
+          "url": "https://github.com/mwtcmi/frogman/security/advisories/GHSA-3p65-2prr-cfvf",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/commit/02203edb613774f265ad8a21d99c4f6cf7de0d4d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 7 15IPH11 BIOS",
+          "vendor": "mwtcmi",
+          "product": "frogman",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "TNCN37WW",
-              "versionType": "custom"
+              "version": "< 1.6.2",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-532: Insertion of Sensitive Information into Log File"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46377",
+      "publishedDate": "2026-07-16T17:57:16.643Z",
+      "lastModifiedDate": "2026-07-16T17:57:16.643Z",
+      "description": "Dasel is a command-line tool and library for querying, modifying, and transforming data structures. From 3.0.0 until 3.10.1, the escape sequence handler in (*Tokenizer).parseCurRune in selector/lexer/tokenize.go increments past a trailing backslash in a quoted string such as \"\\ or '\\ and then reads p.src[pos] without a bounds check, allowing attacker-controlled selector strings to trigger a Go index-out-of-range panic. This issue is fixed in version 3.10.1.",
+      "severity": 6.2,
+      "references": [
+        {
+          "url": "https://github.com/TomWright/dasel/security/advisories/GHSA-m5j3-4634-c2vq",
+          "type": "reference"
         },
         {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IPH11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "S4CN62WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
+          "url": "https://github.com/TomWright/dasel/commit/5fc1172287df89860caf139b146007d7ed12178c",
+          "type": "reference"
         },
         {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16AGP11 BIOS",
+          "url": "https://github.com/TomWright/dasel/releases/tag/v3.10.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TomWright",
+          "product": "dasel",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TPCN27WW",
-              "versionType": "custom"
+              "version": ">= 3.0.0, < 3.10.1",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-129: Improper Validation of Array Index"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46378",
+      "publishedDate": "2026-07-16T17:54:51.705Z",
+      "lastModifiedDate": "2026-07-16T17:57:33.923Z",
+      "description": "Dasel is a command-line tool and library for querying, modifying, and transforming data structures. From 3.0.0 until 3.10.1, the selector lexer matchRegexPattern closure in (*Tokenizer).parseCurRune in selector/lexer/tokenize.go loops while tokenizing an unterminated regex literal such as r/ because peekRuneEqual returns false after the end of input, allowing attacker-controlled selector strings to consume CPU indefinitely. This issue is fixed in version 3.10.1.",
+      "severity": 6.2,
+      "references": [
+        {
+          "url": "https://github.com/TomWright/dasel/security/advisories/GHSA-m6xr-fvfg-5g64",
+          "type": "reference"
         },
         {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16AGP11 BIOS",
+          "url": "https://github.com/TomWright/dasel/commit/95f8dd3af12958bf6ca2a737b3ec0267280f86ed",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TomWright",
+          "product": "dasel",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "T8CN19WW",
-              "versionType": "custom"
+              "version": ">= 3.0.0, < 3.10.1",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-835: Loop with Unreachable Exit Condition ('Infinite Loop')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15737",
+      "publishedDate": "2026-07-16T17:03:15.160Z",
+      "lastModifiedDate": "2026-07-16T17:58:56.977Z",
+      "description": "AWS Bedrock AgentCore Python SDK is an open-source Python library that provides client tools for building AI agents on the Amazon Bedrock AgentCore platform.\n\n\n\nUnintended logging of sensitive user content in the OpenTelemetry instrumentation in AWS Bedrock AgentCore Python SDK versions 1.4.8 and 1.5.0 might allow a local authenticated user with access to CloudWatch Logs to access raw user prompts and agent responses containing sensitive data via span attributes. The SDK wrote raw user prompts and complete agent responses into OpenTelemetry span attributes on every invocation without filtering or masking. These spans flow into the customer's aws/spans CloudWatch log group, exposing sensitive content to any principal with log read access.\n\n\n\nWe recommend you upgrade to version 1.5.1 or later. Users who ran affected versions should also review and purge sensitive content from their aws/spans CloudWatch log groups.",
+      "severity": 5.7,
+      "references": [
+        {
+          "url": "https://pypi.org/project/bedrock-agentcore/1.5.1/",
+          "type": "reference"
         },
         {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "U5CN07WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-058-aws/",
+          "type": "reference"
         },
         {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G6 ARP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TYCN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
+          "url": "https://github.com/aws/bedrock-agentcore-sdk-python/security/advisories/GHSA-hqf8-7w95-9r33",
+          "type": "reference"
+        }
+      ],
+      "affected": [
         {
-          "vendor": "Lenovo",
-          "product": "LOQ 15ARP10E BIOS",
+          "vendor": "AWS",
+          "product": "bedrock-agentcore",
           "versions": [
             {
               "status": "affected",
-              "version": "0",
-              "lessThan": "SUCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
+              "version": "1.4.8"
+            },
             {
               "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QEME23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16AFR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SMCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16AFR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RECN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ADR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SJCN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 AMN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN72WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G6 Rollable BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QWCN34WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S2CN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AKP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RYCN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QNCN28WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S9CN13WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 ADR BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R7CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RLCN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AHP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RGCN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IRX9H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "N2CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 9 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NXCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P2CN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "N0CN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MECN68WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN45WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G4 IRU BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LUCN47WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Slim 5 14APH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MACN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G5 Tab&ThinkBook Plus G5 Station BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "P8CN42WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 IAH BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "MCCN39WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G5 IRL BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PMCN38WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MBCN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "LTCN44WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "KZCN46WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 15AMN8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN51WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L4CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ARX8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo S14 G3 IAP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "JKCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad 5 15ABA7 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "KACN29WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G5 IRX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P5CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G2 IJL Laptop BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "HTCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NKCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 IAX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R2CN57WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RXCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q6CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IAX10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q7CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH10R BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QDCN23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PTCN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V14 G6 ITN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RHCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QECN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 14ITN9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QUCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16ARP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QBCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16ASP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "R1CN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15APH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PJCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14ILL10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q9CN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 13IMU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NVCN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PZCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15IAX9E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q8CN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NNCN31WW",
-              "versionType": "custom"
+              "version": "1.5.0"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE‑787: Out‑of‑Bounds Read/Write"
+        "CWE-532 Insertion of sensitive information into log file"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
       "id": "CVE-2026-6511",
       "publishedDate": "2026-07-16T16:48:30.481Z",
-      "lastModifiedDate": "2026-07-16T16:48:30.481Z",
+      "lastModifiedDate": "2026-07-16T17:59:36.981Z",
       "description": "During an internal security assessment, a potential improper access control vulnerability was discovered in Lenovo Smart Connect for Windows that could allow a local authenticated user to access files owned by a different user on the same system.",
       "severity": 5.5,
       "references": [
@@ -1943,7 +660,7 @@
     {
       "id": "CVE-2026-45612",
       "publishedDate": "2026-07-16T16:34:40.398Z",
-      "lastModifiedDate": "2026-07-16T16:34:40.398Z",
+      "lastModifiedDate": "2026-07-16T18:01:14.603Z",
       "description": "rz-libdemangle is a Rizin library for demangling symbols. Prior to 6bf56d3, the Rust demangler in src/rust/rust_v0.c can perform an out-of-bounds read when the demangler structure is not yet initialized. This issue is fixed in commit 6bf56d3.",
       "severity": 5.5,
       "references": [
@@ -1980,7 +697,7 @@
     {
       "id": "CVE-2026-45795",
       "publishedDate": "2026-07-16T16:35:58.581Z",
-      "lastModifiedDate": "2026-07-16T16:35:58.581Z",
+      "lastModifiedDate": "2026-07-16T18:06:23.420Z",
       "description": "The Janssen Project is an open-source identity and access management (IAM) platform. Prior to 2.0.0, jans-auth-server accepts unsigned JWE request objects because JwtAuthorizationRequest skips inner signature validation when jwe.getSignedJWTPayload() returns null, and AuthzRequestService.processRequestObject() does not reject the unrecognized RSA-OAEP algorithm when forceSignedRequestObject=true. This issue is fixed in version 2.0.0.",
       "severity": 5.3,
       "references": [
@@ -2019,1734 +736,258 @@
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-10590",
-      "publishedDate": "2026-07-16T16:50:14.593Z",
-      "lastModifiedDate": "2026-07-16T16:50:14.593Z",
-      "description": "A potential missing authentication vulnerability could allow a local privileged attacker to use WMI commands to arbitrarily trigger a System Management Interrupt handler.",
-      "severity": 4.4,
+      "id": "CVE-2026-55548",
+      "publishedDate": "2026-07-16T16:09:35.505Z",
+      "lastModifiedDate": "2026-07-16T18:14:19.081Z",
+      "description": "Yamcs is a mission control framework. Prior to 5.12.8 and 5.13.2, the PacketsApi.exportPackets endpoint in yamcs-core/src/main/java/org/yamcs/http/api/PacketsApi.java failed to enforce object-level ReadPacket privileges when a request omitted specific packet names: with an empty name list the ctx.checkObjectPrivileges(ObjectPrivilegeType.ReadPacket, nameSet) call passed over an empty set, no WHERE pname IN filter was applied to the resulting SELECT * FROM tm query, and the onTuple handler streamed every retrieved packet without any per-row authorization check, so a low-privileged or zero-privilege authenticated user could dump the entire raw telemetry packet archive and bypass the role-based access control model. This issue is fixed in versions 5.12.8 and 5.13.2, which enforce per-packet ReadPacket checks in exportPackets.",
+      "severity": 4.3,
       "references": [
         {
-          "url": "https://support.lenovo.com/us/en/product_security/LEN-220440",
+          "url": "https://github.com/yamcs/yamcs/security/advisories/GHSA-8xjq-pr36-ccgf",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/commit/b566beceba98cc35514b0e1519be126b8c5a0438",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/commit/c743cc3acf5b5c53ff5181b94eacc21340f70dd9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/releases/tag/yamcs-5.12.8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/releases/tag/yamcs-5.13.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 7 15IPH11 BIOS",
+          "vendor": "yamcs",
+          "product": "yamcs",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "TNCN37WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IPH11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "S4CN62WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16AGP11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TPCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16AGP11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "T8CN19WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "U5CN07WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G6 ARP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TYCN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15ARP10E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SUCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QEME23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16AFR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SMCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16AFR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RECN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ADR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SJCN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 AMN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN72WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G6 Rollable BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QWCN34WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S2CN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AKP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RYCN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QNCN28WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S9CN13WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 ADR BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R7CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RLCN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AHP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RGCN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IRX9H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "N2CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 9 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NXCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P2CN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "N0CN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MECN68WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN45WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G4 IRU BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LUCN47WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Slim 5 14APH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MACN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G5 Tab&ThinkBook Plus G5 Station BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "P8CN42WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 IAH BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "MCCN39WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G5 IRL BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PMCN38WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MBCN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "LTCN44WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "KZCN46WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 15AMN8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN51WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L4CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ARX8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo S14 G3 IAP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "JKCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad 5 15ABA7 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "KACN29WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G5 IRX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P5CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G2 IJL Laptop BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "HTCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NKCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 IAX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R2CN57WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RXCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q6CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IAX10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q7CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH10R BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QDCN23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PTCN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V14 G6 ITN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RHCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QECN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 14ITN9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QUCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16ARP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QBCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16ASP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "R1CN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15APH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PJCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14ILL10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q9CN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 13IMU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NVCN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PZCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15IAX9E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q8CN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NNCN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE‑306: Missing Authentication for Critical Function"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-10588",
-      "publishedDate": "2026-07-16T16:49:59.775Z",
-      "lastModifiedDate": "2026-07-16T16:49:59.775Z",
-      "description": "A potential vulnerability could allow a local privileged attacker to disclose the address of protected System Management Mode memory.",
-      "severity": 4.4,
-      "references": [
-        {
-          "url": "https://support.lenovo.com/us/en/product_security/LEN-220440",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 7 15IPH11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "TNCN37WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IPH11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "S4CN62WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16AGP11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TPCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16AGP11 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "T8CN19WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "U5CN07WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G6 ARP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "TYCN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15ARP10E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SUCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QEME23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16AFR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SMCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16AFR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RECN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ADR10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "SJCN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 AMN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN72WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G6 Rollable BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QWCN34WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S2CN15WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AKP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RYCN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QNCN28WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "S9CN13WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 ADR BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R7CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ADR10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RLCN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15AHP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RGCN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IRX9H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "N2CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 9 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NXCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P2CN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "N0CN35WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MECN68WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN45WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G4 IRU BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LUCN47WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Slim 5 14APH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MACN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook Plus G5 Tab&ThinkBook Plus G5 Station BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "P8CN42WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16ARX8H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G4 IAH BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "MCCN39WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G5 IRL BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PMCN38WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "MBCN33WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "LTCN44WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IRH8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "KZCN46WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 15AMN8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L1CN51WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 14IRP8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "L4CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16ARX8 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "LPCN59WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo S14 G3 IAP BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "JKCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad 5 15ABA7 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "KACN29WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G5 IRX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "P5CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V15 G2 IJL Laptop BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "HTCN49WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Pro 9 16IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NKCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "ThinkBook 16p G6 IAX BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "R2CN57WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 7 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "RXCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 5 16IAX10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q6CN26WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion Pro 7 16IAX10H BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q7CN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16IRH10R BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QDCN23WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15IRX9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PTCN14WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Lenovo V14 G6 ITN BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "RHCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 14IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "QECN21WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 14ITN9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QUCN20WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Slim 3 16ARP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "QBCN30WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16ASP10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "R1CN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Legion 5 15APH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "PJCN18WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14ILL10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q9CN22WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga Book 9 13IMU9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NVCN24WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "IdeaPad Pro 5 16IAH10 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "PZCN27WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "LOQ 15IAX9E BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "Q8CN17WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Lenovo",
-          "product": "Yoga 9 2-in-1 14IMH9 BIOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "NNCN31WW",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE‑497: Exposure of Sensitive System Information"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-14371",
-      "publishedDate": "2026-07-16T16:49:12.445Z",
-      "lastModifiedDate": "2026-07-16T16:49:12.445Z",
-      "description": "The Lenovo XClarity Integrator for Windows Admin Center plugin version 5.1.1 and below running on the WAC Gateway is vulnerable to Powershell Command Injection when establishing remote PowerShell commands.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://pcsupport.lenovo.com/us/en/product_security/home",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Lenovo",
-          "product": "XClarity Integrator for Microsoft Windows Admin Center",
-          "platforms": [
-            "Windows"
-          ],
-          "collectionURL": "https://support.lenovo.com/us/en/solutions/ht507549-lenovo-xclarity-integrator-for-microsoft-windows-admin-center-v21",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "4.7.1",
-              "lessThanOrEqual": "5.1.1",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')"
-      ],
-      "fix_suggestion": "无法生成修复建议"
-    },
-    {
-      "id": "CVE-2026-45576",
-      "publishedDate": "2026-07-16T16:45:52.766Z",
-      "lastModifiedDate": "2026-07-16T16:45:52.766Z",
-      "description": "zrok is software for sharing web services, files, and network resources. From 0.4.23 until 2.0.3, `zrok2 copy` stores attacker-controlled WebDAV or zrok drive paths such as /../outside.txt in the source inventory and passes them to FilesystemTarget.WriteStream, allowing the sync pipeline to write files outside the selected local filesystem destination root. This issue is fixed in version 2.0.3.",
-      "severity": "N/A",
-      "references": [
-        {
-          "url": "https://github.com/openziti/zrok/security/advisories/GHSA-c656-jcx2-7pqj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/openziti/zrok/commit/a5811e61589d2f804267c6de4a9056db1bdea457",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/openziti/zrok/releases/tag/v2.0.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "openziti",
-          "product": "zrok",
-          "versions": [
+              "version": "< 5.12.8",
+              "status": "affected"
+            },
             {
-              "version": ">= 0.4.23, < 2.0.3",
+              "version": ">= 5.13.0, < 5.13.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-284: Improper Access Control",
+        "CWE-862: Missing Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-45568",
-      "publishedDate": "2026-07-16T16:45:00.305Z",
-      "lastModifiedDate": "2026-07-16T16:45:00.305Z",
-      "description": "zrok is software for sharing web services, files, and network resources. Prior to 2.0.3, zrok's Python SDK ProxyShare Flask proxy route accepts an absolute URL in the request path and passes it to urllib.parse.urljoin, allowing the requested path to replace the configured target host and causing requests.request to return a server-side response from an attacker-chosen URL. This issue is fixed in version 2.0.3.",
-      "severity": "N/A",
+      "id": "CVE-2026-54568",
+      "publishedDate": "2026-07-16T15:32:06.556Z",
+      "lastModifiedDate": "2026-07-16T18:03:30.788Z",
+      "description": "Microsoft UFO open-source framework for intelligent automation across devices and platforms. From 3.0.0 until 3.0.6, a client connected to the UFO WebSocket server as a DEVICE could call DEVICE_INFO_REQUEST with another device's target_id and receive that device's server-side system_info through ufo/server/ws/handler.py, because handle_device_info_request and get_device_info did not enforce the constellation-only role or object-level authorization boundary. This issue is fixed in version 3.0.6.",
+      "severity": 4.3,
       "references": [
         {
-          "url": "https://github.com/openziti/zrok/security/advisories/GHSA-jh67-hwqw-m5r7",
+          "url": "https://github.com/microsoft/UFO/security/advisories/GHSA-hc27-j4p9-qm2x",
           "type": "reference"
         },
         {
-          "url": "https://github.com/openziti/zrok/commit/7c1dc3ecd1c89d8cd2e845a72c3878bd2d31b4fe",
+          "url": "https://github.com/microsoft/UFO/commit/2558da4e7dd05096aa6b489eca64efed96126713",
           "type": "reference"
         },
         {
-          "url": "https://github.com/openziti/zrok/releases/tag/v2.0.3",
+          "url": "https://github.com/microsoft/UFO/releases/tag/3.0.6",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "openziti",
-          "product": "zrok",
+          "vendor": "microsoft",
+          "product": "UFO",
           "versions": [
             {
-              "version": ">= 0.4.47, < 2.0.3",
+              "version": ">= 3.0.0, < 3.0.6",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-639: Authorization Bypass Through User-Controlled Key",
+        "CWE-862: Missing Authorization"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-55406",
-      "publishedDate": "2026-07-16T15:54:29.511Z",
-      "lastModifiedDate": "2026-07-16T16:47:37.717Z",
-      "description": "Buffa is a pure-Rust Protocol Buffers implementation with first-class protobuf editions support. Prior to 0.7.0, a soundness bug in the OwnedView<V> type allowed safe Rust code to trigger a use-after-free: the OwnedView::decode constructor transmuted a borrowed slice to &'static [u8], and the Deref implementation exposed the promoted 'static lifetime on borrowed view fields (such as &'static str and &'static [u8]) to callers, so the borrow checker permitted those references to outlive the OwnedView; once the OwnedView was dropped and its backing buffer freed, the references became dangling, enabling memory corruption, information disclosure of freed heap contents, and cross-thread misuse without any unsafe code in the calling application. This issue is fixed in version 0.7.0.",
+      "id": "CVE-2026-47081",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-16T18:16:16.067Z",
+      "description": "An issue was discovered in cyrus-imapd in Cyrus IMAP through 3.12.2. There is an XAPPLEPUSHSERVICE folder existence oracle and push hijack. An authenticated IMAP user could probe for the existence of arbitrary mailboxes on other users' accounts via the XAPPLEPUSHSERVICE command and then create Apple Push Notification Service notifications for new mail in those mailboxes to their own APNS device. This did not leak any data about the content of mailboxes. Instead, a \"mailbox has changed\" notice would be pushed when the mailbox modseq changed.",
+      "severity": 3.1,
+      "references": [
+        {
+          "url": "https://www.cyrusimap.org/imap/download/release-notes/index.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.cyrusimap.org/3.12/imap/download/release-notes/3.12/x/3.12.3.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Cyrus IMAP",
+          "vendor": "cyrusimap",
+          "versions": [
+            {
+              "lessThan": "3.12.3",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46515",
+      "publishedDate": "2026-07-16T18:17:14.563Z",
+      "lastModifiedDate": "2026-07-16T18:17:14.563Z",
+      "description": "Frogman provides headless PBX control through MCP and HTTP API. Prior to 1.6.3, PERM_READ access was sufficient to call fm_list_managers, fm_list_pinsets, fm_show_context, fm_get_mcp_config, fm_backup_status, fm_whos_calling, fm_run_saved_query, and fm_diagnose_trunk, exposing AMI manager secrets, outbound dial PINs, full Asterisk dialplan context, root SSH connection commands, backup artifact paths, CDR history, arbitrary saved GraphQL query execution, and raw AMI endpoint dumps containing SIP fields such as password, md5_cred, and oauth_secret. This issue is fixed in version 1.6.3.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/anthropics/buffa/security/advisories/GHSA-9pwq-gcrx-wghh",
+          "url": "https://github.com/mwtcmi/frogman/security/advisories/GHSA-q4c4-5cr4-8q47",
           "type": "reference"
         },
         {
-          "url": "https://github.com/anthropics/buffa/pull/154",
+          "url": "https://github.com/mwtcmi/frogman/issues/13",
           "type": "reference"
         },
         {
-          "url": "https://github.com/anthropics/buffa/commit/7dcf50a1a40eca6ed8d6c6dd59f4310aa0d68b0e",
+          "url": "https://github.com/mwtcmi/frogman/issues/25",
           "type": "reference"
         },
         {
-          "url": "https://github.com/anthropics/buffa/releases/tag/v0.7.0",
+          "url": "https://github.com/mwtcmi/frogman/commit/55ea257d5c24bc01c814a607faa7e76e86b111ec",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/commit/b8a8bfc12b564bcb77caef952873b9ffd4a98b00",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "mwtcmi",
+          "product": "frogman",
+          "versions": [
+            {
+              "version": "< 1.6.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46687",
+      "publishedDate": "2026-07-16T17:01:31.147Z",
+      "lastModifiedDate": "2026-07-16T17:54:49.001Z",
+      "description": "Emlog is an open source website building system. In 2.6.13 and earlier, the article publishing interface stores a path-traversal template parameter from api_controller.php without validation, and log_controller.php later checks file_exists and calls include View::getView($template), allowing an authenticated author to include an arbitrary local .php file when an article is viewed. No fixed version is currently identified.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/emlog/emlog/security/advisories/GHSA-9h6g-q584-9vfg",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "emlog",
+          "product": "emlog",
+          "versions": [
+            {
+              "version": "<= 2.6.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-24: Path Traversal: '../filedir'",
+        "CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46686",
+      "publishedDate": "2026-07-16T16:59:17.567Z",
+      "lastModifiedDate": "2026-07-16T17:52:58.817Z",
+      "description": "Emlog is an open source website building system. In 2.6.13 and earlier, the admin backend user search module's keyword parameter from admin/user.php is processed with addslashes but not HTML-escaped before being rendered into the value attribute in admin/views/user.php, allowing reflected cross-site scripting in an administrator's backend session. No fixed version is currently identified.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/emlog/emlog/security/advisories/GHSA-3h87-c3m2-jpj9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "emlog",
+          "product": "emlog",
+          "versions": [
+            {
+              "version": "<= 2.6.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55407",
+      "publishedDate": "2026-07-16T15:57:31.704Z",
+      "lastModifiedDate": "2026-07-16T18:04:39.764Z",
+      "description": "Buffa is a pure-Rust Protocol Buffers implementation with first-class protobuf editions support. Prior to 0.8.0, the decode_unknown_field function in buffa's protobuf decoder allocated heap memory in proportion to untrusted input (unknown fields in the serialized protobuf) without enforcing an allocation budget, affecting any message decoded from untrusted input using code generated with preserve_unknown_fields=true (the default); a small, well-formed payload of nested unknown fields inside a StartGroup could trigger roughly 22x memory amplification (for example a 64 MiB input forcing about 1.4 GB of heap allocation), and length-delimited unknown fields could be sized arbitrarily, so an unauthenticated attacker could crash a process through memory exhaustion because the top-level message size cap did not account for in-decode amplification. This issue is fixed in version 0.8.0.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/anthropics/buffa/security/advisories/GHSA-f9qc-qg88-7pq5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/anthropics/buffa/pull/184",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/anthropics/buffa/commit/278fa43fcff661d4ee6bd83b75955a153d4281fc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/anthropics/buffa/releases/tag/v0.8.0",
           "type": "reference"
         }
       ],
@@ -3756,66 +997,68 @@
           "product": "buffa",
           "versions": [
             {
-              "version": "< 0.7.0",
+              "version": "< 0.8.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
-        "CWE-416: Use After Free"
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-770: Allocation of Resources Without Limits or Throttling",
+        "CWE-789: Memory Allocation with Excessive Size Value"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-14890",
-      "publishedDate": "2026-07-16T14:43:44.087Z",
-      "lastModifiedDate": "2026-07-16T16:29:23.722Z",
-      "description": "SGLang uses an expert-parallel backup subsystem that exposes a ZeroMQ PULL socket on a routable network interface that does not contain authentication or deserialization safeguards, allowing an attacker to provide a malicious pickle file that results in unauthenticated remote code execution when the feature is enabled and the service is reachable over the network.",
+      "id": "CVE-2026-12684",
+      "publishedDate": "2026-07-16T06:00:04.102Z",
+      "lastModifiedDate": "2026-07-16T17:57:31.091Z",
+      "description": "The Customer Reviews for WooCommerce WordPress plugin before 5.113.0 does not perform authentication, capability, or nonce checks on one of its media upload AJAX actions when the review media attachment feature is enabled, allowing unauthenticated users to upload media files (bounded to an image and video allowlist) to the Media Library and create attachment posts, leading to media library pollution and disk space exhaustion.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/elastic_ep/expert_backup_manager.py",
-          "type": "reference"
-        },
-        {
-          "url": "http://vince.cert.org/vuls/id/326070",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/169d3455-dd98-4b0b-b6c1-6c9c28aa9707/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "SGLang",
-          "product": "SGLang",
+          "vendor": "Unknown",
+          "product": "Customer Reviews for WooCommerce",
           "versions": [
             {
               "status": "affected",
+              "versionType": "semver",
               "version": "0",
-              "lessThanOrEqual": "0.5.14",
-              "versionType": "custom"
+              "lessThan": "5.113.0"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-502 (Deserialization of Untrusted Data)"
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
       ],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2025-45870",
-      "publishedDate": "2026-07-16T00:00:00.000Z",
-      "lastModifiedDate": "2026-07-16T16:26:51.500Z",
-      "description": "LogicalDOC Enterprise up to and for v9.1.1 is vulnerable to Local File Inclusion (LFI) in the OnlyOfficeEditor servlet class, allowing authenticated user to exploit path traversal flaws in the fileExt parameter, enabling unauthorized access to sensitive files outside the designated directories.",
+      "id": "CVE-2025-65720",
+      "publishedDate": "2026-07-15T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-16T18:12:05.298Z",
+      "description": "An issue in Open Source GPT Researcher v3.3.7 allows attackers to execute arbitrary commands on a victim system via user interaction with a crafted HTML page.",
       "severity": "N/A",
       "references": [
         {
-          "url": "https://www.logicaldoc.com/",
+          "url": "https://github.com/assafelovic/gpt-researcher",
           "type": "reference"
         },
         {
-          "url": "https://github.com/netero1010/Vulnerability-Disclosure/blob/main/CVE-2025-45870/README.md",
+          "url": "https://www.ox.security/blog/gpt-researcher-remote-code-execution",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.ox.security/blog/mcp-supply-chain-advisory-rce-vulnerabilities-across-the-ai-ecosystem/",
           "type": "reference"
         }
       ],
