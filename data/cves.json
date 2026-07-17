@@ -2,30 +2,1054 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-07-17T12:17:52.838492",
+    "total_count": 57,
+    "last_updated": "2026-07-17T14:09:05.981495",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
-      "medium": 2,
-      "low": 0,
-      "none": 0
+      "critical": 2,
+      "high": 12,
+      "medium": 27,
+      "low": 2,
+      "none": 14
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-15943",
-      "publishedDate": "2026-07-17T11:49:49.874Z",
-      "lastModifiedDate": "2026-07-17T11:54:54.496Z",
-      "description": "A flaw was found in the Keycloak keycloak-services component, which handles the management of identity providers. The issue occurs when a delegated administrator updates an OIDC identity provider using a masked client secret sentinel value. Due to improper validation, Keycloak reuses the existing real secret even if security-sensitive fields like the token URL have been changed, allowing an attacker to redirect and capture the secret.",
-      "severity": 5.5,
+      "id": "CVE-2026-63087",
+      "publishedDate": "2026-07-16T16:03:55.866Z",
+      "lastModifiedDate": "2026-07-17T14:05:58.085Z",
+      "description": "Grafana OnCall through 1.16.11 contains an unauthenticated access vulnerability that allows remote attackers to obtain a valid PluginAuthToken by sending a POST request to the internal plugin install endpoint using hardcoded default stack_id and org_id values present in the public source tree. Attackers can leverage the acquired token to authenticate against all internal API endpoints, create arbitrary Admin users via the user-context header bootstrap path, revoke the legitimate plugin token, and redirect OnCall-to-Grafana API calls to an attacker-controlled host by overwriting the organization's grafana_url and api_token.",
+      "severity": 9.8,
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-15943",
+          "url": "https://github.com/geo-chen/oss/blob/main/oncall.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grafana-oncall-unauthenticated-token-hijack-via-plugin-install-endpoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "grafana-cold-storage",
+          "product": "oncall",
+          "repo": "https://github.com/grafana-cold-storage/oncall",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "1.16.11"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23564",
+      "publishedDate": "2026-07-17T13:25:40.588Z",
+      "lastModifiedDate": "2026-07-17T13:54:47.286Z",
+      "description": "HCL Aftermarket EPC is affected by Business Logic Vulnerability using which a non valid user of the application can obtain passwords from the server and redirect them to their own email address by manipulating the server's response. The application includes checks in the initial requests to verify the validity of the provided UserId, but similar validation is not applied to Email requests when sending passwords to user emails.",
+      "severity": 9.1,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0131787",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCL Software",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-326: Inadequate Encryption Strength"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-55173",
+      "publishedDate": "2026-07-16T20:41:26.345Z",
+      "lastModifiedDate": "2026-07-17T13:44:36.168Z",
+      "description": "WWBN AVideo is an open source video platform. Versions 29.0 and below remain vulnerable to OS command injection because the fix for CVE-2026-33482 was incomplete and still does not neutralize a single & ( the shell background operator). CVE-2026-33482 reported that sanitizeFFmpegCommand() (plugin/API/standAlone/functions.php) failed to strip $(...) command substitution, allowing OS command injection at the execAsync() sh -c sink. The fix (commit 25c8ab90) added $, (, ), {, }, \\n, \\r to the denylist character class and a str_replace('&&', '', ...), but did not account for the single &. ffmpeg.json.php builds the command from _decryptString(getInput('codeToExecEncrypted')). This is the same threat model the original advisory accepted (“an attacker who can craft a valid encrypted payload can achieve arbitrary command execution on the standalone encoder server”) and the same CVSS basis (AV:N/AC:H/PR:N). Multiple &-separated commands can be chained (e.g. download + execute). Redirect-based payloads are blocked by the > strip, but command execution (e.g. & curl http://attacker/..., & nc ..., dropping/running a file) is not. This issue has been patched by this commit: https://github.com/WWBN/AVideo/commit/c1cfa2bea8a351a1d07f5758f82887403e3abf1f.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-wc3f-xc32-435f",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2501270",
+          "url": "https://github.com/WWBN/AVideo/commit/c1cfa2bea8a351a1d07f5758f82887403e3abf1f",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WWBN",
+          "product": "AVideo",
+          "versions": [
+            {
+              "version": "<= 29.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46351",
+      "publishedDate": "2026-07-16T17:58:53.070Z",
+      "lastModifiedDate": "2026-07-17T13:59:11.141Z",
+      "description": "BigBlueButton is an open-source virtual classroom. Prior to 3.0.21, bbb-web generated conference sessionToken values with insufficiently secure randomness in bbb-common-web/src/main/java/org/bigbluebutton/api/Util.java and bigbluebutton-web/grails-app/controllers/org/bigbluebutton/web/controllers/ApiController.groovy, allowing a session user to predict other users' conference session tokens and impersonate them. This issue is fixed in version 3.0.21.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/security/advisories/GHSA-7959-pf2v-xc4h",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/commit/8457886c248aeba5597ee8749267602d6d117e98",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bigbluebutton/bigbluebutton/releases/tag/v3.0.21",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bigbluebutton",
+          "product": "bigbluebutton",
+          "versions": [
+            {
+              "version": "< 3.0.21",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-330: Use of Insufficiently Random Values"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-63305",
+      "publishedDate": "2026-07-16T12:19:16.734Z",
+      "lastModifiedDate": "2026-07-17T14:07:25.082Z",
+      "description": "AVideo through 29.0 contains an OS command injection vulnerability in the ffmpeg.json.php endpoint where notifyCode and callback parameters are concatenated into a shell command without escaping. Attackers who can craft a valid encrypted payload can inject arbitrary shell metacharacters into these fields to execute OS commands as the web-server user.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/WWBN/AVideo/security/advisories/GHSA-g9x9-q7qj-6mv5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/avideo-through-os-command-injection-via-ffmpeg-json-php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WWBN",
+          "product": "AVideo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "29.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-7488",
+      "publishedDate": "2026-07-17T13:07:43.542Z",
+      "lastModifiedDate": "2026-07-17T13:55:14.979Z",
+      "description": "Insertion of sensitive information into sent data vulnerability in IKAS Technology Inc. E-Commerce allows Retrieve Embedded Sensitive Data.\n\nThis issue affects E-Commerce: through 03062026.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0572",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IKAS Technology Inc.",
+          "product": "E-Commerce",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "03062026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-201 Insertion of sensitive information into sent data"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-39359",
+      "publishedDate": "2026-07-16T23:55:18.974Z",
+      "lastModifiedDate": "2026-07-17T13:53:52.826Z",
+      "description": "Wazuh is a free and open source platform used for threat prevention, detection, and response. In versions 4.0.0 through 4.10.3 and 4.11.0 through 4.14.4, a logic flaw affects the Wazuh Manager's enrollment daemon (authd) and synchronization daemon (remoted). The authd process allows agents to select a group during enrollment but does not filter path traversal sequences such as \"...\" While the manager checks for the group directory using wopendir(), the \"..\" sequence references the parent directory (/var/ossec/etc), allowing it to pass validation. After the malicious group is accepted and stored in the manager's global database, the remoted process uses this unchecked value to build paths for agent configuration synchronization. As a result, sensitive files from /var/ossec/etc, such as client.keys, ossec.conf, and internal certificates, are included in the agent's shared configuration stream and exposed to the attacker. This issue has been fixed in versions 4.10.4 and 4.14.5.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/wazuh/wazuh/security/advisories/GHSA-6q95-fcwc-4h44",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wazuh",
+          "product": "wazuh",
+          "versions": [
+            {
+              "version": ">= 4.0.0, < 4.10.4",
+              "status": "affected"
+            },
+            {
+              "version": ">= 4.11.0, < 4.14.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-53598",
+      "publishedDate": "2026-07-16T14:59:01.797Z",
+      "lastModifiedDate": "2026-07-17T14:06:36.423Z",
+      "description": "Prompty is a markdown file format (.prompty) for LLM prompts. Prior to 2.0.0-beta.2, Prompty loaders expanded ${file:...} references in .prompty frontmatter without enforcing that resolved paths stayed within the prompt directory or allowed roots, allowing an attacker-controlled prompt file to read local files through absolute paths, .. traversal, or symlink escapes. This issue is fixed in versions 2.0.0-beta.2.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/microsoft/prompty/security/advisories/GHSA-wxhm-2mq7-7697",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/microsoft/prompty/commit/88ac9948d7d37995edbb2f6d36913436626c39e1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "microsoft",
+          "product": "prompty",
+          "versions": [
+            {
+              "version": "< 2.0.0-beta.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46513",
+      "publishedDate": "2026-07-16T18:14:05.454Z",
+      "lastModifiedDate": "2026-07-17T13:58:34.353Z",
+      "description": "Frogman provides headless PBX control through MCP and HTTP API. Prior to 1.6.2, Frogman stored API tokens generated by Tools/CreateApiToken.php:33-36 as raw bin2hex(random_bytes(32)) strings in oc_api_tokens, and Frogman.class.php:78 authenticated the X-Frogman-Token header by comparing it with the stored raw value, allowing database read access to recover reusable active tokens at their assigned permission level, including admin. This issue is fixed in version 1.6.2.",
+      "severity": 7.4,
+      "references": [
+        {
+          "url": "https://github.com/mwtcmi/frogman/security/advisories/GHSA-9xf5-9ghq-p6cw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/commit/b10f314add08c8e7585ba4b27d071b07d026ab55",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mwtcmi/frogman/releases/tag/v1.6.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "mwtcmi",
+          "product": "frogman",
+          "versions": [
+            {
+              "version": "< 1.6.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-256: Plaintext Storage of a Password"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-16016",
+      "publishedDate": "2026-07-17T13:30:10.299Z",
+      "lastModifiedDate": "2026-07-17T13:30:10.299Z",
+      "description": "A vulnerability was identified in poco-ai poco-claw up to 0.5.4. This issue affects the function run_task of the file executor/app/api/v1/task.py. The manipulation of the argument callback_url leads to server-side request forgery. The attack is possible to be carried out remotely. The exploit is publicly available and might be used. The reported GitHub issue was closed automatically due to inactivity.",
+      "severity": 7.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/379758",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/379758/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-16016",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/856814",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/poco-ai/poco-claw/issues/138",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/poco-ai/poco-claw/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "poco-ai",
+          "product": "poco-claw",
+          "versions": [
+            {
+              "version": "0.5.0",
+              "status": "affected"
+            },
+            {
+              "version": "0.5.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.5.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.5.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.5.4",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:poco-ai:poco-claw:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-32386",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:41:06.510Z",
+      "description": "Directory traversal vulnerability in Kerlink Kerlink Wirnet iStation 868 KerOS v.4.3.3_20200803132042 allows a remote attacker to obtain sensitive information via the SNMP update mechanism.",
+      "severity": 7.3,
+      "references": [
+        {
+          "url": "https://www.kerlink.com/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.bdosecurity.de/de-de/advisories/cve-2024-32386",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15395",
+      "publishedDate": "2026-07-17T02:31:32.279Z",
+      "lastModifiedDate": "2026-07-17T14:02:05.279Z",
+      "description": "The Kali Forms — Contact Form & Drag-and-Drop Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'digitalSignature' Field Value in all versions up to, and including, 2.4.18 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The required form-submission nonce is publicly available on any page containing the form shortcode, making this exploitable by fully unauthenticated attackers without any precondition beyond the form being published.",
+      "severity": 7.2,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/90e39398-19d7-435d-b23f-e93b8cdbcae4?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kali-forms/tags/2.4.17/Inc/Frontend/class-submission-shortcode.php#L198",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kali-forms/tags/2.4.18/Inc/Frontend/class-submission-shortcode.php#L198",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kali-forms/tags/2.4.18/Inc/Frontend/class-form-processor.php#L88",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kali-forms/tags/2.4.18/Inc/Frontend/class-form-processor.php#L997",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kali-forms/tags/2.4.17/Inc/Frontend/class-form-processor.php#L88",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/kali-forms/tags/2.4.17/Inc/Frontend/class-form-processor.php#L997",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3609303%40kali-forms&new=3609303%40kali-forms",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpchill",
+          "product": "Kali Forms — Contact Form & Drag-and-Drop Builder",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.4.18",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-34268",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:39:24.468Z",
+      "description": "EQ-3 Eqiva CC-RT-BLE Bluetooth Smart Radiator Thermostat Firmware up to the latest version 1.46 was discovered to allow unsecured bluetooth connections. This vulnerability allows attackers to gain full access to the device without authentication.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://www.bdosecurity.de/de-de/advisories/cve-2024-34268",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.eq-3.com",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-61389",
+      "publishedDate": "2026-07-16T20:00:55.078Z",
+      "lastModifiedDate": "2026-07-17T13:46:16.909Z",
+      "description": "An out-of-bounds write vulnerability in the Productivity Suite allows a \nlocal attacker to trigger kernel memory corruption via a crafted IOCTL \nrequest, potentially resulting in privilege escalation or system \ninstability.",
+      "severity": 7,
+      "references": [
+        {
+          "url": "https://www.automationdirect.com/support/software-downloads",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-197-04",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-197-04.json",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AutomationDirect",
+          "product": "Productivity Suite",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "v4.6.2.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "unaffected",
+              "version": "v4.7.0.47"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-787"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23566",
+      "publishedDate": "2026-07-17T13:32:42.289Z",
+      "lastModifiedDate": "2026-07-17T13:32:42.289Z",
+      "description": "HCL Aftermarket EPC is vulnerable to brute force attacks since application doesn’t have captcha implemented. It can lead to various security issues like brute force , automated attacks & account enumeration",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-804: Guessable CAPTCHA"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-44596",
+      "publishedDate": "2026-07-16T16:04:11.794Z",
+      "lastModifiedDate": "2026-07-17T14:05:15.049Z",
+      "description": "Yamcs is a mission control framework. Prior to 5.12.7, the authentication endpoint POST /auth/token in yamcs-core, handled by yamcs-core/src/main/java/org/yamcs/http/auth/AuthHandler.java, lacked any rate limiting, account lockout, or failed-attempt throttling, so an unauthenticated remote attacker could perform unlimited password-guessing attempts against any user account, significantly increasing the risk of successful brute-force attacks. This issue is fixed in versions 5.12.7 and 5.13.0.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/yamcs/yamcs/security/advisories/GHSA-w5r6-mcgq-7pq4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/commit/309218c651680f79df11a8d0f8628f7033f98a83",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/commit/64392df531fbcbc65f19ee5724c4c23d289f49fc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/releases/tag/yamcs-5.12.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/yamcs/yamcs/releases/tag/yamcs-5.13.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "yamcs",
+          "product": "yamcs",
+          "versions": [
+            {
+              "version": "< 5.12.7",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-307: Improper Restriction of Excessive Authentication Attempts"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-16009",
+      "publishedDate": "2026-07-17T11:15:08.344Z",
+      "lastModifiedDate": "2026-07-17T13:51:51.537Z",
+      "description": "A vulnerability was detected in itsourcecode Hospital Management System 1.0. Affected is an unknown function of the file /prescriptionorderdetail.php. The manipulation of the argument delid results in sql injection. The attack can be launched remotely. The exploit is now public and may be used.",
+      "severity": 6.3,
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/379753",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/379753/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-16009",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/856775",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ltranquility/submit_vuln/issues/8",
+          "type": "poc"
+        },
+        {
+          "url": "https://itsourcecode.com/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "itsourcecode",
+          "product": "Hospital Management System",
+          "versions": [
+            {
+              "version": "1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:itsourcecode:hospital_management_system:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "SQL Injection",
+        "Injection"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-60140",
+      "publishedDate": "2026-07-16T20:03:14.898Z",
+      "lastModifiedDate": "2026-07-17T13:45:18.561Z",
+      "description": "An out-of-bounds read vulnerability in the Productivity Suite allows a \nlocal attacker to trigger kernel memory corruption by sending a crafted \nIOCTL request. This can lead to exposing sensitive information or \ncausing the affected product to become unstable or unavailable.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://www.automationdirect.com/support/software-downloads",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-197-04",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-197-04.json",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AutomationDirect",
+          "product": "Productivity Suite",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "v4.6.2.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "unaffected",
+              "version": "v4.7.0.47"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-125"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-46341",
+      "publishedDate": "2026-07-16T16:54:01.843Z",
+      "lastModifiedDate": "2026-07-17T14:01:46.108Z",
+      "description": "The Apify MCP server enables AI agents to extract data from websites using ready-made scrapers, crawlers, and automation tools available on the Apify Store. Prior to 0.9.21, the fetch-apify-docs tool in src/tools/common/fetch_apify_docs.ts validates allowlisted documentation domains with String.startsWith() rather than URL hostname comparison, allowing attacker-controlled URLs such as `https://docs.apify.com.evil.com/` and `https://docs.apify.com@evil.com/` to pass the ALLOWED_DOC_DOMAINS check and return arbitrary fetched content to the LLM. This issue is fixed in version 0.9.21.",
+      "severity": 6.1,
+      "references": [
+        {
+          "url": "https://github.com/apify/apify-mcp-server/security/advisories/GHSA-jwp7-wg77-3w9v",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apify/apify-mcp-server/pull/781",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apify/apify-mcp-server/commit/e39bdee530da1db0b3b3d3713558b33c9608e629",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apify/apify-mcp-server/releases/tag/v0.9.21",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "apify",
+          "product": "apify-mcp-server",
+          "versions": [
+            {
+              "version": "< 0.9.21",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-183: Permissive List of Allowed Inputs"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-44452",
+      "publishedDate": "2026-07-16T22:54:42.914Z",
+      "lastModifiedDate": "2026-07-17T14:03:52.757Z",
+      "description": "h2o is an HTTP server with support for HTTP/1.x, HTTP/2 and HTTP/3. Prior to commit 8dc37cb, when h2o receives a ClientHello message over TLS or QUIC and it contains a zero-length SNI extension, the h2o server runs over the zero-length hostname while trying to copy the hostname, assuming that it is NULL-terminated. This is a potential denial-of-service attack vector in sense that it might trigger segmentation violation. This issue has been fixed by commit 8dc37cb.",
+      "severity": 5.9,
+      "references": [
+        {
+          "url": "https://github.com/h2o/h2o/security/advisories/GHSA-w68q-rqwx-7wvq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/h2o/h2o/commit/8dc37cb1e6171f7f772667618ea440696fed82c3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "h2o",
+          "product": "h2o",
+          "versions": [
+            {
+              "version": "< 8dc37cb",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-125: Out-of-bounds Read",
+        "CWE-170: Improper Null Termination"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-32387",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:42:03.575Z",
+      "description": "An issue in Kerlink Kerlink Wirnet iStation 868 KerOS v.4.3.3_20200803132042 allows a remote attacker to obtain sensitive information via the community string component.",
+      "severity": 5.7,
+      "references": [
+        {
+          "url": "https://www.kerlink.com/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.bdosecurity.de/de-de/advisories/cve-2024-32387",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-50012",
+      "publishedDate": "2026-07-16T16:11:34.488Z",
+      "lastModifiedDate": "2026-07-17T14:04:25.895Z",
+      "description": "Squid is a caching proxy for the Web. Prior to 7.6, due to an improper input validation bug in cache digest reply handling (peerDigestSwapInMask in src/peer_digest.cc), Squid is vulnerable to a heap-based buffer overflow: a cache digest's on-the-wire size may be larger than the mask_size declared within the digest, so a trusted peer sending a maliciously crafted reply to a cache_digest request message can trigger the overflow. This attack is limited to Squid instances compiled with the --enable-cache-digests option and configured with cache_peer entries. This issue is fixed in version 7.6.",
+      "severity": 5.5,
+      "references": [
+        {
+          "url": "https://github.com/squid-cache/squid/security/advisories/GHSA-5vmx-9x64-9284",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/squid-cache/squid/pull/2423",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/squid-cache/squid/commit/19fcfe922717c8b255270c032dcde4071c003bcd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/squid-cache/squid/releases/tag/SQUID_7_6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "squid-cache",
+          "product": "squid",
+          "versions": [
+            {
+              "version": "< 7.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-122: Heap-based Buffer Overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23574",
+      "publishedDate": "2026-07-17T13:45:33.068Z",
+      "lastModifiedDate": "2026-07-17T13:45:33.068Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack since It was found that a malicious actor can use brute-force techniques to either guess or confirm valid users in the system. Use renumeration is when a malicious actor can use brute-force techniques to either guess or confirm valid users in a system",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-204: Response Discrepancy Information Leakage"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-42214",
+      "publishedDate": "2026-07-17T13:45:04.678Z",
+      "lastModifiedDate": "2026-07-17T13:45:04.678Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack since HTTP OPTIONS method is enabled on this web server. The OPTIONS method provides a list of the methods that are supported by the Web server which allows an attacker to narrow and intensify their efforts.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-692: Incomplete Denial of Request to Insecure Resource"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23575",
+      "publishedDate": "2026-07-17T13:43:25.535Z",
+      "lastModifiedDate": "2026-07-17T13:43:25.535Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack since the application returns detailed error messages that leak information about the processing on the server. An attacker may use the contents of error messages to help launch another ,more focused attack.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-209: Generation of Error Message Containing Sensitive Information"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23568",
+      "publishedDate": "2026-07-17T13:38:28.022Z",
+      "lastModifiedDate": "2026-07-17T13:38:28.022Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attacks since the server software version used by the application is revealed by the web server. Displaying version information of software could allow an attacker to determine which vulnerabilities are present in the software, particularly if an outdated software version is in use with published vulnerabilities.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23565",
+      "publishedDate": "2026-07-17T13:36:31.972Z",
+      "lastModifiedDate": "2026-07-17T13:36:31.972Z",
+      "description": "HCL Aftermarket EPC is vulnerable to email flooding as the application does not have a proper mail limitation mechanism at Forget Password functionality. The actor could b e a human or an automated process such as a virus or bot. This could be used to cause a denial of service, compromise program logic or other consequences.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-799: Improper Control of Interaction Frequency"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-16072",
+      "publishedDate": "2026-07-17T13:40:01.921Z",
+      "lastModifiedDate": "2026-07-17T13:40:01.921Z",
+      "description": "A flaw was found in the organization management component of Keycloak. A delegated administrator with permission to manage organizations can create an invitation for a non-existent email address and then retrieve the secret registration link directly through the application programming interface. By using this link, the administrator can create new user accounts and add them to the organization without having the required user management permissions or access to the invited email account. This allows an administrator to bypass security boundaries and add unauthorized members to an organization.",
+      "severity": 4.9,
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-16072",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2501721",
           "type": "reference"
         }
       ],
@@ -91,69 +1115,1239 @@
           ]
         }
       ],
-      "problemType": [
-        "Improper Validation of Consistency within Input"
-      ],
+      "problemType": [],
       "fix_suggestion": "无法生成修复建议"
     },
     {
-      "id": "CVE-2026-16013",
-      "publishedDate": "2026-07-17T11:45:10.226Z",
-      "lastModifiedDate": "2026-07-17T11:45:10.226Z",
-      "description": "A vulnerability has been found in liftoff-sr CIPster up to 632336d414ef708a542377c1aa8d6fdb7c70a760. Affected by this issue is the function CipAppPath::deserialize_symbolic of the file source/src/cip/cipepath.cc. Such manipulation leads to out-of-bounds read. The attack may be launched remotely. The exploit has been disclosed to the public and may be used. This product operates on a rolling release basis, ensuring continuous delivery. Consequently, there are no version details for either affected or updated releases. The name of the patch is 886a4d090e1c5b0475f0b1c2fe0606a8f0d6a519. A patch should be applied to remediate this issue.",
-      "severity": 5.3,
+      "id": "CVE-2026-14782",
+      "publishedDate": "2026-07-16T21:30:29.207Z",
+      "lastModifiedDate": "2026-07-17T13:58:09.144Z",
+      "description": "The Booking for Appointments and Events Calendar – Amelia plugin for WordPress is vulnerable to SQL Injection via the Customer Import in all versions up to, and including, 2.4.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for authenticated attackers, with wpamelia-manager role, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
+      "severity": 4.9,
       "references": [
         {
-          "url": "https://vuldb.com/vuln/379755",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b3a58e68-d1f1-4d4f-ac64-bc6cb7dbdbfc?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/379755/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-16013",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/856794",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/liftoff-sr/CIPster/issues/53",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/user-attachments/files/28926450/POC.zip",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/liftoff-sr/CIPster/commit/886a4d090e1c5b0475f0b1c2fe0606a8f0d6a519",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/liftoff-sr/CIPster/",
+          "url": "https://plugins.trac.wordpress.org/browser/ameliabooking/tags/2.4.3/src/Infrastructure/Repository/User/UserRepository.php#L476",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "liftoff-sr",
-          "product": "CIPster",
+          "vendor": "melograno",
+          "product": "Booking for Appointments and Events Calendar – Amelia",
           "versions": [
             {
-              "version": "632336d414ef708a542377c1aa8d6fdb7c70a760",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.4.3",
+              "versionType": "semver"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:liftoff-sr:cipster:*:*:*:*:*:*:*:*"
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62826",
+      "publishedDate": "2026-07-16T22:02:45.447Z",
+      "lastModifiedDate": "2026-07-17T14:07:42.618Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') in Microsoft Office SharePoint allows an authorized attacker to perform spoofing over a network.",
+      "severity": 4.6,
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-62826",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft SharePoint Enterprise Server 2016",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.0",
+              "lessThan": "16.0.5561.1001",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft SharePoint Server 2019",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.0",
+              "lessThan": "16.0.10417.20175",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft SharePoint Server Subscription Edition",
+          "platforms": [
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.0",
+              "lessThan": "16.0.19725.20434",
+              "versionType": "custom",
+              "status": "affected"
+            }
           ]
         }
       ],
       "problemType": [
-        "Out-of-Bounds Read",
-        "Memory Corruption"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15324",
+      "publishedDate": "2026-07-16T08:26:51.208Z",
+      "lastModifiedDate": "2026-07-17T14:07:57.987Z",
+      "description": "The SysBasics Customize My Account for WooCommerce – Live My Account Customizer plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'row_type' parameter in all versions up to, and including, 4.4.14 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with shop manager-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 4.4,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b2371b84-bb56-4e5d-afce-cd33f2ee9316?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/customize-my-account-for-woocommerce/tags/4.4.14/templates/myaccount/navigation/02.php#L187",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/customize-my-account-for-woocommerce/tags/4.4.14/include/admin/endpoint_form_response.php#L9",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/customize-my-account-for-woocommerce/tags/4.4.14/include/admin/admin_settings.php#L144",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/customize-my-account-for-woocommerce/trunk/templates/myaccount/navigation/02.php#L187",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/customize-my-account-for-woocommerce/trunk/include/admin/endpoint_form_response.php#L9",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/customize-my-account-for-woocommerce/trunk/include/admin/admin_settings.php#L144",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3606867%40customize-my-account-for-woocommerce&new=3606867%40customize-my-account-for-woocommerce",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "phppoet",
+          "product": "SysBasics Customize My Account for WooCommerce – Live My Account Customizer",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.4.14",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23570",
+      "publishedDate": "2026-07-17T13:50:42.412Z",
+      "lastModifiedDate": "2026-07-17T13:50:42.412Z",
+      "description": "HCL Aftermarket EPC is affected by clickjacking vulnerability Cross-Frame Scripting is an attack technique where an attacker loads a vulnerable application in an iFrame on his malicious site. The attacker can then launch a Clickjacking attack, which may lead to Phishing, Cross-Site Request Forgery, sensitive information leakage and more.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23569",
+      "publishedDate": "2026-07-17T13:49:12.238Z",
+      "lastModifiedDate": "2026-07-17T13:49:12.238Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack since the server is not configured with “X-XSS-Protection\" header",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-692: Incomplete Denial of Request to Insecure Resource"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23577",
+      "publishedDate": "2026-07-17T13:46:04.378Z",
+      "lastModifiedDate": "2026-07-17T13:46:04.378Z",
+      "description": "HCL Aftermarket EPC is vulnerable since the application does not have a validation for HOST header and accepts arbitrary hosts when requested in http protocol. When an application doesn’t adequately validate or sanitize this header, it can lead to several security risks, including Host header poisoning, server misconfigurations.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23571",
+      "publishedDate": "2026-07-17T13:42:48.152Z",
+      "lastModifiedDate": "2026-07-17T13:42:48.152Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack since the application does not have an appropriate caching policy specifying the extent to which the page and its form fields should be cached. If sensitive information in application responses is stored in the local cache, then this may be retrieved by other users who have access to the same computer at a future time.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-525: Use of Web Browser Cache of Sensitive Information"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23567",
+      "publishedDate": "2026-07-17T13:28:43.206Z",
+      "lastModifiedDate": "2026-07-17T13:54:13.031Z",
+      "description": "HCL Aftermarket EPC is affected by Sensitive Information in GET method & in URL which allows application to pass sensitive data via URL parameters during normal usage. Data passed in this manner can be exposed because it may end up stored in unintended locations, including server logs, local browser history and proxy logs.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-804: Guessable CAPTCHA"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15349",
+      "publishedDate": "2026-07-17T03:43:41.410Z",
+      "lastModifiedDate": "2026-07-17T13:59:46.504Z",
+      "description": "The ERP: Complete HR, Accounting & CRM Suite Built for WooCommerce plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.17.6. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to create arbitrary company locations in the ERP database.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/0c943b6b-9b54-4569-a027-11571f152b6c?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.5/includes/Admin/Ajax.php#L516",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.6/includes/Admin/Ajax.php#L516",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.6/includes/Admin/Ajax.php#L23",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.6/includes/Admin/AdminPage.php#L23",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.6/includes/Admin/views/address.php#L72",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.5/includes/Admin/Ajax.php#L23",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.5/includes/Admin/AdminPage.php#L23",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/erp/tags/1.17.5/includes/Admin/views/address.php#L72",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3609754%40erp&new=3609754%40erp",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wedevs",
+          "product": "ERP: Complete HR, Accounting & CRM Suite Built for WooCommerce",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.17.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15945",
+      "publishedDate": "2026-07-16T17:36:24.856Z",
+      "lastModifiedDate": "2026-07-17T14:00:09.161Z",
+      "description": "A flaw was found in the group search functionality of the Keycloak server's administrative API. When Fine-Grained Admin Permissions (FGAP) v2 is enabled, a delegated administrator can bypass access restrictions to view parent groups they are not authorized to see. By searching for a child group they have permission to view, the system incorrectly returns the full details of the parent group in the response, leading to the disclosure of sensitive group attributes and configuration.",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-15945",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2501302",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Build of Keycloak",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "keycloak-services",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:build_keycloak:"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Build of Keycloak",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhbk-keycloak-rhel9/rhbk-keycloak-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:build_keycloak:"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Build of Keycloak",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhbk-openshift-rhel9/rhbk-openshift-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:build_keycloak:"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Data Grid 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "keycloak-services",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:jboss_data_grid:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat JBoss Enterprise Application Platform Expansion Pack",
+          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
+          "packageName": "keycloak-services",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:jbosseapxp"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Single Sign-On 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "keycloak-services",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:red_hat_single_sign_on:7"
+          ]
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-32385",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:34:16.641Z",
+      "description": "An issue in Kerlink Kerlink Wirnet iStation 868 KerOS v.4.3.3_20200803132042 allows a remote attacker to obtain sensitive information via a boardID and revisionID components",
+      "severity": 4.3,
+      "references": [
+        {
+          "url": "https://www.kerlink.com/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.bdosecurity.de/de-de/advisories/cve-2024-32385",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23572",
+      "publishedDate": "2026-07-17T13:51:11.203Z",
+      "lastModifiedDate": "2026-07-17T13:51:11.203Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack as cookie appears to contain a session token, which may increase the risk associated with this issue. You should review the contents of the cookie to determine its function.",
+      "severity": 4.2,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23578",
+      "publishedDate": "2026-07-17T13:50:08.817Z",
+      "lastModifiedDate": "2026-07-17T13:50:08.817Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack as the application implements an HTML5 cross-origin resource sharing (CORS) policy for this request that allows access from any domain (*-Wildcard).",
+      "severity": 4.2,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-942 CWE-692: Incomplete Denial of Request to Insecure Resource"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-23573",
+      "publishedDate": "2026-07-17T13:42:13.216Z",
+      "lastModifiedDate": "2026-07-17T13:42:13.216Z",
+      "description": "HCL Aftermarket EPC is vulnerable to attack since the Application is vulnerable to Lucky 13. that makes the SS LLUCKY13 possible affects the TLS1.1and 1.2 and DTLS1.0 or 1.2 implementations . It also affects previous versions such as SSL3.0 and TLS1.0. This can also be considered a type of man-in-the-middle attack.",
+      "severity": 3.7,
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0132294",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCLSoftware",
+          "product": "Aftermarket EPC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "version 1.0.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-425: Direct Request (Forced Browsing)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2024-32389",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:40:20.550Z",
+      "description": "Buffer Overflow vulnerability in Kerlink Kerlink Wirnet iStation 868 KerOS v.4.3.3_20200803132042 allows a remote attacker to obtain sensitive information via the update URLs component.",
+      "severity": 3.5,
+      "references": [
+        {
+          "url": "https://www.kerlink.com/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.bdosecurity.de/de-de/advisories/cve-2024-32389",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-9592",
+      "publishedDate": "2026-07-17T13:51:54.486Z",
+      "lastModifiedDate": "2026-07-17T13:53:20.355Z",
+      "description": "SEPPmail Secure Email Gateway & SEPPmail Cloud before version 15.0.4.2 allows an attacker to replay & hijack a user session in the GINA web portal, as the session token is disclosed inside the URL and a HTTP header.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://downloads.seppmail.com/extrelnotes/150/ERN15.0.html#remove-login-redirect-to-prevent-disclosure-of-session-token-information",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "SEPPmail",
+          "product": "SEPPmail Secure Email Gateway & SEPPmail Cloud",
+          "platforms": [
+            "Windows",
+            "Linux",
+            "Android",
+            "ARM",
+            "32 bit",
+            "iOS",
+            "MacOS",
+            "x86",
+            "64 bit"
+          ],
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "15.0.4.2"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-598 Use of GET request method with sensitive query strings"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2025-60357",
+      "publishedDate": "2026-07-17T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:47:09.072Z",
+      "description": "AhnLab EPP Management v1.0.14.32-6249 was discovered to contain a NoSQL injection vulnerability via the eventlog/agentEvent/list endpoint.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://ahnlab.com",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Nullbyte3117/CVE-2025-60357",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-51080",
+      "publishedDate": "2026-07-17T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T14:01:57.492Z",
+      "description": "libpvestorage-perl v9.1.1 and libpve-storage-perl v8.3.7 were discovered to contain an XML External Entity (XXE) vulnerability.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://forum.proxmox.com/threads/proxmox-virtual-environment-security-advisories.149331/post-849970",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-44181",
+      "publishedDate": "2026-07-16T22:03:13.493Z",
+      "lastModifiedDate": "2026-07-17T14:05:01.860Z",
+      "description": "Jupyter Enterprise Gateway launches remote Jupyter Notebook kernels across distributed clusters like Apache Spark, Kubernetes, and Docker Swarm. In versions 2.0.0rc2 and above, prior to 3.3.0, the environment variables (KERNEL_XXX) used during the rendering of the Kubernetes manifest are vulnerable to Server Side Template Injection (SSTI). By including Jinja2 template expressions it is possible to execution Python code and OS Commands in the Enterprise Gateway service. The code can use or steal the Kubernetes service account token, which can steal Kubernetes secrets and be used to fully compromise the Kubernetes cluster by scheduling a privileged pod or a pod with a hostPath volume mount. This issue has been fixed in version 3.3.0.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/jupyter-server/enterprise_gateway/security/advisories/GHSA-f49j-v924-fx9w",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/jupyter-server/enterprise_gateway/releases/tag/v3.3.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "jupyter-server",
+          "product": "enterprise_gateway",
+          "versions": [
+            {
+              "version": ">= 2.0.0rc2, < 3.3.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-44177",
+      "publishedDate": "2026-07-16T21:19:16.783Z",
+      "lastModifiedDate": "2026-07-17T13:43:43.332Z",
+      "description": "Kirby is an open-source content management system. In versions 5.3.0 and above but prior to 5.4.1, Kirby did not correctly validate the provided user ID, resulting in a path traversal vulnerability. Version 5.3.0 introduced a performance improvement to the Users collection that loaded user objects lazily when first needed. Users were queried by their ID, which was then used to locate the corresponding account directory under site/accounts. This affected the authentication API (accessible to unauthenticated requests), the users API (accessible only to authenticated users), and any other place that uses $users->find() to look up an individual user by a request-provided email or ID. As a result, an attacker could trigger arbitrary PHP file inclusion of files named  index.php (for example, the main PHP files of plugins), the impact of which depends on the logic those files contain. It also allowed probing for the existence of arbitrary directories on the server, letting attackers fingerprint the server and site setup, including installed plugins and the content structure. This issue has been fixed in version 5.4.1.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-9hx7-c53c-v6x8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getkirby/kirby/releases/tag/5.4.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getkirby",
+          "product": "kirby",
+          "versions": [
+            {
+              "version": ">= 5.3.0, < 5.4.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-44981",
+      "publishedDate": "2026-07-16T19:47:30.747Z",
+      "lastModifiedDate": "2026-07-17T13:50:30.497Z",
+      "description": "CrowdSec offers crowdsourced protection against malicious IPs. From 1.7.0 until 1.7.8, the LAPI router used gin-contrib/gzip with DefaultDecompressHandle globally in pkg/apiserver/controllers/controller.go, causing /v1/watchers and /v1/watchers/login to decompress unauthenticated gzip-compressed JSON request bodies without enforcing a maximum decompressed size and allowing excessive heap allocation that can make LAPI unreachable. This issue is fixed in version 1.7.8.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/crowdsecurity/crowdsec/security/advisories/GHSA-273h-gvwr-c3qj",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/crowdsecurity/crowdsec/commit/54a0dfe6c16b7687b0da6634e0b19ef0f5d9bb30",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/crowdsecurity/crowdsec/commit/56d0d6915f7f25941dc5b4f484028646f6601a37",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "crowdsecurity",
+          "product": "crowdsec",
+          "versions": [
+            {
+              "version": ">= 1.7.0, < 1.7.8",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-409: Improper Handling of Highly Compressed Data (Data Amplification)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62963",
+      "publishedDate": "2026-07-16T19:34:48.882Z",
+      "lastModifiedDate": "2026-07-17T13:46:40.652Z",
+      "description": "Centrifugo is an open-source scalable real-time messaging server. Prior to 6.8.4, Centrifugo unidirectional WebSocket transport with uni_websocket.compression enabled enforced uni_websocket.message_size_limit against compressed wire-frame length in internal/websocket/conn.go advanceFrame, but ReadMessage used io.ReadAll after decompression without an output cap, allowing unauthenticated requests to /connection/uni_websocket to trigger large memory and CPU consumption. This issue is fixed in version 6.8.4.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/centrifugal/centrifugo/security/advisories/GHSA-q6mr-3g59-5m8x",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/centrifugal/centrifugo/pull/1162",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/centrifugal/centrifugo/commit/46d40e4ac3a5446c9745f8b219197166ae12a6e5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/centrifugal/centrifugo/releases/tag/v6.8.4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "centrifugal",
+          "product": "centrifugo",
+          "versions": [
+            {
+              "version": "< 6.8.4",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-409: Improper Handling of Highly Compressed Data (Data Amplification)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-15422",
+      "publishedDate": "2026-07-16T19:29:13.931Z",
+      "lastModifiedDate": "2026-07-17T13:47:55.303Z",
+      "description": "The illumos SCTP inbound path performs association lookup for INIT ACK chunks without adequately validating the address parameters carried in the chunk. Since this lookup runs during packet classification (i.e. before SCTP integrity checks or IPsec policy are applied) a remote, unauthenticated attacker can send a crafted SCTP INIT ACK packet with malformed address parameters to cause an out-of-bounds access and kernel heap corruption, which may lead to remote code execution. The flaw has existed since 2010 (illumos-gate commit a5407c02), and affects any illumos distribution prior to illumos-gate commit 53a3efde.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://illumos.topicbox.com/groups/developer/Ta1a8e2e1f7f928df/18117-sctp-needs-to-better-check-init-ack-chunk-parameters",
+          "type": "reference"
+        },
+        {
+          "url": "https://illumos.org/issues/18117",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/illumos/illumos-gate/commit/53a3efdeff8e6745bbfb69c5360f94962fb79e75",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "illumos",
+          "product": "illumos-gate",
+          "repo": "https://github.com/illumos/illumos-gate",
+          "modules": [
+            "kernel",
+            "SCTP"
+          ],
+          "programFiles": [
+            "usr/src/uts/common/inet/sctp/sctp_hash.c"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "a5407c02d5ed61b29481b9b71f1307d7ebec9e5c",
+              "lessThan": "53a3efdeff8e6745bbfb69c5360f94962fb79e75",
+              "changes": [
+                {
+                  "at": "53a3efdeff8e6745bbfb69c5360f94962fb79e75",
+                  "status": "unaffected"
+                }
+              ],
+              "versionType": "git"
+            }
+          ],
+          "defaultStatus": "affected"
+        },
+        {
+          "vendor": "OmniOS",
+          "product": "OmniOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "r151058",
+              "lessThan": "r151058j",
+              "changes": [
+                {
+                  "at": "r151058j",
+                  "status": "unaffected"
+                }
+              ],
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "r151056",
+              "lessThan": "r151056aj",
+              "changes": [
+                {
+                  "at": "r151056aj",
+                  "status": "unaffected"
+                }
+              ],
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "r151054",
+              "lessThan": "r151054bj",
+              "changes": [
+                {
+                  "at": "r151054bj",
+                  "status": "unaffected"
+                }
+              ],
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "any",
+              "lessThan": "r151054",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "affected"
+        },
+        {
+          "vendor": "Triton Data Center",
+          "product": "SmartOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "any",
+              "lessThan": "202060709",
+              "changes": [
+                {
+                  "at": "20260709",
+                  "status": "unaffected"
+                }
+              ],
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based buffer overflow",
+        "CWE-787 Out-of-bounds write"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54728",
+      "publishedDate": "2026-07-16T19:18:17.637Z",
+      "lastModifiedDate": "2026-07-17T13:47:18.414Z",
+      "description": "bunkerweb is an Open-source and next-generation Web Application Firewall (WAF). Prior to BunkerWeb 1.6.12 and BunkerWeb PRO 0.57, authenticated Host header handling in the BunkerWeb UI and API improperly validated and neutralized user-controlled input in a configuration-dependent path, allowing a low-privileged authenticated user to escalate privileges and affect confidentiality, integrity, and availability of the BunkerWeb instance. This issue is fixed in BunkerWeb version 1.6.12 and BunkerWeb PRO version 0.57.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/bunkerity/bunkerweb/security/advisories/GHSA-254j-92cv-m443",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bunkerity/bunkerweb/commit/685ccbbe7d204132a843a7b7fd802d1bdb3f20a9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bunkerity/bunkerweb/releases/tag/v1.6.12",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bunkerity",
+          "product": "bunkerweb",
+          "versions": [
+            {
+              "version": "< 1.6.12",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-54526",
+      "publishedDate": "2026-07-16T19:07:30.804Z",
+      "lastModifiedDate": "2026-07-17T13:57:43.413Z",
+      "description": "Argo Workflows is an open source container-native workflow engine for orchestrating parallel jobs on Kubernetes. Prior to 3.7.15 and 4.0.6, the allow-list fix for CVE-2026-31892 is incomplete because workflow/util/merge.go ValidateUserOverrides and SanitizeUserWorkflowSpec walk only the top-level fields of WorkflowSpec via reflection, and WorkflowSpec.ArtifactGC is allow-listed wholesale; the struct behind that field, WorkflowLevelArtifactGC, has a PodSpecPatch sub-field whose contents flow unmodified into util.ApplyPodSpecPatch on the artifact-GC pod, the same sink the original fix closed for WorkflowSpec.PodSpecPatch, so a user submitting a Workflow under templateReferencing: Strict or Secure (against a referenced WorkflowTemplate that declares an output artifact and setting spec.artifactGC.strategy: OnWorkflowCompletion) can still inject an arbitrary strategic merge patch into the artifact-GC pod, including hostPath volumes, privileged: true, arbitrary image and command, and hostNetwork: true, defeating the stated purpose of Strict/Secure reference mode. This issue is fixed in versions 3.7.15 and 4.0.6.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/argoproj/argo-workflows/security/advisories/GHSA-48p8-g2fx-3wwm",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/argoproj/argo-workflows/commit/277e9cef0ad16d7eaaab253573d0695951a65dbd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/argoproj/argo-workflows/commit/358cc3968c8f06f1be0967e41df191088db0b662",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/argoproj/argo-workflows/releases/tag/v3.7.15",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/argoproj/argo-workflows/releases/tag/v4.0.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "argoproj",
+          "product": "argo-workflows",
+          "versions": [
+            {
+              "version": "< 3.7.15",
+              "status": "affected"
+            },
+            {
+              "version": ">= 4.0.0, < 4.0.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284: Improper Access Control"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-45568",
+      "publishedDate": "2026-07-16T16:45:00.305Z",
+      "lastModifiedDate": "2026-07-17T14:02:59.013Z",
+      "description": "zrok is software for sharing web services, files, and network resources. Prior to 2.0.3, zrok's Python SDK ProxyShare Flask proxy route accepts an absolute URL in the request path and passes it to urllib.parse.urljoin, allowing the requested path to replace the configured target host and causing requests.request to return a server-side response from an attacker-chosen URL. This issue is fixed in version 2.0.3.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/openziti/zrok/security/advisories/GHSA-jh67-hwqw-m5r7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openziti/zrok/commit/7c1dc3ecd1c89d8cd2e845a72c3878bd2d31b4fe",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openziti/zrok/releases/tag/v2.0.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openziti",
+          "product": "zrok",
+          "versions": [
+            {
+              "version": ">= 0.4.47, < 2.0.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-13397",
+      "publishedDate": "2026-07-16T16:14:14.891Z",
+      "lastModifiedDate": "2026-07-17T13:30:45.877Z",
+      "description": "HTML::Bare versions through 0.04 for Perl will hang in an infinite loop when parsing malformed attributes.\n\nThe parserc_parse function never advances the attribute-parse state cursor on certain malformed attribute forms, looping forever.\n\nNameless attributes such as \"<a ='c'>\" or unbalanced quotes \"<a b='''''''c'>\" can trigger this condition.\n\nNote that the latest version available on CPAN is version 0.02. Newer versions are available on the git repository.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/nanoscopic/perl-HTML-Bare/pull/1",
+          "type": "reference"
+        },
+        {
+          "url": "https://security.metacpan.org/patches/H/HTML-Bare/0.02/CVE-2026-13397-r1.patch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "HTML-Bare",
+          "product": "HTML::Bare",
+          "programFiles": [
+            "parser.c"
+          ],
+          "programRoutines": [
+            {
+              "name": "parserc_parse"
+            }
+          ],
+          "repo": "https://github.com/nanoscopic/perl-HTML-Bare",
+          "vendor": "CODECHILD",
+          "versions": [
+            {
+              "lessThanOrEqual": "0.04",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-36425",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:32:35.354Z",
+      "description": "An issue in OPSWAT AppRemover Driver (ardrv.sys) v2017.10.02.1551 and earlier in IOCTL handler 0x2420031. Any local user can open the device and send process termination requests without privilege validation.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://www.virustotal.com/gui/file/2248347b2ec49f07268a44816ebb6265677093ec277f825de1a76700ab25e3bc",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.virustotal.com/gui/file/07c5209bf83065fe760f4fee4ed2308b0c523671f68ca73a3854c2c8c28c0541",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.opswat.com/products/oesis-framework/application-removal",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/redteamfortress/CVE-2026-36425",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-38158",
+      "publishedDate": "2026-07-16T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-17T13:35:47.954Z",
+      "description": "A SQL injection vulnerability in the /ureport/datasource/previewData component of ureport v2.2.9 allows attackers to access sensitive database information via crafted SQL statements.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/youseries/ureport",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/musesix/cve/blob/main/ureport_sqli/ureport.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
