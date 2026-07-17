@@ -2,48 +2,1785 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-07-16T23:41:33.243730",
+    "total_count": 42,
+    "last_updated": "2026-07-17T01:14:13.040829",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 0,
+      "critical": 1,
+      "high": 25,
+      "medium": 15,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-54340",
-      "publishedDate": "2026-07-16T23:29:50.799Z",
-      "lastModifiedDate": "2026-07-16T23:29:50.799Z",
-      "description": "h2o is an HTTP server with support for HTTP/1.x, HTTP/2 and HTTP/3. Prior to commit 9265bdd, there is an HTTP/2 state amplification issue that combines HPACK decompression amplification with Slowloris-style stream stalling. Amplified decoded header state can be retained by stalled HTTP/2 streams, and depending on the configuration, additional limits are needed to bound decoded header state and prevent attack. This issue has been fixed by commit 9265bdd.",
-      "severity": 7.5,
+      "id": "CVE-2026-62241",
+      "publishedDate": "2026-07-17T00:07:13.098Z",
+      "lastModifiedDate": "2026-07-17T00:07:13.098Z",
+      "description": "clawvet self-hosted API server (apps/api) before 0.7.5 hard-codes a fallback JWT secret ('clawvet-dev-secret-change-me') in auth.ts and ships it as the default in .env.example. Because GET /api/v1/scans returns scan records containing userId values without authentication, a remote unauthenticated attacker can harvest a victim's userId, forge a valid HS256 cg_session cookie offline using the known secret, and call GET /api/v1/auth/me to obtain the victim's email address, subscription plan, and secret apiKey. The published clawvet npm package (CLI only) is not affected.",
+      "severity": 9.1,
       "references": [
         {
-          "url": "https://github.com/h2o/h2o/security/advisories/GHSA-qcrr-wrhc-pgq9",
+          "url": "https://github.com/MohibShaikh/clawvet/security/advisories/GHSA-9mww-p953-jfc9",
           "type": "reference"
         },
         {
-          "url": "https://github.com/h2o/h2o/commit/9265bdd9a996ed992681055e3996baf3e09d2063",
+          "url": "https://www.vulncheck.com/advisories/clawvet-hard-coded-jwt-secret-session-forgery",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "h2o",
-          "product": "h2o",
+          "vendor": "MohibShaikh",
+          "product": "clawvet",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": "< 9265bdd",
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.7.5"
+            },
+            {
+              "version": "0.7.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/MohibShaikh/clawvet"
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function",
+        "Use of Hard-coded Cryptographic Key"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62233",
+      "publishedDate": "2026-07-17T00:07:09.028Z",
+      "lastModifiedDate": "2026-07-17T00:07:09.028Z",
+      "description": "grav-plugin-api before 1.0.6 fails to validate super-admin status in createApiKey, generate2fa, and disable2fa endpoints, allowing non-super api.users.write managers to escalate to super-admin. Attackers can mint API keys bound to super-admin accounts or strip 2FA from super-admin users to achieve full instance takeover.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-8gg4-rvvv-cq96",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-plugin-api-privilege-escalation-via-createapikey",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.6"
+            },
+            {
+              "version": "1.0.6",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key",
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62229",
+      "publishedDate": "2026-07-17T00:07:06.340Z",
+      "lastModifiedDate": "2026-07-17T00:07:06.340Z",
+      "description": "OpenClaw before 2026.5.18 contain an authorization bypass vulnerability in exec allowlist glob matching that allows lower-trust callers to execute actions beyond intended authorization. Attackers can craft input paths that traverse the allowlist glob patterns to execute or persist unauthorized actions when the affected feature is enabled.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-34mr-7r3m-gfg7",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-glob-matching",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.18"
+            },
+            {
+              "version": "2026.5.18",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62228",
+      "publishedDate": "2026-07-17T00:07:05.678Z",
+      "lastModifiedDate": "2026-07-17T00:07:05.678Z",
+      "description": "OpenClaw before 2026.6.5 contain an authorization bypass vulnerability in node exec approvals that allows lower-trust callers to execute actions beyond their intended authorization by using different gateway and node environments. Attackers can exploit mismatched environment configurations to persist or execute actions that exceed the caller's approved permissions.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-8f46-3xx3-8c9m",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-node-exec-approvals",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.5"
+            },
+            {
+              "version": "2026.6.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62223",
+      "publishedDate": "2026-07-17T00:07:02.286Z",
+      "lastModifiedDate": "2026-07-17T00:07:02.286Z",
+      "description": "OpenClaw before 2026.5.18 contain an authorization bypass vulnerability in the device-pair approval feature that allows lower-trust callers to execute actions beyond their intended authorization. Attackers can exploit misconfigured input paths to execute or persist unauthorized actions when the affected feature is enabled and reachable.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-hx85-fgcw-9vrc",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-device-pair",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.18"
+            },
+            {
+              "version": "2026.5.18",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62218",
+      "publishedDate": "2026-07-17T00:06:58.909Z",
+      "lastModifiedDate": "2026-07-17T00:06:58.909Z",
+      "description": "OpenClaw 2026.1.20 before 2026.5.27 contain an authorization bypass vulnerability in the device.pair.approve feature that allows lower-trust callers to bypass role-management checks. Attackers can perform actions requiring stronger authorization by reaching the affected feature through configured input paths.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-8v95-qqcm-qp9h",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-device-pair-approve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.1.20",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.27"
+            },
+            {
+              "version": "2026.5.27",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62217",
+      "publishedDate": "2026-07-17T00:06:58.228Z",
+      "lastModifiedDate": "2026-07-17T00:06:58.228Z",
+      "description": "OpenClaw 2026.5.14-beta.1 before 2026.5.27 contain an authorization flaw in the QQBot exec approvals feature. When the feature is enabled and reachable, a lower-trust caller or configured input path could execute or persist actions beyond the caller's intended authorization, allowing non-allowlisted senders to perform unauthorized operations.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-7jx6-764p-fgg9",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-beta-1-authentication-bypass-via-exec-approvals",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.5.14-beta.1",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "2026.5.27"
+            },
+            {
+              "version": "2026.5.27",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62207",
+      "publishedDate": "2026-07-17T00:06:51.394Z",
+      "lastModifiedDate": "2026-07-17T00:06:51.394Z",
+      "description": "OpenClaw versions before 2026.6.5 contain an authentication bypass vulnerability that allows lower-trust callers to reach admin-scoped tools. Attackers can perform actions requiring stronger authorization by exploiting insufficient policy checks on configured input paths.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-cf2p-f286-mphf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authentication-bypass-via-admin-tools",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.5"
+            },
+            {
+              "version": "2026.6.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62203",
+      "publishedDate": "2026-07-17T00:06:49.475Z",
+      "lastModifiedDate": "2026-07-17T00:06:49.475Z",
+      "description": "OpenClaw versions before 2026.6.6 contain an environment variable filtering vulnerability in host exec that fails to properly sanitize rustup startup variables. Attackers with lower-trust caller access or configured input paths can execute or persist actions beyond their intended authorization level.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-wxh3-g47h-q3mc",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-environment-variable-injection-via-rustup",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.6"
+            },
+            {
+              "version": "2026.6.6",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incomplete List of Disallowed Inputs"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62202",
+      "publishedDate": "2026-07-17T00:06:48.818Z",
+      "lastModifiedDate": "2026-07-17T00:06:48.818Z",
+      "description": "OpenClaw versions 2026.6.1 before 2026.6.9 contain a privilege escalation vulnerability in isolated cron jobs that allows lower-trust callers to regain denied execution tools. Attackers can execute or persist actions beyond their intended authorization by leveraging misconfigured input paths in the affected cron feature.",
+      "severity": 8.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-mm9g-83wh-mhwj",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-privilege-escalation-via-cron",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.6.1",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.9"
+            },
+            {
+              "version": "2026.6.9",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62226",
+      "publishedDate": "2026-07-17T00:07:04.373Z",
+      "lastModifiedDate": "2026-07-17T00:07:04.373Z",
+      "description": "OpenClaw 2026.3.28 before 2026.5.19 contain an authorization bypass vulnerability in the browser act route that fails to properly validate current-tab URL checks. Attackers with lower-trust access or configured input paths can perform actions requiring stronger authorization or policy checks.",
+      "severity": 8.5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-x863-pqjw-hmgf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-browser-act-route",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.3.28",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.19"
+            },
+            {
+              "version": "2026.5.19",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62234",
+      "publishedDate": "2026-07-17T00:07:09.697Z",
+      "lastModifiedDate": "2026-07-17T00:07:09.697Z",
+      "description": "Grav before 2.0.4 fails to restrict cURL protocols in webhook dispatch, allowing authenticated users with api.webhooks.write permission to create webhooks with file://, dict://, or gopher:// URLs. Attackers can trigger webhook events to read local files, access process information, or pivot to internal services via unrestricted protocol handlers.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-58q8-f7v4-w2vf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-ssrf-via-unrestricted-curl-protocols",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.4"
+            },
+            {
+              "version": "2.0.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62231",
+      "publishedDate": "2026-07-17T00:07:07.666Z",
+      "lastModifiedDate": "2026-07-17T00:07:07.666Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.6 contains an authorization bypass: API keys can be created with a restricted scopes array, but the ApiKeyAuthenticator class never reads or enforces these scopes. It loads and returns the owning user's full account object, so a key created with limited scopes (e.g. read-only) can perform any write, delete, or administrative operation the owning user is authorized for. Fixed in 1.0.6.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-x7hm-jc32-v39j",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-api-key-scope-bypass-via-apikeyauthenticator",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.6"
+            },
+            {
+              "version": "1.0.6",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62209",
+      "publishedDate": "2026-07-17T00:06:52.811Z",
+      "lastModifiedDate": "2026-07-17T00:06:52.811Z",
+      "description": "OpenClaw versions 2026.5.10-beta.1 before 2026.6.5 contain an authorization bypass in the ClickClack agent-mode dispatch feature, which could ignore the toolsAllow policy check. When the affected feature is enabled and reachable, a lower-trust caller or configured input path could perform actions that should have required a stronger authorization or policy check.",
+      "severity": 8.1,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-wp73-f3gg-w4vr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-beta-1-authorization-bypass-via-agent-mode-dispatch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.5.10",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.5"
+            },
+            {
+              "version": "2026.6.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62215",
+      "publishedDate": "2026-07-17T00:06:56.885Z",
+      "lastModifiedDate": "2026-07-17T00:06:56.885Z",
+      "description": "OpenClaw versions before 2026.6.5 contain an authentication bypass vulnerability in HTTP Canvas responses that allows lower-trust callers to forge trusted A2UI actions. Attackers can perform actions requiring stronger authorization by submitting crafted requests through configured input paths, bypassing intended policy checks.",
+      "severity": 8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-vr7j-7684-7gm5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authentication-bypass-via-http-canvas",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.5"
+            },
+            {
+              "version": "2026.6.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Insufficient Verification of Data Authenticity"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62222",
+      "publishedDate": "2026-07-17T00:07:01.643Z",
+      "lastModifiedDate": "2026-07-17T00:07:01.643Z",
+      "description": "OpenClaw before 2026.5.22 contain a vulnerability in setup-mode discovery that allows loading of untrusted workspace plugins. Attackers with lower-trust caller access or control over configured input paths can execute or persist actions beyond their intended authorization level.",
+      "severity": 7.8,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-rh6r-vvfc-86jq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-untrusted-plugin-loading-via-setup-mode",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.22"
+            },
+            {
+              "version": "2026.5.22",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Inclusion of Functionality from Untrusted Control Sphere"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62227",
+      "publishedDate": "2026-07-17T00:07:05.015Z",
+      "lastModifiedDate": "2026-07-17T00:07:05.015Z",
+      "description": "OpenClaw 2026.4.14 before 2026.5.26 contain a server-side request forgery vulnerability in browser snapshot routes that fail to validate post-navigation destinations. Attackers with lower-trust access can bypass OpenClaw policy checks to reach network destinations that should have been blocked.",
+      "severity": 7.7,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-2x93-h3hg-2xfp",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-ssrf-via-browser-snapshot",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.4.14",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.26"
+            },
+            {
+              "version": "2026.5.26",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62201",
+      "publishedDate": "2026-07-17T00:06:48.164Z",
+      "lastModifiedDate": "2026-07-17T00:06:48.164Z",
+      "description": "OpenClaw versions before 2026.6.6 contain a network policy bypass vulnerability in the sandbox exec-server that allows lower-trust callers to reach internal network destinations blocked by OpenClaw policy. Attackers can send HTTP requests through the exec-server to access network resources that should have been restricted by configured policies.",
+      "severity": 7.7,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-mgvr-6gvw-3rgr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-network-policy-bypass-via-exec-server",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.6"
+            },
+            {
+              "version": "2026.6.6",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62386",
+      "publishedDate": "2026-07-17T00:07:13.741Z",
+      "lastModifiedDate": "2026-07-17T00:07:13.741Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.0-rc.16 accepts JWT access tokens through the ?token= URL query parameter on every API route (JwtAuthenticator::extractBearerToken fallback). Because tokens are embedded in URLs, they are logged verbatim in web server access logs, leaked via the Referer header, stored in browser history, and captured by upstream proxy and CDN logs, exposing valid admin access tokens. A leaked token grants unauthorized API access, including reading configuration and user data, creating admin accounts, modifying system settings, and deleting pages.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-4hpj-wmpw-ghwq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-rc-16-authentication-bypass-via-token-url-parameter",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.0-rc.16"
+            },
+            {
+              "version": "1.0.0-rc.16",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Use of GET Request Method With Sensitive Query Strings"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62230",
+      "publishedDate": "2026-07-17T00:07:06.995Z",
+      "lastModifiedDate": "2026-07-17T00:07:06.995Z",
+      "description": "Grav before 2.0.4 ships a default .htaccess (and reference webserver-configs/htaccess.txt) whose rules blocking access to sensitive file types (.yaml, .php, .json, etc.) lack the [NC] flag, making extension matching case-sensitive. On case-insensitive filesystems (Windows/NTFS, macOS/HFS+, or Docker volume mounts), an unauthenticated attacker can request these files with uppercase or mixed-case extensions (e.g., .YAML, .PHP) to bypass the restrictions and read sensitive configuration files that may contain API keys and credentials.",
+      "severity": 7.5,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-vwg3-w8w3-pc79",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-file-access-bypass-via-case-variation",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.4"
+            },
+            {
+              "version": "2.0.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Improper Handling of Case Sensitivity"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62232",
+      "publishedDate": "2026-07-17T00:07:08.361Z",
+      "lastModifiedDate": "2026-07-17T00:07:08.361Z",
+      "description": "Grav before 2.0.4 contains a two-factor authentication bypass vulnerability in the login plugin where the regenerate2FASecret task checks only user existence, not authorization, during the pending TOTP challenge window. Attackers who know the victim's password can call this task without a CSRF nonce to overwrite the 2FA secret with an attacker-chosen value, compute a valid TOTP code, and complete authentication while reducing 2FA to password-only protection.",
+      "severity": 7.4,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-7mgc-c7pq-3rr3",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-2fa-bypass-via-secret-regeneration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.4"
+            },
+            {
+              "version": "2.0.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62387",
+      "publishedDate": "2026-07-17T00:07:14.426Z",
+      "lastModifiedDate": "2026-07-17T00:07:14.426Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.0-rc.16 shipped Access-Control-Allow-Origin: * as its default CORS configuration on all responses, including authenticated endpoints and preflight (OPTIONS) responses. Because the plugin accepts credentials via the Authorization and X-API-Token headers (set programmatically by JavaScript rather than via cookies), an attacker who obtains a valid access token (e.g., via log leakage, Referer headers, browser history, or network capture) can issue fully authenticated cross-origin requests from any malicious website to read sensitive data and perform write operations as the token's user. Fixed in 1.0.0-rc.16.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-93px-98wh-6fj2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-rc-16-cors-misconfiguration-via-api-plugin",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.0-rc.16"
+            },
+            {
+              "version": "1.0.0-rc.16",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Permissive Cross-domain Security Policy with Untrusted Domains"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62219",
+      "publishedDate": "2026-07-17T00:06:59.594Z",
+      "lastModifiedDate": "2026-07-17T00:06:59.594Z",
+      "description": "OpenClaw 2026.2.12 before 2026.5.26 contain an authorization bypass vulnerability in the hooks allowedAgentIds validation. A lower-trust caller or configured input path can bypass agent ID restrictions by submitting blank agent IDs, allowing actions that should require stronger authorization or policy checks.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-724r-v4wf-mqc5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-blank-agent-ids",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.2.12",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.26"
+            },
+            {
+              "version": "2026.5.26",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62212",
+      "publishedDate": "2026-07-17T00:06:54.838Z",
+      "lastModifiedDate": "2026-07-17T00:06:54.838Z",
+      "description": "OpenClaw before 2026.5.28 contains a race condition in the MS Teams safeFetch DNS rebinding check. When the affected feature is enabled and reachable, a lower-trust caller or configured input path could win a timing window between the DNS validation check and use, allowing actions that should have required a stronger authorization or policy check. Practical impact depends on the operator's configuration and whether lower-trust input can reach that path.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-wxm8-ghhq-q688",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authentication-bypass-via-safefetch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.28"
+            },
+            {
+              "version": "2026.5.28",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62206",
+      "publishedDate": "2026-07-17T00:06:50.753Z",
+      "lastModifiedDate": "2026-07-17T00:06:50.753Z",
+      "description": "OpenClaw versions before 2026.6.9 contain a missing authorization vulnerability in Discord moderation actions. In affected versions, a lower-trust caller or configured input path could perform moderation actions that should have required a stronger authorization or policy check. Practical impact depends on the operator's configuration and whether lower-trust input can reach the affected path.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-f6p7-6326-vf7v",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authentication-bypass-via-moderation-actions",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.9"
+            },
+            {
+              "version": "2026.6.9",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62205",
+      "publishedDate": "2026-07-17T00:06:50.105Z",
+      "lastModifiedDate": "2026-07-17T00:06:50.105Z",
+      "description": "OpenClaw versions 2026.4.12-beta.1 before 2026.6.6 contain a missing-authorization vulnerability in the MS Teams message actions feature. When the affected feature is enabled and reachable, a lower-trust caller or a configured input path can perform actions that should have required a stronger authorization or policy check. Practical impact depends on the operator's configuration and whether lower-trust input can reach that path. The issue is fixed in 2026.6.6.",
+      "severity": 7.1,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-p5xh-frrh-cmgj",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-beta-1-authorization-bypass-via-message-actions",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.4.12",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.6"
+            },
+            {
+              "version": "2026.6.6",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62237",
+      "publishedDate": "2026-07-17T00:07:11.756Z",
+      "lastModifiedDate": "2026-07-17T00:07:11.756Z",
+      "description": "Grav before 2.0.4 contains a regular expression denial of service (ReDoS) vulnerability in the regex_replace filter and function, which are allowlisted in the Twig content sandbox. When Twig processing in page content is enabled (security.twig_content.process_enabled: true, disabled by default), an authenticated page editor can supply a catastrophically backtracking PCRE pattern that is passed directly to PHP's preg_replace(), causing unbounded CPU consumption and denial of service to the web server process.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-37f3-6p89-6qr9",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-redos-via-regex-replace-in-sandbox",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.4"
+            },
+            {
+              "version": "2.0.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Inefficient Regular Expression Complexity"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62214",
+      "publishedDate": "2026-07-17T00:06:56.206Z",
+      "lastModifiedDate": "2026-07-17T00:06:56.206Z",
+      "description": "OpenClaw versions before 2026.5.28 Bot Framework contains an improper input validation vulnerability that allows lower-trust callers to expose bot tokens and credentials by failing to properly validate serviceUrl parameters. Attackers can supply malicious serviceUrl values through configured input paths to retrieve sensitive authentication data outside the trusted boundary.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-prwc-c6w5-mmgr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-bot-framework-ssrf-via-serviceurl-parameter-validation",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openclaw",
+          "product": "msteams",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw/msteams",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.28"
+            },
+            {
+              "version": "2026.5.28",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Insufficiently Protected Credentials"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62213",
+      "publishedDate": "2026-07-17T00:06:55.533Z",
+      "lastModifiedDate": "2026-07-17T00:06:55.533Z",
+      "description": "OpenClaw versions before 2026.5.27 contain a token leakage vulnerability in MS Teams outbound requests that allows lower-trust callers to expose Bot Framework tokens. Attackers can access configured input paths to retrieve credentials that should remain within the trusted boundary.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-v54h-q2vx-vgg4",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-token-leakage-via-ms-teams-outbound-requests",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openclaw",
+          "product": "msteams",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw/msteams",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.27"
+            },
+            {
+              "version": "2026.5.27",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Insufficiently Protected Credentials"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62210",
+      "publishedDate": "2026-07-17T00:06:53.449Z",
+      "lastModifiedDate": "2026-07-17T00:06:53.449Z",
+      "description": "OpenClaw versions before 2026.6.1 contain a denial of service vulnerability where remote media URLs can trigger slow-read attacks that exhaust gateway worker resources. Attackers with access to configured input paths can supply remote media URLs that consume gateway resources and reduce availability.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-4xwj-mcc7-x7x5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-denial-of-service-via-remote-media-urls",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.1"
+            },
+            {
+              "version": "2026.6.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62208",
+      "publishedDate": "2026-07-17T00:06:52.026Z",
+      "lastModifiedDate": "2026-07-17T00:06:52.026Z",
+      "description": "OpenClaw before 2026.6.5 could forward Authorization headers during MCP SSE redirects. When the affected feature is enabled and reachable, a lower-trust caller or configured input path could execute or persist actions beyond the caller's intended authorization. Impact depends on the operator's configuration and whether lower-trust input can reach the affected path.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-9c3v-684m-579c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-header-forwarding-via-sse",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.5"
+            },
+            {
+              "version": "2026.6.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Insufficiently Protected Credentials"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-44251",
+      "publishedDate": "2026-07-17T00:01:41.131Z",
+      "lastModifiedDate": "2026-07-17T00:01:41.131Z",
+      "description": "Wazuh is a free and open source platform used for threat prevention, detection, and response. In versions 3.0.0 and above, prior to 4.14.5, a size_t integer underflow in os_crypto/shared/msgs.c:389 allows any enrolled Wazuh agent to crash the wazuh-remoted process on the manager, immediately disconnecting all agents from the manager. A second code path reached by the same underflow may allow heap memory corruption. This issue has been fixed in version 4.14.5.",
+      "severity": 6.5,
+      "references": [
+        {
+          "url": "https://github.com/wazuh/wazuh/security/advisories/GHSA-jv5r-5p7c-g9fq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wazuh",
+          "product": "wazuh",
+          "versions": [
+            {
+              "version": ">= 3.0.0, < 4.14.5",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
+        "CWE-122: Heap-based Buffer Overflow",
+        "CWE-191: Integer Underflow (Wrap or Wraparound)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62235",
+      "publishedDate": "2026-07-17T00:07:10.397Z",
+      "lastModifiedDate": "2026-07-17T00:07:10.397Z",
+      "description": "Grav Flex-Objects before version 1.4.3 contains a broken access control vulnerability in the admin-next REST API that allows authenticated users with only api.access permission to perform unauthorized CRUD operations on permission-less directories. Attackers with api.access credentials can create, read, update, delete, and export objects from any directory lacking an explicit permissions configuration, bypassing intended authorization controls.",
+      "severity": 6.3,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-23vq-365v-qcmh",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-flex-objects-authorization-bypass-via-api",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.4.3"
+            },
+            {
+              "version": "1.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization",
+        "Not Failing Securely ('Failing Open')"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62236",
+      "publishedDate": "2026-07-17T00:07:11.106Z",
+      "lastModifiedDate": "2026-07-17T00:07:11.106Z",
+      "description": "grav-plugin-login before 3.8.11 contains a cross-site request forgery (CSRF) vulnerability in the login.regenerate2FASecret frontend task, which regenerates and persists a new TOTP secret for the authenticated session user without any anti-CSRF nonce or Origin/Referer check. Because Grav core dispatches the task from the GET 'task:' URI parameter and the default session cookie is SameSite=Lax, an attacker can lure a logged-in victim to an off-site page that performs a top-level GET navigation, rotating the victim's TOTP secret so their enrolled authenticator no longer matches the server, effectively forcing 2FA re-enrollment. Sites configured with session.samesite: Strict are not affected.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-4px8-7p53-282r",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-plugin-login-csrf-via-regenerate2fasecret",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.8.11"
+            },
+            {
+              "version": "3.8.11",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/getgrav/grav"
+        }
+      ],
+      "problemType": [
+        "Cross-Site Request Forgery (CSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62225",
+      "publishedDate": "2026-07-17T00:07:03.616Z",
+      "lastModifiedDate": "2026-07-17T00:07:03.616Z",
+      "description": "OpenClaw versions before 2026.5.18 contain an authorization bypass vulnerability in skill command dispatch that allows lower-trust callers to execute or persist actions beyond their intended authorization. Attackers can bypass tool policy restrictions through configured input paths to perform unauthorized actions when the affected feature is enabled and reachable.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-mhm4-93fw-4qr2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-skill-command-dispatch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.18"
+            },
+            {
+              "version": "2026.5.18",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62224",
+      "publishedDate": "2026-07-17T00:07:02.933Z",
+      "lastModifiedDate": "2026-07-17T00:07:02.933Z",
+      "description": "OpenClaw MS Teams before 2026.5.12 contain an authorization bypass vulnerability where the allowFrom feature binds to mutable display names. Attackers with lower-trust access can perform actions requiring stronger authorization by exploiting the mutable display name binding in the affected feature.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-7w4v-g4m6-j88v",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-ms-teams-authorization-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openclaw",
+          "product": "msteams",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw/msteams",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.12"
+            },
+            {
+              "version": "2026.5.12",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Authentication Bypass by Spoofing",
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62221",
+      "publishedDate": "2026-07-17T00:07:00.968Z",
+      "lastModifiedDate": "2026-07-17T00:07:00.968Z",
+      "description": "OpenClaw 2026.5.12 before 2026.5.26 contain an incorrect authorization vulnerability in the ClickClack allowFrom feature. When the affected feature is enabled and reachable, a lower-trust caller or configured input path could execute or persist actions beyond the caller's intended authorization, including running non-allowlisted commands.",
+      "severity": 5.4,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-fh8v-vgcv-pwh4",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-authorization-bypass-via-allowfrom",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.5.12",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.26"
+            },
+            {
+              "version": "2026.5.26",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62220",
+      "publishedDate": "2026-07-17T00:07:00.275Z",
+      "lastModifiedDate": "2026-07-17T00:07:00.275Z",
+      "description": "OpenClaw 2026.2.25 before 2026.5.26 allow a lower-trust caller or configured input path to bypass non-browser rate limits on WebSocket authentication attempts. When the affected feature is enabled and reachable by lower-trust input, this can consume gateway resources and reduce service availability.",
+      "severity": 5.3,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-5p6w-wmh3-frfr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-websocket-rate-limit-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.2.25",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.26"
+            },
+            {
+              "version": "2026.5.26",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Improper Restriction of Excessive Authentication Attempts"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62216",
+      "publishedDate": "2026-07-17T00:06:57.567Z",
+      "lastModifiedDate": "2026-07-17T00:06:57.567Z",
+      "description": "OpenClaw 2026.4.20 before 2026.5.28 contain a policy bypass in the QQBot media upload feature. A lower-trust caller or configured input path could cause the media upload to reach network destinations that should have been blocked by OpenClaw policy (server-side request forgery). The practical impact depends on the operator's configuration and whether lower-trust input can reach that path.",
+      "severity": 5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-fwgr-fpv9-vf5x",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-policy-bypass-via-media-upload",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "2026.4.20",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.5.28"
+            },
+            {
+              "version": "2026.5.28",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62211",
+      "publishedDate": "2026-07-17T00:06:54.132Z",
+      "lastModifiedDate": "2026-07-17T00:06:54.132Z",
+      "description": "OpenClaw versions before 2026.6.1 contain a credential redaction bypass vulnerability in the trajectory export feature that allows lower-trust callers to access data that should remain within trusted boundaries. Attackers can exploit misconfigured input paths or feature accessibility to expose sensitive credentials and data through the export mechanism.",
+      "severity": 5,
+      "references": [
+        {
+          "url": "https://github.com/openclaw/openclaw/security/advisories/GHSA-j4cx-jvq7-79vm",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openclaw-credential-redaction-bypass-via-trajectory-export",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenClaw",
+          "product": "OpenClaw",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/openclaw",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2026.6.1"
+            },
+            {
+              "version": "2026.6.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openclaw/openclaw"
+        }
+      ],
+      "problemType": [
+        "Insertion of Sensitive Information into Log File"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-40106",
+      "publishedDate": "2026-07-16T23:57:16.037Z",
+      "lastModifiedDate": "2026-07-16T23:57:16.037Z",
+      "description": "Wazuh is a free and open source platform used for threat prevention, detection, and response. Versions 4.6.0 and above prior to 4.14.5 contain a heap-based buffer overflow vulnerability in the syscheck component of the Wazuh agent for Windows. When expanding registry paths containing wildcards (* or ?), the agent allocates a fixed-size heap buffer of 256 bytes (OS_SIZE_256). By creating a registry subkey with a maximum allowed length (255 characters) inside a monitored path, a low-privileged local attacker can force an out-of-bounds write during string concatenation. Since wazuh-agent.exe runs as NT AUTHORITY\\SYSTEM, this can lead to a silent Denial of Service (blinding the agent) or potentially Local Privilege Escalation (LPE). This issue has been fixed in version 4.14.5.",
+      "severity": 4.7,
+      "references": [
+        {
+          "url": "https://github.com/wazuh/wazuh/security/advisories/GHSA-qvrc-pcfc-jhqc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wazuh",
+          "product": "wazuh",
+          "versions": [
+            {
+              "version": ">= 4.6.0, < 4.14.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122: Heap-based Buffer Overflow"
+      ],
+      "fix_suggestion": "无法生成修复建议"
+    },
+    {
+      "id": "CVE-2026-62238",
+      "publishedDate": "2026-07-17T00:07:12.425Z",
+      "lastModifiedDate": "2026-07-17T00:07:12.425Z",
+      "description": "OpenRemote before 1.26.0 contain an authenticated SQL injection vulnerability in the datapoint crosstab export endpoint that constructs PostgreSQL queries by concatenating asset display names into raw SQL. An authenticated attacker with asset creation or rename permissions can inject SQL through the asset name parameter and receive query results in the exported CSV response, enabling database data exfiltration.",
+      "severity": "N/A",
+      "references": [
+        {
+          "url": "https://github.com/openremote/openremote/security/advisories/GHSA-cgfv-jrfp-2r7v",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openremote-sql-injection-via-crosstab-export",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openremote",
+          "product": "openremote",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.26.0"
+            },
+            {
+              "version": "1.26.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/openremote/openremote"
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
       ],
       "fix_suggestion": "无法生成修复建议"
     }
