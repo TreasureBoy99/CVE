@@ -166,7 +166,6 @@ def run_weekly(crawler, analyzer, args):
     body = format_delta(cves)
     print(body)
     crawler._save_cves(cves, enrich=False)
-    _append_delta(len(cves))
     return cves
 
 
@@ -182,7 +181,6 @@ def run_poc(crawler, analyzer, args):
     body = format_delta(poc_cves, mode="poc")
     print(body)
     crawler._save_cves(poc_cves, enrich=False)
-    _append_delta(len(poc_cves))
     return poc_cves
 
 
@@ -201,7 +199,6 @@ def run_scan(crawler, analyzer, args):
     body = format_delta(cves)
     print(body)
     crawler._save_cves(cves, enrich=False)
-    _append_delta(len(cves))
     return cves
 
 
@@ -229,7 +226,6 @@ def run_diff(crawler, analyzer, args):
     if len(cves) > 20:
         print(f"  ... and {len(cves) - 20} more")
 
-    _append_delta(len(cves))
     return cves
 
 

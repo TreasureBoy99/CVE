@@ -174,9 +174,12 @@ export default function Home() {
         if (level !== severityFilter) return false
       }
 
-      // poc filter
+      // poc filter — check all PoC signals: reference tag, CISA KEV, or GitHub Advisory
       if (hasPoc) {
-        if (!cve.references.some((r) => r.type === 'poc')) return false
+        const hasPocRef = cve.references.some((r) => r.type === 'poc')
+        const hasKev = cve.cisa_kev === true
+        const hasExploit = cve.exploit_available === true
+        if (!hasPocRef && !hasKev && !hasExploit) return false
       }
 
       return true
