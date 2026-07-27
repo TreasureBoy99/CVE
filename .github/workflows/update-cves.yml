@@ -1,113 +1,50 @@
-name: CVE Update
+# DEPRECATED — functionality merged into schedule.yml
+# Kept here only for back-compat with any existing manual workflow_dispatch references.
+# The schedule.yml handles all scheduled runs.
+name: CVE Update (Deprecated)
 
 on:
-  # 每5分钟运行一次
-  schedule:
-    - cron: '*/5 * * * *'
-  # 允许手动触发
   workflow_dispatch:
     inputs:
       params:
-        description: '命令行参数'
+        description: 'Extra args passed to update_cves.py'
         required: false
         default: ''
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  update-cves:
-    environment: deployment
+  update:
     runs-on: ubuntu-latest
-    env:
-      CVE_SERVICES_URL: https://cveawg.mitre.org
-      CVE_SERVICES_RECORDS_PER_PAGE: 500
-      CVE_ORG_URL: https://www.cve.org
-      CVES_BASE_DIRECTORY: data
-      CVES_RECENT_ACTIVITIES_FILENAME: recent_activities.json
-      CVES_DEFAULT_UPDATE_LOOKBACK_IN_MINS: 180
-      CVES_DEFAULT_DELTA_LOG_HISTORY_IN_DAYS: 30
-      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libxml2-dev libxslt1-dev python3-dev
+      - name: Install
+        run: pip install -r requirements.txt
 
-      - name: Install dependencies
+      - name: Run update
         run: |
-          python -m pip install --upgrade pip
-          pip install --only-binary :all: lxml==4.9.3
-          pip install -e .
-
-      - name: Update CVEs
-        env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # 设置时间戳
-          export TEMP_TIMESTAMP=$(date '+%Y-%m-%d_%H%M_UTC')
-          echo "out=$TEMP_TIMESTAMP" >> $GITHUB_OUTPUT
-          
-          # 拉取最新更改
-          git pull
-          
-          # 配置 Git
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "CVE Monitor Github Action"
-          
-          # 创建日志目录和数据目录
-          mkdir -p logs
-          mkdir -p "$CVES_BASE_DIRECTORY"
-          
-          # 运行更新脚本
-          python scripts/update_cves.py
-          
-          # 初始化或更新 deltaLog.json
-          if [ ! -f "$CVES_BASE_DIRECTORY/deltaLog.json" ]; then
-            echo '[{"fetchTime":"2024-02-19T00:00:00Z","count":0}]' > "$CVES_BASE_DIRECTORY/deltaLog.json"
-          fi
-          
-          # 获取当前时间和总数
-          NOW_TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          if [ -f "$CVES_BASE_DIRECTORY/cves.json" ]; then
-            TOTAL_COUNT=$(jq -r '.metadata.total_count // 0' "$CVES_BASE_DIRECTORY/cves.json")
+          EXTRA="${{ github.event.inputs.params }}"
+          if [ -z "$EXTRA" ]; then
+            python scripts/update_cves.py daily --days 7
           else
-            TOTAL_COUNT=0
+            python scripts/update_cves.py daily --days 7 $EXTRA
           fi
-          
-          # 创建新条目
-          NEW_ENTRY="{\"fetchTime\":\"$NOW_TS\",\"count\":$TOTAL_COUNT}"
-          
-          # 读取现有日志并添加新条目
-          TEMP_FILE=$(mktemp)
-          if [ -s "$CVES_BASE_DIRECTORY/deltaLog.json" ]; then
-            # 如果文件存在且不为空，添加新条目并保留最近30条记录
-            jq --argjson entry "$NEW_ENTRY" \
-               --argjson limit 30 \
-               '[$entry] + (.[0:($limit-1)] // [])' \
-               "$CVES_BASE_DIRECTORY/deltaLog.json" > "$TEMP_FILE"
-          else
-            # 如果文件不存在或为空，创建只包含新条目的数组
-            echo "[$NEW_ENTRY]" > "$TEMP_FILE"
-          fi
-          
-          # 移动临时文件到目标位置
-          mv "$TEMP_FILE" "$CVES_BASE_DIRECTORY/deltaLog.json"
 
-      - name: Commit and push if changed
+      - name: Commit
         run: |
-          git add data/ logs/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update CVE data and logs" && git push) 
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "CVE Monitor"
+          git add data/ frontend/public/ logs/ 2>/dev/null || true
+          if ! git diff --quiet; then
+            git commit -m "CVE data update $(date +'%Y-%m-%d %H:%M')"
+            git push
+          else
+            echo "No changes to commit"
+          fi

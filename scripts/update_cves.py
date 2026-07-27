@@ -152,10 +152,9 @@ def run_daily(crawler, analyzer, args):
 
 def run_weekly(crawler, analyzer, args):
     """weekly: Monday report — this week's CVEs, optionally filtered by keyword."""
-    # Get start of current week (Monday)
+    # Get start of current week (Monday = weekday 0)
     today = datetime.now(timezone.utc)
-    start_of_week = today - timedelta(days=today.weekday())
-    days_since_monday = (today - start_of_week).days + 1
+    days_since_monday = today.weekday() + 1  # Mon=1, Sun=7
 
     keywords = getattr(args, "keyword", None)
     min_sev = getattr(args, "min_severity", 0.0)
@@ -167,6 +166,7 @@ def run_weekly(crawler, analyzer, args):
     body = format_delta(cves)
     print(body)
     crawler._save_cves(cves, enrich=False)
+    _append_delta(len(cves))
     return cves
 
 
@@ -182,6 +182,7 @@ def run_poc(crawler, analyzer, args):
     body = format_delta(poc_cves, mode="poc")
     print(body)
     crawler._save_cves(poc_cves, enrich=False)
+    _append_delta(len(poc_cves))
     return poc_cves
 
 
@@ -200,6 +201,7 @@ def run_scan(crawler, analyzer, args):
     body = format_delta(cves)
     print(body)
     crawler._save_cves(cves, enrich=False)
+    _append_delta(len(cves))
     return cves
 
 
@@ -227,6 +229,7 @@ def run_diff(crawler, analyzer, args):
     if len(cves) > 20:
         print(f"  ... and {len(cves) - 20} more")
 
+    _append_delta(len(cves))
     return cves
 
 

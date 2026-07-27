@@ -1,6 +1,7 @@
 name: Auto Release
 
 on:
+  # Triggered after schedule.yml completes all jobs
   workflow_run:
     workflows: ["CVE Schedule"]
     types: [completed]
@@ -10,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version tag (e.g. v2026-07-27)'
+        description: 'Version tag override (e.g. v2026-07-27), leave empty for auto'
         required: false
         default: ''
 
@@ -21,95 +22,105 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # need full history for changelog
+          fetch-depth: 1
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.11'
-
-      - name: Install
-        run: pip install -r requirements.txt
-
-      - name: Read current CVE count
+      - name: Read CVE stats
         id: stats
         run: |
           import json, os
-          path = os.path.join(os.environ['GITHUB_WORKSPACE'], 'data', 'cves.json')
-          if os.path.exists(path):
-              with open(path) as f:
-                  data = json.load(f)
-              count = data.get('cveMetadata', {}).get('total_count', 0)
-              last_updated = data.get('cveMetadata', {}).get('last_updated', '')
-              print(f"count={count}")
-              print(f"last_updated={last_updated}")
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-                  out.write(f"count={count}\n")
-                  out.write(f"last_updated={last_updated}\n")
-          else:
-              print("count=0")
-              print("last_updated=")
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-                  out.write("count=0\n")
-                  out.write("last_updated=\n")
 
-      - name: Read previous release tag
-        id: prev_tag
+          data_path = os.path.join(os.getcwd(), 'data', 'cves.json')
+          if os.path.exists(data_path):
+              with open(data_path) as f:
+                  data = json.load(f)
+              meta = data.get('cveMetadata', {})
+              dist = meta.get('severity_distribution', {})
+              count = meta.get('total_count', 0)
+              last_updated = meta.get('last_updated', '')
+              cves = data.get('cves', [])
+              print(f"count={count}", flush=True)
+              print(f"last_updated={last_updated}", flush=True)
+              print(f"critical={dist.get('critical', 0)}", flush=True)
+              print(f"high={dist.get('high', 0)}", flush=True)
+              print(f"medium={dist.get('medium', 0)}", flush=True)
+              print(f"low={dist.get('low', 0)}", flush=True)
+              print(f"none={dist.get('none', 0)}", flush=True)
+              # Write to file to avoid GITHUB_OUTPUT conflict
+              with open(os.path.join(os.getcwd(), 'stats.json'), 'w') as f:
+                  json.dump({'count': count, 'last_updated': last_updated,
+                             'dist': dist, 'cves': cves[:10]}, f)
+          else:
+              print("count=0", flush=True)
+              print("last_updated=", flush=True)
+              with open(os.path.join(os.getcwd(), 'stats.json'), 'w') as f:
+                  json.dump({'count': 0, 'last_updated': '', 'dist': {}, 'cves': []}, f)
+
+      - name: Decide version tag
+        id: version
         run: |
+          import os, datetime, json
+
+          # workflow_dispatch passes inputs via GITHUB_EVENT_PATH
+          event_path = os.getenv('GITHUB_EVENT_PATH', '')
+          manual = ''
+          if event_path and os.path.exists(event_path):
+              with open(event_path) as f:
+                  event = json.load(f)
+              manual = (event.get('inputs', {}) or {}).get('version', '')
+
+          manual = manual.strip()
+          if manual:
+              tag = manual
+          else:
+              tag = f"v{datetime.date.today().strftime('%Y-%m-%d')}"
+
+          print(f"version={tag}", flush=True)
+
+          # Read previous tag
           import subprocess
           result = subprocess.run(
               ['git', 'tag', '--sort=-v:refname', '--list', 'v*'],
               capture_output=True, text=True
           )
-          tags = result.stdout.strip().split('\n')
-          tags = [t for t in tags if t]
+          tags = [t.strip() for t in result.stdout.strip().split('\n') if t.strip()]
           prev = tags[0] if tags else 'v0.0.0'
-          print(f"previous_tag={prev}")
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-              out.write(f"previous_tag={prev}\n")
+          print(f"previous_tag={prev}", flush=True)
 
-      - name: Decide version
-        id: version
+      - name: Check if tag exists
+        id: skip_check
         run: |
-          import os, datetime
-          manual = os.environ.get('INPUT_VERSION', '').strip()
-          if manual:
-              print(f"version={manual}")
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-                  out.write(f"version={manual}\n")
+          import subprocess, os
+          version = os.getenv('VERSION', '')
+          result = subprocess.run(['git', 'tag', '-l', version], capture_output=True, text=True)
+          if result.stdout.strip():
+              print("skip=true")
           else:
-              today = datetime.date.today().strftime('%Y-%m-%d')
-              v = f"v{today}"
-              print(f"version={v}")
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-                  out.write(f"version={v}\n")
+              print("skip=false")
 
-      - name: Generate changelog excerpt
-        id: changelog
+      - name: Create GitHub Release
+        if: steps.skip_check.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          PREV_TAG: ${{ steps.version.outputs.previous_tag }}
         run: |
-          import json, datetime, os
+          import json, os, subprocess, datetime
 
-          path = os.path.join(os.environ['GITHUB_WORKSPACE'], 'data', 'cves.json')
-          if not os.path.exists(path):
-              print("changelog=No data")
-              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-                  out.write("changelog=No data\n")
-              exit(0)
+          with open('stats.json') as f:
+              stats = json.load(f)
 
-          with open(path) as f:
-              data = json.load(f)
+          count = stats['count']
+          dist = stats['dist']
+          last_updated = stats['last_updated']
+          cves = stats['cves']
 
-          cves = data.get('cves', [])
-          meta = data.get('cveMetadata', {})
-          dist = meta.get('severity_distribution', {})
-
+          # Build release body
           lines = [
-              f"## 📋 CVE 数据更新 — {os.environ.get('VERSION', 'Unknown')}",
+              f"## 📋 CVE 数据更新 — {os.getenv('VERSION')}",
               "",
-              f"**更新时间：** {meta.get('last_updated', '-')}",
-              f"**收录数量：** {meta.get('total_count', 0)} 条",
+              f"**更新时间：** {last_updated}",
+              f"**收录总数：** {count} 条",
               "",
               "### 严重性分布",
               f"- 🔴 Critical: **{dist.get('critical', 0)}**",
@@ -121,51 +132,60 @@ jobs:
               "### 最新 CVE",
           ]
 
-          for cve in sorted(cves, key=lambda x: x.get('publishedDate', ''), reverse=True)[:10]:
+          for cve in cves:
               sev = cve.get('severity', '?')
               icon = '🔴' if float(sev or 0) >= 9 else '🟠' if float(sev or 0) >= 7 else '🟡'
-              lines.append(f"- {icon} **{cve['id']}** CVSS {sev} — {cve.get('description', '无描述')[:80]}...")
+              desc = (cve.get('description') or '无描述')[:100]
+              lines.append(f"- {icon} **{cve['id']}** CVSS {sev} — {desc}...")
 
-          changelog = '\n'.join(lines)
+          lines.append("")
+          lines.append("---")
+          lines.append("*🤖 由 CVE Monitor 自动生成*")
 
-          # Write to file for use in step summary
-          with open(os.path.join(os.environ['GITHUB_OUTPUT']), 'a') as out:
-              out.write(f"changelog={json.dumps(changelog)}\n")
+          body = '\n'.join(lines)
 
-          # Also print to stdout for the summary
-          print(changelog)
+          # Write body to file for gh CLI
+          body_file = os.path.join(os.getcwd(), 'release_body.md')
+          with open(body_file, 'w', encoding='utf-8') as f:
+              f.write(body)
 
-      - name: Create or update release
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-          PREV_TAG: ${{ steps.prev_tag.outputs.previous_tag }}
-          COUNT: ${{ steps.stats.outputs.count }}
-        run: |
-          import subprocess, json, os
-
-          # Check if tag already exists
-          result = subprocess.run(
-              ['git', 'tag', '-l', os.environ['VERSION']],
-              capture_output=True, text=True
-          )
-          if result.stdout.strip():
-              print(f"Tag {os.environ['VERSION']} already exists — skipping release")
-              exit(0)
-
-          # Lightweight tag + push
+          # Configure git
           subprocess.run(['git', 'config', 'user.email', 'github-actions[bot]@users.noreply.github.com'])
           subprocess.run(['git', 'config', 'user.name', 'CVE Monitor Release'])
-          subprocess.run(['git', 'tag', '-a', os.environ['VERSION'], '-m',
-                         f"CVE Release {os.environ['VERSION']} — {os.environ['COUNT']} CVEs tracked"])
-          subprocess.run(['git', 'push', 'origin', os.environ['VERSION'], '--quiet'])
 
-          print(f"✅ Released {os.environ['VERSION']}")
+          # Create tag
+          subprocess.run([
+              'git', 'tag', '-a', os.getenv('VERSION'), '-m',
+              f"CVE Release {os.getenv('VERSION')} — {count} CVEs tracked"
+          ])
 
-      - name: Post release note
+          # Push tag (this triggers the release)
+          result = subprocess.run(
+              ['git', 'push', 'origin', os.getenv('VERSION'), '--quiet'],
+              capture_output=True, text=True
+          )
+          if result.returncode == 0:
+              print(f"✅ Pushed tag {os.getenv('VERSION')}")
+          else:
+              print(f"❌ Push failed: {result.stderr.decode()}")
+              exit(1)
+
+          print(f"\n📦 Release {os.getenv('VERSION')} created")
+
+      - name: Post summary
         if: always()
         run: |
-          echo "### 📦 Release ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          import json, os
+          with open('stats.json') as f:
+              stats = json.load(f)
+
+          version = os.getenv('VERSION', 'unknown')
+
+          echo "### 📦 Release $version" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Released: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
-          echo "Previous: ${{ steps.prev_tag.outputs.previous_tag }}" >> $GITHUB_STEP_SUMMARY
-          echo "CVE Count: ${{ steps.stats.outputs.count }}" >> $GITHUB_STEP_SUMMARY
+          echo "| 指标 | 值 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|----|" >> $GITHUB_STEP_SUMMARY
+          echo "| CVE 总数 | ${stats['count']} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔴 Critical | ${stats['dist'].get('critical', 0)} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🟠 High | ${stats['dist'].get('high', 0)} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 更新于 | ${stats['last_updated']} |" >> $GITHUB_STEP_SUMMARY
