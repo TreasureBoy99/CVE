@@ -3,12 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   output: 'export',
+  trailingSlash: true,
+  basePath: '/CVE',
+  assetPrefix: '/CVE/',
   images: {
     unoptimized: true,
   },
-  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
-  trailingSlash: true,
-  distDir: 'out',
+  // When output is 'export', trailingSlash + basePath must align with the hosting path
+  // On GitHub Pages the site lives at /CVE/
 }
 
 module.exports = nextConfig

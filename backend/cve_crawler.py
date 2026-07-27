@@ -9,6 +9,7 @@ from pathlib import Path
 
 # 修改导入语句
 from backend.utils.logger import Logger  # 使用完整的导入路径
+from backend.deepseek_analyzer import DeepSeekAnalyzer
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urljoin
@@ -94,6 +95,7 @@ class CVECrawler:
                 'lastModifiedDate': cve_metadata.get('dateUpdated', ''),
                 'description': '',  # 默认空描述
                 'severity': 'N/A',  # 默认严重性
+                'fix_suggestion': '',  # 后续由 DeepSeekAnalyzer 填充
                 'references': [
                     {
                         'url': cve_metadata.get('cveOrgLink', ''),
@@ -331,8 +333,22 @@ class CVECrawler:
             
         return filtered_cves
 
-    def _save_cves(self, cves: List[Dict[str, Any]]) -> None:
+    def _save_cves(self, cves: List[Dict[str, Any]], enrich: bool = True) -> None:
         """保存CVE数据到文件，包含元数据"""
+        analyzer = DeepSeekAnalyzer() if enrich else None
+
+        # Enrich with fix suggestions
+        if analyzer:
+            for cve in cves:
+                if not cve.get('fix_suggestion'):
+                    try:
+                        cve['fix_suggestion'] = analyzer.generate_fix_suggestion(cve)
+                        self.logger.info(f"Generated fix suggestion for {cve['id']}")
+                    except Exception as e:
+                        self.logger.warning(f"Failed to generate fix suggestion for {cve['id']}: {e}")
+                        cve['fix_suggestion'] = '无法生成修复建议'
+                    self.logger.info(f"Generated fix suggestion for {cve['id']}")
+
         output_data = {
             "dataType": "CVE_RECORD",
             "dataVersion": "5.1",
@@ -343,7 +359,8 @@ class CVECrawler:
             },
             "cves": cves
         }
-        
+
+        # Save to data/cves.json
         output_file = os.path.join(self.data_dir, 'cves.json')
         try:
             with open(output_file, 'w', encoding='utf-8') as f:
@@ -351,6 +368,16 @@ class CVECrawler:
             self.logger.info(f"Successfully saved {len(cves)} CVEs to {output_file}")
         except Exception as e:
             self.logger.error(f"Error saving CVEs to file: {e}")
+
+        # Save to frontend/public/cve_cache.json for static export
+        frontend_cache = os.path.join(ROOT_DIR, 'frontend', 'public', 'cve_cache.json')
+        try:
+            os.makedirs(os.path.dirname(frontend_cache), exist_ok=True)
+            with open(frontend_cache, 'w', encoding='utf-8') as f:
+                json.dump(output_data, f, ensure_ascii=False, indent=2)
+            self.logger.info(f"Successfully saved {len(cves)} CVEs to {frontend_cache}")
+        except Exception as e:
+            self.logger.error(f"Error saving CVEs to frontend cache: {e}")
 
     def _get_severity_distribution(self, cves: List[Dict[str, Any]]) -> Dict[str, int]:
         """统计严重性分布"""
