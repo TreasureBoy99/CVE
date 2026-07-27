@@ -26,7 +26,7 @@ env:
   NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
 
 jobs:
-  # ── Frequent (every 5 min) — no enrich, no issue, no release ──────────────
+  # ── Frequent (every 5 min) — no enrich, skip cache ─────────────────────────
   frequent:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
@@ -71,8 +71,23 @@ jobs:
       - name: Install
         run: pip install -r requirements.txt
 
+      - name: Restore CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
+
+      - name: Show cache stats
+        run: python -c "from backend.analyzer import CVEAnalyzer; s=CVEAnalyzer().cache_stats(); print(f'Cache: {s[\"total\"]} total, {s[\"stale\"]} stale')"
+
       - name: Weekly full report
         run: python scripts/update_cves.py weekly --days 7
+
+      - name: Save CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
 
       - name: Commit
         run: |
@@ -110,8 +125,7 @@ jobs:
               weekStart.setDate(weekStart.getDate() - 7);
               const weekCount = cves.filter(c => new Date(c.publishedDate) >= weekStart).length;
               body += '**本周新增/更新：** ' + weekCount + ' 条 CVE\n\n';
-              body += '| 严重性 | 数量 |\n';
-              body += '|--------|------|\n';
+              body += '| 严重性 | 数量 |\n|--------|------|\n';
               body += '| 🔴 Critical | **' + (dist.critical || 0) + '** |\n';
               body += '| 🟠 High | **' + (dist.high || 0) + '** |\n';
               body += '| 🟡 Medium | **' + (dist.medium || 0) + '** |\n';
@@ -156,8 +170,20 @@ jobs:
       - name: Install
         run: pip install -r requirements.txt
 
+      - name: Restore CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
+
       - name: Scan 2026 CVEs
         run: python scripts/update_cves.py scan --year 2026 --days 365
+
+      - name: Save CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
 
       - name: Commit
         run: |
@@ -184,8 +210,20 @@ jobs:
       - name: Install
         run: pip install -r requirements.txt
 
+      - name: Restore CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
+
       - name: PoC report
         run: python scripts/update_cves.py poc --days 30
+
+      - name: Save CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
 
       - name: Commit
         run: |
@@ -268,6 +306,12 @@ jobs:
       - name: Install
         run: pip install -r requirements.txt
 
+      - name: Restore CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
+
       - name: Manual run
         run: |
           MODE=${{ github.event.inputs.mode }}
@@ -276,6 +320,12 @@ jobs:
           else
             python scripts/update_cves.py $MODE --days ${{ github.event.inputs.days }} --year ${{ github.event.inputs.year }}
           fi
+
+      - name: Save CVE cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cve-monitor
+          key: cve-db-v1
 
       - name: Commit
         run: |

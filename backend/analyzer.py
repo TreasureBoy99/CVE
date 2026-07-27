@@ -1,17 +1,22 @@
 """
 CVE Enricher — uses only GitHub-native / free external data sources.
 
-No paid API needed:
+No paid API needed (but NVD_API_KEY is recommended for higher rate limits):
 - CISA KEV (Known Exploited Vulnerabilities): exploit info
 - NVD (National Vulnerability Database): CVSS, CWE details
 - GitHub Advisory Database: exploit Predictions, git references
-- cve.cve.org: official record
+
+Uses SQLite caching so already-enriched CVEs are not re-fetched.
+Cache is stored at ~/.cve-monitor/cve.db
 """
 
 import os
 import json
 import time
+import sqlite3
 import requests
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Dict, Any, Optional
 from backend.utils.logger import Logger
 
@@ -20,15 +25,18 @@ CVE_ORG_URL = "https://www.cve.org/CVERecord?id="
 CISA_KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 GITHUB_ADVISORY_URL = "https://api.github.com/advisories"
 
+# Cache staleness: re-fetch CVE from NVD if older than this
+CACHE_STALE_HOURS = 24
+
 
 class CVEAnalyzer:
-    def __init__(self):
+    def __init__(self, cache_hours: int = CACHE_STALE_HOURS):
         self.logger = Logger("CVEAnalyzer")
+        self.cache_hours = cache_hours
         self.session = requests.Session()
         self._nvd_api_key = os.getenv("NVD_API_KEY", "") or os.getenv("GITHUB_TOKEN", "")
         self._github_token = os.getenv("GITHUB_TOKEN", "")
         # Rate limits: with NVD API key = 50 req/10s, without = 10 req/10s
-        # Use 0.2s with API key, 2s without
         self._nvd_rate_limit = 0.2 if self._nvd_api_key else 2.0
 
         self.session.headers.update({
@@ -40,6 +48,123 @@ class CVEAnalyzer:
 
         self._cisa_kev: Optional[Dict[str, Any]] = None
         self._cisa_kev_loaded = False
+
+        # SQLite cache
+        self._db_path = Path.home() / ".cve-monitor" / "cve.db"
+        self._db_path.parent.mkdir(parents=True, exist_ok=True)
+        self._init_db()
+
+    # ── SQLite Cache ────────────────────────────────────────────────────────────
+
+    def _get_db(self) -> sqlite3.Connection:
+        """Get a database connection with row factory."""
+        conn = sqlite3.connect(str(self._db_path))
+        conn.row_factory = sqlite3.Row
+        return conn
+
+    def _init_db(self) -> None:
+        """Create tables if they don't exist."""
+        conn = self._get_db()
+        try:
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS cve_enrichment (
+                    cve_id          TEXT PRIMARY KEY,
+                    severity        REAL    DEFAULT 0,
+                    cvss_vector     TEXT,
+                    cvss_severity  TEXT,
+                    cwe_ids         TEXT,
+                    cwe_description TEXT,
+                    description     TEXT,
+                    cisa_kev       INTEGER DEFAULT 0,
+                    ghsa_id         TEXT,
+                    exploit_avail   INTEGER DEFAULT 0,
+                    enriched_at     TEXT,
+                    source          TEXT    DEFAULT 'nvd'
+                )
+            """)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS cve_meta (
+                    key   TEXT PRIMARY KEY,
+                    value TEXT
+                )
+            """)
+            conn.commit()
+        finally:
+            conn.close()
+
+    def get_cached(self, cve_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Get cached enrichment for a CVE.
+        Returns None if stale or missing.
+        """
+        conn = self._get_db()
+        try:
+            row = conn.execute(
+                "SELECT * FROM cve_enrichment WHERE cve_id = ?", (cve_id,)
+            ).fetchone()
+            if not row:
+                return None
+
+            # Check staleness
+            enriched_at = datetime.fromisoformat(row["enriched_at"])
+            if datetime.now(timezone.utc) - enriched_at > timedelta(hours=self.cache_hours):
+                return None  # stale
+
+            return {
+                "severity":          str(row["severity"]) if row["severity"] else "N/A",
+                "cvss_vector":       row["cvss_vector"],
+                "cvss_severity":     row["cvss_severity"],
+                "cwe_ids":            json.loads(row["cwe_ids"]) if row["cwe_ids"] else [],
+                "cwe_description":    row["cwe_description"],
+                "description":        row["description"],
+                "cisa_kev":          bool(row["cisa_kev"]),
+                "ghsa_id":           row["ghsa_id"],
+                "exploit_available":  bool(row["exploit_avail"]),
+            }
+        finally:
+            conn.close()
+
+    def save_enrichment(self, cve_id: str, data: Dict[str, Any]) -> None:
+        """Save enriched CVE data to cache."""
+        conn = self._get_db()
+        try:
+            conn.execute("""
+                INSERT OR REPLACE INTO cve_enrichment (
+                    cve_id, severity, cvss_vector, cvss_severity,
+                    cwe_ids, cwe_description, description,
+                    cisa_kev, ghsa_id, exploit_avail, enriched_at, source
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                cve_id,
+                float(data.get("severity", 0) or 0),
+                data.get("cvss_vector"),
+                data.get("cvss_severity"),
+                json.dumps(data.get("cwe_ids", []), ensure_ascii=False),
+                data.get("cwe_description"),
+                data.get("description"),
+                int(data.get("cisa_kev", False)),
+                data.get("ghsa_id"),
+                int(data.get("exploit_available", False)),
+                datetime.now(timezone.utc).isoformat(),
+                "nvd",
+            ))
+            conn.commit()
+        finally:
+            conn.close()
+
+    def cache_stats(self) -> Dict[str, int]:
+        """Return cache statistics."""
+        conn = self._get_db()
+        try:
+            total = conn.execute("SELECT COUNT(*) FROM cve_enrichment").fetchone()[0]
+            stale = 0
+            cutoff = (datetime.now(timezone.utc) - timedelta(hours=self.cache_hours)).isoformat()
+            stale = conn.execute(
+                "SELECT COUNT(*) FROM cve_enrichment WHERE enriched_at < ?", (cutoff,)
+            ).fetchone()[0]
+            return {"total": total, "stale": stale}
+        finally:
+            conn.close()
 
     # ── CISA KEV ──────────────────────────────────────────────────────────────
 
@@ -59,13 +184,6 @@ class CVEAnalyzer:
             self._cisa_kev = {"vulnerabilities": []}
             self._cisa_kev_loaded = True
 
-    def is_in_cisa_kev(self, cve_id: str) -> bool:
-        self._load_cisa_kev()
-        return any(
-            v.get("cveID", "").upper() == cve_id.upper()
-            for v in self._cisa_kev.get("vulnerabilities", [])
-        )
-
     def get_kev_info(self, cve_id: str) -> Dict[str, Any]:
         """Return CISA KEV record for a CVE, or empty dict."""
         self._load_cisa_kev()
@@ -80,7 +198,6 @@ class CVEAnalyzer:
         """
         Fetch from NVD with retry + exponential backoff.
         Uses NVD_API_KEY if available for higher rate limits.
-        Returns parsed JSON dict or None on failure.
         """
         params = {"cveId": cve_id}
         headers = dict(self.session.headers)
@@ -91,7 +208,6 @@ class CVEAnalyzer:
             try:
                 r = requests.get(NVD_API, params=params, headers=headers, timeout=15)
                 if r.status_code in (403, 429):
-                    # Rate limited — exponential backoff
                     wait = (2 ** attempt) * 3
                     retry_after = r.headers.get("Retry-After")
                     if retry_after:
@@ -108,25 +224,15 @@ class CVEAnalyzer:
                 time.sleep(2 * (attempt + 1))
         return None
 
-    def enrich_from_nvd(self, cve_id: str, cve_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Look up CVSS 3.1 score + vector + CWE description from NVD API.
-        Updates cve_data in place and returns it.
-        """
-        nvd = self._nvd_request(cve_id)
-        if not nvd:
-            # Fallback: try to get severity directly from cve.org page
-            self._enrich_from_cve_org(cve_id, cve_data)
-            return cve_data
-
+    def _parse_nvd_response(self, nvd: Dict, cve_data: Dict[str, Any]) -> None:
+        """Parse NVD JSON into cve_data dict, in-place."""
         items = nvd.get("vulnerabilities", [])
         if not items:
-            self._enrich_from_cve_org(cve_id, cve_data)
-            return cve_data
+            return
 
         cve_item = items[0]
 
-        # CVSS — check all versions, prefer highest
+        # CVSS — prefer v3.1, then v3.0, then v2
         metrics = cve_item.get("metrics", {})
         for metric_key in ("cvssMetricV31", "cvssMetricV30", "cvssMetricV2"):
             cvss_list = metrics.get(metric_key, [])
@@ -136,7 +242,6 @@ class CVEAnalyzer:
                 base_severity = cvss.get("baseSeverity", "")
                 vector = cvss.get("vectorString", "")
 
-                # Only update if we have a better score than current
                 current = cve_data.get("severity", "N/A")
                 if base_score is not None:
                     needs_update = (
@@ -145,15 +250,14 @@ class CVEAnalyzer:
                     )
                     if needs_update:
                         cve_data["severity"] = str(base_score)
-                        self.logger.debug(f"NVD updated {cve_id} severity to {base_score}")
 
-                if vector:
+                if vector and not cve_data.get("cvss_vector"):
                     cve_data["cvss_vector"] = vector
-                if base_severity:
+                if base_severity and not cve_data.get("cvss_severity"):
                     cve_data["cvss_severity"] = base_severity
-                break  # use first (best) available
+                break
 
-        # CWE descriptions
+        # CWE
         weaknesses = cve_item.get("weaknesses", [])
         for w in weaknesses:
             for desc in w.get("description", []):
@@ -165,27 +269,24 @@ class CVEAnalyzer:
                     if not cve_data.get("cwe_description"):
                         cve_data["cwe_description"] = self._cwe_human_readable(val)
 
-        # Also grab descriptions from NVD
+        # Description fallback
         if not cve_data.get("description"):
             for desc_obj in cve_item.get("descriptions", []):
                 if desc_obj.get("lang") == "en":
                     cve_data["description"] = desc_obj.get("value", "")
                     break
 
-        self.logger.info(f"NVD enriched {cve_id}: score={cve_data.get('severity')}")
-        return cve_data
-
     def _enrich_from_cve_org(self, cve_id: str, cve_data: Dict[str, Any]) -> None:
-        """
-        Fallback: scrape cve.org for CVSS severity if NVD unavailable.
-        """
+        """Fallback: scrape cve.org for CVSS severity."""
         try:
             url = f"https://www.cve.org/CVERecord?id={cve_id}"
             r = self.session.get(url, timeout=10)
             if r.status_code == 200:
                 import re
-                # Look for CVSS pattern in page
-                cvss_match = re.search(r'CVSS[:\s]+(?:v?3(?:\.\d)?(?:\.\d)?)?\s*[:\s]*([0-9](?:\.\d)?)', r.text, re.IGNORECASE)
+                cvss_match = re.search(
+                    r'CVSS[:\s]+(?:v?3(?:\.\d)?(?:\.\d)?)?\s*[:\s]*([0-9](?:\.\d)?)',
+                    r.text, re.IGNORECASE
+                )
                 if cvss_match:
                     score = cvss_match.group(1)
                     current = cve_data.get("severity", "N/A")
@@ -195,13 +296,10 @@ class CVEAnalyzer:
         except Exception as e:
             self.logger.debug(f"cve.org fallback failed for {cve_id}: {e}")
 
-    # ── GitHub Advisory Database ───────────────────────────────────────────────
+    # ── GitHub Advisory ───────────────────────────────────────────────────────
 
-    def enrich_from_github_advisory(self, cve_id: str, cve_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Check GitHub Advisory Database for exploit/PoC info.
-        Has retry with backoff for rate limiting.
-        """
+    def _enrich_github_advisory(self, cve_id: str, cve_data: Dict[str, Any]) -> None:
+        """Check GitHub Advisory Database for exploit signals."""
         for attempt in range(3):
             try:
                 r = self.session.get(
@@ -223,25 +321,55 @@ class CVEAnalyzer:
                             if ext.get("type") == "exploit":
                                 cve_data["exploit_available"] = ext.get("exploit_available", False)
                                 cve_data["exploit_last_patched"] = ext.get("exploit_last_patched")
-                    return cve_data
-                # Other errors — just return as-is
-                return cve_data
+                    return
+                return
             except Exception as e:
                 self.logger.debug(f"GitHub advisory error (attempt {attempt+1}/3): {e}")
                 time.sleep(2 * (attempt + 1))
-        return cve_data
 
-    # ── Main enrich ─────────────────────────────────────────────────────────────
+    # ── Main enrich ────────────────────────────────────────────────────────────
 
     def enrich(self, cve_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Full enrichment pipeline:
-        1. CISA KEV — known exploited / ransomware flags
-        2. NVD — CVSS + CWE (with retry/backoff)
-        3. GitHub Advisory — exploitability
-        4. Derive fix_suggestion
+        Full enrichment pipeline with SQLite caching.
+
+        1. Check cache — return if fresh
+        2. CISA KEV — always check (small payload, no rate limit concern)
+        3. NVD — only fetch if cache miss or stale
+        4. GitHub Advisory — only fetch if cache miss
+        5. Derive fix_suggestion
+        6. Save to cache
         """
         cve_id = cve_data.get("id", "")
+        if not cve_id:
+            return cve_data
+
+        # Check cache first
+        cached = self.get_cached(cve_id)
+        if cached:
+            self.logger.debug(f"Cache hit for {cve_id}")
+            cve_data.update(cached)
+            # Always check CISA KEV for freshest KEV flag
+            kev = self.get_kev_info(cve_id)
+            if kev:
+                cve_data["cisa_kev"] = True
+                cve_data["cisa_kev_vendor"] = kev.get("vendorProject", "")
+                cve_data["cisa_kev_product"] = kev.get("product", "")
+                cve_data["cisa_kev_date_added"] = kev.get("dateAdded", "")
+                cve_data["short_description"] = kev.get("shortDescription", "")
+            if not cve_data.get("fix_suggestion"):
+                cve_data["fix_suggestion"] = self._derive_fix_suggestion(cve_data)
+            return cve_data
+
+        # Cache miss — fetch from NVD
+        nvd = self._nvd_request(cve_id)
+        if nvd:
+            self._parse_nvd_response(nvd, cve_data)
+        else:
+            self._enrich_from_cve_org(cve_id, cve_data)
+
+        # GitHub Advisory (only on cache miss)
+        self._enrich_github_advisory(cve_id, cve_data)
 
         # CISA KEV
         kev = self.get_kev_info(cve_id)
@@ -252,15 +380,13 @@ class CVEAnalyzer:
             cve_data["cisa_kev_date_added"] = kev.get("dateAdded", "")
             cve_data["short_description"] = kev.get("shortDescription", "")
 
-        # NVD
-        cve_data = self.enrich_from_nvd(cve_id, cve_data)
-
-        # GitHub Advisory
-        cve_data = self.enrich_from_github_advisory(cve_id, cve_data)
-
-        # Derive fix suggestion if not set
+        # Derive fix suggestion
         if not cve_data.get("fix_suggestion"):
             cve_data["fix_suggestion"] = self._derive_fix_suggestion(cve_data)
+
+        # Save to cache
+        self.save_enrichment(cve_id, cve_data)
+        self.logger.info(f"Enriched {cve_id}: CVSS={cve_data.get('severity')}")
 
         return cve_data
 
@@ -290,12 +416,9 @@ class CVEAnalyzer:
         "CWE-94":  "Code Injection",
         "CWE-77":  "Command Injection",
         "CWE-611": "XML External Entity (XXE)",
-        "CWE-352": "Cross-Site Request Forgery",
         "CWE-416": "Use After Free",
         "CWE-843": "Type Confusion",
-        "CWE-862": "Missing Authorization",
         "CWE-88":  "Argument Injection",
-        "CWE-79":  "Cross-Site Scripting",
     }
 
     @staticmethod
@@ -303,7 +426,7 @@ class CVEAnalyzer:
         return CVEAnalyzer.CWE_MAP.get(cwe, cwe)
 
     def _derive_fix_suggestion(self, cve: Dict[str, Any]) -> str:
-        """Generate a fix suggestion from enriched data — no LLM needed."""
+        """Generate fix suggestion from enriched data — no LLM needed."""
         parts = []
 
         vendor = cve.get("cisa_kev_vendor") or (
@@ -331,7 +454,7 @@ class CVEAnalyzer:
         if cve.get("short_description"):
             parts.append(f"📝 {cve['short_description']}")
 
-        parts.append("""
+        parts.append("""\
 🛠️ 修复建议：
 1. 确认受影响的版本范围（见上方 Affected Products）
 2. 升级到厂商官方发布的最稳定安全版本
