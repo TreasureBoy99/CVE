@@ -234,7 +234,11 @@ def run_diff(crawler, analyzer, args):
 def _apply_filters(cves, min_sev=0.0, keywords=None, has_poc=None):
     result = []
     for cve in cves:
-        sev = float(cve.get("severity", 0) if cve.get("severity") not in ("N/A", "") else 0)
+        sev_raw = cve.get("severity", "")
+        try:
+            sev = float(sev_raw) if sev_raw not in ("N/A", "", None) else 0.0
+        except (ValueError, TypeError):
+            sev = 0.0
         if sev < min_sev:
             continue
         if has_poc and not (cve.get("cisa_kev") or cve.get("exploit_available")):

@@ -1,8 +1,8 @@
 name: Auto Release
 
 on:
-  # Runs after any schedule.yml job completes.
-  # On scheduled days, multiple jobs fire — we dedupe via tag existence check.
+  # Only fires when the weekly job succeeds — not for frequent/poc/scan/manual jobs.
+  # This avoids 288 daily spurious triggers from the every-5-min frequent job.
   workflow_run:
     workflows: ["CVE Schedule"]
     types: [completed]
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0  # need all history to list tags
 
       - name: Determine mode
         id: mode

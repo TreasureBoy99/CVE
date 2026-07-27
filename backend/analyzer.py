@@ -302,6 +302,7 @@ class CVEAnalyzer:
         """Check GitHub Advisory Database for exploit signals."""
         for attempt in range(3):
             try:
+                time.sleep(self._nvd_rate_limit)
                 r = self.session.get(
                     GITHUB_ADVISORY_URL,
                     params={"cve_id": cve_id, "type": "reviewed"},
