@@ -257,12 +257,12 @@ class CVEAnalyzer:
                     cve_data["cvss_severity"] = base_severity
                 break
 
-        # If no CVSS score found anywhere, infer from CWE
+        # CWE inference — runs AFTER all metrics checked, whether or not we found a CVSS
         current = cve_data.get("severity", "N/A")
-        if current in ("N/A", "", None, 0) or str(current) == "0":
+        if str(current) in ("N/A", "", "0", "0.0", None):
             cwe_ids = cve_data.get("cwe_ids", [])
             inferred = self._infer_severity_from_cwe(cwe_ids)
-            if inferred:
+            if inferred > 0:
                 cve_data["severity"] = str(inferred)
                 cve_data["cvss_severity"] = self._cwe_to_severity_label(inferred)
                 self.logger.info(f"Inferred CVSS {inferred} from CWE for {cve_data.get('id', '?')}")
@@ -360,6 +360,12 @@ class CVEAnalyzer:
         if cached:
             self.logger.debug(f"Cache hit for {cve_id}")
             cve_data.update(cached)
+
+            # If severity still N/A from cache, try problemType inference
+            current = cve_data.get("severity", "N/A")
+            if str(current) in ("N/A", "", "0", "0.0", None):
+                self._enrich_from_problem_type(cve_data)
+
             # Always check CISA KEV for freshest KEV flag
             kev = self.get_kev_info(cve_id)
             if kev:
@@ -368,7 +374,9 @@ class CVEAnalyzer:
                 cve_data["cisa_kev_product"] = kev.get("product", "")
                 cve_data["cisa_kev_date_added"] = kev.get("dateAdded", "")
                 cve_data["short_description"] = kev.get("shortDescription", "")
-            if not cve_data.get("fix_suggestion"):
+
+            # Re-derive fix suggestion if missing (cache may have old version)
+            if not cve_data.get("fix_suggestion") or cve_data.get("fix_suggestion") == "无法生成修复建议":
                 cve_data["fix_suggestion"] = self._derive_fix_suggestion(cve_data)
             return cve_data
 
@@ -377,7 +385,9 @@ class CVEAnalyzer:
         if nvd:
             self._parse_nvd_response(nvd, cve_data)
         else:
+            # NVD has no data yet (brand new CVE) — fall back to problemType
             self._enrich_from_cve_org(cve_id, cve_data)
+            self._enrich_from_problem_type(cve_data)
 
         # GitHub Advisory (only on cache miss)
         self._enrich_github_advisory(cve_id, cve_data)
@@ -392,7 +402,8 @@ class CVEAnalyzer:
             cve_data["short_description"] = kev.get("shortDescription", "")
 
         # Derive fix suggestion
-        if not cve_data.get("fix_suggestion"):
+        fix = cve_data.get("fix_suggestion", "")
+        if not fix or fix == "无法生成修复建议":
             cve_data["fix_suggestion"] = self._derive_fix_suggestion(cve_data)
 
         # Save to cache
@@ -442,6 +453,15 @@ class CVEAnalyzer:
     MEDIUM_FROM_CWE = {"CWE-79", "CWE-190", "CWE-119", "CWE-416", "CWE-476",
                        "CWE-835", "CWE-400", "CWE-755", "CWE-843", "CWE-88"}
 
+    def _cwe_ids_from_problem_type(self, problem_types: list) -> list:
+        """Extract CWE IDs from problemType strings like 'CWE-79 Improper neutralization...'"""
+        ids = []
+        for pt in problem_types:
+            import re
+            matches = re.findall(r'CWE-\d+', pt)
+            ids.extend(matches)
+        return list(dict.fromkeys(ids))  # deduplicate preserve order
+
     def _infer_severity_from_cwe(self, cwe_ids: list) -> float:
         """Infer CVSS-equivalent score from CWE when no official score exists."""
         for cwe in cwe_ids:
@@ -462,6 +482,29 @@ class CVEAnalyzer:
         if score > 0:
             return "LOW"
         return "N/A"
+
+    def _enrich_from_problem_type(self, cve_data: Dict[str, Any]) -> None:
+        """
+        Extract CWE IDs from the crawler's problemType field and infer severity.
+        Called when NVD returned no useful data (e.g. brand new CVE).
+        """
+        problem_types = cve_data.get("problemType", [])
+        if not problem_types:
+            return
+        cwe_ids = self._cwe_ids_from_problem_type(problem_types)
+        if cwe_ids:
+            cve_data["cwe_ids"] = cve_data.get("cwe_ids", []) + cwe_ids
+
+        # Infer severity if still N/A
+        current = cve_data.get("severity", "N/A")
+        if str(current) in ("N/A", "", "0", "0.0", None):
+            inferred = self._infer_severity_from_cwe(cwe_ids)
+            if inferred > 0:
+                cve_data["severity"] = str(inferred)
+                cve_data["cvss_severity"] = self._cwe_to_severity_label(inferred)
+                self.logger.info(
+                    f"Inferred CVSS {inferred} from problemType CWE for {cve_data.get('id', '?')}"
+                )
 
     def _derive_fix_suggestion(self, cve: Dict[str, Any]) -> str:
         """Generate fix suggestion from enriched data — no LLM needed."""
