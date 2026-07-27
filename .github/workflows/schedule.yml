@@ -46,25 +46,39 @@ jobs:
 
       - name: Commit
         run: |
+          set -x
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "CVE Monitor"
-          echo "=== File sizes before git add ==="
-          wc -c data/cves.json data/deltaLog.json frontend/public/cve_cache.json 2>/dev/null || echo "Some files missing"
-          echo "=== HEAD content ==="
-          git show HEAD:data/cves.json | wc -c
-          echo "=== git diff --stat (staged) ==="
-          git add data/ frontend/public/ logs/ 2>/dev/null || true
-          git diff --stat --cached
-          echo "=== git diff (working tree vs HEAD) ==="
-          git diff --stat
-          echo "=== deltaLog content ==="
-          cat data/deltaLog.json
-          if ! git diff --quiet; then
-            echo "=== Committing changes ==="
+          echo "=== File bytes before add ==="
+          bytes_worktree=$(wc -c < data/cves.json)
+          bytes_head=$(git show HEAD:data/cves.json | wc -c)
+          echo "cves.json worktree=$bytes_worktree HEAD=$bytes_head"
+          echo "deltaLog worktree=$(wc -c < data/deltaLog.json 2>/dev/null || echo missing), HEAD=$(git show HEAD:data/deltaLog.json | wc -c)"
+          echo "cve_cache worktree=$(wc -c < frontend/public/cve_cache.json 2>/dev/null || echo missing)"
+          echo "=== git status before add ==="
+          git status --short
+          echo "=== git add data/ frontend/public/ logs/ ==="
+          git add data/ frontend/public/ logs/
+          echo "=== git status after add ==="
+          git status --short
+          echo "=== git diff --name-only vs HEAD ==="
+          git diff --name-only HEAD
+          echo "=== git diff --cached --name-only vs HEAD ==="
+          git diff --cached --name-only HEAD
+          echo "=== worktree cves.json head ==="
+          head -3 data/cves.json
+          echo "=== HEAD cves.json head ==="
+          git show HEAD:data/cves.json | head -3
+          echo "=== MD5 worktree cves.json ==="
+          md5sum data/cves.json
+          echo "=== MD5 HEAD cves.json ==="
+          git show HEAD:data/cves.json | md5sum
+          if ! git diff --quiet HEAD; then
+            echo "COMMITTING"
             git commit -m "Frequent CVE update $(date +'%Y-%m-%d %H:%M')"
             git push
           else
-            echo "No changes detected — skipping commit"
+            echo "NO_CHANGES"
           fi
 
   # ── Weekly report (Monday) ──────────────────────────────────────────────────
