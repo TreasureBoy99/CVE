@@ -78,7 +78,12 @@ jobs:
           key: cve-db-v1
 
       - name: Show cache stats
-        run: python -c "from backend.analyzer import CVEAnalyzer; s=CVEAnalyzer().cache_stats(); print(f'Cache: {s[\"total\"]} total, {s[\"stale\"]} stale')"
+        run: |
+          python << 'EOF'
+          from backend.analyzer import CVEAnalyzer
+          s = CVEAnalyzer().cache_stats()
+          print(f"Cache: {s['total']} total, {s['stale']} stale")
+          EOF
 
       - name: Weekly full report
         run: python scripts/update_cves.py weekly --days 7
