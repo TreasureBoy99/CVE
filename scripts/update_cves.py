@@ -251,11 +251,14 @@ def _apply_filters(cves, min_sev=0.0, keywords=None, has_poc=None):
 
 def _enrich_all(cves, analyzer):
     """Enrich a list of CVEs, rate-limited."""
+    if not analyzer:
+        return cves
     enriched = []
+    rate = analyzer._nvd_rate_limit if hasattr(analyzer, '_nvd_rate_limit') else 0.2
     for cve in cves:
         try:
             enriched.append(analyzer.enrich(cve))
-            time.sleep(0.15)  # be nice to public APIs
+            time.sleep(rate)  # respect rate limits
         except Exception as e:
             print(f"[enrich] Error enriching {cve.get('id')}: {e}")
             enriched.append(cve)

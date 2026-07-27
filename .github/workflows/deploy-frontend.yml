@@ -26,6 +26,9 @@ jobs:
           node-version: '18'
 
       - name: Run CVE Crawler (generate cve_cache.json)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
           python -c "from backend.cve_crawler import CVECrawler; CVECrawler().fetch_latest_cves(days_back=7)"
 

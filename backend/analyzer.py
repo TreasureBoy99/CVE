@@ -25,12 +25,18 @@ class CVEAnalyzer:
     def __init__(self):
         self.logger = Logger("CVEAnalyzer")
         self.session = requests.Session()
+        self._nvd_api_key = os.getenv("NVD_API_KEY", "") or os.getenv("GITHUB_TOKEN", "")
+        self._github_token = os.getenv("GITHUB_TOKEN", "")
+        # Rate limits: with NVD API key = 50 req/10s, without = 10 req/10s
+        # Use 0.2s with API key, 2s without
+        self._nvd_rate_limit = 0.2 if self._nvd_api_key else 2.0
+
         self.session.headers.update({
             "Accept": "application/json",
             "User-Agent": "CVE-Monitor/1.0 (contact: github.com/anonymous99-Rise)",
         })
-        if os.getenv("GITHUB_TOKEN"):
-            self.session.headers["Authorization"] = f"Bearer {os.getenv('GITHUB_TOKEN')}"
+        if self._github_token:
+            self.session.headers["Authorization"] = f"Bearer {self._github_token}"
 
         self._cisa_kev: Optional[Dict[str, Any]] = None
         self._cisa_kev_loaded = False
@@ -73,13 +79,17 @@ class CVEAnalyzer:
     def _nvd_request(self, cve_id: str) -> Optional[Dict]:
         """
         Fetch from NVD with retry + exponential backoff.
-        Handles 403 / 429 rate limiting gracefully.
+        Uses NVD_API_KEY if available for higher rate limits.
         Returns parsed JSON dict or None on failure.
         """
         params = {"cveId": cve_id}
+        headers = dict(self.session.headers)
+        if self._nvd_api_key:
+            headers["apiKey"] = self._nvd_api_key
+
         for attempt in range(4):
             try:
-                r = self.session.get(NVD_API, params=params, timeout=15)
+                r = requests.get(NVD_API, params=params, headers=headers, timeout=15)
                 if r.status_code in (403, 429):
                     # Rate limited — exponential backoff
                     wait = (2 ** attempt) * 3
