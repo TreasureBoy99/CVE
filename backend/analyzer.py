@@ -257,6 +257,16 @@ class CVEAnalyzer:
                     cve_data["cvss_severity"] = base_severity
                 break
 
+        # If no CVSS score found anywhere, infer from CWE
+        current = cve_data.get("severity", "N/A")
+        if current in ("N/A", "", None, 0) or str(current) == "0":
+            cwe_ids = cve_data.get("cwe_ids", [])
+            inferred = self._infer_severity_from_cwe(cwe_ids)
+            if inferred:
+                cve_data["severity"] = str(inferred)
+                cve_data["cvss_severity"] = self._cwe_to_severity_label(inferred)
+                self.logger.info(f"Inferred CVSS {inferred} from CWE for {cve_data.get('id', '?')}")
+
         # CWE
         weaknesses = cve_item.get("weaknesses", [])
         for w in weaknesses:
@@ -425,6 +435,33 @@ class CVEAnalyzer:
     @staticmethod
     def _cwe_human_readable(cwe: str) -> str:
         return CVEAnalyzer.CWE_MAP.get(cwe, cwe)
+
+    HIGH_FROM_CWE = {"CWE-89", "CWE-78", "CWE-94", "CWE-77", "CWE-287",
+                     "CWE-306", "CWE-269", "CWE-862", "CWE-863", "CWE-502",
+                     "CWE-434", "CWE-918", "CWE-611", "CWE-352", "CWE-200", "CWE-22"}
+    MEDIUM_FROM_CWE = {"CWE-79", "CWE-190", "CWE-119", "CWE-416", "CWE-476",
+                       "CWE-835", "CWE-400", "CWE-755", "CWE-843", "CWE-88"}
+
+    def _infer_severity_from_cwe(self, cwe_ids: list) -> float:
+        """Infer CVSS-equivalent score from CWE when no official score exists."""
+        for cwe in cwe_ids:
+            base = cwe.split(" ")[0].strip()
+            if base in self.HIGH_FROM_CWE:
+                return 8.5
+            if base in self.MEDIUM_FROM_CWE:
+                return 5.5
+        return 0.0
+
+    def _cwe_to_severity_label(self, score: float) -> str:
+        if score >= 9.0:
+            return "CRITICAL"
+        if score >= 7.0:
+            return "HIGH"
+        if score >= 4.0:
+            return "MEDIUM"
+        if score > 0:
+            return "LOW"
+        return "N/A"
 
     def _derive_fix_suggestion(self, cve: Dict[str, Any]) -> str:
         """Generate fix suggestion from enriched data — no LLM needed."""
