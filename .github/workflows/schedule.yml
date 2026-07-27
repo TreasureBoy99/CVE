@@ -95,6 +95,8 @@ jobs:
         with:
           path: ~/.cve-monitor
           key: cve-db-v1
+          restore-keys: |
+            cve-db-v1
 
       - name: Commit
         run: |
@@ -107,6 +109,7 @@ jobs:
           fi
 
       - name: Create Weekly Issue
+        if: github.event_name == 'schedule'
         uses: actions/github-script@v7
         with:
           script: |
@@ -247,6 +250,7 @@ jobs:
           fi
 
       - name: Create PoC Issue
+        if: github.event_name == 'schedule'
         uses: actions/github-script@v7
         with:
           script: |
@@ -272,7 +276,8 @@ jobs:
               } else {
                 cves.forEach(c => {
                   const sev = c.severity || '?';
-                  const icon = parseFloat(sev) >= 9 ? '🔴' : parseFloat(sev) >= 7 ? '🟠' : '🟡';
+                  const sevNum = parseFloat(sev);
+                  const icon = isNaN(sevNum) ? '⚪' : sevNum >= 9 ? '🔴' : sevNum >= 7 ? '🟠' : '🟡';
                   const hasKev = c.cisa_kev ? ' ⚠️ **CISA KEV**' : '';
                   const desc = ((c.description || '').slice(0, 100)).replace(/\n/g, ' ');
                   body += '- ' + icon + ' **' + c.id + '** CVSS ' + sev + hasKev + '\n  ' + desc + '...\n';
