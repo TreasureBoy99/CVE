@@ -21,10 +21,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    defaults:
+      run:
+        shell: python
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # need all history to list tags
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Determine mode
         id: mode
@@ -51,6 +58,7 @@ jobs:
           VERSION: ${{ steps.mode.outputs.VERSION }}
         run: |
           import subprocess, os
+
           tag = os.environ.get('VERSION', '')
           result = subprocess.run(['git', 'tag', '-l', tag], capture_output=True, text=True)
           if result.stdout.strip():
@@ -124,6 +132,7 @@ jobs:
           VERSION: ${{ steps.mode.outputs.VERSION }}
         run: |
           import subprocess, os
+
           tag = os.environ.get('VERSION', '')
           subprocess.run(['git', 'config', 'user.email', 'github-actions[bot]@users.noreply.github.com'])
           subprocess.run(['git', 'config', 'user.name', 'CVE Monitor Release'])
@@ -172,6 +181,7 @@ jobs:
         if: always()
         run: |
           import json, os
+
           summary = ''
           if os.path.exists('release_summary.md'):
               with open('release_summary.md') as f:
