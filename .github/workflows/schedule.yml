@@ -2,13 +2,9 @@ name: CVE Schedule
 
 on:
   schedule:
-    # Every 5 min — keep data fresh
     - cron: '*/5 * * * *'
-    # Every Monday 09:00 UTC (17:00 CST) — weekly full report
     - cron: '0 9 * * 1'
-    # Every Wednesday 09:00 UTC — scan year CVE
     - cron: '0 9 * * 3'
-    # Every Friday 09:00 UTC — poc report
     - cron: '0 9 * * 5'
   workflow_dispatch:
     inputs:
@@ -29,8 +25,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  # ── Frequent (every 5 min) ─────────────────────────────────────────────────
-  # Does NOT create releases — only keeps data fresh + commits delta log
+  # ── Frequent (every 5 min) — no enrich, no issue, no release ──────────────
   frequent:
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
@@ -45,7 +40,7 @@ jobs:
       - name: Install
         run: pip install -r requirements.txt
 
-      - name: Frequent update (no enrichment — fast)
+      - name: Frequent update
         run: python scripts/update_cves.py daily --days 7 --no-enrich
 
       - name: Commit
@@ -57,7 +52,7 @@ jobs:
             git commit -m "Frequent CVE update $(date +'%Y-%m-%d %H:%M')"
             git push
           else
-            echo "No changes — skipping commit"
+            echo "No changes"
           fi
 
   # ── Weekly report (Monday) ──────────────────────────────────────────────────
@@ -76,80 +71,54 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Weekly full report
-        id: weekly
-        run: |
-          python scripts/update_cves.py weekly --days 7 >> $GITHUB_OUTPUT 2>&1
-          echo "report_exit_code=$?" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_OUTPUT: ${{ runner.temp }}/output
+        run: python scripts/update_cves.py weekly --days 7
 
       - name: Commit
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "CVE Monitor"
-          git add data/ logs/ 2>/dev/null || true
+          git add data/ frontend/public/ logs/ 2>/dev/null || true
           if ! git diff --quiet; then
             git commit -m "Weekly CVE report $(date +'%Y-%m-%d')"
             git push
           fi
 
-      - name: Create/Update Weekly Issue
+      - name: Create Weekly Issue
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+            const dataPath = `${process.env.GITHUB_WORKSPACE}/data/cves.json`;
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['weekly-report'],
               state: 'open'
             });
-
             const today = new Date().toLocaleDateString('zh-CN', {
               year: 'numeric', month: 'long', day: 'numeric'
             });
-            const title = `📋 周报 · ${today}`;
-
-            const dataPath = `${process.env.GITHUB_WORKSPACE}/data/cves.json`;
-            const fs = require('fs');
-            let stats = '';
+            const title = '📋 周报 · ' + today;
+            let body = '## 📊 本周漏洞态势\n\n';
             if (fs.existsSync(dataPath)) {
               const d = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
               const m = d.cveMetadata || {};
               const dist = m.severity_distribution || {};
-              const total = m.total_count || 0;
               const cves = d.cves || [];
-              const critical = dist.critical || 0;
-              const high = dist.high || 0;
-              const weekCves = cves.filter(c => {
-                const days7 = new Date();
-                days7.setDate(days7.getDate() - 7);
-                return new Date(c.publishedDate) >= days7;
-              });
-              stats = `
-**本周新增/更新：${weekCves.length} 条 CVE**
-| 严重性 | 数量 |
-|--------|------|
-| 🔴 Critical | **${critical}** |
-| 🟠 High | **${high}** |
-| 🟡 Medium | **${dist.medium}** |
-| 🟢 Low | **${dist.low}** |
-| ⚪ N/A | **${dist.none}** |
-
-> 数据更新时间：${m.last_updated || '-'}
-`;
+              const weekStart = new Date();
+              weekStart.setDate(weekStart.getDate() - 7);
+              const weekCount = cves.filter(c => new Date(c.publishedDate) >= weekStart).length;
+              body += '**本周新增/更新：** ' + weekCount + ' 条 CVE\n\n';
+              body += '| 严重性 | 数量 |\n';
+              body += '|--------|------|\n';
+              body += '| 🔴 Critical | **' + (dist.critical || 0) + '** |\n';
+              body += '| 🟠 High | **' + (dist.high || 0) + '** |\n';
+              body += '| 🟡 Medium | **' + (dist.medium || 0) + '** |\n';
+              body += '| 🟢 Low | **' + (dist.low || 0) + '** |\n';
+              body += '| ⚪ N/A | **' + (dist.none || 0) + '** |\n\n';
+              body += '> 数据更新时间：' + (m.last_updated || '-') + '\n';
             }
-
-            const body = `## 📊 本周漏洞态势
-
-${stats}
-
-## 📋 详情列表
-
-本周完整报告已生成并保存至 \`data/cves.json\`。
-
----
-*🤖 由 CVE Monitor 自动生成*`;
-
+            body += '\n## 📋 详情列表\n\n本周完整报告已生成并保存至 `data/cves.json`。\n\n---\n*🤖 由 CVE Monitor 自动生成*';
             if (issues.length > 0) {
               await github.rest.issues.update({
                 owner: context.repo.owner,
@@ -159,7 +128,7 @@ ${stats}
                 body: body,
                 state: 'open'
               });
-              console.log(`Updated issue #${issues[0].number}`);
+              console.log('Updated issue #' + issues[0].number);
             } else {
               const { data: newIssue } = await github.rest.issues.create({
                 owner: context.repo.owner,
@@ -168,7 +137,7 @@ ${stats}
                 body: body,
                 labels: ['weekly-report']
               });
-              console.log(`Created issue #${newIssue.number}`);
+              console.log('Created issue #' + newIssue.number);
             }
 
   # ── Year scan (Wednesday) ──────────────────────────────────────────────────
@@ -193,7 +162,7 @@ ${stats}
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "CVE Monitor"
-          git add data/ logs/ 2>/dev/null || true
+          git add data/ frontend/public/ logs/ 2>/dev/null || true
           if ! git diff --quiet; then
             git commit -m "2026 CVE scan $(date +'%Y-%m-%d')"
             git push
@@ -221,57 +190,47 @@ ${stats}
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "CVE Monitor"
-          git add data/ logs/ 2>/dev/null || true
+          git add data/ frontend/public/ logs/ 2>/dev/null || true
           if ! git diff --quiet; then
             git commit -m "PoC CVE report $(date +'%Y-%m-%d')"
             git push
           fi
 
-      - name: Create/Update PoC Issue
+      - name: Create PoC Issue
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+            const dataPath = `${process.env.GITHUB_WORKSPACE}/data/cves.json`;
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['poc-report'],
               state: 'open'
             });
-
             const today = new Date().toLocaleDateString('zh-CN', {
               year: 'numeric', month: 'long', day: 'numeric'
             });
-            const title = `⚠️ PoC 漏洞报告 · ${today}`;
-
-            const dataPath = `${process.env.GITHUB_WORKSPACE}/data/cves.json`;
-            const fs = require('fs');
-            let pocList = '';
+            const title = '⚠️ PoC 漏洞报告 · ' + today;
+            let body = '## ⚠️ 已知被利用漏洞 — 近期 PoC 汇总\n\n';
+            body += '> 本报告仅收录 **CISA KEV** 标记或 **GitHub Advisory** 记录存在已知漏洞利用的 CVE，';
+            body += '请 **优先修复** 以下漏洞！\n\n';
             if (fs.existsSync(dataPath)) {
               const d = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
               const cves = (d.cves || []).slice(0, 30);
               if (cves.length === 0) {
-                pocList = '✅ 近期无新增已知被利用的 CVE';
+                body += '✅ 近期无新增已知被利用的 CVE\n';
               } else {
-                pocList = cves.map(c => {
+                cves.forEach(c => {
                   const sev = c.severity || '?';
                   const icon = parseFloat(sev) >= 9 ? '🔴' : parseFloat(sev) >= 7 ? '🟠' : '🟡';
                   const hasKev = c.cisa_kev ? ' ⚠️ **CISA KEV**' : '';
-                  const desc = (c.description || '').slice(0, 100);
-                  return `- ${icon} **${c.id}** CVSS ${sev}${hasKev}\n  ${desc}...`;
-                }).join('\n');
+                  const desc = ((c.description || '').slice(0, 100)).replace(/\n/g, ' ');
+                  body += '- ' + icon + ' **' + c.id + '** CVSS ' + sev + hasKev + '\n  ' + desc + '...\n';
+                });
               }
             }
-
-            const body = `## ⚠️ 已知被利用漏洞 — 近期 PoC 汇总
-
-> 本报告仅收录 **CISA KEV** 标记或 **GitHub Advisory** 记录存在已知漏洞利用的 CVE，
-> 请 **优先修复** 以下漏洞！
-
-${pocList}
-
----
-*🤖 由 CVE Monitor 自动生成 · ${new Date().toUTCString()}*`;
-
+            body += '\n---\n*🤖 由 CVE Monitor 自动生成 · ' + new Date().toUTCString() + '*';
             if (issues.length > 0) {
               await github.rest.issues.update({
                 owner: context.repo.owner,
@@ -281,7 +240,7 @@ ${pocList}
                 body: body,
                 state: 'open'
               });
-              console.log(`Updated PoC issue #${issues[0].number}`);
+              console.log('Updated PoC issue #' + issues[0].number);
             } else {
               const { data: newIssue } = await github.rest.issues.create({
                 owner: context.repo.owner,
@@ -290,7 +249,7 @@ ${pocList}
                 body: body,
                 labels: ['poc-report']
               });
-              console.log(`Created PoC issue #${newIssue.number}`);
+              console.log('Created PoC issue #' + newIssue.number);
             }
 
   # ── Manual dispatch ────────────────────────────────────────────────────────
@@ -321,7 +280,7 @@ ${pocList}
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "CVE Monitor"
-          git add data/ logs/ 2>/dev/null || true
+          git add data/ frontend/public/ logs/ 2>/dev/null || true
           if ! git diff --quiet; then
             git commit -m "Manual CVE update $(date +'%Y-%m-%d %H:%M')"
             git push

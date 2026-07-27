@@ -27,6 +27,17 @@ interface CVE {
     versions: { status: string; version: string; lessThanOrEqual: string; versionType?: string }[]
     defaultStatus: string
   }[]
+  cisa_kev?: boolean
+  cisa_kev_vendor?: string
+  cisa_kev_product?: string
+  cisa_kev_date_added?: string
+  short_description?: string
+  exploit_available?: boolean
+  ghsa_id?: string
+  cvss_vector?: string
+  cvss_severity?: string
+  cwe_ids?: string[]
+  cwe_description?: string
 }
 
 interface CVECache {

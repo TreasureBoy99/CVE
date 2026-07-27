@@ -72,17 +72,21 @@ class CVEAnalyzer:
 
     def _nvd_request(self, cve_id: str) -> Optional[Dict]:
         """
-        Fetch from NVD with retry + backoff.
+        Fetch from NVD with retry + exponential backoff.
+        Handles 403 / 429 rate limiting gracefully.
         Returns parsed JSON dict or None on failure.
         """
         params = {"cveId": cve_id}
-        for attempt in range(3):
+        for attempt in range(4):
             try:
                 r = self.session.get(NVD_API, params=params, timeout=15)
-                if r.status_code == 403:
-                    # Rate limited — wait and retry
-                    wait = (attempt + 1) * 5
-                    self.logger.warning(f"NVD 403, attempt {attempt+1}/3, waiting {wait}s")
+                if r.status_code in (403, 429):
+                    # Rate limited — exponential backoff
+                    wait = (2 ** attempt) * 3
+                    retry_after = r.headers.get("Retry-After")
+                    if retry_after:
+                        wait = max(wait, int(retry_after))
+                    self.logger.warning(f"NVD {r.status_code}, attempt {attempt+1}/4, waiting {wait}s")
                     time.sleep(wait)
                     continue
                 if r.status_code == 200:
@@ -90,7 +94,7 @@ class CVEAnalyzer:
                 self.logger.warning(f"NVD returned {r.status_code} for {cve_id}")
                 return None
             except requests.exceptions.RequestException as e:
-                self.logger.warning(f"NVD request error (attempt {attempt+1}/3): {e}")
+                self.logger.warning(f"NVD request error (attempt {attempt+1}/4): {e}")
                 time.sleep(2 * (attempt + 1))
         return None
 
@@ -186,25 +190,35 @@ class CVEAnalyzer:
     def enrich_from_github_advisory(self, cve_id: str, cve_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Check GitHub Advisory Database for exploit/PoC info.
+        Has retry with backoff for rate limiting.
         """
-        try:
-            r = self.session.get(
-                GITHUB_ADVISORY_URL,
-                params={"cve_id": cve_id, "type": "reviewed"},
-                timeout=10,
-            )
-            if r.status_code == 200:
-                advisories = r.json()
-                if advisories:
-                    adv = advisories[0]
-                    cve_data["ghsa_id"] = adv.get("ghsa_id", "")
-                    # Look for exploit_available in extensions
-                    for ext in adv.get("extensions", []):
-                        if ext.get("type") == "exploit":
-                            cve_data["exploit_available"] = ext.get("exploit_available", False)
-                            cve_data["exploit_last_patched"] = ext.get("exploit_last_patched")
-        except Exception as e:
-            self.logger.debug(f"GitHub advisory enrich failed for {cve_id}: {e}")
+        for attempt in range(3):
+            try:
+                r = self.session.get(
+                    GITHUB_ADVISORY_URL,
+                    params={"cve_id": cve_id, "type": "reviewed"},
+                    timeout=10,
+                )
+                if r.status_code == 403:
+                    wait = (attempt + 1) * 5
+                    self.logger.warning(f"GitHub Advisory 403, attempt {attempt+1}/3, waiting {wait}s")
+                    time.sleep(wait)
+                    continue
+                if r.status_code == 200:
+                    advisories = r.json()
+                    if advisories:
+                        adv = advisories[0]
+                        cve_data["ghsa_id"] = adv.get("ghsa_id", "")
+                        for ext in adv.get("extensions", []):
+                            if ext.get("type") == "exploit":
+                                cve_data["exploit_available"] = ext.get("exploit_available", False)
+                                cve_data["exploit_last_patched"] = ext.get("exploit_last_patched")
+                    return cve_data
+                # Other errors — just return as-is
+                return cve_data
+            except Exception as e:
+                self.logger.debug(f"GitHub advisory error (attempt {attempt+1}/3): {e}")
+                time.sleep(2 * (attempt + 1))
         return cve_data
 
     # ── Main enrich ─────────────────────────────────────────────────────────────
@@ -266,12 +280,12 @@ class CVEAnalyzer:
         "CWE-94":  "Code Injection",
         "CWE-77":  "Command Injection",
         "CWE-611": "XML External Entity (XXE)",
-        "CWE-918": "Server-Side Request Forgery",
-        "CWE-自信": "Use of Obsolete Function",
-        "CWE-323": "Reusing Nonce / Key in Role",
-        "CWE-用到": "Key Management Errors",
-        "CWE-590": "Free of Memory Not on Heap",
+        "CWE-352": "Cross-Site Request Forgery",
         "CWE-416": "Use After Free",
+        "CWE-843": "Type Confusion",
+        "CWE-862": "Missing Authorization",
+        "CWE-88":  "Argument Injection",
+        "CWE-79":  "Cross-Site Scripting",
     }
 
     @staticmethod
