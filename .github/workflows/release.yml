@@ -108,7 +108,11 @@ jobs:
           ]
           for cve in cves:
               sev = cve.get('severity', '?')
-              icon = '🔴' if float(sev or 0) >= 9 else '🟠' if float(sev or 0) >= 7 else '🟡'
+              try:
+                  sev_float = float(sev)
+              except (ValueError, TypeError):
+                  sev_float = 0
+              icon = '🔴' if sev_float >= 9 else '🟠' if sev_float >= 7 else '🟡'
               desc = ((cve.get('description') or '无描述')[:100]).replace('\n', ' ')
               lines.append(f"- {icon} **{cve['id']}** CVSS {sev} — {desc}...")
           lines.append("")
