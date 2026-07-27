@@ -1,0 +1,176 @@
+name: CVE Schedule
+
+on:
+  schedule:
+    # Every 5 min — keep data fresh (diff/daily)
+    - cron: '*/5 * * * *'
+    # Every Monday 09:00 UTC (17:00 CST) — weekly full report
+    - cron: '0 9 * * 1'
+    # Every Wednesday 09:00 UTC — scan year CVE
+    - cron: '0 9 * * 3'
+    # Every Friday 09:00 UTC — poc report
+    - cron: '0 9 * * 5'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Mode (daily/weekly/poc/scan/diff)'
+        required: false
+        default: ''
+      days:
+        description: '--days value'
+        required: false
+        default: '7'
+      year:
+        description: '--year value (scan mode)'
+        required: false
+        default: '2026'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  # ── Frequent (every 5 min) ─────────────────────────────────────────────────
+  frequent:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Frequent update
+        run: python scripts/update_cves.py daily --days 7 --no-enrich
+
+      - name: Commit
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "CVE Monitor"
+          git add data/ logs/ 2>/dev/null || true
+          if ! git diff --quiet; then
+            git commit -m "Frequent CVE update $(date +'%Y-%m-%d %H:%M')"
+            git push
+          fi
+
+  # ── Weekly report (Monday) ──────────────────────────────────────────────────
+  weekly:
+    if: github.event_name == 'schedule' && github.event.schedule == '0 9 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Weekly full report
+        run: python scripts/update_cves.py weekly --days 7
+
+      - name: Commit
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "CVE Monitor"
+          git add data/ logs/ 2>/dev/null || true
+          if ! git diff --quiet; then
+            git commit -m "Weekly CVE report $(date +'%Y-%m-%d')"
+            git push
+          fi
+
+  # ── Year scan (Wednesday) ──────────────────────────────────────────────────
+  scan-year:
+    if: github.event_name == 'schedule' && github.event.schedule == '0 9 * * 3'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Scan 2026 CVEs
+        run: python scripts/update_cves.py scan --year 2026 --days 365
+
+      - name: Commit
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "CVE Monitor"
+          git add data/ logs/ 2>/dev/null || true
+          if ! git diff --quiet; then
+            git commit -m "2026 CVE scan $(date +'%Y-%m-%d')"
+            git push
+          fi
+
+  # ── PoC report (Friday) ────────────────────────────────────────────────────
+  poc-report:
+    if: github.event_name == 'schedule' && github.event.schedule == '0 9 * * 5'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: PoC report
+        run: python scripts/update_cves.py poc --days 30
+
+      - name: Commit
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "CVE Monitor"
+          git add data/ logs/ 2>/dev/null || true
+          if ! git diff --quiet; then
+            git commit -m "PoC CVE report $(date +'%Y-%m-%d')"
+            git push
+          fi
+
+  # ── Manual dispatch ────────────────────────────────────────────────────────
+  manual:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Manual run
+        run: |
+          MODE=${{ github.event.inputs.mode }}
+          if [ -z "$MODE" ]; then
+            python scripts/update_cves.py daily --days 7
+          else
+            python scripts/update_cves.py $MODE --days ${{ github.event.inputs.days }} --year ${{ github.event.inputs.year }}
+          fi
+
+      - name: Commit
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "CVE Monitor"
+          git add data/ logs/ 2>/dev/null || true
+          if ! git diff --quiet; then
+            git commit -m "Manual CVE update $(date +'%Y-%m-%d %H:%M')"
+            git push
+          fi

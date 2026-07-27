@@ -9,7 +9,7 @@ from pathlib import Path
 
 # 修改导入语句
 from backend.utils.logger import Logger  # 使用完整的导入路径
-from backend.deepseek_analyzer import DeepSeekAnalyzer
+from backend.analyzer import CVEAnalyzer
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urljoin
@@ -335,19 +335,16 @@ class CVECrawler:
 
     def _save_cves(self, cves: List[Dict[str, Any]], enrich: bool = True) -> None:
         """保存CVE数据到文件，包含元数据"""
-        analyzer = DeepSeekAnalyzer() if enrich else None
+        analyzer = CVEAnalyzer() if enrich else None
 
-        # Enrich with fix suggestions
+        # Enrich with NVD / CISA KEV / GitHub Advisory data
         if analyzer:
             for cve in cves:
-                if not cve.get('fix_suggestion'):
-                    try:
-                        cve['fix_suggestion'] = analyzer.generate_fix_suggestion(cve)
-                        self.logger.info(f"Generated fix suggestion for {cve['id']}")
-                    except Exception as e:
-                        self.logger.warning(f"Failed to generate fix suggestion for {cve['id']}: {e}")
-                        cve['fix_suggestion'] = '无法生成修复建议'
-                    self.logger.info(f"Generated fix suggestion for {cve['id']}")
+                try:
+                    analyzer.enrich(cve)
+                    self.logger.info(f"Enriched {cve['id']}")
+                except Exception as e:
+                    self.logger.warning(f"Failed to enrich {cve['id']}: {e}")
 
         output_data = {
             "dataType": "CVE_RECORD",

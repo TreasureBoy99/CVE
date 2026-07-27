@@ -3,6 +3,7 @@ import { Header } from '@/components/header'
 import { SearchFilter } from '@/components/search-filter'
 import { CVECard } from '@/components/cve-card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { getSeverityLevel } from '@/components/severity-badge'
 
 interface Reference {
@@ -216,6 +217,12 @@ export default function Home() {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
+      {/* Top bar */}
+      <div className="flex items-center justify-between mb-8">
+        <div />
+        <ThemeToggle />
+      </div>
+
       <Header
         totalCount={data?.cveMetadata.total_count ?? 0}
         lastUpdated={data?.cveMetadata.last_updated ?? ''}
@@ -249,8 +256,8 @@ export default function Home() {
             <p className="text-sm text-muted-foreground">
               共找到 <span className="font-semibold text-foreground">{filtered.length}</span> 条记录
             </p>
-            {filtered.map((cve) => (
-              <CVECard key={cve.id} cve={cve} />
+            {filtered.map((cve, i) => (
+              <CVECard key={cve.id} cve={cve} index={i} />
             ))}
           </>
         )}
