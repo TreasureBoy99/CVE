@@ -111,8 +111,17 @@ jobs:
               try:
                   sev_float = float(sev)
               except (ValueError, TypeError):
-                  sev_float = 0
-              icon = '🔴' if sev_float >= 9 else '🟠' if sev_float >= 7 else '🟡'
+                  sev_float = None
+              if sev_float is None:
+                  icon = '⚪'
+              elif sev_float >= 9:
+                  icon = '🔴'
+              elif sev_float >= 7:
+                  icon = '🟠'
+              elif sev_float >= 4:
+                  icon = '🟡'
+              else:
+                  icon = '🟢'
               desc = ((cve.get('description') or '无描述')[:100]).replace('\n', ' ')
               lines.append(f"- {icon} **{cve['id']}** CVSS {sev} — {desc}...")
           lines.append("")
