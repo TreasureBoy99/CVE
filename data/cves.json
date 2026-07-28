@@ -2,342 +2,163 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 11,
-    "last_updated": "2026-07-28T22:07:47.776207",
+    "total_count": 4,
+    "last_updated": "2026-07-28T23:13:05.905534",
     "severity_distribution": {
-      "critical": 0,
-      "high": 10,
-      "medium": 0,
-      "low": 1,
-      "none": 0
+      "critical": 1,
+      "high": 1,
+      "medium": 1,
+      "low": 0,
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-54653",
-      "publishedDate": "2026-07-28T21:48:04.619Z",
-      "lastModifiedDate": "2026-07-28T21:48:04.619Z",
-      "description": "datamodel-code-generator generates Pydantic v2 models, dataclasses, TypedDict, and msgspec.Struct from OpenAPI, JSON Schema, GraphQL, Avro, Protobuf, and raw JSON, YAML, or CSV. From  0.17.0 until 0.60.2, datamodel-code-generator preserves attacker-controlled default_factory values in src/datamodel_code_generator/parser/jsonschema.py through JsonSchemaObject.init and get_field_extras and emits them into Field(default_factory=...) or field(default_factory=...), allowing Python expression execution when the generated model is imported. This issue is fixed in version 0.60.2.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54658",
+      "publishedDate": "2026-07-28T22:18:48.800Z",
+      "lastModifiedDate": "2026-07-28T22:18:48.800Z",
+      "description": "Hypequery is a TypeScript semantic layer for ClickHouse. Prior to 2.0.2, escapeValue() in packages/clickhouse/src/core/utils.ts did not escape backslashes before single quotes during parameter substitution, allowing attacker controlled query parameters with a trailing backslash to escape the closing quote and inject arbitrary SQL. This issue is fixed in version 2.0.2.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：hypequery hypequery\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-386q-5hp3-95m9",
+          "url": "https://github.com/hypequery/hypequery/security/advisories/GHSA-6wcc-39rp-hh9p",
           "type": "reference"
         },
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/17fc235e234cbcfaaadef8c74cb72c9687db0d1d",
+          "url": "https://github.com/hypequery/hypequery/commit/4dfa9d77d70a08b970e722268b75ca7d13db0bdf",
           "type": "reference"
         },
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.60.2",
+          "url": "https://github.com/hypequery/hypequery/blob/main/packages/clickhouse/CHANGELOG.md#202",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/hypequery/hypequery/releases/tag/@hypequery/clickhouse@2.0.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
+          "vendor": "hypequery",
+          "product": "hypequery",
           "versions": [
             {
-              "version": ">= 0.17.0, < 0.60.2",
+              "version": "< 2.0.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
-        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
+        "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
       ],
-      "ghsa_id": "GHSA-386q-5hp3-95m9"
+      "ghsa_id": "GHSA-6wcc-39rp-hh9p"
     },
     {
-      "id": "CVE-2026-17107",
-      "publishedDate": "2026-07-24T18:56:05.194Z",
-      "lastModifiedDate": "2026-07-28T21:36:43.882Z",
-      "description": "A flaw was found in the cluster-proxy service-proxy component used in Red Hat Advanced Cluster Management for Kubernetes (RHACM) and multicluster-engine (MCE). The service-proxy appends impersonation group headers to proxied requests without first removing caller-supplied values, and the spoke ServiceAccount holds unrestricted impersonation permissions. An authenticated hub principal can inject an Impersonate-Group header to escalate to cluster-admin on every managed cluster.",
-      "severity": 8.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat multicluster engine for Kubernetes 2.10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54650",
+      "publishedDate": "2026-07-28T22:20:36.566Z",
+      "lastModifiedDate": "2026-07-28T22:20:36.566Z",
+      "description": "openhole exposes localhost to the internet in one command. In 0.1.1 and earlier, openhole-server in internal/server/public_proxy.go forwarded r.URL.Path instead of preserving the original request target with r.URL.EscapedPath(), allowing percent encoded dot segments %2e and separators %2f to reach tunneled local services as ../ and / for path traversal. This issue is fixed in version 0.1.2.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：bablilayoub openhole\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/errata/RHSA-2026:46885",
+          "url": "https://github.com/bablilayoub/openhole/security/advisories/GHSA-fh2f-xfxc-q9cc",
           "type": "reference"
         },
         {
-          "url": "https://access.redhat.com/errata/RHSA-2026:47388",
+          "url": "https://github.com/bablilayoub/openhole/commit/a28c27adde2a7ed0c347b730c8707208c0f78ed3",
           "type": "reference"
         },
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-17107",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506771",
+          "url": "https://github.com/bablilayoub/openhole/releases/tag/v0.1.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "multicluster engine for Kubernetes 2.10",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "multicluster-engine/cluster-proxy-rhel9",
-          "defaultStatus": "affected",
+          "vendor": "bablilayoub",
+          "product": "openhole",
           "versions": [
             {
-              "version": "1784342329",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:multicluster_engine:2.10::el9"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "multicluster engine for Kubernetes 2.10",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "multicluster-engine/cluster-proxy-rhel9",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "1784342329",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:multicluster_engine:2.10::el9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Unintended Proxy or Intermediary ('Confused Deputy')"
-      ]
-    },
-    {
-      "id": "CVE-2026-54690",
-      "publishedDate": "2026-07-28T21:42:06.802Z",
-      "lastModifiedDate": "2026-07-28T21:42:06.802Z",
-      "description": "datamodel-code-generator generates Pydantic v2 models, dataclasses, TypedDict, and msgspec.Struct from OpenAPI, JSON Schema, GraphQL, Avro, Protobuf, and raw JSON, YAML, or CSV. From 0.9.1 until 0.61.0, datamodel-code-generator silently dereferences attacker-controlled JSON Schema $ref HTTP or HTTPS URLs in src/datamodel_code_generator/parser/jsonschema.py through _get_ref_body, and the --allow-remote-refs gate can warn instead of blocking, allowing server-side request forgery through src/datamodel_code_generator/http.py. This issue is fixed in version 0.61.0.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-954p-556p-r752",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/5fdba4a09f2d7a9996a504975b7ef7d63e3715bb",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.61.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": ">= 0.9.1, < 0.61.0",
+              "version": "< 0.1.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
-      "ghsa_id": "GHSA-954p-556p-r752"
+      "ghsa_id": "GHSA-fh2f-xfxc-q9cc"
     },
     {
-      "id": "CVE-2026-54691",
-      "publishedDate": "2026-07-28T21:29:52.197Z",
-      "lastModifiedDate": "2026-07-28T21:29:52.197Z",
-      "description": "datamodel-code-generator generates Python data models from schema definitions. From 0.9.1 until 0.61.0, src/datamodel_code_generator/http.py http.get_body accepts --url targets and redirect chain targets without host/IP validation, allowing server-side request forgery against loopback, private, link-local, metadata, and other network-accessible resources. This issue is fixed in version 0.61.0.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-59921",
+      "publishedDate": "2026-07-28T22:28:51.267Z",
+      "lastModifiedDate": "2026-07-28T22:28:51.267Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, HttpPostRequestEncoder constructs multipart HTTP request bodies by directly concatenating user-supplied filenames and field names into Content-Disposition MIME headers without validating or sanitizing CRLF characters (\\r\\n). Since MIME headers are delimited by CRLF, an attacker who controls the filename can inject arbitrary MIME headers into the multipart body part. The root cause is that neither the encoder nor the FileUpload implementations' setFilename() methods, which only check for null, neutralize CRLF characters before the filename is embedded into the header. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": 5.7,
+      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-rfr2-mq9m-x2qx",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/5fdba4a09f2d7a9996a504975b7ef7d63e3715bb",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.61.0",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-gcjf-9mgh-3p7g",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
+          "vendor": "netty",
+          "product": "netty",
           "versions": [
             {
-              "version": ">= 0.9.1, < 0.61.0",
+              "version": ">=4.2.0.Final, < 4.2.16.Final",
+              "status": "affected"
+            },
+            {
+              "version": "< 4.1.136.Final",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
+        "CWE-93: Improper Neutralization of CRLF Sequences ('CRLF Injection')"
       ],
-      "ghsa_id": "GHSA-rfr2-mq9m-x2qx"
+      "ghsa_id": "GHSA-gcjf-9mgh-3p7g"
     },
     {
-      "id": "CVE-2026-54656",
-      "publishedDate": "2026-07-28T21:43:56.286Z",
-      "lastModifiedDate": "2026-07-28T21:43:56.286Z",
-      "description": "datamodel-code-generator generates Pydantic v2 models, dataclasses, TypedDict, and msgspec.Struct from OpenAPI, JSON Schema, GraphQL, Avro, Protobuf, and raw JSON, YAML, or CSV. From 0.52.1 until 0.60.2, datamodel-code-generator interpolates validators from --extra-template-data in src/datamodel_code_generator/model/pydantic_v2/base_model.py through _process_validators into @field_validator decorators without safe validation, allowing Python code execution when the generated Pydantic v2 model is imported. This issue is fixed in version 0.60.2.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54659",
+      "publishedDate": "2026-07-28T22:25:35.231Z",
+      "lastModifiedDate": "2026-07-28T22:25:35.231Z",
+      "description": "Pagy is agnostic pagination in plain Ruby. From 43.0.0 until 43.5.6, Pagy::I18n.locale= in gem/lib/pagy/modules/i18n/i18n.rb stored locale values verbatim and later used them as <locale>.yml path components, allowing untrusted params[:locale] values with absolute paths or ../ sequences to create a file existence and readability oracle for YAML files. This issue is fixed in version 43.5.6.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ddnexus pagy\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-8m8r-38jm-f355",
+          "url": "https://github.com/ddnexus/pagy/security/advisories/GHSA-2xmw-f8j8-wfxc",
           "type": "reference"
         },
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/a43d02906111a2fdcaf13ee5b62eb2da85376f19",
+          "url": "https://github.com/ddnexus/pagy/pull/908",
           "type": "reference"
         },
         {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.60.2",
+          "url": "https://github.com/ddnexus/pagy/commit/efcf09690e9fa7d7abdfb987b785a55f87e287df",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ddnexus/pagy/releases/tag/43.5.6",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
+          "vendor": "ddnexus",
+          "product": "pagy",
           "versions": [
             {
-              "version": ">= 0.52.1, < 0.60.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "ghsa_id": "GHSA-8m8r-38jm-f355"
-    },
-    {
-      "id": "CVE-2026-54621",
-      "publishedDate": "2026-07-28T21:35:27.863Z",
-      "lastModifiedDate": "2026-07-28T21:35:27.863Z",
-      "description": "datamodel-code-generator generates Python data models from schema definitions. Prior to 0.60.1, GraphQL Union description values in src/datamodel_code_generator/model/template/UnionTypeStatement.jinja2 and src/datamodel_code_generator/model/template/UnionTypeStatement.py312.jinja2 are rendered into Python comments without neutralizing carriage returns in Python # comments, allowing attacker-controlled GraphQL schema content to inject Python code into generated models that runs when imported. This issue is fixed in version 0.60.1.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-j884-q54q-mmx3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/aec47bc414779f4a9992b3919c8f7663afd6c988",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.60.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": ">= 0.25.0, < 0.60.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
-        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
-      ],
-      "ghsa_id": "GHSA-j884-q54q-mmx3"
-    },
-    {
-      "id": "CVE-2026-54655",
-      "publishedDate": "2026-07-28T21:33:45.438Z",
-      "lastModifiedDate": "2026-07-28T21:33:45.438Z",
-      "description": "datamodel-code-generator generates Python data models from schema definitions. From 0.51.0 until 0.60.2, x-python-type values parsed by src/datamodel_code_generator/parser/jsonschema.py in _get_python_type_override are inserted into generated field annotations without sufficient validation, allowing attacker-controlled JSON Schema content to execute Python code when the generated module is imported. This issue is fixed in version 0.60.2.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-m34r-v34r-rf9q",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/2c93c9b712f43391dcfa975a1e4aa0b7c93ccbba",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.60.2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": ">= 0.51.0, < 0.60.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "ghsa_id": "GHSA-m34r-v34r-rf9q"
-    },
-    {
-      "id": "CVE-2026-55389",
-      "publishedDate": "2026-07-28T21:49:21.260Z",
-      "lastModifiedDate": "2026-07-28T21:49:21.260Z",
-      "description": "datamodel-code-generator generates Pydantic v2 models, dataclasses, TypedDict, and msgspec.Struct from OpenAPI, JSON Schema, GraphQL, Avro, Protobuf, and raw JSON, YAML, or CSV. Prior to 0.62.0, datamodel-code-generator resolves JSON Schema $ref targets in src/datamodel_code_generator/parser/jsonschema.py through is_url and _get_ref_body without containing file:// or ../ traversal references to the input directory and without honoring --no-allow-remote-refs, allowing arbitrary local file reads. This issue is fixed in version 0.62.0.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-8359-h9fx-j6v9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/2ff4a72b4550a2b2069754c5b075b1655067e5fb",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.62.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": "< 0.62.0",
+              "version": ">= 43.0.0, < 43.5.6",
               "status": "affected"
             }
           ]
@@ -345,128 +166,9 @@
       ],
       "problemType": [
         "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
-        "CWE-610: Externally Controlled Reference to a Resource in Another Sphere"
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
       ],
-      "ghsa_id": "GHSA-8359-h9fx-j6v9"
-    },
-    {
-      "id": "CVE-2026-55391",
-      "publishedDate": "2026-07-28T21:45:39.058Z",
-      "lastModifiedDate": "2026-07-28T21:45:39.058Z",
-      "description": "datamodel-code-generator generates Pydantic v2 models, dataclasses, TypedDict, and msgspec.Struct from OpenAPI, JSON Schema, GraphQL, Avro, Protobuf, and raw JSON, YAML, or CSV. Prior to 0.63.0, datamodel-code-generator validates a URL host once in src/datamodel_code_generator/http.py through get_body, _validate_url_for_fetch, and _get_ips_from_host, but then lets httpx resolve the host again for the connection, allowing DNS rebinding to bypass allow_private_network=False and reach internal services. This issue is fixed in version 0.63.0.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-vx7x-vcc2-c44g",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/25c8b7e497419eb20b230fa3318c04f9bebc5a6f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.63.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": "< 0.63.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-350: Reliance on Reverse DNS Resolution for a Security-Critical Action",
-        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition",
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "ghsa_id": "GHSA-vx7x-vcc2-c44g"
-    },
-    {
-      "id": "CVE-2026-55415",
-      "publishedDate": "2026-07-28T21:37:55.642Z",
-      "lastModifiedDate": "2026-07-28T21:37:55.642Z",
-      "description": "datamodel-code-generator generates Pydantic v2 models, dataclasses, TypedDict, and msgspec.Struct from OpenAPI, JSON Schema, GraphQL, Avro, Protobuf, and raw JSON, YAML, or CSV. From 0.11.6 until 0.64.0, datamodel-code-generator allows attacker-controlled x-python-import or customTypePath schema extensions to reach src/datamodel_code_generator/parser/jsonschema.py and generated import handling through Import.from_full_path and Imports.create_line in src/datamodel_code_generator/imports.py, allowing a newline to break out of an import statement and execute Python code when the generated model is imported. This issue is fixed in version 0.64.0.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-5578-w22f-pfx9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/577d49569c2254c371a97e495020ae2238a73b84",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.64.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": ">= 0.11.6, < 0.64.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
-        "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"
-      ],
-      "ghsa_id": "GHSA-5578-w22f-pfx9"
-    },
-    {
-      "id": "CVE-2026-55403",
-      "publishedDate": "2026-07-28T21:31:49.172Z",
-      "lastModifiedDate": "2026-07-28T21:31:49.172Z",
-      "description": "datamodel-code-generator generates Python data models from schema definitions. Prior to 0.63.0, src/datamodel_code_generator/http.py get_body reuses Authorization, Cookie, and Proxy-Authorization headers when following cross-origin redirects while fetching remote schemas, allowing credentials scoped to one schema host to be leaked to another redirect target. This issue is fixed in version 0.63.0.",
-      "severity": 3.7,
-      "fix_suggestion": "📦 受影响组件：koxudaxi datamodel-code-generator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/security/advisories/GHSA-r5vv-ff45-prp2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/commit/a585c037c8307b7aae815de193b7fe1c4c44994b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/koxudaxi/datamodel-code-generator/releases/tag/0.63.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "koxudaxi",
-          "product": "datamodel-code-generator",
-          "versions": [
-            {
-              "version": "< 0.63.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
-        "CWE-601: URL Redirection to Untrusted Site ('Open Redirect')"
-      ],
-      "ghsa_id": "GHSA-r5vv-ff45-prp2"
+      "ghsa_id": "GHSA-2xmw-f8j8-wfxc"
     }
   ]
 }
