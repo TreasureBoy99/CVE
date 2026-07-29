@@ -2,95 +2,605 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 8,
-    "last_updated": "2026-07-29T17:53:28.417662",
+    "total_count": 30,
+    "last_updated": "2026-07-29T18:45:47.872822",
     "severity_distribution": {
-      "critical": 0,
-      "high": 2,
-      "medium": 3,
-      "low": 0,
-      "none": 3
+      "critical": 2,
+      "high": 8,
+      "medium": 4,
+      "low": 2,
+      "none": 14
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-56822",
-      "publishedDate": "2026-07-28T23:17:17.325Z",
-      "lastModifiedDate": "2026-07-29T17:31:58.802Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the OcspServerCertificateValidator forwards the SslHandshakeCompletionEvent before the asynchronous OCSP validation completes. This allows the client's downstream handlers to send sensitive application data (e.g., HTTP requests) to a revoked server before the channel is closed by the OCSP check. n io.netty.handler.ssl.ocsp.OcspServerCertificateValidator#userEventTriggered, when an SslHandshakeCompletionEvent is received, the validator immediately calls ctx.fireUserEventTriggered(evt). It then initiates an asynchronous OCSP query using OcspClient.query. Because the handshake completion event is forwarded immediately, downstream handlers in the client's pipeline are notified that the TLS handshake is successful. They may then begin reading and processing incoming application data or sending outgoing data. If the OCSP response later indicates the server's certificate is REVOKED, the validator closes the channel, but by this time, the client may have already leaked sensitive data to a revoked server or processed malicious responses from it. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54735",
+      "publishedDate": "2026-07-29T15:59:46.640Z",
+      "lastModifiedDate": "2026-07-29T18:04:18.670Z",
+      "description": "Prebid Server is an open-source solution for running real-time advertising auctions in the cloud. Prior to version 4.4.0, certain bidder adapters in Prebid Server interpolate user-supplied parameters into outbound request URLs without properly validating host and subdomain values, allowing crafted bid request parameters to cause server-side requests to unintended destinations and potentially expose internal network services or sensitive server endpoints. This issue is fixed in version 4.4.0.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：prebid prebid-server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-wc96-39fc-566f",
+          "url": "https://github.com/prebid/prebid-server/security/advisories/GHSA-4p3g-4hcj-wpvx",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/prebid/prebid-server/pull/4802",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/prebid/prebid-server/commit/494ac271cd4b5024df9123ef25ca3cff96390be3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/prebid/prebid-server/releases/tag/v4.4.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netty",
-          "product": "netty",
+          "vendor": "prebid",
+          "product": "prebid-server",
           "versions": [
             {
-              "version": ">= 4.2.0.Final, < 4.2.16.Final",
-              "status": "affected"
-            },
-            {
-              "version": "< 4.1.136.Final",
+              "version": "< 4.4.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
+        "CWE-918: Server-Side Request Forgery (SSRF)"
       ],
-      "ghsa_id": "GHSA-wc96-39fc-566f"
+      "ghsa_id": "GHSA-4p3g-4hcj-wpvx"
     },
     {
-      "id": "CVE-2026-56821",
-      "publishedDate": "2026-07-28T23:07:13.616Z",
-      "lastModifiedDate": "2026-07-29T17:32:19.753Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the OcspServerCertificateValidator flags an out-of-date OCSP response but does not stop processing it, so an expired GOOD response is still reported as VALID, letting an on-path attacker replay a stale GOOD response to bypass revocation of a since-revoked certificate. Exploitation can lead to certificate revocation bypass via replay of an expired OCSP response. Any application using OcspServerCertificateValidator is affected; a revoked certificate can be accepted. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-14529",
+      "publishedDate": "2026-07-29T18:15:18.180Z",
+      "lastModifiedDate": "2026-07-29T18:15:18.180Z",
+      "description": "IBM WebSphere Application Server 9.0, and 8.5 and IBM WebSphere Application Server - Liberty 17.0.0.3 through 26.0.0.8 traditional is vulnerable to server-side request forgery (SSRF) when the SIP container feature (sipServlet-1.1) is enabled.",
+      "severity": 9.4,
+      "fix_suggestion": "📦 受影响组件：IBM WebSphere Application Server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-g7hg-vrcf-mvmr",
+          "url": "https://www.ibm.com/support/pages/node/7281721",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netty",
-          "product": "netty",
+          "vendor": "IBM",
+          "product": "WebSphere Application Server",
           "versions": [
             {
-              "version": "< 4.1.136.Final",
-              "status": "affected"
+              "status": "affected",
+              "version": "9.0"
             },
             {
-              "version": ">= 4.2.0.Final, < 4.2.16.Final",
+              "status": "affected",
+              "version": "8.5"
+            }
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "WebSphere Application Server - Liberty",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "17.0.0.3",
+              "lessThanOrEqual": "26.0.0.8",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-306 Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-67201",
+      "publishedDate": "2026-07-29T18:12:34.162Z",
+      "lastModifiedDate": "2026-07-29T18:12:34.162Z",
+      "description": "V through 0.5.2, fixed in commit 85859f0, contains a server-side request forgery (SSRF) bypass vulnerability that allows attackers to circumvent host-based allowlists by exploiting a parser differential between net.urllib and net.http. Attackers can craft a URL containing a backslash in the authority section such that net.urllib.parse() extracts the trusted host for allowlist validation while net.http.get() normalizes the backslash and connects to the internal host, enabling access to internal network services that the allowlist was intended to block.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：vlang v\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vlang/v/issues/27945",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/vlang/v/pull/27947",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vlang/v/commit/85859f0f3498d4091b38009c45ed390a97eeedc2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/v-ssrf-bypass-via-parser-differential-in-net-urllib-and-net-http",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "vlang",
+          "product": "v",
+          "packageURL": "pkg:github/vlang/v",
+          "repo": "https://github.com/vlang/v",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "0.5.2"
+            },
+            {
+              "status": "unaffected",
+              "version": "85859f0f3498d4091b38009c45ed390a97eeedc2",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Interpretation Conflict"
+      ]
+    },
+    {
+      "id": "CVE-2026-48395",
+      "publishedDate": "2026-07-28T17:58:45.455Z",
+      "lastModifiedDate": "2026-07-29T18:12:28.635Z",
+      "description": "Bridge is affected by an Untrusted Search Path vulnerability that could result in arbitrary code execution in the context of the current user. An attacker could exploit this vulnerability to execute arbitrary code. Exploitation of this issue requires user interaction in that a victim must open a malicious file. Scope is changed.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：Adobe Adobe Bridge\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://helpx.adobe.com/security/products/bridge/apsb26-89.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Adobe Bridge",
+          "vendor": "Adobe",
+          "versions": [
+            {
+              "lessThanOrEqual": "16.0.5",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "16.0.6",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "unaffected",
+          "product": "Adobe Bridge",
+          "vendor": "Adobe",
+          "versions": [
+            {
+              "lessThanOrEqual": "15.1.6",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "15.1.7",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Untrusted Search Path (CWE-426)"
+      ]
+    },
+    {
+      "id": "CVE-2026-54727",
+      "publishedDate": "2026-07-29T16:41:46.521Z",
+      "lastModifiedDate": "2026-07-29T18:07:46.535Z",
+      "description": "proot-distro is a utility for managing proot containers. Prior to version 5.1.6, proot-distro restore accepted hardlink entries whose linkname referenced another installed container and did not verify that the hardlink source container matched the destination container being restored, allowing a crafted restore archive to copy files between otherwise isolated containers. This issue is fixed in version 5.1.6.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：termux proot-distro\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/termux/proot-distro/security/advisories/GHSA-7h3g-4w2f-fj2f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/termux/proot-distro/commit/98aff324b7d8500ff75a8ca9ac087ee636be4716",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/termux/proot-distro/releases/tag/v5.1.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "termux",
+          "product": "proot-distro",
+          "versions": [
+            {
+              "version": "< 5.1.6",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-299: Improper Check for Certificate Revocation"
+        "CWE-668: Exposure of Resource to Wrong Sphere"
       ],
-      "ghsa_id": "GHSA-g7hg-vrcf-mvmr"
+      "ghsa_id": "GHSA-7h3g-4w2f-fj2f"
     },
     {
-      "id": "CVE-2026-59920",
-      "publishedDate": "2026-07-29T17:32:46.835Z",
-      "lastModifiedDate": "2026-07-29T17:32:46.835Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. In versions prior to 4.1.136.Final and 4.2.16.Final, Netty's STOMP encoder ( StompSubframeEncoder ) does not escape or validate header values in  CONNECT  and  CONNECTED  frames, so raw newline ( \\n ) characters in a header value are written directly to the wire, allowing an attacker who controls a header value to inject additional STOMP headers. This happens because the encoder intentionally skips escaping for CONNECT/CONNECTED frames per the STOMP 1.2 specification but never rejects the raw newlines, and since a broker parses each line as a separate header, an attacker controlling a value such as a user-supplied login or passcode can overwrite connection parameters or add authentication/role headers to bypass authentication or escalate privileges (the actual impact is broker-dependent). The issue is fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "id": "CVE-2026-48390",
+      "publishedDate": "2026-07-28T17:58:46.196Z",
+      "lastModifiedDate": "2026-07-29T18:12:40.625Z",
+      "description": "Bridge is affected by an Incorrect Authorization vulnerability that could result in privilege escalation. An attacker could leverage this vulnerability to gain unauthorized read and write access. Exploitation of this issue requires user interaction in that a victim must open a malicious file. Scope is changed.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：Adobe Adobe Bridge\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://helpx.adobe.com/security/products/bridge/apsb26-89.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Adobe Bridge",
+          "vendor": "Adobe",
+          "versions": [
+            {
+              "lessThanOrEqual": "16.0.5",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "16.0.6",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "unaffected",
+          "product": "Adobe Bridge",
+          "vendor": "Adobe",
+          "versions": [
+            {
+              "lessThanOrEqual": "15.1.6",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "15.1.7",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization (CWE-863)"
+      ]
+    },
+    {
+      "id": "CVE-2026-35425",
+      "publishedDate": "2026-07-24T00:01:10.745Z",
+      "lastModifiedDate": "2026-07-29T18:21:18.168Z",
+      "description": "Improper access control in Azure API Management (APIM) allows an authorized attacker to execute code over a network.",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure API Management (APIM)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-35425",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure API Management (APIM)",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284: Improper Access Control"
+      ]
+    },
+    {
+      "id": "CVE-2026-66758",
+      "publishedDate": "2026-07-27T19:07:12.789Z",
+      "lastModifiedDate": "2026-07-29T18:16:51.197Z",
+      "description": "A flaw was found in the file-fits plugin in GIMP. When processing a FITS image file, the plugin calculates memory allocation sizes using signed 32-bit integers for width and height. If a crafted file sets both values to large values, their product exceeds 2^31 and overflows, resulting in an undersized heap-based buffer allocation. This integer overflow issue results in a heap-based buffer overflow when cfitsio subsequently writes a full row of pixels in the buffer, causing memory corruption, potentially leading to arbitrary code execution or a denial of service.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 6\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-66758",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507475",
+          "type": "reference"
+        },
+        {
+          "url": "https://gitlab.gnome.org/GNOME/gimp/-/issues/16528",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp:2.8/gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Integer Overflow or Wraparound"
+      ]
+    },
+    {
+      "id": "CVE-2026-18255",
+      "publishedDate": "2026-07-29T16:34:44.442Z",
+      "lastModifiedDate": "2026-07-29T18:05:53.353Z",
+      "description": "A flaw was found in Quay. A user configured in GLOBAL_READONLY_SUPER_USERS is able to view robot account tokens for repositories they are not a member of, allowing an attacker with read-only superuser privileges to impersonate any robot account.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Quay 3\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-18255",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2508454",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Quay 3",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "quay/quay-rhel8",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:quay:3"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Quay 3",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "quay/quay-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:quay:3"
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-40272",
+      "publishedDate": "2026-07-29T17:58:27.761Z",
+      "lastModifiedDate": "2026-07-29T18:08:13.992Z",
+      "description": "Improper Input Validation in the decode() function of the traceparser library could allow an attacker with a corrupted kernel trace event log (.kev) file, to execute arbitrary code or cause a crash in processes that use libtraceparser in QNX hosts or targets.",
+      "severity": 7,
+      "fix_suggestion": "📦 受影响组件：BlackBerry Ltd QNX Software Development Platform\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.blackberry.com/pkb/s/article/141229",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "BlackBerry Ltd",
+          "product": "QNX Software Development Platform",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "8.0",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "cpe:2.3:a:blackberry:qnx_software_development_platform:8.0:*:*:*:*:*:*:*",
+              "versionType": "cpe"
+            },
+            {
+              "status": "affected",
+              "version": "7.1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "cpe:2.3:a:blackberry:qnx_software_development_platform:7.1:*:*:*:*:*:*:*",
+              "versionType": "cpe"
+            },
+            {
+              "status": "affected",
+              "version": "7.0",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "cpe:2.3:a:blackberry:qnx_software_development_platform:7.0:*:*:*:*:*:*:*",
+              "versionType": "cpe"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1284 Improper validation of specified quantity in input"
+      ]
+    },
+    {
+      "id": "CVE-2026-67194",
+      "publishedDate": "2026-07-29T16:39:09.617Z",
+      "lastModifiedDate": "2026-07-29T18:07:09.182Z",
+      "description": "Courier IMAP before 6.0.1 and Courier Mail Server before 2.0.2 allow authenticated IMAP users to crash the imapd process via deeply nested parenthesized SEARCH queries. The SEARCH command parser (alloc_search_key in searchinfo.C) recursively descends on nested parenthesized groups through a mutual recursion chain with alloc_search_andlist() and alloc_search_notkey(), with no depth limit. Courier IMAP has no overall command line length limit, making exploitation trivial. A single IMAP command with ~2500 nested parentheses overflows the 8MB default stack, causing SIGSEGV.",
       "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：svarshavchik Courier IMAP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/svarshavchik/courier/releases/tag/courier-imap%2F6.0.1%2F20260627214444",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/svarshavchik/courier/releases/tag/courier%2F2.0.2%2F20260627214309",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/svarshavchik/courier-libs/commit/b5b5581aabea3efadf5e2944947ff0214aa3533e",
+          "type": "reference"
+        },
+        {
+          "url": "https://packages.debian.org/sid/courier-imap",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/courier-imap-mail-server-stack-overflow-dos-via-nested-search-queries",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "svarshavchik",
+          "product": "Courier IMAP",
+          "packageURL": "pkg:github/svarshavchik/courier",
+          "repo": "https://github.com/svarshavchik/courier",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "6.0.1"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "affected",
+          "vendor": "svarshavchik",
+          "product": "Courier Mail Server",
+          "packageURL": "pkg:github/svarshavchik/courier",
+          "repo": "https://github.com/svarshavchik/courier",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "2.0.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Recursion"
+      ]
+    },
+    {
+      "id": "CVE-2026-18257",
+      "publishedDate": "2026-07-29T16:34:09.688Z",
+      "lastModifiedDate": "2026-07-29T18:04:53.132Z",
+      "description": "Improper validity period check for root issuer certificate in CycloneCrypto cryptographic wrapper of S2OPC allows a certificate issued by this root issuer to be considered trusted",
+      "severity": 5.6,
+      "fix_suggestion": "📦 受影响组件：Systerel S2OPC\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://gitlab.com/systerel/S2OPC/-/work_items/1804",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Systerel",
+          "product": "S2OPC",
+          "versions": [
+            {
+              "version": "1.5.0",
+              "status": "affected",
+              "lessThan": "2.0.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-295: Improper Certificate Validation"
+      ]
+    },
+    {
+      "id": "CVE-2026-59919",
+      "publishedDate": "2026-07-29T17:37:49.812Z",
+      "lastModifiedDate": "2026-07-29T18:06:11.495Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. In versions prior to 4.1.136.Final and 4.2.16.Final, Netty's HAProxy encoder ( HAProxyMessageEncoder ) writes AF_UNIX source and destination socket addresses into the HAProxy V1 text protocol without validating them for CRLF characters, so an attacker who controls an AF_UNIX address can inject  \\r\\n  sequences and split the single PROXY header into multiple lines. This is possible because the V1 protocol uses CRLF as its line terminator and, unlike IPv4/IPv6 addresses whose format checks implicitly reject CRLF, AF_UNIX addresses are only validated for length (up to 108 bytes), allowing a forged second PROXY header line that spoofs the client source/destination IP to a downstream server or load balancer. The issue is fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": 5.5,
       "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-3g8r-4pfx-jmfh",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-wh89-7897-x99h",
           "type": "reference"
         }
       ],
@@ -113,56 +623,306 @@
       "problemType": [
         "CWE-93: Improper Neutralization of CRLF Sequences ('CRLF Injection')"
       ],
-      "ghsa_id": "GHSA-3g8r-4pfx-jmfh"
+      "ghsa_id": "GHSA-wh89-7897-x99h"
     },
     {
-      "id": "CVE-2026-54705",
-      "publishedDate": "2026-07-29T17:21:20.414Z",
-      "lastModifiedDate": "2026-07-29T17:21:20.414Z",
-      "description": "MathLive provides web components for math display and input. Prior to 0.110.0, MathLive fails to escape text-mode content in \\text{} and \\mbox{} commands in Box.toMarkup at src/core/box.ts, in xmlEscape, scanText, and text-mode output in src/formats/atom-to-math-ml.ts, and through convertLatexToMarkup, convertLatexToMathMl, <math-span>, <math-div>, and the default identity MathfieldElement.createHTML, allowing malicious input to run arbitrary JavaScript when rendered. This issue is fixed in version 0.110.0.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：arnog mathlive\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-16729",
+      "publishedDate": "2026-07-29T16:45:57.001Z",
+      "lastModifiedDate": "2026-07-29T18:08:16.149Z",
+      "description": "undici's setCookie function does not fully sanitize cookie attributes. In undici before 6.28.0, from 7.0.0 up to before 7.29.0, and from 8.0.0 up to before 8.9.0, a domain value is not checked for semicolons and entries in the unparsed array are not sanitized, so attacker-influenced input can inject additional cookie attributes. For example, a domain value containing a semicolon can append attributes such as SameSite, and an unparsed entry can inject attributes such as HttpOnly, without the caller setting them. Applications that pass user-controlled input to these fields, such as multi-tenant or reverse-proxy servers that scope session cookies to a tenant-supplied domain, can have SameSite CSRF protections bypassed, or the Secure, HttpOnly, and SameSite attributes forced, stripped, or overridden. The issue is fixed in undici 6.28.0, 7.29.0, and 8.9.0.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：undici undici\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/arnog/mathlive/security/advisories/GHSA-fm7p-gw32-828p",
+          "url": "https://github.com/nodejs/undici/security/advisories/GHSA-v3r7-h72x-cjcm",
           "type": "reference"
         },
         {
-          "url": "https://github.com/arnog/mathlive/issues/3028",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/arnog/mathlive/commit/5fe1c46153883f9ec0249a5c8c34e64aaae9cfb8",
+          "url": "https://cna.openjsf.org/security-advisories.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "arnog",
-          "product": "mathlive",
+          "vendor": "undici",
+          "product": "undici",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": "< 0.110.0",
+              "versionType": "semver",
+              "status": "affected",
+              "version": "0",
+              "lessThan": "6.28.0"
+            },
+            {
+              "versionType": "semver",
+              "status": "unaffected",
+              "version": "6.28.0"
+            },
+            {
+              "versionType": "semver",
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.29.0"
+            },
+            {
+              "versionType": "semver",
+              "status": "unaffected",
+              "version": "7.29.0"
+            },
+            {
+              "versionType": "semver",
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.9.0"
+            },
+            {
+              "versionType": "semver",
+              "status": "unaffected",
+              "version": "8.9.0"
+            }
+          ],
+          "packageURL": "pkg:npm/undici"
+        }
+      ],
+      "problemType": [
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-2482",
+      "publishedDate": "2026-07-29T18:19:36.707Z",
+      "lastModifiedDate": "2026-07-29T18:19:36.707Z",
+      "description": "IBM WebSphere Application Server - Liberty 17.0.0.3 through 26.0.0.8 is vulnerable to cross-site request forgery which could allow an attacker to execute malicious and unauthorized actions transmitted from a user that the website trusts.",
+      "severity": 3.1,
+      "fix_suggestion": "📦 受影响组件：IBM WebSphere Application Server - Liberty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7281651",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "WebSphere Application Server - Liberty",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "17.0.0.3",
+              "lessThanOrEqual": "26.0.0.8",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-352 Cross-Site Request Forgery (CSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-10684",
+      "publishedDate": "2026-07-29T18:03:08.771Z",
+      "lastModifiedDate": "2026-07-29T18:03:08.771Z",
+      "description": "In subsys/debug/coredump/coredump_shell.c, print_coredump_hdr() used the 16-bit tgt_code field of a stored Zephyr coredump header directly as an index into coredump_target_code2str[], a fixed 7-element array of string pointers, with no bounds check.\n\nA stored coredump whose tgt_code is >= 7 causes an out-of-bounds read of a char* up to ~64K entries past the array; that value is passed as the %s argument to shell_print, which dereferences and walks it as a string. The result is either disclosure of device memory contents to the shell user or a crash when the out-of-bounds pointer is unmapped.\n\nThe defect is reached via the coredump print shell command (cmd_coredump_print_stored_dump -> pretty_print_coredump -> parse_and_print_coredump -> print_coredump_hdr). The tgt_code field is device-generated and in-range during normal crash handling, so triggering requires local shell access plus the ability to stage or corrupt the stored coredump in the flash/in-memory backend.\n\nIntroduced in v4.2.0 (commit 13abd7fe730) and present through v4.4.0; fixed by clamping out-of-range codes to the 'unknown' (index 0) entry.",
+      "severity": 3,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/a9226324e8bd1f8adecafb1b6e0603f781dc750c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-9fw2-4429-49q8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/debug/coredump/coredump_shell.c"
+          ],
+          "versions": [
+            {
+              "version": "4.2.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.3.1"
+            },
+            {
+              "version": "4.4.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "4.4.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "bounds"
+      ]
+    },
+    {
+      "id": "CVE-2026-66737",
+      "publishedDate": "2026-07-29T18:45:16.742730+00:00",
+      "lastModifiedDate": "2026-07-29T18:17:04.898Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-62995",
+      "publishedDate": "2026-07-29T18:27:06.518Z",
+      "lastModifiedDate": "2026-07-29T18:27:06.518Z",
+      "description": "joserfc is a Python library that provides an implementation of several JSON Object Signing and Encryption (JOSE) standards. in versions 1.7.1 and prior,  joserfc accepts JWTs with trailing padding (==) which are not conforming to the JOSE specifications. This leads to malleability of the JWTs when consumed by joserfc. Depending on this application this might or not be an issue. This could lead to bypass of token revocation or anti-replay protection when implemented as a deny list of tokens or a deny list of token hashes. Note that ECDSA JWS are always malleable because of the malleability of ECDSA signatures (first test case in the code bellow). This makes a scheme which assumes that JWTs are not malleable brittle. However for other signatures (or MAC) schemes it might make sense to assume non malleability of the token. This issue has been fixed in version 1.7.2.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：authlib joserfc\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/authlib/joserfc/security/advisories/GHSA-5jhw-7jv7-qcqq",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "authlib",
+          "product": "joserfc",
+          "versions": [
+            {
+              "version": "< 1.7.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-116: Improper Encoding or Escaping of Output"
-      ],
-      "ghsa_id": "GHSA-fm7p-gw32-828p"
+        "CWE-345: Insufficient Verification of Data Authenticity"
+      ]
     },
     {
-      "id": "CVE-2026-59921",
-      "publishedDate": "2026-07-28T22:28:51.267Z",
-      "lastModifiedDate": "2026-07-29T17:32:31.931Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, HttpPostRequestEncoder constructs multipart HTTP request bodies by directly concatenating user-supplied filenames and field names into Content-Disposition MIME headers without validating or sanitizing CRLF characters (\\r\\n). Since MIME headers are delimited by CRLF, an attacker who controls the filename can inject arbitrary MIME headers into the multipart body part. The root cause is that neither the encoder nor the FileUpload implementations' setFilename() methods, which only check for null, neutralize CRLF characters before the filename is embedded into the header. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
-      "severity": 5.7,
+      "id": "CVE-2026-12935",
+      "publishedDate": "2026-07-29T18:20:06.417Z",
+      "lastModifiedDate": "2026-07-29T18:20:06.417Z",
+      "description": "The\nTL-WR940N v6 router contains a vulnerability in its RTSP connection tracking\nmodule that can lead to a stack-based buffer overflow. The issue occurs when a\nLAN client initiates a connection to a malicious RTSP server controlled by an\nattacker. A specially crafted RTSP message may trigger improper memory handling\nwithin the kernel module\n\n\n\n\n\n\n\n\n\nSuccessful\nexploitation of this vulnerability may result in a denial-of-service (DoS)\ncondition or allow remote code execution (RCE), potentially leading to full\ncompromise of the device. This vulnerability can be exploited by an\nunauthenticated attacker under the device's default configuration.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. TL-WR940N v6\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/us/support/download/tl-wr940n/v6/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/tl-wr940n/v6/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/jp/support/download/tl-wr940n/v6/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/faq/5213/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "TL-WR940N v6",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "(US)_V6_260528",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "(JP)_V6_260527",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "(EU)_V6_260528",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-121 Stack-based buffer overflow"
+      ]
+    },
+    {
+      "id": "CVE-2026-59898",
+      "publishedDate": "2026-07-29T18:02:07.415Z",
+      "lastModifiedDate": "2026-07-29T18:02:07.415Z",
+      "description": "Netty is an asynchronous, event-driven network application framework.  Prior to versions 4.1.136.Final and 4.2.16.Final, ab attacker can force WebSocket upgrade via the lax V07 (or V08) handshaker by sending `Sec-WebSocket-Version: 7` and omitting `Connection: Upgrade` / `Upgrade: websocket` headers, completing a protocol switch that a proxy would not recognize as an Upgrade request and enabling HTTP request smuggling / protocol-confusion attacks. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-gcjf-9mgh-3p7g",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-4mp9-239f-g9hg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/netty/netty/releases/tag/netty-4.1.136.Final",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/netty/netty/releases/tag/netty-4.2.16.Final",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "netty",
+          "product": "netty",
+          "versions": [
+            {
+              "version": ">=4.2.0.Final, < 4.2.16.Final",
+              "status": "affected"
+            },
+            {
+              "version": "< 4.1.136.Final",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-444: Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+      ],
+      "ghsa_id": "GHSA-4mp9-239f-g9hg"
+    },
+    {
+      "id": "CVE-2026-59900",
+      "publishedDate": "2026-07-29T17:58:35.543Z",
+      "lastModifiedDate": "2026-07-29T18:07:24.906Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, Netty's HTTP/2-to-HTTP/1.x translation layer (`Http2StreamFrameToHttpObjectCodec` and `InboundHttp2ToHttpAdapter`) fails to deduplicate or validate `Host` headers when an HTTP/2 client supplies both the `:authority` pseudo-header and a literal `host` header in a single HEADERS frame. The translator maps `:authority` to `Host` and separately copies the literal `host` header, producing an `HttpRequest` object containing two `Host` headers with attacker-controlled differing values. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-c69g-56f8-xwqj",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/netty/netty/releases/tag/netty-4.1.136.Final",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/netty/netty/releases/tag/netty-4.2.16.Final",
           "type": "reference"
         }
       ],
@@ -183,14 +943,81 @@
         }
       ],
       "problemType": [
-        "CWE-93: Improper Neutralization of CRLF Sequences ('CRLF Injection')"
+        "CWE-444: Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
       ],
-      "ghsa_id": "GHSA-gcjf-9mgh-3p7g"
+      "ghsa_id": "GHSA-c69g-56f8-xwqj"
+    },
+    {
+      "id": "CVE-2026-59901",
+      "publishedDate": "2026-07-29T17:48:39.621Z",
+      "lastModifiedDate": "2026-07-29T18:09:41.130Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the `Bzip2Decoder` handler in Netty's compression codec pipeline is vulnerable to a denial-of-service attack through a malformed bzip2 stream that permanently captures the event-loop thread in an infinite loop. The vulnerability exists in the run-length encoding (RLE) state machine within [`Bzip2BlockDecompressor.read()`]. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-558v-64gr-wgg4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "netty",
+          "product": "netty",
+          "versions": [
+            {
+              "version": ">=4.2.0.Final, < 4.2.16.Final",
+              "status": "affected"
+            },
+            {
+              "version": "< 4.1.136.Final",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-835: Loop with Unreachable Exit Condition ('Infinite Loop')"
+      ],
+      "ghsa_id": "GHSA-558v-64gr-wgg4"
+    },
+    {
+      "id": "CVE-2026-18236",
+      "publishedDate": "2026-07-29T17:37:01.519Z",
+      "lastModifiedDate": "2026-07-29T18:08:58.347Z",
+      "description": "A vulnerability in the Agent Development Kit (ADK) allows for continuation forgery in tool confirmations. An attacker who is able to manipulate or inject events into the session history can execute unauthorized tools by forging a tool confirmation response. This is possible because the framework did not verify if the target tool was registered to the executing agent, did not validate if the tool actually required confirmation, and did not match the confirmation arguments against the original tool call event in the history.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Google-ADK\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/google/adk-python/commit/c03f333769feaeaa9fe8910fbe95cb9f2d513f54",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Google-ADK",
+          "platforms": [
+            "Python"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "< 2.5.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ]
     },
     {
       "id": "CVE-2026-13723",
       "publishedDate": "2026-07-29T17:25:22.185Z",
-      "lastModifiedDate": "2026-07-29T17:25:22.185Z",
+      "lastModifiedDate": "2026-07-29T18:21:44.159Z",
       "description": "A vulnerability in the `zipx.Unzip` extraction routine of Develar's app-builder allows an attacker to overwrite arbitrary files on macOS APFS by exploiting a Unicode Normalization Collision combined with symlink following behavior. APFS treats certain Unicode equivalent filenames as identical (e.g., ß ↔ ss), while app builder performs no canonical normalization before validating or writing paths. As a result, a crafted ZIP archive containing:\r\n•\ta symlink entry named ss pointing to a target file, and\r\n•\ta regular file named ß containing attacker controlled data,\r\nwill cause the second write to follow the symlink and overwrite the target file.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：Develar app-builder\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -230,7 +1057,7 @@
     {
       "id": "CVE-2026-8497",
       "publishedDate": "2026-07-29T17:24:59.168Z",
-      "lastModifiedDate": "2026-07-29T17:24:59.168Z",
+      "lastModifiedDate": "2026-07-29T18:14:01.902Z",
       "description": "Improper certificate validation in the Devolutions Server connection handling in Devolutions Password Manager 2026.2.1.0 and earlier on Android, iOS, and macOS allows an adjacent-network attacker to intercept and modify sensitive information via a forged TLS certificate.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：Devolutions Password Manager\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -262,7 +1089,7 @@
     {
       "id": "CVE-2026-14266",
       "publishedDate": "2026-07-29T17:17:13.649Z",
-      "lastModifiedDate": "2026-07-29T17:30:32.742Z",
+      "lastModifiedDate": "2026-07-29T18:09:11.010Z",
       "description": "7-Zip XZ Decompression Heap-based Buffer Overflow Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of 7-Zip. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.\n\nThe specific flaw exists within the processing of XZ chunked data. Crafted XZ-compressed data can trigger an overflow of a heap-based buffer. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-30169.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：7-Zip 7-Zip\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -287,6 +1114,146 @@
       ],
       "problemType": [
         "CWE-122: Heap-based Buffer Overflow"
+      ]
+    },
+    {
+      "id": "CVE-2026-8338",
+      "publishedDate": "2026-07-29T16:38:40.944Z",
+      "lastModifiedDate": "2026-07-29T18:06:23.447Z",
+      "description": "A Spring Security authentication and authorization bypass exists in Coverity Connect versions between 2023.6.0 and 2026.3.0. An unauthenticated malicious threat actor that can send a specially crafted HTTP request is able to bypass authentication and authorization controls on certain API endpoints to access data within Coverity.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Black Duck Coverity Connect\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://community.blackduck.com/s/article/Black-Duck-Product-Security-Advisory-CVE-2026-8338-Authentication-and-Authorization-Bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Black Duck",
+          "product": "Coverity Connect",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2023.6.0",
+              "lessThan": "2026.6.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-288 Authentication Bypass Using an Alternate Path or Channel"
+      ]
+    },
+    {
+      "id": "CVE-2026-54078",
+      "publishedDate": "2026-07-29T15:11:05.239Z",
+      "lastModifiedDate": "2026-07-29T18:02:18.227Z",
+      "description": "veraPDF validation model is an implementation of the veraPDF validation model. From 1.25.73 until 1.30.2 and 1.31.71, veraPDF-validation contains an XML External Entity (XXE) vulnerability in validation-model/src/main/java/org/verapdf/gf/model/tools/DictionaryKeysHelper.java in getRichTextStringOrStreamEntryStringRepresentation(), where a crafted PDF containing a malicious rich-text /RC or /RV entry can cause external entity expansion and reflect local file contents into the validation report. This issue is fixed in versions 1.30.2 and 1.31.71.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：veraPDF veraPDF-validation\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/security/advisories/GHSA-3jh7-wm29-q568",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/pull/730",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/commit/94caa46c1a594512247fbd46c808edae39469542",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/commit/cacd9436d0de40b0e58cc7d2dbb06451619e61ec",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "veraPDF",
+          "product": "veraPDF-validation",
+          "versions": [
+            {
+              "version": ">= 1.25.73, < 1.30.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 1.31.1, < 1.31.71",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-611: Improper Restriction of XML External Entity Reference"
+      ],
+      "ghsa_id": "GHSA-3jh7-wm29-q568"
+    },
+    {
+      "id": "CVE-2025-60931",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-29T18:12:36.155Z",
+      "description": "An Insecure Direct Object Reference (IDOR) in the Employee Compensation View function of Infor Global HR v11.24.10.01.33 allows unauthorized attackers to arbitrarily view the compensation information of other employees via a crafted GET request.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://docs.offsecguy.com/cve/infor/vulnerability/insecure-direct-object-references-idor",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2026-51992",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-29T18:11:13.784Z",
+      "description": "SQL Injection vulnerability in ClickHouse Server Versions <= 26.3.9.8 allows a remote attacker to execute arbitrary code via the create dictionaries function.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://clickhouse.com/docs/sql-reference/dictionaries#postgresql",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/TheLiimbo/CVE-2026-51992",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
       ]
     }
   ]
