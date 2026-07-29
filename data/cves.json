@@ -2,84 +2,192 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-07-29T00:08:30.350997",
+    "total_count": 3,
+    "last_updated": "2026-07-29T03:33:27.275169",
     "severity_distribution": {
       "critical": 0,
-      "high": 2,
-      "medium": 0,
+      "high": 1,
+      "medium": 2,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-56822",
-      "publishedDate": "2026-07-28T23:17:17.325Z",
-      "lastModifiedDate": "2026-07-28T23:17:17.325Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the OcspServerCertificateValidator forwards the SslHandshakeCompletionEvent before the asynchronous OCSP validation completes. This allows the client's downstream handlers to send sensitive application data (e.g., HTTP requests) to a revoked server before the channel is closed by the OCSP check. n io.netty.handler.ssl.ocsp.OcspServerCertificateValidator#userEventTriggered, when an SslHandshakeCompletionEvent is received, the validator immediately calls ctx.fireUserEventTriggered(evt). It then initiates an asynchronous OCSP query using OcspClient.query. Because the handshake completion event is forwarded immediately, downstream handlers in the client's pipeline are notified that the TLS handshake is successful. They may then begin reading and processing incoming application data or sending outgoing data. If the OCSP response later indicates the server's certificate is REVOKED, the validator closes the channel, but by this time, the client may have already leaked sensitive data to a revoked server or processed malicious responses from it. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-12476",
+      "publishedDate": "2026-07-29T02:31:38.774Z",
+      "lastModifiedDate": "2026-07-29T02:31:38.774Z",
+      "description": "The Easy Digital Downloads plugin for WordPress is vulnerable to Arbitrary File Upload in versions up to and including 3.6.9. This is due to insufficient file type validation in the edd_do_ajax_import_file_upload() function , which only checks the client-supplied $_FILES['edd-import-file']['type'] Content-Type header against an allow-list of CSV mime types, then uses raw move_uploaded_file() (bypassing wp_handle_upload()'s core MIME enforcement) to write the file under its original extension into the web-accessible wp-content/uploads/edd/exports/ directory. This makes it possible for authenticated attackers, with Shop Manager-level access and above, to upload arbitrary files on the affected site's server which may make remote code execution possible.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：smub Easy Digital Downloads – eCommerce Payments and Subscriptions made easy\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-wc96-39fc-566f",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/5b0c8edd-b392-4d23-bde3-0521eeedc5a0?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/easy-digital-downloads/tags/3.6.8/includes/admin/import/import-functions.php#L92",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/easy-digital-downloads/tags/3.6.8/includes/admin/import/import-functions.php#L68",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/easy-digital-downloads/tags/3.6.8/includes/admin/import/import-functions.php#L87",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/easy-digital-downloads/tags/3.6.7/includes/admin/import/import-functions.php#L92",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/easy-digital-downloads/tags/3.6.7/includes/admin/import/import-functions.php#L68",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/easy-digital-downloads/tags/3.6.7/includes/admin/import/import-functions.php#L87",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3625073/easy-digital-downloads/trunk/includes/admin/import/import-functions.php?old=3577787&old_path=easy-digital-downloads%2Ftrunk%2Fincludes%2Fadmin%2Fimport%2Fimport-functions.php",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netty",
-          "product": "netty",
+          "vendor": "smub",
+          "product": "Easy Digital Downloads – eCommerce Payments and Subscriptions made easy",
           "versions": [
             {
-              "version": ">=4.2.0.Final, < 4.2.16.Final",
-              "status": "affected"
-            },
-            {
-              "version": "< 4.1.136.Final",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.6.9",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
-      ],
-      "ghsa_id": "GHSA-wc96-39fc-566f"
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+      ]
     },
     {
-      "id": "CVE-2026-56821",
-      "publishedDate": "2026-07-28T23:07:13.616Z",
-      "lastModifiedDate": "2026-07-28T23:07:13.616Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the OcspServerCertificateValidator flags an out-of-date OCSP response but does not stop processing it, so an expired GOOD response is still reported as VALID, letting an on-path attacker replay a stale GOOD response to bypass revocation of a since-revoked certificate. Exploitation can lead to certificate revocation bypass via replay of an expired OCSP response. Any application using OcspServerCertificateValidator is affected; a revoked certificate can be accepted. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-15344",
+      "publishedDate": "2026-07-29T02:31:39.343Z",
+      "lastModifiedDate": "2026-07-29T02:31:39.343Z",
+      "description": "The WP Photo Album Plus plugin for WordPress is vulnerable to generic SQL Injection via the 'table' parameter in all versions up to, and including, 9.2.04.002 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with administrator-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. The export-table endpoint lacks a nonce check, meaning this vulnerability can also be triggered via CSRF by tricking an authenticated administrator into visiting a malicious page.",
+      "severity": 4.9,
+      "fix_suggestion": "📦 受影响组件：opajaap WP Photo Album Plus\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-g7hg-vrcf-mvmr",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/db14e2b8-3217-4f81-a44e-e50734ef304c?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.02.003/wppa-ajax.php#L4448",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.03.001/wppa-admin-functions.php#L887",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.03.001/wppa-admin-functions.php#L899",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.03.001/wppa-ajax.php#L4448",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.03.001/wppa-input.php#L399",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.02.003/wppa-admin-functions.php#L887",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.02.003/wppa-admin-functions.php#L899",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/tags/9.2.02.003/wppa-input.php#L399",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3602555%40wp-photo-album-plus&new=3602555%40wp-photo-album-plus",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netty",
-          "product": "netty",
+          "vendor": "opajaap",
+          "product": "WP Photo Album Plus",
           "versions": [
             {
-              "version": "< 4.1.136.Final",
-              "status": "affected"
-            },
-            {
-              "version": ">=4.2.0.Final, < 4.2.16.Final",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "9.2.04.002",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-299: Improper Check for Certificate Revocation"
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-5626",
+      "publishedDate": "2026-07-29T02:31:39.742Z",
+      "lastModifiedDate": "2026-07-29T02:31:39.742Z",
+      "description": "The Survey Form Block plugin for WordPress is vulnerable to unauthorized access of data due to a missing capability check on the get_all_data() function in all versions up to, and including, 1.0.1. This makes it possible for authenticated attackers, with Subscriber-level access and above, to export all survey submission data and column metadata.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：bplugins Survey Form Block – collect answers and insights from your audience\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e98d4f04-74cd-486f-bb2f-fad76895f386?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/survey-form-block/trunk/inc/SVBAjax.php#L52",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/survey-form-block/tags/1.0.1/inc/SVBAjax.php#L52",
+          "type": "reference"
+        },
+        {
+          "url": "https://wordpress.org/plugins/survey-form-block/",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&new=3502334%40survey-form-block%2Ftrunk%2Finc%2FSVBAjax.php&old=3223297%40survey-form-block%2Ftrunk%2Finc%2FSVBAjax.php",
+          "type": "reference"
+        }
       ],
-      "ghsa_id": "GHSA-g7hg-vrcf-mvmr"
+      "affected": [
+        {
+          "vendor": "bplugins",
+          "product": "Survey Form Block – collect answers and insights from your audience",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.0.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ]
     }
   ]
 }
