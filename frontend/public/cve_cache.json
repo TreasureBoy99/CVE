@@ -2,107 +2,27 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-07-28T23:13:05.905534",
+    "total_count": 2,
+    "last_updated": "2026-07-29T00:08:30.350997",
     "severity_distribution": {
-      "critical": 1,
-      "high": 1,
-      "medium": 1,
+      "critical": 0,
+      "high": 2,
+      "medium": 0,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-54658",
-      "publishedDate": "2026-07-28T22:18:48.800Z",
-      "lastModifiedDate": "2026-07-28T22:18:48.800Z",
-      "description": "Hypequery is a TypeScript semantic layer for ClickHouse. Prior to 2.0.2, escapeValue() in packages/clickhouse/src/core/utils.ts did not escape backslashes before single quotes during parameter substitution, allowing attacker controlled query parameters with a trailing backslash to escape the closing quote and inject arbitrary SQL. This issue is fixed in version 2.0.2.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：hypequery hypequery\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/hypequery/hypequery/security/advisories/GHSA-6wcc-39rp-hh9p",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hypequery/hypequery/commit/4dfa9d77d70a08b970e722268b75ca7d13db0bdf",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hypequery/hypequery/blob/main/packages/clickhouse/CHANGELOG.md#202",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hypequery/hypequery/releases/tag/@hypequery/clickhouse@2.0.2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "hypequery",
-          "product": "hypequery",
-          "versions": [
-            {
-              "version": "< 2.0.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
-      ],
-      "ghsa_id": "GHSA-6wcc-39rp-hh9p"
-    },
-    {
-      "id": "CVE-2026-54650",
-      "publishedDate": "2026-07-28T22:20:36.566Z",
-      "lastModifiedDate": "2026-07-28T22:20:36.566Z",
-      "description": "openhole exposes localhost to the internet in one command. In 0.1.1 and earlier, openhole-server in internal/server/public_proxy.go forwarded r.URL.Path instead of preserving the original request target with r.URL.EscapedPath(), allowing percent encoded dot segments %2e and separators %2f to reach tunneled local services as ../ and / for path traversal. This issue is fixed in version 0.1.2.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：bablilayoub openhole\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/bablilayoub/openhole/security/advisories/GHSA-fh2f-xfxc-q9cc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/bablilayoub/openhole/commit/a28c27adde2a7ed0c347b730c8707208c0f78ed3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/bablilayoub/openhole/releases/tag/v0.1.2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "bablilayoub",
-          "product": "openhole",
-          "versions": [
-            {
-              "version": "< 0.1.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "ghsa_id": "GHSA-fh2f-xfxc-q9cc"
-    },
-    {
-      "id": "CVE-2026-59921",
-      "publishedDate": "2026-07-28T22:28:51.267Z",
-      "lastModifiedDate": "2026-07-28T22:28:51.267Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, HttpPostRequestEncoder constructs multipart HTTP request bodies by directly concatenating user-supplied filenames and field names into Content-Disposition MIME headers without validating or sanitizing CRLF characters (\\r\\n). Since MIME headers are delimited by CRLF, an attacker who controls the filename can inject arbitrary MIME headers into the multipart body part. The root cause is that neither the encoder nor the FileUpload implementations' setFilename() methods, which only check for null, neutralize CRLF characters before the filename is embedded into the header. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
-      "severity": 5.7,
+      "id": "CVE-2026-56822",
+      "publishedDate": "2026-07-28T23:17:17.325Z",
+      "lastModifiedDate": "2026-07-28T23:17:17.325Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the OcspServerCertificateValidator forwards the SslHandshakeCompletionEvent before the asynchronous OCSP validation completes. This allows the client's downstream handlers to send sensitive application data (e.g., HTTP requests) to a revoked server before the channel is closed by the OCSP check. n io.netty.handler.ssl.ocsp.OcspServerCertificateValidator#userEventTriggered, when an SslHandshakeCompletionEvent is received, the validator immediately calls ctx.fireUserEventTriggered(evt). It then initiates an asynchronous OCSP query using OcspClient.query. Because the handshake completion event is forwarded immediately, downstream handlers in the client's pipeline are notified that the TLS handshake is successful. They may then begin reading and processing incoming application data or sending outgoing data. If the OCSP response later indicates the server's certificate is REVOKED, the validator closes the channel, but by this time, the client may have already leaked sensitive data to a revoked server or processed malicious responses from it. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": 7.4,
       "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-gcjf-9mgh-3p7g",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-wc96-39fc-566f",
           "type": "reference"
         }
       ],
@@ -123,52 +43,43 @@
         }
       ],
       "problemType": [
-        "CWE-93: Improper Neutralization of CRLF Sequences ('CRLF Injection')"
+        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
       ],
-      "ghsa_id": "GHSA-gcjf-9mgh-3p7g"
+      "ghsa_id": "GHSA-wc96-39fc-566f"
     },
     {
-      "id": "CVE-2026-54659",
-      "publishedDate": "2026-07-28T22:25:35.231Z",
-      "lastModifiedDate": "2026-07-28T22:25:35.231Z",
-      "description": "Pagy is agnostic pagination in plain Ruby. From 43.0.0 until 43.5.6, Pagy::I18n.locale= in gem/lib/pagy/modules/i18n/i18n.rb stored locale values verbatim and later used them as <locale>.yml path components, allowing untrusted params[:locale] values with absolute paths or ../ sequences to create a file existence and readability oracle for YAML files. This issue is fixed in version 43.5.6.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ddnexus pagy\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-56821",
+      "publishedDate": "2026-07-28T23:07:13.616Z",
+      "lastModifiedDate": "2026-07-28T23:07:13.616Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, the OcspServerCertificateValidator flags an out-of-date OCSP response but does not stop processing it, so an expired GOOD response is still reported as VALID, letting an on-path attacker replay a stale GOOD response to bypass revocation of a since-revoked certificate. Exploitation can lead to certificate revocation bypass via replay of an expired OCSP response. Any application using OcspServerCertificateValidator is affected; a revoked certificate can be accepted. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/ddnexus/pagy/security/advisories/GHSA-2xmw-f8j8-wfxc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ddnexus/pagy/pull/908",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ddnexus/pagy/commit/efcf09690e9fa7d7abdfb987b785a55f87e287df",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ddnexus/pagy/releases/tag/43.5.6",
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-g7hg-vrcf-mvmr",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ddnexus",
-          "product": "pagy",
+          "vendor": "netty",
+          "product": "netty",
           "versions": [
             {
-              "version": ">= 43.0.0, < 43.5.6",
+              "version": "< 4.1.136.Final",
+              "status": "affected"
+            },
+            {
+              "version": ">=4.2.0.Final, < 4.2.16.Final",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+        "CWE-299: Improper Check for Certificate Revocation"
       ],
-      "ghsa_id": "GHSA-2xmw-f8j8-wfxc"
+      "ghsa_id": "GHSA-g7hg-vrcf-mvmr"
     }
   ]
 }
