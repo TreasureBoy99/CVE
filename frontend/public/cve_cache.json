@@ -2,158 +2,3578 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 5,
-    "last_updated": "2026-07-30T12:17:26.611651",
+    "total_count": 95,
+    "last_updated": "2026-07-30T14:37:24.689548",
     "severity_distribution": {
-      "critical": 0,
-      "high": 2,
-      "medium": 2,
-      "low": 0,
-      "none": 1
+      "critical": 3,
+      "high": 13,
+      "medium": 9,
+      "low": 1,
+      "none": 69
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-18378",
-      "publishedDate": "2026-07-30T12:00:27.382Z",
-      "lastModifiedDate": "2026-07-30T12:00:27.382Z",
-      "description": "A flaw was found in koku-metrics-operator. The operator's CostManagementMetricsConfig custom resource allows user able to edit the CR to specify an arbitrary upload URL. When authentication.type is set to token (the default), the cluster-global Red Hat Cloud pull-secret bearer token is attached to HTTP requests sent to this user-controlled URL, allowing the attacker to obtain the token.",
-      "severity": 7.6,
-      "fix_suggestion": "📦 受影响组件：Red Hat Cost Management Metrics Operator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54680",
+      "publishedDate": "2026-07-29T16:57:16.913Z",
+      "lastModifiedDate": "2026-07-30T13:56:07.649Z",
+      "description": "Logging operator automates the deployment and configuration of Kubernetes logging pipelines. Prior to 6.6.0, the Fluentd configuration renderer FluentRender in pkg/sdk/logging/model/render/fluent.go writes CRD strings such as Flow record_transformer.records values directly into fluent.conf without escaping, allowing a user who can create Flow resources to inject a Fluentd <match **> block using @type exec and execute arbitrary commands inside the Fluentd aggregator. This issue is fixed in version 6.6.0.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：kube-logging logging-operator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-18378",
+          "url": "https://github.com/kube-logging/logging-operator/security/advisories/GHSA-mjqf-28ph-426h",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2509249",
+          "url": "https://github.com/kube-logging/logging-operator/commit/cf437d7f1e056c78740bf5716ac8bdebcf002425",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/kube-logging/logging-operator/releases/tag/6.6.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Cost Management Metrics Operator",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "costmanagement/costmanagement-metrics-rhel9-operator",
+          "vendor": "kube-logging",
+          "product": "logging-operator",
+          "versions": [
+            {
+              "version": "< 6.6.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')",
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+      ],
+      "ghsa_id": "GHSA-mjqf-28ph-426h"
+    },
+    {
+      "id": "CVE-2026-41939",
+      "publishedDate": "2026-07-29T17:39:08.767Z",
+      "lastModifiedDate": "2026-07-30T13:58:58.433Z",
+      "description": "Care Everywhere Gateway 14.3.10 contains a hard-coded credentials vulnerability in the bundled WildFly 8.2.0.Final management interface that allows unauthenticated remote attackers to gain administrative access by using default credentials identical across all installations. Attackers can authenticate to the exposed WildFly management console on port 20990 and deploy a malicious Web Application Archive file through the Deployments interface to achieve remote code execution as the Windows machine account. Version 14.x.x was declared end-of-life (EOL) in 2017 and future releases have addressed the vulnerable finding.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Care Everywhere LLC Care Everywhere Gateway\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://gist.github.com/VAMorales/95874f23e27e17362b87133013834c0a",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.intuvie.com/products-overview",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/care-everywhere-gateway-hard-coded-credentials-rce-via-wildfly",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
           "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:cost_management:4"
+          "vendor": "Care Everywhere LLC",
+          "product": "Care Everywhere Gateway",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "14.3.10",
+              "versionType": "semver"
+            }
           ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery (SSRF)"
+        "Use of Default Credentials"
       ]
     },
     {
-      "id": "CVE-2026-18381",
-      "publishedDate": "2026-07-30T12:00:05.482Z",
-      "lastModifiedDate": "2026-07-30T12:04:55.711Z",
-      "description": "A flaw was found in the koku-metrics-operator for Red Hat OpenShift. The operator's CostManagementMetricsConfig custom resource allows a user able to edit the CR to specify an arbitrary upload URL. The operator attaches its own Kubernetes service-account bearer token to queries sent to this user-controlled URL, allowing the attacker to obtain the token.",
-      "severity": 7.6,
-      "fix_suggestion": "📦 受影响组件：Red Hat Cost Management Metrics Operator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-60113",
+      "publishedDate": "2026-07-29T15:40:26.747Z",
+      "lastModifiedDate": "2026-07-30T13:54:24.751Z",
+      "description": "AMMOS Instrument Toolkit (AIT) Deep Space Network (DSN) Interface before 2.2.2 contains a missing authentication vulnerability in the Space Link Extension (SLE) interface manager that allows unauthenticated network attackers to access seven unprotected API routes by sending direct HTTP requests with no credentials. Attackers can reach the exposed SLE endpoints to start or stop Deep Space Network communication sessions, retrieve telemetry frame data, and inject arbitrary frames into active spacecraft links.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：NASA-AMMOS AIT-DSN\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-18381",
+          "url": "https://github.com/NASA-AMMOS/AIT-DSN/releases/tag/2.2.2",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2509251",
+          "url": "https://github.com/NASA-AMMOS/AIT-DSN/blob/master/CHANGELOG.md#222---2026-07-13",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NASA-AMMOS/AIT-DSN/security/advisories/GHSA-gj83-67wr-82mv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NASA-AMMOS/AIT-DSN/commit/06d07d1a525602c62c6eaeaeff2544196f430340",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ait-dsn-missing-authentication-via-sle-api-routes",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Cost Management Metrics Operator",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "costmanagement/costmanagement-metrics-rhel9-operator",
           "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:cost_management:4"
+          "vendor": "NASA-AMMOS",
+          "product": "AIT-DSN",
+          "packageURL": "pkg:github/NASA-AMMOS/AIT-DSN",
+          "repo": "https://github.com/NASA-AMMOS/AIT-DSN",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "2.2.2"
+            }
           ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery (SSRF)"
+        "Missing Authentication for Critical Function"
       ]
     },
     {
-      "id": "CVE-2026-18382",
-      "publishedDate": "2026-07-30T12:00:29.961Z",
-      "lastModifiedDate": "2026-07-30T12:00:29.961Z",
-      "description": "A flaw was found in koku-metrics-operator. The operator's CostManagementMetricsConfig custom resource allows a user able to edit the CR to specify an arbitrary OAuth token endpoint. When authentication.type is set to service-account, the operator sends the tenant's Red Hat SSO client_id and client_secret to this user-controlled URL, allowing the attacker to obtain the credentials.",
-      "severity": 6.8,
-      "fix_suggestion": "📦 受影响组件：Red Hat Cost Management Metrics Operator\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-67351",
+      "publishedDate": "2026-07-30T13:57:51.756Z",
+      "lastModifiedDate": "2026-07-30T13:57:51.756Z",
+      "description": "Serendipity before 2.6.1 contains an authentication context confusion vulnerability where password validation and session loading operate independently without ensuring both use the same user record. An authenticated Editor can create a username collision with an Administrator account and obtain administrative privileges by logging in with their own password while the session loads the Administrator's account data.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：s9y Serendipity\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-18382",
+          "url": "https://github.com/s9y/Serendipity/security/advisories/GHSA-v645-243f-jwgh",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2509253",
+          "url": "https://www.vulncheck.com/advisories/serendipity-authentication-bypass-via-username-collision",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Cost Management Metrics Operator",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "costmanagement/costmanagement-metrics-rhel9-operator",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/a:redhat:cost_management:4"
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-5582",
-      "publishedDate": "2026-07-30T12:05:02.762Z",
-      "lastModifiedDate": "2026-07-30T12:05:02.762Z",
-      "description": "The FuseWP plugin for WordPress is vulnerable to Cross-Site Request Forgery in all versions up to, and including, 1.1.24.2. This is due to missing nonce verification on the toggle_sync_status() function. This makes it possible for unauthenticated attackers to toggle the status of sync rules (enable/disable) via a forged request granted they can trick a site administrator into performing an action such as clicking on a link.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：fusewp FuseWP – WordPress User Sync to Email List & Marketing Automation (Mailchimp, Constant Contact, ActiveCampaign etc.)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1ff5889e-b9fd-494f-b25d-78e85e94d34c?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://wordpress.org/plugins/fusewp/",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/fusewp/trunk/src/core/src/AjaxHandler.php#L149",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/fusewp/tags/1.1.24.2/src/core/src/AjaxHandler.php#L149",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?sfp_email=&sfph_mail=&reponame=&new=3505110@fusewp/trunk/src/core/src/AjaxHandler.php&old=3172907@fusewp/trunk/src/core/src/AjaxHandler.php&sfp_email=&sfph_mail=",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "fusewp",
-          "product": "FuseWP – WordPress User Sync to Email List & Marketing Automation (Mailchimp, Constant Contact, ActiveCampaign etc.)",
+          "vendor": "s9y",
+          "product": "Serendipity",
+          "defaultStatus": "unaffected",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.1.24.2",
+              "versionType": "semver",
+              "lessThan": "2.6.1"
+            },
+            {
+              "version": "2.6.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Critical Step in Authentication"
+      ]
+    },
+    {
+      "id": "CVE-2026-16526",
+      "publishedDate": "2026-07-30T05:20:07.504Z",
+      "lastModifiedDate": "2026-07-30T13:55:19.017Z",
+      "description": "A flaw in the PCP linux_sockets module exposes an unsecured internal connection.\nAn attacker with initial code execution can exploit this to escalate privileges and execute arbitrary commands as root.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-16526",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhcos",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of File Descriptor to Unintended Control Sphere ('File Descriptor Leak')"
+      ]
+    },
+    {
+      "id": "CVE-2026-14356",
+      "publishedDate": "2026-07-30T04:03:13.320Z",
+      "lastModifiedDate": "2026-07-30T13:38:31.314Z",
+      "description": "The FleekDash V2 plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 2.6.2.2. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to overwrite the email address and password of any WordPress user, including administrators, enabling full account takeover and complete site compromise. The public /wp-json/fleekdash/v1/register endpoint auto-provisions a Subscriber-role account and returns a valid REST nonce regardless of the site's users_can_register setting, enabling unauthenticated attackers to self-provision the required credentials and nonce in a single prior request.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：fleekdash FleekDash V2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/0867f6a6-17f6-48d3-8ef2-bf89f5b28b05?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/fleekdash/trunk/includes/Controllers/UserController.php#L413",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "fleekdash",
+          "product": "FleekDash V2",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.6.2.2",
               "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-5219",
+      "publishedDate": "2026-07-30T13:43:14.891Z",
+      "lastModifiedDate": "2026-07-30T13:43:14.891Z",
+      "description": "Cross-Site request forgery (CSRF) vulnerability in Softtr Information Technology Trade Ltd. Co. E-Commerce Pack allows Cross Site Request Forgery.\n\nThis issue affects E-Commerce Pack: through 30072026. NOTE: The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：Softtr Information Technology Trade Ltd. Co. E-Commerce Pack\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-0702",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Softtr Information Technology Trade Ltd. Co.",
+          "product": "E-Commerce Pack",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "30072026",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-352 Cross-Site request forgery (CSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-47882",
+      "publishedDate": "2026-07-30T05:26:07.335Z",
+      "lastModifiedDate": "2026-07-30T13:43:02.368Z",
+      "description": "When enabling Spring Boot DevTools support for a remote application target (for example a Docker container or Cloud Foundry app) from the Spring Tools Boot Dashboard, Spring Tools generates a shared secret that authenticates DevTools remote-restart uploads to the deployed application. This secret was generated using a non-cryptographic pseudo-random number generator rather than a cryptographically secure source of randomness.\nAffected Spring Products and Versions:\nSpring Tools for Eclipse: 5.2.0 and earlier",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：Spring Spring Tools for Eclipse\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://spring.io/security/cve-2026-47882",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for Eclipse",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "5.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-338 Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)"
+      ]
+    },
+    {
+      "id": "CVE-2026-54666",
+      "publishedDate": "2026-07-29T14:34:48.668Z",
+      "lastModifiedDate": "2026-07-30T13:47:57.135Z",
+      "description": "swagger-typescript-api generates API clients for Fetch or Axios from an OpenAPI Specification. Prior to 13.12.2, src/schema-routes/schema-routes.ts passes OpenAPI path keys through parseRouteName to templates/default/procedure-call.ejs and templates/modular/procedure-call.ejs without escaping JavaScript template literal interpolation, allowing an attacker-controlled path containing ${...} to execute when the generated method is called. This issue is fixed in version 13.12.2.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：acacode swagger-typescript-api\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/security/advisories/GHSA-w284-33mx-6g9v",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/pull/1779",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/releases/tag/v13.12.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "acacode",
+          "product": "swagger-typescript-api",
+          "versions": [
+            {
+              "version": "< 13.12.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')",
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
+      ],
+      "ghsa_id": "GHSA-w284-33mx-6g9v"
+    },
+    {
+      "id": "CVE-2026-67595",
+      "publishedDate": "2026-07-29T21:33:25.952Z",
+      "lastModifiedDate": "2026-07-30T13:47:18.218Z",
+      "description": "VaahCMS versions 2.0.0 through 2.3.4 contain a malicious obfuscated JavaScript payload embedded in the Blade template responsible for rendering security OTP emails, allowing remote attackers to execute unauthorized code in any browser that renders the affected email template with JavaScript enabled. The payload establishes a WebSocket connection to a hardcoded command-and-control endpoint, installs a password-field keylogger using MutationObserver to capture dynamically added inputs, scrapes WhatsApp Web DOM content, and accepts remote commands to redirect or overwrite the rendered page.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：webreinvent vaahcms\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/webreinvent/vaahcms/pull/317",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/webreinvent/vaahcms/commit/8d7898f7a385a5fade1180a9b664ff158d873129",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/vaahcms-malicious-javascript-supply-chain-via-security-otp-blade-php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "webreinvent",
+          "product": "vaahcms",
+          "packageURL": "pkg:github/webreinvent/vaahcms",
+          "repo": "https://github.com/webreinvent/vaahcms",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.0.0",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.3.4"
+            },
+            {
+              "status": "unaffected",
+              "version": "8d7898f7a385a5fade1180a9b664ff158d873129",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Embedded Malicious Code"
+      ]
+    },
+    {
+      "id": "CVE-2026-47873",
+      "publishedDate": "2026-07-30T05:23:59.651Z",
+      "lastModifiedDate": "2026-07-30T13:40:44.816Z",
+      "description": "The Boot Dashboard Docker integration in Spring Tools publishes container control ports on all of the host's network interfaces (0.0.0.0) rather than restricting them to loopback.\nAffected Spring Products and Versions:\nSpring Tools for Eclipse: 5.2.0 and earlier",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：Spring Spring Tools for Eclipse\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://spring.io/security/cve-2026-47873",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for Eclipse",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "5.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1327 Binding to an Unrestricted IP Address"
+      ]
+    },
+    {
+      "id": "CVE-2026-47858",
+      "publishedDate": "2026-07-30T05:15:31.292Z",
+      "lastModifiedDate": "2026-07-30T13:40:14.810Z",
+      "description": "Starting Spring Boot applications in the Spring Tools with the live information mode enabled makes the running application vulnerable against JMX-based remote code execution.\nAffected Spring Products and Versions:\nSpring Tools for Eclipse: 5.2.0 and earlier\nSpring Tools for VSCode / Cursor / Theia: 2.2.0 and earlier",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：Spring Spring Tools for Eclipse\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://spring.io/security/cve-2026-47858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for Eclipse",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "5.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for VSCode / Cursor / Theia",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "2.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-306 Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-57859",
+      "publishedDate": "2026-07-30T13:41:34.196Z",
+      "lastModifiedDate": "2026-07-30T13:41:34.196Z",
+      "description": "e107 prior to version 2.3.8 contains a code execution vulnerability in the e_array deserialization handler that allows an attacker with out-of-band database write access to execute arbitrary PHP code by storing a crafted payload in the user_prefs column. The e_array::unserialize() function in e107_handlers/core_functions.php performs only a prefix check for the string 'array' before passing the stored value to eval(), causing automatic PHP execution whenever the affected user's preferences are materialized through e_user_pref::load().",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：e107inc e107\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/e107inc/e107/security/advisories/GHSA-568x-w5qj-vr7c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/e107inc/e107/commit/40e73cefde85b32e1227dfac9956a5cb87046277",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/e107inc/e107",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/e107-second-order-code-execution-via-eval-based-deserialization-in-e-array-unserialize",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "e107inc",
+          "product": "e107",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.3.7"
+            },
+            {
+              "status": "unaffected",
+              "version": "2.3.8",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Deserialization of Untrusted Data"
+      ]
+    },
+    {
+      "id": "CVE-2026-16529",
+      "publishedDate": "2026-07-30T05:30:18.630Z",
+      "lastModifiedDate": "2026-07-30T13:58:48.865Z",
+      "description": "A signed integer overflow in the PCP __pmGetPDU() function can be exploited via crafted network packets during PDU processing or SASL negotiation. This permanently blinds the affected daemon, resulting in a total denial of service (DoS) for subsequent packet reads.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-16529",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506032",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhcos",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Integer Overflow or Wraparound"
+      ]
+    },
+    {
+      "id": "CVE-2026-54660",
+      "publishedDate": "2026-07-29T14:21:34.295Z",
+      "lastModifiedDate": "2026-07-30T13:43:08.019Z",
+      "description": "swagger-typescript-api generates API clients for Fetch or Axios from OpenAPI specifications. Prior to 13.12.2, src/resolved-swagger-schema.ts getRemoteRequestHeaders forwards --authorizationToken to every URL fetched by fetchRemoteSchemaDocument while warmUpRemoteSchemasCache resolves external $ref URLs, allowing an attacker-controlled OpenAPI spec to exfiltrate the developer or CI bearer token to a cross-origin endpoint. This issue is fixed in version 13.12.2.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：acacode swagger-typescript-api\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/security/advisories/GHSA-h754-fxp7-88wx",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/pull/1779",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/commit/306d59acb8ffbb00f953f807b97234b21f51d9de",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/acacode/swagger-typescript-api/releases/tag/v13.12.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "acacode",
+          "product": "swagger-typescript-api",
+          "versions": [
+            {
+              "version": "< 13.12.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+        "CWE-201: Insertion of Sensitive Information Into Sent Data",
+        "CWE-522: Insufficiently Protected Credentials",
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "ghsa_id": "GHSA-h754-fxp7-88wx"
+    },
+    {
+      "id": "CVE-2026-15397",
+      "publishedDate": "2026-07-30T11:03:24.802Z",
+      "lastModifiedDate": "2026-07-30T13:57:54.797Z",
+      "description": "The Subscriptions for WooCommerce plugin for WordPress is vulnerable to Missing Authorization in all versions up to, and including, 2.0.0. This is due to the plugin not properly verifying that a user is authorized to perform an action via the wps_sfw_install_plugin_configuration AJAX handler. This makes it possible for authenticated attackers, with shop manager-level access and above, to install and activate arbitrary WordPress.org plugins.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：wpswings Subscriptions for WooCommerce\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/7e898e40-2cc3-4b5a-833b-899e9c9f26d3?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/subscriptions-for-woocommerce/tags/2.0.0/includes/class-subscriptions-for-woocommerce.php#L394",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/subscriptions-for-woocommerce/tags/2.0.0/admin/class-subscriptions-for-woocommerce-admin.php#L1271",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/subscriptions-for-woocommerce/tags/2.0.0/admin/class-subscriptions-for-woocommerce-admin.php#L1248",
+          "type": "reference"
+        },
+        {
+          "url": "http://plugins.trac.wordpress.org/changeset?reponame=&old=3624543%40subscriptions-for-woocommerce&new=3624543%40subscriptions-for-woocommerce",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpswings",
+          "product": "Subscriptions for WooCommerce",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.0.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-16530",
+      "publishedDate": "2026-07-30T05:30:59.912Z",
+      "lastModifiedDate": "2026-07-30T13:37:45.509Z",
+      "description": "A flaw was found in the PCP (Performance Co-Pilot) `pmproxy` service. A remote attacker can exploit a vulnerability in the `pmLogLoadInDom()` function by sending a specially crafted request. This bypasses a critical bounds check, which can lead to the `pmproxy` service crashing, causing a Denial of Service (DoS). Additionally, this flaw may enable the leakage of sensitive information from the system's memory.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-16530",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506033",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pcp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhcos",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Out-of-bounds Read"
+      ]
+    },
+    {
+      "id": "CVE-2026-16092",
+      "publishedDate": "2026-07-30T03:03:21.282Z",
+      "lastModifiedDate": "2026-07-30T13:58:36.670Z",
+      "description": "The Improved Save Button plugin for WordPress is vulnerable to second-order SQL Injection via 'meta_key' Custom Field via 'Save and Duplicate' Action in all versions up to, and including, 1.2.1 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with author-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：labelblanc Improved Save Button\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a1dbc2ca-eb3f-4c0f-a5c0-28579f694237?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/improved-save-button/tags/1.2.1/actions/class-lb-save-and-then-action-duplicate.php#L179",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/improved-save-button/tags/1.2.1/actions/class-lb-save-and-then-action-duplicate.php#L173",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/improved-save-button/tags/1.2.1/lib/class-lb-save-and-then-post-save.php#L86",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "labelblanc",
+          "product": "Improved Save Button",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.2.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-65975",
+      "publishedDate": "2026-07-29T20:06:09.177Z",
+      "lastModifiedDate": "2026-07-30T13:54:35.306Z",
+      "description": "Pydantic AI is a Python agent framework for building applications and workflows with Generative AI. In versions 1.88.0 up to but not including 1.107.1 and 2.0.0b1 up to but not including 2.5.0, the UI adapters (AG-UI via Agent.to_ag_ui()/AGUIAdapter, and Vercel AI via VercelAIAdapter) use sanitize_messages to strip unresolved (\"dangling\") client-submitted tool calls from untrusted message history before it reaches the agent, a defense-in-depth default that prevents the agent from executing tool calls the model never emitted. However, the strip anchored to a message index computed before sanitization ran, so when a trailing client message sanitized to empty and was dropped (for example a client system message under the default manage_system_prompt='server'), a preceding assistant response carrying an unresolved tool call became the new tail and was dispatched without inspection. As a result, a remote client could cause a registered, non-approval server tool to run with client-supplied arguments rather than arguments the model produced. The impact is bounded by what the affected tools do and is most significant for applications that gate tool execution in a model-request hook (before_model_request / after_model_request), since a forged call skips the model turn and bypasses that guardrail; approval-gated tools (requires_approval=True) are not auto-executed by this path. This issue has been fixed in versions 1.107.1 and 2.5.0.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：pydantic pydantic-ai\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/pydantic/pydantic-ai/security/advisories/GHSA-jpr8-2v3g-wgf9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "pydantic",
+          "product": "pydantic-ai",
+          "versions": [
+            {
+              "version": ">= 1.88.0, < 1.107.1",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.0.0b1, < 2.5.0",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "pydantic",
+          "product": "pydantic-ai-slim",
+          "versions": [
+            {
+              "version": ">= 1.88.0, < 1.107.1",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2.0.0b1, < 2.5.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-54082",
+      "publishedDate": "2026-07-29T15:14:19.998Z",
+      "lastModifiedDate": "2026-07-30T13:52:07.526Z",
+      "description": "veraPDF validation model is an implementation of the veraPDF validation model. From 1.25.73 until 1.30.2 and 1.31.71, veraPDF-validation contains an XML External Entity vulnerability in PDFAValidator.validate(...) and GFPDAcroForm.getdynamicRender(), where default DocumentBuilderFactory parsing of rich-text annotation or form-field values and XFA configurations in untrusted PDFs can allow local file disclosure and outbound network requests. This issue is fixed in versions 1.30.2 and 1.31.71.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：veraPDF veraPDF-validation\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/security/advisories/GHSA-cg9x-g3gm-h5h6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/pull/730",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/commit/94caa46c1a594512247fbd46c808edae39469542",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/veraPDF/veraPDF-validation/commit/cacd9436d0de40b0e58cc7d2dbb06451619e61ec",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "veraPDF",
+          "product": "veraPDF-validation",
+          "versions": [
+            {
+              "version": ">= 1.17.35, < 1.30.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 1.31.1, < 1.31.71",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-611: Improper Restriction of XML External Entity Reference"
+      ],
+      "ghsa_id": "GHSA-cg9x-g3gm-h5h6"
+    },
+    {
+      "id": "CVE-2026-18369",
+      "publishedDate": "2026-07-30T10:32:23.364Z",
+      "lastModifiedDate": "2026-07-30T13:43:57.707Z",
+      "description": "A flaw was found in Dogtag PKI's ACME responder where the HTTP-01 challenge validator accepts IP address literals as dns identifiers and follows HTTP redirects without validating that the target is a public address. An unauthenticated ACME account holder can exploit this to perform server-side request forgery (SSRF), making the Dogtag server send HTTP GET requests to internal network services. With the InMemory database backend, the response body of internal targets is disclosed to the attacker through the ACME challenge error.",
+      "severity": 5.8,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Certificate System 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-18369",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2509234",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Certificate System 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-pki:10/redhat-pki",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:certificate_system:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Certificate System 11",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-pki",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:certificate_system:11"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Certificate System 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pki-core",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:certificate_system:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Certificate System 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "redhat-pki",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:certificate_system:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "dogtag-pki",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pki-core",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pki-core",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pki-core:10.6/pki-core",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "pki-core",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-58218",
+      "publishedDate": "2026-07-30T14:01:13.468Z",
+      "lastModifiedDate": "2026-07-30T14:01:13.468Z",
+      "description": "A flaw was found in Samba's internal DNS server where unauthenticated TKEY registration requests were added to the TKEY name cache before being rejected. A remote, unauthenticated attacker can exploit this behavior by sending a large number of TKEY requests with arbitrary names, exhausting the cache and evicting legitimate TKEY entries. This can prevent legitimate TSIG authentication for signed DNS queries, resulting in a denial of service.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-58218",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2502728",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.samba.org/show_bug.cgi?id=16115",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.samba.org/samba/security/CVE-2026-58218.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "samba",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "samba",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "samba4",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "samba",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "samba",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "samba",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhcos",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient Resource Pool"
+      ]
+    },
+    {
+      "id": "CVE-2026-62343",
+      "publishedDate": "2026-07-29T23:57:51.105Z",
+      "lastModifiedDate": "2026-07-30T13:56:44.621Z",
+      "description": "ImageMagick is free and open-source software used for editing and manipulating digital images. In versions prior to 6.9.13-51 and 7.0.1-0 and above prior to 7.1.2-26, an invalid kernel can cause a heap buffer over-write when performing a morphology operation with a user supplied kernel. This issue has been fixed in versions 6.9.13-51 and 7.1.2-26.",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：ImageMagick ImageMagick\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-f5m7-cqgw-8hm7",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ImageMagick",
+          "product": "ImageMagick",
+          "versions": [
+            {
+              "version": "< 6.9.13-51",
+              "status": "affected"
+            },
+            {
+              "version": ">= 7.0.1-0, < 7.1.2-26",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-190: Integer Overflow or Wraparound"
+      ],
+      "ghsa_id": "GHSA-f5m7-cqgw-8hm7"
+    },
+    {
+      "id": "CVE-2026-59327",
+      "publishedDate": "2026-07-30T05:29:20.138Z",
+      "lastModifiedDate": "2026-07-30T13:43:41.610Z",
+      "description": "Spring Tools for Eclipse stores the Spring Boot DevTools remote secret (spring.devtools.remote.secret) as a plain string attribute on the \"Spring Boot DevTools Client\" launch configuration. Eclipse persists launch configuration attributes as cleartext XML, either to workspace metadata or, if the user marks the configuration as a shared file, directly into the project tree where it can be committed to version control. This secret is the sole credential protecting the DevTools remote restart/reload endpoint, which accepts and executes arbitrary class bytes on the target application. Anyone able to read the .launch file (via filesystem access, a workspace backup, or a shared VCS repository) can extract the secret and use it to achieve remote code execution against the associated Spring Boot application.\nAffected Spring Products and Versions:\nSpring Tools for Eclipse: 5.2.0 and earlier",
+      "severity": 4.4,
+      "fix_suggestion": "📦 受影响组件：Spring Spring Tools for Eclipse\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://spring.io/security/cve-2026-59327",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for Eclipse",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "5.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-312 Cleartext Storage of Sensitive Information"
+      ]
+    },
+    {
+      "id": "CVE-2026-59328",
+      "publishedDate": "2026-07-30T05:29:20.996Z",
+      "lastModifiedDate": "2026-07-30T13:45:05.145Z",
+      "description": "Spring Tools for Eclipse renders Spring Boot starter wizard dependency tooltips in a native embedded browser (SWT Browser) with JavaScript enabled. Using untrusted and compromised Initializr endpoints for the Spring Boot starter wizard can result in arbitrary script execution inside the embedded browser when a developer hovers a dependency checkbox in the New Spring Starter Project wizard. Impact is limited to in-IDE UI spoofing and outbound network beaconing rather than full code execution.\nAffected Spring Products and Versions:\nSpring Tools for Eclipse: 5.2.0 and earlier",
+      "severity": 4.2,
+      "fix_suggestion": "📦 受影响组件：Spring Spring Tools for Eclipse\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://spring.io/security/cve-2026-59328",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for Eclipse",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "5.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation (Cross-site Scripting)"
+      ]
+    },
+    {
+      "id": "CVE-2026-59326",
+      "publishedDate": "2026-07-30T05:34:08.304Z",
+      "lastModifiedDate": "2026-07-30T13:37:06.802Z",
+      "description": "The Spring Boot language server logs the raw value of the https_proxy/HTTPS_PROXY/http_proxy/HTTP_PROXY environment variable at INFO level whenever it creates an outbound HTTP client and no explicit http.proxy workspace setting is configured. Corporate proxy URLs frequently embed Basic-auth credentials in the form http://user:pass@proxy:8080, and the language server writes this value to its log file without any redaction. Since language server log files are often attached to bug reports or are readable by other local users/processes, this can result in disclosure of proxy credentials.\nAffected Spring Products and Versions:\nSpring Tools for Eclipse: 5.2.0 and earlier\nSpring Tools for VSCode / Cursor / Theia: 2.2.0 and earlier",
+      "severity": 3.3,
+      "fix_suggestion": "📦 受影响组件：Spring Spring Tools for Eclipse\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://spring.io/security/cve-2026-59326",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for Eclipse",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "5.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Spring",
+          "product": "Spring Tools for VSCode / Cursor / Theia",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "2.2.0",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-532 Insertion of Sensitive Information into Log File"
+      ]
+    },
+    {
+      "id": "CVE-2026-60075",
+      "publishedDate": "2026-07-30T13:42:17.896Z",
+      "lastModifiedDate": "2026-07-30T13:42:17.896Z",
+      "description": "Date::Manip versions through 6.99 for Perl allow CPU exhaustion via quadratic backtracking in the unanchored time substitution in _parse_time.\n\n_parse_time removes a time from anywhere in the string with the unanchored substitution `s/$timerx/ /`, where $timerx is an auto-generated alternation of time patterns reached through a leading `(?:$atrx|^|\\s+)`. The engine therefore retries the match at every position of an interior whitespace run: at each start position the leading `\\s+` consumes the rest of the run greedily, the time alternation fails because the run holds no digits, and the engine backtracks a space at a time across the run before advancing the start position, which is quadratic in the length of the run. No time need be present in the string for this to happen, only a long run of whitespace, and the parse time rises about fourfold for each doubling of the run: a few kilobytes of whitespace costs seconds of CPU per parse and tens of kilobytes costs minutes.\n\nAny caller that passes an untrusted string of unbounded length to ParseDate(), Date::Manip::Date->parse() or ->parse_time() can be made to spend unbounded CPU in a single parse, a denial of service.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：SBECK Date::Manip\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.metacpan.org/patches/D/Date-Manip/6.99/CVE-2026-60075-r1.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/SBECK/Date-Manip-6.99/source/lib/Date/Manip/Date.pm#L1811",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/SBECK/Date-Manip-6.99/source/lib/Date/Manip/Date.pm#L1526",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "Date-Manip",
+          "product": "Date::Manip",
+          "programFiles": [
+            "lib/Date/Manip/Date.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Date::Manip::Date::_parse_time"
+            },
+            {
+              "name": "Date::Manip::Date::_other_rx"
+            },
+            {
+              "name": "Date::Manip::Date::parse"
+            },
+            {
+              "name": "Date::Manip::Date::parse_time"
+            },
+            {
+              "name": "Date::Manip::DM6::ParseDate"
+            }
+          ],
+          "repo": "https://github.com/SBECK-github/Date-Manip",
+          "vendor": "SBECK",
+          "versions": [
+            {
+              "lessThanOrEqual": "6.99",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1333 Inefficient Regular Expression Complexity"
+      ]
+    },
+    {
+      "id": "CVE-2026-60074",
+      "publishedDate": "2026-07-30T13:42:03.068Z",
+      "lastModifiedDate": "2026-07-30T13:42:03.068Z",
+      "description": "Date::Manip versions through 6.99 for Perl return corrupted dates via non-ASCII decimal digits that pass the numeric range tests in check.\n\nThe parse regexes capture year, month and day with the `\\d` shorthand, which on a character string matches the whole Unicode decimal digit property `\\p{Nd}` and not just `[0-9]`. Date::Manip::Base::check then validates the captured fields with numeric comparisons alone (`$y<1 || $y>9999`, `$m<1 || $m>12`, `$d<1 || $d>$days`), and _parse_check stores the numified fields (`$y+0`). Perl truncates a string at the first character that is not an ASCII digit, so a field whose leading characters are ASCII digits numifies to an in-range prefix and satisfies every test: a year field of three ASCII digits followed by U+0664 ARABIC-INDIC DIGIT FOUR numifies to 202, giving the year 0202, and one non-ASCII digit in the month or day field shifts those fields the same way. The hour, minute and second fields match explicit ASCII character classes (`0?[0-9]`, `[0-5][0-9]`) and do not shift, though a non-ASCII digit in a fractional hour or minute field truncates the fraction.\n\nAny caller that passes an untrusted character string to ParseDate() or Date::Manip::Date->parse() can get back a date that differs from the string it parsed, with no parse error. Where the parsed date gates logic such as an expiry check or a retention window, the shift goes unnoticed.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：SBECK Date::Manip\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.metacpan.org/patches/D/Date-Manip/6.99/CVE-2026-60074-r1.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/SBECK/Date-Manip-6.99/source/lib/Date/Manip/Base.pm#L602-614",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/SBECK/Date-Manip-6.99/source/lib/Date/Manip/Date.pm#L1536-1539",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "Date-Manip",
+          "product": "Date::Manip",
+          "programFiles": [
+            "lib/Date/Manip/Base.pm",
+            "lib/Date/Manip/Date.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Date::Manip::Base::check"
+            },
+            {
+              "name": "Date::Manip::Date::_parse_check"
+            },
+            {
+              "name": "Date::Manip::Date::_iso8601_rx"
+            },
+            {
+              "name": "Date::Manip::Date::_other_rx"
+            },
+            {
+              "name": "Date::Manip::Date::parse_format"
+            }
+          ],
+          "repo": "https://github.com/SBECK-github/Date-Manip",
+          "vendor": "SBECK",
+          "versions": [
+            {
+              "lessThanOrEqual": "6.99",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1289 Improper Validation of Unsafe Equivalence in Input"
+      ]
+    },
+    {
+      "id": "CVE-2026-12687",
+      "publishedDate": "2026-07-30T06:00:07.916Z",
+      "lastModifiedDate": "2026-07-30T14:01:53.854Z",
+      "description": "The ProfileGrid  WordPress plugin before 5.9.9.8 does not restrict which group an anonymous visitor may register into through its front-end registration, allowing unauthenticated users to register directly into a privileged group and be granted that group's configured role, up to Administrator when such a group exists, leading to privilege escalation.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Unknown ProfileGrid\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/e754ef68-40ae-4420-a0b8-6c23a83bc450/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "ProfileGrid",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "5.9.9.8"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ]
+    },
+    {
+      "id": "CVE-2026-67248",
+      "publishedDate": "2026-07-30T03:48:04.856Z",
+      "lastModifiedDate": "2026-07-30T13:24:24.593Z",
+      "description": "A stack-based buffer overflow vulnerability was found in the File Explorer on the ADM. The vulnerability occurs because user-controlled input is not properly validated before being decoded and copied into a fixed-size stack buffer. An authenticated attacker can exploit this issue to cause denial of service of the affected CGI process. Further impact may be possible depending on exploitability and runtime protections.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=69",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "File Explorer",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-121 Stack-based buffer overflow"
+      ]
+    },
+    {
+      "id": "CVE-2026-67247",
+      "publishedDate": "2026-07-30T03:42:58.354Z",
+      "lastModifiedDate": "2026-07-30T13:30:31.627Z",
+      "description": "A path traversal vulnerability was found in the IHM Log handling of ADM. The vulnerability occurs because user-controlled disk serial input is not sufficiently validated before being used to construct the path of an IHM log database file. An authenticated attacker can exploit this issue to cause the affected component to access an unintended filesystem path or log database file.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=68",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "IHM Log",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory (Path Traversal)"
+      ]
+    },
+    {
+      "id": "CVE-2026-67246",
+      "publishedDate": "2026-07-30T03:33:52.065Z",
+      "lastModifiedDate": "2026-07-30T13:27:59.902Z",
+      "description": "A path traversal vulnerability was found in the Wallpaper component of ADM. The vulnerability occurs because user-controlled wallpaper path input is not sufficiently validated before being used for file access. An authenticated attacker can exploit this issue to access or manipulate files outside the intended wallpaper directory, subject to user permissions and filesystem restrictions.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=68",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "Wallpaper",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory (Path Traversal)"
+      ]
+    },
+    {
+      "id": "CVE-2026-67245",
+      "publishedDate": "2026-07-30T03:29:03.446Z",
+      "lastModifiedDate": "2026-07-30T13:26:25.475Z",
+      "description": "A path traversal vulnerability was found in the VPN Clients on the ADM. The vulnerability occurs because user-controlled certificate name input is not sufficiently validated before being used to construct the upload destination path. An authenticated attacker can exploit this issue to write an uploaded certificate file outside the intended VPN certificate directory, subject to process privileges and filesystem permissions.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=68",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "VPN Clients",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory (Path Traversal)"
+      ]
+    },
+    {
+      "id": "CVE-2026-67244",
+      "publishedDate": "2026-07-30T03:04:16.812Z",
+      "lastModifiedDate": "2026-07-30T13:23:06.517Z",
+      "description": "A format string vulnerability was found in the Notification OAuth settings of ADM. The vulnerability occurs because user-controlled notification configuration input may be processed through an unsafe format string operation. An authenticated administrator can exploit this issue to disclose memory information or cause denial of service of the affected component.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=67",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "Notification",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-134 Use of Externally-Controlled format string"
+      ]
+    },
+    {
+      "id": "CVE-2026-18188",
+      "publishedDate": "2026-07-30T02:59:08.566Z",
+      "lastModifiedDate": "2026-07-30T13:21:20.780Z",
+      "description": "A format string vulnerability was found in the Rsync Backup on the ADM. The vulnerability occurs because user-controlled rsync backup configuration or log data may be processed through an unsafe format string operation. An authenticated attacker can exploit this issue to disclose memory information or cause denial of service of the affected backup component.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=67",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "Rsync Backup",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-134 Use of Externally-Controlled format string"
+      ]
+    },
+    {
+      "id": "CVE-2026-18187",
+      "publishedDate": "2026-07-30T02:54:45.595Z",
+      "lastModifiedDate": "2026-07-30T13:20:37.111Z",
+      "description": "A format string vulnerability was found in the Internal Backup on the ADM. The vulnerability occurs because user-controlled task input may be included in an error response and processed through an unsafe format string operation. An authenticated attacker can exploit this issue to disclose memory information or cause denial of service of the affected CGI process.\nAffected products and versions include: from ADM 4.1.0 through ADM 4.3.3.RUN1 as well as from ADM 5.0.0 through ADM 5.1.3.RI81.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ASUSTOR Inc. ADM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.asustor.com/security/security_advisory_detail?id=67",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ASUSTOR Inc.",
+          "product": "ADM",
+          "packageName": "Internal Backup",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.0.0",
+              "lessThanOrEqual": "5.1.3.RI81",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "4.1.0",
+              "lessThanOrEqual": "4.3.3.RUN1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-134 Use of Externally-Controlled format string"
+      ]
+    },
+    {
+      "id": "CVE-2026-17949",
+      "publishedDate": "2026-07-30T00:25:40.180Z",
+      "lastModifiedDate": "2026-07-30T13:32:55.705Z",
+      "description": "Uninitialized Use in GPU in Google Chrome on Android prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Low)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/517000034",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17909",
+      "publishedDate": "2026-07-30T00:25:23.251Z",
+      "lastModifiedDate": "2026-07-30T13:32:55.558Z",
+      "description": "Insufficient validation of untrusted input in Isolated Web Apps in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via malicious network traffic. (Chromium security severity: Low)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/501693236",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17907",
+      "publishedDate": "2026-07-30T00:25:22.311Z",
+      "lastModifiedDate": "2026-07-30T13:32:55.406Z",
+      "description": "Side-channel information leakage in Network in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Low)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/497837927",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17902",
+      "publishedDate": "2026-07-30T00:19:53.040Z",
+      "lastModifiedDate": "2026-07-30T13:58:49.582Z",
+      "description": "Inappropriate implementation in Editing in Google Chrome on Linux prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Low)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/497251066",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17895",
+      "publishedDate": "2026-07-30T00:19:51.081Z",
+      "lastModifiedDate": "2026-07-30T13:32:49.577Z",
+      "description": "Inappropriate implementation in DataTransfer in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who convinced a user to engage in specific UI gestures to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/524931675",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17889",
+      "publishedDate": "2026-07-30T00:19:49.403Z",
+      "lastModifiedDate": "2026-07-30T13:32:49.715Z",
+      "description": "Uninitialized Use in WebXR in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/523735357",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17885",
+      "publishedDate": "2026-07-30T00:19:48.310Z",
+      "lastModifiedDate": "2026-07-30T13:32:49.862Z",
+      "description": "Inappropriate implementation in Paint in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/523698038",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17880",
+      "publishedDate": "2026-07-30T00:19:46.992Z",
+      "lastModifiedDate": "2026-07-30T13:32:50.005Z",
+      "description": "Inappropriate implementation in Autofill in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/523229759",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17879",
+      "publishedDate": "2026-07-30T00:19:46.715Z",
+      "lastModifiedDate": "2026-07-30T13:32:50.192Z",
+      "description": "Inappropriate implementation in Autofill in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/522878450",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17876",
+      "publishedDate": "2026-07-30T00:19:45.880Z",
+      "lastModifiedDate": "2026-07-30T13:32:50.335Z",
+      "description": "Inappropriate implementation in Payments in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/522425471",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17871",
+      "publishedDate": "2026-07-30T00:19:44.468Z",
+      "lastModifiedDate": "2026-07-30T13:32:50.491Z",
+      "description": "Inappropriate implementation in Passwords in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who convinced a user to engage in specific UI gestures to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/521938924",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17859",
+      "publishedDate": "2026-07-30T00:19:41.273Z",
+      "lastModifiedDate": "2026-07-30T13:32:50.650Z",
+      "description": "Inappropriate implementation in Favicons in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/520196753",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17858",
+      "publishedDate": "2026-07-30T00:19:41.005Z",
+      "lastModifiedDate": "2026-07-30T13:32:50.830Z",
+      "description": "Uninitialized Use in WebNN in Google Chrome on Windows prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/520191468",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17857",
+      "publishedDate": "2026-07-30T00:19:40.706Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.000Z",
+      "description": "Inappropriate implementation in Network in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/520186620",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17851",
+      "publishedDate": "2026-07-30T00:19:39.067Z",
+      "lastModifiedDate": "2026-07-30T13:32:55.242Z",
+      "description": "Side-channel information leakage in Autofill in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/519243927",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17810",
+      "publishedDate": "2026-07-30T00:19:27.718Z",
+      "lastModifiedDate": "2026-07-30T13:32:55.084Z",
+      "description": "Uninitialized Use in Dawn in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/516882109",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17808",
+      "publishedDate": "2026-07-30T00:19:27.188Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.930Z",
+      "description": "Uninitialized Use in WebGL in Google Chrome on Android prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/516778390",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17802",
+      "publishedDate": "2026-07-30T00:19:25.581Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.177Z",
+      "description": "Side-channel information leakage in GPU in Google Chrome on Android prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/514512198",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17798",
+      "publishedDate": "2026-07-30T00:19:24.086Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.344Z",
+      "description": "Inappropriate implementation in Cast in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/514460133",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17795",
+      "publishedDate": "2026-07-30T00:19:23.272Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.488Z",
+      "description": "Inappropriate implementation in GetUserMedia in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/514242889",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17788",
+      "publishedDate": "2026-07-30T00:19:21.332Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.645Z",
+      "description": "Inappropriate implementation in Blink in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513824957",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17785",
+      "publishedDate": "2026-07-30T00:19:20.535Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.802Z",
+      "description": "Uninitialized Use in ANGLE in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513769898",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17783",
+      "publishedDate": "2026-07-30T00:19:19.997Z",
+      "lastModifiedDate": "2026-07-30T13:32:51.957Z",
+      "description": "Inappropriate implementation in Loader in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513532735",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17777",
+      "publishedDate": "2026-07-30T00:19:18.343Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.117Z",
+      "description": "Inappropriate implementation in Autofill in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513462236",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17775",
+      "publishedDate": "2026-07-30T00:19:17.801Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.258Z",
+      "description": "Inappropriate implementation in PresentationAPI in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513363822",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17773",
+      "publishedDate": "2026-07-30T00:19:17.248Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.398Z",
+      "description": "Insufficient validation of untrusted input in Cast in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513232523",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17771",
+      "publishedDate": "2026-07-30T00:19:16.714Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.536Z",
+      "description": "Uninitialized Use in Skia in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513160525",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17769",
+      "publishedDate": "2026-07-30T00:19:16.189Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.687Z",
+      "description": "Insufficient validation of untrusted input in Cast in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513022076",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17767",
+      "publishedDate": "2026-07-30T00:19:15.675Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.836Z",
+      "description": "Insufficient validation of untrusted input in WebView in Google Chrome on Android prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/511822402",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17765",
+      "publishedDate": "2026-07-30T00:19:15.152Z",
+      "lastModifiedDate": "2026-07-30T13:32:52.994Z",
+      "description": "Inappropriate implementation in WebProtect in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/511765328",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17763",
+      "publishedDate": "2026-07-30T00:19:14.599Z",
+      "lastModifiedDate": "2026-07-30T13:32:53.147Z",
+      "description": "Inappropriate implementation in GPU in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/511738693",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17762",
+      "publishedDate": "2026-07-30T00:19:14.321Z",
+      "lastModifiedDate": "2026-07-30T13:32:53.296Z",
+      "description": "Inappropriate implementation in Chrome for iOS in Google Chrome on iOS prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/508251844",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17760",
+      "publishedDate": "2026-07-30T00:19:13.778Z",
+      "lastModifiedDate": "2026-07-30T13:32:53.436Z",
+      "description": "Side-channel information leakage in NoStatePrefetch in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/506473189",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17757",
+      "publishedDate": "2026-07-30T00:19:13.250Z",
+      "lastModifiedDate": "2026-07-30T13:32:53.593Z",
+      "description": "Uninitialized Use in Skia in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/502351526",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17753",
+      "publishedDate": "2026-07-30T00:19:12.170Z",
+      "lastModifiedDate": "2026-07-30T13:32:53.746Z",
+      "description": "Inappropriate implementation in Autofill in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/501628355",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17742",
+      "publishedDate": "2026-07-30T00:19:09.193Z",
+      "lastModifiedDate": "2026-07-30T13:32:53.895Z",
+      "description": "Insufficient policy enforcement in Payments in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/499003233",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient policy enforcement"
+      ]
+    },
+    {
+      "id": "CVE-2026-17740",
+      "publishedDate": "2026-07-30T00:19:08.657Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.037Z",
+      "description": "Uninitialized Use in ANGLE in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/498827800",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-17730",
+      "publishedDate": "2026-07-30T00:19:06.087Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.784Z",
+      "description": "Side-channel information leakage in Autofill in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who convinced a user to engage in specific UI gestures to leak cross-origin data via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/40057032",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17706",
+      "publishedDate": "2026-07-30T00:18:58.889Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.635Z",
+      "description": "Insufficient validation of untrusted input in Media in Google Chrome on Windows prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/519693032",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17700",
+      "publishedDate": "2026-07-30T00:18:57.164Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.488Z",
+      "description": "Insufficient validation of untrusted input in Actor in Google Chrome prior to 151.0.7922.72 allowed a remote attacker who had compromised the renderer process to leak cross-origin data via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/517789833",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient validation of untrusted input"
+      ]
+    },
+    {
+      "id": "CVE-2026-17696",
+      "publishedDate": "2026-07-30T00:18:55.996Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.341Z",
+      "description": "Side-channel information leakage in Media in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/517550034",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Side-channel information leakage"
+      ]
+    },
+    {
+      "id": "CVE-2026-17693",
+      "publishedDate": "2026-07-30T00:18:55.159Z",
+      "lastModifiedDate": "2026-07-30T13:21:53.776Z",
+      "description": "Insufficient policy enforcement in FileSystem in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/517448723",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inappropriate implementation"
+      ]
+    },
+    {
+      "id": "CVE-2026-17689",
+      "publishedDate": "2026-07-30T00:18:54.018Z",
+      "lastModifiedDate": "2026-07-30T13:32:54.178Z",
+      "description": "Uninitialized Use in ANGLE in Google Chrome prior to 151.0.7922.72 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/07/stable-channel-update-for-desktop_0887107924.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/517045160",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.72",
+              "status": "affected",
+              "lessThan": "151.0.7922.72",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uninitialized Use"
+      ]
+    },
+    {
+      "id": "CVE-2026-5491",
+      "publishedDate": "2026-07-29T19:10:05.631Z",
+      "lastModifiedDate": "2026-07-30T13:53:05.508Z",
+      "description": "DriveLock Directory Traversal Information Disclosure Vulnerability. This vulnerability allows remote attackers to disclose sensitive information on affected installations of DriveLock. Authentication is not required to exploit this vulnerability.\n\nThe specific flaw exists within the web service, which listens on TCP port 6067 by default. The issue results from the lack of proper validation of a user-supplied path prior to using it in file operations. An attacker can leverage this vulnerability to disclose information in the context of the service account. Was ZDI-CAN-28722.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：DriveLock DriveLock\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-287/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.drivelock.help/sb/Content/SecurityBulletins/26-003-PathValidation.htm",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "DriveLock",
+          "product": "DriveLock",
+          "versions": [
+            {
+              "version": "25.2.2.61370",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-5490",
+      "publishedDate": "2026-07-29T19:09:57.872Z",
+      "lastModifiedDate": "2026-07-30T13:49:23.245Z",
+      "description": "DriveLock SQL Injection Privilege Escalation Vulnerability. This vulnerability allows remote attackers to escalate privileges on affected installations of DriveLock. Authentication is required to exploit this vulnerability.\n\nThe specific flaw exists within the web service, which listens on TCP port 4568 by default. The issue results from the lack of proper validation of a user-supplied string before using it to construct SQL queries. An attacker can leverage this vulnerability to escalate privileges to resources normally protected from the user. . Was ZDI-CAN-28726.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：DriveLock DriveLock\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-286/",
+          "type": "reference"
+        },
+        {
+          "url": "https://drivelock.help/sb/Content/SecurityBulletins/26-002-SQLInjection.htm",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "DriveLock",
+          "product": "DriveLock",
+          "versions": [
+            {
+              "version": "25.2.2.61370",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-5489",
+      "publishedDate": "2026-07-29T19:09:50.068Z",
+      "lastModifiedDate": "2026-07-30T13:46:25.972Z",
+      "description": "DriveLock Directory Traversal Information Disclosure Vulnerability. This vulnerability allows remote attackers to disclose sensitive information on affected installations of DriveLock. Authentication is not required to exploit this vulnerability.\n\nThe specific flaw exists within the web service, which listens on TCP port 4568 by default. The issue results from the lack of proper validation of a user-supplied path prior to using it in file operations. An attacker can leverage this vulnerability to disclose information in the context of the service account. Was ZDI-CAN-28719.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：DriveLock DriveLock\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-285/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.drivelock.help/sb/Content/SecurityBulletins/26-001-DESForwarding.htm",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "DriveLock",
+          "product": "DriveLock",
+          "versions": [
+            {
+              "version": "25.2.2.61370",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-5487",
+      "publishedDate": "2026-07-29T19:09:41.325Z",
+      "lastModifiedDate": "2026-07-30T13:43:37.580Z",
+      "description": "DriveLock Directory Traversal Information Disclosure Vulnerability. This vulnerability allows remote attackers to disclose sensitive information on affected installations of DriveLock. Authentication is not required to exploit this vulnerability.\n\nThe specific flaw exists within the web service, which listens on TCP port 4568 by default. The issue results from the lack of proper validation of a user-supplied path prior to using it in file operations. An attacker can leverage this vulnerability to disclose information in the context of the service account. Was ZDI-CAN-28746.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：DriveLock DriveLock\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-284/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.drivelock.help/sb/Content/SecurityBulletins/26-003-PathValidation.htm",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "DriveLock",
+          "product": "DriveLock",
+          "versions": [
+            {
+              "version": "25.2.2.61370",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-6102",
+      "publishedDate": "2026-07-29T19:09:04.626Z",
+      "lastModifiedDate": "2026-07-30T13:42:28.799Z",
+      "description": "MSI Center NTIOLib_X64 Origin Validation Error Local Privilege Escalation Vulnerability. This vulnerability allows local attackers to escalate privileges on affected installations of MSI Center. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability.\n\nThe specific flaw exists within the NTIOLib_X64.sys driver. The issue results from insufficient validation of the origin of commands. An attacker can leverage this vulnerability to escalate privileges and execute arbitrary code in the context of SYSTEM. Was ZDI-CAN-28935.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：MSI MSI Center\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-430/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "MSI",
+          "product": "MSI Center",
+          "versions": [
+            {
+              "version": "2.0.66.0",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-346: Origin Validation Error"
+      ]
+    },
+    {
+      "id": "CVE-2026-13268",
+      "publishedDate": "2026-07-29T19:08:46.783Z",
+      "lastModifiedDate": "2026-07-30T13:41:40.892Z",
+      "description": "G DATA Total Security Backup Service Link Following Local Privilege Escalation Vulnerability. This vulnerability allows local attackers to escalate privileges on affected installations of G DATA Total Security. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability.\n\nThe specific flaw exists within the Backup Service. By creating a symbolic link, an attacker can abuse the service to delete a file. An attacker can leverage this vulnerability to escalate privileges and execute arbitrary code in the context of SYSTEM. Was ZDI-CAN-28665.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：G DATA Total Security\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-432/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "G DATA",
+          "product": "Total Security",
+          "versions": [
+            {
+              "version": "25.5.19.439",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
+      ]
+    },
+    {
+      "id": "CVE-2026-59899",
+      "publishedDate": "2026-07-29T18:00:37.588Z",
+      "lastModifiedDate": "2026-07-30T14:01:48.362Z",
+      "description": "Netty is an asynchronous, event-driven network application framework. Prior to versions 4.1.136.Final and 4.2.16.Final, `HttpContentEncoder` (the superclass of the production handler `HttpContentCompressor`) maintains a per-channel `ArrayDeque<CharSequence>` named `acceptEncodingQueue` that accumulates attacker-controlled data without any size limit. The queue is filled on the I/O thread for every inbound HTTP request and drained only when the application later writes a non-1xx response. This creates a resource exhaustion vulnerability when an attacker exploits HTTP/1.1 pipelining to flood the connection with requests faster than the application produces responses. This issue has been fixed in versions 4.1.136.Final and 4.2.16.Final.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：netty netty\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/netty/netty/security/advisories/GHSA-q4f6-jm68-57ww",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/netty/netty/releases/tag/netty-4.1.136.Final",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/netty/netty/releases/tag/netty-4.2.16.Final",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "netty",
+          "product": "netty",
+          "versions": [
+            {
+              "version": ">= 4.2.0.Final, < 4.2.16.Final",
+              "status": "affected"
+            },
+            {
+              "version": "< 4.1.136.Final",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "ghsa_id": "GHSA-q4f6-jm68-57ww"
+    },
+    {
+      "id": "CVE-2026-16751",
+      "publishedDate": "2026-07-29T13:16:00.450Z",
+      "lastModifiedDate": "2026-07-30T13:40:06.238Z",
+      "description": "Authorization Bypass in the emergency recovery approval component in Ente Technologies Ente Museum Server allows an authenticated attacker configured as a victim's emergency contact to bypass the configured recovery waiting period and take over the victim's account via a crafted `approve-recovery` API request.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Ente Museum Server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ente/ente/tree/v2.0.34",
+          "type": "reference"
+        },
+        {
+          "url": "https://vokecyber.com/research/cve-2026-16751-ente-emergency-recovery-bypass",
+          "type": "reference"
+        },
+        {
+          "url": "https://vokecyber.com/blog/cve-2026-16751-ente-emergency-recovery-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Ente",
+          "product": "Museum Server",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2.0.34",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization",
+        "CWE-778 Insufficient Logging"
+      ]
+    },
+    {
+      "id": "CVE-2026-65944",
+      "publishedDate": "2026-07-29T12:40:29.246Z",
+      "lastModifiedDate": "2026-07-30T13:37:22.131Z",
+      "description": "Joomla Extension - rolandd.com - CSRF vectors in AJAX endpoint handlers RO CSVI < 9.11.0",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：rolandd.com RO CSVI extension for Joomla\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://rolandd.com/products/ro-csvi",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "RO CSVI extension for Joomla",
+          "vendor": "rolandd.com",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.0.0-9.11.0"
+            }
+          ]
         }
       ],
       "problemType": [
@@ -161,54 +3581,211 @@
       ]
     },
     {
-      "id": "CVE-2026-17543",
-      "publishedDate": "2026-07-30T11:22:04.549Z",
-      "lastModifiedDate": "2026-07-30T11:33:20.724Z",
-      "description": "Improper escaping of backslashes in attacker-provided parameters would allow for trivial SQL injection in PHP versions from 8.2.* before 8.2.33, from 8.3.* before 8.3.33, from 8.4.* before 8.4.24, and from 8.5.* before 8.5.9.",
+      "id": "CVE-2026-65891",
+      "publishedDate": "2026-07-29T12:37:47.658Z",
+      "lastModifiedDate": "2026-07-30T13:35:26.801Z",
+      "description": "Joomla Extension - joomlacontenteditor.net - Creation of hidden files and unintended file overwrite via rename function in Joomla Content Editor (JCE) < 2.20.2 - Improper input validation in the file rename functionality allowed an authenticated user with file management permissions to rename files to otherwise invalid names, resulting in the creation of hidden files. The issue also allowed existing files at the destination path to be unintentionally replaced.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：PHP Group PHP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：joomlacontenteditor.net Joomla Content Editor (JCE) extension for Joomla\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/php/php-src/security/advisories/GHSA-7qpv-r5mr-78m4",
+          "url": "https://www.joomlacontenteditor.net/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "PHP Group",
-          "product": "PHP",
-          "packageName": "ext-pgsql",
+          "defaultStatus": "unaffected",
+          "product": "Joomla Content Editor (JCE) extension for Joomla",
+          "vendor": "joomlacontenteditor.net",
           "versions": [
             {
               "status": "affected",
-              "version": "8.2.*",
-              "lessThan": "8.2.33",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "8.3.*",
-              "lessThan": "8.3.33",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "8.4.*",
-              "lessThan": "8.4.24",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "8.5.*",
-              "lessThan": "8.5.9",
-              "versionType": "semver"
+              "version": "1.0.0-2.9.99.9"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-89 Improper neutralization of special elements used in an SQL command ('SQL injection')"
+        "CWE-20 – Improper Input Validation"
+      ]
+    },
+    {
+      "id": "CVE-2025-67407",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-30T13:30:55.794Z",
+      "description": "Sourcecodester CASAP Automated Enrollment System 1.0 is vulnerable to SQL Injection in update_student.php via parameters fname and student_class.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/automated/20250811-casap-automated-enrollment-system-update_student.php-fname-sqli/20250811-casap-automated-enrollment-system-update_student.php-fname-sqli.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-67406",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-30T13:32:40.765Z",
+      "description": "https://www.sourcecodester.com Advocate office management system 1.0 is affected by: SQL Injection. The impact is: execute arbitrary code (remote). The component is: control/activate_case.php,?id=1. The attack vector is: A SQL Injection vulnerability exists in the activate_case.php in parameter id endpoint of Advocate office management system. Unsanitized user input in the specified parameter is interpolated directly into an SQL query, allowing attackers to infer or extract data and, in some cases, execute stacked/time-based payloads. ¶¶ Affected Component & Parameter Affected Endpoint URL: http://localhost/advocate/kortex_lite/control/activate_case.php?id=1 HTTP Method: GET Vulnerable File: activate_case.php Parameter: id Vector Location: GET Injection Techniques (as identified by sqlmap) Type: error-based Title: MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE) Payload: id=1 AND EXTRACTVALUE(6268,CONCAT(0x5c,0x71766b6a71,(SELECT (ELT(6268=6268,1))),0x716a7a6b71)) Type: time-based blind Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP) Payload: id=1 AND (SELECT 4464 FROM (SELECT(SLEEP(5)))aHqo) Proof of Concept (Burp Repeater)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/advocate/20250811-advocate-office-management-system-activate_case.php-id-sqli/20250811-advocate-office-management-system-activate_case.php-id-sqli.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-67405",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-30T13:34:26.035Z",
+      "description": "Sourcecodester CASAP Automated Enrollment System 1.0 is vulnerable to SQL Injection in update_password.php via the parameter new_password.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/automated/20250811-casap-automated-enrollment-system-update_password.php-new_password-sqli/20250811-casap-automated-enrollment-system-update_password.php-new_password-sqli.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-69949",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-30T13:20:48.737Z",
+      "description": "kishan0725 Hospital Management System 4.0 is vulnerable to SQL Injection in check_availability.php via the parameters emailid and email.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/hospitalmanagementsystemproject/20250811-hospital-management-system-check_availability.php-email-sqli/20250811-hospital-management-system-check_availability.php-email-sqli.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/hospitalmanagementsystemproject/20250811-hospital-management-system-check_availability.php-emailid-sqli/20250811-hospital-management-system-check_availability.php-emailid-sqli.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-69945",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-30T13:23:26.802Z",
+      "description": "kishan0725 Hospital Management System 4.0 is vulnerable to SQL Injection in /doctor/edit-patient.php?editid=1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/hospitalmanagementsystemproject/20250811-hospital-management-system-edit-patient.php-editid-sqli/20250811-hospital-management-system-edit-patient.php-editid-sqli.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-67408",
+      "publishedDate": "2026-07-29T00:00:00.000Z",
+      "lastModifiedDate": "2026-07-30T13:28:28.871Z",
+      "description": "Sourcecodester CASAP Automated Enrollment System 1.0 is vulnerable to SQL Injection in /save_user.php via the parameter status.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/um-dsp/TaintRadar/blob/main/sql_injection_cves/automated/20250811-casap-automated-enrollment-system-save_user.php-status-sqli/20250811-casap-automated-enrollment-system-save_user.php-status-sqli.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
       ]
     }
   ]
