@@ -2,124 +2,15 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-07T23:21:10.182810",
+    "total_count": 0,
+    "last_updated": "2026-08-07T23:53:18.620644",
     "severity_distribution": {
       "critical": 0,
-      "high": 2,
-      "medium": 1,
+      "high": 0,
+      "medium": 0,
       "low": 0,
       "none": 0
     }
   },
-  "cves": [
-    {
-      "id": "CVE-2026-52880",
-      "publishedDate": "2026-08-07T22:53:41.291Z",
-      "lastModifiedDate": "2026-08-07T22:53:41.291Z",
-      "description": "Klever-Go is the Go implementation of the Klever blockchain protocol. Versions from 1.7.14 through 1.7.17 are vulnerable to a remotely triggerable denial of service. Both REST APIs are started with the Gin Engine.Run convenience method, which serves requests through Go's default HTTP server with no ReadHeaderTimeout, ReadTimeout, or MaxHeaderBytes configured. As a result, incoming connections that never complete their request headers are held open indefinitely. When a REST listener is reachable beyond localhost through the documented all-interface bind or a Docker port-publish deployment, a single unauthenticated client can open many slow-header connections and hold them open until server file descriptors are exhausted, preventing the API from accepting new connections. This renders the REST API unavailable to legitimate clients. This issue is fixed in version 1.7.18.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：klever-io klever-go\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-770 (CWE-400, CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/klever-io/klever-go/security/advisories/GHSA-w4c6-7r69-w7j9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/klever-io/klever-go/releases/tag/v1.7.18",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "klever-io",
-          "product": "klever-go",
-          "versions": [
-            {
-              "version": ">= 1.7.14, < 1.7.18",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-400",
-        "CWE-770"
-      ],
-      "ghsa_id": "GHSA-w4c6-7r69-w7j9"
-    },
-    {
-      "id": "CVE-2026-47127",
-      "publishedDate": "2026-08-07T22:43:59.001Z",
-      "lastModifiedDate": "2026-08-07T22:43:59.001Z",
-      "description": "Ghostfolio is an open source wealth management software. Prior to version 3.4.0, Ghostfolio's Stripe checkout success-URL handler at `GET /api/v1/subscription/stripe/callback?checkoutSessionId=<id>` retrieves the Stripe Checkout Session by ID and unconditionally grants a Premium subscription to the session's `client_reference_id` — without ever checking `session.payment_status` or `session.status`. There is no separate Stripe webhook endpoint with `stripe-signature` verification; this callback is the sole code path that creates Stripe-driven subscriptions. Any authenticated user can self-grant a 1-year Premium subscription without ever paying. Version 3.4.0 rejects sessions unless `session.payment_status === 'paid'` AND `session.status === 'complete'` (fails closed). Additionally, new unique `stripeCheckoutSessionId` column → a session can't be redeemed twice (race-safe via DB unique constraint).",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：ghostfolio ghostfolio\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ghostfolio/ghostfolio/security/advisories/GHSA-j465-x2w3-wjj8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ghostfolio/ghostfolio/pull/6872",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ghostfolio",
-          "product": "ghostfolio",
-          "versions": [
-            {
-              "version": "< 3.4.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-48122",
-      "publishedDate": "2026-08-07T22:40:23.811Z",
-      "lastModifiedDate": "2026-08-07T22:40:23.811Z",
-      "description": "Ruby LSP is an implementation of the language server protocol for Ruby. Several workspace-level settings in the Ruby LSP VS Code extension prior to version 0.10.4 could override the path to the Ruby executable, the version manager executables, or the Bundler `Gemfile` used at startup. A malicious repository containing a `.vscode/settings.json` could set these values to attacker-controlled targets. Opening and trusting the repository would then execute code with the privileges of the developer. The Ruby LSP gem and clients of the language server in other editors are not affected. Version 0.10.4 of the Ruby LSP VS Code extension fixes the issue.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Shopify ruby-lsp\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Shopify/ruby-lsp/security/advisories/GHSA-2x7g-8mp4-572w",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Shopify",
-          "product": "ruby-lsp",
-          "versions": [
-            {
-              "version": "< 0.10.4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-78"
-      ],
-      "cvss_severity": "HIGH"
-    }
-  ]
+  "cves": []
 }
