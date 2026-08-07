@@ -2,84 +2,174 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-07T22:05:08.062028",
+    "total_count": 4,
+    "last_updated": "2026-08-07T22:51:37.829251",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 1,
+      "high": 4,
+      "medium": 0,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-64676",
-      "publishedDate": "2026-08-07T21:47:20.584Z",
-      "lastModifiedDate": "2026-08-07T21:47:20.584Z",
-      "description": "Kata Containers is an open source implementation of lightweight Virtual Machines (VMs) that perform like containers. In versions prior to 4.0.0, the kata-agent is vulnerable to an authorization bypass in confidential-guest memory management. In Confidential Containers (CoCo) deployments, the kata-agent enforces an OPA/Rego-based AgentPolicy that must authorize every ttRPC API call, forming the security boundary that prevents an untrusted host from directing the confidential guest. Two ttRPC methods introduced with the mem-agent feature are missing this authorization check, so an untrusted host can invoke them unconditionally regardless of the guest's policy configuration. When mem-agent is enabled (off by default), this lets the host tamper with in-guest memory management by forcing swap, aggressive eviction, or compaction, resulting in attacker-controlled availability and performance degradation of the confidential workload entirely outside the agent-policy boundary. The impact does not include memory disclosure or code execution, and severity is bounded by the precondition that mem-agent must be explicitly enabled. This issue is fixed in version 4.0.0.",
-      "severity": 5.7,
-      "fix_suggestion": "📦 受影响组件：kata-containers kata-containers\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-48026",
+      "publishedDate": "2026-08-07T22:29:36.173Z",
+      "lastModifiedDate": "2026-08-07T22:29:36.173Z",
+      "description": "lakeFS is an open-source tool that transforms object storage into a Git-like repositories. Prior to version 1.81.1 of the open source edition and 1.84.0 of the enterprise edition, lakeFS Web UI renders markdown files from repository objects without sanitizing the resulting HTML. A user with write access to any repository branch can commit a `.md` object containing arbitrary HTML/JavaScript. Any other user who opens that object, or who navigates to a repository or directory containing a malicious `README.md`, executes the attacker-supplied script in their own authenticated session. lakeFS fixes the issue in v1.81.1 and lakeFS Enterprise fixes the issue in in v1.84.0. Enterprise customers using older versions can temporarily disable Markdown rendering by adding YAML to their config. No workaround exists for OSS release. Users are advised to upgrade to the latest version for both lakeFS and lakeFS-Enterprise.",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：treeverse lakeFS\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/kata-containers/kata-containers/security/advisories/GHSA-h8jv-63p2-496x",
+          "url": "https://github.com/treeverse/lakeFS/security/advisories/GHSA-c2r5-5j4w-2xff",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/treeverse/lakeFS/blob/77539527e987fb05c27e3e74c59c0a46a05c47a0/webui/src/pages/repositories/repository/fileRenderers/useMarkdownProcessor.tsx",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "kata-containers",
-          "product": "kata-containers",
+          "vendor": "treeverse",
+          "product": "lakeFS",
           "versions": [
             {
-              "version": "< 4.0.0",
+              "version": "< 1.81.1",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "treeverse",
+          "product": "lakeFS-enterprise",
+          "versions": [
+            {
+              "version": "< 1.84.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-862: Missing Authorization"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-47243",
-      "publishedDate": "2026-08-07T21:36:49.979Z",
-      "lastModifiedDate": "2026-08-07T21:36:49.979Z",
-      "description": "Kata Containers is an open source project focusing on a standard implementation of lightweight Virtual Machines (VMs) that perform like containers. Prior to 3.31.0, the runtime-rs standalone virtio-fs path is vulnerable to a guest-root to host-root escape. In this configuration, Kata runs the host virtiofsd as root with --sandbox none --seccomp none, so an attacker with root-equivalent access inside the guest can bypass the guest virtio-fs client entirely by taking over the virtio-fs PCI device and building a virtqueue in userspace to submit raw FUSE requests directly to the host virtiofsd. A crafted FUSE_SYMLINK request whose new symlink name is an absolute host path is honored outside the configured shared directory, allowing guest root to create root-owned symlinks in sensitive host locations such as /etc/cron.d. By pointing such a symlink at a guest-controlled crontab payload reachable through a live runtime process's mount namespace, the attacker causes the host cron daemon to execute that payload as host root, crossing the Kata isolation boundary. This issue is fixed in version 3.31.0.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：kata-containers kata-containers\n🔓 漏洞类型：Path Traversal, CWE-36 (CWE-22, CWE-36)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-48120",
+      "publishedDate": "2026-08-07T22:34:02.607Z",
+      "lastModifiedDate": "2026-08-07T22:34:02.607Z",
+      "description": "Kakoune is a code editor. Prior to version 2026.05.21, the bundled, enabled by default, `autorestore.kak` script can be exploited by malicious backup files leading to arbitrary kakoune and shell commands being executed by simply opening a file. Kakoune 2026.05.21 fixes the issue. As a workaround, add `autorestore-disable` to the user kakrc will disable the autorestore feature.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：mawww kakoune\n🔓 漏洞类型：CWE-74 (CWE-74)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/kata-containers/kata-containers/security/advisories/GHSA-2gv2-cffp-j227",
+          "url": "https://github.com/mawww/kakoune/security/advisories/GHSA-h99r-h8cp-vwcq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mawww/kakoune/commit/25c7b13b244fd1ddacc63ecfe1784b5ebc2ba825",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "kata-containers",
-          "product": "kata-containers",
+          "vendor": "mawww",
+          "product": "kakoune",
           "versions": [
             {
-              "version": "< 3.31.0",
+              "version": "< 2026.05.21",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-36: Absolute Path Traversal"
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
       ],
       "cwe_ids": [
-        "CWE-22",
-        "CWE-36"
+        "CWE-74"
+      ]
+    },
+    {
+      "id": "CVE-2026-52879",
+      "publishedDate": "2026-08-07T22:36:53.980Z",
+      "lastModifiedDate": "2026-08-07T22:36:53.980Z",
+      "description": "Klever-Go is the Go implementation of the Klever blockchain protocol. In versions 1.7.14 through 1.7.17, the direct-message ingress handler spawns a new goroutine for every incoming direct message before the processor-level antiflood layer makes any admission decision, with no semaphore, throttler, or bound on the number of concurrent in-flight spawns. Because the antiflood check runs inside the spawned goroutine rather than before it, a single connected peer can open a direct-send stream and send a stream of well-formed messages to force unbounded goroutine creation, where each goroutine allocates its own stack and holds a message reference until processing completes, adding scheduler and garbage-collection pressure faster than the runtime can drain it. This lets one peer degrade the node's availability and its ability to process legitimate traffic, resulting in a remotely triggerable denial of service. The issue is fixed in 1.7.18.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：klever-io klever-go\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-770 (CWE-400, CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/klever-io/klever-go/security/advisories/GHSA-hf2g-6j7h-98wg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/klever-io/klever-go/releases/tag/v1.7.18",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "HIGH",
-      "ghsa_id": "GHSA-2gv2-cffp-j227"
+      "affected": [
+        {
+          "vendor": "klever-io",
+          "product": "klever-go",
+          "versions": [
+            {
+              "version": ">= 1.7.14, < 1.7.18",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-400",
+        "CWE-770"
+      ],
+      "ghsa_id": "GHSA-hf2g-6j7h-98wg"
+    },
+    {
+      "id": "CVE-2026-52878",
+      "publishedDate": "2026-08-07T22:32:27.340Z",
+      "lastModifiedDate": "2026-08-07T22:32:27.340Z",
+      "description": "Klever-Go is the Go implementation of the Klever blockchain protocol. Versions 1.7.14 through 1.7.17 are vulnerable to a nil-pointer panic triggered by a protobuf Transaction whose embedded RawData sub-message is omitted. This omission causes RawData to decode to nil. Every transaction gossiped on the Klever-Go P2P network is decoded and validated synchronously inside the libp2p pubsub topic-validator callback, where txVersionChecker.CheckTxVersion dereferences tx.RawData.Version with no nil check. Because the libp2p pubsub callback, the underlying go-libp2p-pubsub validation worker, and Klever's own network/p2p layer install no recover(), the panic propagates and crashes the entire node process. The attacker payload is a 3-byte protobuf message; no validator key, stake, funds, or on-chain account is required, and delivery aimed at enough of the BLS validator set can halt block production, resulting in a chain halt. This issue has been fixed in version 1.7.18.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：klever-io klever-go\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/klever-io/klever-go/security/advisories/GHSA-rm5c-5x2p-48wr",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/klever-io/klever-go/releases/tag/v1.7.18",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "klever-io",
+          "product": "klever-go",
+          "versions": [
+            {
+              "version": ">= 1.7.14, < 1.7.18",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-476: NULL Pointer Dereference"
+      ],
+      "cwe_ids": [
+        "CWE-476"
+      ],
+      "ghsa_id": "GHSA-rm5c-5x2p-48wr"
     }
   ]
 }
