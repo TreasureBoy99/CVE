@@ -2,252 +2,155 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 24,
-    "last_updated": "2026-08-07T19:15:54.436670",
+    "total_count": 3,
+    "last_updated": "2026-08-07T20:01:24.997265",
     "severity_distribution": {
-      "critical": 2,
-      "high": 13,
-      "medium": 5,
-      "low": 1,
-      "none": 3
+      "critical": 1,
+      "high": 2,
+      "medium": 0,
+      "low": 0,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2022-4995",
-      "publishedDate": "2026-08-07T14:39:50.666Z",
-      "lastModifiedDate": "2026-08-07T18:56:19.446Z",
-      "description": "Weaver (Fanwei) E-cology 9.0 versions prior to 10.52 contain a file upload vulnerability that allows a remote, unauthenticated attacker to upload arbitrary files, including JSP webshells, by submitting a multipart/form-data POST request to /workrelate/plan/util/uploaderOperate.jsp with arbitrary secId and plandetailid field values. Successful exploitation results in remote code execution under the privileges of the application server process. Exploitation evidence was first observed by the Shadowserver Foundation on 2023-10-14 (UTC).",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：Weaver Network Co., Ltd. E-cology 9.0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-48039",
+      "publishedDate": "2026-08-07T19:29:39.875Z",
+      "lastModifiedDate": "2026-08-07T19:42:00.728Z",
+      "description": "Meta Ads MCP is a Model Context Protocol (MCP) server that lets AI assistants run Meta Ads. Prior to version 1.0.109, `AuthInjectionMiddleware.dispatch()` at `http_auth_integration.py:272` unconditionally forwards unauthenticated Streamable HTTP requests to downstream MCP tool handlers without issuing a `401` response, allowing any network-reachable caller to invoke MCP tools without authentication. When no per-request credential is present, tool handlers fall back to the `META_ACCESS_TOKEN` environment variable, and when the downstream Meta Graph API call fails, `api.py:263–269` serialises the raw `httpx` request URL—including the operator's `access_token` as a query parameter—into the JSON-RPC response body, delivering the credential to the unauthenticated caller. Version 1.0.109 fixes the issue.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：pipeboard-co meta-ads-mcp\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.weaver.com.cn/cs/securityDownload.html#",
+          "url": "https://github.com/pipeboard-co/meta-ads-mcp/security/advisories/GHSA-9gw6-46qc-99vr",
           "type": "reference"
         },
         {
-          "url": "https://www.weaver.com.cn/cs/ecology_full_log_en.html",
+          "url": "https://github.com/pipeboard-co/meta-ads-mcp/releases/tag/1.0.109",
           "type": "reference"
         },
         {
-          "url": "https://cn-sec.com/archives/1208148.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://ch0x01e.github.io/post/ecology9-wen-jian-shang-chuan-fen-xi/",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/gmh5225/CVE-2022-HW-POC/blob/main/%E6%B3%9B%E5%BE%AEOA%20uploaderOperate.jsp%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md",
-          "type": "poc"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/weaver-e-cology-file-upload-rce-via-uploaderoperate-jsp",
+          "url": "https://github.com/pypa/advisory-database/tree/main/vulns/meta-ads-mcp/PYSEC-2026-413.yaml",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Weaver Network Co., Ltd.",
-          "product": "E-cology 9.0",
+          "vendor": "pipeboard-co",
+          "product": "meta-ads-mcp",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "10.52",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Unrestricted Upload of File with Dangerous Type"
-      ]
-    },
-    {
-      "id": "CVE-2026-71851",
-      "publishedDate": "2026-08-07T18:48:08.348Z",
-      "lastModifiedDate": "2026-08-07T18:48:08.348Z",
-      "description": "crypto-js is a JavaScript library of crypto standards. Versions of crypto-js prior to 4.0.0 generate randomness in CryptoJS.lib.WordArray.random() using a custom variation of the Multiply-With-Carry pseudorandom number generator, seeded from Math.random(), instead of a cryptographically secure source. This generator was introduced in version 3.1.2-4 and remained present in nearly every 3.x release. Nominal requests for 128 or 256 bits of entropy through this function produce effective search spaces of approximately 2 to the 39th and 2 to the 47th possibilities, small enough to enumerate on commodity hardware. Downstream wallet applications that used CryptoJS.lib.WordArray.random() as the entropy source for BIP39 recovery phrases are affected, and an attacker who enumerates the reduced output space can recover the resulting private keys and control the associated funds. This issue is fixed in version 4.0.0.",
-      "severity": 9,
-      "fix_suggestion": "📦 受影响组件：brix crypto-js\n🔓 漏洞类型：CWE-331, CWE-334, CWE-338 (CWE-331, CWE-334, CWE-338)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/brix/crypto-js/security/advisories/GHSA-rg76-677x-56q9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/brix/crypto-js/commit/b405ff597fb3ac76a7bdfbc72dca10ba1079b1d5",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.coinspect.com/blog/ill-bloom-investigation",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "brix",
-          "product": "crypto-js",
-          "versions": [
-            {
-              "version": "< 4.0.0",
+              "version": "< 1.0.109",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-331: Insufficient Entropy",
-        "CWE-334: Small Space of Random Values",
-        "CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)"
+        "CWE-287: Improper Authentication"
       ],
       "cwe_ids": [
-        "CWE-331",
-        "CWE-334",
-        "CWE-338"
+        "CWE-287"
       ],
-      "ghsa_id": "GHSA-rg76-677x-56q9"
+      "ghsa_id": "GHSA-9gw6-46qc-99vr"
     },
     {
-      "id": "CVE-2026-43632",
-      "publishedDate": "2026-08-06T15:53:19.379Z",
-      "lastModifiedDate": "2026-08-07T19:06:44.455Z",
-      "description": "llama.cpp builds b7492 through the latest b9060 contains a use-after-free vulnerability in llama-server affecting six tokenization endpoints (/tokenize, /detokenize, /infill, /apply-template, /rerank, and /anthropic/count_tokens) that bypass the task queue and access ctx_server.vocab directly on HTTP worker threads. Attackers can exploit a time-of-check-time-of-use race condition where the main thread destroys and frees vocab after the synchronization lock is released but before the handler finishes using it, causing a crash or potential code execution when --sleep-idle-seconds is configured.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-62295",
+      "publishedDate": "2026-08-07T19:36:31.274Z",
+      "lastModifiedDate": "2026-08-07T19:36:31.274Z",
+      "description": "HAPI FHIR is a complete implementation of the HL7 FHIR standard for healthcare interoperability in Java. Prior to 6.9.11, the JSON utility parser in org.hl7.fhir.utilities.json.parser.JsonParser enforces no maximum nesting depth for arrays or objects. As a result, a small but deeply nested, syntactically valid FHIR JSON document can trigger unbounded readArray() or readObject() recursion, raising a StackOverflowError before structural validation runs. An attacker who can submit JSON resources for validation can thus crash the request thread, and services that do not isolate StackOverflowError safely may experience worker loss or process instability — a denial-of-service condition. This issue is fixed in version 6.9.11.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：hapifhir org.hl7.fhir.core\n🔓 漏洞类型：CWE-20, Uncontrolled Resource Consumption, CWE-674 (CWE-20, CWE-400, CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
+          "url": "https://github.com/hapifhir/org.hl7.fhir.core/security/advisories/GHSA-2cq7-hg49-56gc",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b7492-b9060-use-after-free-in-tokenization-endpoints",
+          "url": "https://github.com/hapifhir/org.hl7.fhir.core/commit/396f447500407693d6ae1e64db59782862ca7506",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
+          "vendor": "hapifhir",
+          "product": "org.hl7.fhir.core",
           "versions": [
             {
-              "status": "affected",
-              "version": "b7492",
-              "lessThanOrEqual": "b9060",
-              "versionType": "custom"
+              "version": "< 6.9.11",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "affected"
+          ]
+        },
+        {
+          "vendor": "hapifhir",
+          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.r5",
+          "versions": [
+            {
+              "version": "< 6.9.11",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "hapifhir",
+          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.utilities",
+          "versions": [
+            {
+              "version": "< 6.9.11",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "hapifhir",
+          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.validation",
+          "versions": [
+            {
+              "version": "< 6.9.11",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "hapifhir",
+          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.validation.cli",
+          "versions": [
+            {
+              "version": "< 6.9.11",
+              "status": "affected"
+            }
+          ]
         }
       ],
       "problemType": [
-        "Use After Free",
-        "Time-of-check Time-of-use (TOCTOU) Race Condition"
+        "CWE-20: Improper Input Validation",
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-674: Uncontrolled Recursion"
+      ],
+      "cwe_ids": [
+        "CWE-20",
+        "CWE-400",
+        "CWE-674"
       ]
     },
     {
-      "id": "CVE-2026-43631",
-      "publishedDate": "2026-08-06T15:52:09.915Z",
-      "lastModifiedDate": "2026-08-07T19:05:46.688Z",
-      "description": "llama.cpp builds b7492 through the latest b9060 contains a use-after-free vulnerability in the vocab pointer of llama-server when the --sleep-idle-seconds feature is enabled, allowing unauthenticated remote attackers to execute arbitrary code. Attackers can trigger the vulnerability by sending requests to affected endpoints while the server transitions to sleep mode, causing concurrent worker threads to dereference a freed vocab pointer that can be reclaimed with attacker-controlled data to achieve remote code execution.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-47659",
+      "publishedDate": "2026-08-07T19:44:00.458Z",
+      "lastModifiedDate": "2026-08-07T19:49:51.968Z",
+      "description": "Pathling is a set of tools that make it easier to use FHIR and clinical terminology within health data analytics. Prior to version 2.0.0 of Pathling Server, Pathling's `/$result` endpoint allows a caller who can obtain any valid async export job ID to supply `file` parameter values containing path traversal sequences. The handler verifies only the supplied `job` and never normalises or confines the requested `file` path to that job's `jobs/<jobId>` directory before opening it as a filesystem resource. Because async export scratch space lives under the same warehouse database root as persisted resource tables, an attacker can use their own export job to read other files from the warehouse. This is fixed in Pathling Server 2.0.0. The `$result` handler now resolves and canonicalizes the requested file path and rejects any request that escapes the job's `jobs/<jobId>` directory. As an interim mitigation, disable the async export operations (`pathling.operations.exportEnabled`, `patientExportEnabled`, `groupExportEnabled`, `bulkSubmitEnabled`) or enable authentication and restrict export capability to trusted callers.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：aehrc pathling\n🔓 漏洞类型：Path Traversal, Server-Side Request Forgery (SSRF) (CWE-22, CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b7492-b9060-use-after-free-rce-via-llama-server",
+          "url": "https://github.com/aehrc/pathling/security/advisories/GHSA-5h9r-m7r5-8jxq",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b7492",
-              "lessThanOrEqual": "b9060",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "Use After Free",
-        "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
-      ]
-    },
-    {
-      "id": "CVE-2026-43629",
-      "publishedDate": "2026-08-06T15:48:41.246Z",
-      "lastModifiedDate": "2026-08-07T19:04:53.823Z",
-      "description": "llama.cpp builds b4882 through b9058 contain a heap buffer overflow vulnerability in the KV cache state restore path where the state_read_data() function computes write size without overflow checking, allowing attackers with write access to the slot_save_path directory to corrupt heap memory. Attackers can craft malicious state files where cell_count multiplication overflows or exceeds tensor buffer allocation to write attacker-controlled bytes past buffer boundaries, potentially resulting in heap metadata corruption, model weight corruption, or arbitrary code execution via function pointer overwrite.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b4882-b9058-buffer-overflow-in-kv-cache-state-restore",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b4882",
-              "lessThanOrEqual": "b9058",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.16.1",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write",
-        "Integer Overflow or Wraparound"
-      ]
-    },
-    {
-      "id": "CVE-2026-48097",
-      "publishedDate": "2026-08-07T19:06:22.730Z",
-      "lastModifiedDate": "2026-08-07T19:06:22.730Z",
-      "description": "NexTor IP Changer is a command-line tool that leverages the Tor network to periodically rotate a user's IP address. Versions prior to 2.0.0 have a command execution vulnerability due to unsafe use of `shell=True` with commands that rely on executable resolution through the `PATH` environment variable. An attacker controlling the execution environment can place malicious executables such as sudo earlier in the `PATH`, resulting in execution of attacker-controlled code. Version 2.0.0 fixes the issue.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：0x5t4l1n NexTOR_IP_CHANGER\n🔓 漏洞类型：OS Command Injection, NULL Pointer Dereference (CWE-78, CWE-476)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/0x5t4l1n/NexTOR_IP_CHANGER/security/advisories/GHSA-vx6r-vwjq-567w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/0x5t4l1n/NexTOR_IP_CHANGER/releases/tag/v2.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "0x5t4l1n",
-          "product": "NexTOR_IP_CHANGER",
+          "vendor": "aehrc",
+          "product": "pathling",
           "versions": [
             {
               "version": "< 2.0.0",
@@ -257,835 +160,14 @@
         }
       ],
       "problemType": [
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-        "CWE-476: NULL Pointer Dereference"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-918: Server-Side Request Forgery (SSRF)"
       ],
       "cwe_ids": [
-        "CWE-78",
-        "CWE-476"
-      ]
-    },
-    {
-      "id": "CVE-2026-43628",
-      "publishedDate": "2026-08-06T15:45:52.293Z",
-      "lastModifiedDate": "2026-08-07T19:04:31.701Z",
-      "description": "llama.cpp builds b3978 through b9058 contain an integer underflow and out-of-bounds read vulnerability in the DRY sampler that allows unauthenticated attackers to trigger a heap buffer underflow by sending a crafted HTTP request with dry_allowed_length set to INT32_MIN to the /v1/completions or /v1/chat/completions endpoints. Attackers can exploit this vulnerability to crash the server with SIGSEGV causing denial of service for all connected users, or corrupt token sampling probabilities by reading garbage values from memory before the allocated buffer.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b3978-b9058-integer-underflow-via-dry-sampler",
-          "type": "reference"
-        }
+        "CWE-22",
+        "CWE-918"
       ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b3978",
-              "lessThanOrEqual": "b9058",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.11.0",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "Integer Underflow (Wrap or Wraparound)",
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-43627",
-      "publishedDate": "2026-08-06T15:40:19.714Z",
-      "lastModifiedDate": "2026-08-07T19:04:03.670Z",
-      "description": "llama.cpp builds b1283 through b9058 contain an integer overflow vulnerability in the llama_batch_init() function where unchecked multiplications in malloc() calls can wrap past INT32_MAX when computing allocation sizes. Attackers can pass specially crafted parameters to trigger integer overflow, causing heap corruption and potentially achieving arbitrary code execution through subsequent batch operations that write past allocated buffer boundaries.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b1283-b9058-integer-overflow-in-llama-batch-init-function",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b1283",
-              "lessThanOrEqual": "b9058",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.4.0",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "Integer Overflow or Wraparound",
-        "Integer Overflow to Buffer Overflow"
-      ]
-    },
-    {
-      "id": "CVE-2026-70638",
-      "publishedDate": "2026-08-06T15:35:08.090Z",
-      "lastModifiedDate": "2026-08-07T19:02:47.683Z",
-      "description": "llama.cpp builds b1886 through b7445 contain an integer overflow vulnerability in the LLaMA-Android JNI wrapper where the new_1batch() function multiplies sizeof(llama_seq_id) by an attacker-controlled n_seq_max parameter without overflow validation, causing heap buffer allocation to wrap and allocate insufficient memory. Attackers can exploit this by providing a crafted n_seq_max value through a malicious model file or JNI call to trigger heap corruption and achieve denial of service or arbitrary code execution on Android applications using the LLaMA-Android binding.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b7446",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/commit/5c0d18881e0e9794c96b2602736b758bac9d9388",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b1886-b7445-integer-overflow-via-new-1batch-in-llama-android-cpp",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b1886",
-              "lessThanOrEqual": "b7445",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.9.0",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "5c0d18881e0e9794c96b2602736b758bac9d9388",
-              "versionType": "git"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Integer Overflow or Wraparound",
-        "Heap-based Buffer Overflow"
-      ]
-    },
-    {
-      "id": "CVE-2026-43622",
-      "publishedDate": "2026-08-06T15:27:07.820Z",
-      "lastModifiedDate": "2026-08-07T19:02:18.652Z",
-      "description": "llama.cpp builds b1886 through b7445 contain a double free vulnerability in the LLaMA-Android JNI wrapper where new_1batch() allocates memory using malloc() while free_1batch() deallocates it using the C++ delete operator, causing heap metadata corruption. Attackers can trigger this memory management mismatch to cause denial of service through process crashes or potentially achieve arbitrary code execution depending on allocator state.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b7446",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/commit/5c0d18881e0e9794c96b2602736b758bac9d9388",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b1886-b7445-double-free-via-llama-android-cpp",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b1886",
-              "lessThanOrEqual": "b7445",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.9.0",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "5c0d18881e0e9794c96b2602736b758bac9d9388",
-              "versionType": "git"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Mismatched Memory Management Routines",
-        "Double Free"
-      ]
-    },
-    {
-      "id": "CVE-2026-48098",
-      "publishedDate": "2026-08-07T19:09:29.235Z",
-      "lastModifiedDate": "2026-08-07T19:09:29.235Z",
-      "description": "NexTor IP Changer is a command-line tool that leverages the Tor network to periodically rotate a user's IP address. Versions prior to 2.0.0 execute privileged system commands using `sudo` and `shell=True` directly inside application logic. In environments where passwordless sudo (`NOPASSWD`) is enabled, privileged commands may execute silently without explicit user confirmation. Version 2.0.0 fixes the issue.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：0x5t4l1n NexTOR_IP_CHANGER\n🔓 漏洞类型：OS Command Injection, CWE-250 (CWE-78, CWE-250)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/0x5t4l1n/NexTOR_IP_CHANGER/security/advisories/GHSA-fpxg-q9p5-5wvm",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "0x5t4l1n",
-          "product": "NexTOR_IP_CHANGER",
-          "versions": [
-            {
-              "version": "< 2.0.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-        "CWE-250: Execution with Unnecessary Privileges"
-      ],
-      "cwe_ids": [
-        "CWE-78",
-        "CWE-250"
-      ]
-    },
-    {
-      "id": "CVE-2026-11430",
-      "publishedDate": "2026-08-07T19:02:10.025Z",
-      "lastModifiedDate": "2026-08-07T19:02:10.025Z",
-      "description": "Grav CMS's scheduler-webhook plugin contains an authentication bypass in the webhook token check. When the webhook feature is enabled but no webhookToken is configured, a compound conditional short-circuits and skips token validation, so an unauthenticated remote attacker who can reach POST /scheduler/webhook can trigger the operator's already-configured scheduled jobs by sending a single request. The primitive is triggering-existing-jobs, not attacker-chosen command execution: the attacker controls when the jobs run and which one runs (via ?job=), but does not control what the jobs do. Code execution follows only when the operator has configured a job that shells out, and even then the attacker controls timing rather than payload. Not a default-install issue: reaching the endpoint requires the separate scheduler-webhook GPM plugin to be installed, scheduler.modern.webhook.enabled to be true (default false), and no webhookToken to be configured; a stock Grav or Grav-Admin install exposes nothing here.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：Trilby Media grav-plugin-scheduler-webhook\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-xwv3-2mv2-w33x",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getgrav/grav",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getgrav/grav/commit/694f1dae06d9061bbf0669c4291e3b206f998d71",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-cms-scheduler-webhook-authentication-bypass-via-null-short-circuit",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "Trilby Media",
-          "product": "grav-plugin-scheduler-webhook",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "1.1.3"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "affected",
-          "vendor": "Trilby Media",
-          "product": "getgrav/grav",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "2.0.9"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Implementation of Authentication Algorithm"
-      ]
-    },
-    {
-      "id": "CVE-2025-71409",
-      "publishedDate": "2026-08-07T19:02:50.109Z",
-      "lastModifiedDate": "2026-08-07T19:02:50.109Z",
-      "description": "Lack of authentication for Very High Frequency Data Link messages allows rogue ground stations to inject CPDLC messages leading to unexpected or misleading clearances and potential pilot confusion. This type of attack can be carried out remotely over radio frequency.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：ATN-B1 CPDLC\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-219-01",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ATN-B1",
-          "product": "CPDLC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "All versions",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-306"
-      ],
-      "cwe_ids": [
-        "CWE-306"
-      ]
-    },
-    {
-      "id": "CVE-2025-71412",
-      "publishedDate": "2026-08-07T19:01:23.670Z",
-      "lastModifiedDate": "2026-08-07T19:01:23.670Z",
-      "description": "Injection of false emergency or status messages over CPDLC may lead to misallocation of resources, operational confusion, and improper response actions by flight crews, traffic controllers, and ground operations.  This type of attack can be carried out remotely over radio frequency.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：ATN-B1 CPDLC\n🔓 漏洞类型：CWE-754 (CWE-754)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-219-01",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ATN-B1",
-          "product": "CPDLC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "All versions",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-754"
-      ],
-      "cwe_ids": [
-        "CWE-754"
-      ]
-    },
-    {
-      "id": "CVE-2026-70640",
-      "publishedDate": "2026-08-06T15:38:22.994Z",
-      "lastModifiedDate": "2026-08-07T19:03:37.562Z",
-      "description": "llama.cpp builds b1886 through b7445 contain a race condition use-after-free vulnerability in the LLaMA-Android JNI wrapper where bench_1model() and free_1context() lack synchronization, allowing Thread A to operate on freed memory while Thread B concurrently frees the llama_context. Attackers can exploit this by performing heap spray with attacker-controlled data containing a fake vtable to hijack the vtable pointer at offset +0x30, causing llama_batch_allocr::clear() to dereference arbitrary memory and achieve remote code execution.",
-      "severity": 7,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b7446",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/commit/5c0d18881e0e9794c96b2602736b758bac9d9388",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b1886-b7445-race-condition-use-after-free-via-llama-android-cpp",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b1886",
-              "lessThanOrEqual": "b7445",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.9.0",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "5c0d18881e0e9794c96b2602736b758bac9d9388",
-              "versionType": "git"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "NULL Pointer Dereference",
-        "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
-      ]
-    },
-    {
-      "id": "CVE-2026-43630",
-      "publishedDate": "2026-08-06T15:50:55.022Z",
-      "lastModifiedDate": "2026-08-07T19:05:16.043Z",
-      "description": "llama.cpp builds b5702 through b7653 contain an out-of-bounds read vulnerability in the recurrent memory state restore path that allows attackers with write access to the slot save directory to read memory past the end of the allocated cells array. Attackers can craft a malicious slot file with an oversized seq_id value to trigger an out-of-bounds read that leaks heap data including pointer values into server logs, defeating ASLR protections and facilitating further exploitation.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ggml-org/llama.cpp",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/commit/f93c09e2673090b59802f2552848a1cac70598b0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b5702-b7653-out-of-bounds-read-information-disclosure",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b5702",
-              "lessThanOrEqual": "b7653",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.17.1",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read",
-        "Generation of Error Message Containing Sensitive Information"
-      ]
-    },
-    {
-      "id": "CVE-2026-70639",
-      "publishedDate": "2026-08-06T15:37:30.567Z",
-      "lastModifiedDate": "2026-08-07T19:03:15.715Z",
-      "description": "llama.cpp builds b1886 through b7445 contain a null pointer dereference vulnerability in the LLaMA-Android JNI wrapper where the bench_1model() function fails to validate the model context pointer before dereferencing it. Attackers can supply a malicious, corrupt, or truncated model file to trigger a null context condition, causing a SIGSEGV crash that terminates the Android application process and results in denial of service.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b7446",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ggml-org/llama.cpp/commit/5c0d18881e0e9794c96b2602736b758bac9d9388",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/llama-cpp-b1886-b7445-null-pointer-dereference-dos-via-llama-android-cpp",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ggml-org",
-          "product": "llama.cpp",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "b1886",
-              "lessThanOrEqual": "b7445",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0.9.0",
-              "lessThanOrEqual": "0.17.1",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "5c0d18881e0e9794c96b2602736b758bac9d9388",
-              "versionType": "git"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "NULL Pointer Dereference"
-      ]
-    },
-    {
-      "id": "CVE-2025-71410",
-      "publishedDate": "2026-08-07T19:02:15.353Z",
-      "lastModifiedDate": "2026-08-07T19:02:15.353Z",
-      "description": "Unnumbered Disconnect (U DISC) and malformed Aviation Very High Frequency Link Control frames can terminate sessions and lead to a loss of CPDLC functions requiring a reversion to voice communication and increased controller workload. This type of attack can be carried out remotely over radio frequency.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：ATN-B1 CPDLC\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-219-01",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ATN-B1",
-          "product": "CPDLC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "All versions",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-770"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2025-71411",
-      "publishedDate": "2026-08-07T19:01:48.118Z",
-      "lastModifiedDate": "2026-08-07T19:01:48.118Z",
-      "description": "Broadcast control frames can disconnect multiple aircraft simultaneously leading to delayed clearances and air traffic controller overload. This type of attack can be carried out remotely over radio frequency.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：ATN-B1 CPDLC\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-219-01",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ATN-B1",
-          "product": "CPDLC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "All versions",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-770"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2025-71413",
-      "publishedDate": "2026-08-07T19:00:53.989Z",
-      "lastModifiedDate": "2026-08-07T19:00:53.989Z",
-      "description": "Malformed or out-of-sequence frames at the Aviation Very High Frequency Link Control X.25 layers cause repeated resets which may result in increased workload and reduced situational awareness. This type of attack can be carried out remotely over radio frequency.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：ATN-B1 CPDLC\n🔓 漏洞类型：CWE-754 (CWE-754)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-219-01",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ATN-B1",
-          "product": "CPDLC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "All versions",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-754"
-      ],
-      "cwe_ids": [
-        "CWE-754"
-      ]
-    },
-    {
-      "id": "CVE-2026-19230",
-      "publishedDate": "2026-08-07T18:15:09.140Z",
-      "lastModifiedDate": "2026-08-07T18:58:22.870Z",
-      "description": "A vulnerability was identified in SourceCodester Photo Share Website 1.0. This affects an unknown part of the file /social/ajax.php?action=save_upload of the component Comment Input Box. The manipulation of the argument content leads to cross site scripting. The attack may be initiated remotely. The exploit is publicly available and might be used.",
-      "severity": 3.5,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Photo Share Website\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/386994",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/386994/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-19230",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/864910",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Andyov0/cve/issues/1",
-          "type": "poc"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SourceCodester",
-          "product": "Photo Share Website",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:photo_share_website:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Comment Input Box"
-          ]
-        }
-      ],
-      "problemType": [
-        "Cross Site Scripting",
-        "Code Injection"
-      ]
-    },
-    {
-      "id": "CVE-2026-17435",
-      "publishedDate": "2026-08-07T19:03:48.138Z",
-      "lastModifiedDate": "2026-08-07T19:03:48.138Z",
-      "description": "File::Rotate::Simple versions before 0.4.0 for Perl create the target of dangling symlinks when rotating files.\n\nWhen the file to be rotated is a symbolic link to a missing file, and the touch option is enabled, then the rotate method assumes that the file is absent (since the existence check is against the target), and does not rotate it. But it touches the file, which creates the target.\n\nAn attacker that has the ability to create the symlink can use this to create an arbitrary file with permissions of the process rotating the files (which may be different from the process that normally writes to the log file that is being rotated).\n\nNote that the touch option is disabled by default.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：RRWO File::Rotate::Simple\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/robrwo/File-Rotate-Simple/commit/ead3f5c0e51217b34d286aa243949dba60b39eba.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/robrwo/File-Rotate-Simple/security/advisories/GHSA-fpmm-8f6h-wv74",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/RRWO/File-Rotate-Simple-v0.4.0/changes",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "File-Rotate-Simple",
-          "product": "File::Rotate::Simple",
-          "programFiles": [
-            "lib/File/Rotate/Simple.pm"
-          ],
-          "programRoutines": [
-            {
-              "name": "File::Rotate::Simple::_build_files_to_rotate"
-            },
-            {
-              "name": "File::Rotate::Simple::rotate"
-            }
-          ],
-          "repo": "https://github.com/robrwo/File-Rotate-Simple",
-          "vendor": "RRWO",
-          "versions": [
-            {
-              "lessThan": "0.4.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
-      ],
-      "cwe_ids": [
-        "CWE-59"
-      ]
-    },
-    {
-      "id": "CVE-2026-71852",
-      "publishedDate": "2026-08-07T18:53:46.083Z",
-      "lastModifiedDate": "2026-08-07T18:53:46.083Z",
-      "description": "pypdf is a free and open-source pure-python PDF library. Prior to 6.15.0, a crafted PDF can cause long runtimes and large memory consumption when pypdf/_font.py function Font._collect_cid_character_widths expands unusually large CID font /W width ranges or excessive width entries during text extraction. This issue is fixed in 6.15.0.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：py-pdf pypdf\n🔓 漏洞类型：CWE-834 (CWE-834)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/py-pdf/pypdf/security/advisories/GHSA-fwg2-594c-jp42",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/py-pdf/pypdf/pull/3946",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/py-pdf/pypdf/commit/51cb6acf9e8a35b77e90b4d87d28fe3e1416d7d7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/py-pdf/pypdf/releases/tag/6.15.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "py-pdf",
-          "product": "pypdf",
-          "versions": [
-            {
-              "version": "< 6.15.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-834: Excessive Iteration"
-      ],
-      "cwe_ids": [
-        "CWE-834"
-      ],
-      "ghsa_id": "GHSA-fwg2-594c-jp42"
-    },
-    {
-      "id": "CVE-2026-69127",
-      "publishedDate": "2026-08-07T18:33:19.614Z",
-      "lastModifiedDate": "2026-08-07T18:56:25.591Z",
-      "description": "Kirby is an open-source content management system. Prior to 4.9.5 and from 5.0.0 through 5.5.1, the REST API error handler can return unsanitized PHP error messages that expose the full filesystem path of the Kirby installation to unauthenticated API users. This vulnerability affects all Kirby sites that have not disabled the REST API with the 'api' => false option. This issue is fixed in versions 4.9.5 and 5.5.2.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：getkirby kirby\n🔓 漏洞类型：CWE-497 (CWE-497)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getkirby/kirby/security/advisories/GHSA-rf2p-vh74-7vvh",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getkirby/kirby/commit/58f819988436b31969078bc4655452dd48546451",
-          "type": "reference"
-        },
-        {
-          "url": "https:github.com/getkirby/kirby/commit/469c5a1a2973811591d996bc967eead3565df1f0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getkirby",
-          "product": "kirby",
-          "versions": [
-            {
-              "version": "< 4.9.5",
-              "status": "affected"
-            },
-            {
-              "version": ">= 5.0.0, < 5.5.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-497: Exposure of Sensitive System Information to an Unauthorized Control Sphere"
-      ],
-      "cwe_ids": [
-        "CWE-497"
-      ]
+      "cvss_severity": "HIGH"
     }
   ]
 }
