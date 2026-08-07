@@ -2,148 +2,319 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-07T20:01:24.997265",
+    "total_count": 8,
+    "last_updated": "2026-08-07T20:52:11.201546",
     "severity_distribution": {
-      "critical": 1,
+      "critical": 0,
       "high": 2,
-      "medium": 0,
+      "medium": 2,
       "low": 0,
-      "none": 0
+      "none": 4
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-48039",
-      "publishedDate": "2026-08-07T19:29:39.875Z",
-      "lastModifiedDate": "2026-08-07T19:42:00.728Z",
-      "description": "Meta Ads MCP is a Model Context Protocol (MCP) server that lets AI assistants run Meta Ads. Prior to version 1.0.109, `AuthInjectionMiddleware.dispatch()` at `http_auth_integration.py:272` unconditionally forwards unauthenticated Streamable HTTP requests to downstream MCP tool handlers without issuing a `401` response, allowing any network-reachable caller to invoke MCP tools without authentication. When no per-request credential is present, tool handlers fall back to the `META_ACCESS_TOKEN` environment variable, and when the downstream Meta Graph API call fails, `api.py:263–269` serialises the raw `httpx` request URL—including the operator's `access_token` as a query parameter—into the JSON-RPC response body, delivering the credential to the unauthenticated caller. Version 1.0.109 fixes the issue.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：pipeboard-co meta-ads-mcp\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-66060",
+      "publishedDate": "2026-08-07T20:35:47.355Z",
+      "lastModifiedDate": "2026-08-07T20:35:47.355Z",
+      "description": "Home Assistant is open source home automation software focused on local control and privacy.  Prior to 2026.5.3,  the Companion app treats tag links (NFC or QR) delivered through an OS-level routing mechanism as if they were physically scanned, without validating the calling app or prompting the user. As a result, any untrusted app on the device can forward an arbitrary tag to Home Assistant, causing it to execute the associated automation as though a legitimate user had scanned an authorized tag. This allows silent, unattended automation execution by untrusted local callers. This issue is fixed in version 2026.8.1.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：home-assistant core\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/pipeboard-co/meta-ads-mcp/security/advisories/GHSA-9gw6-46qc-99vr",
+          "url": "https://github.com/home-assistant/core/security/advisories/GHSA-2xqv-hwrf-983f",
           "type": "reference"
         },
         {
-          "url": "https://github.com/pipeboard-co/meta-ads-mcp/releases/tag/1.0.109",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/pypa/advisory-database/tree/main/vulns/meta-ads-mcp/PYSEC-2026-413.yaml",
+          "url": "https://github.com/home-assistant/android/commit/968b49c58e4eba4d06371a3f6e73198ec6c8d4a7",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "pipeboard-co",
-          "product": "meta-ads-mcp",
+          "vendor": "home-assistant",
+          "product": "core",
           "versions": [
             {
-              "version": "< 1.0.109",
+              "version": "< 2026.5.3",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-287: Improper Authentication"
+        "CWE-862: Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-287"
-      ],
-      "ghsa_id": "GHSA-9gw6-46qc-99vr"
-    },
-    {
-      "id": "CVE-2026-62295",
-      "publishedDate": "2026-08-07T19:36:31.274Z",
-      "lastModifiedDate": "2026-08-07T19:36:31.274Z",
-      "description": "HAPI FHIR is a complete implementation of the HL7 FHIR standard for healthcare interoperability in Java. Prior to 6.9.11, the JSON utility parser in org.hl7.fhir.utilities.json.parser.JsonParser enforces no maximum nesting depth for arrays or objects. As a result, a small but deeply nested, syntactically valid FHIR JSON document can trigger unbounded readArray() or readObject() recursion, raising a StackOverflowError before structural validation runs. An attacker who can submit JSON resources for validation can thus crash the request thread, and services that do not isolate StackOverflowError safely may experience worker loss or process instability — a denial-of-service condition. This issue is fixed in version 6.9.11.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：hapifhir org.hl7.fhir.core\n🔓 漏洞类型：CWE-20, Uncontrolled Resource Consumption, CWE-674 (CWE-20, CWE-400, CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/security/advisories/GHSA-2cq7-hg49-56gc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hapifhir/org.hl7.fhir.core/commit/396f447500407693d6ae1e64db59782862ca7506",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "hapifhir",
-          "product": "org.hl7.fhir.core",
-          "versions": [
-            {
-              "version": "< 6.9.11",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "hapifhir",
-          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.r5",
-          "versions": [
-            {
-              "version": "< 6.9.11",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "hapifhir",
-          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.utilities",
-          "versions": [
-            {
-              "version": "< 6.9.11",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "hapifhir",
-          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.validation",
-          "versions": [
-            {
-              "version": "< 6.9.11",
-              "status": "affected"
-            }
-          ]
-        },
-        {
-          "vendor": "hapifhir",
-          "product": "ca.uhn.hapi.fhir:org.hl7.fhir.validation.cli",
-          "versions": [
-            {
-              "version": "< 6.9.11",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-20: Improper Input Validation",
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-674: Uncontrolled Recursion"
-      ],
-      "cwe_ids": [
-        "CWE-20",
-        "CWE-400",
-        "CWE-674"
+        "CWE-862"
       ]
     },
     {
-      "id": "CVE-2026-47659",
-      "publishedDate": "2026-08-07T19:44:00.458Z",
-      "lastModifiedDate": "2026-08-07T19:49:51.968Z",
-      "description": "Pathling is a set of tools that make it easier to use FHIR and clinical terminology within health data analytics. Prior to version 2.0.0 of Pathling Server, Pathling's `/$result` endpoint allows a caller who can obtain any valid async export job ID to supply `file` parameter values containing path traversal sequences. The handler verifies only the supplied `job` and never normalises or confines the requested `file` path to that job's `jobs/<jobId>` directory before opening it as a filesystem resource. Because async export scratch space lives under the same warehouse database root as persisted resource tables, an attacker can use their own export job to read other files from the warehouse. This is fixed in Pathling Server 2.0.0. The `$result` handler now resolves and canonicalizes the requested file path and rejects any request that escapes the job's `jobs/<jobId>` directory. As an interim mitigation, disable the async export operations (`pathling.operations.exportEnabled`, `patientExportEnabled`, `groupExportEnabled`, `bulkSubmitEnabled`) or enable authentication and restrict export capability to trusted callers.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：aehrc pathling\n🔓 漏洞类型：Path Traversal, Server-Side Request Forgery (SSRF) (CWE-22, CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19244",
+      "publishedDate": "2026-08-07T20:30:13.889Z",
+      "lastModifiedDate": "2026-08-07T20:30:13.889Z",
+      "description": "A vulnerability was detected in HKUDS nanobot up to 0.2.1. The affected element is the function connect_mcp_servers of the file nanobot/agent/tools/mcp.py of the component MCP enabledTools Scope Handler. Performing a manipulation results in improper access controls. The attack is possible to be carried out remotely. The exploit is now public and may be used. Upgrading to version 0.3.0 is sufficient to fix this issue. The patch is named 4436. You should upgrade the affected component. Multiple issues were reported to the project. They reacted with a high level of professionalism and kindness: \"Both reports describe the same root cause: MCP resource and prompt wrappers could be registered outside the intended enabledTools scope. The registration boundary was corrected\".",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：HKUDS nanobot\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/aehrc/pathling/security/advisories/GHSA-5h9r-m7r5-8jxq",
+          "url": "https://vuldb.com/vuln/386998",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/386998/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19244",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/865116",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/865118",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/HKUDS/nanobot/issues/4435",
+          "type": "reference"
+        },
+        {
+          "url": "https://gist.github.com/YLChen-007/3de5f50d167a878f7530f57ed018d508",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/HKUDS/nanobot/pull/4436",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/HKUDS/nanobot/releases/tag/v0.3.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/HKUDS/nanobot/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HKUDS",
+          "product": "nanobot",
+          "versions": [
+            {
+              "version": "0.2.0",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.3.0",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:nanobot:nanobot:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "MCP enabledTools Scope Handler"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Access Controls",
+        "Incorrect Privilege Assignment"
+      ]
+    },
+    {
+      "id": "CVE-2026-71381",
+      "publishedDate": "2026-08-07T20:26:30.681Z",
+      "lastModifiedDate": "2026-08-07T20:26:30.681Z",
+      "description": "Adobe Genuine Software Integrity Service was affected by an Incorrect Authorization vulnerability that could result in a Security feature bypass. An attacker could have leveraged this vulnerability to bypass security measures and gain unauthorized limited write access. Exploitation of this issue did not require user interaction, but required the attacker to have access to the local environment the application is installed on.",
+      "severity": 4,
+      "fix_suggestion": "📦 受影响组件：Adobe Adobe Genuine Software Integrity Service\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cwe.mitre.org/data/definitions/863.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Adobe",
+          "product": "Adobe Genuine Software Integrity Service",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "N/A",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-9031",
+      "publishedDate": "2026-08-07T20:40:18.549Z",
+      "lastModifiedDate": "2026-08-07T20:40:18.549Z",
+      "description": "An input validation\nvulnerability exists in the HTTP-WRITEOEM handler due to insufficient validation\nof user-supplied data before it is processed by internal flash-write handling\nlogic.\n\n\n\n\n\n\n\n\n\nSuccessful\nexploitation may cause httpd process or device to crash, resulting in loss of access\nto the web interface and a denial-of-service condition.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer A6 v4\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-a6/v4/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-a6/v4/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/faq/5234/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer A6 v4",
+          "modules": [
+            "httpd"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V4_1.15.10 Build 260625 Rel.25447",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-20 Improper input validation"
+      ],
+      "cwe_ids": [
+        "CWE-20"
+      ]
+    },
+    {
+      "id": "CVE-2026-9030",
+      "publishedDate": "2026-08-07T20:38:35.116Z",
+      "lastModifiedDate": "2026-08-07T20:38:57.349Z",
+      "description": "A denial-of-service\nvulnerability exists in httpd service on Archer A6 v4 where the asynchronous systool\ninstruction handlng path in httpd does not properly synchronize or safely manage\nconcurrent systool operations.  \n\n\n\n\n\nBy sending\ncrafted systool instructions through the asynchronous request path, successful\nexploitation may cause the httpd process or device management service to crash\nand may result in temporary loss of access to the web management interface or\ndevice reboot.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer A6 v4\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-a6/v4/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-a6/v4/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/faq/5234/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer A6 v4",
+          "modules": [
+            "httpd"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "V4_1.15.10 Build 260625 Rel.25447",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-362 Concurrent Execution using Shared Resource with Improper Synchronization"
+      ],
+      "cwe_ids": [
+        "CWE-362"
+      ]
+    },
+    {
+      "id": "CVE-2026-46358",
+      "publishedDate": "2026-08-07T20:32:36.832Z",
+      "lastModifiedDate": "2026-08-07T20:32:36.832Z",
+      "description": "OpenBao is an open source identity-based secrets management system. Prior to version 2.5.4, OpenBao's inline auth functionality incorrectly redacted audit log entries, resulting in non-auth headers being removed and auth-related headers being retained in cleartext. This requires an attacker to compromise access to the audit device. Operators should review leaked source authentication material and rotate it as appropriate. This is fixed in OpenBao v2.5.4.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：openbao openbao\n🔓 漏洞类型：CWE-532 (CWE-532)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/openbao/openbao/security/advisories/GHSA-q8cj-789h-vg24",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openbao/openbao/issues/3074",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openbao/openbao/pull/3076",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openbao/openbao/commit/131c6966af4dfb4e1906703436eecdb8f2a3e9df",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openbao/openbao/releases/tag/v2.5.4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "openbao",
+          "product": "openbao",
+          "versions": [
+            {
+              "version": "< 2.5.4",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-532: Insertion of Sensitive Information into Log File"
+      ],
+      "cwe_ids": [
+        "CWE-532"
+      ],
+      "ghsa_id": "GHSA-q8cj-789h-vg24"
+    },
+    {
+      "id": "CVE-2026-47664",
+      "publishedDate": "2026-08-07T20:28:06.882Z",
+      "lastModifiedDate": "2026-08-07T20:28:06.882Z",
+      "description": "Pathling is a set of tools that make it easier to use FHIR and clinical terminology within health data analytics. Prior to version 2.0.0 of Pathling Server, the `$import-pnp` operation in Pathling Server accepts a caller-supplied `exportUrl` and uses it as the remote FHIR Bulk Export endpoint without constraining it to a trusted source. When PNP credentials are configured, Pathling builds a credentialed bulk-export client targeting the caller-chosen host, downloads manifest-selected files, and then reclassifies those staged files as trusted local `file://` imports - bypassing the configured `allowableSources` allowlist that protects the ordinary `$import` operation. This is fixed in Pathling Server 2.0.0. As a workaround, disable the `$import-pnp` operation (`pathling.operations.importPnpEnabled=false`) or do not configure PNP credentials.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：aehrc pathling\n🔓 漏洞类型：CWE-20, CWE-345, Server-Side Request Forgery (SSRF) (CWE-20, CWE-345, CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/aehrc/pathling/security/advisories/GHSA-69wc-hrxh-5528",
           "type": "reference"
         }
       ],
@@ -160,14 +331,48 @@
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-20: Improper Input Validation",
+        "CWE-345: Insufficient Verification of Data Authenticity",
         "CWE-918: Server-Side Request Forgery (SSRF)"
       ],
       "cwe_ids": [
-        "CWE-22",
+        "CWE-20",
+        "CWE-345",
         "CWE-918"
       ],
       "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-47663",
+      "publishedDate": "2026-08-07T20:26:08.349Z",
+      "lastModifiedDate": "2026-08-07T20:26:08.349Z",
+      "description": "Pathling is a set of tools that make it easier to use FHIR and clinical terminology within health data analytics. Prior to version 2.0.0 of Pathling Server, Pathling's typed CRUD/search/batch FHIR surface allows an authenticated caller with only coarse operation authorities to act on attacker-chosen resource families because those entrypoints do not consistently enforce the documented per-resource `read` and `write` authorities. The documented authorization model requires an operation authority (e.g. `pathling:search`) to be paired with the matching per-resource `read` or `write` authority (e.g. `pathling:read:Patient`). Delete and batch are documented to require write authority for all referenced resource types. However, typed search, update, and related handlers are annotated only with `@OperationAccess(...)` and act on the provider-selected resource type without checking the corresponding per-resource authority. This is fixed in Pathling Server 2.0.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：aehrc pathling\n🔓 漏洞类型：CWE-285 (CWE-285)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/aehrc/pathling/security/advisories/GHSA-q62q-2m46-r7rv",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "aehrc",
+          "product": "pathling",
+          "versions": [
+            {
+              "version": "< 2.0.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-285: Improper Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-285"
+      ]
     }
   ]
 }
