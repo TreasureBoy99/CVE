@@ -2,15 +2,784 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-08-08T00:52:20.630694",
+    "total_count": 13,
+    "last_updated": "2026-08-08T02:47:34.730935",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 6,
+      "medium": 6,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-43632",
+      "publishedDate": "2026-08-06T15:53:19.379Z",
+      "lastModifiedDate": "2026-08-08T02:09:18.676Z",
+      "description": "llama.cpp builds b7492 through the latest b9060 contains a use-after-free vulnerability in llama-server affecting six tokenization endpoints (/tokenize, /detokenize, /infill, /apply-template, /rerank, and /anthropic/count_tokens) that bypass the task queue and access ctx_server.vocab directly on HTTP worker threads. Attackers can exploit a time-of-check-time-of-use race condition where the main thread destroys and frees vocab after the synchronization lock is released but before the handler finishes using it, causing a crash or potential code execution when --sleep-idle-seconds is configured.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/llama-cpp-b7492-b9060-use-after-free-in-tokenization-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ggml-org",
+          "product": "llama.cpp",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "b7492",
+              "lessThanOrEqual": "b9060",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Use After Free",
+        "Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ]
+    },
+    {
+      "id": "CVE-2026-43627",
+      "publishedDate": "2026-08-06T15:40:19.714Z",
+      "lastModifiedDate": "2026-08-08T02:08:08.055Z",
+      "description": "llama.cpp builds b1283 through b9058 contain an integer overflow vulnerability in the llama_batch_init() function where unchecked multiplications in malloc() calls can wrap past INT32_MAX when computing allocation sizes. Attackers can pass specially crafted parameters to trigger integer overflow, causing heap corruption and potentially achieving arbitrary code execution through subsequent batch operations that write past allocated buffer boundaries.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Vladimir-tokarev-cyera/llama-cpp-security-patches",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/llama-cpp-b1283-b9058-integer-overflow-in-llama-batch-init-function",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ggml-org",
+          "product": "llama.cpp",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "b1283",
+              "lessThanOrEqual": "b9058",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0.4.0",
+              "lessThanOrEqual": "0.17.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Integer Overflow or Wraparound",
+        "Integer Overflow to Buffer Overflow"
+      ]
+    },
+    {
+      "id": "CVE-2026-7867",
+      "publishedDate": "2026-08-06T15:36:02.760Z",
+      "lastModifiedDate": "2026-08-08T02:06:45.697Z",
+      "description": "A flaw was found in udisks2. A local attacker with an active console session can exploit insufficient authorization checking on the 'as-user' option in the org.freedesktop.UDisks2.Filesystem.Mount() D-Bus method. This allows the attacker to spoof the 'as-user' parameter, mounting filesystems on behalf of arbitrary users, including privileged accounts. This can lead to local privilege escalation through mount point injection and manipulation of the mount namespace visible to privileged users.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-7867",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2466747",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/storaged-project/udisks/releases/tag/udisks-2.11.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/storaged-project/udisks/security/advisories/GHSA-j42g-v9jw-6ph3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "udisks2",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "udisks2",
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "udisks2",
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "udisks2",
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-70646",
+      "publishedDate": "2026-08-06T14:38:52.556Z",
+      "lastModifiedDate": "2026-08-08T02:03:41.699Z",
+      "description": "aiosend is a synchronous and asynchronous Crypto Pay API client. Pror to version 3.0.7, `WebhookHandler.feed_update()` deserializes the entire request body before verifying the HMAC signature. This allows an unauthenticated attacker to force expensive parsing of arbitrary JSON payloads that will ultimately be rejected, leading to unnecessary CPU and memory consumption. Version 3.0.7 fixes the issue. Some workarounds are available. Restrict request body size at the reverse proxy or web framework, rate-limit webhook endpoints, and/or reject oversized requests before JSON parsing.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：vovchic17 aiosend\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vovchic17/aiosend/security/advisories/GHSA-7m8f-hgjq-8gc9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vovchic17/aiosend/commit/db20f0a742209dfac181863d398ec5112687efa4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vovchic17/aiosend/releases/tag/v3.0.7",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vovchic17",
+          "product": "aiosend",
+          "versions": [
+            {
+              "version": "< 3.0.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "ghsa_id": "GHSA-7m8f-hgjq-8gc9"
+    },
+    {
+      "id": "CVE-2026-66707",
+      "publishedDate": "2026-08-06T14:28:08.911Z",
+      "lastModifiedDate": "2026-08-08T02:01:19.860Z",
+      "description": "Unauthenticated Cross Site Scripting (XSS) in Facebook for WooCommerce <= 3.7.5 versions.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：Facebook Facebook for WooCommerce\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/facebook-for-woocommerce/vulnerability/wordpress-facebook-for-woocommerce-plugin-3-7-5-cross-site-scripting-xss-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Facebook",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "facebook-for-woocommerce",
+          "product": "Facebook for WooCommerce",
+          "versions": [
+            {
+              "lessThanOrEqual": "3.7.5",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "3.7.6",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-66664",
+      "publishedDate": "2026-08-06T14:27:55.374Z",
+      "lastModifiedDate": "2026-08-08T01:56:50.890Z",
+      "description": "Unauthenticated Cross Site Scripting (XSS) in SEO Plugin by Squirrly SEO <= 14.2.0 versions.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：SEO Squirrly SEO Plugin by Squirrly SEO\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/squirrly-seo/vulnerability/wordpress-seo-plugin-by-squirrly-seo-plugin-14-1-1-reflected-cross-site-scripting-xss-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "SEO Squirrly",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "squirrly-seo",
+          "product": "SEO Plugin by Squirrly SEO",
+          "versions": [
+            {
+              "lessThanOrEqual": "14.2.0",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "14.2.1",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-66452",
+      "publishedDate": "2026-08-06T14:27:52.016Z",
+      "lastModifiedDate": "2026-08-08T01:55:42.450Z",
+      "description": "Unauthenticated Broken Access Control in Legal Text Connector of the IT-Recht Kanzlei <= 1.0.13 versions.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：IT-Recht Kanzlei Legal Text Connector of the IT-Recht Kanzlei\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/legal-texts-connector-it-recht-kanzlei/vulnerability/wordpress-legal-text-connector-of-the-it-recht-kanzlei-plugin-1-0-13-broken-access-control-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IT-Recht Kanzlei",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "legal-texts-connector-it-recht-kanzlei",
+          "product": "Legal Text Connector of the IT-Recht Kanzlei",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.0.13",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "1.0.14",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-66425",
+      "publishedDate": "2026-08-06T14:27:48.597Z",
+      "lastModifiedDate": "2026-08-08T01:54:59.851Z",
+      "description": "Unauthenticated Broken Authentication in Gutena Forms – Contact Form, Survey Form, Feedback Form, Booking Form, and Custom Form Builder <= 1.9.0 versions.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Saad Iqbal Gutena Forms – Contact Form, Survey Form, Feedback Form, Booking Form, and Custom Form Builder\n🔓 漏洞类型：CWE-288 (CWE-288)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/gutena-forms/vulnerability/wordpress-gutena-forms-contact-form-survey-form-feedback-form-booking-form-and-custom-form-builder-plugin-1-9-0-broken-authentication-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Saad Iqbal",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "gutena-forms",
+          "product": "Gutena Forms – Contact Form, Survey Form, Feedback Form, Booking Form, and Custom Form Builder",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.9.0",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "2.0.0",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-288 Authentication Bypass Using an Alternate Path or Channel"
+      ],
+      "cwe_ids": [
+        "CWE-288"
+      ]
+    },
+    {
+      "id": "CVE-2026-19047",
+      "publishedDate": "2026-08-06T15:00:11.428Z",
+      "lastModifiedDate": "2026-08-08T02:04:59.388Z",
+      "description": "A vulnerability was detected in NocteDefensor LudusMCP up to 1.0.24. This affects the function executeArbitraryCommand/executeCommand of the file src/ludusMCP/cliWrapper.ts of the component ludus_cli_execute. Performing a manipulation of the argument command/args results in command injection. The attack needs to be approached locally. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：NocteDefensor LudusMCP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/386494",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/386494/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19047",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/863835",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gongyanyugyy/public_exp/issues/2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NocteDefensor/LudusMCP/issues/3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NocteDefensor/LudusMCP/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NocteDefensor",
+          "product": "LudusMCP",
+          "versions": [
+            {
+              "version": "1.0.0",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.1",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.2",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.3",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.4",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.5",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.6",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.7",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.8",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.9",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.10",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.11",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.12",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.13",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.14",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.15",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.16",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.17",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.18",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.19",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.20",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.21",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.22",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.23",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.24",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:noctedefensor:ludusmcp:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ludus_cli_execute"
+          ]
+        }
+      ],
+      "problemType": [
+        "Command Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-66701",
+      "publishedDate": "2026-08-06T14:28:05.539Z",
+      "lastModifiedDate": "2026-08-08T02:00:36.690Z",
+      "description": "Unauthenticated Broken Access Control in Profile Builder <= 3.16.5 versions.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：Cozmoslabs Profile Builder\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/profile-builder/vulnerability/wordpress-profile-builder-plugin-3-16-5-broken-access-control-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cozmoslabs",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "profile-builder",
+          "product": "Profile Builder",
+          "versions": [
+            {
+              "lessThanOrEqual": "3.16.5",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "3.16.6",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-66684",
+      "publishedDate": "2026-08-06T14:27:58.735Z",
+      "lastModifiedDate": "2026-08-08T01:58:43.931Z",
+      "description": "Unauthenticated Sensitive Data Exposure in Export Import Menus <= 1.9.2 versions.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：Akshay Menariya Export Import Menus\n🔓 漏洞类型：CWE-201 (CWE-201)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/export-import-menus/vulnerability/wordpress-export-import-menus-plugin-1-9-2-sensitive-data-exposure-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Akshay Menariya",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "export-import-menus",
+          "product": "Export Import Menus",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.9.2",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-201 Insertion of Sensitive Information Into Sent Data"
+      ],
+      "cwe_ids": [
+        "CWE-201"
+      ]
+    },
+    {
+      "id": "CVE-2026-66692",
+      "publishedDate": "2026-08-06T14:28:02.131Z",
+      "lastModifiedDate": "2026-08-08T01:59:25.368Z",
+      "description": "Customer Insecure Direct Object References (IDOR) in Colissimo Officiel : Méthodes de livraison pour WooCommerce <= 2.10.0 versions.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：Colissimo Colissimo Officiel : Méthodes de livraison pour WooCommerce\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/colissimo-shipping-methods-for-woocommerce/vulnerability/wordpress-colissimo-officiel-methodes-de-livraison-pour-woocommerce-plugin-2-10-0-insecure-direct-object-references-idor-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Colissimo",
+          "collectionURL": "https://wordpress.org/plugins",
+          "defaultStatus": "unaffected",
+          "packageName": "colissimo-shipping-methods-for-woocommerce",
+          "product": "Colissimo Officiel : Méthodes de livraison pour WooCommerce",
+          "versions": [
+            {
+              "lessThanOrEqual": "2.10.0",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "3.0.0",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-64564",
+      "publishedDate": "2026-08-04T06:23:23.339Z",
+      "lastModifiedDate": "2026-08-08T01:31:36.501Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nsctp: don't free the ASCONF's own transport in DEL-IP processing\n\nsctp_process_asconf() caches the transport the ASCONF chunk is processed\nagainst in asconf->transport (== chunk->transport, set once in sctp_rcv()).\nFor an ASCONF located through its Address Parameter by\n__sctp_rcv_asconf_lookup(), that cached transport corresponds to the\nAddress Parameter, which need not be the packet's source address.\n\nsctp_process_asconf_param() rejects a DEL-IP for the packet source address\n(ADDIP D8, SCTP_ERROR_DEL_SRC_IP), but nothing protects asconf->transport.\nA single ASCONF can therefore carry, in order:\n\n    [Address Parameter L] [DEL-IP L] [DEL-IP 0.0.0.0]\n\nwhere L differs from the source. The DEL-IP for L passes the D8 check and\ncalls sctp_assoc_rm_peer() on the transport that asconf->transport still\npoints at, freeing it (RCU-deferred). The following wildcard DEL-IP then\nreuses the now-dangling asconf->transport in sctp_assoc_set_primary() and\nsctp_assoc_del_nonprimary_peers(): set_primary() dereferences the freed\ntransport (->ipaddr, ->state) and plants the dangling pointer into\nasoc->peer.primary_path / active_path, and del_nonprimary_peers(), keeping\nonly the pointer that is no longer on the list, removes every real\ntransport, leaving the association with a transport_count of 0 and\nprimary_path/active_path pointing at freed memory.\n\nReject a DEL-IP that targets the transport the ASCONF is being processed\nagainst, mirroring the existing source-address guard, so the wildcard\nbranch can never reuse a freed transport.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/fedeb4468987bcaff85fe3061de5ae052d414740",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/74e8f3e7114f0e26d1b2c4c048044db9fcc27603",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/85aca407c560aba81b5ce9d3d6cf94c74077d19b",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/d136b29bf91dd8e3161281b87de597b7311d9462",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/9b2854f86f0b56e9027d68e7a3fc909d1a9b566f",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "net/sctp/sm_make_chunk.c"
+          ],
+          "versions": [
+            {
+              "version": "42e30bf3463cd37d73839376662cb79b4d5c416c",
+              "lessThan": "fedeb4468987bcaff85fe3061de5ae052d414740",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "42e30bf3463cd37d73839376662cb79b4d5c416c",
+              "lessThan": "74e8f3e7114f0e26d1b2c4c048044db9fcc27603",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "42e30bf3463cd37d73839376662cb79b4d5c416c",
+              "lessThan": "85aca407c560aba81b5ce9d3d6cf94c74077d19b",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "42e30bf3463cd37d73839376662cb79b4d5c416c",
+              "lessThan": "d136b29bf91dd8e3161281b87de597b7311d9462",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "42e30bf3463cd37d73839376662cb79b4d5c416c",
+              "lessThan": "9b2854f86f0b56e9027d68e7a3fc909d1a9b566f",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "net/sctp/sm_make_chunk.c"
+          ],
+          "versions": [
+            {
+              "version": "2.6.25",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "2.6.25",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc5",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    }
+  ]
 }
