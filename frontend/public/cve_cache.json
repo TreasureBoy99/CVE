@@ -3,66 +3,26 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-08-08T22:11:16.525459",
+    "last_updated": "2026-08-08T22:46:18.409172",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-71502",
-      "publishedDate": "2026-08-06T20:30:04.442Z",
-      "lastModifiedDate": "2026-08-08T21:05:36.527Z",
-      "description": "CTI-Transmute contains a stored cross-site scripting vulnerability caused by insufficient neutralization of Vue template expression delimiters in server-rendered user-controlled data.\n\nAn unauthenticated attacker can create a public conversion whose name or description contains a malicious Vue expression using the application's configured [[ ... ]] delimiters. User profile names may provide an additional injection vector. Although Jinja HTML escaping is applied, the resulting value is subsequently included in a DOM region compiled by Vue.\n\nVue interprets the attacker-controlled value as a template expression rather than ordinary text. By accessing the JavaScript Function constructor from within the expression, an attacker can execute arbitrary JavaScript in the security context of the CTI-Transmute origin. The application's nonce-based Content Security Policy does not prevent exploitation because the Vue runtime compiler requires the unsafe-eval policy exception.\n\nThe malicious payload is stored by the application and executed whenever another user opens an affected page, such as the public conversion detail page. The victim may be a normal user or an administrator. Successful exploitation could allow the attacker to:\n\n  *  Access data available to the victim through the application.\n  *  Extract API keys, tokens, or other sensitive information exposed to the page.\n  *  Perform authenticated actions using the victim's session.\n  *  Modify conversions or other application data.\n  *  Escalate the impact by targeting an administrator.\n\n\nA demonstrated payload can use [].constructor.constructor(...) to obtain the JavaScript Function constructor and execute arbitrary code. The regression tests also show that a short first-stage payload could retrieve an uncapped conversion description and evaluate a larger second-stage payload.\n\nThe patch addresses the vulnerability by registering a global Jinja finalize hook that inserts a zero-width Unicode word joiner inside every Vue delimiter found in server-rendered values. This prevents Vue from recognizing the values as template expressions while preserving their visible representation.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：misp cti-transmute\n🔓 漏洞类型：Cross-site Scripting (XSS), CWE-1336 (CWE-79, CWE-1336)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/ecfdaef63860a071c6f07afd30156ca77a77ad2b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/522fa8ff8223b12a6128ea3fc2344a77b7b9108d",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/ad8bf2b8031491cefb552314ef7ff6f4148ca95a",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/4f43c9181a00262bec2a6dfbc9ff9c50d534e918",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "cti-transmute",
-          "repo": "https://github.com/MISP/cti-transmute",
-          "vendor": "misp",
-          "versions": [
-            {
-              "lessThanOrEqual": "1.4.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting')",
-        "CWE-1336"
-      ],
-      "cwe_ids": [
-        "CWE-79",
-        "CWE-1336"
-      ],
-      "cvss_severity": "MEDIUM"
+      "id": "CVE-2026-11612",
+      "publishedDate": "2026-08-08T22:46:17.479322+00:00",
+      "lastModifiedDate": "2026-08-08T22:19:25.559Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
     }
   ]
 }
