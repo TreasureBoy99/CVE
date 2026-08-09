@@ -2,75 +2,131 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-09T17:33:00.110991",
+    "total_count": 2,
+    "last_updated": "2026-08-09T18:01:59.478360",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 0,
-      "low": 1,
+      "medium": 2,
+      "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-19361",
-      "publishedDate": "2026-08-09T17:15:09.873Z",
-      "lastModifiedDate": "2026-08-09T17:15:09.873Z",
-      "description": "A flaw has been found in macrozheng mall 0504e86. This vulnerability affects unknown code of the file /sso/getAuthCode of the component mall-portal Module. Executing a manipulation can lead to weak password recovery. The attack may be launched remotely. This attack is characterized by high complexity. It is stated that the exploitability is difficult. The exploit has been published and may be used. The vendor deleted the GitHub issue for this vulnerability without any explanation. Afterwards the vendor was contacted early about this disclosure via email but did not respond in any way.",
-      "severity": 3.7,
-      "fix_suggestion": "📦 受影响组件：macrozheng mall\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19363",
+      "publishedDate": "2026-08-09T17:45:07.380Z",
+      "lastModifiedDate": "2026-08-09T17:45:07.380Z",
+      "description": "A vulnerability was found in lmammino oidc-authorizer up to 0.4.0. Impacted is the function unwrap of the file src/handler.rs of the component Fixed Message Handler. The manipulation of the argument jwtClaims results in deserialization. The attack can be executed remotely. The exploit has been made public and could be used. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：lmammino oidc-authorizer\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/387215",
+          "url": "https://vuldb.com/vuln/387217",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/387215/cti",
+          "url": "https://vuldb.com/vuln/387217/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-19361",
+          "url": "https://vuldb.com/cve/CVE-2026-19363",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/866081",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/macrozheng/mall/issues/979",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/wr0ld/macrozheng-mall-Commit-0504e86-Broken-Authentication/issues/1",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/macrozheng/mall/",
+          "url": "https://vuldb.com/submit/866093",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "macrozheng",
-          "product": "mall",
+          "vendor": "lmammino",
+          "product": "oidc-authorizer",
           "versions": [
             {
-              "version": "0504e86",
+              "version": "0.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.4.0",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:macrozheng:mall:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:lmammino:oidc-authorizer:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "mall-portal Module"
+            "Fixed Message Handler"
           ]
         }
       ],
       "problemType": [
-        "Weak Password Recovery"
+        "Deserialization",
+        "Improper Input Validation"
       ]
+    },
+    {
+      "id": "CVE-2026-15534",
+      "publishedDate": "2026-08-09T17:49:50.033Z",
+      "lastModifiedDate": "2026-08-09T17:49:50.033Z",
+      "description": "Perl versions through 5.45.1 have out-of-bounds heap reads and writes during regular expression matching via an undersized superlinear cache in S_regmatch.\n\nThe regex engine's superlinear cache holds one bit per subject position for each participating WHILEM node, so the bit count is the subject length plus one times the number of nodes. Nothing checks that product for positive overflow of the signed 32-bit count: a 286331153 byte subject matched against a pattern with 15 participating nodes stores the count as 14, leaving a two byte cache. The cache is then indexed from the real match position and node number, so reads go past the end of the allocation, and on failure CACHEsayNO sets a bit past it.\n\nA caller that matches an attacker controlled subject of this size against a pattern of this shape can crash the process or corrupt heap memory.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：LEONT perl\n🔓 漏洞类型：Integer Overflow or Wraparound, CWE-125, CWE-787 (CWE-190, CWE-125, CWE-787)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Perl/perl5/commit/568e6fd238867bb9e99fa3f47cba3169009239e0.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Perl/perl5/commit/54cf3d44cbbedd17d774e9a37921963e8fd5d0cb.patch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "perl",
+          "product": "perl",
+          "programFiles": [
+            "regexec.c"
+          ],
+          "programRoutines": [
+            {
+              "name": "S_regmatch"
+            }
+          ],
+          "repo": "https://github.com/Perl/perl5",
+          "vendor": "LEONT",
+          "versions": [
+            {
+              "lessThanOrEqual": "5.45.1",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-190 Integer Overflow or Wraparound",
+        "CWE-125 Out-of-bounds Read",
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-190",
+        "CWE-125",
+        "CWE-787"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
