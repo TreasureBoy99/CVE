@@ -2,11 +2,11 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-09T04:03:44.673881",
+    "total_count": 2,
+    "last_updated": "2026-08-09T05:14:31.407100",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
+      "high": 0,
       "medium": 2,
       "low": 0,
       "none": 0
@@ -14,184 +14,50 @@
   },
   "cves": [
     {
-      "id": "CVE-2026-64561",
-      "publishedDate": "2026-08-04T06:23:21.094Z",
-      "lastModifiedDate": "2026-08-09T03:38:12.274Z",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nKVM: x86: Check for invalid/obsolete root *after* making MMU pages available\n\nCheck for a \"stale\" page fault, i.e. for an invalid and/or obsolete root,\nafter making MMU pages available for the shadow MMU.  If reclaiming shadow\npages zaps an in-use root, i.e. marks it invalid, then KVM will attempt to\nmap memory into an invalid root.  On its own, populating an invalid root is\n\"fine\", but because child shadow pages inherit their parent's role, any\nchildren created during the map/fetch will be created as invalid pages,\nthus violating KVM's invariant that invalid pages are never on the list of\nactive MMU pages.\n\nNote, the underlying flaw has existed since KVM first started tracking\ninvalid roots in 2008 (commit 2e53d63acba7, \"KVM: MMU: ignore zapped root\npagetables\"), but the true badness only came along in 2020 (Linux 5.9)\nwith the invariant that invalid shadow pages can't be on the list of\nactive pages.\n\nNote #2, inheriting role.invalid when creating child shadow pages is also\nfar from ideal; that flaw will be addressed separately.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://git.kernel.org/stable/c/35e77467610c4a37cb0ff54ee56b85f73b1f5700",
-          "type": "reference"
-        },
-        {
-          "url": "https://git.kernel.org/stable/c/0026dbb7de8ea76e97d6edf42fc3cc084564e2bf",
-          "type": "reference"
-        },
-        {
-          "url": "https://git.kernel.org/stable/c/f3477a6a4164f15287444eda685b5f6405dbd1e5",
-          "type": "reference"
-        },
-        {
-          "url": "https://git.kernel.org/stable/c/bce0d3c26e2c761a4bf43c8949f333fc7374eb2d",
-          "type": "reference"
-        },
-        {
-          "url": "https://git.kernel.org/stable/c/2abd5287f08319fa35764566b15c6e22cb1068db",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/V4bel/Zapscape",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Linux",
-          "vendor": "Linux",
-          "defaultStatus": "unaffected",
-          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
-          "programFiles": [
-            "arch/x86/kvm/mmu/mmu.c",
-            "arch/x86/kvm/mmu/paging_tmpl.h"
-          ],
-          "versions": [
-            {
-              "version": "f95eec9bed76d42194c23153cb1cc8f186bf91cb",
-              "lessThan": "35e77467610c4a37cb0ff54ee56b85f73b1f5700",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "f95eec9bed76d42194c23153cb1cc8f186bf91cb",
-              "lessThan": "0026dbb7de8ea76e97d6edf42fc3cc084564e2bf",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "f95eec9bed76d42194c23153cb1cc8f186bf91cb",
-              "lessThan": "f3477a6a4164f15287444eda685b5f6405dbd1e5",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "f95eec9bed76d42194c23153cb1cc8f186bf91cb",
-              "lessThan": "bce0d3c26e2c761a4bf43c8949f333fc7374eb2d",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "f95eec9bed76d42194c23153cb1cc8f186bf91cb",
-              "lessThan": "2abd5287f08319fa35764566b15c6e22cb1068db",
-              "status": "affected",
-              "versionType": "git"
-            }
-          ]
-        },
-        {
-          "product": "Linux",
-          "vendor": "Linux",
-          "defaultStatus": "affected",
-          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
-          "programFiles": [
-            "arch/x86/kvm/mmu/mmu.c",
-            "arch/x86/kvm/mmu/paging_tmpl.h"
-          ],
-          "versions": [
-            {
-              "version": "5.9",
-              "status": "affected"
-            },
-            {
-              "version": "0",
-              "lessThan": "5.9",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "6.6.148",
-              "lessThanOrEqual": "6.6.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "6.12.101",
-              "lessThanOrEqual": "6.12.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "6.18.42",
-              "lessThanOrEqual": "6.18.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "7.1.6",
-              "lessThanOrEqual": "7.1.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "7.2-rc5",
-              "lessThanOrEqual": "*",
-              "status": "unaffected",
-              "versionType": "original_commit_for_fix"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-19329",
-      "publishedDate": "2026-08-09T03:30:08.694Z",
-      "lastModifiedDate": "2026-08-09T03:30:08.694Z",
-      "description": "A vulnerability was found in andreahaku codex_mcp up to 1ff521cc6cc57cfe56ddef946c644b8534771390. The affected element is an unknown function of the file src/codex-process-simple.ts of the component ask MCP Tool. The manipulation of the argument model results in command injection. The attack requires a local approach. This product does not use versioning. This is why information about affected and unaffected releases are unavailable. The project was informed of the problem early through an issue report but has not responded yet.",
+      "id": "CVE-2026-19334",
+      "publishedDate": "2026-08-09T05:00:11.707Z",
+      "lastModifiedDate": "2026-08-09T05:00:11.707Z",
+      "description": "A flaw has been found in NightTrek Ollama-mcp up to 80cf2e17cfc144963a475b619093a2d13c13dbc9. This affects an unknown part of the file src/index.ts. This manipulation of the argument name/modelfile/source/destination causes command injection. The attack can only be executed locally. This product is using a rolling release to provide continious delivery. Therefore, no version details for affected nor updated releases are available. The project was informed of the problem early through an issue report but has not responded yet.",
       "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：andreahaku codex_mcp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：NightTrek Ollama-mcp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/387163",
+          "url": "https://vuldb.com/vuln/387170",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/387163/cti",
+          "url": "https://vuldb.com/vuln/387170/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-19329",
+          "url": "https://vuldb.com/cve/CVE-2026-19334",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/865246",
+          "url": "https://vuldb.com/submit/865257",
           "type": "reference"
         },
         {
-          "url": "https://github.com/andreahaku/codex_mcp/issues/1",
+          "url": "https://github.com/NightTrek/Ollama-mcp/issues/5",
           "type": "reference"
         },
         {
-          "url": "https://github.com/andreahaku/codex_mcp/",
+          "url": "https://github.com/NightTrek/Ollama-mcp/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "andreahaku",
-          "product": "codex_mcp",
+          "vendor": "NightTrek",
+          "product": "Ollama-mcp",
           "versions": [
             {
-              "version": "1ff521cc6cc57cfe56ddef946c644b8534771390",
+              "version": "80cf2e17cfc144963a475b619093a2d13c13dbc9",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:andreahaku:codex_mcp:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "ask MCP Tool"
+            "cpe:2.3:a:nighttrek:ollama-mcp:*:*:*:*:*:*:*:*"
           ]
         }
       ],
@@ -201,55 +67,64 @@
       ]
     },
     {
-      "id": "CVE-2026-17510",
-      "publishedDate": "2026-08-09T01:21:30.439Z",
-      "lastModifiedDate": "2026-08-09T03:32:58.521Z",
-      "description": "Crypt::OpenSSL::PKCS12 versions before 1.98 for Perl allow a NULL pointer dereference in print_attribute via a zero length BMPSTRING attribute.\n\nprint_attribute() sizes the destination buffer for a BMPSTRING attribute from its declared byte length with `Renew(*attribute, length, char)`. A zero length attribute makes that a zero size reallocation, which Perl implements as a free returning NULL, so the buffer pointer becomes NULL, the following `strncpy` copies nothing, and the caller dereferences NULL in the `strlen()` it passes to `newSVpvn()`. A zero length BMPSTRING is even length, so the ASN.1 decoder accepts it and the value reaches this code. The UTF8STRING, OCTET STRING and BIT STRING arms size on `length + 1` or `length * 4 + 1` and are unaffected.\n\nAny caller that passes an untrusted PKCS#12 file to info_as_hash() can crash the process. info() prints attribute values directly without sizing a buffer and is unaffected.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：JONASBN Crypt::OpenSSL::PKCS12\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19333",
+      "publishedDate": "2026-08-09T04:45:09.347Z",
+      "lastModifiedDate": "2026-08-09T04:45:09.347Z",
+      "description": "A vulnerability was detected in NightTrek Supabase-MCP cc994ab2d2a36b0af6ee7c7f3e6ce8e08cda2170/db03237d92f7dc2f0da0d70a87dba84ebcde5b66. Affected by this issue is some unknown functionality of the component generate_types. The manipulation of the argument schema results in command injection. The attack needs to be approached locally. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：NightTrek Supabase-MCP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://metacpan.org/release/JONASBN/Crypt-OpenSSL-PKCS12-1.98/source/Changes.md",
+          "url": "https://vuldb.com/vuln/387169",
           "type": "reference"
         },
         {
-          "url": "https://github.com/dsully/perl-crypt-openssl-pkcs12/commit/6cb282d8d8e8ded4859551cd2d3cfa7c6028ce48.patch",
+          "url": "https://vuldb.com/vuln/387169/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19333",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/865256",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NightTrek/Supabase-MCP/issues/2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NightTrek/Supabase-MCP/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "Crypt-OpenSSL-PKCS12",
-          "product": "Crypt::OpenSSL::PKCS12",
-          "programFiles": [
-            "PKCS12.xs"
-          ],
-          "programRoutines": [
-            {
-              "name": "Crypt::OpenSSL::PKCS12::info_as_hash"
-            }
-          ],
-          "repo": "https://github.com/dsully/perl-crypt-openssl-pkcs12",
-          "vendor": "JONASBN",
+          "vendor": "NightTrek",
+          "product": "Supabase-MCP",
           "versions": [
             {
-              "lessThan": "1.98",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
+              "version": "cc994ab2d2a36b0af6ee7c7f3e6ce8e08cda2170",
+              "status": "affected"
+            },
+            {
+              "version": "db03237d92f7dc2f0da0d70a87dba84ebcde5b66",
+              "status": "affected"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:nighttrek:supabase-mcp:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "generate_types"
           ]
         }
       ],
       "problemType": [
-        "CWE-476 NULL Pointer Dereference"
-      ],
-      "cwe_ids": [
-        "CWE-476"
-      ],
-      "cvss_severity": "MEDIUM"
+        "Command Injection",
+        "Injection"
+      ]
     }
   ]
 }
