@@ -2,31 +2,35 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 38,
-    "last_updated": "2026-08-10T18:37:49.989713",
+    "total_count": 20,
+    "last_updated": "2026-08-10T19:39:54.637753",
     "severity_distribution": {
       "critical": 3,
-      "high": 11,
-      "medium": 16,
-      "low": 1,
-      "none": 7
+      "high": 12,
+      "medium": 5,
+      "low": 0,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-72863",
-      "publishedDate": "2026-08-10T18:28:22.083Z",
-      "lastModifiedDate": "2026-08-10T18:28:22.083Z",
-      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, Dokploy's WebSocket handlers (in-app terminals and log streamers) authenticate the session but never authorize it. They establish who the user is via validateRequest() and then proceed without consulting the role/permission model that every tRPC procedure enforces. Any authenticated member, can therefore open an interactive shell into any container on the host, including the dokploy container that mounts the Docker socket, and from there obtain root on the host, escaping the application and crossing every tenant boundary. This vulnerability is fixed in 0.29.13.",
+      "id": "CVE-2026-72876",
+      "publishedDate": "2026-08-10T19:00:54.365Z",
+      "lastModifiedDate": "2026-08-10T19:00:54.365Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, swarm.getNodes, swarm.getNodeInfo, swarm.getNodeApps, and swarm.getAppInfos in apps/dokploy/server/api/routers/swarm.ts accept another organization’s serverId without an activeOrganizationId ownership check, and getNodeInfo in packages/server/src/services/docker.ts interpolates nodeId into execAsyncRemote, allowing a caller with server:read permission to execute arbitrary commands as the configured SSH user on another tenant’s server. This issue is fixed in version 0.29.13.",
       "severity": 9.9,
-      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：Improper Privilege Management, CWE-639, Missing Authorization (CWE-269, CWE-639, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection, CWE-639, Missing Authorization (CWE-78, CWE-639, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-7r6p-v9gw-pwc8",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-jj6h-388v-9rwm",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Dokploy/dokploy/commit/68f5afae42fca353dcb3d3bc6219ffe9e168cb91",
+          "url": "https://github.com/Dokploy/dokploy/pull/4858",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/5563699f71b2058b49eebdfd66c6c3dbd92ede9c",
           "type": "reference"
         },
         {
@@ -47,130 +51,51 @@
         }
       ],
       "problemType": [
-        "CWE-269: Improper Privilege Management",
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
         "CWE-639: Authorization Bypass Through User-Controlled Key",
         "CWE-862: Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-269",
+        "CWE-78",
         "CWE-639",
         "CWE-862"
       ]
     },
     {
-      "id": "CVE-2026-47754",
-      "publishedDate": "2026-08-10T15:26:03.526Z",
-      "lastModifiedDate": "2026-08-10T18:11:11.513Z",
-      "description": "Metacat is data repository software that helps researchers preserve, share, and discover data. Versions 2.x through 2.19.1 and all 1.x versions contain an unauthenticated path traversal in the `archiveEntryName` parameter of the `action=read` endpoint that is part of the original 1.x Metacat API. `ArchiveHandler.readArchiveEntry()` concatenates the user-supplied parameter into a filesystem path without validation, and the surrounding `hasReadPermission()` check is commented out. An unauthenticated remote attacker can read any file accessible to the Tomcat process by sending a single GET request. Proof-of-concept exploits have been demonstrated and verified against this vulnerability, and it should be considered easily exploitable for any Metacat deployment < 3.0.0 by any user with access to the 1.x API. Through this vulnerability, production 2.x deployments are exposed to credential theft, client certificate and private key exfiltration enabling member node impersonation within the federation, embargoed research data disclosure, and broad system reconnaissance. Given Metacat's deployment footprint across the DataONE network of repositories and federally funded research programs, the population of exposed 2.x instances is non-trivial. The vulnerability was eliminated in Metacat version 3.0.0 and after by eliminating the entire Metacat 1.x API that exposed this vulnerability. The vulnerability was remediated in April 2024 with the release of Metacat 3.0.0, which removed the legacy Metacat API including ArchiveHandler.java. The commit message and issue reference architectural cleanup, not a security fix, and no advisory or CVE was issued. The 2.x branch was not and will not be backported, as is standard practice in Metacat, which only supports the most current release. 2.19.1 remains vulnerable with identical code and is beyond its supported lifetime. As a workaround, disable or restrict 1.x API servlets. Because the vulnerable 1.x API is no longer used or necessary in most Metacat deployments, restricting access to the old API endpoints can reduce or eliminate exposure for 2.19.x deployments.  After removing those features, restart Tomcat or whichever software is hosting the servlets.",
-      "severity": 9.3,
-      "fix_suggestion": "📦 受影响组件：NCEAS metacat\n🔓 漏洞类型：Path Traversal, Missing Authorization (CWE-22, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72878",
+      "publishedDate": "2026-08-10T19:11:39.904Z",
+      "lastModifiedDate": "2026-08-10T19:11:39.904Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, Dokploy's backup and restore pipeline constructs shell commands by directly interpolating user-controlled database fields into bash -c \"...\" and sh -c \"...\" strings, then executes them via child_process.exec(). An authenticated admin/owner can inject arbitrary OS commands that execute on the host machine running Dokploy (not just inside a container). This vulnerability is fixed in 0.29.13.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/NCEAS/metacat/security/advisories/GHSA-m852-f287-7cgw",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-p2c7-8j28-c7gq",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NCEAS/metacat/issues/1365",
+          "url": "https://github.com/Dokploy/dokploy/pull/4873",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NCEAS/metacat/pull/1713",
+          "url": "https://github.com/Dokploy/dokploy/commit/d02f34f9d48b363b9bf15a948e263ff4ebfcceda",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NCEAS/metacat/commit/07e034b2bbf7029e28af32f472f4d70ea6b5ab1b",
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "NCEAS",
-          "product": "metacat",
+          "vendor": "Dokploy",
+          "product": "dokploy",
           "versions": [
             {
-              "version": "< 3.0.0",
+              "version": "< 0.29.13",
               "status": "affected"
             }
           ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-22",
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-72575",
-      "publishedDate": "2026-08-10T10:41:00.708Z",
-      "lastModifiedDate": "2026-08-10T18:22:43.886Z",
-      "description": "An improper authorization vulnerability in daptin through v0.12.34 allows unauthenticated remote attackers to read, create, update, and delete usergroup records. The permission check functions (CanRead, CanPeek, CanCreate, CanUpdate, CanDelete, CanRefer) in server/permission/permission.go return true whenever p.UserId equals the requesting userId, but fail to reject the null/zero reference — unlike CanExecute, which explicitly guards it.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：daptin daptin\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/daptin/daptin",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/daptin/daptin/blob/master/server/permission/permission.go",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "daptin",
-          "product": "daptin",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThanOrEqual": "v0.12.34"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-284: Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
-      ]
-    },
-    {
-      "id": "CVE-2026-72573",
-      "publishedDate": "2026-08-10T10:40:54.998Z",
-      "lastModifiedDate": "2026-08-10T18:22:59.699Z",
-      "description": "An OS command injection vulnerability in 4xmen/pm2panel (all versions) allows an authenticated remote attacker to execute arbitrary system commands on the host. The pm2panel.js handler at line 188 passes the unsanitized req.query.id parameter directly to exec('pm2 restart ' + id) without input validation or shell escaping, enabling command chaining via semicolons or other shell metacharacters.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：4xmen pm2panel\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/4xmen/pm2panel",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/4xmen/pm2panel/blob/main/pm2panel.js",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "4xmen",
-          "product": "pm2panel",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unknown"
         }
       ],
       "problemType": [
@@ -181,101 +106,233 @@
       ]
     },
     {
-      "id": "CVE-2026-71962",
-      "publishedDate": "2026-08-10T18:26:18.577Z",
-      "lastModifiedDate": "2026-08-10T18:26:18.577Z",
-      "description": "Flowise versions 2.2.4 through 3.1.4 contain a missing authorization vulnerability in the POST /api/v1/openai-assistants-file/download endpoint that allows unauthenticated attackers to access private files by exploiting the endpoint's inclusion in the global authentication whitelist, which bypasses all session and API key verification. Attackers can supply valid chatflowId, chatId, and fileName identifiers to retrieve files from any chatflow on the instance, including private chatflows belonging to other workspaces or organizations.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：FlowiseAI Flowise\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72877",
+      "publishedDate": "2026-08-10T19:02:28.518Z",
+      "lastModifiedDate": "2026-08-10T19:02:28.518Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, the dockerImage field is interpolated without quoting into shell commands in buildRemoteDocker() in packages/server/src/utils/providers/docker.ts and is validated only as an optional string. An authenticated user with application create or update permission can use shell command substitution in dockerImage to execute arbitrary commands on the local build host or a remote SSH build target, exposing host secrets and other projects. This issue is fixed in version 0.29.13.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://gist.github.com/haidang-infosec/402db84bee7aca2f57bb109b31574649?utm_source=chatgpt.com",
-          "type": "poc"
-        },
-        {
-          "url": "https://flowiseai.com/sunset",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-jxxj-gmpx-h5rj",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/flowise-missing-authorization-via-openai-assistants-file-download",
+          "url": "https://github.com/Dokploy/dokploy/pull/4860",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/cba0b253c7de4157dd932de7f16a2ad247c7cee9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "vendor": "FlowiseAI",
-          "product": "Flowise",
-          "packageURL": "pkg:github/FlowiseAI/Flowise",
-          "repo": "https://github.com/FlowiseAI/Flowise",
+          "vendor": "Dokploy",
+          "product": "dokploy",
           "versions": [
             {
-              "status": "affected",
-              "version": "2.2.4",
-              "versionType": "semver",
-              "lessThanOrEqual": "3.1.4"
+              "version": "< 0.29.13",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
       ]
     },
     {
-      "id": "CVE-2026-19429",
-      "publishedDate": "2026-08-10T12:07:02.996Z",
-      "lastModifiedDate": "2026-08-10T18:21:50.651Z",
-      "description": "Jenkins FilePath.untarFrom() in all versions, including those with the CVE-2026-33001 patch applied, validates symlink destinations but not targets. The CVE-2026-33001 fix enforces that the symlink file is created within the workspace boundary, but the symlink target — the path returned by te.getLinkName() and passed directly to symlinkTo() — is never validated and may point to any path on the controller filesystem. An attacker with Item/Configure permission can configure a job to extract a malicious .tar or .tar.gz archive via a tool installer or custom build step. When FilePath.untarFrom() processes the archive, it creates symlinks inside the workspace that resolve to arbitrary controller paths. By targeting the entire $JENKINS_HOME/secrets/ directory — including master.key, hudson.util.Secret, hudson.model.Secrets.xml, and any other files present — an attacker can exfiltrate all Jenkins cryptographic material through the workspace viewer (GET /job/{name}/ws/) or build artifacts. Combined with credentials.xml and per-user config.xml files, this enables offline AES-128 decryption of all {AQA...}-format credential entries, exposing in plaintext every password, API key, cloud provider secret, and SSH private key stored in the Jenkins credential store — compromising all downstream systems those credentials protect.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：Jenkins Project Jenkins\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72875",
+      "publishedDate": "2026-08-10T18:59:33.248Z",
+      "lastModifiedDate": "2026-08-10T18:59:33.248Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, settings.readTraefikFile in apps/dokploy/server/api/routers/settings.ts passes a path accepted by apiReadTraefikConfig to readConfigInPath in packages/server/src/utils/traefik/application.ts, where configPath is interpolated into execAsyncRemote as cat ${configPath}, allowing a user with traefikFiles.read permission to execute arbitrary commands on a managed server through shell metacharacters. This issue is fixed in version 0.29.13.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.jenkins.io/security/advisory/2026-03-18/#SECURITY-3657",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-j3pv-r5wg-235m",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jenkinsci/jenkins",
+          "url": "https://github.com/Dokploy/dokploy/pull/4873",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/92310ddb143c8e67ca95eb7db661838a76579f2e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Jenkins Project",
-          "product": "Jenkins",
-          "defaultStatus": "affected"
+          "vendor": "Dokploy",
+          "product": "dokploy",
+          "versions": [
+            {
+              "version": "< 0.29.13",
+              "status": "affected"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
       ],
       "cwe_ids": [
-        "CWE-59"
+        "CWE-78"
       ]
     },
     {
-      "id": "CVE-2026-72692",
-      "publishedDate": "2026-08-10T11:59:14.935Z",
-      "lastModifiedDate": "2026-08-10T18:21:58.204Z",
-      "description": "A missing authorization vulnerability in OpenSignLabs opensignserver through 2.37.0 allows an unauthenticated remote attacker to irreversibly decline any in-flight document and forge the decline attribution to an arbitrary user via the declinedoc Parse cloud function. The function writes IsDeclined, DeclineReason, and a caller-supplied DeclineBy pointer without verifying the caller's identity, enabling workflow termination and evidentiary record falsification against any accessible document.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：OpenSignLabs opensignserver\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-71966",
+      "publishedDate": "2026-08-10T18:53:12.324Z",
+      "lastModifiedDate": "2026-08-10T18:53:12.324Z",
+      "description": "CyberPanel 2.4.3, fixed in commit eca0c3c, contains an authenticated command injection vulnerability in the remote backup transfer feature that allows authenticated attackers to execute arbitrary OS commands by controlling a remote server's API response. Attackers can inject malicious commands through a crafted directory name in the remote server's API response, which bypasses security middleware validation and is passed unsanitized to the OS command execution function.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：usmannasir cyberpanel\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/OpenSignLabs/OpenSign",
+          "url": "https://themcsam.github.io/posts/cyberpanel-2.4.3-vulnerabilties/",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/usmannasir/cyberpanel/commit/eca0c3cbeb35af8eaae9fafb094e8ef3cd923643",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cyberpanel-authenticated-command-injection-via-starremotetransfer",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "OpenSignLabs",
-          "product": "opensignserver",
           "defaultStatus": "affected",
+          "vendor": "usmannasir",
+          "product": "cyberpanel",
+          "packageURL": "pkg:github/usmannasir/cyberpanel",
+          "repo": "https://github.com/usmannasir/cyberpanel",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "2.37.0",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.4.3"
+            },
+            {
+              "status": "unaffected",
+              "version": "eca0c3cbeb35af8eaae9fafb094e8ef3cd923643",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-71965",
+      "publishedDate": "2026-08-10T18:52:40.271Z",
+      "lastModifiedDate": "2026-08-10T18:52:40.271Z",
+      "description": "CyberPanel 2.4.3, fixed in commit eca0c3c, contains an authenticated remote code execution vulnerability in the remote backup feature that allows authenticated attackers to gain root-level SSH access by supplying a malicious remote server address. Attackers can exploit the unverified SSH public key retrieval process to write an attacker-controlled public key directly to /root/.ssh/authorized_keys, granting persistent root access to the host system.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：usmannasir cyberpanel\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://themcsam.github.io/posts/cyberpanel-2.4.3-vulnerabilties/",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/usmannasir/cyberpanel/commit/eca0c3cbeb35af8eaae9fafb094e8ef3cd923643",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cyberpanel-authenticated-rce-via-remote-backup-feature",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "usmannasir",
+          "product": "cyberpanel",
+          "packageURL": "pkg:github/usmannasir/cyberpanel",
+          "repo": "https://github.com/usmannasir/cyberpanel",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.4.3"
+            },
+            {
+              "status": "unaffected",
+              "version": "eca0c3cbeb35af8eaae9fafb094e8ef3cd923643",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient Verification of Data Authenticity"
+      ]
+    },
+    {
+      "id": "CVE-2026-14886",
+      "publishedDate": "2026-08-10T18:57:13.545Z",
+      "lastModifiedDate": "2026-08-10T18:57:13.545Z",
+      "description": "Vault Enterprise's identity entity batch-delete endpoint is vulnerable to a cross-namespace authorization bypass that may allow an authenticated caller in one namespace to permanently delete the storage backing of entities belonging to another namespace. This vulnerability (CVE-2026-14886) is fixed in Vault Enterprise 2.0.4, 1.21.9, 1.20.14 and 1.19.20.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：HashiCorp Vault Enterprise\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://discuss.hashicorp.com/t/hcsec-2026-27-vault-enterprise-vulnerable-to-cross-namespace-entity-deletion/77634",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "64 bit",
+            "32 bit",
+            "x86",
+            "ARM",
+            "MacOS",
+            "Windows",
+            "Linux"
+          ],
+          "product": "Vault Enterprise",
+          "vendor": "HashiCorp",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "1.21.9",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "1.20.14",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "1.19.20",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "2.0.4",
+              "status": "affected",
+              "version": "2.0.0",
               "versionType": "semver"
             }
           ]
@@ -289,1706 +346,519 @@
       ]
     },
     {
-      "id": "CVE-2026-72691",
-      "publishedDate": "2026-08-10T11:59:11.981Z",
-      "lastModifiedDate": "2026-08-10T18:22:08.110Z",
-      "description": "An authentication bypass vulnerability in OpenSignLabs opensignserver through 2.37.0 allows an unauthenticated remote attacker to mint MASTER_KEY-signed file access tokens for arbitrary stored files via the getsignedurl Parse cloud function. The function skips its isAuthenticated check whenever any docId parameter is supplied, even one corresponding to no real document, allowing the authentication gate to be bypassed by supplying an arbitrary string as docId.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：OpenSignLabs opensignserver\n🔓 漏洞类型：CWE-288 (CWE-288)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/OpenSignLabs/OpenSign",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "OpenSignLabs",
-          "product": "opensignserver",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "2.37.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-288: Authentication Bypass Using an Alternate Path or Channel"
-      ],
-      "cwe_ids": [
-        "CWE-288"
-      ]
-    },
-    {
-      "id": "CVE-2026-72689",
-      "publishedDate": "2026-08-10T11:59:05.984Z",
-      "lastModifiedDate": "2026-08-10T18:22:23.869Z",
-      "description": "A broken object-level authorization vulnerability in OpenSignLabs opensignserver through 2.37.0 allows an unauthenticated remote attacker to read complete contract records via the getDocument Parse cloud function. The function fetches documents using useMasterKey, bypassing the object ACL, and returns full records including sender and signer PII and a pre-signed document download URL whenever the document's IsEnableOTP flag is unset, which is the default configuration.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：OpenSignLabs opensignserver\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/OpenSignLabs/OpenSign",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "OpenSignLabs",
-          "product": "opensignserver",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "2.37.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-72688",
-      "publishedDate": "2026-08-10T11:59:02.770Z",
-      "lastModifiedDate": "2026-08-10T18:22:30.882Z",
-      "description": "A missing authentication vulnerability in OpenSignLabs opensignserver through 2.37.0 allows an unauthenticated remote attacker to read arbitrary stored documents via the fileupload Parse cloud function. The function mints MASTER_KEY-signed file access tokens for any caller-supplied URL without performing any session check, defeating the only access control protecting stored contract files.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：OpenSignLabs opensignserver\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/OpenSignLabs/OpenSign",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "OpenSignLabs",
-          "product": "opensignserver",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "2.37.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-306: Missing Authentication for Critical Function"
-      ],
-      "cwe_ids": [
-        "CWE-306"
-      ]
-    },
-    {
-      "id": "CVE-2026-72572",
-      "publishedDate": "2026-08-10T10:40:52.146Z",
-      "lastModifiedDate": "2026-08-10T18:23:06.199Z",
-      "description": "A path traversal vulnerability in o1lab/xmysql (all versions) allows an unauthenticated remote attacker to read and download arbitrary files from the server. The lib/xapi.js file at lines 338 and 424 uses the user-controlled req.query.name parameter in path.join(cwd, name) without sanitization before passing it to res.download, enabling directory traversal via ../ sequences to access sensitive system files.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：o1lab xmysql\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/o1lab/xmysql",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/o1lab/xmysql/blob/master/lib/xapi.js",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "o1lab",
-          "product": "xmysql",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-15972",
-      "publishedDate": "2026-08-07T19:20:22.442Z",
-      "lastModifiedDate": "2026-08-10T18:24:14.625Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.13.0 through 2.0.2 are vulnerable to an unauthenticated denial of service through unbounded connection acceptance on the external gRPC listeners. A remote attacker may exhaust agent file descriptors, goroutines, and memory by opening many incomplete connections, potentially preventing legitimate clients from connecting. This vulnerability, CVE-2026-15972, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.13.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.13.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2025-71409",
-      "publishedDate": "2026-08-07T19:02:50.109Z",
-      "lastModifiedDate": "2026-08-10T18:24:59.021Z",
-      "description": "Lack of authentication for Very High Frequency Data Link messages allows rogue ground stations to inject CPDLC messages leading to unexpected or misleading clearances and potential pilot confusion. This type of attack can be carried out remotely over radio frequency.",
+      "id": "CVE-2026-69112",
+      "publishedDate": "2026-08-10T19:05:41.348Z",
+      "lastModifiedDate": "2026-08-10T19:05:41.348Z",
+      "description": "Hugging Face Accelerate through 1.14.0 contains a path traversal vulnerability in load_checkpoint_in_model and load_checkpoint_and_dispatch functions that fail to sanitize weight_map entries from sharded checkpoint indexes. Attackers can supply relative paths with ../ sequences or absolute paths to read arbitrary files, or point shard entries at named pipes to cause indefinite blocking and denial of service.",
       "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：ATN-B1 CPDLC\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：huggingface accelerate\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-219-01",
+          "url": "https://github.com/huggingface/accelerate/issues/4067",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/huggingface/accelerate/pull/4070",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/huggingface/accelerate/pull/4138",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hugging-face-accelerate-path-traversal-and-dos-via-weight-map",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ATN-B1",
-          "product": "CPDLC",
+          "vendor": "huggingface",
+          "product": "accelerate",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:pypi/accelerate",
           "versions": [
             {
               "status": "affected",
-              "version": "All versions",
-              "versionType": "custom"
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "1.14.0"
             }
           ],
-          "defaultStatus": "unaffected"
+          "repo": "https://github.com/huggingface/accelerate"
         }
       ],
       "problemType": [
-        "CWE-306"
-      ],
-      "cwe_ids": [
-        "CWE-306"
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ]
     },
     {
-      "id": "CVE-2026-71969",
-      "publishedDate": "2026-08-10T18:18:43.851Z",
-      "lastModifiedDate": "2026-08-10T18:18:43.851Z",
-      "description": "OP-TEE OS through 4.10.0, fixed in commit 7b8b494, contains a buffer underwrite vulnerability in the RSA NOPAD encrypt and decrypt operations within the mbedTLS software backend and SE050 hardware driver that allows a malicious Trusted Application to corrupt secure-world heap memory by supplying an input length exceeding the RSA modulus size. When src_len exceeds rsa_len, the subtraction expression wraps to a large unsigned value, causing a subsequent memcpy to write attacker-controlled data before the destination buffer in S-EL1 secure-world heap memory.",
-      "severity": 6.7,
-      "fix_suggestion": "📦 受影响组件：OP-TEE optee_os\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72873",
+      "publishedDate": "2026-08-10T18:56:14.994Z",
+      "lastModifiedDate": "2026-08-10T18:56:14.994Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, application.one in apps/dokploy/server/api/routers/application.ts returns provider relations loaded by findApplicationById in packages/server/src/services/application.ts without redacting githubClientSecret, githubPrivateKey, or githubWebhookSecret, allowing a user with only service:read permission to retrieve another user’s Git provider secrets even when hasGitProviderAccess is false and unauthorizedProvider is set. This issue is fixed in version 0.29.13.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/OP-TEE/optee_os/pull/7898",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-hg9j-j5mc-phf5",
           "type": "reference"
         },
         {
-          "url": "https://github.com/OP-TEE/optee_os/pull/7808",
+          "url": "https://github.com/Dokploy/dokploy/pull/4859",
           "type": "reference"
         },
         {
-          "url": "https://github.com/OP-TEE/optee_os/commit/7b8b494e0a324cefec8ed386b7de413b44f1aaf3",
+          "url": "https://github.com/Dokploy/dokploy/commit/68ea9f7771afe6acca57032dc4328f93c4f25999",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/op-tee-os-buffer-underwrite-via-rsa-nopad-encrypt-decrypt-operations",
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dokploy",
+          "product": "dokploy",
+          "versions": [
+            {
+              "version": "< 0.29.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ]
+    },
+    {
+      "id": "CVE-2026-71964",
+      "publishedDate": "2026-08-10T18:51:43.214Z",
+      "lastModifiedDate": "2026-08-10T18:52:10.425Z",
+      "description": "CyberPanel 2.4.3, fixed in commit eca0c3c, contains an arbitrary file read vulnerability in the file manager component that allows authenticated attackers to read sensitive system files by uploading a crafted ZIP archive containing symbolic links. Attackers can exploit the application's failure to validate symlinks before extraction, causing symbolic links targeting arbitrary filesystem paths outside the user's home directory to persist on disk and be accessed through the web interface.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：usmannasir cyberpanel\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://themcsam.github.io/posts/cyberpanel-2.4.3-vulnerabilties/",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/usmannasir/cyberpanel/commit/eca0c3cbeb35af8eaae9fafb094e8ef3cd923643",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cyberpanel-arbitrary-file-read-via-file-manager-zip-upload",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "affected",
-          "vendor": "OP-TEE",
-          "product": "optee_os",
-          "packageURL": "pkg:github/OP-TEE/optee_os",
-          "repo": "https://github.com/OP-TEE/optee_os",
+          "vendor": "usmannasir",
+          "product": "cyberpanel",
+          "packageURL": "pkg:github/usmannasir/cyberpanel",
+          "repo": "https://github.com/usmannasir/cyberpanel",
           "versions": [
             {
               "status": "affected",
               "version": "0",
               "versionType": "semver",
-              "lessThanOrEqual": "4.10.0"
+              "lessThanOrEqual": "2.4.3"
             },
             {
               "status": "unaffected",
-              "version": "7b8b494e0a324cefec8ed386b7de413b44f1aaf3",
+              "version": "eca0c3cbeb35af8eaae9fafb094e8ef3cd923643",
               "versionType": "git"
             }
           ]
         }
       ],
       "problemType": [
-        "Out-of-bounds Write",
-        "Buffer Underwrite ('Buffer Underflow')"
+        "Improper Link Resolution Before File Access ('Link Following')"
       ]
     },
     {
-      "id": "CVE-2026-71968",
-      "publishedDate": "2026-08-10T18:15:10.619Z",
-      "lastModifiedDate": "2026-08-10T18:15:10.619Z",
-      "description": "OP-TEE OS through 4.10.0, fixed in commit 8794043, contains a use-after-free vulnerability in the Trusted Application loader that allows attackers with the ability to load a signed Trusted Application to corrupt secure-world kernel memory by setting the TA_FLAG_CONCURRENT flag in a user TA signed header. Attackers can cause two concurrent sessions to operate on the same shared context without locking, corrupting the uctx->vm_info.regions list during memref parameter mapping and unmapping to free vm_region nodes still in use, resulting in a use-after-free in S-EL1 secure-world kernel memory.",
-      "severity": 6.7,
-      "fix_suggestion": "📦 受影响组件：OP-TEE optee_os\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/OP-TEE/optee_os/pull/7900",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/OP-TEE/optee_os/commit/8794043c4065c26a2b8b1313794ba5ba5f06d296",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/op-tee-os-use-after-free-via-trusted-application-loader-ta-flag-concurrent",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "OP-TEE",
-          "product": "optee_os",
-          "packageURL": "pkg:github/OP-TEE/optee_os",
-          "repo": "https://github.com/OP-TEE/optee_os",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThanOrEqual": "4.10.0"
-            },
-            {
-              "status": "unaffected",
-              "version": "8794043c4065c26a2b8b1313794ba5ba5f06d296",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Use After Free",
-        "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
-      ]
-    },
-    {
-      "id": "CVE-2026-11743",
-      "publishedDate": "2026-08-07T21:10:23.470Z",
-      "lastModifiedDate": "2026-08-10T18:23:36.481Z",
-      "description": "The SF32LB MPI QSPI NOR flash driver (drivers/flash/flash_sf32lb_mpi_qspi_nor.c) validated the flash offset and length on its read and write paths with the test (offset + size) > data->size. Because offset is a signed off_t while size is unsigned, a negative offset is converted to a large unsigned value and the addition can wrap to a small result that passes the check. The read path then performs memcpy(dst, (void *)(data->base + offset), size) and the write path programs flash at offset and cache-invalidates data->base + offset, in both cases accessing memory outside the mapped flash window. The driver's erase path already rejected negative offsets, but read and write did not.\n\nIn builds with CONFIG_USERSPACE, flash_read and flash_write are syscalls whose verifiers validate the device object and the caller's buffer but deliberately delegate offset bounds checking to the driver. An unprivileged thread that has been granted access to this flash device can therefore call the syscall with a crafted negative offset and a buffer valid in its own memory domain, and reach the unchecked access.\n\nThe most direct impact is on the read path: by choosing a negative offset and matching size, an attacker slides the memcpy source below the flash base and copies arbitrary CPU-addressable memory into its own buffer, disclosing memory it is not authorized to read. The write path additionally allows programming flash at an out-of-range address and invalidating an attacker-chosen cache range, affecting integrity and availability. Reachability requires userspace to be enabled and the raw flash device object to be granted to an untrusted thread.\n\nThe fix replaces the check with qspi_nor_range_is_valid(), which rejects negative offsets and performs the bound comparison in overflow-safe 64-bit arithmetic on both paths, and additionally adds an SRAM DMA bounce buffer plus source/destination overlap rejection to prevent a separate DMA bus-hang condition.",
-      "severity": 6.6,
-      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/909eb568750304d68ea481d1b56a489ae670bdae",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-c6wh-gwg4-fj5j",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "zephyrproject",
-          "product": "zephyr",
-          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
-          "packageName": "zephyr",
-          "defaultStatus": "unaffected",
-          "programFiles": [
-            "drivers/flash/flash_sf32lb_mpi_qspi_nor.c"
-          ],
-          "versions": [
-            {
-              "version": "4.3.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.4.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "bounds"
-      ]
-    },
-    {
-      "id": "CVE-2026-72720",
-      "publishedDate": "2026-08-10T15:41:51.764Z",
-      "lastModifiedDate": "2026-08-10T18:17:21.640Z",
-      "description": "Discourse is an open-source discussion platform. Prior to 2026.1.7, 2026.6.2, 2026.7.1, and 2026.8.0-latest.1, Discourse has HTML injection in PrettyText.format_for_email because cooked attribute values are reparsed as markup. Crafted Vimeo iframe sources, secure-upload URLs or dimensions, and hashtag data-slug values can cause decoded attribute text to be reinterpreted as HTML. The vulnerable conversion also fails to strictly validate the Vimeo iframe host and path, allowing non-Vimeo allowlisted iframes to be converted. This issue is fixed in versions 2026.1.7, 2026.6.2, 2026.7.1, and 2026.8.0-latest.1.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：discourse discourse\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/discourse/discourse/security/advisories/GHSA-3q6f-6gm9-m35v",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/pull/42244",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/pull/42245",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/pull/42246",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/pull/42247",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/234ee88a5b9b53bf938c53351eab20130323485f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/4b639a52f47fb3d46093bece9df147e4e9517a11",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/a5d3b112d598242c1d1803d5a77bf98d5fdabd75",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/b25a074b165253e01fc4c8911b980fc68338ea16",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "discourse",
-          "product": "discourse",
-          "versions": [
-            {
-              "version": "< 2026.1.7",
-              "status": "affected"
-            },
-            {
-              "version": ">= 2026.6.0-latest, < 2026.6.2",
-              "status": "affected"
-            },
-            {
-              "version": ">= 2026.7.0-latest, < 2026.7.1",
-              "status": "affected"
-            },
-            {
-              "version": ">= 2026.8.0-latest, < 2026.8.0-latest.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-72574",
-      "publishedDate": "2026-08-10T10:40:57.868Z",
-      "lastModifiedDate": "2026-08-10T18:22:51.259Z",
-      "description": "A host header injection vulnerability in picocms/Pico through 2.1.4 allows an unauthenticated remote attacker to control the origin of JavaScript and CSS assets loaded by the default theme. When base_url is unset (the default), Pico::getBaseUrl in lib/Pico.php builds the base URL from unvalidated Host, X-Forwarded-Host, X-Forwarded-Proto, and X-Forwarded-Port request headers.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：picocms Pico\n🔓 漏洞类型：CWE-644 (CWE-644)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://picocms.org",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/picocms/Pico",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/picocms/Pico/blob/master/lib/Pico.php",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "picocms",
-          "product": "Pico",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThanOrEqual": "2.1.4"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-644: Improper Neutralization of HTTP Headers for Scripting Syntax"
-      ],
-      "cwe_ids": [
-        "CWE-644"
-      ]
-    },
-    {
-      "id": "CVE-2026-71967",
-      "publishedDate": "2026-08-10T18:11:01.124Z",
-      "lastModifiedDate": "2026-08-10T18:11:01.124Z",
-      "description": "OP-TEE OS through 4.10.0, fixed in commit 0aadfc2, contains a null pointer dereference vulnerability in the Widevine pseudo-TA open_session handler that allows Normal World clients to cause a denial of service when CFG_WIDEVINE_PTA is enabled. Attackers can open a session directly on the Widevine PTA to trigger an unconditional dereference of a NULL calling session pointer via is_user_ta_ctx(), faulting the TEE at S-EL1 and crashing the trusted execution environment.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：OP-TEE optee_os\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/OP-TEE/optee_os/pull/7899",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/OP-TEE/optee_os/commit/0aadfc23407f50e770eb5ddd871fc208f5626833",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/op-tee-os-null-pointer-dereference-dos-via-widevine-pta-open-session",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "OP-TEE",
-          "product": "optee_os",
-          "packageURL": "pkg:github/OP-TEE/optee_os",
-          "repo": "https://github.com/OP-TEE/optee_os",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThanOrEqual": "4.10.0"
-            },
-            {
-              "status": "unaffected",
-              "version": "0aadfc23407f50e770eb5ddd871fc208f5626833",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "NULL Pointer Dereference"
-      ]
-    },
-    {
-      "id": "CVE-2026-72725",
-      "publishedDate": "2026-08-10T16:02:56.844Z",
-      "lastModifiedDate": "2026-08-10T18:29:03.050Z",
-      "description": "Discourse is an open-source discussion platform. Prior to 2026.1.6, the staff action log model rendered unescaped previous and new value fields that could inject stored cross-site scripting into the staff interface. The issue is fixed in 2026.1.6, 2026.5.2, 2026.6.1, and 2026.7.0.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：discourse discourse\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/discourse/discourse/security/advisories/GHSA-8x29-vv56-wj6v",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/66601a6e6eeeabfcb06d2f692d68534be12de082",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/74ae22d85f4e13c7c7f2e3c13fce023feec7e033",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/discourse/discourse/commit/fd44510b4303e7f8f0b42bd070a2d42d3cda259f",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "discourse",
-          "product": "discourse",
-          "versions": [
-            {
-              "version": "< 2026.1.6",
-              "status": "affected"
-            },
-            {
-              "version": ">= 2026.5.0, < 2026.5.2",
-              "status": "affected"
-            },
-            {
-              "version": ">= 2026.6.0, < 2026.6.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-63105",
-      "publishedDate": "2026-08-10T13:39:15.205Z",
-      "lastModifiedDate": "2026-08-10T18:10:29.663Z",
-      "description": "ReadyEcommerce before 4.5.2 contains a stored cross-site scripting (XSS) vulnerability that allows authenticated customers to inject malicious HTML payloads through the chat and support ticket messaging systems by exploiting unsanitized rendering via the v-html directive in Messages.vue, RightChatSidebar.vue, SupportTicketMessages.vue, and SupportTicketDetails.vue. Attackers can submit crafted message content that executes arbitrary JavaScript in the browser of any shop owner or administrator who views the message, enabling session cookie theft and account takeover.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：Razinsoft Ready eCommerce\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://codecanyon.net/item/ready-ecommerce-complete-multi-vendor-ecommerce-mobile-app-website-rider-app-with-seller-app/52519302",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/readyecommerce-stored-xss-via-chat-and-support-ticket-systems",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "Razinsoft",
-          "product": "Ready eCommerce",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "4.5.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-72690",
-      "publishedDate": "2026-08-10T11:59:08.912Z",
-      "lastModifiedDate": "2026-08-10T18:22:15.247Z",
-      "description": "An improper authorization vulnerability in Attendize through commit 9289acb allows an authenticated remote attacker to inject persistent mandatory survey questions into another organizer's events via the POST /event/{event_id}/question/create endpoint. The postCreateEventQuestion method loads the target event without the tenant-isolation scope, enabling cross-tenant writes; the injected question cannot be removed by the victim because the victim's account-scoped delete path cannot resolve a question owned by another tenant.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：Attendize Attendize\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Attendize/Attendize",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Attendize",
-          "product": "Attendize",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "9289acb",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-19113",
-      "publishedDate": "2026-08-07T19:20:32.261Z",
-      "lastModifiedDate": "2026-08-10T18:24:08.086Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.3.0 through 2.0.2 are vulnerable to an unauthenticated denial of service in several agent HTTP API endpoints. A remote caller could cause the agent to consume substantial memory before the request was rejected. This vulnerability, CVE-2026-19113, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.3.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.3.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption"
-      ],
-      "cwe_ids": [
-        "CWE-400"
-      ]
-    },
-    {
-      "id": "CVE-2026-19015",
-      "publishedDate": "2026-08-07T19:19:11.407Z",
-      "lastModifiedDate": "2026-08-10T18:24:29.065Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.2.0 through 2.0.2 are vulnerable to an uncontrolled resource consumption issue in the Connect CA roots endpoint that may allow a remote caller to grow the agent's Connect CA roots cache without bound, defeating the operator's cache-disable configuration. This vulnerability, CVE-2026-19015, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.2.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.2.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2026-19012",
-      "publishedDate": "2026-08-07T19:18:59.119Z",
-      "lastModifiedDate": "2026-08-10T18:24:44.737Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.18.0 through 2.0.2 are vulnerable to an authenticated denial of service in the Enterprise-to-Community Edition downgrade path that may allow an authorized caller to crash the Consul server. A caller with config-entry write permission can submit a service-router configuration entry that causes the agent to exit unexpectedly. This vulnerability, CVE-2026-19012, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.18.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.18.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-476: NULL Pointer Dereference"
-      ],
-      "cwe_ids": [
-        "CWE-476"
-      ]
-    },
-    {
-      "id": "CVE-2026-19014",
-      "publishedDate": "2026-08-07T19:19:05.760Z",
-      "lastModifiedDate": "2026-08-10T18:24:35.830Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.17.0 through 2.0.2 are vulnerable to an uncontrolled resource consumption issue in the Connect authorization endpoint that may allow a caller to grow the agent's intention-match cache without bound, defeating the operator's cache-disable configuration. This vulnerability, CVE-2026-190124, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.17.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.17.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2026-15970",
-      "publishedDate": "2026-08-07T19:20:13.639Z",
-      "lastModifiedDate": "2026-08-10T18:24:21.524Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.20.1 through 2.0.2 are vulnerable to an L7 intention authorization bypass when a service proxy is configured with a custom public listener. An authenticated mesh workload may reach HTTP paths that are blocked by a path-based deny intention. This vulnerability, CVE-2026-15970, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 4.2,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：CWE-647 (CWE-647)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.20.1",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.20.1",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-647: Non-Canonical URL Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-647"
-      ]
-    },
-    {
-      "id": "CVE-2026-19016",
-      "publishedDate": "2026-08-07T19:18:08.980Z",
-      "lastModifiedDate": "2026-08-10T18:24:50.823Z",
-      "description": "Consul Community Edition and Consul Enterprise 1.19.1 through 2.0.2 did not enforce the {{session:write}} ACL permission for session deletion operations submitted through the transaction API. An authenticated caller with network access to the Consul server RPC port could delete arbitrary sessions without holding the required permission. This vulnerability, CVE-2026-19016, is fixed in Consul 2.0.3 and Consul Enterprise 1.21.17, 1.22.11, and 2.0.3.",
-      "severity": 4.2,
-      "fix_suggestion": "📦 受影响组件：HashiCorp Consul\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://discuss.hashicorp.com/t/hcsec-2026-25-multiple-vulnerabilities-impacting-hashicorp-consul/77629",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.19.1",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "64 bit",
-            "32 bit",
-            "x86",
-            "ARM",
-            "MacOS",
-            "Windows",
-            "Linux"
-          ],
-          "product": "Consul Enterprise",
-          "repo": "https://github.com/hashicorp/consul",
-          "vendor": "HashiCorp",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "1.21.17",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "1.22.11",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "2.0.3",
-              "status": "affected",
-              "version": "1.19.1",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory (Path Traversal)"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-11742",
-      "publishedDate": "2026-08-07T21:10:23.002Z",
-      "lastModifiedDate": "2026-08-10T18:23:43.116Z",
-      "description": "The kernel queue helper z_queue_node_peek() in kernel/queue.c dereferences a node taken from a queue's data_q list, reading the node's flag byte and, for items enqueued via k_queue_alloc_append/alloc_prepend, the data pointer of an internally allocated alloc_node struct. The implementations of z_impl_k_queue_peek_head() and z_impl_k_queue_peek_tail() performed this read-and-dereference without holding the queue's spinlock, while every other accessor of the same list — including k_queue_get(), which unlinks a node and k_free()s its backing alloc_node — operates under that lock.\n\nBecause peek was unsynchronized, a concurrent k_queue_get() on the same queue (on an SMP build, or under preemption/ISR concurrency) can free the node between the moment peek obtains the node pointer and the moment it dereferences it. The peek then reads flag bits and a data pointer out of freed, potentially re-allocated heap memory and returns a stale or dangling pointer to its caller. k_fifo and k_lifo are thin wrappers over k_queue, so this affects buffer queues used throughout the net_buf, Bluetooth, USB, and networking subsystems; the peek operations are also system calls reachable from CONFIG_USERSPACE threads.\n\nThe consequences are a use-after-free read that can leak stale heap contents (one pointer word) and, when the returned dangling pointer is subsequently consumed as a live buffer, a dereference that can crash the system or corrupt memory. Exploitation requires winning a small race window with local access (e.g. a userspace process racing k_queue_peek_* against k_queue_get on a shared queue, or two CPUs), so practical impact is bounded and of low severity.\n\nThe fix wraps both peek implementations with k_spin_lock/k_spin_unlock on the queue lock, making the read-and-dereference atomic with respect to the concurrent unlink-and-free and bringing peek into line with the rest of the queue's locking discipline.",
-      "severity": 3.6,
-      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/a6b6149a50cb0f64061869f7536acbf80ccc5e0c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-8xm3-4w69-29mm",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "zephyrproject",
-          "product": "zephyr",
-          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
-          "packageName": "zephyr",
-          "defaultStatus": "unaffected",
-          "programFiles": [
-            "kernel/queue.c"
-          ],
-          "versions": [
-            {
-              "version": "1.12.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.4.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "use-after-free"
-      ]
-    },
-    {
-      "id": "CVE-2026-68872",
-      "publishedDate": "2026-08-10T18:21:19.745Z",
-      "lastModifiedDate": "2026-08-10T18:21:26.294Z",
-      "description": "The AWS Systems Manager Parameter Store and Secrets Manager backends in Apache Airflow's Amazon provider resolved a team-scoped Connection or Variable id through the team-agnostic lookup when the team-scoped lookup missed. In a deployment running multi-team mode with either backend, a caller in one team could resolve a secret belonging to another team by supplying an id that spells out that team's namespace, obtaining its credentials in full. No unusual configuration is required beyond enabling multi-team mode and using one of these backends. Users are advised to upgrade to apache-airflow-providers-amazon 9.34.0 or later, which refuses the team-agnostic fall-through for an id that could name a team namespace.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Airflow Amazon provider\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/apache/airflow/pull/70878",
-          "type": "reference"
-        },
-        {
-          "url": "https://lists.apache.org/thread/9nd31g40rd2zpgwwymskvjpfq1xnmllg",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://pypi.python.org",
-          "defaultStatus": "unaffected",
-          "packageName": "apache-airflow-providers-amazon",
-          "product": "Apache Airflow Amazon provider",
-          "vendor": "Apache Software Foundation",
-          "versions": [
-            {
-              "lessThan": "9.34.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-12339",
-      "publishedDate": "2026-08-10T18:20:50.576Z",
-      "lastModifiedDate": "2026-08-10T18:20:50.576Z",
-      "description": "A Zip Slip vulnerability in the WebUI ISP\nUpgrade functionality allows arbitrary file write via a crafted archive\ncontaining directory traversal sequences. An authenticated administrator may\noverwrite arbitrary files on the system.Successful\nexploitation may allow arbitrary file to overwrite on the underlying system, affecting system integrity and availability.",
+      "id": "CVE-2026-72879",
+      "publishedDate": "2026-08-10T19:14:52.908Z",
+      "lastModifiedDate": "2026-08-10T19:14:52.908Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.8, the getRegistryCommands() function in packages/server/src/utils/cluster/upload.ts interpolates registry.password and registry.registryUrl directly into a shell command without escaping. An authenticated user with project access can configure malicious registry credentials and trigger a swarm deployment to execute arbitrary OS commands on the Dokploy server, read or modify host files, and access other containers through Docker. This issue is fixed in version 0.29.8.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. TL-MR6400 v5.3\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.tp-link.com/en/support/download/tl-mr6400/v5.30/#Firmware",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-prwq-2mcm-mvhr",
           "type": "reference"
         },
         {
-          "url": "https://www.tp-link.com/en/support/download/archer-mr600/v2/#Firmware",
+          "url": "https://github.com/Dokploy/dokploy/pull/4579",
           "type": "reference"
         },
         {
-          "url": "https://www.tp-link.com/en/support/download/archer-mr200/v7/#Firmware",
+          "url": "https://github.com/Dokploy/dokploy/commit/1f4f94042f1d874349c42d8ae7fee51346cd086e",
           "type": "reference"
         },
         {
-          "url": "https://www.tp-link.com/en/support/faq/5237/",
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.8",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "TL-MR6400 v5.3",
+          "vendor": "Dokploy",
+          "product": "dokploy",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "(EU)_1.10.0 0.9.1 v0001.0 Build 260613 RC.76099n",
-              "versionType": "custom"
+              "version": "< 0.29.8",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "Archer MR600 v2",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "(EU)_1.10.0 0.9.1 v0001.0 Build 260618 RC.40417n",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "Archer MR200 v7",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "(EU)_1.3.0 0.9.1 v0001.0 Build 260605 Rel.57870n",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
       ],
       "cwe_ids": [
-        "CWE-22"
+        "CWE-78"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-68871",
-      "publishedDate": "2026-08-10T18:18:20.026Z",
-      "lastModifiedDate": "2026-08-10T18:21:24.132Z",
-      "description": "The Yandex Lockbox secrets backend in Apache Airflow's Yandex provider resolved a team-scoped Connection or Variable id through the team-agnostic lookup when the team-scoped lookup missed. In a deployment running multi-team mode with this backend, a caller in one team could resolve a secret belonging to another team by supplying an id that spells out that team's namespace, obtaining its credentials in full. No unusual configuration is required beyond enabling multi-team mode and using this backend. Users are advised to upgrade to apache-airflow-providers-yandex 4.5.1 or later, which refuses the team-agnostic fall-through for an id that could name a team namespace.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Airflow Yandex provider\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72874",
+      "publishedDate": "2026-08-10T18:57:40.481Z",
+      "lastModifiedDate": "2026-08-10T18:57:40.481Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, cloneGitRepository in packages/server/src/utils/providers/git.ts interpolates customGitUrl and customGitBranch into a git clone command passed to execAsync or execAsyncRemote, allowing an authenticated user with application access to execute arbitrary operating system commands on the Dokploy host by setting a malicious custom Git URL and triggering deployment. This issue is fixed in version 0.29.13.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/apache/airflow/pull/70877",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-hrfh-82jj-3q46",
           "type": "reference"
         },
         {
-          "url": "https://lists.apache.org/thread/jlj9tv085txk4t0j029mvh43mz89o63c",
+          "url": "https://github.com/Dokploy/dokploy/pull/4855",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/47347ab885b0ad1f5d0ef0e5e74bbba35c7f93bc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://pypi.python.org",
-          "defaultStatus": "unaffected",
-          "packageName": "apache-airflow-providers-yandex",
-          "product": "Apache Airflow Yandex provider",
-          "vendor": "Apache Software Foundation",
+          "vendor": "Dokploy",
+          "product": "dokploy",
           "versions": [
             {
-              "lessThan": "4.5.1",
+              "version": "< 0.29.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-17022",
+      "publishedDate": "2026-08-10T06:00:17.984Z",
+      "lastModifiedDate": "2026-08-10T19:09:17.739Z",
+      "description": "The Salon Booking System  WordPress plugin through 10.30.33 does not properly validate a booking's ownership token before loading it in its booking-wizard confirmation steps, allowing unauthenticated attackers to disclose other customers' booking records, including personal information, by supplying a sequential booking identifier.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Salon Booking System\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/ddc84492-408b-477c-ac6c-b9ec96ccf223/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Salon Booking System",
+          "versions": [
+            {
               "status": "affected",
+              "versionType": "semver",
               "version": "0",
-              "versionType": "semver"
+              "lessThanOrEqual": "10.30.33"
             }
-          ]
+          ],
+          "defaultStatus": "unknown"
         }
       ],
       "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
+        "CWE-200 Information Exposure"
       ],
       "cwe_ids": [
-        "CWE-639"
-      ]
+        "CWE-200"
+      ],
+      "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-68870",
-      "publishedDate": "2026-08-10T18:10:33.022Z",
-      "lastModifiedDate": "2026-08-10T18:17:15.044Z",
-      "description": "The Azure Key Vault secrets backend in Apache Airflow's Microsoft Azure provider resolved a team-scoped Connection or Variable id through the team-agnostic lookup when the team-scoped lookup missed. In a deployment running multi-team mode with this backend, a caller in one team could resolve a secret belonging to another team by supplying an id that spells out that team's namespace, obtaining its credentials in full. No unusual configuration is required beyond enabling multi-team mode and using this backend. Users are advised to upgrade to apache-airflow-providers-microsoft-azure 14.1.0 or later, which refuses the team-agnostic fall-through for an id that could name a team namespace.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Airflow Microsoft Azure provider\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19053",
+      "publishedDate": "2026-08-10T06:00:17.274Z",
+      "lastModifiedDate": "2026-08-10T19:10:16.343Z",
+      "description": "The ProSolution WP Client WordPress plugin before 2.0.6 does not sanitise and escape a parameter before using it in a SQL statement reachable by unauthenticated visitors, leading to a blind SQL injection.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown ProSolution WP Client\n🔓 漏洞类型：SQL Injection (CWE-89)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/apache/airflow/pull/70876",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/apache/airflow/pull/70899",
-          "type": "reference"
-        },
-        {
-          "url": "https://lists.apache.org/thread/dtkk6vtfoj1y4zjyd6s3mzg0v5g9yg0p",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/c9bad349-d2d6-4b67-a107-818f25d9bf76/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://pypi.python.org",
-          "defaultStatus": "unaffected",
-          "packageName": "apache-airflow-providers-microsoft-azure",
-          "product": "Apache Airflow Microsoft Azure provider",
-          "vendor": "Apache Software Foundation",
+          "vendor": "Unknown",
+          "product": "ProSolution WP Client",
           "versions": [
             {
-              "lessThan": "14.1.0",
               "status": "affected",
+              "versionType": "semver",
               "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-70395",
-      "publishedDate": "2026-08-09T18:17:07.321Z",
-      "lastModifiedDate": "2026-08-10T18:23:15.009Z",
-      "description": "Improper Neutralization of Special Elements in Data Query Logic vulnerability in ash-project ash allows an attacker to forge a relationship to a record they cannot name, and to recover the secret value used to look it up.\n\nWhen manage_relationship is used with on_lookup: :relate on a belongs_to relationship, the client-supplied lookup value is passed to Ash.Query.filter/2 without being cast to the attribute type. A nested map submitted where a scalar is expected is therefore interpreted as a filter predicate rather than a literal, so a lookup for a specific record becomes a query for any record matching a condition. The same path omits Ash.Query.limit(1), leaving Ash.read_one/2 able to distinguish no match from one match from several, which turns comparison predicates into an oracle for the lookup value. Authorization is unaffected; the destination read policy still applies.\n\nThis issue affects ash: from 1.52.0-rc.11 before 3.31.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ash-project ash\n🔓 漏洞类型：CWE-943 (CWE-943)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ash-project/ash/security/advisories/GHSA-vvp6-3wv6-833j",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-70395.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-70395",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ash-project/ash/commit/09f42593035bceb0f6153dd7ee45cc49d108300a",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:ash-project:ash:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.Ash.Actions.ManagedRelationships'",
-            "'Elixir.Ash.Changeset'"
-          ],
-          "packageName": "ash",
-          "packageURL": "pkg:hex/ash",
-          "product": "ash",
-          "programFiles": [
-            "lib/ash/actions/managed_relationships.ex",
-            "lib/ash/changeset/changeset.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.Ash.Actions.ManagedRelationships':setup_managed_belongs_to_relationships/3"
-            },
-            {
-              "name": "'Elixir.Ash.Changeset':manage_relationship/4"
-            }
-          ],
-          "repo": "https://github.com/ash-project/ash",
-          "vendor": "ash-project",
-          "versions": [
-            {
-              "lessThan": "3.31.1",
-              "status": "affected",
-              "version": "1.52.0-rc.11",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:ash-project:ash:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.Ash.Actions.ManagedRelationships'",
-            "'Elixir.Ash.Changeset'"
-          ],
-          "packageName": "ash-project/ash",
-          "packageURL": "pkg:github/ash-project/ash",
-          "product": "ash",
-          "programFiles": [
-            "lib/ash/actions/managed_relationships.ex",
-            "lib/ash/changeset/changeset.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.Ash.Actions.ManagedRelationships':setup_managed_belongs_to_relationships/3"
-            },
-            {
-              "name": "'Elixir.Ash.Changeset':manage_relationship/4"
-            }
-          ],
-          "repo": "https://github.com/ash-project/ash",
-          "vendor": "ash-project",
-          "versions": [
-            {
-              "lessThan": "09f42593035bceb0f6153dd7ee45cc49d108300a",
-              "status": "affected",
-              "version": "571c138140e71cea24005189f45d7a63c8d2ed20",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-943 Improper Neutralization of Special Elements in Data Query Logic"
-      ],
-      "cwe_ids": [
-        "CWE-943"
-      ]
-    },
-    {
-      "id": "CVE-2026-13505",
-      "publishedDate": "2026-08-08T00:59:40.512Z",
-      "lastModifiedDate": "2026-08-10T18:23:21.149Z",
-      "description": "In Bouncy Castle for Java FIPS (BC-FJA) before bc-fips 1.0.2.7 (1.0.X series), 2.0.2 (2.0.X series) and 2.1.3 (2.1.X series), sensitive key material held by the AES and DESede engines, the SP 800-90A DRBGs, SymmetricSecretKey and the PBKD and scrypt parameter classes was zeroised on garbage collection by overriding Object.finalize. Finalization runs at an unspecified time and in an unspecified order and is serviced by a single finalizer thread, so where objects carrying a finalizer are allocated faster than that thread retires them the pending-finalization queue grows without bound: disposal falls arbitrarily far behind, which can contribute to an OutOfMemoryError under load, and the key material those objects hold stays resident in the heap for as long as they are queued, defeating the purpose of the zeroisation. The behaviour was not a problem on Java 8 or Java 11; it is later JVMs, on which finalization has been deprecated and progressively de-emphasised, where it becomes one. Disposal of these classes now runs from a java.lang.ref.Cleaner registered in the multi-release jdk1.9 overlay, so on Java 9 and later it no longer depends on the finalizer being scheduled. Bouncy Castle for Java (bcprov) and Bouncy Castle for Java LTS are not affected, as neither implements the finalizer-based zeroisation scheme.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Legion of the Bouncy Castle Inc. BC-FJA\n🔓 漏洞类型：CWE-772 (CWE-772)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/bcgit/bc-java/wiki/CVE%E2%80%902026%E2%80%9013505",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Legion of the Bouncy Castle Inc.",
-          "product": "BC-FJA",
-          "platforms": [
-            "all"
-          ],
-          "collectionURL": "https://www.bouncycastle.org/download/bouncy-castle-java-fips/",
-          "packageName": "bc-fips",
-          "packageURL": "pkg:maven/org.bouncycastle/bc-fips",
-          "programFiles": [
-            "SymmetricSecretKey",
-            "SecretZeroizer",
-            "AESWorkingBuffer",
-            "DESedeWorkingBuffer",
-            "HashDRBGWorkingBuffer",
-            "HMacDRBGWorkingBuffer",
-            "CTRDRBGWorkingBuffer"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0",
-              "lessThan": "1.0.2.7",
-              "versionType": "maven"
-            },
-            {
-              "status": "affected",
-              "version": "2.0.0",
-              "lessThan": "2.0.2",
-              "versionType": "maven"
-            },
-            {
-              "status": "affected",
-              "version": "2.1.0",
-              "lessThan": "2.1.3",
-              "versionType": "maven"
+              "lessThan": "2.0.6"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-772 Missing Release of Resource after Effective Lifetime"
+        "CWE-89 SQL Injection"
       ],
       "cwe_ids": [
-        "CWE-772"
-      ]
+        "CWE-89"
+      ],
+      "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-8798",
-      "publishedDate": "2026-08-08T00:50:56.956Z",
-      "lastModifiedDate": "2026-08-10T18:23:28.568Z",
-      "description": "In Bouncy Castle for Java FIPS (BC-FJA) before bc-fips 2.1.3, the native entropy source used on Intel platforms retried the CPU entropy instructions without any bound. RDSEED and RDRAND report failure through their carry flag, and the JNI seeding routine spun re-issuing the instruction for as long as that flag stayed clear, so a persistent failure of the on-chip entropy source - whether from a hardware fault, from the underlying DRBG being exhausted by contention across many cores, or from a hypervisor that does not provide the instruction - left the calling thread looping indefinitely inside the JNI call, where it could be neither interrupted nor timed out. Any operation drawing from the native entropy source could therefore hang, denying service to the application. The retry loops are now bounded (200 attempts for RDSEED and 20 for RDRAND, twice the baselines given in Intel's Digital Random Number Generator software implementation guide), pausing between attempts and, on exhaustion, clearing any partially written buffer and throwing rather than continuing to spin. The clear is performed by an un-elidable memzero, which uses a volatile pointer and an assembly memory barrier so that a compiler cannot optimise the erase away as a dead store. Bouncy Castle for Java (bcprov) is not affected, as it has no native entropy source; the 1.0.X and 2.0.X FIPS series are not affected.",
+      "id": "CVE-2026-18946",
+      "publishedDate": "2026-08-10T06:00:16.745Z",
+      "lastModifiedDate": "2026-08-10T19:10:59.262Z",
+      "description": "The Contact Form to Any API WordPress plugin before 3.0.7 does not use a random filename when copying files uploaded through contact forms into a publicly accessible directory, allowing unauthenticated attackers to enumerate and download files submitted by other users.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Contact Form to Any API\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/fa13ebbb-8eea-492d-8f59-58228efb94d8/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Contact Form to Any API",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "3.0.7"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200 Information Exposure"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-14206",
+      "publishedDate": "2026-08-10T06:00:15.077Z",
+      "lastModifiedDate": "2026-08-10T19:12:12.412Z",
+      "description": "The HT Contact Form  WordPress plugin before 2.9.3 does not perform any authorization check on the endpoint that returns a saved form draft, allowing unauthenticated users to read the personal data (name, email, phone, address) stored in form drafts.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown HT Contact Form\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/36ae857c-6812-46e0-a0e7-6c868108ef39/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "HT Contact Form",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "2.9.3"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200 Information Exposure"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-13701",
+      "publishedDate": "2026-08-10T06:00:14.907Z",
+      "lastModifiedDate": "2026-08-10T19:13:10.708Z",
+      "description": "The Advanced Excerpt WordPress plugin before 4.5 does not sanitise and escape one of its settings before outputting it on the front end of the site, which could allow administrators (including those without the unfiltered_html capability, such as on multisite) to perform Stored Cross-Site Scripting attacks that execute in the context of any visitor viewing affected pages.",
       "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Legion of the Bouncy Castle Inc. BC-FJA\n🔓 漏洞类型：Infinite Loop / Unreachable Exit (CWE-835)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Unknown Advanced Excerpt\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/bcgit/bc-java/wiki/CVE%E2%80%902026%E2%80%908798",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/2710686c-055c-460c-8480-573e394f24d8/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "Legion of the Bouncy Castle Inc.",
-          "product": "BC-FJA",
-          "platforms": [
-            "x86",
-            "x86-64"
-          ],
-          "collectionURL": "https://www.bouncycastle.org/download/bouncy-castle-java-fips/",
-          "packageName": "bc-fips",
-          "packageURL": "pkg:maven/org.bouncycastle/bc-fips",
-          "programFiles": [
-            "rand_jni.c",
-            "NativeEntropySource"
-          ],
+          "vendor": "Unknown",
+          "product": "Advanced Excerpt",
           "versions": [
             {
               "status": "affected",
-              "version": "2.1.0",
-              "lessThan": "2.1.3",
-              "versionType": "maven"
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "4.5"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')"
+        "CWE-79 Cross-Site Scripting (XSS)"
       ],
       "cwe_ids": [
-        "CWE-835"
+        "CWE-79"
       ],
       "cvss_severity": "MEDIUM"
     },
     {
-      "id": "CVE-2026-9031",
-      "publishedDate": "2026-08-07T20:40:18.549Z",
-      "lastModifiedDate": "2026-08-10T18:23:52.453Z",
-      "description": "An input validation\nvulnerability exists in the HTTP-WRITEOEM handler due to insufficient validation\nof user-supplied data before it is processed by internal flash-write handling\nlogic.\n\n\n\n\n\n\n\n\n\nSuccessful\nexploitation may cause httpd process or device to crash, resulting in loss of access\nto the web interface and a denial-of-service condition.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer A6 v4\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-17010",
+      "publishedDate": "2026-08-10T06:00:13.097Z",
+      "lastModifiedDate": "2026-08-10T19:15:47.379Z",
+      "description": "The Saitama Addon Pack WordPress plugin through 1.0.8 does not sanitise and escape certain post metadata values before outputting them, allowing users with contributor-level access and above to inject stored Cross-Site Scripting payloads that execute in the browser of a higher-privileged user who reviews the content.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Saitama Addon Pack\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.tp-link.com/us/support/download/archer-a6/v4/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/en/support/download/archer-a6/v4/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/en/support/faq/5234/",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/1e760dbf-7efc-4511-9a05-2d1476eb3dfb/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "Archer A6 v4",
-          "modules": [
-            "httpd"
-          ],
+          "vendor": "Unknown",
+          "product": "Saitama Addon Pack",
           "versions": [
             {
               "status": "affected",
+              "versionType": "semver",
               "version": "0",
-              "lessThan": "V4_1.15.10 Build 260625 Rel.25447",
-              "versionType": "custom"
+              "lessThanOrEqual": "1.0.8"
             }
           ],
-          "defaultStatus": "unaffected"
+          "defaultStatus": "unknown"
         }
       ],
       "problemType": [
-        "CWE-20 Improper input validation"
+        "CWE-79 Cross-Site Scripting (XSS)"
       ],
       "cwe_ids": [
-        "CWE-20"
-      ]
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
     },
     {
-      "id": "CVE-2026-9030",
-      "publishedDate": "2026-08-07T20:38:35.116Z",
-      "lastModifiedDate": "2026-08-10T18:23:58.299Z",
-      "description": "A denial-of-service\nvulnerability exists in httpd service on Archer A6 v4 where the asynchronous systool\ninstruction handlng path in httpd does not properly synchronize or safely manage\nconcurrent systool operations.  \n\n\n\n\n\nBy sending\ncrafted systool instructions through the asynchronous request path, successful\nexploitation may cause the httpd process or device management service to crash\nand may result in temporary loss of access to the web management interface or\ndevice reboot.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer A6 v4\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-17017",
+      "publishedDate": "2026-08-09T06:00:14.438Z",
+      "lastModifiedDate": "2026-08-10T19:14:20.675Z",
+      "description": "The CubeWP Framework WordPress plugin before 1.1.31 does not properly sanitize and escape a parameter before using it in a SQL statement through an AJAX action, and does not include a capability check on that action, allowing users with Subscriber-level access and above to perform SQL injection attacks.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown CubeWP Framework\n🔓 漏洞类型：SQL Injection (CWE-89)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.tp-link.com/us/support/download/archer-a6/v4/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/en/support/download/archer-a6/v4/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/en/support/faq/5234/",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/50d95281-7b3f-4d5a-bf04-8e7bd88f4b55/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "Archer A6 v4",
-          "modules": [
-            "httpd"
-          ],
+          "vendor": "Unknown",
+          "product": "CubeWP Framework",
           "versions": [
             {
               "status": "affected",
+              "versionType": "semver",
               "version": "0",
-              "lessThan": "V4_1.15.10 Build 260625 Rel.25447",
-              "versionType": "custom"
+              "lessThan": "1.1.31"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-362 Concurrent Execution using Shared Resource with Improper Synchronization"
+        "CWE-89 SQL Injection"
       ],
       "cwe_ids": [
-        "CWE-362"
-      ]
+        "CWE-89"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-16535",
+      "publishedDate": "2026-08-08T06:00:11.068Z",
+      "lastModifiedDate": "2026-08-10T19:08:24.244Z",
+      "description": "The Link Library WordPress plugin before 7.9.4 does not sanitise and escape a parameter before reflecting it back in a response, allowing unauthenticated attackers to perform Reflected Cross-Site Scripting attacks against users who can be tricked into performing an action.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Link Library\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/3b6c0efb-c503-437a-8f9b-f8a8c032313c/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Link Library",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "7.9.4"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Cross-Site Scripting (XSS)"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
