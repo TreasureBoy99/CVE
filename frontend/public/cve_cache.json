@@ -3,7 +3,7 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-08-10T22:32:11.983931",
+    "last_updated": "2026-08-10T23:09:00.341223",
     "severity_distribution": {
       "critical": 0,
       "high": 1,
@@ -14,52 +14,45 @@
   },
   "cves": [
     {
-      "id": "CVE-2025-32736",
-      "publishedDate": "2026-08-10T21:54:21.818Z",
-      "lastModifiedDate": "2026-08-10T21:54:21.818Z",
-      "description": "Cross-Site Request Forgery weaknesses in the Administrative Console of PingFederate versions before version 13.1 may allow actors to perform unauthorized actions via specially-crafted links triggered by administrators with active sessions.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Ping Identity PingFederate\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-8718",
+      "publishedDate": "2026-08-10T22:40:26.836Z",
+      "lastModifiedDate": "2026-08-10T22:40:26.836Z",
+      "description": "tls_opt_dtls_peer_connection_id_value_get() in subsys/net/lib/sockets/sockets_tls.c, which handles getsockopt(SOL_TLS, TLS_DTLS_PEER_CID_VALUE), passed the caller-supplied optval directly to mbedtls_ssl_get_peer_cid() without verifying the buffer was at least MBEDTLS_SSL_CID_OUT_LEN_MAX (default 32) bytes. mbedtls_ssl_get_peer_cid() copies the peer-negotiated DTLS Connection ID (length 1..MBEDTLS_SSL_CID_OUT_LEN_MAX) into that buffer without a destination-size parameter, so a caller-supplied optlen smaller than the CID causes a write of up to 31 bytes past the buffer end.\n\nIn CONFIG_USERSPACE builds the getsockopt syscall verifier (z_vrfy_zsock_getsockopt) bounce-buffers the user's optval into a kernel allocation of exactly optlen bytes (k_usermode_alloc_from_copy -> z_thread_malloc), so an unprivileged user thread that passes a small optlen on a connected DTLS socket with Connection ID enabled induces a kernel-heap buffer overflow, with the overflowing content being the remote peer's CID.\n\nThe defect requires CONFIG_MBEDTLS_SSL_DTLS_CONNECTION_ID, an established DTLS session with a negotiated peer CID, and (for the kernel-crossing case) CONFIG_USERSPACE. Introduced when the TLS_DTLS_CID option was added (v3.5.0).\n\nThe fix rejects callers whose optlen is below MBEDTLS_SSL_CID_OUT_LEN_MAX with -EINVAL.",
+      "severity": 8.4,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://docs.pingidentity.com/pingfederate/13.1/release_notes/pf_release_notes.html#pingfederate-13-1-june-2026",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/aa317825a55a401315e8e17f620c70c02e8f176d",
           "type": "reference"
         },
         {
-          "url": "https://www.pingidentity.com/en/resources/downloads/pingfederate.html",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-p3r6-mx6c-33gq",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Ping Identity",
-          "product": "PingFederate",
-          "platforms": [
-            "Windows",
-            "Linux",
-            "64 bit"
-          ],
-          "modules": [
-            "Administrative Console"
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/net/lib/sockets/sockets_tls.c"
           ],
           "versions": [
             {
+              "version": "3.5.0",
               "status": "affected",
-              "version": "10.0",
-              "lessThan": "13.1",
-              "versionType": "custom"
+              "versionType": "semver",
+              "lessThan": "4.4.1"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-352 Cross-Site request forgery (CSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-352"
-      ],
-      "cvss_severity": "HIGH"
+        "bounds"
+      ]
     }
   ]
 }
