@@ -2,31 +2,31 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-10T23:09:00.341223",
+    "total_count": 2,
+    "last_updated": "2026-08-10T23:49:23.855384",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
+      "high": 0,
       "medium": 0,
-      "low": 0,
+      "low": 2,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-8718",
-      "publishedDate": "2026-08-10T22:40:26.836Z",
-      "lastModifiedDate": "2026-08-10T22:40:26.836Z",
-      "description": "tls_opt_dtls_peer_connection_id_value_get() in subsys/net/lib/sockets/sockets_tls.c, which handles getsockopt(SOL_TLS, TLS_DTLS_PEER_CID_VALUE), passed the caller-supplied optval directly to mbedtls_ssl_get_peer_cid() without verifying the buffer was at least MBEDTLS_SSL_CID_OUT_LEN_MAX (default 32) bytes. mbedtls_ssl_get_peer_cid() copies the peer-negotiated DTLS Connection ID (length 1..MBEDTLS_SSL_CID_OUT_LEN_MAX) into that buffer without a destination-size parameter, so a caller-supplied optlen smaller than the CID causes a write of up to 31 bytes past the buffer end.\n\nIn CONFIG_USERSPACE builds the getsockopt syscall verifier (z_vrfy_zsock_getsockopt) bounce-buffers the user's optval into a kernel allocation of exactly optlen bytes (k_usermode_alloc_from_copy -> z_thread_malloc), so an unprivileged user thread that passes a small optlen on a connected DTLS socket with Connection ID enabled induces a kernel-heap buffer overflow, with the overflowing content being the remote peer's CID.\n\nThe defect requires CONFIG_MBEDTLS_SSL_DTLS_CONNECTION_ID, an established DTLS session with a negotiated peer CID, and (for the kernel-crossing case) CONFIG_USERSPACE. Introduced when the TLS_DTLS_CID option was added (v3.5.0).\n\nThe fix rejects callers whose optlen is below MBEDTLS_SSL_CID_OUT_LEN_MAX with -EINVAL.",
-      "severity": 8.4,
+      "id": "CVE-2026-11811",
+      "publishedDate": "2026-08-10T22:55:17.389Z",
+      "lastModifiedDate": "2026-08-10T22:55:17.389Z",
+      "description": "The UpdateHub over-the-air update client's start_coap_client() in subsys/mgmt/updatehub/updatehub.c leaks the CoAP/DTLS socket descriptor on its connection-setup failure paths. The shared error: cleanup gated socket closing on a ret > 0 flag, but ret was set to -1 immediately after the socket was created, so when zsock_setsockopt() (DTLS) or zsock_connect() subsequently failed the gate was false and cleanup_connection() was never called. The open descriptor in the global ctx.sock was then overwritten by the next attempt, permanently leaking it from the socket / net_context pool until reboot.\n\nThe failing setup path is reached every time the OTA client tries to contact the UpdateHub server and the connection cannot be established — driven automatically by the periodic autohandler() poll (and on demand via the updatehub_probe()/updatehub_update() API or the updatehub run shell command). The DTLS handshake/connect outcome is influenceable by a network or on-path attacker who drops, resets, or otherwise disrupts traffic to the server, and also fails naturally whenever the server is unreachable.\n\nEach failed attempt permanently leaks one descriptor; once the shared socket pool is exhausted, networking degrades device-wide until the device is rebooted, a denial-of-service condition. Severity is low because the leak rate is bounded by the configured OTA poll interval (default once per 24 hours), the effect is gradual and recovered by reboot, and only builds with the UpdateHub client enabled are affected. There is no memory-corruption, information-disclosure, or authentication impact.",
+      "severity": 3.7,
       "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/aa317825a55a401315e8e17f620c70c02e8f176d",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/29e3476501a65c0bcd469abd275749d324008ce2",
           "type": "reference"
         },
         {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-p3r6-mx6c-33gq",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-q3mh-4wj7-mq7f",
           "type": "reference"
         }
       ],
@@ -38,20 +38,61 @@
           "packageName": "zephyr",
           "defaultStatus": "unaffected",
           "programFiles": [
-            "subsys/net/lib/sockets/sockets_tls.c"
+            "subsys/mgmt/updatehub/updatehub.c"
           ],
           "versions": [
             {
-              "version": "3.5.0",
+              "version": "2.0.0",
               "status": "affected",
               "versionType": "semver",
-              "lessThan": "4.4.1"
+              "lessThan": "4.4.2"
             }
           ]
         }
       ],
       "problemType": [
-        "bounds"
+        "dos"
+      ]
+    },
+    {
+      "id": "CVE-2026-11812",
+      "publishedDate": "2026-08-10T23:09:17.542Z",
+      "lastModifiedDate": "2026-08-10T23:09:17.542Z",
+      "description": "The UpdateHub management subsystem (subsys/mgmt/updatehub/updatehub.c) drives every update operation through a single file-scope ctx structure that holds the CoAP block context, payload buffer, status code, socket, and a one-element poll-fd array fds[1]. Access to ctx was not serialized, and prepare_fds() wrote ctx.fds[ctx.nfds] and incremented ctx.nfds with no bounds check.\n\nTwo independent paths mutate ctx concurrently: the background autohandler running on the system workqueue, and user-triggered operations reached through the updatehub run shell command, direct API calls, or — since the operations are exposed as syscalls — userspace threads. When a second flow enters prepare_fds() while ctx.nfds is already 1, the write lands one element past the array; by struct layout it overlaps the adjacent ctx.sock/ctx.nfds members. More broadly, the unsynchronized sharing lets two flows interleave connection setup and teardown, double-closing a socket descriptor or scribbling the shared buffers.\n\nThe result is corruption of the update subsystem's internal state and denial of service of the firmware-update path; the out-of-bounds write is contained within the ctx structure and there is no demonstrated path to memory outside it or to code execution. Triggering requires a local actor able to invoke update operations (or, with CONFIG_USERSPACE, an unprivileged userspace thread) and to win a timing race against the background handler; remote peers cannot control the race timing. The fix serializes the entry points with a mutex and adds a bounds check to prepare_fds().",
+      "severity": 2.5,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/551d3f92b36e9604f039101c4e4f623682d02159",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-vprh-rff6-46xp",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/mgmt/updatehub/updatehub.c"
+          ],
+          "versions": [
+            {
+              "version": "2.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "4.4.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "race"
       ]
     }
   ]
