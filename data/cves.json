@@ -2,219 +2,463 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 11,
-    "last_updated": "2026-08-10T16:56:59.746288",
+    "total_count": 34,
+    "last_updated": "2026-08-10T17:51:38.590376",
     "severity_distribution": {
-      "critical": 0,
-      "high": 3,
-      "medium": 3,
+      "critical": 1,
+      "high": 13,
+      "medium": 14,
       "low": 0,
-      "none": 5
+      "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-66738",
-      "publishedDate": "2026-08-10T15:41:06.745Z",
-      "lastModifiedDate": "2026-08-10T16:40:19.600Z",
-      "description": "SPIP before 4.4.18 contains a code injection vulnerability in SQLite-backed installations. The navigation menu endpoint improperly handles array-typed user input, which bypasses input sanitization and allows the value to break out of an internal quoted string context when evaluated as PHP. An authenticated attacker with at minimum editor (redacteur) privileges can submit a single crafted GET request to /ecrire/?exec=navigation to execute arbitrary OS commands in the web server process. MySQL-backed installations are not affected.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：SPIP SPIP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72733",
+      "publishedDate": "2026-08-10T17:26:29.945Z",
+      "lastModifiedDate": "2026-08-10T17:26:29.945Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.13, the backup.restoreBackupWithLogs tRPC subscription builds database restore shell pipelines from the user-controlled databaseName and backupFile fields without safely separating them from shell syntax. packages/server/src/utils/restore/utils.ts interpolates databaseName into database-specific restore commands, while packages/server/src/utils/restore/postgres.ts and the analogous restore modules interpolate backupFile into rclone paths. An authenticated member with backup-restore permission can inject operating-system commands that execute in the Dokploy host context through execAsync or execAsyncRemote, even when no valid database container or backup file exists. This issue is fixed in version 0.29.13.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://blog.spip.net/Mise-a-jour-critique-de-securite-sortie-de-SPIP-4-4-18.html",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-2xjq-p4xx-5x2p",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/spip-code-injection-via-navigation-endpoint-on-sqlite",
+          "url": "https://github.com/Dokploy/dokploy/pull/4862",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/8539a5c82f47eb3fd1464b574eb034c6dc2a6bbd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/ccd2e83c57d99f725220d37e0152270e0827d71b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/eeb6e7b8ea88e4b4b1fac8460755464100516ac9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "vendor": "SPIP",
-          "product": "SPIP",
+          "vendor": "Dokploy",
+          "product": "dokploy",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "4.4.18"
+              "version": "< 0.29.13",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Control of Generation of Code ('Code Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-71576",
-      "publishedDate": "2026-08-10T16:41:53.193Z",
-      "lastModifiedDate": "2026-08-10T16:41:53.193Z",
-      "description": "A flaw was found in multicluster-global-hub. The manager component improperly validates the source identity of incoming CloudEvents on Kafka status topics. A remote attacker, after compromising a managed hub and obtaining its Kafka client certificate, can manipulate the self-asserted source identity. This allows the attacker to falsify or delete critical data, such as compliance, inventory, and cluster health information, belonging to other hubs in the database.",
-      "severity": 8.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Multicluster Global Hub\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-71576",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2512513",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Multicluster Global Hub",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "multicluster-globalhub/multicluster-globalhub-manager-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:multicluster_globalhub"
-          ]
-        }
-      ],
-      "problemType": [
-        "Insufficient Verification of Data Authenticity"
-      ]
-    },
-    {
-      "id": "CVE-2026-19429",
-      "publishedDate": "2026-08-10T12:07:02.996Z",
-      "lastModifiedDate": "2026-08-10T16:29:00.775Z",
-      "description": "Jenkins FilePath.untarFrom() in all versions, including those with the CVE-2026-33001 patch applied, validates symlink destinations but not targets. The CVE-2026-33001 fix enforces that the symlink file is created within the workspace boundary, but the symlink target — the path returned by te.getLinkName() and passed directly to symlinkTo() — is never validated and may point to any location on the controller filesystem. An attacker with Item/Configure permission can configure a job to extract a malicious .tar or .tar.gz archive via a tool installer or custom build step. When FilePath.untarFrom() processes the archive, it creates symlinks inside the workspace pointing to arbitrary controller paths such as $JENKINS_HOME/secrets/master.key, secrets/hudson.util.Secret, or credentials.xml. The attacker then reads the symlinked files through the Jenkins workspace viewer (GET /job/{name}/ws/) or by archiving them as build artifacts, requiring no additional privileges beyond Item/Configure and Item/Workspace. Obtaining master.key and hudson.util.Secret enables offline AES-128 decryption of all {AQA...}-format credential entries in credentials.xml, exposing stored passwords, API keys, and SSH private keys in plaintext.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：Jenkins Project Jenkins\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.jenkins.io/security/advisory/2026-03-18/#SECURITY-3657",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jenkinsci/jenkins",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Jenkins Project",
-          "product": "Jenkins",
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
       ],
       "cwe_ids": [
-        "CWE-59"
+        "CWE-78"
       ]
     },
     {
-      "id": "CVE-2026-71577",
-      "publishedDate": "2026-08-10T16:43:20.185Z",
-      "lastModifiedDate": "2026-08-10T16:43:20.185Z",
-      "description": "A flaw was found in multicluster-global-hub. During a ManagedClusterMigration, the system incorrectly grants all managed hubs read access to a shared communication topic. This allows a compromised managed hub to intercept and collect sensitive bootstrap kubeconfigs, which contain API server tokens intended for other hubs. These tokens have an extended validity of approximately 9.86 years, significantly increasing the risk of unauthorized access and information disclosure to other managed clusters.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：Red Hat Multicluster Global Hub\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-62870",
+      "publishedDate": "2026-08-03T22:58:03.448Z",
+      "lastModifiedDate": "2026-08-10T17:21:28.776Z",
+      "description": "Use after free in Microsoft Office Excel allows an unauthorized attacker to execute code over a network.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft 365 Apps for Enterprise\n🔓 漏洞类型：Use After Free (CWE-416)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-71577",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2512514",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-62870",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Multicluster Global Hub",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "multicluster-globalhub/multicluster-globalhub-rhel9-operator",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:multicluster_globalhub"
+          "vendor": "Microsoft",
+          "product": "Microsoft 365 Apps for Enterprise",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.1",
+              "lessThan": "https://aka.ms/OfficeSecurityReleases",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Excel 2016",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.0.0",
+              "lessThan": "16.0.5561.1001",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Office 2019",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "19.0.0",
+              "lessThan": "https://aka.ms/OfficeSecurityReleases",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Office LTSC 2021",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.1",
+              "lessThan": "https://aka.ms/OfficeSecurityReleases",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Office LTSC 2024",
+          "platforms": [
+            "32-bit Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "16.0.0",
+              "lessThan": "https://aka.ms/OfficeSecurityReleases",
+              "versionType": "custom",
+              "status": "affected"
+            }
           ]
         }
       ],
       "problemType": [
-        "Insufficiently Protected Credentials"
+        "CWE-416: Use After Free"
+      ],
+      "cwe_ids": [
+        "CWE-416"
       ]
     },
     {
-      "id": "CVE-2026-19367",
-      "publishedDate": "2026-08-09T20:00:09.896Z",
-      "lastModifiedDate": "2026-08-10T16:27:01.759Z",
-      "description": "A vulnerability has been found in NocteDefensor LudusMCP 1.0.24. Affected by this vulnerability is an unknown functionality of the file src/tools/rangeConfig.ts of the component read_range_config. The manipulation of the argument Source leads to server-side request forgery. The attack may be initiated remotely. The project was informed of the problem early through an issue report but has not responded yet.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：NocteDefensor LudusMCP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72734",
+      "publishedDate": "2026-08-10T17:29:30.298Z",
+      "lastModifiedDate": "2026-08-10T17:29:30.298Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). From 0.28.7 until 0.29.13, the server.remove tRPC mutation in apps/dokploy/server/api/routers/server.ts accepts a caller-controlled serverId and calls haveActiveServices, findServerById, removeDeploymentsByServerId, and deleteServer without verifying that currentServer.organizationId equals ctx.session.activeOrganizationId. An authenticated owner or administrator with server:delete in one organization who previously observed another organization's serverId can delete that organization's server registration and deployment records, interrupt Dokploy management, and receive the associated plaintext SSH private key even though server.one denies the same cross-organization read. This issue is fixed in version 0.29.13.",
+      "severity": 8.4,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/387234",
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-3rpx-c3j9-q99x",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/387234/cti",
+          "url": "https://github.com/Dokploy/dokploy/pull/4874",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-19367",
+          "url": "https://github.com/Dokploy/dokploy/commit/4aee66b2d1dc2c027749a541e553aa49947075c1",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/866263",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NocteDefensor/LudusMCP/issues/6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NocteDefensor/LudusMCP/",
+          "url": "https://github.com/Dokploy/dokploy/releases/tag/v0.29.13",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "NocteDefensor",
-          "product": "LudusMCP",
+          "vendor": "Dokploy",
+          "product": "dokploy",
           "versions": [
             {
-              "version": "1.0.24",
+              "version": ">= 0.28.7, < 0.29.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-66318",
+      "publishedDate": "2026-08-03T22:51:43.716Z",
+      "lastModifiedDate": "2026-08-10T17:15:10.354Z",
+      "description": "Origin validation error in Microsoft Edge (Chromium-based) allows an unauthorized attacker to disclose information over a network.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66318",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-346: Origin Validation Error"
+      ],
+      "cwe_ids": [
+        "CWE-346"
+      ]
+    },
+    {
+      "id": "CVE-2026-19381",
+      "publishedDate": "2026-08-10T00:30:09.175Z",
+      "lastModifiedDate": "2026-08-10T17:26:29.350Z",
+      "description": "A security flaw has been discovered in Kingston FURY CTRL RGB Control Software 2.0.65.0. The impacted element is an unknown function in the library NTIOLib_KSFX.sys of the component Driver. Performing a manipulation results in improper privilege management. The attack needs to be approached locally. The exploit has been released to the public and may be used for attacks. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Kingston FURY CTRL RGB Control Software\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/387274",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/387274/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19381",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/866727",
+          "type": "reference"
+        },
+        {
+          "url": "https://drive.google.com/file/d/19a8Qix5YVMNy8TH5k4PWiu0FQLtPRsJp/view?usp=sharing;https://drive.google.com/file/d/1Vqw9d9jkKbl4r2dC1Ry5m_1uzL5JV25H/view?usp=sharing",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Kingston",
+          "product": "FURY CTRL RGB Control Software",
+          "versions": [
+            {
+              "version": "2.0.65.0",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:noctedefensor:ludusmcp:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:kingston:fury_ctrl_rgb_control_software:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "read_range_config"
+            "Driver"
           ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery"
+        "Improper Privilege Management",
+        "Incorrect Privilege Assignment"
       ]
     },
     {
-      "id": "CVE-2026-63623",
-      "publishedDate": "2026-08-10T16:43:19.048Z",
-      "lastModifiedDate": "2026-08-10T16:43:19.048Z",
-      "description": "A flaw was found in libvirt. During storage volume clone or convert operations, newly created volume images were temporarily world-readable. This was caused by the `qemu-img` utility running with overly permissive file creation settings, allowing any local user to read the full guest disk contents. This vulnerability could lead to sensitive information disclosure from guest virtual machines.",
-      "severity": 5.5,
+      "id": "CVE-2026-66310",
+      "publishedDate": "2026-08-03T22:53:10.360Z",
+      "lastModifiedDate": "2026-08-10T17:16:40.010Z",
+      "description": "External control of file name or path in Microsoft Edge for Android allows an unauthorized attacker to disclose information locally.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge for Android\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66310",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge for Android",
+          "versions": [
+            {
+              "version": "1.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-73: External Control of File Name or Path"
+      ],
+      "cwe_ids": [
+        "CWE-73"
+      ]
+    },
+    {
+      "id": "CVE-2026-66315",
+      "publishedDate": "2026-08-03T22:53:12.589Z",
+      "lastModifiedDate": "2026-08-10T17:16:42.093Z",
+      "description": "Use after free in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Use After Free (CWE-416)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66315",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-416: Use After Free"
+      ],
+      "cwe_ids": [
+        "CWE-416"
+      ]
+    },
+    {
+      "id": "CVE-2026-65802",
+      "publishedDate": "2026-08-03T22:57:52.477Z",
+      "lastModifiedDate": "2026-08-10T17:21:24.677Z",
+      "description": "External control of file name or path in Microsoft Edge for Android allows an unauthorized attacker to disclose information over a network.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-65802",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-73: External Control of File Name or Path"
+      ],
+      "cwe_ids": [
+        "CWE-73"
+      ]
+    },
+    {
+      "id": "CVE-2026-66321",
+      "publishedDate": "2026-08-03T22:51:44.398Z",
+      "lastModifiedDate": "2026-08-10T17:15:11.010Z",
+      "description": "Access of resource using incompatible type ('type confusion') in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Type Confusion (CWE-843)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66321",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-843: Access of Resource Using Incompatible Type ('Type Confusion')"
+      ],
+      "cwe_ids": [
+        "CWE-843"
+      ]
+    },
+    {
+      "id": "CVE-2026-19389",
+      "publishedDate": "2026-08-10T02:57:42.305Z",
+      "lastModifiedDate": "2026-08-10T17:25:37.484Z",
+      "description": "Multiple integer overflow and underflow vulnerabilities were found in the GStreamer gst-plugins-ugly ASF demuxer (asfdemux) when parsing header objects from crafted ASF, WMV, or WMA files. Insufficient validation of attacker-controlled length and size values can bypass bounds checks and cause out-of-bounds heap reads. This can result in application crash, denial of service, or limited information disclosure when untrusted media is processed.",
+      "severity": 7.1,
       "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-63623",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-19389",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2513066",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2513016",
+          "type": "reference"
+        },
+        {
+          "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/12233",
+          "type": "reference"
+        },
+        {
+          "url": "https://gstreamer.freedesktop.org/releases/1.28/",
+          "type": "reference"
+        },
+        {
+          "url": "https://gstreamer.freedesktop.org/security/sa-2026-0075.html",
           "type": "reference"
         }
       ],
@@ -223,7 +467,7 @@
           "vendor": "Red Hat",
           "product": "Red Hat Enterprise Linux 10",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "libvirt",
+          "packageName": "gstreamer1-plugins-ugly-free",
           "defaultStatus": "affected",
           "cpes": [
             "cpe:/o:redhat:enterprise_linux:10"
@@ -231,19 +475,9 @@
         },
         {
           "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "libvirt",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
           "product": "Red Hat Enterprise Linux 7",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "libvirt",
+          "packageName": "gstreamer1-plugins-ugly-free",
           "defaultStatus": "affected",
           "cpes": [
             "cpe:/o:redhat:enterprise_linux:7"
@@ -253,7 +487,7 @@
           "vendor": "Red Hat",
           "product": "Red Hat Enterprise Linux 8",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "virt:rhel/libvirt",
+          "packageName": "gstreamer1-plugins-ugly-free",
           "defaultStatus": "affected",
           "cpes": [
             "cpe:/o:redhat:enterprise_linux:8"
@@ -263,83 +497,674 @@
           "vendor": "Red Hat",
           "product": "Red Hat Enterprise Linux 9",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "libvirt",
+          "packageName": "gstreamer1-plugins-ugly-free",
           "defaultStatus": "affected",
           "cpes": [
             "cpe:/o:redhat:enterprise_linux:9"
           ]
-        },
+        }
+      ],
+      "problemType": [
+        "Integer Overflow or Wraparound"
+      ]
+    },
+    {
+      "id": "CVE-2026-66322",
+      "publishedDate": "2026-08-03T22:57:54.552Z",
+      "lastModifiedDate": "2026-08-10T17:21:27.064Z",
+      "description": "Origin validation error in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform spoofing over a network.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux for NVIDIA 26",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "libvirt",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/a:redhat:enterprise_linux_nvidia:"
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66322",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
           ]
         }
       ],
       "problemType": [
-        "Incorrect Permission Assignment for Critical Resource"
-      ]
-    },
-    {
-      "id": "CVE-2026-21063",
-      "publishedDate": "2026-08-10T07:40:29.002Z",
-      "lastModifiedDate": "2026-08-10T16:42:09.971Z",
-      "description": "Improper export of android application components in AppLock prior to SMR Aug-2026 Release 1 allows physical attackers to bypass app lock function.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Mobile Devices\n🔓 漏洞类型：CWE-926 (CWE-926)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://security.samsungmobile.com/securityUpdate.smsb?year=2026&month=08",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Samsung Mobile",
-          "product": "Samsung Mobile Devices",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "SMR Aug-2026 Release in Android 14, 15, 16",
-              "versionType": "semver",
-              "lessThan": "*"
-            }
-          ],
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "CWE-926: Improper Export of Android Application Components"
+        "CWE-346: Origin Validation Error"
       ],
       "cwe_ids": [
-        "CWE-926"
+        "CWE-346"
       ]
     },
     {
-      "id": "CVE-2026-21062",
-      "publishedDate": "2026-08-10T07:40:17.849Z",
-      "lastModifiedDate": "2026-08-10T16:38:58.978Z",
-      "description": "Authorization bypass in SemClipboardService prior to SMR Aug-2026 Release 1 allows local attackers to access clipboard data.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Mobile Devices\n🔓 漏洞类型：CWE-939 (CWE-939)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-66313",
+      "publishedDate": "2026-08-03T22:53:11.479Z",
+      "lastModifiedDate": "2026-08-10T17:16:41.066Z",
+      "description": "Origin validation error in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform tampering locally.",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.samsungmobile.com/securityUpdate.smsb?year=2026&month=08",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66313",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-346: Origin Validation Error"
+      ],
+      "cwe_ids": [
+        "CWE-346"
+      ]
+    },
+    {
+      "id": "CVE-2026-66326",
+      "publishedDate": "2026-08-03T22:58:02.203Z",
+      "lastModifiedDate": "2026-08-10T17:21:28.254Z",
+      "description": "Missing authorization in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66326",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-66314",
+      "publishedDate": "2026-08-03T22:53:12.042Z",
+      "lastModifiedDate": "2026-08-10T17:16:41.544Z",
+      "description": "Time-of-check time-of-use (toctou) race condition in Microsoft Edge (Chromium-based) allows an unauthorized attacker to disclose information over a network.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-367 (CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66314",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-66312",
+      "publishedDate": "2026-08-03T22:53:10.923Z",
+      "lastModifiedDate": "2026-08-10T17:16:40.539Z",
+      "description": "Buffer over-read in Microsoft Edge (Chromium-based) allows an authorized attacker to execute code over a network.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-126 (CWE-126)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66312",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-126: Buffer Over-read"
+      ],
+      "cwe_ids": [
+        "CWE-126"
+      ]
+    },
+    {
+      "id": "CVE-2026-66311",
+      "publishedDate": "2026-08-03T22:57:53.525Z",
+      "lastModifiedDate": "2026-08-10T17:21:25.885Z",
+      "description": "Missing authorization in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform tampering locally.",
+      "severity": 6.2,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66311",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-66325",
+      "publishedDate": "2026-08-03T22:57:55.034Z",
+      "lastModifiedDate": "2026-08-10T17:21:27.640Z",
+      "description": "Server-side request forgery (ssrf) in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform spoofing over a network.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66325",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-918"
+      ]
+    },
+    {
+      "id": "CVE-2026-65804",
+      "publishedDate": "2026-08-03T22:57:52.969Z",
+      "lastModifiedDate": "2026-08-10T17:21:25.259Z",
+      "description": "Improper control of generation of code ('code injection') in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform spoofing over a network.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Code Injection (CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-65804",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-94"
+      ]
+    },
+    {
+      "id": "CVE-2026-66317",
+      "publishedDate": "2026-08-03T22:57:54.002Z",
+      "lastModifiedDate": "2026-08-10T17:21:26.404Z",
+      "description": "Origin validation error in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform tampering over a network.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66317",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-346: Origin Validation Error"
+      ],
+      "cwe_ids": [
+        "CWE-346"
+      ]
+    },
+    {
+      "id": "CVE-2026-66316",
+      "publishedDate": "2026-08-03T22:53:13.132Z",
+      "lastModifiedDate": "2026-08-10T17:16:42.636Z",
+      "description": "Origin validation error in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform spoofing over a network.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-66316",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.59",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-346: Origin Validation Error"
+      ],
+      "cwe_ids": [
+        "CWE-346"
+      ]
+    },
+    {
+      "id": "CVE-2026-19370",
+      "publishedDate": "2026-08-09T22:00:10.073Z",
+      "lastModifiedDate": "2026-08-10T17:30:16.438Z",
+      "description": "A vulnerability was determined in bartekke8it56w2 new-mcp 0.1.0. This impacts the function fs.writeFileSync/fs.existsSync/fs.readFileSync of the file index.ts of the component geminithinking. This manipulation of the argument sessionCommand/sessionPath causes path traversal. The attack requires local access. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：bartekke8it56w2 new-mcp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/387254",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/387254/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19370",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/866268",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bartekke8it56w2/new-mcp/issues/10",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/bartekke8it56w2/new-mcp/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bartekke8it56w2",
+          "product": "new-mcp",
+          "versions": [
+            {
+              "version": "0.1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:bartekke8it56w2:new-mcp:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "geminithinking"
+          ]
+        }
+      ],
+      "problemType": [
+        "Path Traversal"
+      ]
+    },
+    {
+      "id": "CVE-2026-19365",
+      "publishedDate": "2026-08-09T18:15:09.043Z",
+      "lastModifiedDate": "2026-08-10T17:27:43.584Z",
+      "description": "A vulnerability was identified in Ichigo3766 image-gen-mcp 0.1.0. The impacted element is an unknown function of the file src/index.ts of the component upscale_images. Such manipulation of the argument output_path leads to path traversal. The attack must be carried out locally. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：Ichigo3766 image-gen-mcp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/387219",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/387219/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19365",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/866261",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Ichigo3766/image-gen-mcp/issues/6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Ichigo3766/image-gen-mcp/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Ichigo3766",
+          "product": "image-gen-mcp",
+          "versions": [
+            {
+              "version": "0.1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ichigo3766:image-gen-mcp:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "upscale_images"
+          ]
+        }
+      ],
+      "problemType": [
+        "Path Traversal"
+      ]
+    },
+    {
+      "id": "CVE-2026-72732",
+      "publishedDate": "2026-08-10T17:18:00.524Z",
+      "lastModifiedDate": "2026-08-10T17:18:00.524Z",
+      "description": "Discourse is an open-source discussion platform. Prior to 2026.1.6, 2026.5.2, 2026.6.1, and 2026.7.0, the discourse_templates endpoint exposed hidden tag names because DiscourseTemplates::TemplatesSerializer in plugins/discourse-templates/app/serializers/discourse_templates/templates_serializer.rb did not filter tags through the request Guardian. The serializer did not respect tag group permissions, allowing users to see tags they were not permitted to view. This issue is fixed in versions 2026.1.6, 2026.5.2, 2026.6.1, and 2026.7.0.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：discourse discourse\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/discourse/discourse/security/advisories/GHSA-xrgc-52m8-82hm",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/discourse/discourse/commit/25e9d55b4c652b8dc1c90f44c40c8f3fec77748c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/discourse/discourse/commit/c9b431b3b75727f7132ec231142371d203a6124b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/discourse/discourse/commit/f216f258bd473e6299c6aef7b6130e7db90116c0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/discourse/discourse/commit/f41e71b645eb60cc263e7a1de22251028115abf1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "discourse",
+          "product": "discourse",
+          "versions": [
+            {
+              "version": "< 2026.1.6",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2026.5.0-latest, < 2026.5.2",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2026.6.0-latest, < 2026.6.1",
+              "status": "affected"
+            },
+            {
+              "version": ">= 2026.7.0-latest, < 2026.7.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-12624",
+      "publishedDate": "2026-08-10T17:00:46.283Z",
+      "lastModifiedDate": "2026-08-10T17:15:59.036Z",
+      "description": "Vault’s ACL policy engine did not consistently enforce a wildcard (glob) deny rule against LIST requests made with a trailing slash on the denied path. This may allow a token holding a broader allow rule alongside a narrower wildcard deny rule to enumerate the names of entries beneath a path it was intended to be denied access to. This vulnerability (CVE-2026-12624) is fixed in Vault Community Edition 2.0.3 and Vault Enterprise 2.0.3, 1.21.8, 1.20.13, and 1.19.19.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：HashiCorp Vault\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "Nonehttps://discuss.hashicorp.com/t/hcsec-2026-26-vault-vulnerable-to-list-authorization-bypass-via-trailing-slash-strip/77632",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "64 bit",
+            "32 bit",
+            "x86",
+            "ARM",
+            "MacOS",
+            "Windows",
+            "Linux"
+          ],
+          "product": "Vault",
+          "repo": "https://github.com/hashicorp/vault",
+          "vendor": "HashiCorp",
+          "versions": [
+            {
+              "lessThan": "2.0.3",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "64 bit",
+            "32 bit",
+            "x86",
+            "ARM",
+            "MacOS",
+            "Windows",
+            "Linux"
+          ],
+          "product": "Vault Enterprise",
+          "repo": "https://github.com/hashicorp/vault",
+          "vendor": "HashiCorp",
+          "versions": [
+            {
+              "changes": [
+                {
+                  "at": "1.21.8",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "1.20.13",
+                  "status": "unaffected"
+                },
+                {
+                  "at": "1.19.19",
+                  "status": "unaffected"
+                }
+              ],
+              "lessThan": "2.0.3",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-44630",
+      "publishedDate": "2026-08-10T09:25:11.899Z",
+      "lastModifiedDate": "2026-08-10T17:18:48.085Z",
+      "description": "Improper validation of length fields in the Apache IoTDB RPC service may allow a remote unauthenticated attacker to cause a denial of service. By sending a crafted malformed Thrift frame, an attacker can cause IoTDB to allocate an excessive amount of memory and crash with an OutOfMemoryError.\n\n\nThis issue affects Apache IoTDB: before 1.3.8, from 2.0.0 before 2.0.9.\n\nUsers are recommended to upgrade to version 2.0.10, which fixes the issue.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache IoTDB\n🔓 漏洞类型：CWE-789, Uncontrolled Resource Consumption (CWE-789, CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/tfsgd9whbq79lgjvdzj44hw0fhsofly8",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Apache IoTDB",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThan": "1.3.8",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "2.0.10",
+              "status": "affected",
+              "version": "2.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-789 Memory Allocation with Excessive Size Value",
+        "CWE-400 Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-789",
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-21079",
+      "publishedDate": "2026-08-10T07:43:27.549Z",
+      "lastModifiedDate": "2026-08-10T17:28:14.836Z",
+      "description": "Missing encryption of sensitive data in Smart Switch prior to version 3.7.72.6 allows adjacent attackers to intercept transmitted data.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Samsung Mobile Smart Switch\n🔓 漏洞类型：CWE-311 (CWE-311)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=08",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "Samsung Mobile",
-          "product": "Samsung Mobile Devices",
+          "product": "Smart Switch",
           "versions": [
             {
               "status": "unaffected",
-              "version": "SMR Aug-2026 Release in Android 14, 15, 16",
+              "version": "3.7.72.6",
               "versionType": "semver",
               "lessThan": "*"
             }
@@ -348,17 +1173,194 @@
         }
       ],
       "problemType": [
-        "CWE-939: Authorization Bypass in User Data Access Request"
+        "CWE-311 (Missing Encryption of Sensitive Data)"
+      ],
+      "cwe_ids": [
+        "CWE-311"
+      ]
+    },
+    {
+      "id": "CVE-2026-21078",
+      "publishedDate": "2026-08-10T07:43:16.368Z",
+      "lastModifiedDate": "2026-08-10T17:25:38.837Z",
+      "description": "Insufficient verification of data authenticity in Smart Switch trouble scanning mode prior to version 3.7.72.6 allows adjacent attackers to spoof device identity.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Samsung Mobile Smart Switch\n🔓 漏洞类型：CWE-345 (CWE-345)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=08",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Samsung Mobile",
+          "product": "Smart Switch",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "3.7.72.6",
+              "versionType": "semver",
+              "lessThan": "*"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-345 (Insufficient Verification of Data Authenticity)"
+      ],
+      "cwe_ids": [
+        "CWE-345"
+      ]
+    },
+    {
+      "id": "CVE-2026-21077",
+      "publishedDate": "2026-08-10T07:43:05.228Z",
+      "lastModifiedDate": "2026-08-10T17:19:55.227Z",
+      "description": "Incorrect authorization in Samsung Health prior to version 7.0.0 allows local attackers to access sensitive information.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Health\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=08",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Samsung Mobile",
+          "product": "Samsung Health",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "7.0.0",
+              "versionType": "semver",
+              "lessThan": "*"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-21076",
+      "publishedDate": "2026-08-10T07:42:54.080Z",
+      "lastModifiedDate": "2026-08-10T17:18:57.670Z",
+      "description": "Incorrect authorization in Samsung Health prior to version 7.0.0 allows local attackers to access sensitive information.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Health\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=08",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Samsung Mobile",
+          "product": "Samsung Health",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "7.0.0",
+              "versionType": "semver",
+              "lessThan": "*"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-21075",
+      "publishedDate": "2026-08-10T07:42:42.887Z",
+      "lastModifiedDate": "2026-08-10T17:16:27.565Z",
+      "description": "Improper authorization in handler for custom URL scheme in My Galaxy prior to version 6.3 allows remote attackers to access sensitive information.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Samsung Mobile My Galaxy\n🔓 漏洞类型：CWE-939 (CWE-939)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=08",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Samsung Mobile",
+          "product": "My Galaxy",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "6.3",
+              "versionType": "semver",
+              "lessThan": "*"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-939: Improper Authorization in Handler for Custom URL Scheme"
       ],
       "cwe_ids": [
         "CWE-939"
       ]
     },
     {
-      "id": "CVE-2026-21061",
-      "publishedDate": "2026-08-10T07:40:06.717Z",
-      "lastModifiedDate": "2026-08-10T16:36:52.643Z",
-      "description": "Improper input validation in Samsung Dialer prior to SMR Aug-2026 Release 1 allows remote attackers to access SIM related functions. User interaction is required for triggering this vulnerability.",
+      "id": "CVE-2026-21074",
+      "publishedDate": "2026-08-10T07:42:31.710Z",
+      "lastModifiedDate": "2026-08-10T17:14:14.006Z",
+      "description": "Incorrect default permissions in Bixby prior to version 4.0.86.0 allows local attackers to execute arbitrary commands with Bixby privilege.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Samsung Mobile Bixby\n🔓 漏洞类型：CWE-276 (CWE-276)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.samsungmobile.com/serviceWeb.smsb?year=2026&month=08",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Samsung Mobile",
+          "product": "Bixby",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "4.0.86.0",
+              "versionType": "semver",
+              "lessThan": "*"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-276: Incorrect Default Permissions"
+      ],
+      "cwe_ids": [
+        "CWE-276"
+      ]
+    },
+    {
+      "id": "CVE-2026-21073",
+      "publishedDate": "2026-08-10T07:42:20.496Z",
+      "lastModifiedDate": "2026-08-10T17:11:41.585Z",
+      "description": "Improper input validation in Galaxy Themes prior to SMR Aug-2026 Release 1 allows physical attackers to launch arbitrary activity.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Mobile Devices\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
@@ -390,73 +1392,138 @@
       ]
     },
     {
-      "id": "CVE-2026-21060",
-      "publishedDate": "2026-08-10T07:39:55.595Z",
-      "lastModifiedDate": "2026-08-10T16:30:30.800Z",
-      "description": "Improper input validation in Samsung Contacts prior to SMR Aug-2026 Release 1 allows physical attackers to access data across multiple user profiles.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Mobile Devices\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-69659",
+      "publishedDate": "2026-08-09T18:01:32.896Z",
+      "lastModifiedDate": "2026-08-10T17:24:04.995Z",
+      "description": "Uncontrolled Resource Consumption vulnerability in ash-project ash allows an attacker to exhaust the memory of the node via a crafted keyset pagination cursor.\n\nRead actions with keyset pagination deserialize the client-supplied page[:after] or page[:before] cursor in decode_values/2 in lib/ash/page/keyset.ex, which base64-decodes the value and passes it to :erlang.binary_to_term/2 without bounding its size. The Erlang external term format supports zlib-compressed payloads, which the decoder inflates transparently, so a cursor of a few kilobytes can allocate tens of megabytes of heap in a single call. Ash itself only ever encodes cursors uncompressed, so the decoder accepts a term shape its encoder never produces. Concurrent requests aggregate these allocations and can terminate the node.\n\nThis issue affects ash: from 1.17.0 before 3.31.1.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：ash-project ash\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.samsungmobile.com/securityUpdate.smsb?year=2026&month=08",
+          "url": "https://github.com/ash-project/ash/security/advisories/GHSA-j35q-v8h8-7mwq",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-69659.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-69659",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ash-project/ash/commit/1816b103af975221210478d61db20adcea700319",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Samsung Mobile",
-          "product": "Samsung Mobile Devices",
-          "versions": [
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:ash-project:ash:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Ash.Page.Keyset'"
+          ],
+          "packageName": "ash",
+          "packageURL": "pkg:hex/ash",
+          "product": "ash",
+          "programFiles": [
+            "lib/ash/page/keyset.ex"
+          ],
+          "programRoutines": [
             {
-              "status": "unaffected",
-              "version": "SMR Aug-2026 Release in Android 14, 15, 16",
-              "versionType": "semver",
-              "lessThan": "*"
+              "name": "'Elixir.Ash.Page.Keyset':decode_values/2"
             }
           ],
-          "defaultStatus": "affected"
+          "repo": "https://github.com/ash-project/ash",
+          "vendor": "ash-project",
+          "versions": [
+            {
+              "lessThan": "3.31.1",
+              "status": "affected",
+              "version": "1.17.0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:ash-project:ash:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Ash.Page.Keyset'"
+          ],
+          "packageName": "ash-project/ash",
+          "packageURL": "pkg:github/ash-project/ash",
+          "product": "ash",
+          "programFiles": [
+            "lib/ash/page/keyset.ex"
+          ],
+          "programRoutines": [
+            {
+              "name": "'Elixir.Ash.Page.Keyset':decode_values/2"
+            }
+          ],
+          "repo": "https://github.com/ash-project/ash",
+          "vendor": "ash-project",
+          "versions": [
+            {
+              "lessThan": "1816b103af975221210478d61db20adcea700319",
+              "status": "affected",
+              "version": "f8fadc67e67c955bb68b3a8d642be13e2b7e8ca9",
+              "versionType": "git"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-20 Improper input validation"
+        "CWE-502 Deserialization of Untrusted Data"
       ],
       "cwe_ids": [
-        "CWE-20"
-      ]
+        "CWE-502"
+      ],
+      "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-21059",
-      "publishedDate": "2026-08-10T07:39:44.477Z",
-      "lastModifiedDate": "2026-08-10T16:30:50.535Z",
-      "description": "Improper export of android application components in Samsung Contacts prior to SMR Aug-2026 Release 1 allows local attackers to delete file with Samsung Contacts' privilege.",
+      "id": "CVE-2026-10595",
+      "publishedDate": "2026-08-09T03:52:26.218Z",
+      "lastModifiedDate": "2026-08-10T17:22:50.879Z",
+      "description": "A path traversal vulnerability exists in parisneo/lollms version 2.1.0, specifically in the SPA catch-all route implemented in `backend/routers/ui.py`. The vulnerability arises from the improper handling of user-controlled path input, which is directly joined into a filesystem path without sanitization or containment checks. URL-encoded dot-dot sequences (`%2e%2e`) bypass Starlette's built-in path normalization and are resolved by Python's `pathlib`, allowing an unauthenticated attacker to read arbitrary files on the server. This issue has been resolved in version 3.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Samsung Mobile Samsung Mobile Devices\n🔓 漏洞类型：CWE-926 (CWE-926)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：parisneo parisneo/lollms\n🔓 漏洞类型：CWE-23 (CWE-23)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.samsungmobile.com/securityUpdate.smsb?year=2026&month=08",
+          "url": "https://huntr.com/bounties/af3f40a3-38a1-49d8-a5ae-3d72b9b05b98",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/parisneo/lollms/commit/9bc6431ae7b708da76d51e7626a7cf48ff2b1d24",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Samsung Mobile",
-          "product": "Samsung Mobile Devices",
+          "vendor": "parisneo",
+          "product": "parisneo/lollms",
           "versions": [
             {
-              "status": "unaffected",
-              "version": "SMR Aug-2026 Release in Android 16",
-              "versionType": "semver",
-              "lessThan": "*"
+              "version": "unspecified",
+              "lessThan": "3",
+              "status": "affected",
+              "versionType": "custom"
             }
-          ],
-          "defaultStatus": "affected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-926 Improper export of android application components"
+        "CWE-23 Relative Path Traversal"
       ],
       "cwe_ids": [
-        "CWE-926"
+        "CWE-23"
       ]
     }
   ]
