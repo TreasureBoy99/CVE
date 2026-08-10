@@ -2,395 +2,620 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 9,
-    "last_updated": "2026-08-10T14:56:17.721792",
+    "total_count": 7,
+    "last_updated": "2026-08-10T15:58:28.966037",
     "severity_distribution": {
-      "critical": 1,
-      "high": 6,
-      "medium": 0,
-      "low": 0,
-      "none": 2
+      "critical": 2,
+      "high": 3,
+      "medium": 1,
+      "low": 1,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-48170",
-      "publishedDate": "2026-08-07T21:26:54.941Z",
-      "lastModifiedDate": "2026-08-10T14:06:00.075Z",
-      "description": "`scim-patch`, a library to perform SCIM patch, prior to version 0.9.1 performs prototype pollution when applying a SCIM PATCH operation whose `value` object contains a key like `\"__proto__.someProp\"`. After one such patch,\n`Object.prototype.someProp` is set process-wide, affecting every plain object in the Node process. Any service that calls `scimPatch()` on attacker-controlled JSON (i.e. any SCIM endpoint accepting `PATCH` from an external IdP) is exploitable on a stock Node runtime. Version 0.9.1 contains a patch. A workaround is available. Calling `Object.freeze(Object.prototype)` (and the same on `Array.prototype`, `Function.prototype`) at process startup neutralizes this class of bug — assignment to a frozen prototype becomes a silent no-op in sloppy mode or a `TypeError` in strict mode. Node's `--frozen-intrinsics` flag does this for built-ins automatically.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：thomaspoignant scim-patch\n🔓 漏洞类型：CWE-1321 (CWE-1321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-66738",
+      "publishedDate": "2026-08-10T15:41:06.745Z",
+      "lastModifiedDate": "2026-08-10T15:41:06.745Z",
+      "description": "SPIP before 4.4.18 contains a code injection vulnerability in SQLite-backed installations. The navigation menu endpoint improperly handles array-typed user input, which bypasses input sanitization and allows the value to break out of an internal quoted string context when evaluated as PHP. An authenticated attacker with at minimum editor (redacteur) privileges can submit a single crafted GET request to /ecrire/?exec=navigation to execute arbitrary OS commands in the web server process. MySQL-backed installations are not affected.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：SPIP SPIP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/thomaspoignant/scim-patch/security/advisories/GHSA-9m6g-wc8r-q59c",
+          "url": "https://blog.spip.net/Mise-a-jour-critique-de-securite-sortie-de-SPIP-4-4-18.html",
           "type": "reference"
         },
         {
-          "url": "https://github.com/thomaspoignant/scim-patch/commit/260f9cd2ac5ceac3976978850bb47dcb391720f6",
+          "url": "https://www.vulncheck.com/advisories/spip-code-injection-via-navigation-endpoint-on-sqlite",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "thomaspoignant",
-          "product": "scim-patch",
+          "defaultStatus": "affected",
+          "vendor": "SPIP",
+          "product": "SPIP",
           "versions": [
             {
-              "version": "< 0.9.1",
-              "status": "affected"
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "4.4.18"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-1321: Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
-      ],
-      "cwe_ids": [
-        "CWE-1321"
-      ],
-      "ghsa_id": "GHSA-9m6g-wc8r-q59c"
-    },
-    {
-      "id": "CVE-2026-19429",
-      "publishedDate": "2026-08-10T12:07:02.996Z",
-      "lastModifiedDate": "2026-08-10T14:28:07.736Z",
-      "description": "Jenkins FilePath.untarFrom() (all versions) validates symlink destinations but not targets, bypassing CVE-2026-33001. Any user with Item/Build access triggers malicious tar extraction via POST /job/{name}/build, writing persistent symlinks into the Jenkins tool cache. Symlinks to secrets/master.key and credentials.xml read via GET /job/{name}/lastBuild/consoleText enable offline AES decryption of all stored credentials and admin RCE. Symlinks to /dev/zero or blocking FIFOs hang build executors.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Jenkins Project Jenkins\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/jenkinsci/jenkins",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.jenkins.io/security/advisories/2026-03-19/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Jenkins Project",
-          "product": "Jenkins",
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
-      ],
-      "cwe_ids": [
-        "CWE-59"
+        "Improper Control of Generation of Code ('Code Injection')"
       ]
     },
     {
-      "id": "CVE-2026-52878",
-      "publishedDate": "2026-08-07T22:32:27.340Z",
-      "lastModifiedDate": "2026-08-10T14:16:48.518Z",
-      "description": "Klever-Go is the Go implementation of the Klever blockchain protocol. Versions 1.7.14 through 1.7.17 are vulnerable to a nil-pointer panic triggered by a protobuf Transaction whose embedded RawData sub-message is omitted. This omission causes RawData to decode to nil. Every transaction gossiped on the Klever-Go P2P network is decoded and validated synchronously inside the libp2p pubsub topic-validator callback, where txVersionChecker.CheckTxVersion dereferences tx.RawData.Version with no nil check. Because the libp2p pubsub callback, the underlying go-libp2p-pubsub validation worker, and Klever's own network/p2p layer install no recover(), the panic propagates and crashes the entire node process. The attacker payload is a 3-byte protobuf message; no validator key, stake, funds, or on-chain account is required, and delivery aimed at enough of the BLS validator set can halt block production, resulting in a chain halt. This issue has been fixed in version 1.7.18.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：klever-io klever-go\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-47754",
+      "publishedDate": "2026-08-10T15:26:03.526Z",
+      "lastModifiedDate": "2026-08-10T15:26:03.526Z",
+      "description": "Metacat is data repository software that helps researchers preserve, share, and discover data. Versions 2.x through 2.19.1 and all 1.x versions contain an unauthenticated path traversal in the `archiveEntryName` parameter of the `action=read` endpoint that is part of the original 1.x Metacat API. `ArchiveHandler.readArchiveEntry()` concatenates the user-supplied parameter into a filesystem path without validation, and the surrounding `hasReadPermission()` check is commented out. An unauthenticated remote attacker can read any file accessible to the Tomcat process by sending a single GET request. Proof-of-concept exploits have been demonstrated and verified against this vulnerability, and it should be considered easily exploitable for any Metacat deployment < 3.0.0 by any user with access to the 1.x API. Through this vulnerability, production 2.x deployments are exposed to credential theft, client certificate and private key exfiltration enabling member node impersonation within the federation, embargoed research data disclosure, and broad system reconnaissance. Given Metacat's deployment footprint across the DataONE network of repositories and federally funded research programs, the population of exposed 2.x instances is non-trivial. The vulnerability was eliminated in Metacat version 3.0.0 and after by eliminating the entire Metacat 1.x API that exposed this vulnerability. The vulnerability was remediated in April 2024 with the release of Metacat 3.0.0, which removed the legacy Metacat API including ArchiveHandler.java. The commit message and issue reference architectural cleanup, not a security fix, and no advisory or CVE was issued. The 2.x branch was not and will not be backported, as is standard practice in Metacat, which only supports the most current release. 2.19.1 remains vulnerable with identical code and is beyond its supported lifetime. As a workaround, disable or restrict 1.x API servlets. Because the vulnerable 1.x API is no longer used or necessary in most Metacat deployments, restricting access to the old API endpoints can reduce or eliminate exposure for 2.19.x deployments.  After removing those features, restart Tomcat or whichever software is hosting the servlets.",
+      "severity": 9.3,
+      "fix_suggestion": "📦 受影响组件：NCEAS metacat\n🔓 漏洞类型：Path Traversal, Missing Authorization (CWE-22, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/klever-io/klever-go/security/advisories/GHSA-rm5c-5x2p-48wr",
+          "url": "https://github.com/NCEAS/metacat/security/advisories/GHSA-m852-f287-7cgw",
           "type": "reference"
         },
         {
-          "url": "https://github.com/klever-io/klever-go/releases/tag/v1.7.18",
+          "url": "https://github.com/NCEAS/metacat/issues/1365",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NCEAS/metacat/pull/1713",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NCEAS/metacat/commit/07e034b2bbf7029e28af32f472f4d70ea6b5ab1b",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "klever-io",
-          "product": "klever-go",
+          "vendor": "NCEAS",
+          "product": "metacat",
           "versions": [
             {
-              "version": ">= 1.7.14, < 1.7.18",
+              "version": "< 3.0.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-476: NULL Pointer Dereference"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-862: Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-476"
-      ],
-      "ghsa_id": "GHSA-rm5c-5x2p-48wr"
-    },
-    {
-      "id": "CVE-2026-47249",
-      "publishedDate": "2026-08-07T22:09:03.931Z",
-      "lastModifiedDate": "2026-08-10T14:07:38.266Z",
-      "description": "Klever-Go is the Go implementation of the Klever blockchain protocol. Prior to 1.7.18, the P2P resolver request handling logic is vulnerable to hash-array amplification. A connected peer can send a compressed RequestDataType_HashArrayType direct request that is only 442 bytes on the wire but expands into 200,000 decoded hash entries inside the resolver path. The resolver's antiflood logic counts only a single logical message and the compressed wire size, and while Batch.Decompress() caps the decompressed byte size, it never limits the number of decoded repeated-field items. As a result, both TxResolver and TrieNodeResolver preallocate and iterate over the entire unchecked set of decoded hashes, causing remote memory and CPU amplification against any node that accepts P2P peer connections. This issue is fixed in version 1.7.18.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：klever-io klever-go\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/klever-io/klever-go/security/advisories/GHSA-w342-mj6g-v9c4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/klever-io/klever-go/releases/tag/v1.7.18",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "klever-io",
-          "product": "klever-go",
-          "versions": [
-            {
-              "version": "< 1.7.18",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption"
-      ],
-      "cwe_ids": [
-        "CWE-400"
-      ],
-      "ghsa_id": "GHSA-w342-mj6g-v9c4"
-    },
-    {
-      "id": "CVE-2026-72761",
-      "publishedDate": "2026-08-10T14:33:13.106Z",
-      "lastModifiedDate": "2026-08-10T14:33:13.106Z",
-      "description": "The webhook URL validator in `website/notifications/webhooks.py` uses\n`ip.is_global` to reject non-public addresses after DNS resolution. IPv6\ntransition addresses (NAT64 `64:ff9b::/96`, 6to4 `2002::/16`, Teredo\n`2001:0000::/32`) are classified as globally routable by IANA, so `is_global`\nreturns `True` even when the embedded IPv4 targets a private, loopback, or\ncloud metadata destination. An attacker can register a webhook pointing at a\nhostname that resolves to a transition address to bypass the SSRF guard and\nexfiltrate vulnerability data to an internal endpoint.\n\nThe vulnerability was introduced on a non-release version. The fix was already done on HEAD. It only affects\n\norganisation running the HEAD.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：vulnerability-lookup vulnerability-lookup\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vulnerability-lookup/vulnerability-lookup/commit/f3e0c6899c5b3823dcfd860fc6cb3edbedc9bf65",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "vulnerability-lookup",
-          "repo": "https://github.com/vulnerability-lookup/vulnerability-lookup",
-          "vendor": "vulnerability-lookup",
-          "versions": [
-            {
-              "lessThanOrEqual": "5.5.0",
-              "status": "unaffected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-918 Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-72760",
-      "publishedDate": "2026-08-10T14:31:49.962Z",
-      "lastModifiedDate": "2026-08-10T14:31:49.962Z",
-      "description": "Affected versions of MISP cti-transmute disclose users' email addresses through the account following-list endpoint. When an authenticated user follows another account, get_following() includes the followed user's email field in the API response alongside their name, user ID, and follow date. Because the email address is not required for the functionality and other related user lists omit it, an authenticated attacker could systematically follow users and collect their email addresses. The fix removes user.email from the returned object.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：MISP cti-transmute\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/4bad9f105a824979e0ae79fd6115cd7a88c84ee5",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "cti-transmute",
-          "repo": "https://github.com/MISP/cti-transmute",
-          "vendor": "MISP",
-          "versions": [
-            {
-              "lessThanOrEqual": "1.4.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
-      ],
-      "cwe_ids": [
-        "CWE-200"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-72759",
-      "publishedDate": "2026-08-10T14:19:13.478Z",
-      "lastModifiedDate": "2026-08-10T14:19:13.478Z",
-      "description": "In affected versions of MISP cti-transmute, the conversion-history details endpoint performs an incomplete authorization check. When a history record references a deleted conversion, the associated conversion lookup returns None. The previous logic only denied access when the conversion object existed and the visibility check failed. As a result, deleted conversions bypassed the authorization check and their retained history input/output could be disclosed to a user able to request the corresponding history entry. The July 22, 2026 commit changes the logic to deny access whenever the conversion is missing or the requester lacks permission",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：misp cti-transmute\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/88dc65f0117cf7a120f6252674c529e7b9c9b8c3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "cti-transmute",
-          "repo": "https://github.com/MISP/cti-transmute",
-          "vendor": "misp",
-          "versions": [
-            {
-              "lessThanOrEqual": "1.4.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
+        "CWE-22",
         "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-19433",
-      "publishedDate": "2026-08-10T14:04:14.148Z",
-      "lastModifiedDate": "2026-08-10T14:04:14.148Z",
-      "description": "Authorization Bypass Through User-Controlled Key in the contact management component in Roskus Prospero Flow CRM before 5.4.8 allows authenticated users of any company to blindly overwrite the contact data of another company and to download that contact's personal data as a vCard via the contact's numeric identifier, because the save and export operations retrieve the record without constraining the query to the authenticated user's company.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Roskus Prospero Flow CRM\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Roskus/prospero-flow-crm/commit/f16b4af2027b17bef7c604c92dbd86cf38082398",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Roskus/prospero-flow-crm/releases/tag/v5.5.3",
-          "type": "reference"
-        },
-        {
-          "url": "https://secur0.com/en/cna/cve-list/cve-2026-19433-idor-in-prospero-flow-crm-contact-save-and-vcard-export",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Roskus",
-          "product": "Prospero Flow CRM",
-          "repo": "https://github.com/Roskus/prospero-flow-crm",
-          "modules": [
-            "Contact management"
-          ],
-          "programFiles": [
-            "app/Repositories/ContactRepository.php",
-            "app/Http/Controllers/Contact/ContactExportVCard.php"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.4.8",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-639 Authorization bypass through User-Controlled key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
       ]
     },
     {
-      "id": "CVE-2026-18503",
-      "publishedDate": "2026-08-10T13:45:31.618Z",
-      "lastModifiedDate": "2026-08-10T14:23:30.257Z",
-      "description": "Attacker-controlled CSV samples can trigger super-linear \nregular-expression work during dialect sniffing and consume significant \nCPU when applications pass unbounded input to csv.Sniffer.sniff().",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Python Software Foundation CPython\n🔓 漏洞类型：CWE-1176 (CWE-1176)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19346",
+      "publishedDate": "2026-08-09T10:00:10.878Z",
+      "lastModifiedDate": "2026-08-10T15:24:27.332Z",
+      "description": "A vulnerability was determined in Tenda CH22 1.0.0.1. This vulnerability affects the function formCertListInfo of the file /goform/CertListInfo. This manipulation of the argument Name causes command injection. The attack can be initiated remotely. The exploit has been publicly disclosed and may be utilized.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Tenda CH22\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://mail.python.org/archives/list/security-announce@python.org/thread/KQ7NBMCPAZJHRROQXJQE4GMXGLD5KHBS/",
+          "url": "https://vuldb.com/vuln/387182",
           "type": "reference"
         },
         {
-          "url": "https://github.com/python/cpython/pull/153694",
+          "url": "https://vuldb.com/vuln/387182/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/python/cpython/issues/98820",
+          "url": "https://vuldb.com/cve/CVE-2026-19346",
           "type": "reference"
         },
         {
-          "url": "https://github.com/python/cpython/commit/063d4555c94ef412c731527dbf30193327f2ee82",
+          "url": "https://vuldb.com/submit/865530",
           "type": "reference"
         },
         {
-          "url": "https://github.com/python/cpython/commit/476fb09cdb0d73e645849d98c610e7e5697ce7c9",
-          "type": "reference"
+          "url": "https://candle-throne-f75.notion.site/Tenda-CH22-formCertListInfo-387df0aa118580b4abfcffaf2fceb9ff",
+          "type": "poc"
         },
         {
-          "url": "https://github.com/python/cpython/commit/89f29c760c02774b099ddd6863268eb13fa3946a",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/python/cpython/commit/b30c7fa9edd921a118f286e9f90f560777fa693b",
+          "url": "https://www.tenda.com.cn/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "modules": [
-            "csv"
-          ],
-          "product": "CPython",
-          "repo": "https://github.com/python/cpython",
-          "vendor": "Python Software Foundation",
+          "vendor": "Tenda",
+          "product": "CH22",
           "versions": [
             {
-              "version": "0",
-              "lessThan": "3.13.15",
-              "status": "affected",
-              "versionType": "python"
-            },
+              "version": "1.0.0.1",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:o:tenda:ch22_firmware:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Command Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-19341",
+      "publishedDate": "2026-08-09T07:00:09.617Z",
+      "lastModifiedDate": "2026-08-10T15:23:27.082Z",
+      "description": "A security vulnerability has been detected in UTT HiPER 1200GW up to 2.5.3-170306. This impacts the function strcpy of the file /goform/pptpSrvGlobalConfig. Such manipulation of the argument EncryptionMode leads to stack-based buffer overflow. The attack can be executed remotely. The exploit has been disclosed publicly and may be used. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：UTT HiPER 1200GW\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/387177",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/387177/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19341",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/865277",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/7wkajk/CVE-VUL/blob/main/104.md",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "UTT",
+          "product": "HiPER 1200GW",
+          "versions": [
             {
-              "version": "3.14.0",
-              "lessThan": "3.14.7",
-              "status": "affected",
-              "versionType": "python"
-            },
+              "version": "2.5.3-170306",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:utt:hiper_1200gw:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Stack-based Buffer Overflow",
+        "Memory Corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-72719",
+      "publishedDate": "2026-08-10T15:38:09.970Z",
+      "lastModifiedDate": "2026-08-10T15:38:09.970Z",
+      "description": "Chatwoot is a customer engagement suite. Prior to 4.9.0, Chatwoot allowed authenticated account administrators to transfer Portals, Automation Rules, Macros, and Twilio Channels to other accounts through the writable account_id parameter. This could break tenant isolation and cause cross-account data exposure, unauthorized configuration changes, or loss of access to transferred resources. This issue is fixed in version 4.9.0.",
+      "severity": 6.7,
+      "fix_suggestion": "📦 受影响组件：chatwoot chatwoot\n🔓 漏洞类型：CWE-915 (CWE-915)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/chatwoot/chatwoot/security/advisories/GHSA-x288-jh8j-348c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/chatwoot/chatwoot/pull/13116",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/chatwoot/chatwoot/commit/86da3f7c069f8ed6dce2576e1a760ca72b6f40fd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/chatwoot/chatwoot/releases/tag/v4.9.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "chatwoot",
+          "product": "chatwoot",
+          "versions": [
             {
-              "version": "3.15.0a1",
-              "lessThan": "3.15.0rc1",
-              "status": "affected",
-              "versionType": "python"
+              "version": "< 4.9.0",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-1176"
+        "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
       ],
       "cwe_ids": [
-        "CWE-1176"
+        "CWE-915"
       ]
+    },
+    {
+      "id": "CVE-2026-19352",
+      "publishedDate": "2026-08-09T12:15:39.398Z",
+      "lastModifiedDate": "2026-08-10T15:32:13.828Z",
+      "description": "A vulnerability was determined in mifi lossless-cut up to 3.69.0. Affected by this issue is some unknown functionality of the file src/main/httpServer.ts of the component Built-in HTTP API Service. Executing a manipulation can lead to server-side request forgery. The attack requires access to the local network. This attack is characterized by high complexity. The exploitation is known to be difficult. The exploit has been publicly disclosed and may be utilized. This patch is called 260802348955231442c4bae6c2d9d8ede947af0a. It is best practice to apply a patch to resolve this issue. The project maintainer provides this view: \"I'm not sure that this is a critical vulnerability, because it is behind an experimental CLI flag and the NTLM behavior isn't really a LosslessCut bug.\" The CVSS vector reflects the high level of pre-requisites.",
+      "severity": 3.1,
+      "fix_suggestion": "📦 受影响组件：mifi lossless-cut\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/387191",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/387191/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19352",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/865910",
+          "type": "reference"
+        },
+        {
+          "url": "https://my.feishu.cn/file/Jq4Ib90xeod3oPxlk77cv7jPnFe",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/mifi/lossless-cut/commit/260802348955231442c4bae6c2d9d8ede947af0a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mifi/lossless-cut/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "mifi",
+          "product": "lossless-cut",
+          "versions": [
+            {
+              "version": "3.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.1",
+              "status": "affected"
+            },
+            {
+              "version": "3.2",
+              "status": "affected"
+            },
+            {
+              "version": "3.3",
+              "status": "affected"
+            },
+            {
+              "version": "3.4",
+              "status": "affected"
+            },
+            {
+              "version": "3.5",
+              "status": "affected"
+            },
+            {
+              "version": "3.6",
+              "status": "affected"
+            },
+            {
+              "version": "3.7",
+              "status": "affected"
+            },
+            {
+              "version": "3.8",
+              "status": "affected"
+            },
+            {
+              "version": "3.9",
+              "status": "affected"
+            },
+            {
+              "version": "3.10",
+              "status": "affected"
+            },
+            {
+              "version": "3.11",
+              "status": "affected"
+            },
+            {
+              "version": "3.12",
+              "status": "affected"
+            },
+            {
+              "version": "3.13",
+              "status": "affected"
+            },
+            {
+              "version": "3.14",
+              "status": "affected"
+            },
+            {
+              "version": "3.15",
+              "status": "affected"
+            },
+            {
+              "version": "3.16",
+              "status": "affected"
+            },
+            {
+              "version": "3.17",
+              "status": "affected"
+            },
+            {
+              "version": "3.18",
+              "status": "affected"
+            },
+            {
+              "version": "3.19",
+              "status": "affected"
+            },
+            {
+              "version": "3.20",
+              "status": "affected"
+            },
+            {
+              "version": "3.21",
+              "status": "affected"
+            },
+            {
+              "version": "3.22",
+              "status": "affected"
+            },
+            {
+              "version": "3.23",
+              "status": "affected"
+            },
+            {
+              "version": "3.24",
+              "status": "affected"
+            },
+            {
+              "version": "3.25",
+              "status": "affected"
+            },
+            {
+              "version": "3.26",
+              "status": "affected"
+            },
+            {
+              "version": "3.27",
+              "status": "affected"
+            },
+            {
+              "version": "3.28",
+              "status": "affected"
+            },
+            {
+              "version": "3.29",
+              "status": "affected"
+            },
+            {
+              "version": "3.30",
+              "status": "affected"
+            },
+            {
+              "version": "3.31",
+              "status": "affected"
+            },
+            {
+              "version": "3.32",
+              "status": "affected"
+            },
+            {
+              "version": "3.33",
+              "status": "affected"
+            },
+            {
+              "version": "3.34",
+              "status": "affected"
+            },
+            {
+              "version": "3.35",
+              "status": "affected"
+            },
+            {
+              "version": "3.36",
+              "status": "affected"
+            },
+            {
+              "version": "3.37",
+              "status": "affected"
+            },
+            {
+              "version": "3.38",
+              "status": "affected"
+            },
+            {
+              "version": "3.39",
+              "status": "affected"
+            },
+            {
+              "version": "3.40",
+              "status": "affected"
+            },
+            {
+              "version": "3.41",
+              "status": "affected"
+            },
+            {
+              "version": "3.42",
+              "status": "affected"
+            },
+            {
+              "version": "3.43",
+              "status": "affected"
+            },
+            {
+              "version": "3.44",
+              "status": "affected"
+            },
+            {
+              "version": "3.45",
+              "status": "affected"
+            },
+            {
+              "version": "3.46",
+              "status": "affected"
+            },
+            {
+              "version": "3.47",
+              "status": "affected"
+            },
+            {
+              "version": "3.48",
+              "status": "affected"
+            },
+            {
+              "version": "3.49",
+              "status": "affected"
+            },
+            {
+              "version": "3.50",
+              "status": "affected"
+            },
+            {
+              "version": "3.51",
+              "status": "affected"
+            },
+            {
+              "version": "3.52",
+              "status": "affected"
+            },
+            {
+              "version": "3.53",
+              "status": "affected"
+            },
+            {
+              "version": "3.54",
+              "status": "affected"
+            },
+            {
+              "version": "3.55",
+              "status": "affected"
+            },
+            {
+              "version": "3.56",
+              "status": "affected"
+            },
+            {
+              "version": "3.57",
+              "status": "affected"
+            },
+            {
+              "version": "3.58",
+              "status": "affected"
+            },
+            {
+              "version": "3.59",
+              "status": "affected"
+            },
+            {
+              "version": "3.60",
+              "status": "affected"
+            },
+            {
+              "version": "3.61",
+              "status": "affected"
+            },
+            {
+              "version": "3.62",
+              "status": "affected"
+            },
+            {
+              "version": "3.63",
+              "status": "affected"
+            },
+            {
+              "version": "3.64",
+              "status": "affected"
+            },
+            {
+              "version": "3.65",
+              "status": "affected"
+            },
+            {
+              "version": "3.66",
+              "status": "affected"
+            },
+            {
+              "version": "3.67",
+              "status": "affected"
+            },
+            {
+              "version": "3.68",
+              "status": "affected"
+            },
+            {
+              "version": "3.69.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:mifi:lossless-cut:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Built-in HTTP API Service"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery"
+      ]
+    },
+    {
+      "id": "CVE-2026-72718",
+      "publishedDate": "2026-08-10T15:33:37.691Z",
+      "lastModifiedDate": "2026-08-10T15:33:37.691Z",
+      "description": "goose is general-purpose AI agent that runs on your machine. Prior to 1.44.0, the `goose review` command runs the system `git` executable to gather the diff for review without stripping attacker-controlled Git configuration. A malicious repository whose `.git/config` sets [`core] fsmonitor = <command>` causes Git to execute that command on the host during the index refresh performed by `git diff HEAD`. The command runs before goose contacts a model and without a submitted prompt, model call, tool approval, or trust prompt. The context-gathering Git process is not sandboxed and is outside goose's tool-permission model. Arbitrary commands run with the privileges and environment of the user running goose, allowing file access or modification and exfiltration of environment secrets and provider API keys. The vulnerable Git invocations are built by git_command() in crates/goose-cli/src/commands/review/handler.rs and are used by touched_files() and collect_diff() for `git diff --name-only HEAD` and `git diff HEAD`. This issue is fixed in version 1.44.0.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：aaif-goose goose\n🔓 漏洞类型：Code Injection (CWE-94)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/aaif-goose/goose/security/advisories/GHSA-r5pp-p5r8-466r",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aaif-goose/goose/commit/f8b5b7ba1fe6d006ccf6942f6b85a1bae985a2de",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aaif-goose/goose/releases/tag/v1.44.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "aaif-goose",
+          "product": "goose",
+          "versions": [
+            {
+              "version": "< 1.44.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-94"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
