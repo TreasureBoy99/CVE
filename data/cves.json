@@ -2,78 +2,27 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-08-11T07:35:04.338602",
+    "total_count": 2,
+    "last_updated": "2026-08-11T08:33:39.029763",
     "severity_distribution": {
       "critical": 0,
-      "high": 4,
-      "medium": 0,
+      "high": 1,
+      "medium": 1,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-19429",
-      "publishedDate": "2026-08-10T12:07:02.996Z",
-      "lastModifiedDate": "2026-08-11T07:23:15.794Z",
-      "description": "Jenkins FilePath.untarFrom() does not validate symlink targets in extracted TAR archives, even in versions patched for CVE-2026-33001 and CVE-2026-70427. An authenticated attacker with job configuration privileges can include a malicious archive in a build step that creates workspace symlinks pointing to arbitrary files on the Jenkins controller. By reading the secrets directory, the attacker obtains the cryptographic keys used to sign remember-me cookies, forges a valid administrator session cookie without any admin interaction, and gains access to the Script Console for remote code execution. Jenkins 2.576 is additionally affected by a bypass of the CVE-2026-70427 blank-name check via Unicode zero-width characters (U+200B, U+200C, U+200D, U+2060, U+00AD), which Java's String.isBlank() does not recognize as whitespace.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Jenkins Project Jenkins\n🔓 漏洞类型：CWE-59, CWE-184 (CWE-59, CWE-184)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73157",
+      "publishedDate": "2026-08-11T08:06:57.569Z",
+      "lastModifiedDate": "2026-08-11T08:06:57.569Z",
+      "description": "Affected versions of cti-transmute render data obtained from a remote MISP instance into the event-browser interface using HTML interpolation. Because fields such as event IDs, event information, organization names, tags, tag colors, TLP labels, distribution labels, and error/flash text may be controlled by the remote MISP server, a malicious or compromised remote instance could return crafted values that inject HTML or script-capable content into the cti-transmute interface.\n\n\nThe patch explicitly notes that remote-derived values must not reach innerHTML, and replaces string-built rows and badges with DOM nodes populated through textContent. It also restricts remote-controlled tag colors to six-digit hexadecimal values, preventing malicious CSS values such as url(...).",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：MISP cti-transmute\n🔓 漏洞类型：Cross-site Scripting (XSS), CWE-116 (CWE-79, CWE-116)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.jenkins.io/security/advisory/2026-03-18/#SECURITY-3657",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.jenkins.io/security/advisory/2026-08-05/",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jenkinsci/jenkins",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Jenkins Project",
-          "product": "Jenkins",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0",
-              "lessThanOrEqual": "2.576",
-              "versionType": "weekly"
-            },
-            {
-              "status": "affected",
-              "version": "1.0",
-              "lessThanOrEqual": "2.568.2",
-              "versionType": "LTS"
-            }
-          ],
-          "defaultStatus": "affected"
-        }
-      ],
-      "problemType": [
-        "CWE-59: Improper Link Resolution Before File Access ('Link Following')",
-        "CWE-184: Incomplete List of Disallowed Inputs"
-      ],
-      "cwe_ids": [
-        "CWE-59",
-        "CWE-184"
-      ]
-    },
-    {
-      "id": "CVE-2026-73155",
-      "publishedDate": "2026-08-11T07:31:49.315Z",
-      "lastModifiedDate": "2026-08-11T07:31:49.315Z",
-      "description": "Affected versions of cti-transmute allow authenticated users to add or remove emoji reactions on comments without first checking whether those users are authorized to view the target comment.\n\n\nThe vulnerable react() handler passed an attacker-controlled comment_id directly to comments_repo.toggle_reaction() after only validating that the ID existed syntactically and that the requested emoji was permitted. Because comment-level visibility was not enforced, a user who could identify the ID of a private or otherwise inaccessible comment could modify reaction state on that comment despite lacking permission to access it.\n\n\nThe fix retrieves the target comment, rejects missing or deleted comments, retrieves its associated conversion, and enforces access.can_see_comment(current_user, comment, conversion). Unauthorized requests now receive HTTP 403.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：MISP cti-transmute\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/a18c07c3dd4a74b91ad8dd23d6e84fee4bcbd457",
+          "url": "https://github.com/MISP/cti-transmute/commit/95e64137358d6fb7f1711523de2bf02ff6b181a7",
           "type": "reference"
         }
       ],
@@ -94,18 +43,20 @@
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting')",
+        "CWE-116 Improper Encoding or Escaping of Output"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-79",
+        "CWE-116"
       ],
-      "cvss_severity": "HIGH"
+      "cvss_severity": "MEDIUM"
     },
     {
       "id": "CVE-2026-19418",
       "publishedDate": "2026-08-11T07:29:37.478Z",
-      "lastModifiedDate": "2026-08-11T07:29:37.478Z",
-      "description": "The referrer enforcement introduced with  TYPO3-CORE-SA-2020-006 https://news.typo3.com/security/advisory/typo3-core-sa-2020-006  ( CVE-2020-11069 https://www.cve.org/CVERecord ) became ineffective in TYPO3 v13.0, where TYPO3 CMS started serving the backend and Install Tool applications from the site's main entry script instead of the dedicated typo3/ directory. Whether a request originated from the backend or Install Tool itself was determined by comparing the referrer against the directory of the entry script, which since then is the site root. As a consequence, requests originating from any script running on one of the TYPO3 instance's own domains, such as a frontend page, were accepted by backend routes and Install Tool endpoints. Attackers able to execute JavaScript on one of those domains, for instance by exploiting a cross-site scripting vulnerability, could invoke these endpoints via Fetch/XHR with the privileges of an authenticated victim's user session. This issue affects TYPO3 CMS versions 13.0.0-13.4.33 and 14.0.0-14.3.5.",
+      "lastModifiedDate": "2026-08-11T08:05:01.460Z",
+      "description": "The referrer enforcement introduced with TYPO3-CORE-SA-2020-006 (CVE-2020-11069) became ineffective in TYPO3 v13.0, where TYPO3 CMS started serving the backend and Install Tool applications from the site's main entry script instead of the dedicated typo3/ directory.\n\nWhether a request originated from the backend or Install Tool itself was determined by comparing the referrer against the directory of the entry script, which since then is the site root. As a consequence, requests originating from any script running on one of the TYPO3 instance's own domains, such as a frontend page, were accepted by backend routes and Install Tool endpoints.\n\nAttackers able to execute JavaScript on one of those domains, for instance by exploiting a cross-site scripting vulnerability, could invoke these endpoints via Fetch/XHR with the privileges of an authenticated victim's user session. This issue affects TYPO3 CMS versions 13.0.0-13.4.33 and 14.0.0-14.3.5.",
       "severity": "8.5",
       "fix_suggestion": "📦 受影响组件：TYPO3 TYPO3 CMS\n🔓 漏洞类型：CWE-346, Cross-Site Request Forgery (CSRF) (CWE-346, CWE-352)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
@@ -211,43 +162,6 @@
       "cwe_ids": [
         "CWE-346",
         "CWE-352"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-73140",
-      "publishedDate": "2026-08-11T07:18:05.573Z",
-      "lastModifiedDate": "2026-08-11T07:18:05.573Z",
-      "description": "Affected versions of cti-transmute fail to apply comment-level access-control rules when generating evaluation report exports. Although normal comment retrieval filters comments according to conversion visibility, comment privacy, ownership, authorship, and administrative privileges, build_evaluation_report() previously included all evaluation comments without applying those rules.\n\n\nConsequently, a user who was authorized to view a conversion could export its evaluation report as Markdown or PDF and obtain private evaluation comments that should only have been visible to the conversion owner, the comment author, or an administrator. The leaked report data also contained the comment author's name. The fix passes the requesting user into the report builder and filters every evaluation comment using the shared access.can_see_comment() authorization function.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：MISP cti-transmute\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/cti-transmute/commit/5dbd19b39a61eab793586731f1a80d8c38907c42",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "cti-transmute",
-          "repo": "https://github.com/MISP/cti-transmute",
-          "vendor": "MISP",
-          "versions": [
-            {
-              "lessThanOrEqual": "1.4.0",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
       ],
       "cvss_severity": "HIGH"
     }
