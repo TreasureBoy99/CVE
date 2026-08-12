@@ -2,63 +2,47 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 7,
-    "last_updated": "2026-08-12T03:10:25.999709",
+    "total_count": 3,
+    "last_updated": "2026-08-12T05:01:05.798345",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 6,
+      "high": 2,
+      "medium": 1,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-18961",
-      "publishedDate": "2026-08-12T02:25:05.102Z",
-      "lastModifiedDate": "2026-08-12T02:25:05.102Z",
-      "description": "The Social Login, Passkeys, Magic Link & Email OTP – Passwordless Login by VentraConnect plugin for WordPress is vulnerable to Authentication Bypass via Unverified Provider Email in all versions up to, and including, 1.4.3. This is due to the plugin trusting the unverified email field returned by Spotify's /v1/me endpoint as proof of mailbox ownership — Generic::normalize_common() copies this value into the normalized profile without requiring an email_verified assertion, and User_Links::link_or_login_user() subsequently passes it directly to get_user_by('email', $email) and issues a persistent authentication cookie via wp_set_auth_cookie() without a provider-specific verified-email gate, a local mailbox challenge, or a logged-in approval step. This makes it possible for unauthenticated attackers to log in as any existing WordPress user, including Administrators, by supplying a known target email address through a controlled Spotify OAuth flow, gaining full administrative access to the site.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：fahdaslam Social Login, Passkeys, Magic Link & Email OTP – Passwordless Login by VentraConnect\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-64954",
+      "publishedDate": "2026-08-12T04:26:32.169Z",
+      "lastModifiedDate": "2026-08-12T04:26:32.169Z",
+      "description": "Velociraptor allows scheduling new collections via VQL queries in notebooks. For a user to schedule a new collection, they require the COLLECT_CLIENT permission. However, this is not enforced when the user can run a VQL query which resets the authorization provider.\n\nThis allows a user who can run arbitrary VQL (usually with the \"analyst\" role) to launch new collections (usually requires the \"investigator\" role). This vulnerability is an escalation from an analyst to investigator role.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：Rapid7 Velociraptor\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/d7c0f21a-b04c-407e-9e8c-f81a146deaa8?source=cve",
+          "url": "http://docs.velociraptor.app/announcements/advisories/cve-2026-64954/",
           "type": "reference"
         },
         {
-          "url": "https://plugins.svn.wordpress.org/ventraconnect-social-login/tags/1.4.3/includes/class-oauth.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.svn.wordpress.org/ventraconnect-social-login/tags/1.4.3/includes/providers/class-provider-generic.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.svn.wordpress.org/ventraconnect-social-login/tags/1.4.3/includes/class-user-links.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.svn.wordpress.org/ventraconnect-social-login/tags/1.4.3/includes/providers/normalizer.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.spotify.com/documentation/web-api/reference/get-current-users-profile",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset/3642024/ventraconnect-social-login",
+          "url": "https://github.com/Velocidex/velociraptor/commit/d7de958e846d3742a7a3a8538fd463e4f12fc528",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "fahdaslam",
-          "product": "Social Login, Passkeys, Magic Link & Email OTP – Passwordless Login by VentraConnect",
+          "vendor": "Rapid7",
+          "product": "Velociraptor",
+          "platforms": [
+            "Linux"
+          ],
+          "repo": "https://github.com/Velocidex/velociraptor/",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.4.3",
+              "version": "0",
+              "lessThan": "0.77.2",
               "versionType": "semver"
             }
           ],
@@ -66,353 +50,92 @@
         }
       ],
       "problemType": [
-        "CWE-287 Improper Authentication"
+        "CWE-862: Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-287"
+        "CWE-862"
       ]
     },
     {
-      "id": "CVE-2026-19588",
-      "publishedDate": "2026-08-12T02:23:07.478Z",
-      "lastModifiedDate": "2026-08-12T02:23:07.478Z",
-      "description": "Integer Overflow to Buffer Overflow vulnerability in Samsung Open Source rlottie allows Overflow Buffers.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Samsung Open Source rlottie\n🔓 漏洞类型：CWE-680 (CWE-680)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-12234",
+      "publishedDate": "2026-08-12T04:39:23.977Z",
+      "lastModifiedDate": "2026-08-12T04:39:23.977Z",
+      "description": "The userspace syscall verifiers z_vrfy_zsock_sendmsg() and z_vrfy_zsock_recvmsg() in subsys/net/lib/sockets/sockets.c snapshot the caller-supplied struct net_msghdr into a kernel-side copy with k_usermode_from_copy(), but then re-read the still-live user struct for subsequent decisions. The kernel iovec shadow buffer is sized from one read of msg->msg_iovlen, while the population loop is bounded by a second, live read of the same field.\n\nBecause msg points into ordinary user memory, a cooperating second thread in the same memory domain can inflate msg->msg_iovlen in the window between the sizing read and the loop test (a classic double-fetch / TOCTOU). The population loop then iterates past the number of net_iovec slots actually allocated, writing attacker-influenced iov_base/iov_len values beyond the end of the kernel-heap shadow buffer. The recvmsg verifier has the same defect on both its inbound and result write-back loops.\n\nThe code is reachable from an unprivileged user thread whenever CONFIG_USERSPACE is enabled and the zsock_sendmsg/zsock_recvmsg syscalls are available. A successful race corrupts kernel-managed heap memory across the user-to-kernel privilege boundary, yielding a local privilege-escalation primitive or, at minimum, a kernel-fault denial of service. The fix copies the header once and derives every size, bound, and gate from the snapshot, copying each iovec entry atomically so its base and length can no longer be raced apart.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Samsung/rlottie/pull/600",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/2e0f9cf05be61056ed1a94dab51b832fbad27e2c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-fcp3-vrr2-xfjv",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Samsung Open Source",
-          "product": "rlottie",
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/net/lib/sockets/sockets.c"
+          ],
           "versions": [
             {
-              "status": "unaffected",
-              "version": "8117b9ee595763f35c0da2c07181203959f0c510"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-680 Integer Overflow to Buffer Overflow"
-      ],
-      "cwe_ids": [
-        "CWE-680"
-      ]
-    },
-    {
-      "id": "CVE-2026-19587",
-      "publishedDate": "2026-08-12T02:14:59.193Z",
-      "lastModifiedDate": "2026-08-12T02:14:59.193Z",
-      "description": "Uncontrolled Resource Consumption vulnerability in Samsung Open Source rlottie allows Excessive Allocation.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Samsung Open Source rlottie\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Samsung/rlottie/pull/599",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Samsung Open Source",
-          "product": "rlottie",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "87e166c0a72b6f3110083dd6de0e47dcb9e1c2b5"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-400 Uncontrolled Resource Consumption"
-      ],
-      "cwe_ids": [
-        "CWE-400"
-      ]
-    },
-    {
-      "id": "CVE-2025-15685",
-      "publishedDate": "2026-08-12T02:15:08.205Z",
-      "lastModifiedDate": "2026-08-12T02:15:08.205Z",
-      "description": "A flaw has been found in Open5GS up to 2.7.1. Affected by this vulnerability is an unknown functionality of the component freeDiameter. This manipulation causes memory corruption. The attack is possible to be carried out remotely.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：n/a Open5GS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/387278",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/387278/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2025-15685",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/867103",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/issues/4156",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "Open5GS",
-          "versions": [
-            {
-              "version": "2.7.0",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.1",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:open5gs:open5gs:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "freeDiameter"
-          ]
-        }
-      ],
-      "problemType": [
-        "Memory Corruption"
-      ]
-    },
-    {
-      "id": "CVE-2026-9318",
-      "publishedDate": "2026-08-12T02:20:44.688Z",
-      "lastModifiedDate": "2026-08-12T02:20:44.688Z",
-      "description": "tablib prior to 3.10.0 contains a stored cross-site scripting vulnerability in the HTML export functionality that allows attackers to execute arbitrary JavaScript by embedding malicious payloads in dataset titles, which are interpolated unsanitized into HTML output via the export_book method in the _html.py format handler. Attackers can rename worksheet sheets in imported files such as XLSX, ODS, XLS, or YAML with script payloads that are assigned to the Dataset title attribute and rendered unescaped inside an HTML h3 tag, leading to session hijacking, unauthorized administrative actions, and sensitive data exposure when the output is rendered in a browser.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：Jazzband tablib\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/jazzband/tablib",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jazzband/tablib/pull/668",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jazzband/tablib/releases/tag/v3.10.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/tablib-versions-prior-to-stored-xss-via-html-export-dataset-title",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "Jazzband",
-          "product": "tablib",
-          "versions": [
-            {
+              "version": "2.3.0",
               "status": "affected",
-              "version": "0",
-              "versionType": "custom",
-              "lessThan": "3.10.0"
+              "versionType": "semver",
+              "lessThan": "4.4.2"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "memory-safety"
       ]
     },
     {
-      "id": "CVE-2025-15684",
-      "publishedDate": "2026-08-12T02:00:10.119Z",
-      "lastModifiedDate": "2026-08-12T02:00:10.119Z",
-      "description": "A vulnerability was detected in Open5GS up to 2.7.6. Affected is the function diam_log_func of the file lib/diameter/common/init.c of the component CER Handler. The manipulation results in reachable assertion. The attack can be executed remotely. The exploit is now public and may be used. Upgrading to version 2.7.7 is able to address this issue. The patch is identified as c1a803516a3c0485696cb9bcca7a80ad857c7383. It is advisable to upgrade the affected component.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：n/a Open5GS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-12235",
+      "publishedDate": "2026-08-12T04:55:15.620Z",
+      "lastModifiedDate": "2026-08-12T04:55:15.620Z",
+      "description": "The Linkable Loadable Extensions (llext) subsystem mis-handles PLT/RELA relocation entries when linking a relocatable (partially-linked) ELF extension. In llext_link_plt() (subsys/llext/llext_link.c), the relocatable branch (tgt != NULL, the path used for Xtensa relocatable objects) computed the patch address as ext->mem[LLEXT_MEM_TEXT] - text.sh_offset + rela.r_offset + tgt->sh_offset and then performed the relocation write there without validating rela.r_offset. Its sibling shared/dynamic branch already rejected out-of-range offsets via llext_file_offset().\n\nrela.r_offset is read directly from the ELF's RELA table, so a crafted entry with an offset larger than the target section makes the write land arbitrarily far outside the extension's text buffer. The result is an attacker-influenced out-of-bounds write (the location via r_offset, the written value being the resolved symbol address) performed in supervisor context at link time, before any extension code runs.\n\nThe path is reached from llext_load() whenever an application loads an attacker-influenced ELF extension on Xtensa with writable storage; llext is documented to accept extensions of untrusted origin. Impact is supervisor-context memory corruption (integrity and availability loss, and a sandbox-boundary escape for user-mode extensions). Exploitation is gated by the Xtensa relocatable PLT path and writable storage, and turning the out-of-range write into a useful primitive is non-trivial.\n\nThe fix adds a bound check rejecting any RELA entry whose r_offset >= tgt->sh_size, mirroring the existing validation in the shared branch.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/387277",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/106540afbd22087ad40b90f53fb22657754a719e",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/387277/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2025-15684",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/867102",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/issues/4155",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/commit/c1a803516a3c0485696cb9bcca7a80ad857c7383",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/releases/tag/v2.7.7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-xv9q-6mrf-8j49",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "n/a",
-          "product": "Open5GS",
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/llext/llext_link.c"
+          ],
           "versions": [
             {
-              "version": "2.7.0",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.1",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.2",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.3",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.4",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.5",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.6",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.7",
-              "status": "unaffected"
+              "version": "3.7.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.2"
             }
-          ],
-          "cpes": [
-            "cpe:2.3:a:open5gs:open5gs:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "CER Handler"
           ]
         }
       ],
       "problemType": [
-        "Reachable Assertion"
-      ]
-    },
-    {
-      "id": "CVE-2025-15686",
-      "publishedDate": "2026-08-12T02:30:08.903Z",
-      "lastModifiedDate": "2026-08-12T02:30:08.903Z",
-      "description": "A vulnerability has been found in Open5GS up to 2.7.6. Affected by this issue is the function fd_msg_sess_get of the component HSS Service. Such manipulation of the argument Session-Id leads to denial of service. The attack may be performed from remote. The exploit has been disclosed to the public and may be used. The project locked and limited conversation to collaborators.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：n/a Open5GS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/387279",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/387279/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2025-15686",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/867104",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/issues/4190",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/user-attachments/files/23847497/HSS_ULR_error_poc.pcapng.zip",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/open5gs/open5gs/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "Open5GS",
-          "versions": [
-            {
-              "version": "2.7.0",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.1",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.2",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.3",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.4",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.5",
-              "status": "affected"
-            },
-            {
-              "version": "2.7.6",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:open5gs:open5gs:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "HSS Service"
-          ]
-        }
-      ],
-      "problemType": [
-        "Denial of Service"
+        "bounds"
       ]
     }
   ]
