@@ -2,59 +2,255 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-12T22:52:49.942538",
+    "total_count": 5,
+    "last_updated": "2026-08-12T23:29:32.038046",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "critical": 1,
+      "high": 2,
+      "medium": 2,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-15141",
-      "publishedDate": "2026-08-12T22:35:58.962Z",
-      "lastModifiedDate": "2026-08-12T22:35:58.962Z",
-      "description": "The web\ninterface of the affected\ndevice relies on the HTTP referrer header as part of\nrequest validation.  Requests containing empty Referer value, or omitting\nthe Referer header entirely, may be accepted and processed due to insufficient\nvalidation logic.\n\n\n\n\n\nSuccessful exploitation may allow an adjacent attacker with access to the web management\ninterface to obtain device configuration details and other sensitive\ninformation.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. TL-WR820N v2\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-49819",
+      "publishedDate": "2026-08-12T23:13:46.298Z",
+      "lastModifiedDate": "2026-08-12T23:13:46.298Z",
+      "description": "UpSnap is a wake on lan web app. Versions 4.4.1 through 5.3.5 are vulnerable to a missing-authentication / privilege-escalation chain in `pb.HandlerInitSuperuser` (`backend/pb/handlers.go:249`), reachable as `POST /api/upsnap/init-superuser`. The vulnerable code lacks any authentication, setup token, IP allow-list, or rate limit and is gated only by a `totalSuperusers > 0` count check — a condition that is false on every fresh install — allowing an unauthenticated network-adjacent attacker to register the initial superuser account, receive a long-lived JWT, and pivot to root remote code execution at `backend/networking/wake.go:43` (`exec.CommandContext(ctx, \"/bin/sh\", \"-c\", wake_cmd)`). Version 5.4.0 fixes the issue.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：seriousm4x UpSnap\n🔓 漏洞类型：OS Command Injection, Improper Privilege Management, Missing Authentication for Critical Function, Missing Authorization (CWE-78, CWE-269, CWE-306, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.tp-link.com/kr/support/download/tl-wr820n/#Firmware",
+          "url": "https://github.com/seriousm4x/UpSnap/security/advisories/GHSA-w4jr-728f-5jhq",
           "type": "reference"
         },
         {
-          "url": "https://www.tp-link.com/en/support/download/tl-wr820n/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/en/support/faq/5243/",
+          "url": "https://github.com/seriousm4x/UpSnap/releases/tag/5.4.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "TL-WR820N v2",
+          "vendor": "seriousm4x",
+          "product": "UpSnap",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "1.15.20 Build 260611 Rel.29552n",
-              "versionType": "custom"
+              "version": ">= 4.4.1, < 5.4.0",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-346 Origin Validation Error"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "CWE-269: Improper Privilege Management",
+        "CWE-306: Missing Authentication for Critical Function",
+        "CWE-862: Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-346"
+        "CWE-78",
+        "CWE-269",
+        "CWE-306",
+        "CWE-862"
       ]
+    },
+    {
+      "id": "CVE-2026-49473",
+      "publishedDate": "2026-08-12T23:22:38.727Z",
+      "lastModifiedDate": "2026-08-12T23:22:38.727Z",
+      "description": "@cedar-policy/authorization-for-expressjs is an open-source Express.js middleware that integrates Cedar authorization into Express applications by mapping HTTP requests to Cedar actions and evaluating authorization policies before allowing requests to proceed. Versions prior to 0.3.0 have an issue where, under certain circumstances, the middleware matches incoming requests against Cedar action mappings using req.originalUrl, which includes the query string, while Express routes requests using only the path component. The middleware uses req.originalUrl to match incoming requests against Cedar action mappings. In Express, req.originalUrl includes the query string, while route matching uses only the path. This creates a divergence between what Cedar authorizes and what Express executes. When an application defines separate actions for overlapping path prefixes with different authorization requirements (for example, GET /users for listing all users with admin-only access, and GET /users/{id} for retrieving a single user with any authenticated user access), an actor can append a query string to bypass the more restrictive policy. Sending GET /users/?x=1 causes the middleware to match against /users/{id} (with id parameter set to ?x=1) and evaluate the less restrictive action, while Express routes the request to the /users list handler. This allows inappropriate access to the more restrictive endpoint. This issue has been addressed in version 0.30. Some workarounds are available. Validate and sanitize incoming request paths before they reach the authorization middleware. Ensure that applications do not rely solely on the middleware for authorization when defining multiple actions on overlapping path prefixes with different permission levels.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：cedar-policy authorization-for-expressjs\n🔓 漏洞类型：CWE-436, Incorrect Authorization (CWE-436, CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/cedar-policy/authorization-for-expressjs/security/advisories/GHSA-g4w6-vmgf-xqvx",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/cedar-policy/authorization-for-expressjs/releases/tag/v0.3.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "cedar-policy",
+          "product": "authorization-for-expressjs",
+          "versions": [
+            {
+              "version": "< 0.3.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-436: Interpretation Conflict",
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-436",
+        "CWE-863"
+      ],
+      "ghsa_id": "GHSA-g4w6-vmgf-xqvx"
+    },
+    {
+      "id": "CVE-2026-50544",
+      "publishedDate": "2026-08-12T23:18:03.735Z",
+      "lastModifiedDate": "2026-08-12T23:18:03.735Z",
+      "description": "NortheBridge/luminalshine is a Sunshine-compatible game stream host for Moonlight. Prior to version 26.05.0-rc4, a latent gap exists on a default install, the file at `src/platform/windows/misc.cpp` lives at `C:\\ProgramData\\LuminalShine\\config\\apps.json` and is created by the `SYSTEM` service. Under Windows' default `C:\\ProgramData` inheritance, that gives `BUILTIN\\Users` only Read+Execute — not writable — so the canonical EoP doesn't actually trigger on a vanilla install. Version 26.05.0-rc4 contains a patch for the issue. As a workaround, use default condition DACLs for `ProgramData`.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：NortheBridge luminalshine\n🔓 漏洞类型：CWE-379, CWE-732 (CWE-379, CWE-732)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/NortheBridge/luminalshine/security/advisories/GHSA-52q6-5x97-2747",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NortheBridge",
+          "product": "luminalshine",
+          "versions": [
+            {
+              "version": "< 26.05.0-rc4",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-379: Creation of Temporary File in Directory with Insecure Permissions",
+        "CWE-732: Incorrect Permission Assignment for Critical Resource"
+      ],
+      "cwe_ids": [
+        "CWE-379",
+        "CWE-732"
+      ]
+    },
+    {
+      "id": "CVE-2026-17431",
+      "publishedDate": "2026-08-12T23:12:57.958Z",
+      "lastModifiedDate": "2026-08-12T23:12:57.958Z",
+      "description": "PDF::WebKit versions through 1.2 for Perl allow OS command injection via a 2-arg open() of the output path in to_pdf and of stylesheet paths in _style_tag_for.\n\nto_pdf reads the generated PDF back from its path argument, and _style_tag_for reads each entry of the stylesheets list, by assigning the path to a local @ARGV and reading it with the diamond operator, which opens each @ARGV element with Perl's 2-arg open(). A value that begins or ends with a pipe (\"| cmd\", \"cmd |\") is run as a command rather than opened as a file, and one that begins with a redirect (\"> path\", \">> path\") opens that path for write or append. to_file forwards its path argument to to_pdf and reaches the same read.\n\nAny caller that forwards untrusted input as the output path or as a stylesheets entry can run a command under the process UID; with the \"cmd |\" form the command's output is returned in place of the PDF, and with the \"> path\" form the named file is truncated. Stylesheets may only be added to an HTML source, so a URL or file source exposes the output path alone.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：MITHALDU PDF::WebKit\n🔓 漏洞类型：OS Command Injection, CWE-73 (CWE-78, CWE-73)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/kingpong/perl-PDF-WebKit/issues/8",
+          "type": "reference"
+        },
+        {
+          "url": "https://security.metacpan.org/patches/P/PDF-WebKit/1.2/CVE-2026-17431-r1.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://wkhtmltopdf.org/status.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "PDF-WebKit",
+          "product": "PDF::WebKit",
+          "programFiles": [
+            "lib/PDF/WebKit.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "PDF::WebKit::to_pdf"
+            },
+            {
+              "name": "PDF::WebKit::to_file"
+            },
+            {
+              "name": "PDF::WebKit::_style_tag_for"
+            }
+          ],
+          "repo": "https://github.com/kingpong/perl-PDF-WebKit",
+          "vendor": "MITHALDU",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.2",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "CWE-73 External Control of File Name or Path"
+      ],
+      "cwe_ids": [
+        "CWE-78",
+        "CWE-73"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-16770",
+      "publishedDate": "2026-08-12T23:12:28.233Z",
+      "lastModifiedDate": "2026-08-12T23:12:28.233Z",
+      "description": "PDF::WebKit versions through 1.2 for Perl allow argument injection into wkhtmltopdf via meta tags in the source document.\n\nFor an HTML string or file source, the constructor collects every <meta name=\"pdf-webkit-KEY\" content=\"VALUE\"> element in the document head through _pdf_webkit_meta_tags and turns each one into a wkhtmltopdf command line option. KEY is normalized to an option name matching --[a-z0-9-]+ but is not checked against an allow list, VALUE is passed through unchanged as the argument that follows it, and a VALUE of \"yes\" emits the option as a bare flag. BUILD merges the meta derived options last, so they also override the module defaults and the options passed to new. Switches such as --enable-local-file-access and --cookie-jar are reachable this way. The renderer is executed with an argument list rather than a shell command, so this is argument injection and not shell injection.\n\nAny caller that renders untrusted HTML lets the document choose the renderer's options and override those set by the application, including options that read local files into the resulting PDF or write to a chosen path. A URL source is not scanned, and the scan is skipped when XML::LibXML, a recommended dependency, is not installed.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：MITHALDU PDF::WebKit\n🔓 漏洞类型：Argument Injection (CWE-88)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/kingpong/perl-PDF-WebKit/issues/9",
+          "type": "reference"
+        },
+        {
+          "url": "https://security.metacpan.org/patches/P/PDF-WebKit/1.2/CVE-2026-16770-r1.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://wkhtmltopdf.org/status.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "PDF-WebKit",
+          "product": "PDF::WebKit",
+          "programFiles": [
+            "lib/PDF/WebKit.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "PDF::WebKit::BUILD"
+            },
+            {
+              "name": "PDF::WebKit::_find_options_in_meta"
+            },
+            {
+              "name": "PDF::WebKit::_pdf_webkit_meta_tags"
+            }
+          ],
+          "repo": "https://github.com/kingpong/perl-PDF-WebKit",
+          "vendor": "MITHALDU",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.2",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-88 Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-88"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
