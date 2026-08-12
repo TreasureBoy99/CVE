@@ -3,55 +3,50 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-08-12T11:13:29.232909",
+    "last_updated": "2026-08-12T11:59:41.090656",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
+      "high": 1,
       "medium": 0,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-68868",
-      "publishedDate": "2026-08-12T10:27:56.154Z",
-      "lastModifiedDate": "2026-08-12T10:33:10.387Z",
-      "description": "The Google Cloud Secret Manager secrets backend in Apache Airflow's Google provider never applied the team scope when resolving Connections and Variables: the caller's `team_name` was accepted by the backend but dropped at the internal call boundary, so every lookup resolved against the team-agnostic secret name. In a deployment running multi-team mode with this backend, a task or Dag belonging to one team resolved another team's Connection or Variable, obtaining its credentials in full. No unusual configuration is required beyond enabling multi-team mode and using this backend. Users are advised to upgrade to apache-airflow-providers-google 22.3.0 or later, which builds and applies the team-scoped secret name.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Airflow Google provider\n🔓 漏洞类型：CWE-1220 (CWE-1220)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-11325",
+      "publishedDate": "2026-08-12T11:31:15.102Z",
+      "lastModifiedDate": "2026-08-12T11:38:41.565Z",
+      "description": "Description\n\n\n\nCloudflare was recently notified by external researchers of vulnerabilities in this archived repository, including a remote code execution issue in `src/index.ts` reachable from certain GitHub Actions workflow configurations. Successful exploitation may expose workflow secrets such as CLOUDFLARE_API_TOKEN and GITHUB_TOKEN to an attacker. Because this repository has been deprecated since 2024, Cloudflare will not be issuing patches. To remediate this issue, we recommend migrating to `cloudflare/wrangler-action` immediately. Consumers who have already migrated are not affected.\n\n\n\n\nSunset Date\n\n\n\nThe cloudflare/pages-action repository will be removed on 2026-09-18. Consumers must complete migration before 18th September to avoid CI disruption.\n\n\n\n\nAffected Versions\n\n\n\nAll published versions of cloudflare/pages-action, including consumers pinned to the v1 moving tag.\n\n\n\n\nPatched Versions\n\n\n\nNone. This repository will not receive further updates, including security patches.\n\n\n\n\nResolution / Migration Path\nMigrate all workflows using cloudflare/pages-action to `cloudflare/wrangler-action` before 2026-09-18. Refer to the wrangler-action README for the equivalent step configuration and migration guidance.\n\n\n\n\nCredit\n\n\n\nThanks to @agentka99 and @beg1nn3r for reporting their findings via Cloudflare's HackerOne program that informe",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Cloudflare https://github.com/cloudflare/pages-action\n🔓 漏洞类型：OS Command Injection, CWE-1104 (CWE-78, CWE-1104)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/apache/airflow/pull/70869",
-          "type": "reference"
-        },
-        {
-          "url": "https://lists.apache.org/thread/03h5y0fmqlh0yf055zlocxh591ozx69x",
+          "url": "https://github.com/cloudflare/wrangler-action",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://pypi.python.org",
-          "defaultStatus": "unaffected",
-          "packageName": "apache-airflow-providers-google",
-          "product": "Apache Airflow Google provider",
-          "vendor": "Apache Software Foundation",
+          "vendor": "Cloudflare",
+          "product": "https://github.com/cloudflare/pages-action",
+          "repo": "https://github.com/cloudflare/pages-action",
           "versions": [
             {
-              "lessThan": "22.3.0",
               "status": "affected",
-              "version": "0",
-              "versionType": "semver"
+              "version": "0"
             }
-          ]
+          ],
+          "defaultStatus": "affected"
         }
       ],
       "problemType": [
-        "CWE-1220: Insufficient Granularity of Access Control"
+        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')",
+        "CWE-1104 Use of unmaintained third party components"
       ],
       "cwe_ids": [
-        "CWE-1220"
+        "CWE-78",
+        "CWE-1104"
       ]
     }
   ]
