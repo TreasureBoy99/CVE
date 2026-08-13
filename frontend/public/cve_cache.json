@@ -2,255 +2,1570 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 5,
-    "last_updated": "2026-08-12T23:29:32.038046",
+    "total_count": 13,
+    "last_updated": "2026-08-13T00:09:04.856478",
     "severity_distribution": {
-      "critical": 1,
-      "high": 2,
-      "medium": 2,
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 13
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-49819",
-      "publishedDate": "2026-08-12T23:13:46.298Z",
-      "lastModifiedDate": "2026-08-12T23:13:46.298Z",
-      "description": "UpSnap is a wake on lan web app. Versions 4.4.1 through 5.3.5 are vulnerable to a missing-authentication / privilege-escalation chain in `pb.HandlerInitSuperuser` (`backend/pb/handlers.go:249`), reachable as `POST /api/upsnap/init-superuser`. The vulnerable code lacks any authentication, setup token, IP allow-list, or rate limit and is gated only by a `totalSuperusers > 0` count check — a condition that is false on every fresh install — allowing an unauthenticated network-adjacent attacker to register the initial superuser account, receive a long-lived JWT, and pivot to root remote code execution at `backend/networking/wake.go:43` (`exec.CommandContext(ctx, \"/bin/sh\", \"-c\", wake_cmd)`). Version 5.4.0 fixes the issue.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：seriousm4x UpSnap\n🔓 漏洞类型：OS Command Injection, Improper Privilege Management, Missing Authentication for Critical Function, Missing Authorization (CWE-78, CWE-269, CWE-306, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-68111",
+      "publishedDate": "2026-08-10T11:58:28.489Z",
+      "lastModifiedDate": "2026-08-12T23:58:50.008Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu/gfx9: replace BUG_ON() with WARN_ON()\n\nThere's no need to crash the kernel for these cases.\n\n(cherry picked from commit b71604f8685b0eba07866f4e8dc30f93e1931054)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/seriousm4x/UpSnap/security/advisories/GHSA-w4jr-728f-5jhq",
+          "url": "https://git.kernel.org/stable/c/6c8b9c1f03c7169c9577098b0c3035617606f8d4",
           "type": "reference"
         },
         {
-          "url": "https://github.com/seriousm4x/UpSnap/releases/tag/5.4.0",
+          "url": "https://git.kernel.org/stable/c/d74a6351d3f64e1f8a0fba28b369c0eeecf517f1",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/042c047e8bc9c9ada7574028a8e4592102e2e1fd",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/43768ad42b8f1a91652b86e0731ac14d6853cebb",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/6302be10b521f5106ce01eb5a724b9e7945a5061",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "seriousm4x",
-          "product": "UpSnap",
-          "versions": [
-            {
-              "version": ">= 4.4.1, < 5.4.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-        "CWE-269: Improper Privilege Management",
-        "CWE-306: Missing Authentication for Critical Function",
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-78",
-        "CWE-269",
-        "CWE-306",
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-49473",
-      "publishedDate": "2026-08-12T23:22:38.727Z",
-      "lastModifiedDate": "2026-08-12T23:22:38.727Z",
-      "description": "@cedar-policy/authorization-for-expressjs is an open-source Express.js middleware that integrates Cedar authorization into Express applications by mapping HTTP requests to Cedar actions and evaluating authorization policies before allowing requests to proceed. Versions prior to 0.3.0 have an issue where, under certain circumstances, the middleware matches incoming requests against Cedar action mappings using req.originalUrl, which includes the query string, while Express routes requests using only the path component. The middleware uses req.originalUrl to match incoming requests against Cedar action mappings. In Express, req.originalUrl includes the query string, while route matching uses only the path. This creates a divergence between what Cedar authorizes and what Express executes. When an application defines separate actions for overlapping path prefixes with different authorization requirements (for example, GET /users for listing all users with admin-only access, and GET /users/{id} for retrieving a single user with any authenticated user access), an actor can append a query string to bypass the more restrictive policy. Sending GET /users/?x=1 causes the middleware to match against /users/{id} (with id parameter set to ?x=1) and evaluate the less restrictive action, while Express routes the request to the /users list handler. This allows inappropriate access to the more restrictive endpoint. This issue has been addressed in version 0.30. Some workarounds are available. Validate and sanitize incoming request paths before they reach the authorization middleware. Ensure that applications do not rely solely on the middleware for authorization when defining multiple actions on overlapping path prefixes with different permission levels.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：cedar-policy authorization-for-expressjs\n🔓 漏洞类型：CWE-436, Incorrect Authorization (CWE-436, CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/cedar-policy/authorization-for-expressjs/security/advisories/GHSA-g4w6-vmgf-xqvx",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/cedar-policy/authorization-for-expressjs/releases/tag/v0.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "cedar-policy",
-          "product": "authorization-for-expressjs",
-          "versions": [
-            {
-              "version": "< 0.3.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-436: Interpretation Conflict",
-        "CWE-863: Incorrect Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-436",
-        "CWE-863"
-      ],
-      "ghsa_id": "GHSA-g4w6-vmgf-xqvx"
-    },
-    {
-      "id": "CVE-2026-50544",
-      "publishedDate": "2026-08-12T23:18:03.735Z",
-      "lastModifiedDate": "2026-08-12T23:18:03.735Z",
-      "description": "NortheBridge/luminalshine is a Sunshine-compatible game stream host for Moonlight. Prior to version 26.05.0-rc4, a latent gap exists on a default install, the file at `src/platform/windows/misc.cpp` lives at `C:\\ProgramData\\LuminalShine\\config\\apps.json` and is created by the `SYSTEM` service. Under Windows' default `C:\\ProgramData` inheritance, that gives `BUILTIN\\Users` only Read+Execute — not writable — so the canonical EoP doesn't actually trigger on a vanilla install. Version 26.05.0-rc4 contains a patch for the issue. As a workaround, use default condition DACLs for `ProgramData`.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：NortheBridge luminalshine\n🔓 漏洞类型：CWE-379, CWE-732 (CWE-379, CWE-732)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/NortheBridge/luminalshine/security/advisories/GHSA-52q6-5x97-2747",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NortheBridge",
-          "product": "luminalshine",
-          "versions": [
-            {
-              "version": "< 26.05.0-rc4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-379: Creation of Temporary File in Directory with Insecure Permissions",
-        "CWE-732: Incorrect Permission Assignment for Critical Resource"
-      ],
-      "cwe_ids": [
-        "CWE-379",
-        "CWE-732"
-      ]
-    },
-    {
-      "id": "CVE-2026-17431",
-      "publishedDate": "2026-08-12T23:12:57.958Z",
-      "lastModifiedDate": "2026-08-12T23:12:57.958Z",
-      "description": "PDF::WebKit versions through 1.2 for Perl allow OS command injection via a 2-arg open() of the output path in to_pdf and of stylesheet paths in _style_tag_for.\n\nto_pdf reads the generated PDF back from its path argument, and _style_tag_for reads each entry of the stylesheets list, by assigning the path to a local @ARGV and reading it with the diamond operator, which opens each @ARGV element with Perl's 2-arg open(). A value that begins or ends with a pipe (\"| cmd\", \"cmd |\") is run as a command rather than opened as a file, and one that begins with a redirect (\"> path\", \">> path\") opens that path for write or append. to_file forwards its path argument to to_pdf and reaches the same read.\n\nAny caller that forwards untrusted input as the output path or as a stylesheets entry can run a command under the process UID; with the \"cmd |\" form the command's output is returned in place of the PDF, and with the \"> path\" form the named file is truncated. Stylesheets may only be added to an HTML source, so a URL or file source exposes the output path alone.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：MITHALDU PDF::WebKit\n🔓 漏洞类型：OS Command Injection, CWE-73 (CWE-78, CWE-73)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/kingpong/perl-PDF-WebKit/issues/8",
-          "type": "reference"
-        },
-        {
-          "url": "https://security.metacpan.org/patches/P/PDF-WebKit/1.2/CVE-2026-17431-r1.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://wkhtmltopdf.org/status.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
+          "product": "Linux",
+          "vendor": "Linux",
           "defaultStatus": "unaffected",
-          "packageName": "PDF-WebKit",
-          "product": "PDF::WebKit",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
           "programFiles": [
-            "lib/PDF/WebKit.pm"
+            "drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c"
           ],
-          "programRoutines": [
-            {
-              "name": "PDF::WebKit::to_pdf"
-            },
-            {
-              "name": "PDF::WebKit::to_file"
-            },
-            {
-              "name": "PDF::WebKit::_style_tag_for"
-            }
-          ],
-          "repo": "https://github.com/kingpong/perl-PDF-WebKit",
-          "vendor": "MITHALDU",
           "versions": [
             {
-              "lessThanOrEqual": "1.2",
+              "version": "b1023571479020e9e9c15a51b43bf8e15406952b",
+              "lessThan": "6c8b9c1f03c7169c9577098b0c3035617606f8d4",
               "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "b1023571479020e9e9c15a51b43bf8e15406952b",
+              "lessThan": "d74a6351d3f64e1f8a0fba28b369c0eeecf517f1",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "b1023571479020e9e9c15a51b43bf8e15406952b",
+              "lessThan": "042c047e8bc9c9ada7574028a8e4592102e2e1fd",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "b1023571479020e9e9c15a51b43bf8e15406952b",
+              "lessThan": "43768ad42b8f1a91652b86e0731ac14d6853cebb",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "b1023571479020e9e9c15a51b43bf8e15406952b",
+              "lessThan": "6302be10b521f5106ce01eb5a724b9e7945a5061",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c"
+          ],
+          "versions": [
+            {
+              "version": "4.12",
+              "status": "affected"
+            },
+            {
               "version": "0",
-              "versionType": "custom"
+              "lessThan": "4.12",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
             }
           ]
         }
       ],
-      "problemType": [
-        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-        "CWE-73 External Control of File Name or Path"
-      ],
-      "cwe_ids": [
-        "CWE-78",
-        "CWE-73"
-      ],
-      "cvss_severity": "HIGH"
+      "problemType": []
     },
     {
-      "id": "CVE-2026-16770",
-      "publishedDate": "2026-08-12T23:12:28.233Z",
-      "lastModifiedDate": "2026-08-12T23:12:28.233Z",
-      "description": "PDF::WebKit versions through 1.2 for Perl allow argument injection into wkhtmltopdf via meta tags in the source document.\n\nFor an HTML string or file source, the constructor collects every <meta name=\"pdf-webkit-KEY\" content=\"VALUE\"> element in the document head through _pdf_webkit_meta_tags and turns each one into a wkhtmltopdf command line option. KEY is normalized to an option name matching --[a-z0-9-]+ but is not checked against an allow list, VALUE is passed through unchanged as the argument that follows it, and a VALUE of \"yes\" emits the option as a bare flag. BUILD merges the meta derived options last, so they also override the module defaults and the options passed to new. Switches such as --enable-local-file-access and --cookie-jar are reachable this way. The renderer is executed with an argument list rather than a shell command, so this is argument injection and not shell injection.\n\nAny caller that renders untrusted HTML lets the document choose the renderer's options and override those set by the application, including options that read local files into the resulting PDF or write to a chosen path. A URL source is not scanned, and the scan is skipped when XML::LibXML, a recommended dependency, is not installed.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：MITHALDU PDF::WebKit\n🔓 漏洞类型：Argument Injection (CWE-88)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-68110",
+      "publishedDate": "2026-08-10T11:58:27.478Z",
+      "lastModifiedDate": "2026-08-12T23:58:48.217Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu/sdma4.4.2: replace BUG_ON() with WARN_ON()\n\nThere's no need to crash the kernel for these cases.\n\n(cherry picked from commit fa4f86a148271e325e95287630a3a15a9cd35fdc)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/kingpong/perl-PDF-WebKit/issues/9",
+          "url": "https://git.kernel.org/stable/c/256d6f4803a93df96579c1ffdcb56518b9304f76",
           "type": "reference"
         },
         {
-          "url": "https://security.metacpan.org/patches/P/PDF-WebKit/1.2/CVE-2026-16770-r1.patch",
+          "url": "https://git.kernel.org/stable/c/ca50e541191fab519ed628182e1472e21d60e2ce",
           "type": "reference"
         },
         {
-          "url": "https://wkhtmltopdf.org/status.html",
+          "url": "https://git.kernel.org/stable/c/dc3f5da1ba8e280d31676ce15b937e4302235b03",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/cbe3b293d0ee926e595f53513d7c027d1c3e5be5",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/40cdbe9fa424cc6264a7aed93a04bd7d69109d9e",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://cpan.org/modules",
+          "product": "Linux",
+          "vendor": "Linux",
           "defaultStatus": "unaffected",
-          "packageName": "PDF-WebKit",
-          "product": "PDF::WebKit",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
           "programFiles": [
-            "lib/PDF/WebKit.pm"
+            "drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c"
           ],
-          "programRoutines": [
-            {
-              "name": "PDF::WebKit::BUILD"
-            },
-            {
-              "name": "PDF::WebKit::_find_options_in_meta"
-            },
-            {
-              "name": "PDF::WebKit::_pdf_webkit_meta_tags"
-            }
-          ],
-          "repo": "https://github.com/kingpong/perl-PDF-WebKit",
-          "vendor": "MITHALDU",
           "versions": [
             {
-              "lessThanOrEqual": "1.2",
+              "version": "7138fc88fdc1f999a547657af8623d3a2a862fc1",
+              "lessThan": "256d6f4803a93df96579c1ffdcb56518b9304f76",
               "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "7138fc88fdc1f999a547657af8623d3a2a862fc1",
+              "lessThan": "ca50e541191fab519ed628182e1472e21d60e2ce",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "7138fc88fdc1f999a547657af8623d3a2a862fc1",
+              "lessThan": "dc3f5da1ba8e280d31676ce15b937e4302235b03",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "7138fc88fdc1f999a547657af8623d3a2a862fc1",
+              "lessThan": "cbe3b293d0ee926e595f53513d7c027d1c3e5be5",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "7138fc88fdc1f999a547657af8623d3a2a862fc1",
+              "lessThan": "40cdbe9fa424cc6264a7aed93a04bd7d69109d9e",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c"
+          ],
+          "versions": [
+            {
+              "version": "6.4",
+              "status": "affected"
+            },
+            {
               "version": "0",
-              "versionType": "custom"
+              "lessThan": "6.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
             }
           ]
         }
       ],
-      "problemType": [
-        "CWE-88 Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68109",
+      "publishedDate": "2026-08-10T11:58:26.461Z",
+      "lastModifiedDate": "2026-08-12T23:58:46.113Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu/sdma7.1: replace BUG_ON() with WARN_ON()\n\nThere's no need to crash the kernel for these cases.\n\n(cherry picked from commit c4f230b51cf2d3e7e8b1c800331f3dbed2a9e3f5)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/253b1401862b9eb2be54f63546505a40a14672dd",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/767648c18d7872bbf54481ba846e055f7e1c0213",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-88"
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c"
+          ],
+          "versions": [
+            {
+              "version": "4ed5116aacf6126ef9c7bc8cd7367ed6797e5c8f",
+              "lessThan": "253b1401862b9eb2be54f63546505a40a14672dd",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "4ed5116aacf6126ef9c7bc8cd7367ed6797e5c8f",
+              "lessThan": "767648c18d7872bbf54481ba846e055f7e1c0213",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/sdma_v7_1.c"
+          ],
+          "versions": [
+            {
+              "version": "7.0",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "7.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
       ],
-      "cvss_severity": "MEDIUM"
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68108",
+      "publishedDate": "2026-08-10T11:58:25.241Z",
+      "lastModifiedDate": "2026-08-12T23:58:44.023Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu/vce: fix integer overflow in image size\n\nFix a security vulnerability where malicious VCE command streams\nwith oversized dimensions (e.g. 65536×65536) cause 32-bit integer\noverflow, wrapping the calculated buffer size to 0. This bypasses\nvalidation and allows GPU firmware to perform out-of-bound memory\naccess.\n\nThe fix uses 64-bit arithmetic to detect overflow and rejects\ninvalid dimensions before they reach the hardware.\n\nV2: remove redundant check\nV3: modify max height value\nV4: remove size64\n\n(cherry picked from commit cbe408dba581755ad1279a487ec786d8927d778d)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/a07430abd556de3707adfcadcc60db3fa64e4b2b",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/a6d7065b91a14790980ce6f4960db0ca8c3c9940",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/7eebef042c12dfe0568593ee6a8926d16505925e",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/00c311a13d225266800c712f2b7db2711c6897de",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/186bfdc4e26d019b2e7570cb121964a1d89b2e5b",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c"
+          ],
+          "versions": [
+            {
+              "version": "f1689ec1b0b1256d0e69653cd4aaeee44aafdf5c",
+              "lessThan": "a07430abd556de3707adfcadcc60db3fa64e4b2b",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "f1689ec1b0b1256d0e69653cd4aaeee44aafdf5c",
+              "lessThan": "a6d7065b91a14790980ce6f4960db0ca8c3c9940",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "f1689ec1b0b1256d0e69653cd4aaeee44aafdf5c",
+              "lessThan": "7eebef042c12dfe0568593ee6a8926d16505925e",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "f1689ec1b0b1256d0e69653cd4aaeee44aafdf5c",
+              "lessThan": "00c311a13d225266800c712f2b7db2711c6897de",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "f1689ec1b0b1256d0e69653cd4aaeee44aafdf5c",
+              "lessThan": "186bfdc4e26d019b2e7570cb121964a1d89b2e5b",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c"
+          ],
+          "versions": [
+            {
+              "version": "4.2",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "4.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68107",
+      "publishedDate": "2026-08-10T11:58:24.135Z",
+      "lastModifiedDate": "2026-08-12T23:58:42.159Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu/vcn4: avoid rereading IB param length\n\nReuse the parameter length returned by\nvcn_v4_0_enc_find_ib_param() instead of rereading it from\nthe IB.\n\nThis avoids a potential TOCTOU issue if the IB contents\nchange between reads.\n\n(cherry picked from commit dbb02b4755f8c1f3773263f2d779872c1c0c073a)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/bbbe6a2a8d8dc87243438d3ffea2083b52d882d9",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/ff6aa542d91d76a185f69bd1997b94a560ff5f6b",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/bd868c077f67589ed2a714307ceaade5f246e302",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/c309626bf91fa0a0b583575654e6e14e81f818a3",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/3b4082fabc67c9780b06eb959e59dd92fa79c0f0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c"
+          ],
+          "versions": [
+            {
+              "version": "cfdde9197ecd957281507be99af172671a57755c",
+              "lessThan": "bbbe6a2a8d8dc87243438d3ffea2083b52d882d9",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "6dc4eddeb7e6cca7e1ab32cafbda79d06e652d84",
+              "lessThan": "ff6aa542d91d76a185f69bd1997b94a560ff5f6b",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "2b10cb58d7a3fd621ec9b2ba765a092e562ef998",
+              "lessThan": "bd868c077f67589ed2a714307ceaade5f246e302",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "2b10cb58d7a3fd621ec9b2ba765a092e562ef998",
+              "lessThan": "c309626bf91fa0a0b583575654e6e14e81f818a3",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "2b10cb58d7a3fd621ec9b2ba765a092e562ef998",
+              "lessThan": "3b4082fabc67c9780b06eb959e59dd92fa79c0f0",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "b1dc92f55b22a80ded8f0263c9ef4ba902303895",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "6.6.107",
+              "lessThan": "6.6.148",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.48",
+              "lessThan": "6.12.101",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.16.8",
+              "lessThan": "6.17",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c"
+          ],
+          "versions": [
+            {
+              "version": "6.17",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "6.17",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68106",
+      "publishedDate": "2026-08-10T11:58:23.108Z",
+      "lastModifiedDate": "2026-08-12T23:58:40.034Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu: fix division by zero with invalid uvd dimensions\n\nWhen width or height is less than 16, width_in_mb or height_in_mb\nbecomes 0, leading to fs_in_mb being 0. This causes a division by\nzero when calculating num_dpb_buffer in H264 and H264 Perf decode\npaths.\n\nAdd validation to reject frames with width < 16 or height < 16\nbefore performing any calculations that depend on these values.\n\nV2: Format change - move up all vaiable definitions.\nV3: Use warn_once to avoid spam.\n\n(cherry picked from commit 3e41d26c70b0a459d041cc19482a226c4b7423cb)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/52f9a588296432accf2982f7d258192a37562f4f",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/a00946b5ab7c25da5685ca9c58f50ff6f43c0fdf",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/ffb33d466a68cea3e8a3dbed04d79037a3cbabd1",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/be725ab23aa45c11a5afef3e2a9f6d8c084ae5dc",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/0c01c811be47e6b146552dd59bfedbea8f09b8f4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c"
+          ],
+          "versions": [
+            {
+              "version": "d38ceaf99ed015f2a0b9af3499791bd3a3daae21",
+              "lessThan": "52f9a588296432accf2982f7d258192a37562f4f",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "d38ceaf99ed015f2a0b9af3499791bd3a3daae21",
+              "lessThan": "a00946b5ab7c25da5685ca9c58f50ff6f43c0fdf",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "d38ceaf99ed015f2a0b9af3499791bd3a3daae21",
+              "lessThan": "ffb33d466a68cea3e8a3dbed04d79037a3cbabd1",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "d38ceaf99ed015f2a0b9af3499791bd3a3daae21",
+              "lessThan": "be725ab23aa45c11a5afef3e2a9f6d8c084ae5dc",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "d38ceaf99ed015f2a0b9af3499791bd3a3daae21",
+              "lessThan": "0c01c811be47e6b146552dd59bfedbea8f09b8f4",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c"
+          ],
+          "versions": [
+            {
+              "version": "4.2",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "4.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68105",
+      "publishedDate": "2026-08-10T11:58:22.101Z",
+      "lastModifiedDate": "2026-08-12T23:58:38.140Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu: Fix kernel panic during driver load failure\n\nAvoid kernel panic if MES init fails during driver load. The KIQ ring is\nfalsely marked as ready as ASICs that use MES, KIQ is owned by MES.\n\nBUG: kernel NULL pointer dereference, address: 0000000000000000\nRIP: 0010:gfx_v12_1_wait_reg_mem+0x5a/0x1f0 [amdgpu]\nCall Trace:\n gfx_v12_1_ring_emit_reg_write_reg_wait+0x1f/0x30 [amdgpu]\n amdgpu_gmc_fw_reg_write_reg_wait+0xb2/0x190 [amdgpu]\n amdgpu_gmc_flush_gpu_tlb+0x1cc/0x230 [amdgpu]\n amdgpu_gart_invalidate_tlb+0x81/0xa0 [amdgpu]\n amdgpu_gart_unbind+0x72/0x90 [amdgpu]\n amdgpu_ttm_backend_unbind+0xa4/0xb0 [amdgpu]\n amdgpu_ttm_tt_unpopulate+0x13/0xd0 [amdgpu]\n amdttm_tt_unpopulate+0x29/0x70 [amdttm]\n ttm_bo_put+0x1eb/0x360 [amdttm]\n amdgpu_bo_free_kernel+0xf9/0x1f0 [amdgpu]\n amdgpu_ih_ring_fini+0x5a/0x90 [amdgpu]\n amdgpu_irq_fini_hw+0x58/0x80 [amdgpu]\n amdgpu_device_fini_hw+0x4e0/0x5b0 [amdgpu]\n amdgpu_driver_load_kms+0x60/0xa0 [amdgpu]\n amdgpu_pci_probe+0x28e/0x6d0 [amdgpu]\n pci_device_probe+0x19f/0x220\n really_probe+0x1ed/0x340\n driver_probe_device+0x1e/0x80\n __driver_attach+0xd3/0x1a0\n bus_for_each_dev+0x68/0xa0\n bus_add_driver+0x19f/0x270\n driver_register+0x5d/0xf0\n do_one_initcall+0xac/0x200\n do_init_module+0x1ec/0x280\n __se_sys_finit_module+0x2de/0x310\n do_syscall_64+0x6a/0x250\n entry_SYSCALL_64_after_hwframe+0x4b/0x53\n\n(cherry picked from commit 4623b958dd6da0f4c3026afdf330626a09ecb0f0)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/5bc93f907bad7e076d814664dfab8fc230efca3d",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/a279bd143b3c184358b658e43a057e31ee8c4de5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c",
+            "drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c"
+          ],
+          "versions": [
+            {
+              "version": "52cb80c12e8a647aa9c903903d58916e6c1c4d38",
+              "lessThan": "5bc93f907bad7e076d814664dfab8fc230efca3d",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "52cb80c12e8a647aa9c903903d58916e6c1c4d38",
+              "lessThan": "a279bd143b3c184358b658e43a057e31ee8c4de5",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c",
+            "drivers/gpu/drm/amd/amdgpu/gfx_v12_1.c"
+          ],
+          "versions": [
+            {
+              "version": "6.11",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "6.11",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68104",
+      "publishedDate": "2026-08-10T11:58:20.614Z",
+      "lastModifiedDate": "2026-08-12T23:58:35.842Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu: invoke pm_genpd_remove() before freeing genpd\n\nCall pm_genpd_remove() to unregister from global list prior to releasing\nacp_genpd memory, and clear the pointer after free.\n\n(cherry picked from commit cd8650d7a91ee8b768e202354672553faa5cc1f2)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/bdfc7f1e0900ef1361b828c4f69b72701f8a0a86",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/5c0a82283271759fff445ac27182072f200a888c",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/08fee493e0261f9e4120a5c8e7e42e8a723574e8",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/930a5dc3df4aa5e10393134bd5313d616dbebaf6",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/28c9b3c5dc35cc790d11e26ca3fc6e068be63998",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c"
+          ],
+          "versions": [
+            {
+              "version": "25030321ba2860c56651429a4f28d94a6483d952",
+              "lessThan": "bdfc7f1e0900ef1361b828c4f69b72701f8a0a86",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "25030321ba2860c56651429a4f28d94a6483d952",
+              "lessThan": "5c0a82283271759fff445ac27182072f200a888c",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "25030321ba2860c56651429a4f28d94a6483d952",
+              "lessThan": "08fee493e0261f9e4120a5c8e7e42e8a723574e8",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "25030321ba2860c56651429a4f28d94a6483d952",
+              "lessThan": "930a5dc3df4aa5e10393134bd5313d616dbebaf6",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "25030321ba2860c56651429a4f28d94a6483d952",
+              "lessThan": "28c9b3c5dc35cc790d11e26ca3fc6e068be63998",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c"
+          ],
+          "versions": [
+            {
+              "version": "4.6",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "4.6",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68103",
+      "publishedDate": "2026-08-10T11:58:19.317Z",
+      "lastModifiedDate": "2026-08-12T23:58:33.976Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ndrm/amdgpu: reject mapping a reserved doorbell to a new queue\n\nWhen creating an user-queue, the user space\nprovides a doorbell BO handle and an offset within\nthe bo to obtain a doorbell.\n\nHowever current implementation using xa_store_irq()\nto store a doorbell, which allows a later queue created\nwith the same BO and offset parameters to overwrite an\nexisting queue and doorbell mapping.\n\nThis can cause problems like misrouting fence IRQ\nprocessing to a wrong queue, and mislead the cleanup\nprocess of one queue erasing the mapping of another queue.\n\nThis commit fixes this issue by replacing xa_store_irq with\nxa_insert_irq, which rejects mapping a reserved\ndoorbell to a newly created queue\n\n(cherry picked from commit 6244eae22966350db52faf9c1369d3b2ffc5de4e)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/1050d258c7c56066d2dcaedf8d0ef66364062adc",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/a609b6278bf3cde17eeee6620091465521e4b02c",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c"
+          ],
+          "versions": [
+            {
+              "version": "8949843762631d9d0fc526dfb61a272dca29fc6f",
+              "lessThan": "1050d258c7c56066d2dcaedf8d0ef66364062adc",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "8949843762631d9d0fc526dfb61a272dca29fc6f",
+              "lessThan": "a609b6278bf3cde17eeee6620091465521e4b02c",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c"
+          ],
+          "versions": [
+            {
+              "version": "6.16",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "6.16",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68100",
+      "publishedDate": "2026-08-10T11:58:15.233Z",
+      "lastModifiedDate": "2026-08-12T23:58:31.805Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: validate num_subauth when copying ACE in set_ntacl_dacl\n\nset_ntacl_dacl() copies each ACE from the attacker-controlled stored\nsecurity descriptor verbatim into the response DACL without checking\nsid.num_subauth. The ACE bytes (including an unchecked num_subauth)\noriginate from an authenticated SMB2_SET_INFO(SecInfo=DACL) that is\nstored raw via ksmbd_vfs_set_sd_xattr(); parse_dacl() rejects a bad ACE\nwith `break` rather than an error, so parse_sec_desc() still returns\nsuccess and the malformed SD reaches the xattr intact.\n\nOn a subsequent SMB2_QUERY_INFO(SecInfo=DACL) for an inode carrying a\nPOSIX access ACL, build_sec_desc() -> set_ntacl_dacl() ->\nset_posix_acl_entries_dacl() walks the copied ACEs and reads\n\n    ntace->sid.sub_auth[ntace->sid.num_subauth - 1]\n\nwith num_subauth taken straight from the stored SD. Since sub_auth[]\nis fixed at SID_MAX_SUB_AUTHORITIES (15), a crafted num_subauth (e.g.\n255) drives an out-of-bounds heap read of ~1 KB with an offset fully\ncontrolled by an authenticated client.\n\nThe sibling functions already gate this field:\n  parse_dacl()    -- num_subauth == 0 || > SID_MAX_SUB_AUTHORITIES\n  parse_sid()     -- num_subauth > SID_MAX_SUB_AUTHORITIES\n  smb_copy_sid()  -- min_t(u8, num_subauth, SID_MAX_SUB_AUTHORITIES)\nset_ntacl_dacl() is the lone inconsistent path that omits the check.\n\nAdd the same num_subauth validation in set_ntacl_dacl() before copying\nthe ACE, matching the gate already enforced by parse_dacl().",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/e31fada5143784bc05c7ae44c79eed9b7a2e147e",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/fb3dc8e6da46a1ccad1956cda57de29d9b3033e0",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/b6d3cc6a524416dfdb2b47e4bba2e7e20011d056",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/5acbd3012fd4a7ccfebd91ea6f784120084eb897",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/47f0b34f6bc98ed85bfdc293e8f3e432ec24958d",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/smb/server/smbacl.c"
+          ],
+          "versions": [
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "e31fada5143784bc05c7ae44c79eed9b7a2e147e",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "fb3dc8e6da46a1ccad1956cda57de29d9b3033e0",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "b6d3cc6a524416dfdb2b47e4bba2e7e20011d056",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "5acbd3012fd4a7ccfebd91ea6f784120084eb897",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "47f0b34f6bc98ed85bfdc293e8f3e432ec24958d",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/smb/server/smbacl.c"
+          ],
+          "versions": [
+            {
+              "version": "5.15",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "5.15",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68098",
+      "publishedDate": "2026-08-10T11:58:12.768Z",
+      "lastModifiedDate": "2026-08-12T23:58:29.724Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: bound DACL dedup walk to copied ACEs\n\nset_ntacl_dacl() can stop copying ACEs before consuming the full input\nDACL when size accounting overflows.\n\nWhen that happens, num_aces reflects only the ACEs that were actually\ncopied into the output DACL, but set_posix_acl_entries_dacl() still\nreceives nt_num_aces and uses it to walk the existing ACE array during\ndedup.\n\nThat makes the dedup walk scan past the copied ACE array and inspect\nbuffer tail that does not contain valid ACEs.\n\nSplit the two meanings currently carried by the NT ACE count. Pass the\nnumber of copied NT ACEs to bound the dedup walk, and preserve the\noriginal \"input DACL had NT ACEs\" state separately for the\nEveryone/default ACL fallback.\n\nThis keeps the dedup walk aligned with the ACEs that are actually\npresent in the rebuilt DACL.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/6d9d7aa4a2c99c31acfa28921c30b684110cf66c",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/b057a851129c6a084e7e393b62ca3abf6c2660bc",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/f1eba60db813ec28732bf18b5f0a67ebac9c3100",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/a0ebdaa79e10210d4e8ed9fe138e8f4d569719e3",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/58d97fcd0bf1aee694e244cc28635b9df95b543b",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/smb/server/smbacl.c"
+          ],
+          "versions": [
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "6d9d7aa4a2c99c31acfa28921c30b684110cf66c",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "b057a851129c6a084e7e393b62ca3abf6c2660bc",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "f1eba60db813ec28732bf18b5f0a67ebac9c3100",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "a0ebdaa79e10210d4e8ed9fe138e8f4d569719e3",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "58d97fcd0bf1aee694e244cc28635b9df95b543b",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/smb/server/smbacl.c"
+          ],
+          "versions": [
+            {
+              "version": "5.15",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "5.15",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc5",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68097",
+      "publishedDate": "2026-08-10T11:58:11.289Z",
+      "lastModifiedDate": "2026-08-12T23:58:27.892Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nksmbd: validate ACE size against SID sub-authorities\n\nset_ntacl_dacl() validates sid.num_subauth before copying an ACE, but\ndoes not verify that the declared ACE size contains all sub-authorities\ndescribed by that field. An undersized ACE can therefore be copied\nand later make the POSIX ACL deduplication walk inspect data beyond\nthe copied ACE boundary.\n\nThe existing initial bound check is also too small. It only ensures\nthat the ACE size field is accessible before set_ntacl_dacl() reads\nsid.num_subauth farther into the input buffer.\n\nRequire enough input for the fixed SID header before accessing\nnum_subauth, reject ACEs smaller than that header, and skip ACEs\nwhose declared size cannot contain the complete SID. This makes the\nvalidation consistent with the other ACE walk paths.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/b7cb5bf0855470799f12da825de91e48951b3876",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/62d80d7c2d9428085e7458ad4c06ca8c0984039b",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/337022d9dfac441c3b35e4455a51aa981996e02e",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/61fd3559199f7fa693dcbff35e59477e24af041a",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/5152c6d49e3fd4e9f2e857c57527aead752f1f87",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/smb/server/smbacl.c"
+          ],
+          "versions": [
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "b7cb5bf0855470799f12da825de91e48951b3876",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "62d80d7c2d9428085e7458ad4c06ca8c0984039b",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "337022d9dfac441c3b35e4455a51aa981996e02e",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "61fd3559199f7fa693dcbff35e59477e24af041a",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9",
+              "lessThan": "5152c6d49e3fd4e9f2e857c57527aead752f1f87",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/smb/server/smbacl.c"
+          ],
+          "versions": [
+            {
+              "version": "5.15",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "5.15",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.148",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.101",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.42",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.6",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc5",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-68088",
+      "publishedDate": "2026-08-10T11:51:42.647Z",
+      "lastModifiedDate": "2026-08-12T23:58:26.023Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nusb: gadget: function: rndis: add length check to response query\n\nAdd variable representations for BufLength and BufOffset in\nrndis_query_response(), and perform a length check on them.\n\nThis is identical to how rndis_set_response() handles these parameters.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/efcf4e4eeea0d69d8da72a7bc5cbd49b6192260e",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/bb2b4402b4571b0c989b977779f7be01107ca425",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/585921866d2d7d65d4b0d89927c78f784668cf5f",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/caea8b120604312bab2bfeb1a972f9cd17019e93",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/f5870777458d8be65d7cd08bc750a03f17998350",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/e01e7814b4223560eab0513b7c15b8c82bdc83f3",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/b09716040f3fa4a252eeda3ceb5295ea0e39c1fb",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/95f90eea070837f7c72207d5520f805bdefc3bc5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/usb/gadget/function/rndis.c"
+          ],
+          "versions": [
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "efcf4e4eeea0d69d8da72a7bc5cbd49b6192260e",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "bb2b4402b4571b0c989b977779f7be01107ca425",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "585921866d2d7d65d4b0d89927c78f784668cf5f",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "caea8b120604312bab2bfeb1a972f9cd17019e93",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "f5870777458d8be65d7cd08bc750a03f17998350",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "e01e7814b4223560eab0513b7c15b8c82bdc83f3",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "b09716040f3fa4a252eeda3ceb5295ea0e39c1fb",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "340600ab4cf0cc41efd01a65af97ebb7d35a7f85",
+              "lessThan": "95f90eea070837f7c72207d5520f805bdefc3bc5",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "drivers/usb/gadget/function/rndis.c"
+          ],
+          "versions": [
+            {
+              "version": "2.6.13",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "2.6.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "5.10.261",
+              "lessThanOrEqual": "5.10.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "5.15.212",
+              "lessThanOrEqual": "5.15.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.1.178",
+              "lessThanOrEqual": "6.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.145",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.96",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.39",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.4",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2-rc3",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
     }
   ]
 }
