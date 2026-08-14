@@ -2,60 +2,434 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-14T21:53:58.295557",
+    "total_count": 6,
+    "last_updated": "2026-08-14T22:14:03.509689",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 0,
+      "high": 4,
+      "medium": 1,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-73683",
-      "publishedDate": "2026-08-14T21:32:18.055Z",
-      "lastModifiedDate": "2026-08-14T21:32:18.055Z",
-      "description": "Laravel Socialite's Facebook provider contains an authentication bypass vulnerability that allows unauthenticated attackers to replay captured OIDC id_tokens by exploiting the missing nonce claim validation in the getUserByOIDCToken() function within FacebookProvider.php. Attackers who obtain a valid, unexpired id_token issued for the same Facebook App ID can submit the captured token to the backend userFromToken() endpoint, bypassing authentication controls because signature, aud, and iss checks pass while no session-bound nonce comparison is performed, resulting in unauthorized access to victim accounts.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：Laravel Socialite\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72809",
+      "publishedDate": "2026-08-12T19:07:52.734Z",
+      "lastModifiedDate": "2026-08-14T22:07:21.536Z",
+      "description": "SiYuan versions <= v3.7.2 (patched in v3.7.4) contain an authentication bypass vulnerability in the kernel's CheckAuth function, which grants the administrator role (RoleAdministrator) to any request whose RemoteAddr is loopback (127.0.0.1) for a specific set of endpoints (including /api/system/exit, getNetwork, getWorkspaceInfo, /assets/*, and /export/*). These localhost bypasses sit outside the access auth code gate, so they apply even when an access auth code is configured. Because the fixed-port reverse proxy forwards requests to the kernel over loopback without injecting an authentication token and does not configure trusted proxies, a request forwarded through this proxy reaches the kernel with RemoteAddr = 127.0.0.1. If the fixed-port proxy is bound to a network interface, this could allow a remote unauthenticated attacker to obtain admin access on the affected endpoints; however, per the advisory this remote forwarding behavior was established only by code inspection and was not reproduced end-to-end.",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/laravel/socialite/pull/789",
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-3mp7-4rh5-jrv9",
           "type": "reference"
         },
         {
-          "url": "https://github.com/laravel/socialite/commit/caf714f55d51ab0d914b40033d8b0f489d6219cc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/laravel/socialite",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/laravel-socialite-facebook-provider-authentication-bypass-via-nonce-replay",
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-authentication-bypass-via-localhost-trust",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Laravel",
-          "product": "Socialite",
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
           "versions": [
             {
-              "status": "affected",
               "version": "0",
+              "status": "affected",
               "versionType": "semver",
-              "lessThan": "5.29.0"
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
             }
-          ],
-          "defaultStatus": "affected"
+          ]
         }
       ],
       "problemType": [
-        "Authentication Bypass by Capture-replay"
+        "Authentication Bypass by Spoofing"
       ]
+    },
+    {
+      "id": "CVE-2026-72801",
+      "publishedDate": "2026-08-12T19:07:47.033Z",
+      "lastModifiedDate": "2026-08-14T22:04:06.593Z",
+      "description": "SiYuan versions before v3.7.4 disclose encrypted-notebook key-derivation material and wrapped data keys through unauthenticated endpoints in publish mode. Attackers can retrieve Argon2id salt, cost parameters, password verifiers, and wrapped notebook keys to perform unlimited offline master-password cracking without rate limiting.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-8x84-r2ff-h8pq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-encryption-key-material",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficiently Protected Credentials"
+      ]
+    },
+    {
+      "id": "CVE-2026-72805",
+      "publishedDate": "2026-08-12T19:07:49.909Z",
+      "lastModifiedDate": "2026-08-14T22:05:17.775Z",
+      "description": "SiYuan versions before v3.7.4 fail to enforce publish-access checks on getBlockBreadcrumb, getRefText, and getBlockTreeInfos endpoints, allowing disclosure of protected document content and metadata. Anonymous readers or publish RoleReader accounts can retrieve document titles, ancestor block content snippets, reference text, and path metadata for publish-forbidden or password-protected documents by supplying block IDs.",
+      "severity": 5.8,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-67x2-mq63-v9vm",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-block-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2025-7639",
+      "publishedDate": "2026-08-14T18:46:18.583Z",
+      "lastModifiedDate": "2026-08-14T22:05:54.821Z",
+      "description": "The vulnerability, if exploited, could allow an authenticated miscreant \nwith \"DNA Authority - Operator\" privilege to tamper with serialized \ndata, potentially resulting in code execution during deserialization \nunder the privilege of Enterprise SCADA security group \"DNA Apps\".",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：AVEVA AVEVA Enterprise SCADA\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.aveva.com/content/dam/aveva/documents/support/cyber-security-updates/SecurityBulletin_AVEVA-2026-005.pdf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-225-01",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-225-01.json",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AVEVA",
+          "product": "AVEVA Enterprise SCADA",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2025"
+            },
+            {
+              "status": "affected",
+              "version": "2024",
+              "lessThanOrEqual": "2024 SP1 P01",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "2023",
+              "lessThanOrEqual": "2023 SP1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "2022",
+              "lessThanOrEqual": "2022 SP2 P2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2021 SP2 P5",
+              "versionType": "custom"
+            },
+            {
+              "status": "unaffected",
+              "version": "2025 P1"
+            },
+            {
+              "status": "unaffected",
+              "version": "2024 SP1 P2"
+            },
+            {
+              "status": "unaffected",
+              "version": "2023 SP1 P1"
+            },
+            {
+              "status": "unaffected",
+              "version": "2022 SP2 P3"
+            },
+            {
+              "status": "unaffected",
+              "version": "2021 SP2 P6"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "AVEVA",
+          "product": "AVEVA Enterprise SCADA HMI",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2024"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2023_P1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "2024 R2"
+            },
+            {
+              "status": "unaffected",
+              "version": "2024 R2 HF7"
+            },
+            {
+              "status": "unaffected",
+              "version": "2024 P1"
+            },
+            {
+              "status": "unaffected",
+              "version": "2023 P2 HF1"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "AVEVA",
+          "product": "AVEVA Pipeline Operations for Gas/Liquids",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "2025 P1"
+            },
+            {
+              "status": "unaffected",
+              "version": "2024 SP1 P2"
+            },
+            {
+              "status": "unaffected",
+              "version": "2023 SP1 P1"
+            },
+            {
+              "status": "unaffected",
+              "version": "2022 SP2 P3"
+            },
+            {
+              "status": "unaffected",
+              "version": "2021 SP2 P6"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "AVEVA",
+          "product": "AVEVA Pipeline Integrity Monitor (delivered on Pipeline Simulation media)",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "2025 SP1 P2"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "AVEVA",
+          "product": "AVEVA Pipeline Training Simulator (delivered on Pipeline Simulation media)",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "2025 SP1 P2"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "AVEVA",
+          "product": "Measurement Advisor",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "2025 P1"
+            },
+            {
+              "status": "unaffected",
+              "version": "2021 SP1 HF16"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-502"
+      ],
+      "cwe_ids": [
+        "CWE-502"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-73414",
+      "publishedDate": "2026-08-12T19:42:55.520Z",
+      "lastModifiedDate": "2026-08-14T22:11:29.290Z",
+      "description": "Shescape is a simple shell escape library for JavaScript. Prior to 2.1.14 and 3.0.1, getEscapeFunction in src/internal/win/cmd.js does not escape `(` and `)` when applications use the escape or escapeAll APIs on Windows with shell set to cmd.exe, or with shell set to true when CMD is the default. An attacker-controlled argument can break out of a parenthesized CMD construct and inject shell syntax depending on the original command, resulting in arbitrary command execution. This issue is fixed in versions 2.1.14 and 3.0.1.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：ericcornelissen shescape\n🔓 漏洞类型：OS Command Injection, CWE-150 (CWE-78, CWE-150)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ericcornelissen/shescape/security/advisories/GHSA-w4hw-qcx7-56pr",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ericcornelissen/shescape/pull/2649",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ericcornelissen/shescape/pull/2651",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ericcornelissen/shescape/commit/43d70b59d09bbe5c3fd02ef08b3a123e977ed9de",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ericcornelissen/shescape/commit/b4b34c394e7f9da2775bb75381066b9a228c425f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ericcornelissen/shescape/releases/tag/v2.1.14",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ericcornelissen/shescape/releases/tag/v3.0.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ericcornelissen",
+          "product": "shescape",
+          "versions": [
+            {
+              "version": "< 2.1.14",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.0.0, < 3.0.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "CWE-150: Improper Neutralization of Escape, Meta, or Control Sequences"
+      ],
+      "cwe_ids": [
+        "CWE-78",
+        "CWE-150"
+      ],
+      "cvss_severity": "HIGH",
+      "ghsa_id": "GHSA-w4hw-qcx7-56pr"
+    },
+    {
+      "id": "CVE-2026-73409",
+      "publishedDate": "2026-08-12T19:19:59.492Z",
+      "lastModifiedDate": "2026-08-14T22:09:19.072Z",
+      "description": "Budibase is an open-source low-code platform. Prior to 3.40.1, packages/server/src/integrations/mongodb.ts passed builder-controlled tlsCertificateKeyFile and tlsCAFile values directly to MongoClient on Budibase Cloud. A builder could submit absolute server paths through /api/datasources/verify and distinguish readable existing files from missing files by comparing the driver error, exposing a filesystem existence and readability oracle on the shared server. This issue is fixed in version 3.40.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：CWE-203 (CWE-203)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-ppr4-5f46-j9c6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/pull/19244",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/commit/e58aa31e18272f6a1a8aeb525b7eef0b01b1dd43",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/releases/tag/3.40.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Budibase",
+          "product": "budibase",
+          "versions": [
+            {
+              "version": "< 3.40.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-203: Observable Discrepancy"
+      ],
+      "cwe_ids": [
+        "CWE-203"
+      ],
+      "ghsa_id": "GHSA-ppr4-5f46-j9c6"
     }
   ]
 }
