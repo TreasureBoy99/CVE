@@ -2,43 +2,1543 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-14T11:27:38.115708",
+    "total_count": 36,
+    "last_updated": "2026-08-14T12:09:25.504357",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "critical": 6,
+      "high": 12,
+      "medium": 13,
       "low": 0,
-      "none": 1
+      "none": 5
     }
   },
   "cves": [
     {
-      "id": "CVE-2022-4993",
-      "publishedDate": "2026-08-13T16:27:47.498Z",
-      "lastModifiedDate": "2026-08-14T11:14:34.478Z",
-      "description": "HTML::FormHandler versions through 0.40068 for Perl allow attacker selected method dispatch and resource exhaustion because _apply_actions and add_error use error message text built from request data as a Locale::Maketext bracket notation template.\n\nadd_error hands its first argument to the language handle as the Locale::Maketext message key, and the default handle's lexicon sets `_AUTO`, so a string that is not a lexicon entry is compiled as a bracket notation template instead of being looked up. In a bracket group the first token names a method called on the language handle and the remaining tokens are its arguments.\n\nThree kinds of text the library did not author reach that position. _apply_actions installs a `$SIG{__WARN__}` handler that stores the warning text in `$error_message`, and a captured warning survives a successful action, so a field carrying a numeric transform turns `Argument \"[sprintf,%50000000d,0]\" isn't numeric` into the template; a warning quotes the submitted value verbatim, so the group is well formed and dispatches. `$error_message ||= $tobj->validate($new_value)` takes a type constraint's own failure message, which renders the rejected value through a partial dumper in bracket and comma form (Devel::PartialDump when Moose can load it, Type::Tiny's own dumper always), so a field with `apply => [ Str ]` given a parameter sent more than once, which arrives as an array, gets `Reference [\"a\",\"b\"] did not pass type constraint \"Str\"` as its template, from a request that carries no bracket character of its own. A coercion or transform exception reaches it the same way. Beyond those, a validator whose message contains the field value puts that value in the template directly, and add_error replaces the message list with the contents of an arrayref first argument (`@message = @{$message[0]} if ref $message[0] eq 'ARRAY'`), so a value arriving as an array fills the argument slots from the same request as well.\n\nA malformed group such as `[0]` makes the compile croak, and HTML::FormHandler::I18N::maketext and add_error each re-raise that as a die, so process() throws. A well formed group naming sprintf reaches CORE::sprintf with an attacker chosen field width. Any caller that applies a type constraint or a transform to an untrusted field, or whose validator passes an untrusted field value to add_error, can be made to throw an unhandled exception out of process(), or to allocate an arbitrary amount of memory in one request, and an application whose language handle subclass defines side effecting public methods makes those callable with attacker chosen arguments. The dumped type constraint message is bounded to the exception, because both dumpers quote non-numeric elements so the method slot is never an attacker chosen name. The built-in messages pass fixed templates with the value in an argument slot, where it stays inert, and the built-in field types attach explicit message callbacks, so neither is affected.",
-      "severity": "N/A",
-      "fix_suggestion": "🔓 漏洞类型：CWE-1336, CWE-470 (CWE-1336, CWE-470)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72811",
+      "publishedDate": "2026-08-14T11:35:24.767Z",
+      "lastModifiedDate": "2026-08-14T11:35:24.767Z",
+      "description": "SiYuan versions <= v3.7.2 contain a SQL injection vulnerability in the backlink/mention search query (kernel/model/backlink.go), which concatenates stored block metadata (title, name, alias, anchor text) and the client-supplied keyword into a SQL MATCH/search statement while escaping only the double-quote character and not the single quote. A single quote in the client keyword (first-order, reachable by an anonymous or RoleReader user on the publish surface) or in stored document metadata (second-order) breaks out of the string literal. Because the query runs on the main read-write siyuan.db handle via a statement-stacking-capable driver, an attacker can execute arbitrary SQL, enabling cross-notebook read and write. Fixed in v3.7.4.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.metacpan.org/patches/H/HTML-FormHandler/0.40068/CVE-2022-4993-r2.patch",
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-q2vg-7qgx-x5fc",
           "type": "reference"
         },
         {
-          "url": "https://metacpan.org/release/GSHANK/HTML-FormHandler-0.40068/source/lib/HTML/FormHandler/Validate.pm#L161-261",
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-sql-injection-via-backlink-search",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-72830",
+      "publishedDate": "2026-08-14T11:35:37.166Z",
+      "lastModifiedDate": "2026-08-14T11:35:37.166Z",
+      "description": "Grav API plugin versions before 1.0.13 fail to enforce API key scope caps in ConfigController super-scope gates, allowing scoped keys to write scheduler configuration. Attackers with a scoped api.config.write key can inject arbitrary commands into scheduler.custom_jobs that execute via Symfony Process for remote code execution.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-2x29-3mjq-2pvx",
           "type": "reference"
         },
         {
-          "url": "https://metacpan.org/release/GSHANK/HTML-FormHandler-0.40068/source/lib/HTML/FormHandler/Field.pm#L861-876",
+          "url": "https://www.vulncheck.com/advisories/grav-api-plugin-before-rce-via-configcontroller-scope-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Privilege Management"
+      ]
+    },
+    {
+      "id": "CVE-2026-72829",
+      "publishedDate": "2026-08-14T11:35:36.482Z",
+      "lastModifiedDate": "2026-08-14T11:35:36.482Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.13 contains an API-key scope-cap bypass in UsersController's create() and update() methods. These methods enforce the scope cap only for api.users.write, but gate super-privilege grants on a bare isSuperAdmin() check that reads access.api.super directly without consulting the key's scopes. As a result, an api.users.write-scoped key minted on a super account can set access.api.super or assign a super-granting group to mint or promote a full super account, then authenticate as that account for uncapped administrative privileges.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-jrm3-jpp7-3gmx",
           "type": "reference"
         },
         {
-          "url": "https://metacpan.org/release/GSHANK/HTML-FormHandler-0.40068/source/lib/HTML/FormHandler/I18N/en_us.pm#L9-11",
+          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-bypass-via-userscontroller",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Privilege Management"
+      ]
+    },
+    {
+      "id": "CVE-2026-72826",
+      "publishedDate": "2026-08-14T11:35:34.460Z",
+      "lastModifiedDate": "2026-08-14T11:35:34.460Z",
+      "description": "The getgrav/grav-plugin-api plugin before 1.0.13 fails to validate that the scopes of a newly created API key are a subset of the caller's scopes in createApiKey. The self-target path of requireApiKeyPermission() requires only the baseline api.access scope, and the new key's scopes are read directly from the request body with no subset check. An attacker holding a minimal-scope API key on a super account can submit an empty scopes array to mint an unscoped, full-access super key, bypassing scope restrictions (and enabling further chains such as configuration write to RCE).",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-95v9-4fcj-96gh",
           "type": "reference"
         },
         {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2012-6329",
+          "url": "https://www.vulncheck.com/advisories/grav-before-scope-bypass-via-createapikey",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Privilege Assignment"
+      ]
+    },
+    {
+      "id": "CVE-2026-72824",
+      "publishedDate": "2026-08-14T11:35:33.122Z",
+      "lastModifiedDate": "2026-08-14T11:35:33.122Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.13 contains an API key scope-cap bypass in PagesController::guardTwigContent(). The Twig-toggle check uses a bare isSuperAdmin() gate that does not consult api_key_scopes, so a least-privilege API key scoped only to api.pages.write and minted on a super account can enable process.twig on a page save even though admin.pages_twig is intentionally outside the api.pages scope. When security.twig_content.process_enabled=true and editor_enabled=false, this allows Twig-in-content to execute server-side, resulting in server-side template injection (SSTI) and remote code execution.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-96xv-p87j-58mx",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-bypass-via-pagescontroller",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72822",
+      "publishedDate": "2026-08-14T11:35:31.592Z",
+      "lastModifiedDate": "2026-08-14T11:35:31.592Z",
+      "description": "The getgrav/grav-plugin-api Composer package before 1.0.13 (affected <= 1.0.12) fails to enforce API key scope caps on the disable2fa endpoint. Unlike the sibling generate2fa endpoint, disable2fa authorizes the admin (non-self) path solely via ACL reads (isSuperAdmin/hasPermission) and never invokes requirePermission(), so the api_key_scopes cap is never applied. As a result, a holder of a narrow-scope API key on a super account, or a non-super account whose ACL includes api.users.write, can force-disable two-factor authentication on any non-super target account via POST /api/v1/users/{user}/2fa/disable without providing a TOTP code, facilitating account takeover.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-22p9-6fh4-mmf2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-authentication-bypass-via-disable2fa",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-72837",
+      "publishedDate": "2026-08-14T11:35:42.191Z",
+      "lastModifiedDate": "2026-08-14T11:35:42.191Z",
+      "description": "File Browser versions before 2.63.20 fail to honor the createUserDir isolation in proxy and hook authentication auto-provisioning paths. Attackers with valid upstream-authenticated credentials can read, modify, delete, and share files belonging to other users by exploiting the server root scope assignment.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-j7jh-37pf-mf8h",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/file-browser-before-privilege-escalation-via-proxy-authentication",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.63.20"
+            },
+            {
+              "version": "2.63.20",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Access Control"
+      ]
+    },
+    {
+      "id": "CVE-2026-72833",
+      "publishedDate": "2026-08-14T11:35:39.243Z",
+      "lastModifiedDate": "2026-08-14T11:35:39.243Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) versions >= 1.0.6 and <= 1.0.11 contain a privilege escalation vulnerability. A scoped API key minted on a super-admin account bypasses its declared scope cap on four isSuperAdmin()-gated write endpoints (in GroupsController, AccountsConfigController, PreferencesController, and DashboardWidgetController). These endpoints authorize via a super-admin early-return that never invokes requirePermission()—the sole enforcement point of the scope cap—so a 'read-only'-scoped key (e.g. api.pages.read) can perform super-only write operations, including rewriting group ACL maps to grant super-admin privileges to arbitrary accounts. A leaked or delegated read-only CI/monitoring key can therefore gain full super-admin write capability. Fixed in 1.0.13.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-jqgq-v53x-x99g",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-through-privilege-escalation-via-scoped-api-keys",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "unaffected",
+              "versionType": "semver",
+              "lessThan": "1.0.6"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Privilege Management"
+      ]
+    },
+    {
+      "id": "CVE-2026-72831",
+      "publishedDate": "2026-08-14T11:35:37.801Z",
+      "lastModifiedDate": "2026-08-14T11:35:37.801Z",
+      "description": "The Flex Objects plugin (through 1.4.6, tested with Grav 2.0.11) contains an incorrect authorization vulnerability in its Flex Objects API. FlexApiController::update() checks only the general Flex directory permission and does not apply the additional target/field/super-admin checks enforced by the dedicated Users and Groups API controllers. An authenticated account with api.access, admin.login, and users.update permissions (but without api.users.write or admin.super) can use the generic /api/v1/flex-objects/user-accounts endpoint to change a super administrator's password, or the /api/v1/flex-objects/user-groups endpoint to grant its group admin.super, resulting in full site takeover. Fixed in Flex Objects 1.4.7.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-pc8m-jxvh-vmrc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/ad9709f865b09b68798fb1ac375b484a8cc1d892",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/0b384f5b0e73b1ad9dd29c70185407895ea3b09f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/8071c10bc3a4743a4b8cf003dfb1644d6680c2ea",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/a0bf26f7e5d7a98894b7cd2b8c5afe419b264e53",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-through-authentication-bypass-via-flex-objects",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "2.0.11",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "2.0.11"
+            }
+          ]
+        },
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.4.7"
+            },
+            {
+              "version": "1.4.7",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72827",
+      "publishedDate": "2026-08-14T11:35:35.138Z",
+      "lastModifiedDate": "2026-08-14T11:35:35.138Z",
+      "description": "Grav CMS before 2.0.13 contains a server-side template injection vulnerability in email-action parameters that allows low-privileged page editors to execute arbitrary operating-system commands. Attackers can inject Twig payloads using the unsandboxed find filter in email subject, body, to, or from fields to achieve remote code execution when forms are submitted.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-xx48-97m4-h7qm",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-cms-before-remote-code-execution-via-twig",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.13"
+            },
+            {
+              "version": "2.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements Used in a Template Engine"
+      ]
+    },
+    {
+      "id": "CVE-2026-72819",
+      "publishedDate": "2026-08-14T11:35:29.507Z",
+      "lastModifiedDate": "2026-08-14T11:35:29.507Z",
+      "description": "Grav CMS before 2.0.13 contains a remote code execution vulnerability in the Flex Objects plugin settings validation that allows authenticated users to execute arbitrary code by uploading a ZIP file containing PHP code. Attackers can bypass routine name validation by using array notation instead of string notation, call the unZip routine with a malicious archive, and write PHP files to the web root for execution.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-r94f-hx44-8jqf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-cms-before-remote-code-execution-via-zip-upload",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.13"
+            },
+            {
+              "version": "2.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Control of Generation of Code ('Code Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-19822",
+      "publishedDate": "2026-08-14T11:30:11.772Z",
+      "lastModifiedDate": "2026-08-14T11:30:11.772Z",
+      "description": "A vulnerability was identified in Tenda W20E 15.11.0.6(1068_1546_841)_CN_TDC. This issue affects the function lstAdd of the file /goform/editQos of the component QoS Edit. Such manipulation of the argument qosListConnecttedNum leads to stack-based buffer overflow. The attack may be launched remotely. The exploit is publicly available and might be used.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Tenda W20E\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389955",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389955/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19822",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/869006",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/paueger/mycve/blob/main/Tenda_W20E/3.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.tenda.com.cn/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Tenda",
+          "product": "W20E",
+          "versions": [
+            {
+              "version": "15.11.0.6(1068_1546_841)_CN_TDC",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:o:tenda:w20e_firmware:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "QoS Edit"
+          ]
+        }
+      ],
+      "problemType": [
+        "Stack-based Buffer Overflow",
+        "Memory Corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-72810",
+      "publishedDate": "2026-08-14T11:35:24.086Z",
+      "lastModifiedDate": "2026-08-14T11:35:24.086Z",
+      "description": "SiYuan versions before v3.7.4 contain a publish-boundary bypass vulnerability in WebSocket broadcast sessions that allows anonymous readers to receive unfiltered edits. Attackers can establish a WebSocket connection to the publish surface and passively receive real-time content events including password-protected and forbidden documents without authentication.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-mw8r-mw84-88v2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-publish-boundary-bypass-via-websocket",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72836",
+      "publishedDate": "2026-08-14T11:35:41.491Z",
+      "lastModifiedDate": "2026-08-14T11:35:41.491Z",
+      "description": "FileBrowser before 2.63.19 does not account for case-insensitive filesystems when checking home directory ownership during self-registration. When Signup and CreateUserDir are enabled and FileBrowser's root is on a case-insensitive filesystem (confirmed on Windows/NTFS), two self-registered usernames that differ only in letter case (e.g., CaseVictim and casevictim) are stored as distinct accounts but resolve to the same physical home directory, because the scope-ownership check compares the persisted scope as an exact case-sensitive string. A second registrant can therefore read, overwrite, and delete another account's files through authenticated HTTP endpoints, without needing an existing account or victim interaction.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-576v-w77m-gr84",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/commit/fe7efb2e6afe66774cd86a5b0a03033bd514d0c0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/filebrowser-before-case-sensitivity-authentication-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.63.19"
+            },
+            {
+              "version": "2.63.19",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Handling of Case Sensitivity"
+      ]
+    },
+    {
+      "id": "CVE-2026-72859",
+      "publishedDate": "2026-08-14T11:35:43.574Z",
+      "lastModifiedDate": "2026-08-14T11:35:43.574Z",
+      "description": "Budibase versions 3.39.4 before 3.40.0 contain an authorization regression in the S3 attachment upload endpoint that allows BASIC users to obtain S3 PutObject presigned URLs by sending POST requests to the attachments endpoint. The route was changed from a BUILDER permission check to a TABLE/WRITE check, which BASIC users hold by default. Attackers can specify arbitrary S3 buckets in the request body to generate presigned URLs for writing to any bucket accessible by the stored IAM credentials, enabling unauthorized file uploads.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：budibase server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-xcx6-4f2g-hhgx",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/budibase-before-authorization-regression-via-s3-presigned-url",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "budibase",
+          "product": "server",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/budibase/server",
+          "versions": [
+            {
+              "version": "3.39.4",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.40.0"
+            },
+            {
+              "version": "3.40.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72825",
+      "publishedDate": "2026-08-14T11:35:33.800Z",
+      "lastModifiedDate": "2026-08-14T11:35:33.800Z",
+      "description": "The getgrav/grav-plugin-api plugin before 1.0.13 contains an API-key scope cap bypass in the POST /reports/twig-content/allowlist endpoint (ReportsController). The endpoint enforces requirePermission('api.config.write') followed by a bare isSuperAdmin() check instead of requireSuper(). Because isSuperAdmin() reads access.api.super directly and never consults api_key_scopes, a least-privilege API key scoped to api.config.write minted on a super account passes the gate, allowing an attacker to append attacker-chosen tokens to the security.twig_sandbox allowlist (persisted to user/config/security.yaml). Widening the allowlist turns any subsequent Twig-in-content render into an SSTI/RCE sink.",
+      "severity": 7.6,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-v5ph-7v92-wqm6",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-cap-bypass-via-reportscontroller",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72828",
+      "publishedDate": "2026-08-14T11:35:35.810Z",
+      "lastModifiedDate": "2026-08-14T11:35:35.810Z",
+      "description": "Grav Plugin API (getgrav/grav-plugin-api) before 1.0.13 fails to enforce API-key scope caps in InvitationsController. The strip-super and accept-groups decisions are gated on a bare isSuperAdmin() check rather than a scope-aware permission check, so a least-privilege API key (scoped to api.users.write) minted on a super account can create an invitation record containing super-admin access flags. When the invitation is accepted, those flags are written verbatim to the new account, resulting in privilege escalation to a fully controlled super account.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-wvpj-fg8h-843q",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-bypass-via-invitationscontroller",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Privilege Management"
+      ]
+    },
+    {
+      "id": "CVE-2026-72835",
+      "publishedDate": "2026-08-14T11:35:40.774Z",
+      "lastModifiedDate": "2026-08-14T11:35:40.774Z",
+      "description": "filebrowser versions before v2.63.21 fail to canonicalize paths before evaluating access rules, allowing authenticated users to bypass administrator-defined deny rules using case-variant or backslash-separated paths. Attackers can request files with alternate path representations that match no rule but resolve to the same filesystem object, gaining unauthorized access to denied files within their scope.",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-fgm5-pw99-w2p7",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/filebrowser-before-access-rule-bypass-via-path-canonicalization",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.63.21"
+            },
+            {
+              "version": "2.63.21",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Resolution of Path Equivalence"
+      ]
+    },
+    {
+      "id": "CVE-2026-72838",
+      "publishedDate": "2026-08-14T11:35:42.867Z",
+      "lastModifiedDate": "2026-08-14T11:35:42.867Z",
+      "description": "FileBrowser versions before 2.63.19 fail to enforce the declared Upload-Length in the TUS resumable-upload PATCH endpoint, allowing authenticated users to write arbitrary data to disk. Attackers can send oversized request bodies that exceed the declared upload length to exhaust available disk space and cause service unavailability.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-ffv3-7h97-993q",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/commit/4daddec6f200b03a721197d8c0b4b652c994894e",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/filebrowser-before-disk-exhaustion-via-tus-upload",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.63.19"
+            },
+            {
+              "version": "2.63.19",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    },
+    {
+      "id": "CVE-2026-72817",
+      "publishedDate": "2026-08-14T11:35:28.824Z",
+      "lastModifiedDate": "2026-08-14T11:35:28.824Z",
+      "description": "go-chi/chi versions 0.9.0 before 5.3.0 contains an IP spoofing vulnerability in the RealIP middleware, which resolves the request source IP (Request.RemoteAddr) using the first IP in the X-Forwarded-For header without validating trusted proxies. A malicious client can prepend a forged IP as the first value of the X-Forwarded-For header to spoof the request source IP, potentially bypassing access controls or falsifying request logs.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-9g5q-2w5x-hmxf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/go-chi-chi-before-ip-spoofing-via-x-forwarded-for",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "go-chi",
+          "product": "chi",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/go-chi/chi/middleware",
+          "versions": [
+            {
+              "version": "0.9.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.3.0"
+            },
+            {
+              "version": "5.3.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient Verification of Data Authenticity"
+      ]
+    },
+    {
+      "id": "CVE-2026-72816",
+      "publishedDate": "2026-08-14T11:35:28.145Z",
+      "lastModifiedDate": "2026-08-14T11:35:28.145Z",
+      "description": "go-chi/chi through 5.2.1 contains an IP spoofing vulnerability in the RealIP middleware (middleware/realip.go). The realIP() function reads client-controlled headers (True-Client-IP, X-Real-IP, and X-Forwarded-For) and overwrites r.RemoteAddr without verifying that the request originated from a trusted proxy. Attackers can supply arbitrary IP addresses in these headers to bypass IP-based access controls, evade rate limiting and geo-IP restrictions, and pollute audit logs. Fixed in 5.3.0.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-rjr7-jggh-pgcp",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/go-chi-chi-before-ip-spoofing-via-realip-middleware",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "go-chi",
+          "product": "chi",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/https://github.com/go-chi/chi",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.3.0"
+            },
+            {
+              "version": "5.3.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Authentication Bypass by Spoofing"
+      ]
+    },
+    {
+      "id": "CVE-2026-72812",
+      "publishedDate": "2026-08-14T11:35:25.455Z",
+      "lastModifiedDate": "2026-08-14T11:35:25.455Z",
+      "description": "SiYuan versions before v3.7.4 contain a missing authorization vulnerability in the /api/ref/refreshBacklink endpoint that allows anonymous readers to trigger persistent server-side writes. Attackers can invoke the endpoint with an attacker-controlled block ID to flush transaction queues, scan all references globally, and enqueue database writes, bypassing read-only protections and enabling resource amplification attacks.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-wgwx-479j-23vq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-missing-authorization-via-refreshbacklink",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-73630",
+      "publishedDate": "2026-08-14T11:35:46.446Z",
+      "lastModifiedDate": "2026-08-14T11:35:46.446Z",
+      "description": "SiYuan before v3.7.4 contains an information disclosure vulnerability in the /api/filetree/authFilePublishAccess endpoint, which is registered with CheckAuth only and is reachable anonymously. The endpoint never sets a failure code, so its outcome is signalled entirely by the response message and by the presence of a Set-Cookie header, and these signals differ across access tiers. By submitting requests with an empty password for a candidate document identifier, an anonymous attacker can distinguish whether a document is public/nonexistent, password-protected, or exists at the hidden or forbidden tier, thereby confirming the existence of documents they are not permitted to access. Because hidden and forbidden entries store an empty password, such requests also cause the server to issue a publish-auth cookie for forbidden documents.",
+      "severity": 5.8,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-4pjg-x8qj-33j5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-authfilepublishaccess",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Observable Discrepancy"
+      ]
+    },
+    {
+      "id": "CVE-2026-73049",
+      "publishedDate": "2026-08-14T11:35:45.099Z",
+      "lastModifiedDate": "2026-08-14T11:35:45.099Z",
+      "description": "SiYuan versions before v3.7.4 contain an information disclosure vulnerability in the getAttributeViewBacklinks endpoint that consults the forbidden access list instead of the visibility list when filtering backlinks. Anonymous readers can supply a publicly visible database row identifier to discover hidden-tier documents that reference it, receiving the database name, row title, and document path of hidden documents.",
+      "severity": 5.8,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-p4qw-vx5p-g984",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-getattributeviewbacklinks",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-73048",
+      "publishedDate": "2026-08-14T11:35:44.310Z",
+      "lastModifiedDate": "2026-08-14T11:35:44.310Z",
+      "description": "SiYuan versions before v3.7.4 contain an information disclosure vulnerability in the getRefIDsByFileAnnotationID endpoint that returns block identifiers citing PDF annotations without publish-access filtering. Attackers can extract block identifiers from restricted documents by supplying annotation identifiers visible in published pages, revealing citation relationships across forbidden and password-protected tiers.",
+      "severity": 5.8,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-f3q6-vc7q-m6h7",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-getrefidsbyfileannotationid",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72832",
+      "publishedDate": "2026-08-14T11:35:38.484Z",
+      "lastModifiedDate": "2026-08-14T11:35:38.484Z",
+      "description": "Grav versions from 1.5.2 through 2.0.12 contain a stored cross-site scripting vulnerability in the Security::detectXss() function (system/src/Grav/Common/Security.php). The event-handler scan is anchored at `<` and uses `[^>]*?`, which cannot cross the first literal `>`; when a `>` appears inside a quoted attribute value the browser keeps the tag open and parses a subsequent event handler (e.g. onerror), so the detector and browser disagree. A page editor without admin.super privileges can save page content such as `<img src=x title=\">\" onerror=alert(document.domain)>`, which is accepted, stored, and executed in the site origin when any visitor (including unauthenticated users) views the page. Fixed in 2.0.13.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-269c-h76q-8cxw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/ad9709f865b09b68798fb1ac375b484a8cc1d892",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-stored-xss-via-quoted-attribute-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "unaffected",
+              "versionType": "semver",
+              "lessThan": "1.5.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ]
+    },
+    {
+      "id": "CVE-2026-72823",
+      "publishedDate": "2026-08-14T11:35:32.238Z",
+      "lastModifiedDate": "2026-08-14T11:35:32.238Z",
+      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.13 contains an API-key scope cap bypass in DemoController. Its private requireSuper() method checks isSuperAdmin() and returns early before invoking requirePermission(), so the api_key_scopes cap (enforced only in requirePermission()) is skipped. As a result, any scoped API key minted on a super account can bypass its scope restrictions when calling the baseline() and reset() operations (e.g. POST /api/v1/demo/reset), allowing it to capture the demo baseline or force a demo reset. Impact is bounded to demo-engine control and is conditional on demo mode being configured with writable resources.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-vq9w-jwj5-wfjg",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-cap-bypass-via-democontroller",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-72821",
+      "publishedDate": "2026-08-14T11:35:30.847Z",
+      "lastModifiedDate": "2026-08-14T11:35:30.847Z",
+      "description": "Grav Form plugin versions before 9.1.15 contain a stored cross-site scripting vulnerability in radio and toggle field option labels rendered with the Twig |raw filter. Attackers with form authoring permissions can inject HTML and script payloads in option labels that execute in the browsers of visitors and administrators viewing the form.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-5xv4-g337-2pg7",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-form-plugin-before-stored-xss-via-radio-toggle",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "9.1.15"
+            },
+            {
+              "version": "9.1.15",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ]
+    },
+    {
+      "id": "CVE-2026-72820",
+      "publishedDate": "2026-08-14T11:35:30.155Z",
+      "lastModifiedDate": "2026-08-14T11:35:30.155Z",
+      "description": "Grav versions before 2.0.13 fail to properly validate backup profile root paths, allowing attackers to archive directories outside GRAV_ROOT when not in the hard-coded deny-list. Attackers with profile editor access can configure backup profiles with traversal paths to expose sensitive files from locations like /opt, /mnt, or /srv.",
+      "severity": 4.9,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-fch7-cpv4-w7hg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getgrav/grav/commit/ad9709f865b09b68798fb1ac375b484a8cc1d892",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/grav-path-traversal-via-backup-profile-configuration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "2.0.11",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.0.13"
+            },
+            {
+              "version": "2.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-72834",
+      "publishedDate": "2026-08-14T11:35:40.049Z",
+      "lastModifiedDate": "2026-08-14T11:35:40.049Z",
+      "description": "filebrowser before 2.63.19 contains a permission bypass in the /api/resources endpoint. The checksum (?checksum=) branch of resourceGetHandler reads the entire file to compute a digest and returns it without performing a Perm.Download check (unlike the sibling raw, preview, and subtitle paths). As a result, an authenticated user provisioned with Perm.Download=false can obtain a content-hash oracle for any same-scope file (md5/sha1/sha256/sha512), enabling confirmation of known/guessed content, change detection, and offline brute-force of low-entropy files. This is an incomplete fix of CVE-2026-35606; it bypasses only the Download permission and does not defeat scope/path authorization.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-7whw-q6gh-xr59",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/filebrowser/filebrowser/commit/b7dc392838f11d188f0bc0f2a1a99fad3f7dca03",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/filebrowser-before-permission-bypass-via-checksum",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.63.19"
+            },
+            {
+              "version": "2.63.19",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of Sensitive Information to an Unauthorized Actor"
+      ]
+    },
+    {
+      "id": "CVE-2026-73051",
+      "publishedDate": "2026-08-14T11:35:45.780Z",
+      "lastModifiedDate": "2026-08-14T11:35:45.780Z",
+      "description": "actix-http versions before 3.12.1 contain an HTTP request smuggling vulnerability in the HTTP/1.1 parser that accepts requests with both Content-Length and Transfer-Encoding: chunked headers. Unauthenticated remote attackers can exploit this through a front-end intermediary to desynchronize backend requests and smuggle malicious HTTP requests to the Actix service.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：actix actix-web\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/actix/actix-web/security/advisories/GHSA-xhj4-vrgc-hr34",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/actix-http-before-http-request-smuggling-via-cl-te",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "actix",
+          "product": "actix-web",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:cargo/actix-http",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.12.0"
+            },
+            {
+              "version": "3.12.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+      ]
+    },
+    {
+      "id": "CVE-2026-72815",
+      "publishedDate": "2026-08-14T11:35:27.496Z",
+      "lastModifiedDate": "2026-08-14T11:35:27.496Z",
+      "description": "go-chi chi versions >= 5.2.1 and before 5.3.0 contain an IP spoofing vulnerability in the RealIP middleware, which blindly trusts the first (leftmost) value of the X-Forwarded-For HTTP header. A remote attacker can bypass IP-based access control lists and rate-limiting mechanisms, and forge log entries, by supplying a spoofed IP address in the X-Forwarded-For header. The issue is fixed in version 5.3.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-3fxj-6jh8-hvhx",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/go-chi-chi-ip-spoofing-via-x-forwarded-for-header",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "go-chi",
+          "product": "chi",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/https://github.com/go-chi/chi",
+          "versions": [
+            {
+              "version": "5.2.1",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.3.0"
+            },
+            {
+              "version": "5.3.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Authentication Bypass by Spoofing"
+      ]
+    },
+    {
+      "id": "CVE-2026-72814",
+      "publishedDate": "2026-08-14T11:35:26.816Z",
+      "lastModifiedDate": "2026-08-14T11:35:26.816Z",
+      "description": "The actix-files crate (actix_files) before version 0.6.10 contains an information exposure vulnerability. When a non-existing folder is passed as the serve_from argument to Files::new(), the mount path defaults to an empty path; the service then joins the request path with this empty path and canonicalizes it, causing Rust to resolve it as a relative path. As a result, an attacker can request paths that resolve relative to the application's working directory and access unintended files.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：actix actix-web\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/actix/actix-web/security/advisories/GHSA-8v2v-wjwg-vx6r",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/actix-web-before-information-disclosure-via-files",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "actix",
+          "product": "actix-web",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:cargo/actix-files",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.6.10"
+            },
+            {
+              "version": "0.6.10",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-72813",
+      "publishedDate": "2026-08-14T11:35:26.123Z",
+      "lastModifiedDate": "2026-08-14T11:35:26.123Z",
+      "description": "actix-files before 0.6.10 contains a denial of service vulnerability triggered by an empty Range header in GET requests for static files. When panic is set to abort, remote attackers can crash the process on-demand by sending a GET request with an empty Range header.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：actix actix-web\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/actix/actix-web/security/advisories/GHSA-gcqf-3g44-vc9p",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/actix-files-before-denial-of-service-via-empty-range-header",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "actix",
+          "product": "actix-web",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:cargo/actix-files",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.6.10"
+            },
+            {
+              "version": "0.6.10",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncaught Exception"
+      ]
+    },
+    {
+      "id": "CVE-2025-71405",
+      "publishedDate": "2026-08-14T11:35:23.411Z",
+      "lastModifiedDate": "2026-08-14T11:35:23.411Z",
+      "description": "chi versions before v5.2.2 contain an open redirect vulnerability in the RedirectSlashes middleware function that uses the Host header to construct redirect URLs. Attackers can manipulate the Host header to redirect users to arbitrary hosts, enabling phishing attacks and credential theft.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-vrw8-fxc6-2r93",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/go-chi-chi-before-open-redirect-via-redirectslashes",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "go-chi",
+          "product": "chi",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/chi",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.2.2"
+            },
+            {
+              "version": "5.2.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "URL Redirection to Untrusted Site ('Open Redirect')"
+      ]
+    },
+    {
+      "id": "CVE-2026-13048",
+      "publishedDate": "2026-08-13T16:28:25.637Z",
+      "lastModifiedDate": "2026-08-14T11:31:42.090Z",
+      "description": "Data::MuForm::Localizer versions through 0.05 for Perl execute Perl from a message catalog header, reached at an arbitrary path because load_lexicon interpolates the language attribute into the catalog filename.\n\nload_lexicon builds the catalog path by appending `Messages/$lang.po` to the directory holding Localizer.pm, where $lang is the language attribute, with no check that it names a bare locale tag. A value holding `../` segments walks out of the message directory, so any readable path with a `.po` suffix is loaded. While parsing the catalog, extract_header_msgstr takes the `Plural-Forms:` header, prefixes `$` to the bare words nplurals, plural and n, and passes the rest verbatim into a string that is evaluated: the nplurals form evaluates the header expression immediately, and the plural_code form compiles it into a subroutine whose body runs when a plural message is localized. A header of `nplurals=2; plural=(system('...'),0);` therefore runs that command as the catalog loads. The evaluation inherits strict, so an expression that assigns to an undeclared variable fails to compile, while one built from calls alone does not.\n\nAn application that sets the language attribute from request data, an Accept-Language header or a locale parameter, and an attacker who can place a file with a `.po` suffix and chosen contents at a readable path, together give code execution as the application user. The message expansion path is not affected: expand_named substitutes only the placeholder names the caller supplies, and _mangle_value returns the value unchanged.",
+      "severity": "8.5",
+      "fix_suggestion": "🔓 漏洞类型：CWE-95, Path Traversal (CWE-95, CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.metacpan.org/patches/D/Data-MuForm/0.05/CVE-2026-13048-r2.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/GSHANK/Data-MuForm-0.05/source/lib/Data/MuForm/Localizer.pm#L56-63",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/GSHANK/Data-MuForm-0.05/source/lib/Data/MuForm/Localizer.pm#L381-428",
           "type": "reference"
         }
       ],
@@ -47,34 +1547,28 @@
           "collectionURL": "https://cpan.org/modules",
           "defaultStatus": "unaffected",
           "modules": [
-            "HTML::FormHandler"
+            "Data::MuForm::Localizer"
           ],
-          "packageName": "HTML-FormHandler",
-          "packageURL": "pkg:cpan/HTML-FormHandler",
+          "packageName": "Data-MuForm",
+          "packageURL": "pkg:cpan/Data-MuForm",
           "programFiles": [
-            "lib/HTML/FormHandler/Validate.pm",
-            "lib/HTML/FormHandler/Field.pm",
-            "lib/HTML/FormHandler/I18N.pm",
-            "lib/HTML/FormHandler/I18N/en_us.pm"
+            "lib/Data/MuForm/Localizer.pm"
           ],
           "programRoutines": [
             {
-              "name": "HTML::FormHandler::Validate::_apply_actions"
+              "name": "Data::MuForm::Localizer::load_lexicon"
             },
             {
-              "name": "HTML::FormHandler::Field::add_error"
+              "name": "Data::MuForm::Localizer::extract_header_msgstr"
             },
             {
-              "name": "HTML::FormHandler::Field::default_localize"
-            },
-            {
-              "name": "HTML::FormHandler::I18N::maketext"
+              "name": "Data::MuForm::Localizer::get_lexicon"
             }
           ],
-          "repo": "https://github.com/gshank/html-formhandler",
+          "repo": "https://github.com/gshank/data-muform",
           "versions": [
             {
-              "lessThanOrEqual": "0.40068",
+              "lessThanOrEqual": "0.05",
               "status": "affected",
               "version": "0",
               "versionType": "custom"
@@ -83,13 +1577,14 @@
         }
       ],
       "problemType": [
-        "CWE-1336 Improper Neutralization of Special Elements Used in a Template Engine",
-        "CWE-470 Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+        "CWE-95 Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "cwe_ids": [
-        "CWE-1336",
-        "CWE-470"
-      ]
+        "CWE-95",
+        "CWE-22"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
