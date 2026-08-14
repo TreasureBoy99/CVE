@@ -2,51 +2,916 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 36,
-    "last_updated": "2026-08-14T12:09:25.504357",
+    "total_count": 49,
+    "last_updated": "2026-08-14T13:39:58.890892",
     "severity_distribution": {
-      "critical": 6,
-      "high": 12,
-      "medium": 13,
+      "critical": 3,
+      "high": 26,
+      "medium": 20,
       "low": 0,
-      "none": 5
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-72811",
-      "publishedDate": "2026-08-14T11:35:24.767Z",
-      "lastModifiedDate": "2026-08-14T11:35:24.767Z",
-      "description": "SiYuan versions <= v3.7.2 contain a SQL injection vulnerability in the backlink/mention search query (kernel/model/backlink.go), which concatenates stored block metadata (title, name, alias, anchor text) and the client-supplied keyword into a SQL MATCH/search statement while escaping only the double-quote character and not the single quote. A single quote in the client keyword (first-order, reachable by an anonymous or RoleReader user on the publish surface) or in stored document metadata (second-order) breaks out of the string literal. Because the query runs on the main read-write siyuan.db handle via a statement-stacking-capable driver, an attacker can execute arbitrary SQL, enabling cross-notebook read and write. Fixed in v3.7.4.",
-      "severity": 10,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72776",
+      "publishedDate": "2026-08-13T21:14:18.395Z",
+      "lastModifiedDate": "2026-08-14T12:46:47.212Z",
+      "description": "AgenticSeek (commit fc242c7) contains an unauthenticated remote code execution vulnerability that allows any network-adjacent attacker to execute arbitrary commands by submitting crafted queries to the unprotected POST /query API endpoint bound to 0.0.0.0:7777 with wildcard CORS. Attackers can send unauthenticated HTTP requests that cause the autonomous agent to generate and execute shell commands through BashInterpreter using subprocess.Popen with shell=True and safety=False, bypassing the incomplete command blocklist to achieve full host-level code execution.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Fosowl AgenticSeek\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-q2vg-7qgx-x5fc",
+          "url": "https://github.com/Fosowl/agenticSeek/issues/520",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-sql-injection-via-backlink-search",
+          "url": "https://github.com/Fosowl/agenticSeek",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Fosowl/agenticSeek/pull/534/changes/f1eb2cfc721f8a21dd16a8b048a9ca89f3259f6f",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/agenticseek-unauthenticated-rce-via-query-api-endpoint",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "Fosowl",
+          "product": "AgenticSeek",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/Fosowl/agenticSeek",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
+              "version": "0",
+              "versionType": "git",
+              "lessThan": "f1eb2cfc721f8a21dd16a8b048a9ca89f3259f6f"
+            }
+          ],
+          "repo": "https://github.com/Fosowl/agenticSeek"
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-67614",
+      "publishedDate": "2026-08-13T17:08:40.038Z",
+      "lastModifiedDate": "2026-08-14T12:46:36.835Z",
+      "description": "CyberPanel before 3.0.0 contains a hard-coded JWT secret vulnerability in the WebTerminal FastAPI SSH service that allows unauthenticated remote attackers to forge valid authentication tokens and obtain an interactive root shell via WebSocket on port 8888. Attackers can craft a forged JWT signed with the hardcoded secret value, specifying ssh_user=root, to authenticate to the terminal service without any valid credentials and receive a root shell.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：usmannasir cyberpanel\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cyberpanel.net/KnowledgeBase/home/change-logs/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/usmannasir/cyberpanel/issues/1858",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cyberpanel-hard-coded-jwt-secret-authentication-bypass-via-webterminal",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "usmannasir",
+          "product": "cyberpanel",
+          "packageURL": "pkg:github/usmannasir/cyberpanel",
+          "repo": "https://github.com/usmannasir/cyberpanel",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
               "versionType": "semver",
-              "lessThan": "3.7.4"
+              "lessThan": "3.0.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Use of Hard-coded Credentials"
+      ]
+    },
+    {
+      "id": "CVE-2026-53791",
+      "publishedDate": "2026-08-13T14:38:10.300Z",
+      "lastModifiedDate": "2026-08-14T12:46:27.338Z",
+      "description": "rsync daemon before 3.5.0 contains an IP address spoofing vulnerability that allows unauthenticated remote attackers to bypass IP-based access controls by sending a crafted PROXY protocol header with a forged source address. Attackers who can connect directly to the rsync daemon can inject a spoofed source IP in the PROXY protocol header to circumvent hosts allow/deny rules, gaining unauthorized access that would otherwise be blocked based on their real source address.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-290 (CWE-290)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-h2q9-5fr8-w635",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-daemon-ip-spoofing-via-proxy-protocol-header",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "3.7.4",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-290 Authentication Bypass by Spoofing"
+      ],
+      "cwe_ids": [
+        "CWE-290"
+      ]
+    },
+    {
+      "id": "CVE-2026-73514",
+      "publishedDate": "2026-08-13T15:36:14.564Z",
+      "lastModifiedDate": "2026-08-14T12:46:52.825Z",
+      "description": "The address_standardizer extension for PostGIS through 3.7.0, fixed in commit 423570b, contains an out-of-bounds write vulnerability that allows a database user with the ability to supply caller-controlled relation names to standardize_address() to trigger memory corruption by providing a rules table with a classification Type value exceeding the fixed class range. Attackers can craft a malicious rules table entry with an oversized rule type value that is used without bounds checking as an index into an internal output-link table, resulting in an out-of-bounds write.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：PostGIS address_standardizer\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://mehmetince.net/part-1-6-systemic-risks-in-the-managed-postgresql-industry-extension-risks-are-real-exploiting-postgis-memory-corruption-bug-at-neondb-supabase-and-many-more/",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/postgis/address_standardizer/pull/3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/postgis/address_standardizer/pull/4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/postgis/address_standardizer/commit/423570b0dbf6cd9f6fc36de28a636e7b6e9aa8aa",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/postgis-address-standardizer-out-of-bounds-write-via-standardize-address",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "PostGIS",
+          "product": "address_standardizer",
+          "packageURL": "pkg:github/postgis/address_standardizer",
+          "repo": "https://github.com/postgis/address_standardizer",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "git",
+              "lessThan": "423570b0dbf6cd9f6fc36de28a636e7b6e9aa8aa"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Out-of-bounds Write"
+      ]
+    },
+    {
+      "id": "CVE-2026-72777",
+      "publishedDate": "2026-08-13T18:23:18.212Z",
+      "lastModifiedDate": "2026-08-14T12:46:47.903Z",
+      "description": "Next AI Draw.io through 0.4.16 contains a server-side request forgery vulnerability in the POST /api/parse-url endpoint due to hostname validation that only checks string patterns without DNS resolution. Unauthenticated attackers can supply hostnames that bypass string validation but resolve to internal addresses, allowing them to reach arbitrary internal HTTP services and exfiltrate responses including cloud metadata.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：DayuanJiang next-ai-draw-io\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/DayuanJiang/next-ai-draw-io/issues/918",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/next-ai-draw-io-ssrf-via-dns-rebinding-in-parse-url",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "DayuanJiang",
+          "product": "next-ai-draw-io",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/DayuanJiang/next-ai-draw-io",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "0.4.16"
+            }
+          ],
+          "repo": "https://github.com/DayuanJiang/next-ai-draw-io"
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-70456",
+      "publishedDate": "2026-08-13T14:44:56.646Z",
+      "lastModifiedDate": "2026-08-14T12:46:40.227Z",
+      "description": "rsync 3.0.1 before 3.5.0 contains an out-of-bounds write vulnerability in the read_args() function that allows a malicious sender to corrupt adjacent heap memory by sending a crafted argument list. When the argument count causes the argv allocation to be exactly full, the trailing NULL terminator is written one slot beyond the allocation boundary, corrupting adjacent heap memory.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-78jc-79jv-v6rw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-heap-out-of-bounds-write-via-read-args",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.1",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-70458",
+      "publishedDate": "2026-08-13T14:44:06.034Z",
+      "lastModifiedDate": "2026-08-14T12:46:41.607Z",
+      "description": "rsync 3.0.0 before 3.5.0 contains an out-of-bounds write vulnerability that allows attackers to corrupt memory by triggering HLINK_BUMP processing on file entries with the FLAG_HLINKED flag set while the hard-link preservation option is inactive. Attackers can exploit the missing F_SUM field in the file_struct layout to access memory past the end of the allocated structure, corrupting adjacent heap or stack data.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-gg3m-4m9m-268h",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-out-of-bounds-write-via-flag-hlinked-handling",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-70461",
+      "publishedDate": "2026-08-13T14:42:49.726Z",
+      "lastModifiedDate": "2026-08-14T12:46:43.716Z",
+      "description": "rsync 3.2.5 before 3.5.0 contains a heap out-of-bounds write vulnerability that allows remote unauthenticated attackers to write one attacker-controlled byte past the end of a heap allocation by supplying a crafted files-from entry. Attackers can trigger the vulnerability against a read-only rsync daemon module by providing a files-from entry containing both an interior and trailing backslash, causing the add_implied_include() function to under-count the trailing backslash when sizing the destination buffer.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-jhxm-j4mq-3fj4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-heap-out-of-bounds-write-via-files-from-entry",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.2.5",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-73482",
+      "publishedDate": "2026-08-13T18:49:02.379Z",
+      "lastModifiedDate": "2026-08-14T12:46:52.036Z",
+      "description": "phpList before 3.7.0-RC5 contains a cross-site request forgery (CSRF) vulnerability in lists/admin/admins.php. The administrator deletion action is triggered via an unauthenticated GET request (?page=admins&delete=N) that is not protected by a CSRF token (the central verifyCsrfGetToken check uses enforce=false and is bypassed when the token parameter is absent). A remote attacker can trick a logged-in super-administrator into loading a crafted URL (e.g., embedded as an image in an email) to delete any non-self administrator account.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：phplist phplist3\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/phpList/phplist3/issues/1117",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/phpList/phplist3/releases/tag/v3.7.0-RC5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpList/phplist3/pull/1121",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpList/phplist3/commit/5159c3ed33a5674a8169472b50d146d97f630746",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/phplist-rc5-cross-site-request-forgery-via-admins-php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "phplist",
+          "product": "phplist3",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/phpList/phplist3",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom",
+              "lessThan": "3.7.0-RC5"
+            }
+          ],
+          "repo": "https://github.com/phpList/phplist3"
+        }
+      ],
+      "problemType": [
+        "Cross-Site Request Forgery (CSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-72741",
+      "publishedDate": "2026-08-13T17:59:25.934Z",
+      "lastModifiedDate": "2026-08-14T12:46:46.500Z",
+      "description": "Rainbond through 6.9.7 contains a broken access control vulnerability in the CheckToken function that allows authenticated attackers to access unauthorized enterprise resources by substituting another enterprise's tenant name in URL paths. Attackers can use any valid API token to bypass enterprise ID verification and access or modify another enterprise's services, plugins, environment variables, and certificates.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：goodrain rainbond\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/goodrain/rainbond/issues/2665",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rainbond-region-api-cross-enterprise-idor-via-tenant-access",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "goodrain",
+          "product": "rainbond",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:golang/github.com/goodrain/rainbond",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "6.9.7"
+            }
+          ],
+          "repo": "https://github.com/goodrain/rainbond"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ]
+    },
+    {
+      "id": "CVE-2026-70460",
+      "publishedDate": "2026-08-13T14:43:06.250Z",
+      "lastModifiedDate": "2026-08-14T12:46:43.015Z",
+      "description": "rsync 2.3.3 before 3.5.0 contains a path traversal vulnerability that allows a malicious sender to escape the module root by exploiting symlinks within the module file tree when using --partial-dir or --backup-dir options. Attackers with write access to place a symlink under the module root, or who can exploit a pre-existing trusted symlink, can direct file writes to locations outside the intended module root, achieving arbitrary file write relative to the module root parent.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：Path Traversal, CWE-59 (CWE-22, CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-w3xf-j2r2-gv4x",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-path-traversal-via-partial-dir-backup-dir-symlink",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "packageName": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.3.3",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-22",
+        "CWE-59"
+      ]
+    },
+    {
+      "id": "CVE-2026-70463",
+      "publishedDate": "2026-08-13T14:42:07.126Z",
+      "lastModifiedDate": "2026-08-14T12:46:45.075Z",
+      "description": "rsync 3.1.0 before 3.5.0 contains an authorization bypass in auth users directive parsing. The auth users parser uses comma-only tokenization when splitting the user list, which fails to correctly handle entries of the form @Group Name where the group name contains a space. The space within the group name causes the parser to split the entry at the space boundary, discarding the deny rule associated with the group. An authenticated user whose username or group membership would be denied by an @Group Name auth users entry can connect to a restricted module because the deny rule is silently discarded during parsing.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-pfj8-79vq-xgvr",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-authorization-bypass-via-auth-users-directive-parsing",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.1.0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-53795",
+      "publishedDate": "2026-08-13T14:39:26.044Z",
+      "lastModifiedDate": "2026-08-14T12:46:30.070Z",
+      "description": "rsync before 3.5.0 contains an arbitrary file write vulnerability that allows attackers to write files outside the intended destination tree by specifying an absolute path via --temp-dir or --link-dest options. The rename-confinement logic is bypassed when these options resolve to paths outside the destination tree, enabling attacker-controlled values to write files to arbitrary locations accessible to the rsync process.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-m9vj-637x-v6pq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-arbitrary-file-write-via-temp-dir-link-dest",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-59"
+      ]
+    },
+    {
+      "id": "CVE-2026-53790",
+      "publishedDate": "2026-08-13T14:37:41.052Z",
+      "lastModifiedDate": "2026-08-14T12:46:26.670Z",
+      "description": "rsync before 3.5.0 contains multiple command and argument injection vulnerabilities that allow attackers to execute arbitrary commands by supplying malicious input through several code paths, including the RSYNC_CONNECT_PROG environment variable, daemon hooks, the rsync-ssl wrapper, and remote-shell command newline injection. Attackers can inject shell metacharacters or newline characters into unsanitized user-supplied values such as hostnames and hostspecs to execute arbitrary commands under the privileges of the rsync process or the invoking user.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：OS Command Injection, Argument Injection (CWE-78, CWE-88)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-5hcf-7xxm-rmqq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-command-injection-via-multiple-code-paths",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "collectionURL": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "CWE-88 Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78",
+        "CWE-88"
+      ]
+    },
+    {
+      "id": "CVE-2026-53783",
+      "publishedDate": "2026-08-13T14:34:07.144Z",
+      "lastModifiedDate": "2026-08-14T12:46:22.546Z",
+      "description": "rsync before 3.5.0 contains a time-of-check to time-of-use (TOCTOU) race condition vulnerability in the rrsync restricted shell wrapper that allows authenticated clients to escape enforced directory restrictions by substituting a symlink for a path component after validation but before transfer processing. Attackers can additionally leverage unrestricted flags such as --copy-unsafe-links, -D, and --log-file through rrsync to read or write files outside the permitted directory subtree.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59, Argument Injection (CWE-59, CWE-88)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-9cgc-64g4-3gv5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-toctou-race-condition-directory-escape-via-rrsync",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')",
+        "CWE-88 Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-59",
+        "CWE-88"
+      ]
+    },
+    {
+      "id": "CVE-2026-70454",
+      "publishedDate": "2026-08-13T14:45:39.599Z",
+      "lastModifiedDate": "2026-08-14T12:46:38.874Z",
+      "description": "rsync 3.2.0 through 3.2.3 (openssl mode) and rsync-ssl through 3.4.4 (stunnel mode) contain a TLS certificate validation vulnerability that allows on-path attackers to intercept encrypted sessions by presenting self-signed or otherwise invalid certificates. Attackers can exploit the failure to validate server TLS certificates against a trusted CA or verify certificate hostname matching to decrypt or tamper with rsync session content without detection by the client.",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-295 (CWE-295)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-3c3x-ww2w-5r5p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-tls-certificate-validation-bypass-via-ssl-openssl-mode",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "collectionURL": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-295 Improper Certificate Validation"
+      ],
+      "cwe_ids": [
+        "CWE-295"
+      ]
+    },
+    {
+      "id": "CVE-2026-53803",
+      "publishedDate": "2026-08-13T14:33:18.552Z",
+      "lastModifiedDate": "2026-08-14T12:46:35.480Z",
+      "description": "rsync before 3.5.0 contains a symlink following vulnerability that allows local attackers to overwrite arbitrary files by placing a symlink at a predictable output path such as --log-file, --write-batch, or daemon-mode log and statistics paths. Attackers can exploit rsync's failure to reject symlinks during ancillary file writes to redirect output to arbitrary filesystem locations, achieving local privilege escalation on installations where rsync runs with elevated privileges such as setuid or privileged daemon configurations.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-g9f4-7q66-9582",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-symlink-following-arbitrary-file-overwrite",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "collectionURL": "https://github.com/RsyncProject/rsync",
+          "packageName": "rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-59"
+      ]
+    },
+    {
+      "id": "CVE-2026-73530",
+      "publishedDate": "2026-08-13T19:01:46.150Z",
+      "lastModifiedDate": "2026-08-14T12:46:53.548Z",
+      "description": "Flyto2 Core before 2.28.0 contains a server-side request forgery guard bypass vulnerability that allows attackers to reach internal services by supplying URLs using the unblocked IPv6 address `::` which the kernel routes to loopback identically to `0.0.0.0`. Attackers can submit requests or trigger 302 redirects to ` to bypass the private IP range and blocked hostname checks in `is_private_ip()`, reaching services bound to IPv6 loopback across the `http.get`, `http.request`, and `http.batch` modules.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：flytohub flyto-core\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/flytohub/flyto-core/security/advisories/GHSA-gc4h-hj7x-gp5p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/flytohub/flyto-core/releases/tag/v2.28.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/flyto2-core-ssrf-guard-bypass-via-is-private-ip",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "flytohub",
+          "product": "flyto-core",
+          "packageURL": "pkg:github/flytohub/flyto-core",
+          "repo": "https://github.com/flytohub/flyto-core",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "2.28.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2019-25765",
+      "publishedDate": "2026-08-13T17:21:38.584Z",
+      "lastModifiedDate": "2026-08-14T12:46:21.864Z",
+      "description": "ASP-CMS contains a SQL injection vulnerability in the commentList.asp endpoint that allows unauthenticated remote attackers to inject arbitrary SQL by manipulating the id parameter in GET requests to the comment listing script. Attackers can bypass the application's keyword blocklist by interleaving the string 'master' within blocked SQL terms to extract sensitive database contents. Exploitation evidence was first observed by the Shadowserver Foundation on 2023-10-18 (UTC).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：ASP-CMS Project ASP-CMS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://web.archive.org/web/20201001011935/https://www.safeinfo.me/2019/07/22/aspcms-lou-dong-ji-he.html",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.ddpoc.com/DVB-2021-821.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/projectdiscovery/nuclei-templates/issues/7968",
+          "type": "reference"
+        },
+        {
+          "url": "https://web.archive.org/web/20220425041152/https://asp-cms.sourceforge.net/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/asp-cms-sql-injection-via-commentlist-asp-id-parameter",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "ASP-CMS Project",
+          "product": "ASP-CMS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
             }
           ]
         }
@@ -56,1082 +921,995 @@
       ]
     },
     {
-      "id": "CVE-2026-72830",
-      "publishedDate": "2026-08-14T11:35:37.166Z",
-      "lastModifiedDate": "2026-08-14T11:35:37.166Z",
-      "description": "Grav API plugin versions before 1.0.13 fail to enforce API key scope caps in ConfigController super-scope gates, allowing scoped keys to write scheduler configuration. Attackers with a scoped api.config.write key can inject arbitrary commands into scheduler.custom_jobs that execute via Symfony Process for remote code execution.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-70453",
+      "publishedDate": "2026-08-13T14:46:20.696Z",
+      "lastModifiedDate": "2026-08-14T12:46:38.203Z",
+      "description": "rsync before 3.5.0 contains an algorithmic complexity vulnerability in the hash_search() function that allows a remote attacker to cause a denial of service by delivering a carefully constructed file list. A sender can exploit the quadratic-time worst-case behavior in hash lookups to exhaust receiver CPU resources with a modest number of crafted entries, causing a sustained denial of service.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-407 (CWE-407)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-2x29-3mjq-2pvx",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-8x5r-mjx8-83hv",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-api-plugin-before-rce-via-configcontroller-scope-bypass",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-algorithmic-complexity-dos-via-hash-search",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "1.0.13",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Improper Privilege Management"
+        "CWE-407 Inefficient Algorithmic Complexity"
+      ],
+      "cwe_ids": [
+        "CWE-407"
       ]
     },
     {
-      "id": "CVE-2026-72829",
-      "publishedDate": "2026-08-14T11:35:36.482Z",
-      "lastModifiedDate": "2026-08-14T11:35:36.482Z",
-      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.13 contains an API-key scope-cap bypass in UsersController's create() and update() methods. These methods enforce the scope cap only for api.users.write, but gate super-privilege grants on a bare isSuperAdmin() check that reads access.api.super directly without consulting the key's scopes. As a result, an api.users.write-scoped key minted on a super account can set access.api.super or assign a super-granting group to mint or promote a full super account, then authenticate as that account for uncapped administrative privileges.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-70455",
+      "publishedDate": "2026-08-13T14:45:11.164Z",
+      "lastModifiedDate": "2026-08-14T12:46:39.570Z",
+      "description": "rsync 3.4.2 before 3.5.0 contains a denial of service vulnerability that allows a remote sender to exhaust system resources by specifying the --zt short alias for --compress-threads, which bypasses the refuse options directive's string matching on long option names. Attackers can specify --zt=N with a large value to spawn an unbounded number of Zstandard worker threads on the receiver, exhausting available thread and memory resources.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-jrm3-jpp7-3gmx",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-rjvj-qgqg-cvx9",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-bypass-via-userscontroller",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-dos-via-zt-zstandard-compression-thread-exhaustion",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
+              "version": "3.4.2",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "1.0.13",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Improper Privilege Management"
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
       ]
     },
     {
-      "id": "CVE-2026-72826",
-      "publishedDate": "2026-08-14T11:35:34.460Z",
-      "lastModifiedDate": "2026-08-14T11:35:34.460Z",
-      "description": "The getgrav/grav-plugin-api plugin before 1.0.13 fails to validate that the scopes of a newly created API key are a subset of the caller's scopes in createApiKey. The self-target path of requireApiKeyPermission() requires only the baseline api.access scope, and the new key's scopes are read directly from the request body with no subset check. An attacker holding a minimal-scope API key on a super account can submit an empty scopes array to mint an unscoped, full-access super key, bypassing scope restrictions (and enabling further chains such as configuration write to RCE).",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-70464",
+      "publishedDate": "2026-08-13T14:41:47.987Z",
+      "lastModifiedDate": "2026-08-14T12:46:45.814Z",
+      "description": "rsync daemon 2.0.0 before 3.5.0 contains a denial of service vulnerability that allows unauthenticated remote attackers to exhaust daemon connection slots by stalling the handshake process before or after module selection without triggering the I/O timeout. Attackers can open many simultaneous connections and trickle data at the minimum rate to avoid timeout, or stall entirely before module selection where no timeout applies, consuming all available connection slots and denying service to legitimate clients.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-95v9-4fcj-96gh",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-hrwq-ccf7-rw5m",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-before-scope-bypass-via-createapikey",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-connection-slot-exhaustion-dos-via-handshake-stall",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
+              "version": "2.0.0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "1.0.13",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Incorrect Privilege Assignment"
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
       ]
     },
     {
-      "id": "CVE-2026-72824",
-      "publishedDate": "2026-08-14T11:35:33.122Z",
-      "lastModifiedDate": "2026-08-14T11:35:33.122Z",
-      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.13 contains an API key scope-cap bypass in PagesController::guardTwigContent(). The Twig-toggle check uses a bare isSuperAdmin() gate that does not consult api_key_scopes, so a least-privilege API key scoped only to api.pages.write and minted on a super account can enable process.twig on a page save even though admin.pages_twig is intentionally outside the api.pages scope. When security.twig_content.process_enabled=true and editor_enabled=false, this allows Twig-in-content to execute server-side, resulting in server-side template injection (SSTI) and remote code execution.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-70452",
+      "publishedDate": "2026-08-13T14:46:50.541Z",
+      "lastModifiedDate": "2026-08-14T12:46:37.524Z",
+      "description": "rsync 3.1.0 before 3.5.0 contains an access control bypass vulnerability that allows remote attackers to circumvent hosts deny rules by inducing DNS resolution failures during hostname-based access control evaluation. When a DNS lookup for a hostname-based deny rule fails, the daemon skips the rule rather than defaulting to a deny decision, enabling attackers who can trigger DNS failures to bypass module-level IP access controls and gain unauthorized access to restricted module file trees.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：Incorrect Authorization, CWE-636 (CWE-863, CWE-636)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-96xv-p87j-58mx",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-6692-28cx-wpqq",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-bypass-via-pagescontroller",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-access-control-bypass-via-dns-resolution-failure",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
+              "version": "3.1.0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "1.0.13",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-863 Incorrect Authorization",
+        "CWE-636 Not Failing Securely ('Failing Open')"
+      ],
+      "cwe_ids": [
+        "CWE-863",
+        "CWE-636"
       ]
     },
     {
-      "id": "CVE-2026-72822",
-      "publishedDate": "2026-08-14T11:35:31.592Z",
-      "lastModifiedDate": "2026-08-14T11:35:31.592Z",
-      "description": "The getgrav/grav-plugin-api Composer package before 1.0.13 (affected <= 1.0.12) fails to enforce API key scope caps on the disable2fa endpoint. Unlike the sibling generate2fa endpoint, disable2fa authorizes the admin (non-self) path solely via ACL reads (isSuperAdmin/hasPermission) and never invokes requirePermission(), so the api_key_scopes cap is never applied. As a result, a holder of a narrow-scope API key on a super account, or a non-super account whose ACL includes api.users.write, can force-disable two-factor authentication on any non-super target account via POST /api/v1/users/{user}/2fa/disable without providing a TOTP code, facilitating account takeover.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53793",
+      "publishedDate": "2026-08-13T14:38:42.288Z",
+      "lastModifiedDate": "2026-08-14T12:46:28.761Z",
+      "description": "rsync before 3.5.0 contains a path confinement bypass vulnerability that allows remote clients to escape the intended inner-module root confinement by constructing paths that resolve outside the chroot boundary when the module root contains a /./ boundary marker. Attackers can exploit improper handling of the /./ notation or forge delta-basis transfers referencing xname paths that cross the /./ boundary to gain unauthorized read or write access to files outside the module's subtree.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-22p9-6fh4-mmf2",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-wj7w-vh23-mm44",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-before-authentication-bypass-via-disable2fa",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-path-confinement-bypass-via-boundary-marker-in-chroot-mode",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "collectionURL": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "1.0.13",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Missing Authentication for Critical Function"
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-59"
       ]
     },
     {
-      "id": "CVE-2026-72837",
-      "publishedDate": "2026-08-14T11:35:42.191Z",
-      "lastModifiedDate": "2026-08-14T11:35:42.191Z",
-      "description": "File Browser versions before 2.63.20 fail to honor the createUserDir isolation in proxy and hook authentication auto-provisioning paths. Attackers with valid upstream-authenticated credentials can read, modify, delete, and share files belonging to other users by exploiting the server root scope assignment.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19826",
+      "publishedDate": "2026-08-14T13:00:09.415Z",
+      "lastModifiedDate": "2026-08-14T13:00:09.415Z",
+      "description": "A vulnerability was detected in alldatacenter alldata up to 0.6.8. This affects the function Hessian2Input.readObject of the file /serialize/impl/HessianSerializer.java of the component xxl-rpc Listener. The manipulation results in deserialization. The attack may be performed from remote. The exploit is now public and may be used. The project closed the issue report as \"not planned\" without any further explanation.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：alldatacenter alldata\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-j7jh-37pf-mf8h",
+          "url": "https://vuldb.com/vuln/389959",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/file-browser-before-privilege-escalation-via-proxy-authentication",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.63.20"
-            },
-            {
-              "version": "2.63.20",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Access Control"
-      ]
-    },
-    {
-      "id": "CVE-2026-72833",
-      "publishedDate": "2026-08-14T11:35:39.243Z",
-      "lastModifiedDate": "2026-08-14T11:35:39.243Z",
-      "description": "The Grav API plugin (getgrav/grav-plugin-api) versions >= 1.0.6 and <= 1.0.11 contain a privilege escalation vulnerability. A scoped API key minted on a super-admin account bypasses its declared scope cap on four isSuperAdmin()-gated write endpoints (in GroupsController, AccountsConfigController, PreferencesController, and DashboardWidgetController). These endpoints authorize via a super-admin early-return that never invokes requirePermission()—the sole enforcement point of the scope cap—so a 'read-only'-scoped key (e.g. api.pages.read) can perform super-only write operations, including rewriting group ACL maps to grant super-admin privileges to arbitrary accounts. A leaked or delegated read-only CI/monitoring key can therefore gain full super-admin write capability. Fixed in 1.0.13.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-jqgq-v53x-x99g",
+          "url": "https://vuldb.com/vuln/389959/cti",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-through-privilege-escalation-via-scoped-api-keys",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "unaffected",
-              "versionType": "semver",
-              "lessThan": "1.0.6"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Privilege Management"
-      ]
-    },
-    {
-      "id": "CVE-2026-72831",
-      "publishedDate": "2026-08-14T11:35:37.801Z",
-      "lastModifiedDate": "2026-08-14T11:35:37.801Z",
-      "description": "The Flex Objects plugin (through 1.4.6, tested with Grav 2.0.11) contains an incorrect authorization vulnerability in its Flex Objects API. FlexApiController::update() checks only the general Flex directory permission and does not apply the additional target/field/super-admin checks enforced by the dedicated Users and Groups API controllers. An authenticated account with api.access, admin.login, and users.update permissions (but without api.users.write or admin.super) can use the generic /api/v1/flex-objects/user-accounts endpoint to change a super administrator's password, or the /api/v1/flex-objects/user-groups endpoint to grant its group admin.super, resulting in full site takeover. Fixed in Flex Objects 1.4.7.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-pc8m-jxvh-vmrc",
+          "url": "https://vuldb.com/cve/CVE-2026-19826",
           "type": "reference"
         },
         {
-          "url": "https://github.com/getgrav/grav/commit/ad9709f865b09b68798fb1ac375b484a8cc1d892",
+          "url": "https://vuldb.com/submit/870236",
           "type": "reference"
         },
         {
-          "url": "https://github.com/getgrav/grav/commit/0b384f5b0e73b1ad9dd29c70185407895ea3b09f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getgrav/grav/commit/8071c10bc3a4743a4b8cf003dfb1644d6680c2ea",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/getgrav/grav/commit/a0bf26f7e5d7a98894b7cd2b8c5afe419b264e53",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-through-authentication-bypass-via-flex-objects",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "2.0.11",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThanOrEqual": "2.0.11"
-            }
-          ]
-        },
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.4.7"
-            },
-            {
-              "version": "1.4.7",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-72827",
-      "publishedDate": "2026-08-14T11:35:35.138Z",
-      "lastModifiedDate": "2026-08-14T11:35:35.138Z",
-      "description": "Grav CMS before 2.0.13 contains a server-side template injection vulnerability in email-action parameters that allows low-privileged page editors to execute arbitrary operating-system commands. Attackers can inject Twig payloads using the unsandboxed find filter in email subject, body, to, or from fields to achieve remote code execution when forms are submitted.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-xx48-97m4-h7qm",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-cms-before-remote-code-execution-via-twig",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.0.13"
-            },
-            {
-              "version": "2.0.13",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Special Elements Used in a Template Engine"
-      ]
-    },
-    {
-      "id": "CVE-2026-72819",
-      "publishedDate": "2026-08-14T11:35:29.507Z",
-      "lastModifiedDate": "2026-08-14T11:35:29.507Z",
-      "description": "Grav CMS before 2.0.13 contains a remote code execution vulnerability in the Flex Objects plugin settings validation that allows authenticated users to execute arbitrary code by uploading a ZIP file containing PHP code. Attackers can bypass routine name validation by using array notation instead of string notation, call the unZip routine with a malicious archive, and write PHP files to the web root for execution.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-r94f-hx44-8jqf",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-cms-before-remote-code-execution-via-zip-upload",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.0.13"
-            },
-            {
-              "version": "2.0.13",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Control of Generation of Code ('Code Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-19822",
-      "publishedDate": "2026-08-14T11:30:11.772Z",
-      "lastModifiedDate": "2026-08-14T11:30:11.772Z",
-      "description": "A vulnerability was identified in Tenda W20E 15.11.0.6(1068_1546_841)_CN_TDC. This issue affects the function lstAdd of the file /goform/editQos of the component QoS Edit. Such manipulation of the argument qosListConnecttedNum leads to stack-based buffer overflow. The attack may be launched remotely. The exploit is publicly available and might be used.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Tenda W20E\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/389955",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/389955/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-19822",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/869006",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/paueger/mycve/blob/main/Tenda_W20E/3.md",
+          "url": "https://github.com/alldatacenter/alldata/issues/832",
           "type": "poc"
         },
         {
-          "url": "https://www.tenda.com.cn/",
+          "url": "https://github.com/alldatacenter/alldata/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Tenda",
-          "product": "W20E",
+          "vendor": "alldatacenter",
+          "product": "alldata",
           "versions": [
             {
-              "version": "15.11.0.6(1068_1546_841)_CN_TDC",
+              "version": "0.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.4",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.5",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.6",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.7",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.8",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:o:tenda:w20e_firmware:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:alldata:alldata:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "QoS Edit"
+            "xxl-rpc Listener"
           ]
         }
       ],
       "problemType": [
-        "Stack-based Buffer Overflow",
-        "Memory Corruption"
+        "Deserialization",
+        "Improper Input Validation"
       ]
     },
     {
-      "id": "CVE-2026-72810",
-      "publishedDate": "2026-08-14T11:35:24.086Z",
-      "lastModifiedDate": "2026-08-14T11:35:24.086Z",
-      "description": "SiYuan versions before v3.7.4 contain a publish-boundary bypass vulnerability in WebSocket broadcast sessions that allows anonymous readers to receive unfiltered edits. Attackers can establish a WebSocket connection to the publish surface and passively receive real-time content events including password-protected and forbidden documents without authentication.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19825",
+      "publishedDate": "2026-08-14T12:45:09.231Z",
+      "lastModifiedDate": "2026-08-14T12:45:09.231Z",
+      "description": "A security vulnerability has been detected in SourceCodester Simple Client Management System 1.0. The impacted element is an unknown function of the file /classes/Master.php?f=save_service. The manipulation of the argument ID leads to sql injection. The attack is possible to be carried out remotely. The exploit has been disclosed publicly and may be used.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：SourceCodester Simple Client Management System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-mw8r-mw84-88v2",
+          "url": "https://vuldb.com/vuln/389958",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-publish-boundary-bypass-via-websocket",
+          "url": "https://vuldb.com/vuln/389958/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19825",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/869618",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lyf3273/CVE/issues/3",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.sourcecodester.com/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "SourceCodester",
+          "product": "Simple Client Management System",
           "versions": [
             {
+              "version": "1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:sourcecodester:simple_client_management_system:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "SQL Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-53785",
+      "publishedDate": "2026-08-13T14:34:59.757Z",
+      "lastModifiedDate": "2026-08-14T12:46:23.963Z",
+      "description": "rsync before 3.5.0 contains a path traversal vulnerability that allows a malicious sender to write files outside the intended destination directory tree by crafting relative paths with symlink components in --relative mode. The make_path() function follows symlinks pointing outside the destination tree while creating intermediate directories without verifying that created paths remain within the destination boundary, enabling arbitrary file writes on the receiver's filesystem.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-pph3-7xmf-rrqg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-path-traversal-write-escape-via-relative-mode",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
               "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "3.7.4",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-59"
       ]
     },
     {
-      "id": "CVE-2026-72836",
-      "publishedDate": "2026-08-14T11:35:41.491Z",
-      "lastModifiedDate": "2026-08-14T11:35:41.491Z",
-      "description": "FileBrowser before 2.63.19 does not account for case-insensitive filesystems when checking home directory ownership during self-registration. When Signup and CreateUserDir are enabled and FileBrowser's root is on a case-insensitive filesystem (confirmed on Windows/NTFS), two self-registered usernames that differ only in letter case (e.g., CaseVictim and casevictim) are stored as distinct accounts but resolve to the same physical home directory, because the scope-ownership check compares the persisted scope as an exact case-sensitive string. A second registrant can therefore read, overwrite, and delete another account's files through authenticated HTTP endpoints, without needing an existing account or victim interaction.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53784",
+      "publishedDate": "2026-08-13T14:34:22.543Z",
+      "lastModifiedDate": "2026-08-14T12:46:23.229Z",
+      "description": "rsync before 3.5.0 contains a path traversal vulnerability that allows remote clients to access files outside the intended module root when use chroot is disabled and the module root path or a component of it is a symlink. The daemon calls chdir() to the module root at session initialization without resolving symlinks via realpath() or equivalent, causing subsequent relative-path operations to reference files relative to the symlink target rather than the intended module root, enabling unauthorized file access.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-576v-w77m-gr84",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-ffg2-fr5g-3rxw",
           "type": "reference"
         },
         {
-          "url": "https://github.com/filebrowser/filebrowser/commit/fe7efb2e6afe66774cd86a5b0a03033bd514d0c0",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/filebrowser-before-case-sensitivity-authentication-bypass",
+          "url": "https://www.vulncheck.com/advisories/rsync-path-traversal-via-symlink-module-root",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
+              "status": "affected",
               "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.63.19"
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "2.63.19",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Improper Handling of Case Sensitivity"
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-59"
       ]
     },
     {
-      "id": "CVE-2026-72859",
-      "publishedDate": "2026-08-14T11:35:43.574Z",
-      "lastModifiedDate": "2026-08-14T11:35:43.574Z",
-      "description": "Budibase versions 3.39.4 before 3.40.0 contain an authorization regression in the S3 attachment upload endpoint that allows BASIC users to obtain S3 PutObject presigned URLs by sending POST requests to the attachments endpoint. The route was changed from a BUILDER permission check to a TABLE/WRITE check, which BASIC users hold by default. Attackers can specify arbitrary S3 buckets in the request body to generate presigned URLs for writing to any bucket accessible by the stored IAM credentials, enabling unauthorized file uploads.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：budibase server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53802",
+      "publishedDate": "2026-08-13T14:32:26.170Z",
+      "lastModifiedDate": "2026-08-14T12:46:34.803Z",
+      "description": "rsync before 3.5.0 contains an arbitrary file read vulnerability that allows attackers to read files accessible to the rsync daemon process by exploiting symlink following in input configuration file handling including --files-from, --password-file, and filter merge files. Attackers can place a symlink at a predictable --files-from or --password-file path, or supply a --files-from path that escapes the daemon module root, to read arbitrary files accessible to the rsync process.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-61 (CWE-61)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-xcx6-4f2g-hhgx",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-4mfr-8jrv-49x4",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/budibase-before-authorization-regression-via-s3-presigned-url",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-arbitrary-file-read-via-symlink-following",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "budibase",
-          "product": "server",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/budibase/server",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "3.39.4",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.40.0"
-            },
-            {
-              "version": "3.40.0",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-72825",
-      "publishedDate": "2026-08-14T11:35:33.800Z",
-      "lastModifiedDate": "2026-08-14T11:35:33.800Z",
-      "description": "The getgrav/grav-plugin-api plugin before 1.0.13 contains an API-key scope cap bypass in the POST /reports/twig-content/allowlist endpoint (ReportsController). The endpoint enforces requirePermission('api.config.write') followed by a bare isSuperAdmin() check instead of requireSuper(). Because isSuperAdmin() reads access.api.super directly and never consults api_key_scopes, a least-privilege API key scoped to api.config.write minted on a super account passes the gate, allowing an attacker to append attacker-chosen tokens to the security.twig_sandbox allowlist (persisted to user/config/security.yaml). Widening the allowlist turns any subsequent Twig-in-content render into an SSTI/RCE sink.",
-      "severity": 7.6,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-v5ph-7v92-wqm6",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-cap-bypass-via-reportscontroller",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
               "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "1.0.13",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-61 UNIX Symbolic Link (Symlink) Following"
+      ],
+      "cwe_ids": [
+        "CWE-61"
       ]
     },
     {
-      "id": "CVE-2026-72828",
-      "publishedDate": "2026-08-14T11:35:35.810Z",
-      "lastModifiedDate": "2026-08-14T11:35:35.810Z",
-      "description": "Grav Plugin API (getgrav/grav-plugin-api) before 1.0.13 fails to enforce API-key scope caps in InvitationsController. The strip-super and accept-groups decisions are gated on a bare isSuperAdmin() check rather than a scope-aware permission check, so a least-privilege API key (scoped to api.users.write) minted on a super account can create an invitation record containing super-admin access flags. When the invitation is accepted, those flags are written verbatim to the new account, resulting in privilege escalation to a fully controlled super account.",
-      "severity": 7.2,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-wvpj-fg8h-843q",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-bypass-via-invitationscontroller",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.0.13"
-            },
-            {
-              "version": "1.0.13",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Privilege Management"
-      ]
-    },
-    {
-      "id": "CVE-2026-72835",
-      "publishedDate": "2026-08-14T11:35:40.774Z",
-      "lastModifiedDate": "2026-08-14T11:35:40.774Z",
-      "description": "filebrowser versions before v2.63.21 fail to canonicalize paths before evaluating access rules, allowing authenticated users to bypass administrator-defined deny rules using case-variant or backslash-separated paths. Attackers can request files with alternate path representations that match no rule but resolve to the same filesystem object, gaining unauthorized access to denied files within their scope.",
-      "severity": 6.8,
-      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-fgm5-pw99-w2p7",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/filebrowser-before-access-rule-bypass-via-path-canonicalization",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.63.21"
-            },
-            {
-              "version": "2.63.21",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Resolution of Path Equivalence"
-      ]
-    },
-    {
-      "id": "CVE-2026-72838",
-      "publishedDate": "2026-08-14T11:35:42.867Z",
-      "lastModifiedDate": "2026-08-14T11:35:42.867Z",
-      "description": "FileBrowser versions before 2.63.19 fail to enforce the declared Upload-Length in the TUS resumable-upload PATCH endpoint, allowing authenticated users to write arbitrary data to disk. Attackers can send oversized request bodies that exceed the declared upload length to exhaust available disk space and cause service unavailability.",
+      "id": "CVE-2026-70457",
+      "publishedDate": "2026-08-13T14:44:30.104Z",
+      "lastModifiedDate": "2026-08-14T12:46:40.918Z",
+      "description": "rsync 3.2.3 before 3.5.0 contains an out-of-bounds write in parse_size_arg() where the return value of snprintf() is used directly as an index into a .bss-segment array without bounds checking. When snprintf truncates the formatted size string, the return value equals the number of characters that would have been written including the truncated portion, and this value may exceed the array length. The subsequent indexed write targets memory outside the intended array bounds, corrupting .bss memory.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-131, CWE-787 (CWE-131, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-ffv3-7h97-993q",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-pg7g-xqmr-xpfh",
           "type": "reference"
         },
         {
-          "url": "https://github.com/filebrowser/filebrowser/commit/4daddec6f200b03a721197d8c0b4b652c994894e",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/filebrowser-before-disk-exhaustion-via-tus-upload",
+          "url": "https://www.vulncheck.com/advisories/rsync-out-of-bounds-write-via-parse-size-arg",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.63.19"
+              "version": "3.2.3",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "2.63.19",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Allocation of Resources Without Limits or Throttling"
+        "CWE-131 Incorrect Calculation of Buffer Size",
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-131",
+        "CWE-787"
       ]
     },
     {
-      "id": "CVE-2026-72817",
-      "publishedDate": "2026-08-14T11:35:28.824Z",
-      "lastModifiedDate": "2026-08-14T11:35:28.824Z",
-      "description": "go-chi/chi versions 0.9.0 before 5.3.0 contains an IP spoofing vulnerability in the RealIP middleware, which resolves the request source IP (Request.RemoteAddr) using the first IP in the X-Forwarded-For header without validating trusted proxies. A malicious client can prepend a forged IP as the first value of the X-Forwarded-For header to spoof the request source IP, potentially bypassing access controls or falsifying request logs.",
+      "id": "CVE-2026-70462",
+      "publishedDate": "2026-08-13T14:42:28.449Z",
+      "lastModifiedDate": "2026-08-14T12:46:44.404Z",
+      "description": "rsync 3.1.0 before 3.5.0 contains a signed integer overflow vulnerability in the I/O timeout implementation that allows attackers to permanently disable connection timeouts by injecting MSG_IO_TIMEOUT messages carrying non-positive (zero or negative) values. Attackers can craft malicious MSG_IO_TIMEOUT messages that cause the timeout variable to wrap to a non-positive value, preventing the timeout check from firing and enabling idle or stalled connections to hold daemon slots indefinitely, leading to resource exhaustion.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：Integer Overflow or Wraparound, Infinite Loop / Unreachable Exit (CWE-190, CWE-835)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-9g5q-2w5x-hmxf",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-j9wh-5jmp-2m64",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/go-chi-chi-before-ip-spoofing-via-x-forwarded-for",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-signed-integer-overflow-via-msg-io-timeout",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "go-chi",
-          "product": "chi",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/go-chi/chi/middleware",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0.9.0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "5.3.0"
+              "version": "3.1.0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "5.3.0",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Insufficient Verification of Data Authenticity"
+        "CWE-190 Integer Overflow or Wraparound",
+        "CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')"
+      ],
+      "cwe_ids": [
+        "CWE-190",
+        "CWE-835"
       ]
     },
     {
-      "id": "CVE-2026-72816",
-      "publishedDate": "2026-08-14T11:35:28.145Z",
-      "lastModifiedDate": "2026-08-14T11:35:28.145Z",
-      "description": "go-chi/chi through 5.2.1 contains an IP spoofing vulnerability in the RealIP middleware (middleware/realip.go). The realIP() function reads client-controlled headers (True-Client-IP, X-Real-IP, and X-Forwarded-For) and overwrites r.RemoteAddr without verifying that the request originated from a trusted proxy. Attackers can supply arbitrary IP addresses in these headers to bypass IP-based access controls, evade rate limiting and geo-IP restrictions, and pollute audit logs. Fixed in 5.3.0.",
+      "id": "CVE-2026-53792",
+      "publishedDate": "2026-08-13T14:38:30.864Z",
+      "lastModifiedDate": "2026-08-14T12:46:28.047Z",
+      "description": "rsync before 3.5.0 contains an out-of-bounds read vulnerability in the sender-side block matching logic that allows a malicious receiver to trigger memory access before the start of an allocated buffer by sending a crafted checksum block with a length of zero. Attackers can send a specially crafted checksum set containing a zero-length block to cause a negative offset calculation during delta computation, resulting in an out-of-bounds read of file data buffer memory on the sender side.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-129, CWE-787 (CWE-129, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-rjr7-jggh-pgcp",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-cg57-rp9g-56hw",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/go-chi-chi-before-ip-spoofing-via-realip-middleware",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-out-of-bounds-read-via-zero-length-checksum-block",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "go-chi",
-          "product": "chi",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/https://github.com/go-chi/chi",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "collectionURL": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "5.3.0"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "5.3.0",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Authentication Bypass by Spoofing"
+        "CWE-129 Improper Validation of Array Index",
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-129",
+        "CWE-787"
       ]
     },
     {
-      "id": "CVE-2026-72812",
-      "publishedDate": "2026-08-14T11:35:25.455Z",
-      "lastModifiedDate": "2026-08-14T11:35:25.455Z",
-      "description": "SiYuan versions before v3.7.4 contain a missing authorization vulnerability in the /api/ref/refreshBacklink endpoint that allows anonymous readers to trigger persistent server-side writes. Attackers can invoke the endpoint with an attacker-controlled block ID to flush transaction queues, scan all references globally, and enqueue database writes, bypassing read-only protections and enabling resource amplification attacks.",
+      "id": "CVE-2026-53789",
+      "publishedDate": "2026-08-13T14:37:14.035Z",
+      "lastModifiedDate": "2026-08-14T12:46:26.005Z",
+      "description": "rsync before 3.5.0 contains an improper path handling vulnerability that allows a malicious sender to expand the scope of --delete operations beyond the intended destination subtree by sending a crafted file list that causes rsync to reclassify implied parent directory entries or treat synthetic paths as the transfer root. Attackers can exploit multiple variants including implied parent reclassification, synthetic root path construction, legacy protocol behavior below version 30, and non-directory root handling to cause the receiver to delete files outside the authorized destination directory.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-807 (CWE-807)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-wgwx-479j-23vq",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-fxwg-7hmf-xh5q",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-missing-authorization-via-refreshbacklink",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-arbitrary-file-deletion-via-malicious-file-list",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "3.7.4",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-807 Reliance on Untrusted Inputs in a Security Decision"
+      ],
+      "cwe_ids": [
+        "CWE-807"
       ]
     },
     {
-      "id": "CVE-2026-73630",
-      "publishedDate": "2026-08-14T11:35:46.446Z",
-      "lastModifiedDate": "2026-08-14T11:35:46.446Z",
-      "description": "SiYuan before v3.7.4 contains an information disclosure vulnerability in the /api/filetree/authFilePublishAccess endpoint, which is registered with CheckAuth only and is reachable anonymously. The endpoint never sets a failure code, so its outcome is signalled entirely by the response message and by the presence of a Set-Cookie header, and these signals differ across access tiers. By submitting requests with an empty password for a candidate document identifier, an anonymous attacker can distinguish whether a document is public/nonexistent, password-protected, or exists at the hidden or forbidden tier, thereby confirming the existence of documents they are not permitted to access. Because hidden and forbidden entries store an empty password, such requests also cause the server to issue a publish-auth cookie for forbidden documents.",
-      "severity": 5.8,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53788",
+      "publishedDate": "2026-08-13T14:36:43.279Z",
+      "lastModifiedDate": "2026-08-14T12:46:25.325Z",
+      "description": "rsync before 3.5.0 contains a newline injection vulnerability in the name-converter uid/gid mapping interface that allows local attackers to forge protocol messages by creating user or group names containing newline characters. Attackers can inject malicious newline characters into names communicated over the pipe-based line-oriented protocol to cause the rsync daemon to process attacker-influenced data as legitimate protocol input, corrupting uid/gid mapping logic.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-93 (CWE-93)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-4pjg-x8qj-33j5",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-p4c5-8c68-5fjq",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-authfilepublishaccess",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-newline-injection-via-name-converter-uid-gid-mapping",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "3.7.4",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Observable Discrepancy"
+        "CWE-93 Improper Neutralization of CRLF Sequences ('CRLF Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-93"
       ]
     },
     {
-      "id": "CVE-2026-73049",
-      "publishedDate": "2026-08-14T11:35:45.099Z",
-      "lastModifiedDate": "2026-08-14T11:35:45.099Z",
-      "description": "SiYuan versions before v3.7.4 contain an information disclosure vulnerability in the getAttributeViewBacklinks endpoint that consults the forbidden access list instead of the visibility list when filtering backlinks. Anonymous readers can supply a publicly visible database row identifier to discover hidden-tier documents that reference it, receiving the database name, row title, and document path of hidden documents.",
-      "severity": 5.8,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53786",
+      "publishedDate": "2026-08-13T14:35:34.378Z",
+      "lastModifiedDate": "2026-08-14T12:46:24.644Z",
+      "description": "rsync before 3.5.0 contains a filter rule bypass vulnerability that allows authenticated clients to override module-level filter restrictions by supplying malicious --filter merge file directives. Attackers can inject client-side merge file directives during filter evaluation to introduce rules that supersede daemon module-level restrictions, gaining access to files the module filter was intended to exclude.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-p4qw-vx5p-g984",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-mrc3-6cwx-hch6",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-getattributeviewbacklinks",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-filter-rule-bypass-via-filter-merge-directive",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "3.7.4",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Incorrect Authorization"
+        "CWE-863 Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
       ]
     },
     {
-      "id": "CVE-2026-73048",
-      "publishedDate": "2026-08-14T11:35:44.310Z",
-      "lastModifiedDate": "2026-08-14T11:35:44.310Z",
-      "description": "SiYuan versions before v3.7.4 contain an information disclosure vulnerability in the getRefIDsByFileAnnotationID endpoint that returns block identifiers citing PDF annotations without publish-access filtering. Attackers can extract block identifiers from restricted documents by supplying annotation identifiers visible in published pages, revealing citation relationships across forbidden and password-protected tiers.",
-      "severity": 5.8,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53799",
+      "publishedDate": "2026-08-13T14:40:45.664Z",
+      "lastModifiedDate": "2026-08-14T12:46:32.820Z",
+      "description": "rsync before 3.5.0 contains a symlink race condition vulnerability that allows local attackers to cause rsync to apply arbitrary ACLs or extended attributes to unintended files by substituting a symlink at a predictable destination path between the file write and the subsequent acl_set_file() or lsetxattr() call. Attackers can exploit this timing window to redirect ACL and xattr application through a crafted symlink to files outside the intended destination tree, potentially granting elevated permissions and enabling local privilege escalation.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59, CWE-367 (CWE-59, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-f3q6-vc7q-m6h7",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-phxh-hjqv-39c9",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-getrefidsbyfileannotationid",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-symlink-race-condition-via-acl-xattr-application",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
             },
             {
-              "version": "3.7.4",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')",
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-59",
+        "CWE-367"
       ]
     },
     {
-      "id": "CVE-2026-72832",
-      "publishedDate": "2026-08-14T11:35:38.484Z",
-      "lastModifiedDate": "2026-08-14T11:35:38.484Z",
-      "description": "Grav versions from 1.5.2 through 2.0.12 contain a stored cross-site scripting vulnerability in the Security::detectXss() function (system/src/Grav/Common/Security.php). The event-handler scan is anchored at `<` and uses `[^>]*?`, which cannot cross the first literal `>`; when a `>` appears inside a quoted attribute value the browser keeps the tag open and parses a subsequent event handler (e.g. onerror), so the detector and browser disagree. A page editor without admin.super privileges can save page content such as `<img src=x title=\">\" onerror=alert(document.domain)>`, which is accepted, stored, and executed in the site origin when any visitor (including unauthenticated users) views the page. Fixed in 2.0.13.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53796",
+      "publishedDate": "2026-08-13T14:39:46.882Z",
+      "lastModifiedDate": "2026-08-14T12:46:30.761Z",
+      "description": "rsync before 3.5.0 contains a time-of-check to time-of-use (TOCTOU) race condition vulnerability in the non-daemon receiver's destination directory handling that allows an attacker who can manipulate destination path parent components to redirect file writes to unintended locations. Attackers can substitute a symlink for a component of the destination path between the path resolution and chdir() call, causing the receiver's working directory to be established outside the intended destination tree so that subsequent relative-path file writes land in unintended filesystem locations.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59, CWE-367 (CWE-59, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-269c-h76q-8cxw",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-w75h-ccff-w53m",
           "type": "reference"
         },
         {
-          "url": "https://github.com/getgrav/grav/commit/ad9709f865b09b68798fb1ac375b484a8cc1d892",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-before-stored-xss-via-quoted-attribute-bypass",
+          "url": "https://www.vulncheck.com/advisories/rsync-toctou-race-condition-via-destination-directory-handling",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')",
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-59",
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-73038",
+      "publishedDate": "2026-08-13T18:41:49.275Z",
+      "lastModifiedDate": "2026-08-14T12:46:49.280Z",
+      "description": "NodeBB before 4.15.0 contains a stored cross-site scripting vulnerability in the renderEmoji function that fails to escape tag.icon.url and tag.name attributes. Attackers can deliver malicious ActivityPub Create/Note objects with crafted emoji tags to inject arbitrary HTML and JavaScript into stored post content, executing code in all viewers' browsers.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：NodeBB NodeBB\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/NodeBB/NodeBB/issues/14601",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NodeBB/NodeBB/releases/tag/v4.15.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/NodeBB/NodeBB/commit/c0d94a217edcafcdb9b3920a6e80935194bcb19e",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/nodebb-stored-xss-via-activitypub-emoji-tag-icon-url-and-tag-name",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NodeBB",
+          "product": "NodeBB",
           "defaultStatus": "affected",
           "versions": [
             {
+              "status": "affected",
               "version": "0",
-              "status": "unaffected",
               "versionType": "semver",
-              "lessThan": "1.5.2"
+              "lessThan": "4.15.0"
             }
-          ]
+          ],
+          "repo": "https://github.com/NodeBB/NodeBB",
+          "packageURL": "pkg:github/NodeBB/NodeBB"
         }
       ],
       "problemType": [
@@ -1139,81 +1917,37 @@
       ]
     },
     {
-      "id": "CVE-2026-72823",
-      "publishedDate": "2026-08-14T11:35:32.238Z",
-      "lastModifiedDate": "2026-08-14T11:35:32.238Z",
-      "description": "The Grav API plugin (getgrav/grav-plugin-api) before 1.0.13 contains an API-key scope cap bypass in DemoController. Its private requireSuper() method checks isSuperAdmin() and returns early before invoking requirePermission(), so the api_key_scopes cap (enforced only in requirePermission()) is skipped. As a result, any scoped API key minted on a super account can bypass its scope restrictions when calling the baseline() and reset() operations (e.g. POST /api/v1/demo/reset), allowing it to capture the demo baseline or force a demo reset. Impact is bounded to demo-engine control and is conditional on demo mode being configured with writable resources.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73037",
+      "publishedDate": "2026-08-13T18:18:57.753Z",
+      "lastModifiedDate": "2026-08-14T12:46:48.593Z",
+      "description": "Next AI Draw.io 0.2.1 through 0.4.16 contains a reflected cross-site scripting vulnerability in the mcp query parameter that is interpolated without escaping into HTML and JavaScript. Attackers can craft malicious URLs to execute arbitrary JavaScript in the localhost origin, enabling exfiltration of diagram sessions and API data.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：DayuanJiang next-ai-draw-io\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-vq9w-jwj5-wfjg",
-          "type": "reference"
+          "url": "https://github.com/DayuanJiang/next-ai-draw-io/issues/917",
+          "type": "poc"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-before-api-key-scope-cap-bypass-via-democontroller",
+          "url": "https://www.vulncheck.com/advisories/next-ai-draw-io-reflected-xss-via-unsanitized-mcp-query-parameter",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "DayuanJiang",
+          "product": "next-ai-draw-io",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/DayuanJiang/next-ai-draw-io",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
+              "version": "0.2.1",
               "versionType": "semver",
-              "lessThan": "1.0.13"
-            },
-            {
-              "version": "1.0.13",
-              "status": "unaffected",
-              "versionType": "semver"
+              "lessThanOrEqual": "0.4.16"
             }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-72821",
-      "publishedDate": "2026-08-14T11:35:30.847Z",
-      "lastModifiedDate": "2026-08-14T11:35:30.847Z",
-      "description": "Grav Form plugin versions before 9.1.15 contain a stored cross-site scripting vulnerability in radio and toggle field option labels rendered with the Twig |raw filter. Attackers with form authoring permissions can inject HTML and script payloads in option labels that execute in the browsers of visitors and administrators viewing the form.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-5xv4-g337-2pg7",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/grav-form-plugin-before-stored-xss-via-radio-toggle",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "9.1.15"
-            },
-            {
-              "version": "9.1.15",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
+          ],
+          "repo": "https://github.com/DayuanJiang/next-ai-draw-io"
         }
       ],
       "problemType": [
@@ -1221,370 +1955,493 @@
       ]
     },
     {
-      "id": "CVE-2026-72820",
-      "publishedDate": "2026-08-14T11:35:30.155Z",
-      "lastModifiedDate": "2026-08-14T11:35:30.155Z",
-      "description": "Grav versions before 2.0.13 fail to properly validate backup profile root paths, allowing attackers to archive directories outside GRAV_ROOT when not in the hard-coded deny-list. Attackers with profile editor access can configure backup profiles with traversal paths to expose sensitive files from locations like /opt, /mnt, or /srv.",
-      "severity": 4.9,
-      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53801",
+      "publishedDate": "2026-08-13T14:41:27.424Z",
+      "lastModifiedDate": "2026-08-14T12:46:34.150Z",
+      "description": "rsync before 3.5.0 contains a symlink race condition vulnerability in the sender's directory scanning logic that allows attackers to cause the sender to enumerate and transfer files outside the module root's intended subtree. Attackers who can create or manipulate symlinks in a path component of the scanned tree can replace a symlink with a directory entry pointing outside the module root between the lstat() call and the subsequent opendir() call, exposing files beyond the intended root in both daemon-mode and non-daemon sender-side scanning.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59, CWE-367 (CWE-59, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-fch7-cpv4-w7hg",
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-mch3-qr4p-chgm",
           "type": "reference"
         },
         {
-          "url": "https://github.com/getgrav/grav/commit/ad9709f865b09b68798fb1ac375b484a8cc1d892",
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/grav-path-traversal-via-backup-profile-configuration",
+          "url": "https://www.vulncheck.com/advisories/rsync-symlink-race-condition-directory-traversal",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "getgrav",
-          "product": "grav",
-          "defaultStatus": "unaffected",
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
           "versions": [
             {
-              "version": "2.0.11",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.0.13"
-            },
-            {
-              "version": "2.0.13",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ]
-    },
-    {
-      "id": "CVE-2026-72834",
-      "publishedDate": "2026-08-14T11:35:40.049Z",
-      "lastModifiedDate": "2026-08-14T11:35:40.049Z",
-      "description": "filebrowser before 2.63.19 contains a permission bypass in the /api/resources endpoint. The checksum (?checksum=) branch of resourceGetHandler reads the entire file to compute a digest and returns it without performing a Perm.Download check (unlike the sibling raw, preview, and subtitle paths). As a result, an authenticated user provisioned with Perm.Download=false can obtain a content-hash oracle for any same-scope file (md5/sha1/sha256/sha512), enabling confirmation of known/guessed content, change detection, and offline brute-force of low-entropy files. This is an incomplete fix of CVE-2026-35606; it bypasses only the Download permission and does not defeat scope/path authorization.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-7whw-q6gh-xr59",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/filebrowser/filebrowser/commit/b7dc392838f11d188f0bc0f2a1a99fad3f7dca03",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/filebrowser-before-permission-bypass-via-checksum",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "filebrowser",
-          "product": "filebrowser",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
-          "versions": [
-            {
               "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.63.19"
-            },
-            {
-              "version": "2.63.19",
-              "status": "unaffected",
+              "lessThanOrEqual": "3.4.4",
               "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Exposure of Sensitive Information to an Unauthorized Actor"
-      ]
-    },
-    {
-      "id": "CVE-2026-73051",
-      "publishedDate": "2026-08-14T11:35:45.780Z",
-      "lastModifiedDate": "2026-08-14T11:35:45.780Z",
-      "description": "actix-http versions before 3.12.1 contain an HTTP request smuggling vulnerability in the HTTP/1.1 parser that accepts requests with both Content-Length and Transfer-Encoding: chunked headers. Unauthenticated remote attackers can exploit this through a front-end intermediary to desynchronize backend requests and smuggle malicious HTTP requests to the Actix service.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：actix actix-web\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/actix/actix-web/security/advisories/GHSA-xhj4-vrgc-hr34",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/actix-http-before-http-request-smuggling-via-cl-te",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "actix",
-          "product": "actix-web",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/actix-http",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.12.0"
             },
             {
-              "version": "3.12.0",
               "status": "unaffected",
+              "version": "3.5.0",
               "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
-      ]
-    },
-    {
-      "id": "CVE-2026-72815",
-      "publishedDate": "2026-08-14T11:35:27.496Z",
-      "lastModifiedDate": "2026-08-14T11:35:27.496Z",
-      "description": "go-chi chi versions >= 5.2.1 and before 5.3.0 contain an IP spoofing vulnerability in the RealIP middleware, which blindly trusts the first (leftmost) value of the X-Forwarded-For HTTP header. A remote attacker can bypass IP-based access control lists and rate-limiting mechanisms, and forge log entries, by supplying a spoofed IP address in the X-Forwarded-For header. The issue is fixed in version 5.3.0.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-3fxj-6jh8-hvhx",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/go-chi-chi-ip-spoofing-via-x-forwarded-for-header",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "go-chi",
-          "product": "chi",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/https://github.com/go-chi/chi",
-          "versions": [
-            {
-              "version": "5.2.1",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "5.3.0"
-            },
-            {
-              "version": "5.3.0",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Authentication Bypass by Spoofing"
-      ]
-    },
-    {
-      "id": "CVE-2026-72814",
-      "publishedDate": "2026-08-14T11:35:26.816Z",
-      "lastModifiedDate": "2026-08-14T11:35:26.816Z",
-      "description": "The actix-files crate (actix_files) before version 0.6.10 contains an information exposure vulnerability. When a non-existing folder is passed as the serve_from argument to Files::new(), the mount path defaults to an empty path; the service then joins the request path with this empty path and canonicalizes it, causing Rust to resolve it as a relative path. As a result, an attacker can request paths that resolve relative to the application's working directory and access unintended files.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：actix actix-web\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/actix/actix-web/security/advisories/GHSA-8v2v-wjwg-vx6r",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/actix-web-before-information-disclosure-via-files",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "actix",
-          "product": "actix-web",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/actix-files",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.6.10"
-            },
-            {
-              "version": "0.6.10",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ]
-    },
-    {
-      "id": "CVE-2026-72813",
-      "publishedDate": "2026-08-14T11:35:26.123Z",
-      "lastModifiedDate": "2026-08-14T11:35:26.123Z",
-      "description": "actix-files before 0.6.10 contains a denial of service vulnerability triggered by an empty Range header in GET requests for static files. When panic is set to abort, remote attackers can crash the process on-demand by sending a GET request with an empty Range header.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：actix actix-web\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/actix/actix-web/security/advisories/GHSA-gcqf-3g44-vc9p",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/actix-files-before-denial-of-service-via-empty-range-header",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "actix",
-          "product": "actix-web",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/actix-files",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.6.10"
-            },
-            {
-              "version": "0.6.10",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Uncaught Exception"
-      ]
-    },
-    {
-      "id": "CVE-2025-71405",
-      "publishedDate": "2026-08-14T11:35:23.411Z",
-      "lastModifiedDate": "2026-08-14T11:35:23.411Z",
-      "description": "chi versions before v5.2.2 contain an open redirect vulnerability in the RedirectSlashes middleware function that uses the Host header to construct redirect URLs. Attackers can manipulate the Host header to redirect users to arbitrary hosts, enabling phishing attacks and credential theft.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：go-chi chi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/go-chi/chi/security/advisories/GHSA-vrw8-fxc6-2r93",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/go-chi-chi-before-open-redirect-via-redirectslashes",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "go-chi",
-          "product": "chi",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/chi",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "5.2.2"
-            },
-            {
-              "version": "5.2.2",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "URL Redirection to Untrusted Site ('Open Redirect')"
-      ]
-    },
-    {
-      "id": "CVE-2026-13048",
-      "publishedDate": "2026-08-13T16:28:25.637Z",
-      "lastModifiedDate": "2026-08-14T11:31:42.090Z",
-      "description": "Data::MuForm::Localizer versions through 0.05 for Perl execute Perl from a message catalog header, reached at an arbitrary path because load_lexicon interpolates the language attribute into the catalog filename.\n\nload_lexicon builds the catalog path by appending `Messages/$lang.po` to the directory holding Localizer.pm, where $lang is the language attribute, with no check that it names a bare locale tag. A value holding `../` segments walks out of the message directory, so any readable path with a `.po` suffix is loaded. While parsing the catalog, extract_header_msgstr takes the `Plural-Forms:` header, prefixes `$` to the bare words nplurals, plural and n, and passes the rest verbatim into a string that is evaluated: the nplurals form evaluates the header expression immediately, and the plural_code form compiles it into a subroutine whose body runs when a plural message is localized. A header of `nplurals=2; plural=(system('...'),0);` therefore runs that command as the catalog loads. The evaluation inherits strict, so an expression that assigns to an undeclared variable fails to compile, while one built from calls alone does not.\n\nAn application that sets the language attribute from request data, an Accept-Language header or a locale parameter, and an attacker who can place a file with a `.po` suffix and chosen contents at a readable path, together give code execution as the application user. The message expansion path is not affected: expand_named substitutes only the placeholder names the caller supplies, and _mangle_value returns the value unchanged.",
-      "severity": "8.5",
-      "fix_suggestion": "🔓 漏洞类型：CWE-95, Path Traversal (CWE-95, CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://security.metacpan.org/patches/D/Data-MuForm/0.05/CVE-2026-13048-r2.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/GSHANK/Data-MuForm-0.05/source/lib/Data/MuForm/Localizer.pm#L56-63",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/GSHANK/Data-MuForm-0.05/source/lib/Data/MuForm/Localizer.pm#L381-428",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "modules": [
-            "Data::MuForm::Localizer"
-          ],
-          "packageName": "Data-MuForm",
-          "packageURL": "pkg:cpan/Data-MuForm",
-          "programFiles": [
-            "lib/Data/MuForm/Localizer.pm"
-          ],
-          "programRoutines": [
-            {
-              "name": "Data::MuForm::Localizer::load_lexicon"
-            },
-            {
-              "name": "Data::MuForm::Localizer::extract_header_msgstr"
-            },
-            {
-              "name": "Data::MuForm::Localizer::get_lexicon"
             }
           ],
-          "repo": "https://github.com/gshank/data-muform",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.05",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
         }
       ],
       "problemType": [
-        "CWE-95 Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')",
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
       ],
       "cwe_ids": [
-        "CWE-95",
-        "CWE-22"
+        "CWE-59",
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-73039",
+      "publishedDate": "2026-08-13T21:34:04.344Z",
+      "lastModifiedDate": "2026-08-14T12:46:49.965Z",
+      "description": "streama contains an insecure direct object reference vulnerability in ViewingStatusController that allows authenticated users to read and delete other users' viewing status records. Attackers can enumerate all users' watch progress, delete arbitrary viewing history, and manipulate other users' Continue Watching dashboards by supplying arbitrary primary keys without ownership verification.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：streamaserver streama\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/streamaserver/streama/issues/1170",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/streamaserver/streama",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/streamaserver/streama/commit/1fa79534ee09e25f2473cc4787b106996008a442",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/streama-insecure-direct-object-reference-via-viewingstatuscontroller",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "HIGH"
+      "affected": [
+        {
+          "vendor": "streamaserver",
+          "product": "streama",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/streamaserver/streama",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "git",
+              "lessThan": "1fa79534ee09e25f2473cc4787b106996008a442"
+            }
+          ],
+          "repo": "https://github.com/streamaserver/streama"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ]
+    },
+    {
+      "id": "CVE-2026-73481",
+      "publishedDate": "2026-08-13T18:48:42.589Z",
+      "lastModifiedDate": "2026-08-14T12:46:51.345Z",
+      "description": "phpList before 3.7.0-RC5 fail to enforce CSRF token validation on the bounce rule deletion endpoint (bouncerules.php / bouncerule.php). The deletion is performed via a GET request (?page=bouncerules&del=N), and the central CSRF check (verifyCsrfGetToken) is invoked with enforce=false, so it only validates the token when a 'tk' parameter is present. A remote attacker can trick an authenticated administrator into loading a crafted URL (e.g., embedded in an image tag) to delete arbitrary bounce rules from the phplist_bounceregex table without a valid CSRF token.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：phplist phplist3\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/phpList/phplist3/issues/1116",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/phpList/phplist3/releases/tag/v3.7.0-RC5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpList/phplist3/pull/1121",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpList/phplist3/commit/5159c3ed33a5674a8169472b50d146d97f630746",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/phplist-rc5-cross-site-request-forgery-via-bounce-rules",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "phplist",
+          "product": "phplist3",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:github/phpList/phplist3",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom",
+              "lessThan": "3.7.0-RC5"
+            }
+          ],
+          "repo": "https://github.com/phpList/phplist3"
+        }
+      ],
+      "problemType": [
+        "Cross-Site Request Forgery (CSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-70459",
+      "publishedDate": "2026-08-13T14:43:32.853Z",
+      "lastModifiedDate": "2026-08-14T12:46:42.323Z",
+      "description": "rsync 3.0.0 before 3.5.0 contains a null pointer dereference vulnerability in the daemon child process that allows remote attackers to crash the daemon by sending a file list whose first entry is a dot entry not typed as a directory. The daemon dereferences the first file list entry as a directory structure pointer without verifying the entry type, resulting in an invalid or uninitialized pointer dereference that terminates the client connection.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-908 (CWE-908)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-p4v4-qxw9-q72m",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-daemon-crash-via-malformed-file-list-entry",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-908 Use of Uninitialized Resource"
+      ],
+      "cwe_ids": [
+        "CWE-908"
+      ]
+    },
+    {
+      "id": "CVE-2026-53794",
+      "publishedDate": "2026-08-13T14:39:01.158Z",
+      "lastModifiedDate": "2026-08-14T12:46:29.438Z",
+      "description": "rsync before 3.5.0 contains a logic error in --max-alloc handling that allows a sender or configuration setting --max-alloc=0 to disable allocation sanity checks entirely rather than enforcing a zero-byte cap. Attackers can exploit this flaw to cause the receiver to attempt unbounded memory allocations for file list and data structures, potentially exhausting available memory and causing a denial of service.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-1284 (CWE-1284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-p827-vwcp-m964",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-denial-of-service-via-max-alloc-0-logic-error",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-1284 Improper Validation of Specified Quantity in Input"
+      ],
+      "cwe_ids": [
+        "CWE-1284"
+      ]
+    },
+    {
+      "id": "CVE-2026-53798",
+      "publishedDate": "2026-08-13T14:36:00.537Z",
+      "lastModifiedDate": "2026-08-14T12:46:32.132Z",
+      "description": "rsync before 3.5.0 contains a privilege confusion vulnerability in the name-converter subprocess uid/gid mapping that allows local attackers to cause transferred files to be owned by root by influencing name-converter responses to return empty values. When the name-converter subprocess returns an empty response for a uid or gid lookup, rsync incorrectly interprets it as a successful resolution to uid/gid 0 (root) rather than a lookup failure, and if the name-converter also signals fake super-user status, rsync proceeds with root ownership assignments for transferred files.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-704 (CWE-704)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-hx7p-3gvv-pqgv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-privilege-confusion-via-name-converter-uid-gid-mapping",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-704 Incorrect Type Conversion or Cast"
+      ],
+      "cwe_ids": [
+        "CWE-704"
+      ]
+    },
+    {
+      "id": "CVE-2026-73480",
+      "publishedDate": "2026-08-13T21:07:18.686Z",
+      "lastModifiedDate": "2026-08-14T12:46:50.641Z",
+      "description": "gdu fails to strip terminal escape sequences from directory and file names when printing paths after TUI exit. Attackers can craft malicious directory or file names containing escape sequences that are interpreted by the terminal, enabling title spoofing, clipboard manipulation, or other terminal-dependent effects.",
+      "severity": 5,
+      "fix_suggestion": "📦 受影响组件：dundee gdu\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/dundee/gdu/issues/615",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dundee/gdu",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/gdu-terminal-injection-via-unstripped-escape-sequences",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dundee/gdu/commit/fe605ecd9ad0e0f1c7ba84131ddfa1c83c52406f",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "dundee",
+          "product": "gdu",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:golang/github.com/dundee/gdu/v5",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom",
+              "lessThan": "fe605ec"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Encoding or Escaping of Output"
+      ]
+    },
+    {
+      "id": "CVE-2026-67613",
+      "publishedDate": "2026-08-13T17:09:05.229Z",
+      "lastModifiedDate": "2026-08-14T12:46:36.169Z",
+      "description": "CyberPanel before 3.0.0 contains a path traversal vulnerability that allows authenticated administrators to read arbitrary files from the server filesystem by supplying unsanitized file paths to the cloudAPI ReadReport endpoint. Attackers can manipulate the reportFile parameter in the JSON request body, which is passed directly to open() in cloudManager.py without validation or allowlisting, enabling traversal to any file readable by the root-privileged CyberPanel process including credential files, SSL and SSH private keys, and JWT secret files.",
+      "severity": 4.9,
+      "fix_suggestion": "📦 受影响组件：usmannasir cyberpanel\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cyberpanel.net/KnowledgeBase/home/change-logs/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/usmannasir/cyberpanel/issues/1858",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cyberpanel-path-traversal-file-read-via-cloudapi-readreport",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "usmannasir",
+          "product": "cyberpanel",
+          "packageURL": "pkg:github/usmannasir/cyberpanel",
+          "repo": "https://github.com/usmannasir/cyberpanel",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "3.0.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-53800",
+      "publishedDate": "2026-08-13T14:40:57.690Z",
+      "lastModifiedDate": "2026-08-14T12:46:33.494Z",
+      "description": "rsync before 3.5.0 contains a symlink race condition vulnerability in the --remove-source-files feature that allows attackers with symlink creation access to cause arbitrary file deletion. Attackers can atomically substitute a symlink for a source file between transfer completion and the unlink() call, causing rsync to delete the symlink target rather than the intended source file.",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59, CWE-367 (CWE-59, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-v3vw-pvpg-chwh",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-symlink-race-condition-via-remove-source-files",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')",
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-59",
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-53797",
+      "publishedDate": "2026-08-13T14:40:19.547Z",
+      "lastModifiedDate": "2026-08-14T12:46:31.451Z",
+      "description": "rsync before 3.5.0 contains a symlink race condition vulnerability in the sender's source tree traversal that allows an attacker who can manipulate a parent directory of the source tree to redirect file reads to unintended paths. Attackers can atomically replace a parent directory component with a symlink pointing outside the source root between path resolution and file open operations to disclose file contents outside the intended transfer root.",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：RsyncProject rsync\n🔓 漏洞类型：CWE-59, CWE-367 (CWE-59, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/RsyncProject/rsync/security/advisories/GHSA-3jj3-qvc7-jp6x",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/RsyncProject/rsync/releases/tag/v3.5.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/rsync-symlink-race-condition-information-disclosure",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "RsyncProject",
+          "product": "rsync",
+          "repo": "https://github.com/RsyncProject/rsync",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "3.4.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/RsyncProject/rsync"
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')",
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-59",
+        "CWE-367"
+      ]
     }
   ]
 }
