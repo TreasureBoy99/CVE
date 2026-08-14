@@ -2,115 +2,149 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-08-14T22:14:03.509689",
+    "total_count": 7,
+    "last_updated": "2026-08-14T22:42:15.825843",
     "severity_distribution": {
       "critical": 0,
-      "high": 4,
-      "medium": 1,
+      "high": 0,
+      "medium": 4,
       "low": 0,
-      "none": 1
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-72809",
-      "publishedDate": "2026-08-12T19:07:52.734Z",
-      "lastModifiedDate": "2026-08-14T22:07:21.536Z",
-      "description": "SiYuan versions <= v3.7.2 (patched in v3.7.4) contain an authentication bypass vulnerability in the kernel's CheckAuth function, which grants the administrator role (RoleAdministrator) to any request whose RemoteAddr is loopback (127.0.0.1) for a specific set of endpoints (including /api/system/exit, getNetwork, getWorkspaceInfo, /assets/*, and /export/*). These localhost bypasses sit outside the access auth code gate, so they apply even when an access auth code is configured. Because the fixed-port reverse proxy forwards requests to the kernel over loopback without injecting an authentication token and does not configure trusted proxies, a request forwarded through this proxy reaches the kernel with RemoteAddr = 127.0.0.1. If the fixed-port proxy is bound to a network interface, this could allow a remote unauthenticated attacker to obtain admin access on the affected endpoints; however, per the advisory this remote forwarding behavior was established only by code inspection and was not reproduced end-to-end.",
-      "severity": 8,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73611",
+      "publishedDate": "2026-08-13T11:28:15.147Z",
+      "lastModifiedDate": "2026-08-14T22:30:18.209Z",
+      "description": "File Browser versions from 2.50.0 through 2.63.21 fail to validate JWT expiration when proxy authentication is configured with a non-default logout page. Attackers with a previously valid token can access protected routes and administrative endpoints indefinitely, and exchange expired tokens for fresh ones via the renewal endpoint.",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：filebrowser filebrowser\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-3mp7-4rh5-jrv9",
+          "url": "https://github.com/filebrowser/filebrowser/security/advisories/GHSA-v3jv-rmh2-635j",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-authentication-bypass-via-localhost-trust",
+          "url": "https://github.com/filebrowser/filebrowser/commit/72faf6dd3c85628e332d3e567124b86708ce2695",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/file-browser-through-jwt-expiration-bypass",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "filebrowser",
+          "product": "filebrowser",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:golang/github.com/filebrowser/filebrowser/v2",
           "versions": [
             {
               "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
-            },
-            {
-              "version": "3.7.4",
               "status": "unaffected",
-              "versionType": "semver"
+              "versionType": "semver",
+              "lessThan": "2.50.0"
             }
           ]
         }
       ],
       "problemType": [
-        "Authentication Bypass by Spoofing"
+        "Insufficient Session Expiration"
       ]
     },
     {
-      "id": "CVE-2026-72801",
-      "publishedDate": "2026-08-12T19:07:47.033Z",
-      "lastModifiedDate": "2026-08-14T22:04:06.593Z",
-      "description": "SiYuan versions before v3.7.4 disclose encrypted-notebook key-derivation material and wrapped data keys through unauthenticated endpoints in publish mode. Attackers can retrieve Argon2id salt, cost parameters, password verifiers, and wrapped notebook keys to perform unlimited offline master-password cracking without rate limiting.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-18728",
+      "publishedDate": "2026-08-13T03:13:55.805Z",
+      "lastModifiedDate": "2026-08-14T22:24:20.561Z",
+      "description": "A flaw was found in open-iscsi. An integer underflow vulnerability in the `iscsiuio` component, specifically during IPv4 Dynamic Host Configuration Protocol (DHCP) parsing, allows a remote attacker on the same local network segment to cause a denial of service. By sending a specially crafted IPv4/UDP DHCP reply, the attacker can trigger an out-of-bounds read, leading to the `iscsiuio` process crashing. This issue affects systems where `iscsiuio` is actively handling IPv4 DHCP traffic.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-8x84-r2ff-h8pq",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-18728",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-encryption-key-material",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2463029",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "iscsi-initiator-utils",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "iscsi-initiator-utils",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Integer Underflow (Wrap or Wraparound)"
+      ]
+    },
+    {
+      "id": "CVE-2026-50544",
+      "publishedDate": "2026-08-12T23:18:03.735Z",
+      "lastModifiedDate": "2026-08-14T22:23:47.703Z",
+      "description": "NortheBridge/luminalshine is a Sunshine-compatible game stream host for Moonlight. Prior to version 26.05.0-rc4, a latent gap exists on a default install, the file at `src/platform/windows/misc.cpp` lives at `C:\\ProgramData\\LuminalShine\\config\\apps.json` and is created by the `SYSTEM` service. Under Windows' default `C:\\ProgramData` inheritance, that gives `BUILTIN\\Users` only Read+Execute — not writable — so the canonical EoP doesn't actually trigger on a vanilla install. Version 26.05.0-rc4 contains a patch for the issue. As a workaround, use default condition DACLs for `ProgramData`.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：NortheBridge luminalshine\n🔓 漏洞类型：CWE-379, CWE-732 (CWE-379, CWE-732)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/NortheBridge/luminalshine/security/advisories/GHSA-52q6-5x97-2747",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "NortheBridge",
+          "product": "luminalshine",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.7.4"
-            },
-            {
-              "version": "3.7.4",
-              "status": "unaffected",
-              "versionType": "semver"
+              "version": "< 26.05.0-rc4",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Insufficiently Protected Credentials"
+        "CWE-379: Creation of Temporary File in Directory with Insecure Permissions",
+        "CWE-732: Incorrect Permission Assignment for Critical Resource"
+      ],
+      "cwe_ids": [
+        "CWE-379",
+        "CWE-732"
       ]
     },
     {
-      "id": "CVE-2026-72805",
-      "publishedDate": "2026-08-12T19:07:49.909Z",
-      "lastModifiedDate": "2026-08-14T22:05:17.775Z",
-      "description": "SiYuan versions before v3.7.4 fail to enforce publish-access checks on getBlockBreadcrumb, getRefText, and getBlockTreeInfos endpoints, allowing disclosure of protected document content and metadata. Anonymous readers or publish RoleReader accounts can retrieve document titles, ancestor block content snippets, reference text, and path metadata for publish-forbidden or password-protected documents by supplying block IDs.",
+      "id": "CVE-2026-73607",
+      "publishedDate": "2026-08-13T11:28:12.470Z",
+      "lastModifiedDate": "2026-08-14T22:28:54.246Z",
+      "description": "SiYuan versions before v3.7.4 contain an information disclosure vulnerability in the /api/storage/getOutlineStorage endpoint that performs no authorization checks. Attackers can retrieve outline state including heading identifiers for any document by supplying its identifier, even for documents forbidden to the requester.",
       "severity": 5.8,
       "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-67x2-mq63-v9vm",
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-53fp-9jmv-227g",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-block-endpoints",
+          "url": "https://www.vulncheck.com/advisories/siyuan-before-information-disclosure-via-getoutlinestorage",
           "type": "reference"
         }
       ],
@@ -140,296 +174,168 @@
       ]
     },
     {
-      "id": "CVE-2025-7639",
-      "publishedDate": "2026-08-14T18:46:18.583Z",
-      "lastModifiedDate": "2026-08-14T22:05:54.821Z",
-      "description": "The vulnerability, if exploited, could allow an authenticated miscreant \nwith \"DNA Authority - Operator\" privilege to tamper with serialized \ndata, potentially resulting in code execution during deserialization \nunder the privilege of Enterprise SCADA security group \"DNA Apps\".",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：AVEVA AVEVA Enterprise SCADA\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.aveva.com/content/dam/aveva/documents/support/cyber-security-updates/SecurityBulletin_AVEVA-2026-005.pdf",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-225-01",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-225-01.json",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "AVEVA",
-          "product": "AVEVA Enterprise SCADA",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "2025"
-            },
-            {
-              "status": "affected",
-              "version": "2024",
-              "lessThanOrEqual": "2024 SP1 P01",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2023",
-              "lessThanOrEqual": "2023 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2022",
-              "lessThanOrEqual": "2022 SP2 P2",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "2021 SP2 P5",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2025 P1"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024 SP1 P2"
-            },
-            {
-              "status": "unaffected",
-              "version": "2023 SP1 P1"
-            },
-            {
-              "status": "unaffected",
-              "version": "2022 SP2 P3"
-            },
-            {
-              "status": "unaffected",
-              "version": "2021 SP2 P6"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "AVEVA",
-          "product": "AVEVA Enterprise SCADA HMI",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "2024"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "2023_P1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2024 R2"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024 R2 HF7"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024 P1"
-            },
-            {
-              "status": "unaffected",
-              "version": "2023 P2 HF1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "AVEVA",
-          "product": "AVEVA Pipeline Operations for Gas/Liquids",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "2025 P1"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024 SP1 P2"
-            },
-            {
-              "status": "unaffected",
-              "version": "2023 SP1 P1"
-            },
-            {
-              "status": "unaffected",
-              "version": "2022 SP2 P3"
-            },
-            {
-              "status": "unaffected",
-              "version": "2021 SP2 P6"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "AVEVA",
-          "product": "AVEVA Pipeline Integrity Monitor (delivered on Pipeline Simulation media)",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "2025 SP1 P2"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "AVEVA",
-          "product": "AVEVA Pipeline Training Simulator (delivered on Pipeline Simulation media)",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "2025 SP1 P2"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "AVEVA",
-          "product": "Measurement Advisor",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "2025 P1"
-            },
-            {
-              "status": "unaffected",
-              "version": "2021 SP1 HF16"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-502"
-      ],
-      "cwe_ids": [
-        "CWE-502"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-73414",
-      "publishedDate": "2026-08-12T19:42:55.520Z",
-      "lastModifiedDate": "2026-08-14T22:11:29.290Z",
-      "description": "Shescape is a simple shell escape library for JavaScript. Prior to 2.1.14 and 3.0.1, getEscapeFunction in src/internal/win/cmd.js does not escape `(` and `)` when applications use the escape or escapeAll APIs on Windows with shell set to cmd.exe, or with shell set to true when CMD is the default. An attacker-controlled argument can break out of a parenthesized CMD construct and inject shell syntax depending on the original command, resulting in arbitrary command execution. This issue is fixed in versions 2.1.14 and 3.0.1.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：ericcornelissen shescape\n🔓 漏洞类型：OS Command Injection, CWE-150 (CWE-78, CWE-150)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ericcornelissen/shescape/security/advisories/GHSA-w4hw-qcx7-56pr",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ericcornelissen/shescape/pull/2649",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ericcornelissen/shescape/pull/2651",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ericcornelissen/shescape/commit/43d70b59d09bbe5c3fd02ef08b3a123e977ed9de",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ericcornelissen/shescape/commit/b4b34c394e7f9da2775bb75381066b9a228c425f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ericcornelissen/shescape/releases/tag/v2.1.14",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ericcornelissen/shescape/releases/tag/v3.0.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ericcornelissen",
-          "product": "shescape",
-          "versions": [
-            {
-              "version": "< 2.1.14",
-              "status": "affected"
-            },
-            {
-              "version": ">= 3.0.0, < 3.0.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-        "CWE-150: Improper Neutralization of Escape, Meta, or Control Sequences"
-      ],
-      "cwe_ids": [
-        "CWE-78",
-        "CWE-150"
-      ],
-      "cvss_severity": "HIGH",
-      "ghsa_id": "GHSA-w4hw-qcx7-56pr"
-    },
-    {
-      "id": "CVE-2026-73409",
-      "publishedDate": "2026-08-12T19:19:59.492Z",
-      "lastModifiedDate": "2026-08-14T22:09:19.072Z",
-      "description": "Budibase is an open-source low-code platform. Prior to 3.40.1, packages/server/src/integrations/mongodb.ts passed builder-controlled tlsCertificateKeyFile and tlsCAFile values directly to MongoClient on Budibase Cloud. A builder could submit absolute server paths through /api/datasources/verify and distinguish readable existing files from missing files by comparing the driver error, exposing a filesystem existence and readability oracle on the shared server. This issue is fixed in version 3.40.1.",
+      "id": "CVE-2026-73603",
+      "publishedDate": "2026-08-13T11:28:09.428Z",
+      "lastModifiedDate": "2026-08-14T22:27:58.527Z",
+      "description": "Flowise before 3.1.4 fails to validate chatflow visibility in the unauthenticated text-to-speech endpoint, allowing attackers to abuse private chatflow TTS credentials. Unauthenticated attackers can generate unlimited text-to-speech audio using stored OpenAI or ElevenLabs API keys by providing a valid chatflow UUID, incurring costs on the chatflow owner's account.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：CWE-203 (CWE-203)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：FlowiseAI Flowise\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-ppr4-5f46-j9c6",
+          "url": "https://github.com/FlowiseAI/Flowise/security/advisories/GHSA-8gj2-2cvc-6xx7",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Budibase/budibase/pull/19244",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Budibase/budibase/commit/e58aa31e18272f6a1a8aeb525b7eef0b01b1dd43",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Budibase/budibase/releases/tag/3.40.1",
+          "url": "https://www.vulncheck.com/advisories/flowise-before-credential-abuse-via-text-to-speech",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Budibase",
-          "product": "budibase",
+          "vendor": "FlowiseAI",
+          "product": "Flowise",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/flowise",
           "versions": [
             {
-              "version": "< 3.40.1",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.1.4"
+            },
+            {
+              "version": "3.1.4",
+              "status": "unaffected",
+              "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-203: Observable Discrepancy"
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-73487",
+      "publishedDate": "2026-08-13T11:28:06.752Z",
+      "lastModifiedDate": "2026-08-14T22:26:48.945Z",
+      "description": "Flowise before 3.1.3 contains a regex-based Python code validator bypass in CSV and Airtable Agent nodes that allows unauthenticated attackers to inject malicious code via prompt injection. Attackers can exploit unblocked pandas functions like pd.read_json() to exfiltrate datasets, perform SSRF against internal services, or achieve code execution through the unauthenticated prediction API.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：FlowiseAI Flowise\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/FlowiseAI/Flowise/security/advisories/GHSA-w7x8-q2gp-5cgg",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/flowise-before-prompt-injection-rce-via-csv-agent",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-203"
+      "affected": [
+        {
+          "vendor": "FlowiseAI",
+          "product": "Flowise",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/flowise",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.1.3"
+            },
+            {
+              "version": "3.1.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "FlowiseAI",
+          "product": "Flowise",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/flowise-components",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.1.3"
+            },
+            {
+              "version": "3.1.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
       ],
-      "ghsa_id": "GHSA-ppr4-5f46-j9c6"
+      "problemType": [
+        "Improper Control of Generation of Code ('Code Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-73483",
+      "publishedDate": "2026-08-13T11:28:04.025Z",
+      "lastModifiedDate": "2026-08-14T22:25:36.593Z",
+      "description": "Flowise (packages flowise and flowise-components) in versions <= 3.1.2 contain a sandbox escape in the vm2/@flowiseai/nodevm JavaScript sandbox. An authenticated user with access to the /api/v1/node-custom-function endpoint can escape the sandbox by supplying attacker-controlled executablePath and args parameters to puppeteer.launch(), which internally invokes child_process.spawn() outside the sandbox boundary. This allows execution of arbitrary OS commands as the Flowise process user (root in the official Docker image) and arbitrary host file disclosure via Chromium's file:// URL handling. In versions 3.0.8–3.1.2 exploitation requires ALLOW_BUILTIN_DEP=true; earlier versions are exploitable by default. Fixed in 3.1.3.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：FlowiseAI Flowise\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/FlowiseAI/Flowise/security/advisories/GHSA-9gvv-qjj3-2p6g",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/flowise-before-sandbox-escape-via-puppeteer",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "FlowiseAI",
+          "product": "Flowise",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/flowise",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.1.3"
+            },
+            {
+              "version": "3.1.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "FlowiseAI",
+          "product": "Flowise",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/flowise-components",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.1.3"
+            },
+            {
+              "version": "3.1.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ]
     }
   ]
 }
