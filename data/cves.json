@@ -2,205 +2,1388 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-14T14:37:47.650529",
+    "total_count": 23,
+    "last_updated": "2026-08-14T15:28:16.197123",
     "severity_distribution": {
-      "critical": 0,
-      "high": 2,
-      "medium": 1,
-      "low": 0,
-      "none": 0
+      "critical": 3,
+      "high": 9,
+      "medium": 6,
+      "low": 1,
+      "none": 4
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-69101",
-      "publishedDate": "2026-08-14T14:33:17.021Z",
-      "lastModifiedDate": "2026-08-14T14:33:17.021Z",
-      "description": "Datavane TIS v5.0.0 contains an XML external entity (XXE) injection vulnerability that allows authenticated attackers to perform server-side request forgery and out-of-band file exfiltration by supplying a crafted taskScript payload to the doEditWorkflow endpoint, which processes XML through an unhardened DocumentBuilderFactory with external entities and DTD loading enabled. Attackers can send a malicious XML document containing an external DTD reference to the edit_workflow action, causing the server to issue outbound HTTP requests to attacker-controlled infrastructure and exfiltrate local files readable by the TIS process user, including configuration files and Derby database credentials.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：datavane tis\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72822",
+      "publishedDate": "2026-08-14T11:35:31.592Z",
+      "lastModifiedDate": "2026-08-14T15:17:12.316Z",
+      "description": "The getgrav/grav-plugin-api Composer package before 1.0.13 (affected <= 1.0.12) fails to enforce API key scope caps on the disable2fa endpoint. Unlike the sibling generate2fa endpoint, disable2fa authorizes the admin (non-self) path solely via ACL reads (isSuperAdmin/hasPermission) and never invokes requirePermission(), so the api_key_scopes cap is never applied. As a result, a holder of a narrow-scope API key on a super account, or a non-super account whose ACL includes api.users.write, can force-disable two-factor authentication on any non-super target account via POST /api/v1/users/{user}/2fa/disable without providing a TOTP code, facilitating account takeover.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：getgrav grav\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/datavane/tis/issues/496",
+          "url": "https://github.com/getgrav/grav/security/advisories/GHSA-22p9-6fh4-mmf2",
           "type": "reference"
         },
         {
-          "url": "https://github.com/datavane/tis",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/datavane/tis/commit/2a84a1b84218a303e3e0a4823023363d5a7abfa1",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/datavane-tis-xxe-injection-via-doeditworkflow-endpoint",
+          "url": "https://www.vulncheck.com/advisories/grav-before-authentication-bypass-via-disable2fa",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "datavane",
-          "product": "tis",
+          "vendor": "getgrav",
+          "product": "grav",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.0.13"
+            },
+            {
+              "version": "1.0.13",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-12949",
+      "publishedDate": "2026-08-14T05:30:43.982Z",
+      "lastModifiedDate": "2026-08-14T14:59:09.168Z",
+      "description": "The Wishlist Member plugin for WordPress is vulnerable to Account Takeover via Insufficient Verification of Data Authenticity in versions up to and including 3.34.1. This is due to the wpm_register() function validating the registration cookie only against the GET reg parameter while accepting the POST mergewith and POST wpm_id parameters without verifying that the mergewith user ID references a temporary or incomplete registrant that is bound to the current registration transaction. This makes it possible for unauthenticated attackers to take over any existing WordPress account — including administrator accounts — by supplying an arbitrary user's numeric ID as the mergewith value, which causes wp_update_user() to overwrite the target account's username (additionally written via a direct $wpdb UPDATE), password, email address, first name, and last name with attacker-controlled values, while WordPress password and email change notification emails are explicitly suppressed. When wpm_id references a non-existent membership level, no role key is added to the update payload, causing wp_update_user() to preserve the target user's existing role — including administrator — making full privilege escalation a direct consequence of the takeover.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Wishlist Member Wishlist Member\n🔓 漏洞类型：CWE-640 (CWE-640)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/84afe5a7-1bf4-4b83-bf77-efbb003a30cd?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://wishlistmember.com/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Wishlist Member",
+          "product": "Wishlist Member",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.34.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-640 Weak Password Recovery Mechanism for Forgotten Password"
+      ],
+      "cwe_ids": [
+        "CWE-640"
+      ]
+    },
+    {
+      "id": "CVE-2026-19747",
+      "publishedDate": "2026-08-13T19:45:09.236Z",
+      "lastModifiedDate": "2026-08-14T15:09:50.142Z",
+      "description": "A weakness has been identified in Tenda CH7, CH7G, CH10, CP3, CP3 Pro, CP7, TC3B14C, TC3B15C, TC3T14C and TC3T15C up to 20260625. This impacts the function CAte::HandleCmd of the file Kylin of the component ATE Module. This manipulation causes command injection. The attack is possible to be carried out remotely.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Tenda CH7\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389498",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389498/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19747",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/868463",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/howitouchyou/Tenda-Smart-Camera-Vulnerability/blob/main/Tenda%20Command%20Injection/Tenda%20Command%20Injection.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tenda.com.cn/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Tenda",
+          "product": "CH7",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:ch7:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "CH7G",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:ch7g:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "CH10",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:ch10:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "CP3",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:cp3:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "CP3 Pro",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:cp3_pro:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "CP7",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:cp7:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "TC3B14C",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:tc3b14c:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "TC3B15C",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:tc3b15c:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "TC3T14C",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:tc3t14c:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        },
+        {
+          "vendor": "Tenda",
+          "product": "TC3T15C",
+          "versions": [
+            {
+              "version": "20260625",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:h:tenda:tc3t15c:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ATE Module"
+          ]
+        }
+      ],
+      "problemType": [
+        "Command Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-19824",
+      "publishedDate": "2026-08-14T12:30:09.845Z",
+      "lastModifiedDate": "2026-08-14T15:02:02.160Z",
+      "description": "A weakness has been identified in Tenda W20E 15.11.0.6(1068_1546_841)_CN_TDC. The affected element is the function ipMacBindListStore of the file /goform/addIpMacBind. Executing a manipulation of the argument IPMacBindRule can lead to stack-based buffer overflow. The attack can be executed remotely. The exploit has been made available to the public and could be used for attacks.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Tenda W20E\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389957",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389957/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19824",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/869024",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/paueger/mycve/blob/main/Tenda_W20E/5.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.tenda.com.cn/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Tenda",
+          "product": "W20E",
+          "versions": [
+            {
+              "version": "15.11.0.6(1068_1546_841)_CN_TDC",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:o:tenda:w20e_firmware:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Stack-based Buffer Overflow",
+        "Memory Corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-73673",
+      "publishedDate": "2026-08-14T12:21:05.797Z",
+      "lastModifiedDate": "2026-08-14T15:01:15.017Z",
+      "description": "Netis NC63 router firmware V3.0.0.3327 contains an unauthenticated firmware update vulnerability that allows unauthenticated attackers to submit unsigned firmware images by exploiting a missing authentication enforcement flaw in the Boa web server and netis.cgi CGI dispatcher. Attackers can send a multipart POST request to /cgi-bin/upload_fw.cgi without a valid session cookie, bypassing authentication because Boa grants access to any path containing '.cgi' regardless of cookie validation, and netis.cgi reads but does not enforce the authentication state before invoking the firmware update handler, which accepts images validated only by a forgeable additive checksum and static product strings rather than a cryptographic signature, potentially enabling persistent router compromise.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Netis Systems Co., Ltd. Netis NC63 Wireless AC1200 Router\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.netis-systems.com/products/NC63.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://ozcanpng.dev/blog/cve-2026-73673-netis-nc63-unauthenticated-firmware-update/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ozcanpng/CVE-2026-73673",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/netis-nc63-unauthenticated-firmware-update-with-missing-cryptographic-firmware-authentication",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.netis-systems.com/support/downinfo.html?id=35",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Netis Systems Co., Ltd.",
+          "product": "Netis NC63 Wireless AC1200 Router",
           "defaultStatus": "affected",
-          "packageURL": "pkg:maven/com.qlangtech.tis/tis-parent",
+          "packageURL": "pkg:cargo/dua-cli",
           "versions": [
             {
               "status": "affected",
               "version": "0",
-              "versionType": "semver",
-              "lessThanOrEqual": "5.0.0"
+              "versionType": "custom",
+              "lessThanOrEqual": "V3.0.0.3327"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Restriction of XML External Entity Reference"
+        "Missing Authentication for Critical Function"
       ]
     },
     {
-      "id": "CVE-2026-19786",
-      "publishedDate": "2026-08-14T02:30:11.223Z",
-      "lastModifiedDate": "2026-08-14T14:12:52.285Z",
-      "description": "A vulnerability was found in francoisjacquet RosarioSIS up to 12.8. This issue affects some unknown processing of the file Modules.php. Performing a manipulation results in cross-site request forgery. Remote exploitation of the attack is possible. Upgrading to version 12.9 is capable of addressing this issue. The patch is named 801a71272c82cf4bf695fdc5ed42a9b7511d124d. It is recommended to upgrade the affected component.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：francoisjacquet RosarioSIS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19814",
+      "publishedDate": "2026-08-14T08:15:09.994Z",
+      "lastModifiedDate": "2026-08-14T15:04:42.067Z",
+      "description": "A vulnerability was detected in TOTOLINK A800R 4.1.2cu.5137_B20200730. Affected is the function setMacQos of the file /cgi-bin/cstecgi.cgi of the component firewall.so. Performing a manipulation of the argument macAddress results in stack-based buffer overflow. It is possible to initiate the attack remotely. The exploit is now public and may be used.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：TOTOLINK A800R\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/389746",
+          "url": "https://vuldb.com/vuln/389950",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/389746/cti",
+          "url": "https://vuldb.com/vuln/389950/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-19786",
+          "url": "https://vuldb.com/cve/CVE-2026-19814",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/869378",
+          "url": "https://vuldb.com/submit/869431",
           "type": "reference"
         },
         {
-          "url": "https://github.com/francoisjacquet/rosariosis/issues/302",
-          "type": "reference"
+          "url": "https://github.com/panda666-888/vuls/blob/main/totolink/a800r/setMacQos.md",
+          "type": "poc"
         },
         {
-          "url": "https://github.com/francoisjacquet/RosarioSIS/commit/801a71272c82cf4bf695fdc5ed42a9b7511d124d",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/francoisjacquet/rosariosis/releases/tag/v12.9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/francoisjacquet/rosariosis/",
+          "url": "https://www.totolink.net/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "francoisjacquet",
-          "product": "RosarioSIS",
+          "vendor": "TOTOLINK",
+          "product": "A800R",
           "versions": [
             {
-              "version": "12.0",
+              "version": "4.1.2cu.5137_B20200730",
               "status": "affected"
-            },
-            {
-              "version": "12.1",
-              "status": "affected"
-            },
-            {
-              "version": "12.2",
-              "status": "affected"
-            },
-            {
-              "version": "12.3",
-              "status": "affected"
-            },
-            {
-              "version": "12.4",
-              "status": "affected"
-            },
-            {
-              "version": "12.5",
-              "status": "affected"
-            },
-            {
-              "version": "12.6",
-              "status": "affected"
-            },
-            {
-              "version": "12.7",
-              "status": "affected"
-            },
-            {
-              "version": "12.8",
-              "status": "affected"
-            },
-            {
-              "version": "12.9",
-              "status": "unaffected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:rosariosis:rosariosis:*:*:*:*:*:*:*:*"
+            "cpe:2.3:o:totolink:a800r_firmware:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "firewall.so"
           ]
         }
       ],
       "problemType": [
-        "Cross-Site Request Forgery",
-        "Missing Authorization"
+        "Stack-based Buffer Overflow",
+        "Memory Corruption"
       ]
     },
     {
-      "id": "CVE-2026-19880",
-      "publishedDate": "2026-08-14T14:31:02.361Z",
-      "lastModifiedDate": "2026-08-14T14:31:02.361Z",
-      "description": "Path-traversal vulnerability in QOS.CH Sarl Logback-classic on Java (logback-classic module) allows path-traversal vulnerability. More specifically, an \nMDC-based discriminator value flows unsanitized into a nested \nFileAppender path, letting an attacker who influences that MDC value \n(e.g. via an HTTP header)\n create and append log files outside the intended directory. \n\n\nThis issue affects Logback-classic: from 0.9.14 through 1.6.2.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：QOS.CH Sarl Logback-classic\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19791",
+      "publishedDate": "2026-08-14T03:45:08.358Z",
+      "lastModifiedDate": "2026-08-14T15:06:38.069Z",
+      "description": "A weakness has been identified in Tenda G0 up to 20260625. The affected element is the function addStaticRoute of the file /goform/module of the component httpd web management interface. Executing a manipulation of the argument staticRouteNet can lead to stack-based buffer overflow. The attack may be performed from remote. The exploit has been made available to the public and could be used for attacks.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Tenda G0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://logback.qos.ch/news.html#1.6.3",
+          "url": "https://vuldb.com/vuln/389759",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389759/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19791",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/868927",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lipenghai/iot_bug/blob/main/Tenda/G0/2.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.tenda.com.cn/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "QOS.CH Sarl",
-          "product": "Logback-classic",
-          "platforms": [
-            "Java"
-          ],
-          "modules": [
-            "logback-classic"
-          ],
+          "vendor": "Tenda",
+          "product": "G0",
           "versions": [
             {
-              "status": "affected",
-              "version": "0.9.14",
-              "lessThanOrEqual": "1.6.2",
-              "versionType": "maven"
-            },
-            {
-              "status": "unaffected",
-              "version": "1.6.3",
-              "versionType": "maven"
+              "version": "20260625",
+              "status": "affected"
             }
           ],
-          "defaultStatus": "affected"
+          "cpes": [
+            "cpe:2.3:h:tenda:g0:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "httpd web management interface"
+          ]
         }
       ],
       "problemType": [
-        "CWE-22"
+        "Stack-based Buffer Overflow",
+        "Memory Corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-19789",
+      "publishedDate": "2026-08-14T03:15:10.028Z",
+      "lastModifiedDate": "2026-08-14T14:58:17.037Z",
+      "description": "A vulnerability was determined in Tenda AC1206 15.03.06.23_multi_TD01. This vulnerability affects the function set_wl_guest_iplist of the file /goform/WifiGuestSet of the component httpd web management interface. This manipulation of the argument shareSpeed causes stack-based buffer overflow. Remote exploitation of the attack is possible. The exploit has been publicly disclosed and may be utilized.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Tenda AC1206\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389756",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389756/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19789",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/868921",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lipenghai/iot_bug/blob/main/Tenda/AC12/2.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://www.tenda.com.cn/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Tenda",
+          "product": "AC1206",
+          "versions": [
+            {
+              "version": "15.03.06.23_multi_TD01",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:o:tenda:ac1206_firmware:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "httpd web management interface"
+          ]
+        }
+      ],
+      "problemType": [
+        "Stack-based Buffer Overflow",
+        "Memory Corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-19757",
+      "publishedDate": "2026-08-13T23:15:09.882Z",
+      "lastModifiedDate": "2026-08-14T15:01:30.989Z",
+      "description": "A vulnerability was found in Dromara lamp-cloud up to 5.10.0. This vulnerability affects unknown code of the file FileAnyoneController.java of the component File-Upload Controller. Performing a manipulation of the argument bucket/bizType results in path traversal. The attack can be initiated remotely. The exploit has been made public and could be used. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：Dromara lamp-cloud\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389602",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389602/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19757",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/868961",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dromara/lamp-cloud/issues/412",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/dromara/lamp-cloud/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dromara",
+          "product": "lamp-cloud",
+          "versions": [
+            {
+              "version": "5.0",
+              "status": "affected"
+            },
+            {
+              "version": "5.1",
+              "status": "affected"
+            },
+            {
+              "version": "5.2",
+              "status": "affected"
+            },
+            {
+              "version": "5.3",
+              "status": "affected"
+            },
+            {
+              "version": "5.4",
+              "status": "affected"
+            },
+            {
+              "version": "5.5",
+              "status": "affected"
+            },
+            {
+              "version": "5.6",
+              "status": "affected"
+            },
+            {
+              "version": "5.7",
+              "status": "affected"
+            },
+            {
+              "version": "5.8",
+              "status": "affected"
+            },
+            {
+              "version": "5.9",
+              "status": "affected"
+            },
+            {
+              "version": "5.10.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:dromara:lamp-cloud:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "File-Upload Controller"
+          ]
+        }
+      ],
+      "problemType": [
+        "Path Traversal"
+      ]
+    },
+    {
+      "id": "CVE-2026-19752",
+      "publishedDate": "2026-08-13T22:00:11.477Z",
+      "lastModifiedDate": "2026-08-14T15:03:28.224Z",
+      "description": "A vulnerability was found in EnzoVezzaro mcp-dominican-layer up to 39dd373786712650097ad31db27d5c477c8f9c82. This affects the function parse-pdf of the file src/index.ts of the component PDF Parsing. Performing a manipulation of the argument pdfUrl results in server-side request forgery. It is possible to initiate the attack remotely. The exploit has been made public and could be used. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：EnzoVezzaro mcp-dominican-layer\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389530",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389530/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19752",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/868928",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/EnzoVezzaro/mcp-dominican-layer/issues/3",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/EnzoVezzaro/mcp-dominican-layer/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "EnzoVezzaro",
+          "product": "mcp-dominican-layer",
+          "versions": [
+            {
+              "version": "39dd373786712650097ad31db27d5c477c8f9c82",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:enzovezzaro:mcp-dominican-layer:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "PDF Parsing"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery"
+      ]
+    },
+    {
+      "id": "CVE-2026-19830",
+      "publishedDate": "2026-08-14T14:00:11.593Z",
+      "lastModifiedDate": "2026-08-14T15:11:46.264Z",
+      "description": "A vulnerability was found in TRENDnet TEW-816DRM GURNC4.OT182B-C-TN-R1B028-US.EN. This impacts an unknown function of the file /etc/bftpd.conf of the component bftpd. The manipulation of the argument USERLIMIT_GLOBAL results in allocation of resources. It is possible to launch the attack remotely. This vulnerability only affects products that are no longer supported by the maintainer.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：TRENDnet TEW-816DRM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389971",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389971/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19830",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/870259",
+          "type": "reference"
+        },
+        {
+          "url": "https://app.notion.com/p/TEW-816DRM-GURNC4-OT182B-C-TN-R1B028-US-EN-2018-05-16-38b1f5ba989080759a1ee701542f1935?source=copy_link",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TRENDnet",
+          "product": "TEW-816DRM",
+          "versions": [
+            {
+              "version": "GURNC4.OT182B-C-TN-R1B028-US.EN",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:trendnet:tew-816drm:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "bftpd"
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources",
+        "Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2026-73304",
+      "publishedDate": "2026-08-13T22:05:00.355Z",
+      "lastModifiedDate": "2026-08-14T15:09:18.395Z",
+      "description": "Budibase is an open-source low-code platform. Prior to 3.39.25, GET /api/users/metadata and GET /api/users/metadata/:id returned user objects processed by packages/server/src/utilities/global.ts without removing oauth2.accessToken or oauth2.refreshToken. A user with the POWER role could retrieve the identity-provider credentials of SSO-authenticated users and use the refresh tokens for persistent access to connected services. This issue is fixed in version 3.39.25.",
+      "severity": 4.9,
+      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-fcrw-f7gg-6g9f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/pull/19110",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/commit/80a31f6c3354620aa90e50af8a2c614333084621",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/releases/tag/3.39.25",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Budibase",
+          "product": "budibase",
+          "versions": [
+            {
+              "version": "< 3.39.25",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ],
+      "ghsa_id": "GHSA-fcrw-f7gg-6g9f"
+    },
+    {
+      "id": "CVE-2026-19834",
+      "publishedDate": "2026-08-14T15:00:08.326Z",
+      "lastModifiedDate": "2026-08-14T15:00:08.326Z",
+      "description": "A vulnerability was determined in Webkul Bagisto up to 2.4.4. Affected is an unknown function of the file /admin/customers/login-as-customer/ of the component Admin Customer Impersonation Feature. This manipulation of the argument ID causes authorization bypass. The attack can be initiated remotely. The exploit has been publicly disclosed and may be utilized. The vendor confirms: \"The reported issues were already identified through our internal security assessment process prior to this notification and are being handled through our established internal security and development lifecycle. Some of these items have already been addressed, while the remaining items are planned for resolution in upcoming product releases.\"",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：Webkul Bagisto\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389972",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389972/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19834",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/870342",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Mitchell45/PHP_Web_POCs/blob/main/Bagisto/01_english_vulnerability_report.md",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Webkul",
+          "product": "Bagisto",
+          "versions": [
+            {
+              "version": "2.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.3",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.4",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:webkul:bagisto:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Admin Customer Impersonation Feature"
+          ]
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass",
+        "Improper Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-13002",
+      "publishedDate": "2026-08-14T15:02:26.469Z",
+      "lastModifiedDate": "2026-08-14T15:02:26.469Z",
+      "description": "A flow has been identified into dnssec.c library, causing an infinite loop to dnsmasq service. An attacker who controls any DNSSEC-signed zone can hang the dnsmasq process with a single crafted response, killing all DNS resolution for its clients.",
+      "severity": 4.4,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-13002",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2486360",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "dnsmasq",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "dnsmasq",
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "dnsmasq",
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "dnsmasq",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "dnsmasq",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhcos",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Loop with Unreachable Exit Condition ('Infinite Loop')"
+      ]
+    },
+    {
+      "id": "CVE-2026-19835",
+      "publishedDate": "2026-08-14T15:15:07.386Z",
+      "lastModifiedDate": "2026-08-14T15:15:07.386Z",
+      "description": "A vulnerability was identified in Webkul Bagisto up to 2.4.4. Affected by this vulnerability is an unknown functionality of the component Customer Item Deletion Endpoint. Such manipulation leads to improper access controls. The attack can be launched remotely. The exploit is publicly available and might be used. The vendor confirms: \"The reported issues were already identified through our internal security assessment process prior to this notification and are being handled through our established internal security and development lifecycle. Some of these items have already been addressed, while the remaining items are planned for resolution in upcoming product releases.\"",
+      "severity": 3.8,
+      "fix_suggestion": "📦 受影响组件：Webkul Bagisto\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/389973",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/389973/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19835",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/870343",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Mitchell45/PHP_Web_POCs/blob/main/Bagisto/07_09_english_vulnerability_report.md",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Webkul",
+          "product": "Bagisto",
+          "versions": [
+            {
+              "version": "2.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.3",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.4",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:webkul:bagisto:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Customer Item Deletion Endpoint"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Access Controls",
+        "Incorrect Privilege Assignment"
+      ]
+    },
+    {
+      "id": "CVE-2026-57472",
+      "publishedDate": "2026-08-14T15:04:47.414Z",
+      "lastModifiedDate": "2026-08-14T15:04:47.414Z",
+      "description": "Nozomi Networks Labs identified a CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in the file management functionality of the XML-RPC management interface of KUNBUS RevPiPyLoad in version 0.11.0 that allows a local unauthenticated attacker to delete arbitrary files with the privileges of the RevPiPyLoad daemon, resulting in loss of configuration integrity and denial of service, by sending crafted requests to the local management service.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：KUNBUS RevPiPyLoad\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2026-57472",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "KUNBUS",
+          "product": "RevPiPyLoad",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "0.11.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "cwe_ids": [
         "CWE-22"
       ],
       "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-57471",
+      "publishedDate": "2026-08-14T15:04:16.046Z",
+      "lastModifiedDate": "2026-08-14T15:04:16.046Z",
+      "description": "Nozomi Networks Labs identified a CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in the file management functionality of the XML-RPC management interface of KUNBUS RevPiPyLoad in version 0.11.0 that allows a local unauthenticated attacker to read arbitrary files with the privileges of the RevPiPyLoad daemon, including sensitive configuration and credential material, by sending crafted requests to the local management service.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：KUNBUS RevPiPyLoad\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2026-57471",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "KUNBUS",
+          "product": "RevPiPyLoad",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "0.11.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "cwe_ids": [
+        "CWE-22"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-57469",
+      "publishedDate": "2026-08-14T15:03:32.185Z",
+      "lastModifiedDate": "2026-08-14T15:03:32.185Z",
+      "description": "Nozomi Networks Labs identified a CWE-352: Cross-Site Request Forgery (CSRF) vulnerability in the web-based configuration backend of KUNBUS PiCtory in version 2.16.0 that allows a remote unauthenticated attacker to perform state-changing operations in the context of an authenticated operator, including deletion of project and configuration files and reset of the control runtime, by inducing the victim's browser to submit crafted requests.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：KUNBUS PiCtory\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2026-57469",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "KUNBUS",
+          "product": "PiCtory",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2.16.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-352 Cross-Site Request Forgery (CSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-352"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-13198",
+      "publishedDate": "2026-08-14T15:02:42.331Z",
+      "lastModifiedDate": "2026-08-14T15:02:42.331Z",
+      "description": "Nozomi Networks Labs identified a CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition') vulnerability in the event notification functionality of KUNBUS piControl in version 2.6.2 that allows a local authenticated attacker to corrupt kernel heap and event-list state and disclose a small amount of adjacent kernel memory, resulting in kernel memory corruption and denial of service, by issuing concurrent crafted requests from multiple threads through the piControl character device.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：KUNBUS piControl\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2026-13198",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "KUNBUS",
+          "product": "piControl",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2.6.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-362 Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
+      ],
+      "cwe_ids": [
+        "CWE-362"
+      ]
+    },
+    {
+      "id": "CVE-2026-13197",
+      "publishedDate": "2026-08-14T15:01:39.483Z",
+      "lastModifiedDate": "2026-08-14T15:01:39.483Z",
+      "description": "Nozomi Networks Labs identified a CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition') vulnerability in the configuration and process-image management functionality of KUNBUS piControl in version 2.6.2 that allows a local authenticated attacker to trigger use-after-free and invalid pointer dereferences on kernel configuration objects, resulting in kernel memory corruption and denial of service, by issuing concurrent crafted requests through the piControl character device.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：KUNBUS piControl\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2026-13197",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "KUNBUS",
+          "product": "piControl",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2.6.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-362 Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
+      ],
+      "cwe_ids": [
+        "CWE-362"
+      ]
+    },
+    {
+      "id": "CVE-2026-13196",
+      "publishedDate": "2026-08-14T15:00:48.137Z",
+      "lastModifiedDate": "2026-08-14T15:00:48.137Z",
+      "description": "Nozomi Networks Labs identified a CWE-787: Out-of-bounds Write vulnerability in the process-image management functionality of KUNBUS piControl in version 2.6.2 that allows a local authenticated attacker with device configuration access to write attacker-controlled data outside the bounds of the process-image buffer and corrupt adjacent kernel memory, resulting in kernel memory corruption and denial of service, by supplying crafted device configuration data and crafted input through the piControl character device.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：KUNBUS piControl\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.nozominetworks.com/labs/vulnerability-advisories-cve-2026-13196",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "KUNBUS",
+          "product": "piControl",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "2.6.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-73420",
+      "publishedDate": "2026-08-13T22:04:15.414Z",
+      "lastModifiedDate": "2026-08-14T15:06:00.594Z",
+      "description": "NextAuth.js provides authentication for Next.js. Prior to @auth/core 0.41.3 and next-auth 4.24.15 and 5.0.0-beta.32, the defaultNormalizer used by the email and magic-link sign-in flow validates an address before applying Unicode normalization. An address can contain a Unicode character such as U+FF20 FULLWIDTH COMMERCIAL AT that is not ASCII at-sign but canonicalizes to an ASCII at-sign under NFKC or NFKD normalization. The address passes the normalizer's single-at-sign check, but a downstream sendVerificationRequest mail library or delivery service that normalizes the address can then see two at-sign separators and deliver the passwordless sign-in link to an attacker-controlled recipient. Applications are affected when the email provider uses the built-in normalizer rather than a custom normalizeIdentifier and the downstream sender applies Unicode normalization. An attacker who knows a victim's email address can request the misrouted magic link and sign in as the victim without victim interaction. This issue is fixed in @auth/core 0.41.3 and next-auth 4.24.15 and 5.0.0-beta.32.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：nextauthjs next-auth\n🔓 漏洞类型：CWE-180 (CWE-180)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/nextauthjs/next-auth/security/advisories/GHSA-7rqj-j65f-68wh",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nextauthjs/next-auth/commit/19d2feb24359fa8c79418907fc68d9ec8152ca94",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nextauthjs/next-auth/commit/a63eee12a1a20cb35209e44195b097868517b9a0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nextauthjs/next-auth/releases/tag/@auth/core@0.41.3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nextauthjs/next-auth/releases/tag/next-auth@4.24.15",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nextauthjs/next-auth/releases/tag/next-auth@5.0.0-beta.32",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "nextauthjs",
+          "product": "next-auth",
+          "versions": [
+            {
+              "version": "< 4.24.15",
+              "status": "affected"
+            },
+            {
+              "version": ">= 5.0.0-beta.4, < 5.0.0-beta.32",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "@auth",
+          "product": "core",
+          "versions": [
+            {
+              "version": ">= 0.1.0, < 0.41.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-180: Incorrect Behavior Order: Validate Before Canonicalize"
+      ],
+      "cwe_ids": [
+        "CWE-180"
+      ],
+      "ghsa_id": "GHSA-7rqj-j65f-68wh"
+    },
+    {
+      "id": "CVE-2026-33818",
+      "publishedDate": "2026-08-13T21:58:52.821Z",
+      "lastModifiedDate": "2026-08-14T15:12:34.877Z",
+      "description": "Enforce a recursion limit in Unmarshal to prevent stack exhaustion when parsing deeply-nested, recursive structures.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Go standard library encoding/asn1\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://go.dev/issue/80405",
+          "type": "reference"
+        },
+        {
+          "url": "https://groups.google.com/g/golang-announce/c/94pEornpRlI",
+          "type": "reference"
+        },
+        {
+          "url": "https://go.dev/cl/814980",
+          "type": "reference"
+        },
+        {
+          "url": "https://pkg.go.dev/vuln/GO-2026-5972",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Go standard library",
+          "product": "encoding/asn1",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "encoding/asn1",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "1.25.13",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "1.26.0-0",
+              "lessThan": "1.26.6",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "1.27.0-0",
+              "lessThan": "1.27.0-rc.3",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ],
+          "programRoutines": [
+            {
+              "name": "parseSequenceOf"
+            },
+            {
+              "name": "parseField"
+            },
+            {
+              "name": "UnmarshalWithParams"
+            },
+            {
+              "name": "Unmarshal"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
