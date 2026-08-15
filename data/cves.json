@@ -2,10 +2,10 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-15T09:31:57.480884",
+    "total_count": 1,
+    "last_updated": "2026-08-15T09:52:39.334102",
     "severity_distribution": {
-      "critical": 1,
+      "critical": 0,
       "high": 1,
       "medium": 0,
       "low": 0,
@@ -14,31 +14,95 @@
   },
   "cves": [
     {
-      "id": "CVE-2026-16142",
-      "publishedDate": "2026-08-15T08:27:16.927Z",
-      "lastModifiedDate": "2026-08-15T08:27:16.927Z",
-      "description": "The TrueBooker plugin for WordPress is vulnerable to Account Takeover in all versions up to, and including, 1.2.6. This is due to the add_front_user_update() AJAX handler being registered for unauthenticated users and accepting an arbitrary truebooker_wp_user_id value, which is passed directly to wp_update_user() without verifying authentication or ownership. This makes it possible for unauthenticated attackers to change any WordPress user account email address, including an administrator, by submitting the target user ID and an attacker-controlled email address. An attacker can then use the native WordPress password reset flow to receive the reset link at the attacker-controlled email address and take over the account.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：themetechmount TrueBooker – Appointment Booking and Scheduler System\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-18438",
+      "publishedDate": "2026-08-15T09:25:18.170Z",
+      "lastModifiedDate": "2026-08-15T09:25:18.170Z",
+      "description": "The Templately – Elementor & Gutenberg Template Library: 6500+ Free & Pro Ready Templates And Cloud! plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 3.7.1 via the fetch_remote_file function. This is due to a filename validation/destination mismatch in fetch_remote_file, where file type validation is performed against the attacker-controlled Content-Disposition filename rather than the URL-path-derived destination filename. This makes it possible for authenticated attackers, with contributor-level access and above, to execute code on the server. A GIF+PHP polyglot file passes wp_check_filetype_and_ext validation as image/gif via the Content-Disposition filename, while the actual destination path is written with a .php extension derived from the URL path, bypassing the unfiltered_upload capability gate entirely. The affected endpoints are reachable at this privilege level because Templately's entire REST API — including the cloud import endpoints used in this attack (/templately/v1/clouds/upload and /templately/v1/insert) — is authorized only by a current_user_can('delete_posts') check, with no administrator or manage_options capability requirement. The same permission gate also allows a contributor to overwrite the site's global Templately cloud connection via the /templately/v1/login endpoint with global_signin set to true. A complete remediation should both correct fetch_remote_file to validate the file type against the actual destination filename rather than the Content-Disposition header (and avoid deriving the write path from the request URL), and restrict state-changing Templately REST routes to an appropriate administrator-level capability.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：wpdevteam Templately – Elementor & Gutenberg Template Library: 6500+ Free & Pro Ready Templates And Cloud!\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f0d3f7cb-4974-4b0f-9658-1895e5966276?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4e68b2f2-12e4-4ff2-919d-26d6b21acd03?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset/3640018/truebooker-appointment-booking",
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Importer/WPImport.php#L1423",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Importer/WPImport.php#L1200",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Importer/WPImport.php#L1391",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Platform/Gutenberg.php#L177",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/API/Import.php#L78",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/API/MyClouds.php#L103",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/API/API.php#L128",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Importer/WPImport.php#L1423",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Importer/WPImport.php#L1200",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Importer/WPImport.php#L1391",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Platform/Gutenberg.php#L177",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/API/Import.php#L78",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/API/MyClouds.php#L103",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/API/API.php#L128",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&new=3636643%40templately%2Ftags%2F3.7.2&old=3624408%40templately%2Ftags%2F3.7.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3636643/templately/trunk/includes/Core/Importer/WPImport.php",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Ftemplately/tags/3.7.1&new_path=%2Ftemplately/tags/3.7.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "themetechmount",
-          "product": "TrueBooker – Appointment Booking and Scheduler System",
+          "vendor": "wpdevteam",
+          "product": "Templately – Elementor & Gutenberg Template Library: 6500+ Free & Pro Ready Templates And Cloud!",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.2.6",
+              "lessThanOrEqual": "3.7.1",
               "versionType": "semver"
             }
           ],
@@ -46,49 +110,10 @@
         }
       ],
       "problemType": [
-        "CWE-639 Authorization Bypass Through User-Controlled Key"
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
       ],
       "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-15142",
-      "publishedDate": "2026-08-15T08:27:16.449Z",
-      "lastModifiedDate": "2026-08-15T08:27:16.449Z",
-      "description": "The Real Estate Manager Pro plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 12.8.6. This is due to improper capability handling in the allow_attachment_actions() function, which can treat a target user ID as a media attachment ID during user capability checks. This makes it possible for authenticated attackers, with Subscriber-level access and above, to edit an administrator account and escalate their privileges to Administrator when the targeted user ID matches the ID of an existing media attachment.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：WebCodingPlace Real Estate Manager Pro\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/71e9ff91-4137-4c66-959b-f4ffb8d3ba32?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://wp-rem.com/changelog/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WebCodingPlace",
-          "product": "Real Estate Manager Pro",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "12.8.6",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-269 Improper Privilege Management"
-      ],
-      "cwe_ids": [
-        "CWE-269"
+        "CWE-434"
       ]
     }
   ]
