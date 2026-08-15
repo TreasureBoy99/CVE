@@ -2,119 +2,183 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-15T10:38:45.936366",
+    "total_count": 4,
+    "last_updated": "2026-08-15T10:56:48.245321",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 0,
+      "high": 0,
+      "medium": 1,
       "low": 0,
-      "none": 0
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-18438",
-      "publishedDate": "2026-08-15T09:25:18.170Z",
-      "lastModifiedDate": "2026-08-15T09:25:18.170Z",
-      "description": "The Templately – Elementor & Gutenberg Template Library: 6500+ Free & Pro Ready Templates And Cloud! plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 3.7.1 via the fetch_remote_file function. This is due to a filename validation/destination mismatch in fetch_remote_file, where file type validation is performed against the attacker-controlled Content-Disposition filename rather than the URL-path-derived destination filename. This makes it possible for authenticated attackers, with contributor-level access and above, to execute code on the server. A GIF+PHP polyglot file passes wp_check_filetype_and_ext validation as image/gif via the Content-Disposition filename, while the actual destination path is written with a .php extension derived from the URL path, bypassing the unfiltered_upload capability gate entirely. The affected endpoints are reachable at this privilege level because Templately's entire REST API — including the cloud import endpoints used in this attack (/templately/v1/clouds/upload and /templately/v1/insert) — is authorized only by a current_user_can('delete_posts') check, with no administrator or manage_options capability requirement. The same permission gate also allows a contributor to overwrite the site's global Templately cloud connection via the /templately/v1/login endpoint with global_signin set to true. A complete remediation should both correct fetch_remote_file to validate the file type against the actual destination filename rather than the Content-Disposition header (and avoid deriving the write path from the request URL), and restrict state-changing Templately REST routes to an appropriate administrator-level capability.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：wpdevteam Templately – Elementor & Gutenberg Template Library: 6500+ Free & Pro Ready Templates And Cloud!\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73632",
+      "publishedDate": "2026-08-15T10:38:53.381Z",
+      "lastModifiedDate": "2026-08-15T10:38:53.381Z",
+      "description": "Exposure of data element to wrong session vulnerability in the JSON plugin of Apache Struts. Per-response serialization state could be shared across concurrent requests, allowing response content associated with one request to become observable in another. Only the SMD / JSON-RPC handling of the JSON interceptor is affected, which is not enabled by default; applications using the json result type are not affected.\n\nThis issue affects Apache Struts: 7.2.1.\n\nUsers are recommended to upgrade to version 7.3.0, which fixes the issue.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Struts\n🔓 漏洞类型：CWE-567 (CWE-567)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4e68b2f2-12e4-4ff2-919d-26d6b21acd03?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Importer/WPImport.php#L1423",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Importer/WPImport.php#L1200",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Importer/WPImport.php#L1391",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/Core/Platform/Gutenberg.php#L177",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/API/Import.php#L78",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/API/MyClouds.php#L103",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.7.1/includes/API/API.php#L128",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Importer/WPImport.php#L1423",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Importer/WPImport.php#L1200",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Importer/WPImport.php#L1391",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/Core/Platform/Gutenberg.php#L177",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/API/Import.php#L78",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/API/MyClouds.php#L103",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/templately/tags/3.6.5/includes/API/API.php#L128",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&new=3636643%40templately%2Ftags%2F3.7.2&old=3624408%40templately%2Ftags%2F3.7.1",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset/3636643/templately/trunk/includes/Core/Importer/WPImport.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Ftemplately/tags/3.7.1&new_path=%2Ftemplately/tags/3.7.2",
+          "url": "https://cwiki.apache.org/confluence/display/WW/S2-071",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wpdevteam",
-          "product": "Templately – Elementor & Gutenberg Template Library: 6500+ Free & Pro Ready Templates And Cloud!",
+          "defaultStatus": "unaffected",
+          "packageName": "org.apache.struts:struts2-json-plugin",
+          "product": "Apache Struts",
+          "vendor": "Apache Software Foundation",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "3.7.1",
+              "version": "7.2.1",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+        "CWE-567 Unsynchronized Access to Shared Data in a Multithreaded Context"
       ],
       "cwe_ids": [
-        "CWE-434"
+        "CWE-567"
       ]
+    },
+    {
+      "id": "CVE-2026-73631",
+      "publishedDate": "2026-08-15T10:38:28.497Z",
+      "lastModifiedDate": "2026-08-15T10:38:28.497Z",
+      "description": "Exposure of data element to wrong session vulnerability in the JSON plugin of Apache Struts. Per-request parsing state could be shared across concurrent requests, allowing data associated with one request to become observable in another, and configured parsing limits not to be enforced as intended. Populating actions from a JSON request body is not enabled by default; applications that do not use the JSON plugin are not affected.\n\nThis issue affects Apache Struts: 7.2.1.\n\nUsers are recommended to upgrade to version 7.3.0, which fixes the issue.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Struts\n🔓 漏洞类型：CWE-567 (CWE-567)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cwiki.apache.org/confluence/display/WW/S2-070",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "packageName": "org.apache.struts:struts2-json-plugin",
+          "product": "Apache Struts",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2.1",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-567 Unsynchronized Access to Shared Data in a Multithreaded Context"
+      ],
+      "cwe_ids": [
+        "CWE-567"
+      ]
+    },
+    {
+      "id": "CVE-2026-73635",
+      "publishedDate": "2026-08-15T10:38:08.227Z",
+      "lastModifiedDate": "2026-08-15T10:38:08.227Z",
+      "description": "Allocation of resources without limits or throttling vulnerability in Apache Struts. When no fixed locale is configured, the locale used for localized-text lookups is taken from the incoming request, allowing an unauthenticated remote client to cause the framework's internal localized-text caches to grow without bound and exhaust the Java heap, denying service to other users. Applications that configure a fixed locale are not affected.\n\nThis issue affects Apache Struts: from 2.0.0 through 2.3.37, from 2.5.0 through 2.5.33, from 6.0.0 through 6.10.0, from 7.0.0 through 7.2.1.\n\nUsers are recommended to upgrade to version 6.11.0 or 7.3.0, which fixes the issue.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Struts\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cwiki.apache.org/confluence/display/WW/S2-074",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "packageName": "org.apache.struts:struts2-core",
+          "product": "Apache Struts",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThanOrEqual": "2.3.37",
+              "status": "affected",
+              "version": "2.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "2.5.33",
+              "status": "affected",
+              "version": "2.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "6.10.0",
+              "status": "affected",
+              "version": "6.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "7.2.1",
+              "status": "affected",
+              "version": "7.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-73634",
+      "publishedDate": "2026-08-15T10:37:37.892Z",
+      "lastModifiedDate": "2026-08-15T10:37:37.892Z",
+      "description": "Uncontrolled resource consumption vulnerability in Apache Struts. An application that exposes an endpoint collecting Content Security Policy violation reports reads the submitted report into memory without bounding how much it will accept, so a single request can exhaust the heap and deny service to other users. Such endpoints are ordinarily reachable without authentication. The core distribution maps no such endpoint by default; applications that do not collect violation reports are not affected.\n\nThis issue affects Apache Struts: from 6.0.0 through 6.10.0, from 7.0.0 through 7.2.1.\n\nUsers are recommended to upgrade to version 6.11.0 or 7.3.0, which fixes the issue.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Struts\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cwiki.apache.org/confluence/display/WW/S2-073",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "packageName": "org.apache.struts:struts2-core",
+          "product": "Apache Struts",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThanOrEqual": "6.10.0",
+              "status": "affected",
+              "version": "6.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "7.2.1",
+              "status": "affected",
+              "version": "7.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400 Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
