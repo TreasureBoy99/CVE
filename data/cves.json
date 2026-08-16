@@ -2,15 +2,925 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-08-16T12:54:25.907538",
+    "total_count": 22,
+    "last_updated": "2026-08-16T13:25:34.258484",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
-      "none": 0
+      "critical": 3,
+      "high": 12,
+      "medium": 5,
+      "low": 1,
+      "none": 1
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-73061",
+      "publishedDate": "2026-08-16T13:14:07.946Z",
+      "lastModifiedDate": "2026-08-16T13:14:07.946Z",
+      "description": "Scriban before 7.2.2 contains an access-modifier bypass vulnerability in TypedObjectAccessor that allows template code to write CLR object properties without setter-visibility checks. Attackers can modify properties with private, internal, or init-only setters, and perform mass assignment on public-setter properties, permanently altering live host objects after template rendering.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-7jvp-hj45-2f2m",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-arbitrary-property-write-via-typedobjectaccessor",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.2.2"
+            },
+            {
+              "version": "7.2.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Access Control"
+      ]
+    },
+    {
+      "id": "CVE-2026-73056",
+      "publishedDate": "2026-08-16T13:14:04.660Z",
+      "lastModifiedDate": "2026-08-16T13:14:04.660Z",
+      "description": "SiYuan kernel versions before 3.7.4 contain an improper restriction of excessive authentication attempts vulnerability in the CheckAuth() middleware. The middleware accepts the API token (Conf.Api.Token) via an Authorization header (Token/Bearer) or a ?token= query parameter, and neither path is protected by the application's CAPTCHA/lockout mechanism (NeedCaptcha/WrongAuthCount). As a result, an unauthenticated remote attacker can perform unlimited automated guesses of the API token, particularly when a short or weak custom token has been configured, and upon success gains full RoleAdministrator access enabling arbitrary file operations and SQL queries.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-m6w6-p7pc-fpg2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/siyuan-kernel-before-unthrottled-brute-force-via-api-token",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "siyuan-note",
+          "product": "siyuan",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.7.4"
+            },
+            {
+              "version": "3.7.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Restriction of Excessive Authentication Attempts"
+      ]
+    },
+    {
+      "id": "CVE-2026-74790",
+      "publishedDate": "2026-08-16T13:14:14.417Z",
+      "lastModifiedDate": "2026-08-16T13:14:14.417Z",
+      "description": "Scriban before 7.0.0 caches TypedObjectAccessor by Type only without considering MemberFilter changes, allowing reused TemplateContext instances to expose members that should be hidden. Attackers can access filtered properties and fields by reusing a TemplateContext after tightening its MemberFilter, bypassing sandbox policies across requests or tenants.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-5wr9-m6jw-xx44",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-memberfilter-bypass-via-templatecontext-cache",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Protection Mechanism Failure"
+      ]
+    },
+    {
+      "id": "CVE-2026-74791",
+      "publishedDate": "2026-08-16T13:14:15.049Z",
+      "lastModifiedDate": "2026-08-16T13:14:15.049Z",
+      "description": "Scriban before 7.0.0 fails to clear the CachedTemplates dictionary when TemplateContext.Reset() is called, allowing cached templates to persist across reused contexts. Attackers can exploit request-dependent ITemplateLoader implementations to access previously authorized template content from earlier renders without triggering TemplateLoader.Load() again.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-x6m9-38vm-2xhf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-authorization-bypass-via-stale-include-cache",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Sensitive Information in Resource Not Removed Before Reuse"
+      ]
+    },
+    {
+      "id": "CVE-2026-74795",
+      "publishedDate": "2026-08-16T13:14:17.698Z",
+      "lastModifiedDate": "2026-08-16T13:14:17.698Z",
+      "description": "Scriban before 6.6.0 contains an uncontrolled recursion vulnerability in its recursive-descent parser. The parser does not enforce a default expression depth limit (the ExpressionDepthLimit property in ParserOptions defaults to null/disabled), so an attacker who controls template input can supply a deeply nested template (e.g., thousands of nested parentheses or blocks) that exhausts thread stack space and raises a StackOverflowException. Because a StackOverflowException cannot be caught in .NET, this causes immediate, unrecoverable termination of the hosting process, resulting in a denial of service. Applications that process untrusted or user-supplied templates can be exploited remotely without authentication.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-wgh7-7m3c-fx25",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-denial-of-service-via-uncontrolled-recursion",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "6.6.0"
+            },
+            {
+              "version": "6.6.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Recursion"
+      ]
+    },
+    {
+      "id": "CVE-2026-74794",
+      "publishedDate": "2026-08-16T13:14:17.004Z",
+      "lastModifiedDate": "2026-08-16T13:14:17.004Z",
+      "description": "Scriban before 6.6.0 contains an infinite recursion vulnerability in object rendering when the ObjectRecursionLimit property defaults to unlimited. Attackers can supply circular reference objects to the template context, exhausting stack space and triggering an uncatchable StackOverflowException that terminates the hosting process.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-grr9-747v-xvcp",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-denial-of-service-via-infinite-recursion",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "6.6.0"
+            },
+            {
+              "version": "6.6.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Recursion"
+      ]
+    },
+    {
+      "id": "CVE-2026-74792",
+      "publishedDate": "2026-08-16T13:14:15.706Z",
+      "lastModifiedDate": "2026-08-16T13:14:15.706Z",
+      "description": "Scriban before 7.0.0 (affected versions <= 6.6.0) contains a stack overflow vulnerability in nested array initializer parsing. Deeply nested array initializers recurse through a path (ParseArrayInitializer → ParseExpression → ParseArrayInitializer) that is not covered by the ExpressionDepthLimit counter added in the fix for GHSA-wgh7-7m3c-fx25. An attacker who can supply untrusted input to Template.Parse can trigger an uncatchable StackOverflowException that immediately terminates the process, even with the default ExpressionDepthLimit enabled.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-p6q4-fgr8-vx4p",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-stack-overflow-via-nested-array-initializers",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Recursion"
+      ]
+    },
+    {
+      "id": "CVE-2026-74789",
+      "publishedDate": "2026-08-16T13:14:13.792Z",
+      "lastModifiedDate": "2026-08-16T13:14:13.792Z",
+      "description": "Scriban before 7.0.0 (affected <= 6.6.0) applies its LoopLimit constraint only to script loop statements and not to expensive iteration performed inside built-in operators and functions. As a result, a single expression such as {{ 1..1000000 | array.size }} — or a memory-amplification expression such as {{ 'A' * 200000000 }} — can force large CPU or memory consumption even when LoopLimit is configured to a very small value, resulting in denial of service. Applications that render attacker-controlled templates and rely on LoopLimit for safe execution are affected.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-c875-h985-hvrc",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-looplimit-bypass-via-built-in-operations",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2026-74788",
+      "publishedDate": "2026-08-16T13:14:13.132Z",
+      "lastModifiedDate": "2026-08-16T13:14:13.132Z",
+      "description": "Scriban before 7.0.0 (affected versions <= 6.6.0) contains an uncontrolled memory allocation vulnerability in the string.pad_left and string.pad_right template functions, which perform no validation on the width parameter before delegating to .NET's String.PadLeft/PadRight. When an application exposes Scriban to untrusted template input, an attacker can supply an arbitrarily large width value (e.g., 500,000,000) to trigger ~1GB memory allocations in a single call, resulting in OutOfMemoryException and denial of service. The TemplateContext.LimitToString limit does not prevent this because it is only enforced after the string has been fully allocated.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-v66j-x4hw-fv9g",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-denial-of-service-via-string-pad-left-pad-right",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    },
+    {
+      "id": "CVE-2026-74787",
+      "publishedDate": "2026-08-16T13:14:12.485Z",
+      "lastModifiedDate": "2026-08-16T13:14:12.485Z",
+      "description": "Scriban before 7.0.0 contains an uncontrolled recursion vulnerability in the object.to_json builtin function that lacks depth limits and circular reference detection. Attackers can craft templates with self-referencing objects to trigger unbounded recursion, causing a StackOverflowException that fatally terminates the hosting .NET process.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-xcx6-vp38-8hr5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-uncontrolled-recursion-via-object-to-json",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Recursion"
+      ]
+    },
+    {
+      "id": "CVE-2026-74783",
+      "publishedDate": "2026-08-16T13:14:09.444Z",
+      "lastModifiedDate": "2026-08-16T13:14:09.444Z",
+      "description": "Scriban versions 6.6.0 through 7.2.0 contain a non-enforcing ExpressionDepthLimit guard that fails to stop recursive descent parsing of deeply nested expressions. Attackers can supply templates with deeply nested parentheses, array initializers, object initializers, or unary operators to trigger an uncatchable StackOverflowException that immediately terminates the host process.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-6q7j-xr26-3h2c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-through-parser-recursion-denial-of-service",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "unaffected",
+              "versionType": "semver",
+              "lessThan": "6.6.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Recursion"
+      ]
+    },
+    {
+      "id": "CVE-2026-73062",
+      "publishedDate": "2026-08-16T13:14:08.592Z",
+      "lastModifiedDate": "2026-08-16T13:14:08.592Z",
+      "description": "Scriban versions 3.0.0 through 7.2.0 contain a denial of service vulnerability in the array multiplication operator that allocates memory without enforcing LoopLimit or overflow-safe arithmetic checks. Attackers can supply a large integer multiplier in a template to force multi-gigabyte memory allocations, causing resource exhaustion and availability degradation.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-q6rr-fm2g-g5x8",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-through-denial-of-service-via-array-multiplication",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "unaffected",
+              "versionType": "semver",
+              "lessThan": "3.0.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    },
+    {
+      "id": "CVE-2026-73060",
+      "publishedDate": "2026-08-16T13:14:07.295Z",
+      "lastModifiedDate": "2026-08-16T13:14:07.295Z",
+      "description": "Scriban versions from 3.0.0 through 7.2.5 contain a denial of service vulnerability in the ScriptRange.Multiply operator that bypasses LoopLimit when the left operand is a lazy sequence. Attackers can supply templates with array multiplication on lazy sequences to execute billions of uncharged iterations, pinning CPU cores and exhausting garbage collection resources even when LoopLimit is set to 1.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-89cf-6hmv-8rxm",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/scriban/scriban/commit/205ca6a7c2349d3d388bd5f1f7729ee198c0d5e5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/scriban/scriban/commit/c3f03bfc912e14b306a01a03e611f606b05f9c33",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-through-denial-of-service-via-scriptrange-multiply",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "affected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "unaffected",
+              "versionType": "semver",
+              "lessThan": "3.0.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    },
+    {
+      "id": "CVE-2026-73057",
+      "publishedDate": "2026-08-16T13:14:05.297Z",
+      "lastModifiedDate": "2026-08-16T13:14:05.297Z",
+      "description": "stoatchat before 0.15.0 fails to validate SVG viewBox dimensions in the proxy endpoint, allowing attackers to cause denial of service by memory exhaustion. Attackers can host malicious SVGs with extremely large width and height values and trigger concurrent requests to exhaust available memory across proxy replicas.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：stoatchat stoatchat\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/stoatchat/stoatchat/security/advisories/GHSA-x87r-h3mq-7mgr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/stoatchat-before-uncapped-svg-rendering-denial-of-service",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "stoatchat",
+          "product": "stoatchat",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.15.0"
+            },
+            {
+              "version": "0.15.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2024-58375",
+      "publishedDate": "2026-08-16T13:14:03.955Z",
+      "lastModifiedDate": "2026-08-16T13:14:03.955Z",
+      "description": "OpenTofu versions 1.8.0 through 1.8.2 do not properly restrict sensitive variables and locals when users have opted into static evaluation of module sources, versions, and backend configurations. As a result, values marked as sensitive may be exposed through these configuration elements instead of producing an error. This is fixed in OpenTofu 1.8.3, which adds explicit errors to prevent the use of sensitive values in these contexts.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：opentofu opentofu\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/opentofu/opentofu/security/advisories/GHSA-wpr2-j6gr-pjw9",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/opentofu-before-secret-variable-leaking-via-static-evaluation",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "opentofu",
+          "product": "opentofu",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.8.3"
+            },
+            {
+              "version": "1.8.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of Sensitive System Information to an Unauthorized Control Sphere"
+      ]
+    },
+    {
+      "id": "CVE-2026-74786",
+      "publishedDate": "2026-08-16T13:14:11.837Z",
+      "lastModifiedDate": "2026-08-16T13:14:11.837Z",
+      "description": "Scriban before 7.0.0 (affected versions <= 6.6.0) contains a denial-of-service vulnerability in which the LimitToString safety limit (default 1MB) can be bypassed because ObjectToString resets the per-call length counter (_currentToStringLength) on every top-level call and StringBuilderOutput enforces no cumulative output-size limit. An attacker who can supply a template can render a near-limit string repeatedly in a loop, allocating approximately 1GB of memory and causing an out-of-memory condition that crashes the host application.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-m2p3-hwv5-xpqw",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-denial-of-service-via-unbounded-template-output",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    },
+    {
+      "id": "CVE-2026-74785",
+      "publishedDate": "2026-08-16T13:14:11.187Z",
+      "lastModifiedDate": "2026-08-16T13:14:11.187Z",
+      "description": "Scriban before 7.0.0 contains three distinct denial-of-service vulnerabilities in expression evaluation that bypass existing safety controls through unbounded string multiplication, uncontrolled BigInteger shift operations, and LoopLimit bypass via range enumeration in builtin functions. Attackers who can supply templates can cause out-of-memory exceptions or CPU exhaustion, typically terminating the entire host process.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-xw6w-9jjh-p9cr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-denial-of-service-via-unbounded-resource-consumption",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/Scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.0.0"
+            },
+            {
+              "version": "7.0.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2026-73059",
+      "publishedDate": "2026-08-16T13:14:06.644Z",
+      "lastModifiedDate": "2026-08-16T13:14:06.644Z",
+      "description": "stoatchat before 0.15.0 contains a permission bypass vulnerability in the message_fetch route that checks only ViewChannel permission instead of requiring ReadMessageHistory. Attackers with ViewChannel access but ReadMessageHistory denied can retrieve individual message content by ID, bypassing the intended history restriction enforced by bulk read routes.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：stoatchat stoatchat\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/stoatchat/stoatchat/security/advisories/GHSA-8qp4-h9xf-2vqr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/stoatchat-before-permission-bypass-via-message-fetch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "stoatchat",
+          "product": "stoatchat",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.15.0"
+            },
+            {
+              "version": "0.15.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-74796",
+      "publishedDate": "2026-08-16T13:14:18.365Z",
+      "lastModifiedDate": "2026-08-16T13:14:18.365Z",
+      "description": "OpenTofu before 1.11.7 fails to validate existing symlinks in the provider cache directory during initialization. Attackers can place a malicious symlink in a trusted working directory to cause tofu init to write provider package contents to arbitrary filesystem locations outside the working tree.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：opentofu opentofu\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/opentofu/opentofu/security/advisories/GHSA-wcmj-x466-56mm",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/opentofu-before-symlink-following-path-traversal",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "opentofu",
+          "product": "opentofu",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.11.7"
+            },
+            {
+              "version": "1.11.7",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Link Resolution Before File Access ('Link Following')"
+      ]
+    },
+    {
+      "id": "CVE-2026-73058",
+      "publishedDate": "2026-08-16T13:14:05.977Z",
+      "lastModifiedDate": "2026-08-16T13:14:05.977Z",
+      "description": "stoatchat versions before 0.15.0 fail to block the IPv6 unspecified address (::) in the SSRF blocklist, allowing unauthenticated attackers to bypass protections via the /proxy and /embed endpoints. Attackers can craft requests using IPv6 literal syntax to access services on the loopback interface and retrieve sensitive internal content.",
+      "severity": 5.8,
+      "fix_suggestion": "📦 受影响组件：stoatchat stoatchat\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/stoatchat/stoatchat/security/advisories/GHSA-4rmr-77qv-hq47",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/stoatchat-before-ssrf-via-ipv6-unspecified-address-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "stoatchat",
+          "product": "stoatchat",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.15.0"
+            },
+            {
+              "version": "0.15.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-74797",
+      "publishedDate": "2026-08-16T13:14:19.060Z",
+      "lastModifiedDate": "2026-08-16T13:14:19.060Z",
+      "description": "OpenTofu versions before 1.11.4 contain a denial of service vulnerability in the tofu init command when processing maliciously-crafted .zip archives for provider or module packages. Attackers can cause excessive CPU usage by controlling .zip archive content served during dependency installation, degrading system performance and preventing timely completion of the init process.",
+      "severity": 3.1,
+      "fix_suggestion": "📦 受影响组件：opentofu opentofu\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/opentofu/opentofu/security/advisories/GHSA-r92c-9c7f-3pj8",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/opentofu-before-denial-of-service-via-malicious-zip",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "opentofu",
+          "product": "opentofu",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.11.4"
+            },
+            {
+              "version": "1.11.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2026-74784",
+      "publishedDate": "2026-08-16T13:14:10.514Z",
+      "lastModifiedDate": "2026-08-16T13:14:10.514Z",
+      "description": "Scriban before 7.2.0 contains a denial of service vulnerability in the array.insert_at function that allocates unbounded null entries without respecting LoopLimit or LimitToString constraints. Attackers can supply a large index parameter to trigger OutOfMemoryException and crash the host process in under a second.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：scriban scriban\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/scriban/scriban/security/advisories/GHSA-24c8-4792-22hx",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/scriban-before-denial-of-service-via-array-insert-at",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "scriban",
+          "product": "scriban",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:nuget/scriban",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "7.2.0"
+            },
+            {
+              "version": "7.2.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    }
+  ]
 }
