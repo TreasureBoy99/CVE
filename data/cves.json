@@ -2,31 +2,171 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-17T21:58:42.952432",
+    "total_count": 5,
+    "last_updated": "2026-08-17T22:28:56.289230",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
+      "high": 1,
       "medium": 0,
-      "low": 0,
+      "low": 2,
       "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-67960",
+      "id": "CVE-2026-73683",
+      "publishedDate": "2026-08-14T21:32:18.055Z",
+      "lastModifiedDate": "2026-08-17T22:07:13.466Z",
+      "description": "Laravel Socialite's Facebook provider contains an authentication bypass vulnerability that allows unauthenticated attackers to replay captured OIDC id_tokens by exploiting the missing nonce claim validation in the getUserByOIDCToken() function within FacebookProvider.php. Attackers who obtain a valid, unexpired id_token issued for the same Facebook App ID can submit the captured token to the backend userFromToken() endpoint, bypassing authentication controls because signature, aud, and iss checks pass while no session-bound nonce comparison is performed, resulting in unauthorized access to victim accounts.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：Laravel Socialite\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/laravel/socialite/pull/789",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/laravel/socialite/commit/caf714f55d51ab0d914b40033d8b0f489d6219cc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/laravel/socialite",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/laravel-socialite-facebook-provider-authentication-bypass-via-nonce-replay",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Laravel",
+          "product": "Socialite",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "5.29.0"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "Authentication Bypass by Capture-replay"
+      ]
+    },
+    {
+      "id": "CVE-2026-75587",
+      "publishedDate": "2026-08-17T22:09:49.590Z",
+      "lastModifiedDate": "2026-08-17T22:09:49.590Z",
+      "description": "Mattermost Desktop App versions <=6.2 6.2.2.0 fail to redact the pre-auth secret when generating a diagnostics report, which allows a local attacker with access to a user's diagnostics report or log files to obtain the plaintext pre-auth secret configured for a connected server via inspecting the Server Connectivity (Step-3) diagnostics output. Mattermost Advisory ID: MMSA-2026-00716",
+      "severity": 3.6,
+      "fix_suggestion": "📦 受影响组件：Mattermost Mattermost\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://mattermost.com/security-updates",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Mattermost",
+          "vendor": "Mattermost",
+          "versions": [
+            {
+              "lessThanOrEqual": "6.2.2",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.3.0",
+              "status": "unaffected"
+            },
+            {
+              "version": "6.2.3.0",
+              "status": "unaffected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ]
+    },
+    {
+      "id": "CVE-2026-9693",
+      "publishedDate": "2026-08-17T22:07:12.958Z",
+      "lastModifiedDate": "2026-08-17T22:07:12.958Z",
+      "description": "Mattermost versions 10.11.x <= 10.11.20, 11.7.x <= 11.7.5 Mattermost fails to remove thread membership records when a user is removed from or leaves a team, which allows a previously removed user who is later re-invited to the team to view private channel thread root post content and metadata via the team threads API.. Mattermost Advisory ID: MMSA-2026-00682",
+      "severity": 3.5,
+      "fix_suggestion": "📦 受影响组件：Mattermost Mattermost\n🔓 漏洞类型：CWE-459 (CWE-459)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://mattermost.com/security-updates",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Mattermost",
+          "vendor": "Mattermost",
+          "versions": [
+            {
+              "lessThanOrEqual": "10.11.20",
+              "status": "affected",
+              "version": "10.11.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "11.7.5",
+              "status": "affected",
+              "version": "11.7.0",
+              "versionType": "semver"
+            },
+            {
+              "version": "11.9.0",
+              "status": "unaffected"
+            },
+            {
+              "version": "10.11.21",
+              "status": "unaffected"
+            },
+            {
+              "version": "11.7.6",
+              "status": "unaffected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-459: Incomplete Cleanup"
+      ],
+      "cwe_ids": [
+        "CWE-459"
+      ]
+    },
+    {
+      "id": "CVE-2026-67961",
       "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T21:55:48.782Z",
-      "description": "An issue in PbootCMS v.3.2.15 allows an attacker to execute arbitrary code via the MemberController.php, UserController.php, CommentController.php, ContentController.php, and helper.php components",
+      "lastModifiedDate": "2026-08-17T22:10:55.890Z",
+      "description": "An issue in O2OA v.10.0.2 allows a local attacker to execute arbitrary code via the the sandbox mechanism of the Invoke script execution.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/xy-f0/CVE/issues/1#issue-4890245413",
+          "url": "https://reference1.example.com/x_program_center/jaxrs/invoke/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/user-attachments/files/30816503/PbootCMS-3.2.15URL.Redirection.Vulnerability.docx",
+          "url": "https://github.com/user-attachments/files/30290070/O2OA.Invoke.Sandbox.Bypass.Vulnerability.Analysis.docx",
           "type": "reference"
         }
       ],
@@ -47,31 +187,19 @@
       ]
     },
     {
-      "id": "CVE-2026-67868",
+      "id": "CVE-2026-42164",
       "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T21:51:09.964Z",
-      "description": "A heap-based out-of-bounds write vulnerability exists in S2OPC 1.7.3 in server-side EventFilter handling during CreateMonitoredItems processing. This allows a remote attacker to execute arbitrary code.",
+      "lastModifiedDate": "2026-08-17T22:07:24.774Z",
+      "description": "Mahara before 25.04.5 and 26.04.0 is vulnerable in the Text block/section functionality when a call is crafted in a certain way that allows it to recall the backed-up content from another Text section.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/gff-cw/information/issues/16",
+          "url": "https://mahara.org",
           "type": "reference"
         },
         {
-          "url": "https://github.com/systerel/S2OPC/tree/S2OPC_Toolkit_1.7.3/samples/ClientServer/demo_server_alarms",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/systerel/S2OPC/blob/b4c5c7d63cd69698461d514b905a7c92b3c377c4/src/ClientServer/services/b2c/monitored_item_event_filter_where_clause_bs.c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/systerel/S2OPC/blob/b4c5c7d63cd69698461d514b905a7c92b3c377c4/src/ClientServer/services/b2c/monitored_item_event_filter_treatment_bs.c",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.com/systerel/S2OPC/-/work_items/1779",
+          "url": "https://mahara.org/interaction/forum/topic.php?id=10057",
           "type": "reference"
         }
       ],
