@@ -2,117 +2,288 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-17T06:21:57.249904",
+    "total_count": 3,
+    "last_updated": "2026-08-17T07:28:41.620786",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 3,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-19994",
-      "publishedDate": "2026-08-17T06:15:08.262Z",
-      "lastModifiedDate": "2026-08-17T06:15:08.262Z",
-      "description": "A vulnerability was found in Webkul Bagisto up to 2.4.4. Affected by this issue is some unknown functionality of the file /admin/configuration/cache-management/execute of the component Configuration Management. The manipulation of the argument action results in authorization bypass. The attack may be launched remotely. The exploit has been made public and could be used. The vendor confirms: \"The reported issues were already identified through our internal security assessment process prior to this notification and are being handled through our established internal security and development lifecycle. Some of these items have already been addressed, while the remaining items are planned for resolution in upcoming product releases.\"",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：Webkul Bagisto\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73433",
+      "publishedDate": "2026-08-12T19:05:27.296Z",
+      "lastModifiedDate": "2026-08-17T07:17:35.446Z",
+      "description": "A flaw was found in GStreamer gst-plugins-good (avidemux). When parsing FUJIFILM metadata in an AVI strd chunk, gst_avi_demux_parse_strd() decrements a remaining-length counter by fixed offsets (98 and 10 bytes) without verifying sufficient data remains. For crafted strd payloads of exactly 106 or 107 bytes, the counter underflows to a very large unsigned value, causing subsequent null-terminated string scanning to read far beyond the allocated heap buffer. Date-format normalization may also write beyond the buffer end. Confirmed impacts include heap out-of-bounds read, out-of-bounds write, heap information disclosure (adjacent data appearing in parsed metadata), and application crash/denial of service. The avidemux element is auto-plugged by playbin, decodebin, and gst-discoverer, so opening or previewing a crafted AVI is sufficient to trigger the issue. Fixed upstream in gst-plugins-good 1.28.6 (GStreamer-SA-2026-0072).",
+      "severity": 6.6,
+      "fix_suggestion": "📦 受影响组件：GStreamer gst-plugins-good\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/391195",
+          "url": "https://access.redhat.com/errata/RHSA-2026:55434",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/391195/cti",
+          "url": "https://access.redhat.com/errata/RHSA-2026:55436",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-19994",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-73433",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/870355",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2514801",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Mitchell45/PHP_Web_POCs/blob/main/Bagisto/31_33_english_vulnerability_report.md",
-          "type": "poc"
+          "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/12231",
+          "type": "reference"
+        },
+        {
+          "url": "https://gstreamer.freedesktop.org/security/sa-2026-0072.html",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Webkul",
-          "product": "Bagisto",
+          "vendor": "GStreamer",
+          "product": "gst-plugins-good",
           "versions": [
             {
-              "version": "2.4.0",
-              "status": "affected"
-            },
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.28.6",
+              "versionType": "semver"
+            }
+          ],
+          "packageName": "gst-plugins-good",
+          "collectionURL": "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good",
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "versions": [
             {
-              "version": "2.4.1",
-              "status": "affected"
-            },
-            {
-              "version": "2.4.2",
-              "status": "affected"
-            },
-            {
-              "version": "2.4.3",
-              "status": "affected"
-            },
-            {
-              "version": "2.4.4",
-              "status": "affected"
+              "version": "0:1.26.7-2.el10_2.5",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:webkul:bagisto:*:*:*:*:*:*:*:*"
+            "cpe:/o:redhat:enterprise_linux:10.2"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:1.22.12-7.el9_8.4",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
           ],
-          "modules": [
-            "Configuration Management"
+          "cpes": [
+            "cpe:/a:redhat:enterprise_linux:9::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
           ]
         }
       ],
       "problemType": [
-        "Authorization Bypass",
-        "Improper Authorization"
+        "Integer Underflow (Wrap or Wraparound)"
       ]
     },
     {
-      "id": "CVE-2026-22072",
-      "publishedDate": "2026-08-17T06:13:58.205Z",
-      "lastModifiedDate": "2026-08-17T06:13:58.205Z",
-      "description": "Loading arbitrary external URLs through WebView components introduces malicious JS code that can steal arbitrary user tokens.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：OPPO OPPO Health\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73434",
+      "publishedDate": "2026-08-12T19:05:23.429Z",
+      "lastModifiedDate": "2026-08-17T07:17:43.446Z",
+      "description": "A flaw was found in GStreamer gst-plugins-good (avidemux). In gst_avi_demux_riff_parse_vprp(), the number of available gst_riff_vprp_video_field_desc entries is calculated by dividing the remaining buffer size by the attacker-controlled vprp->fields value, rather than by sizeof(gst_riff_vprp_video_field_desc). This can cause the parser to treat more field descriptors as available than fit in the input buffer, resulting in out-of-bounds reads. Processing a crafted AVI via playbin/decodebin can crash the application (denial of service). Fixed upstream in gst-plugins-good 1.28.6 (GStreamer-SA-2026-0072).",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：GStreamer gst-plugins-good\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.oppo.com/en/noticeDetail?notice_only_key=NOTICE-2088198578949595136",
+          "url": "https://access.redhat.com/errata/RHSA-2026:55434",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:55436",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-73434",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2514807",
+          "type": "reference"
+        },
+        {
+          "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/12231",
+          "type": "reference"
+        },
+        {
+          "url": "https://gstreamer.freedesktop.org/security/sa-2026-0072.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "OPPO",
-          "product": "OPPO Health",
+          "vendor": "GStreamer",
+          "product": "gst-plugins-good",
           "versions": [
             {
               "status": "affected",
-              "version": "6.2.9",
-              "versionType": "git"
+              "version": "0",
+              "lessThan": "1.28.6",
+              "versionType": "semver"
             }
           ],
+          "packageName": "gst-plugins-good",
+          "collectionURL": "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good",
           "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:1.26.7-2.el10_2.5",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10.2"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:1.22.12-7.el9_8.4",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:enterprise_linux:9::appstream"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gstreamer1-plugins-good",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
         }
       ],
       "problemType": [
-        "CWE-20 Improper input validation"
+        "Out-of-bounds Read"
+      ]
+    },
+    {
+      "id": "CVE-2026-19998",
+      "publishedDate": "2026-08-17T07:15:09.945Z",
+      "lastModifiedDate": "2026-08-17T07:15:09.945Z",
+      "description": "A weakness has been identified in code-projects Online Shopping System 1.0. Impacted is an unknown function of the file offersmail.php. Executing a manipulation of the argument email can lead to cross site scripting. The attack may be performed from remote. The exploit has been made available to the public and could be used for attacks.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：code-projects Online Shopping System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/391199",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/391199/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-19998",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/871816",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zzzxc643/CVE1/blob/main/online-shopping-system/vul6.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://code-projects.org/",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-20"
+      "affected": [
+        {
+          "vendor": "code-projects",
+          "product": "Online Shopping System",
+          "versions": [
+            {
+              "version": "1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:code-projects:online_shopping_system:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Cross Site Scripting",
+        "Code Injection"
       ]
     }
   ]
