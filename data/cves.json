@@ -2,1238 +2,370 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 28,
-    "last_updated": "2026-08-17T20:47:54.375100",
+    "total_count": 9,
+    "last_updated": "2026-08-17T21:10:57.043715",
     "severity_distribution": {
       "critical": 2,
-      "high": 13,
-      "medium": 6,
-      "low": 1,
-      "none": 6
+      "high": 3,
+      "medium": 3,
+      "low": 0,
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-75110",
-      "publishedDate": "2026-08-17T20:36:04.095Z",
-      "lastModifiedDate": "2026-08-17T20:36:04.095Z",
-      "description": "MemOS is a memory operating system for LLMs and AI agents. In deployments where authentication is enabled (AUTH_ENABLED=true) but the undocumented, defaultless INTERNAL_SERVICE_SECRET environment variable is unset, the is_internal_request() check in src/memos/api/middleware/auth.py fails open: os.getenv(\"INTERNAL_SERVICE_SECRET\") returns None and a request omitting the X-Internal-Service header also yields None, so the comparison None == None evaluates true. The request is then treated as a trusted internal principal and granted scopes: [\"all\"]. As a result, an unauthenticated remote attacker can reach the admin API-key management endpoints to mint API keys for any user, enumerate keys, revoke keys, and generate a master key for persistent privileged access, as well as all data endpoints.",
+      "id": "CVE-2026-47686",
+      "publishedDate": "2026-08-17T20:54:39.406Z",
+      "lastModifiedDate": "2026-08-17T20:54:39.406Z",
+      "description": "vm2 is an open source vm/sandbox for Node.js. Prior to 3.11.6, handleException() in lib/setup-sandbox.js sanitizes SuppressedError.error, SuppressedError.suppressed, and AggregateError.errors but does not sanitize Error.cause, allowing sandbox code to obtain a powerful host object such as process from an embedder-exposed host function that throws an error with that object as its cause and then execute arbitrary host commands. This issue is fixed in version 3.11.6.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🔓 漏洞类型：CWE-693 (CWE-693)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-m283-3h24-438v",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/patriksimek/vm2/commit/7e3faaf550f4ab975bf4cdde183fcec49b056d8e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/patriksimek/vm2/releases/tag/3.11.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "patriksimek",
+          "product": "vm2",
+          "versions": [
+            {
+              "version": "< 3.11.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-693: Protection Mechanism Failure"
+      ],
+      "cwe_ids": [
+        "CWE-693"
+      ],
+      "ghsa_id": "GHSA-m283-3h24-438v"
+    },
+    {
+      "id": "CVE-2026-47698",
+      "publishedDate": "2026-08-17T20:53:09.218Z",
+      "lastModifiedDate": "2026-08-17T20:53:09.218Z",
+      "description": "vm2 is an open source vm/sandbox for Node.js. Prior to 3.11.6, lib/bridge.js and lib/setup-sandbox.js fail to block stacked indirection through Function.prototype.call around dangerous host prototype getter and setter mutators, allowing sandbox code to sever a host intrinsic's prototype chain and reach e.constructor.constructor for arbitrary host command execution. This issue is fixed in version 3.11.6.",
       "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：MemTensor MemOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🔓 漏洞类型：CWE-913 (CWE-913)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/MemTensor/MemOS/issues/2259",
+          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-cfcw-xp6x-25gj",
           "type": "reference"
         },
         {
-          "url": "https://github.com/MemTensor/MemOS",
+          "url": "https://github.com/patriksimek/vm2/commit/a85acb61f81402c6eabf32760aa11272af6d0f9e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/MemTensor/MemOS/blob/main/src/memos/api/middleware/auth.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/memos-authentication-bypass-via-unset-internal-service-secret",
+          "url": "https://github.com/patriksimek/vm2/releases/tag/3.11.6",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "MemTensor",
-          "product": "MemOS",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/MemoryOS",
+          "vendor": "patriksimek",
+          "product": "vm2",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "2.0.30",
-              "versionType": "custom"
-            }
-          ],
-          "repo": "https://github.com/MemTensor/MemOS"
-        }
-      ],
-      "problemType": [
-        "Incorrect Comparison"
-      ]
-    },
-    {
-      "id": "CVE-2026-75106",
-      "publishedDate": "2026-08-17T20:36:02.092Z",
-      "lastModifiedDate": "2026-08-17T20:36:02.092Z",
-      "description": "OpnForm derives editable-submission secrets from sequential row identifiers using Hashids with an empty default salt, allowing unauthenticated attackers to compute hashes for any submission. Attackers can read other respondents' full submission data through the submission-fetch endpoint or overwrite submissions by supplying predicted hashes to the answer endpoint.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：OpnForm OpnForm\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/OpnForm/OpnForm/issues/1259",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/OpnForm/OpnForm",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/OpnForm/OpnForm/commit/6c67ff0a9bc0ac27ae26b32b8e108a176f8161b1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/OpnForm/OpnForm/releases/tag/v2.0.2",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/opnform-editable-submission-secret-derivation-via-empty-hashids-salt",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "OpnForm",
-          "product": "OpnForm",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThan": "2.0.2",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "repo": "https://github.com/OpnForm/OpnForm"
-        }
-      ],
-      "problemType": [
-        "Generation of Predictable Numbers or Identifiers"
-      ]
-    },
-    {
-      "id": "CVE-2026-75481",
-      "publishedDate": "2026-08-17T20:36:06.800Z",
-      "lastModifiedDate": "2026-08-17T20:36:06.800Z",
-      "description": "SkyPilot fails to validate that authenticated users are entitled to grant administrator roles when updating service account permissions. Attackers can create a service account, escalate it to administrator role, and authenticate with its bearer token to gain administrative control over all users and workspaces.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：skypilot-org skypilot\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/skypilot-org/skypilot/issues/9846",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/skypilot-org/skypilot",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/skypilot-org/skypilot/commit/8a3e00259cd374e662cd876c037164bcb070f78e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/skypilot-org/skypilot/blob/master/sky/users/server.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/skypilot-authentication-bypass-via-service-account-role-escalation",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "skypilot-org",
-          "product": "skypilot",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/skypilot",
-          "repo": "https://github.com/skypilot-org/skypilot",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "0.13.1rc1",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Privilege Management"
-      ]
-    },
-    {
-      "id": "CVE-2026-75103",
-      "publishedDate": "2026-08-17T20:36:00.054Z",
-      "lastModifiedDate": "2026-08-17T20:36:00.054Z",
-      "description": "Crawlab fails to verify user ownership or administrative role on the password-change endpoint, allowing any authenticated user to reset any account's password. Attackers can enumerate user accounts through the user listing endpoint and change administrator credentials to achieve full account takeover and arbitrary code execution.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：crawlab-team crawlab\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/crawlab-team/crawlab/issues/1623",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/crawlab-team/crawlab",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/crawlab-team/crawlab/blob/main/core/controllers/user_v2.go",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/crawlab-missing-authorization-on-password-change-endpoint-allows-account-takeover",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "crawlab-team",
-          "product": "crawlab",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "0.6.3",
-              "versionType": "custom"
-            }
-          ],
-          "repo": "https://github.com/crawlab-team/crawlab"
-        }
-      ],
-      "problemType": [
-        "Authorization Bypass Through User-Controlled Key"
-      ]
-    },
-    {
-      "id": "CVE-2026-75482",
-      "publishedDate": "2026-08-17T20:36:07.463Z",
-      "lastModifiedDate": "2026-08-17T20:36:07.463Z",
-      "description": "SWE-agent's trajectory inspector (sweagent inspector), confirmed in v1.1.0, is an HTTP server that joins request paths to the trajectory directory in its /trajectory/ handler without rejecting parent-directory ('..') references, bypassing the built-in path sanitization. The server binds all interfaces (0.0.0.0), applies wildcard CORS, and requires no authentication. An unauthenticated network client (or a malicious web page via CORS) can use path traversal sequences to read files outside the intended directory. Because the read sink parses targets as trajectory JSON, disclosure is constrained to JSON files shaped like a trajectory, which can contain repository contents, command output, and secrets/API keys.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：SWE-agent SWE-agent\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/SWE-agent/SWE-agent/issues/1472",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SWE-agent/SWE-agent",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SWE-agent/SWE-agent/blob/main/sweagent/inspector/server.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/swe-agent-trajectory-inspector-path-traversal-file-disclosure",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SWE-agent",
-          "product": "SWE-agent",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/sweagent",
-          "repo": "https://github.com/SWE-agent/SWE-agent",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "1.1.0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ]
-    },
-    {
-      "id": "CVE-2026-75479",
-      "publishedDate": "2026-08-17T20:36:05.442Z",
-      "lastModifiedDate": "2026-08-17T20:36:05.442Z",
-      "description": "JimuReport contains an authentication bypass vulnerability in the report folder template listing endpoint that allows unauthenticated attackers to enumerate all reports and retrieve share tokens. Attackers can use disclosed share tokens to access protected report endpoints and retrieve full report definitions including embedded SQL statements and live query data.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：jeecgboot jimureport\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/jeecgboot/jimureport/issues/4695",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/jeecgboot/jimureport",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/jimureport-unauthenticated-report-listing-and-share-token-disclosure",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "jeecgboot",
-          "product": "jimureport",
-          "defaultStatus": "unaffected",
-          "repo": "https://github.com/jeecgboot/jimureport",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "2.3.4",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authentication for Critical Function"
-      ]
-    },
-    {
-      "id": "CVE-2026-75111",
-      "publishedDate": "2026-08-17T20:36:04.764Z",
-      "lastModifiedDate": "2026-08-17T20:36:04.764Z",
-      "description": "Evidently UI fails to properly validate the filename parameter in the dataset materialization endpoint, allowing unauthenticated attackers to read arbitrary files outside the workspace directory. Attackers can supply traversal sequences or absolute paths in the filename field to access system files, which are then materialized into datasets and retrieved through the download endpoint.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：evidentlyai evidently\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/evidentlyai/evidently/issues/1887",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/evidentlyai/evidently",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/evidentlyai/evidently/blob/main/src/evidently/ui/service/datasets/data_source.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/evidently-ui-path-traversal-via-dataset-materialization-filename",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "evidentlyai",
-          "product": "evidently",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/evidently",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "0.7.21",
-              "versionType": "custom"
-            }
-          ],
-          "repo": "https://github.com/evidentlyai/evidently"
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ]
-    },
-    {
-      "id": "CVE-2026-75105",
-      "publishedDate": "2026-08-17T20:36:01.403Z",
-      "lastModifiedDate": "2026-08-17T20:36:01.403Z",
-      "description": "phpIPAM through 1.8.1 fails to verify that a requested IP address belongs to the subnet a temporary share token was issued for. In app/temp_share/index.php and app/temp_share/address.php, when the share type is 'subnets', the subnetId parameter is used directly as a database primary key to fetch an address without confirming the address belongs to the authorized subnet. An unauthenticated party holding any valid, non-expired temporary share URL can enumerate the subnetId parameter to read every IP address record across all sections and subnets, including hostnames, DNS names, MAC addresses, owner/contact fields, and notes (which may contain credentials and configuration details).",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：phpipam phpipam\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/phpipam/phpipam/issues/4623",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/phpipam/phpipam",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/phpipam/phpipam/commit/2980be03652c0eb1db9fe2bcefaa210c854b9aea",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/phpipam/phpipam/releases/tag/v1.8.2",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/phpipam-temporary-subnet-share-information-disclosure-via-address-parameter",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "phpipam",
-          "product": "phpipam",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThan": "1.8.2",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "repo": "https://github.com/phpipam/phpipam"
-        }
-      ],
-      "problemType": [
-        "Authorization Bypass Through User-Controlled Key"
-      ]
-    },
-    {
-      "id": "CVE-2026-75109",
-      "publishedDate": "2026-08-17T20:36:03.396Z",
-      "lastModifiedDate": "2026-08-17T20:36:03.396Z",
-      "description": "Determined fails to authorize requests on the generic task kill, pause, and unpause endpoints in the API handlers. Authenticated attackers can disrupt other users' workloads by terminating, pausing, or unpausing tasks they do not own.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：determined-ai determined\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/determined-ai/determined/issues/10270",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/determined-ai/determined",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/determined-ai/determined/blob/main/master/internal/api_generic_tasks.go",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/determined-missing-authorization-check-on-generic-task-endpoints",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "determined-ai",
-          "product": "determined",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/determined-ai/determined",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "0.38.1",
-              "versionType": "custom"
-            }
-          ],
-          "repo": "https://github.com/determined-ai/determined"
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-54356",
-      "publishedDate": "2026-08-17T20:32:05.691Z",
-      "lastModifiedDate": "2026-08-17T20:32:05.691Z",
-      "description": "Budibase is an open-source low-code platform. Prior to 3.41.3, POST /api/attachments/:datasourceId/url in packages/server/src/api/routes/static.ts and packages/server/src/api/controllers/static/index.ts allows an authenticated published-app user with the BASIC role to supply attacker-controlled bucket and key values and obtain signedUrl and publicUrl values backed by stored S3 datasource credentials. This issue is fixed in version 3.41.3.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-6x9p-4r67-5gjx",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Budibase/budibase/releases/tag/3.41.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Budibase",
-          "product": "budibase",
-          "versions": [
-            {
-              "version": "< 3.41.3",
+              "version": "< 3.11.6",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-862: Missing Authorization"
+        "CWE-913: Improper Control of Dynamically-Managed Code Resources"
       ],
       "cwe_ids": [
-        "CWE-862"
-      ]
+        "CWE-913"
+      ],
+      "ghsa_id": "GHSA-cfcw-xp6x-25gj"
     },
     {
-      "id": "CVE-2026-40506",
-      "publishedDate": "2026-08-17T20:39:03.333Z",
-      "lastModifiedDate": "2026-08-17T20:39:03.333Z",
-      "description": "OpenEMR before 8.2.0 contains a path traversal vulnerability in the standard_tables_manage.php interface where the db GET parameter is passed without validation to temp_dir_cleanup(), which joins the value to the PHP temporary directory path and recursively deletes the resulting directory. Attackers can supply a traversal sequence in the db parameter to resolve outside the intended temporary directory, and by chaining this with an open redirect in dicom_frame.php, an unauthenticated attacker can deliver a crafted URL that triggers arbitrary recursive directory deletion within an authenticated Superuser's session.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：openemr openemr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-65832",
+      "publishedDate": "2026-08-17T20:59:08.714Z",
+      "lastModifiedDate": "2026-08-17T20:59:08.714Z",
+      "description": "Deskflow is a keyboard and mouse sharing app. Prior to continuous build 1.26.0.299, a remote unauthenticated Deskflow server can send kMsgDSetOptions (DSOP) values to ServerProxy::setOptions() in src/lib/client/ServerProxy.cpp so that the value following a modifier option poisons m_modifierTranslationTable, after which ServerProxy::translateKey() or ServerProxy::translateModifierMask() indexes the seven-row s_translationTable or s_masks arrays out of bounds, disclosing four bytes at an attacker-selected relative offset or crashing the connected client; an odd option count also causes an out-of-bounds OptionsList read. This issue is fixed in continuous build 1.26.0.299.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：deskflow deskflow\n🔓 漏洞类型：CWE-125, CWE-129 (CWE-125, CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/openemr/openemr/security/advisories/GHSA-hj9x-33vw-5g3x",
+          "url": "https://github.com/deskflow/deskflow/security/advisories/GHSA-8rcq-7w87-h64j",
           "type": "reference"
         },
         {
-          "url": "https://github.com/openemr/openemr/releases/tag/v8_2_0",
+          "url": "https://github.com/deskflow/deskflow/commit/205a3c803e5298d56683660736ec1a41b671b56e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/openemr/openemr/pull/11951",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/openemr/openemr/commit/2d8a69f0f343c8e8c6ee1b42d224c24a7a4ba415",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/openemr-path-traversal-arbitrary-directory-deletion-via-standard-tables-manage-php",
+          "url": "https://github.com/deskflow/deskflow/commit/8266fbbe6af93fa370018886c7f1f35d2cee8b3f",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "vendor": "openemr",
-          "product": "openemr",
-          "packageURL": "pkg:github/openemr/openemr",
-          "repo": "https://github.com/openemr/openemr",
+          "vendor": "deskflow",
+          "product": "deskflow",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "8.2.0"
+              "version": "< 1.26.0.299",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-125: Out-of-bounds Read",
+        "CWE-129: Improper Validation of Array Index"
+      ],
+      "cwe_ids": [
+        "CWE-125",
+        "CWE-129"
       ]
     },
     {
-      "id": "CVE-2026-75480",
-      "publishedDate": "2026-08-17T20:36:06.111Z",
-      "lastModifiedDate": "2026-08-17T20:36:06.111Z",
-      "description": "OpenViking debug vector scroll and count endpoints apply only account-level scoping without user-level access controls, allowing authenticated users to read all co-tenant records. Attackers can query these endpoints to retrieve private memories, resources, skills, and secret material belonging to other users in the same account without administrative privileges.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：volcengine OpenViking\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-63409",
+      "publishedDate": "2026-08-17T20:57:19.326Z",
+      "lastModifiedDate": "2026-08-17T20:57:19.326Z",
+      "description": "Deskflow is a keyboard and mouse sharing app. From 1.17.0 until continuous build 1.26.0.296, a malicious Deskflow server can send an odd-length DSOP vector to ServerProxy::setOptions() in src/lib/client/ServerProxy.cpp, causing the missing value after the final option key to be read beyond the vector during the PacketStreamFilter::filterEvent to ServerProxy::handleData() to ServerProxy::parseHandshakeMessage() call chain and crash the connected client. This issue is fixed in continuous build 1.26.0.296.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：deskflow deskflow\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/volcengine/OpenViking/issues/3724",
+          "url": "https://github.com/deskflow/deskflow/security/advisories/GHSA-gmvh-3c73-m5gg",
           "type": "reference"
         },
         {
-          "url": "https://github.com/volcengine/OpenViking",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/volcengine/OpenViking/blob/main/openviking/storage/viking_vector_index_backend.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/openviking-debug-vector-endpoints-multi-tenant-data-exposure",
+          "url": "https://github.com/deskflow/deskflow/commit/8266fbbe6af93fa370018886c7f1f35d2cee8b3f",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "volcengine",
-          "product": "OpenViking",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/openviking",
-          "repo": "https://github.com/volcengine/OpenViking",
+          "vendor": "deskflow",
+          "product": "deskflow",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "0.4.14",
-              "versionType": "custom"
+              "version": ">= 1.17.0, < 1.26.0.296",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Incorrect Authorization"
+        "CWE-125: Out-of-bounds Read"
+      ],
+      "cwe_ids": [
+        "CWE-125"
       ]
     },
     {
-      "id": "CVE-2026-75104",
-      "publishedDate": "2026-08-17T20:36:00.721Z",
-      "lastModifiedDate": "2026-08-17T20:36:00.721Z",
-      "description": "Hugging Face Transformers fails to validate shard filenames in checkpoint index files, allowing attackers to read arbitrary files outside the model directory. Attackers can supply malicious index files with parent-directory references or absolute paths that are joined without validation, enabling file disclosure and filesystem reconnaissance.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：huggingface transformers\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-65976",
+      "publishedDate": "2026-08-17T21:00:41.175Z",
+      "lastModifiedDate": "2026-08-17T21:00:41.175Z",
+      "description": "Deskflow is a keyboard and mouse sharing app. From 1.17.0 until continuous build 1.26.0.300, a connected peer can send repeated DCLP DataChunk messages to ClipboardChunk::assemble() in src/lib/deskflow/ClipboardChunk.cpp, causing the server path in src/lib/server/ClientProxy1_6.cpp or client path in src/lib/client/ServerProxy.cpp to append data beyond the DataStart declared size and configured clipboard limit before DataEnd validation, exhausting receiver memory. This issue is fixed in continuous build 1.26.0.300.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：deskflow deskflow\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/huggingface/transformers/issues/47176",
+          "url": "https://github.com/deskflow/deskflow/security/advisories/GHSA-jf7g-qghg-p54x",
           "type": "reference"
         },
         {
-          "url": "https://github.com/huggingface/transformers/issues/47177",
+          "url": "https://github.com/deskflow/deskflow/commit/8a535fd5dd48315eaaf6b93d5c7534d0592addef",
           "type": "reference"
         },
         {
-          "url": "https://github.com/huggingface/transformers",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/huggingface/transformers/blob/main/src/transformers/utils/hub.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/hugging-face-transformers-path-traversal-via-checkpoint-index",
+          "url": "https://github.com/deskflow/deskflow/commit/bcd3a658fc3b2ad735146fdc9efefa9462d195b7",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "huggingface",
-          "product": "transformers",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/transformers",
+          "vendor": "deskflow",
+          "product": "deskflow",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "5.15.0",
-              "versionType": "custom"
+              "version": ">= 1.17.0, < 1.26.0.300",
+              "status": "affected"
             }
-          ],
-          "repo": "https://github.com/huggingface/transformers"
+          ]
         }
       ],
       "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
       ]
     },
     {
-      "id": "CVE-2026-75108",
-      "publishedDate": "2026-08-17T20:36:02.740Z",
-      "lastModifiedDate": "2026-08-17T20:36:02.740Z",
-      "description": "Next Terminal fails to enforce per-asset authorization checks on the portal ping and wake-on-LAN endpoints, allowing any authenticated user to probe and wake assets they are not granted access to. Attackers can call these endpoints with arbitrary asset identifiers to retrieve asset information including display names, reachability status, connection timing, and network addresses, or trigger wake-on-LAN packets on unauthorized assets.",
+      "id": "CVE-2026-54336",
+      "publishedDate": "2026-08-17T21:01:48.667Z",
+      "lastModifiedDate": "2026-08-17T21:01:48.667Z",
+      "description": "JumpServer is an open source bastion host and an operation and maintenance security audit system. From 4.8.0 until 4.10.17, an authenticated user with SFTP permission to an authorized asset can submit crafted traversal paths through the KoKo Web Terminal SFTP feature, causing AssetDir.GetRealPath() in pkg/srvconn/sftp_asset.go to resolve paths outside the intended SFTP root and permit read, list, write, rename, or delete operations under the configured backend account on that asset. This issue is fixed in version 4.10.17.",
       "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：next-terminal next-terminal\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：jumpserver jumpserver\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/next-terminal/next-terminal/issues/573",
+          "url": "https://github.com/jumpserver/jumpserver/security/advisories/GHSA-x6rg-36j6-76vr",
           "type": "reference"
         },
         {
-          "url": "https://github.com/next-terminal/next-terminal",
+          "url": "https://github.com/jumpserver/koko/commit/02fabebe27dacce89114fba122c667a946fd12ea",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/next-terminal-missing-per-asset-authorization-on-portal-endpoints",
+          "url": "https://github.com/jumpserver/koko/releases/tag/v4.10.17",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "next-terminal",
-          "product": "next-terminal",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/next-terminal",
+          "vendor": "jumpserver",
+          "product": "jumpserver",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "3.3.7-b1",
-              "versionType": "custom"
-            }
-          ],
-          "repo": "https://github.com/next-terminal/next-terminal"
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-75483",
-      "publishedDate": "2026-08-17T20:36:08.150Z",
-      "lastModifiedDate": "2026-08-17T20:36:08.150Z",
-      "description": "powerlevel10k fails to neutralize control characters in the package.json version field when rendering the package prompt segment. Attackers can inject raw escape bytes in the version string to emit arbitrary terminal control sequences on each prompt render when the shell enters affected directories.",
-      "severity": 3.3,
-      "fix_suggestion": "📦 受影响组件：romkatv powerlevel10k\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/romkatv/powerlevel10k/issues/2961",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/romkatv/powerlevel10k",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/romkatv/powerlevel10k/commit/58e13d16a50e1d6908e39e20a670896808ccf350",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/romkatv/powerlevel10k/blob/master/internal/p10k.zsh",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/powerlevel10k-control-character-injection-via-package-json-version",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "romkatv",
-          "product": "powerlevel10k",
-          "defaultStatus": "unaffected",
-          "repo": "https://github.com/romkatv/powerlevel10k",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "1.20.0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Escape, Meta, or Control Sequences"
-      ]
-    },
-    {
-      "id": "CVE-2026-35219",
-      "publishedDate": "2026-08-17T20:28:40.828Z",
-      "lastModifiedDate": "2026-08-17T20:28:40.828Z",
-      "description": "Budibase is an open-source low-code platform. Prior to 3.41.3, automation steps in packages/server/src/automations/steps/outgoingWebhook.ts, packages/server/src/automations/steps/zapier.ts, packages/server/src/automations/steps/n8n.ts, packages/server/src/automations/steps/slack.ts, and packages/server/src/automations/steps/discord.ts use node-fetch on user-provided URLs without the BLACKLIST_IPS enforcement used by the REST integration, allowing an authenticated user to make server-side requests to cloud metadata and internal services. This issue is fixed in version 3.41.3.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-5fpj-28rv-84r7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Budibase/budibase/pull/19328",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Budibase/budibase/commit/cc07563a6b0fc0f91c51aae295952b1295546a90",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Budibase/budibase/releases/tag/3.41.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Budibase",
-          "product": "budibase",
-          "versions": [
-            {
-              "version": "< 3.41.3",
+              "version": ">= 4.8.0, < 4.10.17",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH",
-      "ghsa_id": "GHSA-5fpj-28rv-84r7"
-    },
-    {
-      "id": "CVE-2026-39254",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:30:24.608Z",
-      "description": "Buffer Overflow vulnerability in SteelSeries GG (macOS) v.107.0.0 allows a remote attacker to execute arbitrary code via the libSSEdevice.dylib, CxAudioHidDevice::DeviceGetDescriptionString components",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Cipher-Security-Labs/research/tree/main/CSL-2026-03",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
+        "CWE-22"
       ]
     },
     {
-      "id": "CVE-2026-39255",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:31:49.035Z",
-      "description": "Buffer Overflow vulnerability in SteelSeries GG (macOS) v.107.0.0 allows a remote attacker to execute arbitrary code via the libSSEdevice.dylib, dup_wcs components",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Cipher-Security-Labs/research/tree/main/CSL-2026-03",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67965",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:40:26.401Z",
-      "description": "An issue in Tneda W20E v.16.01.0.6(2782) allows a remote attacker to execute arbitrary code via the url_need_login function",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/H0111mes/Tenda-W20E-Vulnerability-Disclosure",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67926",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:35:19.859Z",
-      "description": "An issue in JeecgBoot v.3.9.2 allows a remote attacker to execute arbitrary code via the files Parameter in JeecgBoot AI Chat Module",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/jeecgboot/JeecgBoot/issues/9774",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-15689",
-      "publishedDate": "2026-08-15T13:25:26.318Z",
-      "lastModifiedDate": "2026-08-17T20:27:51.814Z",
-      "description": "Dancer2::Plugin::Auth::Extensible versions through 0.713 for Perl allow password reset link poisoning via the request Host header in _default_email_password_reset and _default_welcome_send.\n\nBoth default emails emit a link of the form `$base/login/$code`, whose authority comes from the request Host header, or from X-Forwarded-Host under behind_proxy (obtained from Dancer2's request->base function). A POST to /login carrying submit_reset and a username needs no authentication: it stores a fresh reset code against that account and mails the account holder a link to a host of the sender's choosing. The welcome mail takes the same path when the application calls create_user with email_welcome set.\n\nThrough 0.711 the handlers read `request->uri_base` and `request->base` directly; Versions 0.712 and later provide an uri_base configuration key that defaults to the untrusted `request->uri_base` when unset.\n\nThe default configuration with reset_password_handler enabled and the default message text, a recipient who follows the link hands a working reset code to the sender's host, which is enough to take over the account.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ABEVERLEY Dancer2::Plugin::Auth::Extensible\n🔓 漏洞类型：CWE-640 (CWE-640)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.711/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L1031-1053",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.711/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L1097-1121",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.712/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L178-194",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.713/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L178-196",
-          "type": "reference"
-        },
-        {
-          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.713/changes",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "packageName": "Dancer2-Plugin-Auth-Extensible",
-          "product": "Dancer2::Plugin::Auth::Extensible",
-          "programFiles": [
-            "lib/Dancer2/Plugin/Auth/Extensible.pm"
-          ],
-          "programRoutines": [
-            {
-              "name": "Dancer2::Plugin::Auth::Extensible::_default_email_password_reset"
-            },
-            {
-              "name": "Dancer2::Plugin::Auth::Extensible::_default_welcome_send"
-            },
-            {
-              "name": "Dancer2::Plugin::Auth::Extensible::password_reset_send"
-            }
-          ],
-          "repo": "https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible",
-          "vendor": "ABEVERLEY",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.713",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-640 Weak Password Recovery Mechanism for Forgotten Password"
-      ],
-      "cwe_ids": [
-        "CWE-640"
-      ]
-    },
-    {
-      "id": "CVE-2026-73194",
-      "publishedDate": "2026-08-15T12:09:22.962Z",
-      "lastModifiedDate": "2026-08-17T20:29:56.764Z",
-      "description": "DBI versions before 1.652 for Perl allow a heap out-of-bounds write via an unvalidated numeric placeholder that sets the binder counter in preparse.\n\npreparse reserves seven output bytes per input byte, the width of the longest ':p99999' expansion. The ':N' branch parses the number with `atoi(src)` and assigns it to the binder counter with no range check, so a statement containing ':2147483648' leaves the counter negative (-2147483648 with glibc, where atoi wraps). Each following '?' then expands through `sprintf(start, \":p%d\", idx++)` to ':p-2147483648', 14 bytes with the terminating NUL where the buffer budgets 7. The placeholder limit added in 1.650 tests the counter against 99,999, which a negative counter passes.\n\nAny caller that preparses an untrusted statement into ':pN' style placeholders gets a heap out-of-bounds write that grows with the number of '?' marks following the poisoned placeholder. The '?' and '%s' return styles compare the parsed number against the expected sequence and error out, and are unaffected.",
-      "severity": "N/A",
-      "fix_suggestion": "🔓 漏洞类型：CWE-1284, CWE-787 (CWE-1284, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/perl5-dbi/dbi/security/advisories/GHSA-623j-hfpc-mrc4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/perl5-dbi/dbi/commit/29b72ae7d2a8114a734a55840bf1c45b89207809.patch",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-14739",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-10879",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "modules": [
-            "DBI"
-          ],
-          "packageName": "DBI",
-          "packageURL": "pkg:cpan/DBI",
-          "programFiles": [
-            "DBI.xs"
-          ],
-          "programRoutines": [
-            {
-              "name": "preparse"
-            }
-          ],
-          "repo": "https://github.com/perl5-dbi/dbi",
-          "versions": [
-            {
-              "lessThan": "1.652",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1284 Improper Validation of Specified Quantity in Input",
-        "CWE-787 Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-1284",
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-73193",
-      "publishedDate": "2026-08-15T12:09:03.948Z",
-      "lastModifiedDate": "2026-08-17T20:31:48.261Z",
-      "description": "DBI versions before 1.652 for Perl allow a heap out-of-bounds write on 32-bit perl via an integer wraparound in the output buffer size computed by preparse.\n\npreparse reserves its output buffer with `newSV(strlen(statement) * 7 + 16)`, budgeting seven output bytes per input byte for the longest ':p99999' expansion. The product is computed in STRLEN, which is 32 bits wide on a 32-bit perl build, so a statement of 613,566,757 bytes multiplies to 4,294,967,299, wraps modulo 2^32 to 3, and reserves 19 bytes. The parser then copies the statement out through a raw pointer with no capacity check, writing the whole 585 MB input past the end of the allocation. The 99,999 placeholder limit does not bound this path, which is reached by ordinary non-placeholder content.\n\nAny caller that passes an untrusted statement of that length to preparse on a 32-bit perl gets a heap out-of-bounds write of attacker controlled bytes. Builds with a 64-bit STRLEN are not affected, since the wrap there needs a statement of about 2.3 exabytes.",
+      "id": "CVE-2026-75531",
+      "publishedDate": "2026-08-17T21:00:12.848Z",
+      "lastModifiedDate": "2026-08-17T21:00:12.848Z",
+      "description": "Pandora contains a stored cross-site scripting (XSS) vulnerability in the rendering of URL observables. A URL extracted from or associated with an analyzed file was inserted directly into the inline JavaScript onclick handler used by the Submit to Lookyloo action.\n\n\nAlthough the value was subject to HTML escaping by the template engine, it was embedded inside a JavaScript string within an HTML attribute. An attacker-controlled URL containing specially crafted characters could therefore break out of the JavaScript string and inject arbitrary JavaScript code.\n\n\nThe malicious script would execute in the context of the Pandora web application when a victim interacts with the affected Submit to Lookyloo control. Successful exploitation could allow an attacker to access information available to the victim's browser or perform actions using the victim's authenticated Pandora session.\n\n\nThe patch removes the observable value from the inline JavaScript handler. The URL is instead stored in an HTML data-url attribute and retrieved through the DOM dataset API when needed. Additional uses of innerHTML were also replaced with textContent as defensive hardening.",
       "severity": "5.5",
-      "fix_suggestion": "🔓 漏洞类型：Integer Overflow or Wraparound, CWE-787 (CWE-190, CWE-787)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：pandora-analysis pandora\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-14739",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/perl5-dbi/dbi/security/advisories/GHSA-wj3v-c3hh-mhqr",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/perl5-dbi/dbi/commit/c751ae5a5a6f56c2f8284f37c1f4d43500352ef1.patch",
+          "url": "https://github.com/pandora-analysis/pandora/commit/77a84a039e2079dba7ea0342816c9813099d75d0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://cpan.org/modules",
           "defaultStatus": "unaffected",
-          "modules": [
-            "DBI"
-          ],
-          "packageName": "DBI",
-          "packageURL": "pkg:cpan/DBI",
-          "programFiles": [
-            "DBI.xs"
-          ],
-          "programRoutines": [
-            {
-              "name": "preparse"
-            }
-          ],
-          "repo": "https://github.com/perl5-dbi/dbi",
+          "product": "pandora",
+          "repo": "https://github.com/pandora-analysis/pandora",
+          "vendor": "pandora-analysis",
           "versions": [
             {
-              "lessThan": "1.652",
+              "lessThanOrEqual": "1.12.5",
               "status": "affected",
               "version": "0",
-              "versionType": "custom"
+              "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-190 Integer Overflow or Wraparound",
-        "CWE-787 Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-190",
-        "CWE-787"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-18807",
-      "publishedDate": "2026-08-15T06:00:15.159Z",
-      "lastModifiedDate": "2026-08-17T20:34:02.880Z",
-      "description": "The ECS  WordPress plugin before 4.3.8 does not have capability or ownership checks on its dynamic repeater actions, relying only on a nonce available to any user who can open the page builder, allowing users with a contributor-level account or above to read, alter and delete the binding configuration of posts they do not own and to change the ECS  WordPress plugin before 4.3.8's site-wide presets.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown ECS\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/bf500bf2-1684-4ca1-a8ad-bcff9cbc127c/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "ECS",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.3.8"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-18216",
-      "publishedDate": "2026-08-15T06:00:14.986Z",
-      "lastModifiedDate": "2026-08-17T20:36:05.964Z",
-      "description": "The Backup Migration WordPress plugin before 2.1.7 does not properly restrict a post-restore automatic login mechanism, allowing a user who administers one site of a multisite network to obtain a long-lived authenticated session as an administrator of another site in the same network, without credentials and bypassing two-factor authentication.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Backup Migration\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/f12530c5-4069-42c2-9f1c-b00fc62aa387/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Backup Migration",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "2.1.7"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-287 Improper Authentication"
-      ],
-      "cwe_ids": [
-        "CWE-287"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-16611",
-      "publishedDate": "2026-08-15T06:00:14.814Z",
-      "lastModifiedDate": "2026-08-17T20:38:04.941Z",
-      "description": "The Product Feed PRO for WooCommerce by AdTribes  WordPress plugin before 13.5.7 does not perform an authorization check on one of its REST read routes, allowing unauthenticated users to disclose a store's feed configuration (rules, filters and field mapping) and to enumerate the full product category taxonomy.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Product Feed PRO for WooCommerce by AdTribes\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/87fe63af-5a43-4812-88ce-568b1cc1598f/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Product Feed PRO for WooCommerce by AdTribes",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "13.5.7"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-200 Information Exposure"
-      ],
-      "cwe_ids": [
-        "CWE-200"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-16541",
-      "publishedDate": "2026-08-15T06:00:14.643Z",
-      "lastModifiedDate": "2026-08-17T20:38:51.723Z",
-      "description": "The Simply Schedule Appointments WordPress plugin before 1.6.12.17 does not restrict the user records returned by some of its REST endpoints to those the requester is entitled to see, allowing users with a low-privileged staff role to disclose the names and email addresses of arbitrary registered users.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Simply Schedule Appointments\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/8172f778-5dc5-49e8-9967-81215ac187d7/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Simply Schedule Appointments",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "1.6.12.17"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-200 Information Exposure"
-      ],
-      "cwe_ids": [
-        "CWE-200"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-14230",
-      "publishedDate": "2026-08-15T06:00:14.469Z",
-      "lastModifiedDate": "2026-08-17T20:40:06.972Z",
-      "description": "The ECS  WordPress plugin before 4.3.8 does not perform capability or object-ownership checks on its Dynamic Repeater AJAX handlers (gated only by a capability-agnostic nonce that any edit_posts user obtains from the Elementor editor), so a Contributor can write a data-source binding into any post — including admin-authored pages — whose attacker-controlled values are rendered into a widget's repeater output without sanitization, executing JavaScript in the session of any visitor or administrator who views the page.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Unknown ECS\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/fded2f21-d104-4dcb-8fd1-29db9866cabc/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "ECS",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.3.8"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Cross-Site Scripting (XSS)"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting')"
       ],
       "cwe_ids": [
         "CWE-79"
       ],
       "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-65640",
+      "publishedDate": "2026-08-17T20:55:33.162Z",
+      "lastModifiedDate": "2026-08-17T20:55:33.162Z",
+      "description": "WordPress is vulnerable to a remote code execution vulnerability via malicious Postscript file upload by an Author level user or higher.\n\nPrerequisites:\n* Imagick and Ghostscript in use on the server\n* A malicious user with the `upload_files` capability\n\nThis issue affects all versions of WordPress. Version 7.0.4 has been released, containing a fix for the vulnerability, and as a courtesy to users on older branches the fix has been backported to all branches back to 4.7.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：WordPress WordPress\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wordpress.org/news/2026/08/wordpress-7-0-4-release/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "vendor": "WordPress",
+          "product": "WordPress",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "7.0.4",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+      ],
+      "cwe_ids": [
+        "CWE-434"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-47683",
+      "publishedDate": "2026-08-17T20:55:32.019Z",
+      "lastModifiedDate": "2026-08-17T20:55:32.019Z",
+      "description": "vm2 is an open source vm/sandbox for Node.js. Prior to 3.11.6, the bufferAllocLimit enforcement in lib/setup-sandbox.js does not cover Buffer.concat(list, totalLength) or Buffer.from(arrayLike) with an attacker-controlled length, allowing sandbox code to perform large synchronous host external-memory allocations that bypass the configured cap and can exhaust the host process. This issue is fixed in version 3.11.6.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-gmc2-2x9w-cgh9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/patriksimek/vm2/commit/3ffb315512e634cf85c447375e85d6c83d00a4bd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/patriksimek/vm2/releases/tag/3.11.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "patriksimek",
+          "product": "vm2",
+          "versions": [
+            {
+              "version": "< 3.11.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ],
+      "ghsa_id": "GHSA-gmc2-2x9w-cgh9"
     }
   ]
 }
