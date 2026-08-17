@@ -2,497 +2,764 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 18,
-    "last_updated": "2026-08-17T20:17:52.245549",
+    "total_count": 28,
+    "last_updated": "2026-08-17T20:47:54.375100",
     "severity_distribution": {
-      "critical": 0,
-      "high": 10,
-      "medium": 4,
-      "low": 0,
-      "none": 4
+      "critical": 2,
+      "high": 13,
+      "medium": 6,
+      "low": 1,
+      "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-17179",
-      "publishedDate": "2026-08-14T19:20:52.981Z",
-      "lastModifiedDate": "2026-08-17T20:10:45.376Z",
-      "description": "IBM Db2 Mirror for i 7.4, 7.5, and 7.6 could allow a remote authenticated attacker to cause a denial of service due to command injection.",
-      "severity": 8.5,
-      "fix_suggestion": "📦 受影响组件：IBM Db2 Mirror for i\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75110",
+      "publishedDate": "2026-08-17T20:36:04.095Z",
+      "lastModifiedDate": "2026-08-17T20:36:04.095Z",
+      "description": "MemOS is a memory operating system for LLMs and AI agents. In deployments where authentication is enabled (AUTH_ENABLED=true) but the undocumented, defaultless INTERNAL_SERVICE_SECRET environment variable is unset, the is_internal_request() check in src/memos/api/middleware/auth.py fails open: os.getenv(\"INTERNAL_SERVICE_SECRET\") returns None and a request omitting the X-Internal-Service header also yields None, so the comparison None == None evaluates true. The request is then treated as a trusted internal principal and granted scopes: [\"all\"]. As a result, an unauthenticated remote attacker can reach the admin API-key management endpoints to mint API keys for any user, enumerate keys, revoke keys, and generate a master key for persistent privileged access, as well as all data endpoints.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：MemTensor MemOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.ibm.com/support/pages/node/7283359",
+          "url": "https://github.com/MemTensor/MemOS/issues/2259",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/MemTensor/MemOS",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/MemTensor/MemOS/blob/main/src/memos/api/middleware/auth.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/memos-authentication-bypass-via-unset-internal-service-secret",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "IBM",
-          "product": "Db2 Mirror for i",
+          "vendor": "MemTensor",
+          "product": "MemOS",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/MemoryOS",
           "versions": [
             {
+              "version": "0",
               "status": "affected",
-              "version": "7.4"
-            },
-            {
-              "status": "affected",
-              "version": "7.5"
-            },
-            {
-              "status": "affected",
-              "version": "7.6"
+              "lessThanOrEqual": "2.0.30",
+              "versionType": "custom"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:ibm:db2_mirror_for_i:7.4:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:db2_mirror_for_i:7.4.0:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:db2_mirror_for_i:7.5:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:db2_mirror_for_i:7.5.0:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:db2_mirror_for_i:7.6:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:db2_mirror_for_i:7.6.0:*:*:*:*:*:*:*"
-          ]
+          "repo": "https://github.com/MemTensor/MemOS"
         }
       ],
       "problemType": [
-        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-78"
+        "Incorrect Comparison"
       ]
     },
     {
-      "id": "CVE-2026-57233",
-      "publishedDate": "2026-08-17T20:10:37.698Z",
-      "lastModifiedDate": "2026-08-17T20:10:37.698Z",
-      "description": "Notepad++ is a free and open-source source code editor. Prior to 8.9.7, the WinGup decompress function joins untrusted ZIP entry names to unzipDestTo without canonical containment validation, allowing an entry such as ../mimeTools/mimeTools.dll to overwrite a DLL in a sibling plugin directory and execute attacker-controlled code when Notepad++ next loads that plugin. This issue is fixed in version 8.9.7.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：notepad-plus-plus notepad-plus-plus\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75106",
+      "publishedDate": "2026-08-17T20:36:02.092Z",
+      "lastModifiedDate": "2026-08-17T20:36:02.092Z",
+      "description": "OpnForm derives editable-submission secrets from sequential row identifiers using Hashids with an empty default salt, allowing unauthenticated attackers to compute hashes for any submission. Attackers can read other respondents' full submission data through the submission-fetch endpoint or overwrite submissions by supplying predicted hashes to the answer endpoint.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：OpnForm OpnForm\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/security/advisories/GHSA-hjxw-84rf-wg5r",
+          "url": "https://github.com/OpnForm/OpnForm/issues/1259",
           "type": "reference"
         },
         {
-          "url": "https://github.com/notepad-plus-plus/wingup/pull/106",
+          "url": "https://github.com/OpnForm/OpnForm",
           "type": "reference"
         },
         {
-          "url": "https://github.com/notepad-plus-plus/wingup/commit/7670296a5c7fdec624e0a45dbde51059a7d735a8",
+          "url": "https://github.com/OpnForm/OpnForm/commit/6c67ff0a9bc0ac27ae26b32b8e108a176f8161b1",
           "type": "reference"
         },
         {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.7",
+          "url": "https://github.com/OpnForm/OpnForm/releases/tag/v2.0.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/opnform-editable-submission-secret-derivation-via-empty-hashids-salt",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "notepad-plus-plus",
-          "product": "notepad-plus-plus",
+          "vendor": "OpnForm",
+          "product": "OpnForm",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": "< 8.9.7",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-54758",
-      "publishedDate": "2026-08-17T20:05:51.923Z",
-      "lastModifiedDate": "2026-08-17T20:05:51.923Z",
-      "description": "Notepad++ is a free and open-source source code editor. Prior to 8.9.7, the expandNppEnvironmentStrs function in PowerEditor/src/WinControls/StaticDialog/RunDlg/RunDlg.cpp copies a Notepad++ variable name between $( and ) into the fixed-size wchar_t str[MAX_PATH] stack buffer without bounding the m loop index, allowing a name of 260 or more characters to corrupt adjacent stack data, terminate the process through __report_gsfailure, and potentially execute code. This issue is fixed in version 8.9.7.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：notepad-plus-plus notepad-plus-plus\n🔓 漏洞类型：CWE-121, CWE-787 (CWE-121, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/security/advisories/GHSA-gv94-327x-2gc5",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/commit/0a9527e9f7140a2323e25d14e362b46ee0efc3db",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.7",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "notepad-plus-plus",
-          "product": "notepad-plus-plus",
-          "versions": [
-            {
-              "version": "< 8.9.7",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-121: Stack-based Buffer Overflow",
-        "CWE-787: Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-121",
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-16887",
-      "publishedDate": "2026-08-13T19:51:34.109Z",
-      "lastModifiedDate": "2026-08-17T20:12:56.203Z",
-      "description": "IBM i 7.6 could allow a remote attacker to cause a denial of service due to an out-of-bounds write.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：IBM i\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.ibm.com/support/pages/node/7283319",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "IBM",
-          "product": "i",
-          "versions": [
-            {
+              "version": "0",
+              "lessThan": "2.0.2",
               "status": "affected",
-              "version": "7.6"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:ibm:i:7.6:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.6.0:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-787 Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-63667",
-      "publishedDate": "2026-08-17T19:56:07.436Z",
-      "lastModifiedDate": "2026-08-17T20:05:42.231Z",
-      "description": "ApostropheCMS is an open-source Node.js content management system. Prior to 3.6.2, the import-export module in packages/import-export/lib/formats/gzip.js constructs an attachment source path from the attacker-controlled _id, name, and extension fields in aposAttachments.json without ensuring that the resolved path remains under the extracted attachments directory, allowing an authenticated contributor to import a crafted archive, read a host file with an allowed extension, and publish the copied file at an unauthenticated uploads URL. This issue is fixed in version 3.6.2.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：apostrophecms apostrophe\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/apostrophecms/apostrophe/security/advisories/GHSA-79qf-vqgc-7xx3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/apostrophecms/apostrophe/commit/87cccf44a23d09420875ca8a3765eb3db843836a",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "apostrophecms",
-          "product": "apostrophe",
-          "versions": [
-            {
-              "version": "< 3.6.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-16861",
-      "publishedDate": "2026-08-13T19:50:20.093Z",
-      "lastModifiedDate": "2026-08-17T20:09:51.054Z",
-      "description": "IBM i 7.6, 7.5, 7.4, and 7.3 could allow a remote attacker to cause a denial of service due to an out-of-bounds read.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：IBM i\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.ibm.com/support/pages/node/7283573",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "IBM",
-          "product": "i",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "7.6"
-            },
-            {
-              "status": "affected",
-              "version": "7.5"
-            },
-            {
-              "status": "affected",
-              "version": "7.4"
-            },
-            {
-              "status": "affected",
-              "version": "7.3"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:ibm:i:7.6:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.6.0:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.5:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.5.0:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.4:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.4.0:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.3:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:i:7.3.0:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-125 Out-of-bounds Read"
-      ],
-      "cwe_ids": [
-        "CWE-125"
-      ]
-    },
-    {
-      "id": "CVE-2026-71486",
-      "publishedDate": "2026-08-17T20:13:06.289Z",
-      "lastModifiedDate": "2026-08-17T20:13:06.289Z",
-      "description": "vLLM is an inference and serving engine for large language models. Prior to 0.26.0, the /v1/completions/derender and /v1/chat/completions/derender endpoints accept caller-supplied GenerateResponse objects whose generate_responses, choices, token_ids, prompt_logprobs, logprobs.content, top_logprobs, and routed_experts structures are processed by OnlineDerenderer and tokenizer.decode before max_model_len, max_tokens, max_num_seqs, or response-size limits are enforced, allowing an authenticated API client to consume excessive CPU and memory and produce oversized responses. This issue is fixed in version 0.26.0.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：vllm-project vllm\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-770 (CWE-400, CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vllm-project/vllm/security/advisories/GHSA-8737-qx52-hjff",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vllm-project/vllm/pull/47260",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vllm-project/vllm/commit/8e61b646e2d157f9b93451fa048f9c8530c8a67b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vllm-project/vllm/releases/tag/v0.26.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vllm-project",
-          "product": "vllm",
-          "versions": [
-            {
-              "version": "< 0.26.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-400",
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2026-16713",
-      "publishedDate": "2026-08-13T19:40:09.078Z",
-      "lastModifiedDate": "2026-08-17T20:12:02.334Z",
-      "description": "IBM Documentation Offline 1.0.0 through 1.4.1 IBM Documentation could allow a remote attacker to obtain sensitive information due to a security misconfiguration where the documentation server binds to an unrestricted IP address.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：IBM Documentation Offline\n🔓 漏洞类型：CWE-1327 (CWE-1327)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.ibm.com/support/pages/node/7283484",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "IBM",
-          "product": "Documentation Offline",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0",
-              "lessThanOrEqual": "1.4.1",
               "versionType": "semver"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:ibm:documentation_offline:1.0.0:*:*:*:*:*:*:*",
-            "cpe:2.3:a:ibm:documentation_offline:1.4.1:*:*:*:*:*:*:*"
-          ]
+          "repo": "https://github.com/OpnForm/OpnForm"
         }
       ],
       "problemType": [
-        "CWE-1327 Binding to an Unrestricted IP Address"
-      ],
-      "cwe_ids": [
-        "CWE-1327"
+        "Generation of Predictable Numbers or Identifiers"
       ]
     },
     {
-      "id": "CVE-2026-52886",
-      "publishedDate": "2026-08-17T20:09:32.188Z",
-      "lastModifiedDate": "2026-08-17T20:09:32.188Z",
-      "description": "Notepad++ is a free and open-source source code editor. Prior to 8.9.7, Notepad++ validates the backupFilePath attribute from session.xml with std::wstring::starts_with against the expected backup directory without path normalization, allowing parent-directory sequences during snapshot-mode restoration to read an arbitrary user-readable file outside the backup directory into an editor tab. This issue is fixed in version 8.9.7.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：notepad-plus-plus notepad-plus-plus\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75481",
+      "publishedDate": "2026-08-17T20:36:06.800Z",
+      "lastModifiedDate": "2026-08-17T20:36:06.800Z",
+      "description": "SkyPilot fails to validate that authenticated users are entitled to grant administrator roles when updating service account permissions. Attackers can create a service account, escalate it to administrator role, and authenticate with its bearer token to gain administrative control over all users and workspaces.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：skypilot-org skypilot\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/security/advisories/GHSA-rqfm-pw34-r7j6",
+          "url": "https://github.com/skypilot-org/skypilot/issues/9846",
           "type": "reference"
         },
         {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/commit/7e66f36db666a13b09fb5c31232ab2ca1c2ebccc",
+          "url": "https://github.com/skypilot-org/skypilot",
           "type": "reference"
         },
         {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.7",
+          "url": "https://github.com/skypilot-org/skypilot/commit/8a3e00259cd374e662cd876c037164bcb070f78e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/skypilot-org/skypilot/blob/master/sky/users/server.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/skypilot-authentication-bypass-via-service-account-role-escalation",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "notepad-plus-plus",
-          "product": "notepad-plus-plus",
+          "vendor": "skypilot-org",
+          "product": "skypilot",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/skypilot",
+          "repo": "https://github.com/skypilot-org/skypilot",
           "versions": [
             {
-              "version": "< 8.9.7",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "0.13.1rc1",
+              "versionType": "custom"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-71858",
-      "publishedDate": "2026-08-17T20:08:21.140Z",
-      "lastModifiedDate": "2026-08-17T20:08:21.140Z",
-      "description": "Notepad++ is a free and open-source source code editor. Prior to 8.9.7, macros loaded from an attacker-controlled shortcuts.xml bypass the HMAC validation applied to UserDefinedCommands and can invoke Scintilla actions and the internal Open in Default Viewer command in an elevated Notepad++ process, allowing protected file modification and conditional elevated command execution when a local attacker influences settingsDir and a user triggers the macro. This issue is fixed in version 8.9.7.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：notepad-plus-plus notepad-plus-plus\n🔓 漏洞类型：OS Command Injection, CWE-345, CWE-693 (CWE-78, CWE-345, CWE-693)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/security/advisories/GHSA-f4rj-vqq4-wvg4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/commit/7686e5a3025eaf1fb8e024c2ceb54670ea05f5fb",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.7",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "notepad-plus-plus",
-          "product": "notepad-plus-plus",
-          "versions": [
-            {
-              "version": "< 8.9.7",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
-        "CWE-345: Insufficient Verification of Data Authenticity",
-        "CWE-693: Protection Mechanism Failure"
-      ],
-      "cwe_ids": [
-        "CWE-78",
-        "CWE-345",
-        "CWE-693"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-71553",
-      "publishedDate": "2026-08-17T20:03:37.883Z",
-      "lastModifiedDate": "2026-08-17T20:14:15.721Z",
-      "description": "ApostropheCMS is an open-source Node.js content management system. In 4.32.0 and earlier, PATCH /api/v1/article/:id accepts the inherited path toString.call and passes it through the utility module to apos.util.set() and apos.util.get(), allowing an authenticated editor to overwrite the shared Object.prototype.toString function's call property and cause a persistent process-wide denial of service until restart.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：apostrophecms apostrophe\n🔓 漏洞类型：CWE-1321 (CWE-1321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/apostrophecms/apostrophe/security/advisories/GHSA-vmg4-6gfg-83qx",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/apostrophecms/apostrophe/commit/5a3746aaed49761e171c2cbfe793267c959829fd",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "apostrophecms",
-          "product": "apostrophe",
-          "versions": [
-            {
-              "version": "<= 4.32.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1321: Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
-      ],
-      "cwe_ids": [
-        "CWE-1321"
+        "Improper Privilege Management"
       ]
     },
     {
-      "id": "CVE-2026-67678",
+      "id": "CVE-2026-75103",
+      "publishedDate": "2026-08-17T20:36:00.054Z",
+      "lastModifiedDate": "2026-08-17T20:36:00.054Z",
+      "description": "Crawlab fails to verify user ownership or administrative role on the password-change endpoint, allowing any authenticated user to reset any account's password. Attackers can enumerate user accounts through the user listing endpoint and change administrator credentials to achieve full account takeover and arbitrary code execution.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：crawlab-team crawlab\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/crawlab-team/crawlab/issues/1623",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/crawlab-team/crawlab",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/crawlab-team/crawlab/blob/main/core/controllers/user_v2.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/crawlab-missing-authorization-on-password-change-endpoint-allows-account-takeover",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "crawlab-team",
+          "product": "crawlab",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "0.6.3",
+              "versionType": "custom"
+            }
+          ],
+          "repo": "https://github.com/crawlab-team/crawlab"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ]
+    },
+    {
+      "id": "CVE-2026-75482",
+      "publishedDate": "2026-08-17T20:36:07.463Z",
+      "lastModifiedDate": "2026-08-17T20:36:07.463Z",
+      "description": "SWE-agent's trajectory inspector (sweagent inspector), confirmed in v1.1.0, is an HTTP server that joins request paths to the trajectory directory in its /trajectory/ handler without rejecting parent-directory ('..') references, bypassing the built-in path sanitization. The server binds all interfaces (0.0.0.0), applies wildcard CORS, and requires no authentication. An unauthenticated network client (or a malicious web page via CORS) can use path traversal sequences to read files outside the intended directory. Because the read sink parses targets as trajectory JSON, disclosure is constrained to JSON files shaped like a trajectory, which can contain repository contents, command output, and secrets/API keys.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：SWE-agent SWE-agent\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/SWE-agent/SWE-agent/issues/1472",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/SWE-agent/SWE-agent",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/SWE-agent/SWE-agent/blob/main/sweagent/inspector/server.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/swe-agent-trajectory-inspector-path-traversal-file-disclosure",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "SWE-agent",
+          "product": "SWE-agent",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/sweagent",
+          "repo": "https://github.com/SWE-agent/SWE-agent",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.1.0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-75479",
+      "publishedDate": "2026-08-17T20:36:05.442Z",
+      "lastModifiedDate": "2026-08-17T20:36:05.442Z",
+      "description": "JimuReport contains an authentication bypass vulnerability in the report folder template listing endpoint that allows unauthenticated attackers to enumerate all reports and retrieve share tokens. Attackers can use disclosed share tokens to access protected report endpoints and retrieve full report definitions including embedded SQL statements and live query data.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：jeecgboot jimureport\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/jeecgboot/jimureport/issues/4695",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/jeecgboot/jimureport",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/jimureport-unauthenticated-report-listing-and-share-token-disclosure",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "jeecgboot",
+          "product": "jimureport",
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/jeecgboot/jimureport",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.3.4",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-75111",
+      "publishedDate": "2026-08-17T20:36:04.764Z",
+      "lastModifiedDate": "2026-08-17T20:36:04.764Z",
+      "description": "Evidently UI fails to properly validate the filename parameter in the dataset materialization endpoint, allowing unauthenticated attackers to read arbitrary files outside the workspace directory. Attackers can supply traversal sequences or absolute paths in the filename field to access system files, which are then materialized into datasets and retrieved through the download endpoint.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：evidentlyai evidently\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/evidentlyai/evidently/issues/1887",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/evidentlyai/evidently",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/evidentlyai/evidently/blob/main/src/evidently/ui/service/datasets/data_source.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/evidently-ui-path-traversal-via-dataset-materialization-filename",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "evidentlyai",
+          "product": "evidently",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/evidently",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "0.7.21",
+              "versionType": "custom"
+            }
+          ],
+          "repo": "https://github.com/evidentlyai/evidently"
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-75105",
+      "publishedDate": "2026-08-17T20:36:01.403Z",
+      "lastModifiedDate": "2026-08-17T20:36:01.403Z",
+      "description": "phpIPAM through 1.8.1 fails to verify that a requested IP address belongs to the subnet a temporary share token was issued for. In app/temp_share/index.php and app/temp_share/address.php, when the share type is 'subnets', the subnetId parameter is used directly as a database primary key to fetch an address without confirming the address belongs to the authorized subnet. An unauthenticated party holding any valid, non-expired temporary share URL can enumerate the subnetId parameter to read every IP address record across all sections and subnets, including hostnames, DNS names, MAC addresses, owner/contact fields, and notes (which may contain credentials and configuration details).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：phpipam phpipam\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/phpipam/phpipam/issues/4623",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpipam/phpipam",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpipam/phpipam/commit/2980be03652c0eb1db9fe2bcefaa210c854b9aea",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phpipam/phpipam/releases/tag/v1.8.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/phpipam-temporary-subnet-share-information-disclosure-via-address-parameter",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "phpipam",
+          "product": "phpipam",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "1.8.2",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ],
+          "repo": "https://github.com/phpipam/phpipam"
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ]
+    },
+    {
+      "id": "CVE-2026-75109",
+      "publishedDate": "2026-08-17T20:36:03.396Z",
+      "lastModifiedDate": "2026-08-17T20:36:03.396Z",
+      "description": "Determined fails to authorize requests on the generic task kill, pause, and unpause endpoints in the API handlers. Authenticated attackers can disrupt other users' workloads by terminating, pausing, or unpausing tasks they do not own.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：determined-ai determined\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/determined-ai/determined/issues/10270",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/determined-ai/determined",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/determined-ai/determined/blob/main/master/internal/api_generic_tasks.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/determined-missing-authorization-check-on-generic-task-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "determined-ai",
+          "product": "determined",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/determined-ai/determined",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "0.38.1",
+              "versionType": "custom"
+            }
+          ],
+          "repo": "https://github.com/determined-ai/determined"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-54356",
+      "publishedDate": "2026-08-17T20:32:05.691Z",
+      "lastModifiedDate": "2026-08-17T20:32:05.691Z",
+      "description": "Budibase is an open-source low-code platform. Prior to 3.41.3, POST /api/attachments/:datasourceId/url in packages/server/src/api/routes/static.ts and packages/server/src/api/controllers/static/index.ts allows an authenticated published-app user with the BASIC role to supply attacker-controlled bucket and key values and obtain signedUrl and publicUrl values backed by stored S3 datasource credentials. This issue is fixed in version 3.41.3.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-6x9p-4r67-5gjx",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/releases/tag/3.41.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Budibase",
+          "product": "budibase",
+          "versions": [
+            {
+              "version": "< 3.41.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-40506",
+      "publishedDate": "2026-08-17T20:39:03.333Z",
+      "lastModifiedDate": "2026-08-17T20:39:03.333Z",
+      "description": "OpenEMR before 8.2.0 contains a path traversal vulnerability in the standard_tables_manage.php interface where the db GET parameter is passed without validation to temp_dir_cleanup(), which joins the value to the PHP temporary directory path and recursively deletes the resulting directory. Attackers can supply a traversal sequence in the db parameter to resolve outside the intended temporary directory, and by chaining this with an open redirect in dicom_frame.php, an unauthenticated attacker can deliver a crafted URL that triggers arbitrary recursive directory deletion within an authenticated Superuser's session.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：openemr openemr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/openemr/openemr/security/advisories/GHSA-hj9x-33vw-5g3x",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openemr/openemr/releases/tag/v8_2_0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openemr/openemr/pull/11951",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openemr/openemr/commit/2d8a69f0f343c8e8c6ee1b42d224c24a7a4ba415",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openemr-path-traversal-arbitrary-directory-deletion-via-standard-tables-manage-php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "openemr",
+          "product": "openemr",
+          "packageURL": "pkg:github/openemr/openemr",
+          "repo": "https://github.com/openemr/openemr",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "8.2.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-75480",
+      "publishedDate": "2026-08-17T20:36:06.111Z",
+      "lastModifiedDate": "2026-08-17T20:36:06.111Z",
+      "description": "OpenViking debug vector scroll and count endpoints apply only account-level scoping without user-level access controls, allowing authenticated users to read all co-tenant records. Attackers can query these endpoints to retrieve private memories, resources, skills, and secret material belonging to other users in the same account without administrative privileges.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：volcengine OpenViking\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/volcengine/OpenViking/issues/3724",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/volcengine/OpenViking",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/volcengine/OpenViking/blob/main/openviking/storage/viking_vector_index_backend.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openviking-debug-vector-endpoints-multi-tenant-data-exposure",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "volcengine",
+          "product": "OpenViking",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/openviking",
+          "repo": "https://github.com/volcengine/OpenViking",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "0.4.14",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-75104",
+      "publishedDate": "2026-08-17T20:36:00.721Z",
+      "lastModifiedDate": "2026-08-17T20:36:00.721Z",
+      "description": "Hugging Face Transformers fails to validate shard filenames in checkpoint index files, allowing attackers to read arbitrary files outside the model directory. Attackers can supply malicious index files with parent-directory references or absolute paths that are joined without validation, enabling file disclosure and filesystem reconnaissance.",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：huggingface transformers\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/huggingface/transformers/issues/47176",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/huggingface/transformers/issues/47177",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/huggingface/transformers",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/huggingface/transformers/blob/main/src/transformers/utils/hub.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hugging-face-transformers-path-traversal-via-checkpoint-index",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "huggingface",
+          "product": "transformers",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/transformers",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "5.15.0",
+              "versionType": "custom"
+            }
+          ],
+          "repo": "https://github.com/huggingface/transformers"
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-75108",
+      "publishedDate": "2026-08-17T20:36:02.740Z",
+      "lastModifiedDate": "2026-08-17T20:36:02.740Z",
+      "description": "Next Terminal fails to enforce per-asset authorization checks on the portal ping and wake-on-LAN endpoints, allowing any authenticated user to probe and wake assets they are not granted access to. Attackers can call these endpoints with arbitrary asset identifiers to retrieve asset information including display names, reachability status, connection timing, and network addresses, or trigger wake-on-LAN packets on unauthorized assets.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：next-terminal next-terminal\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/next-terminal/next-terminal/issues/573",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/next-terminal/next-terminal",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/next-terminal-missing-per-asset-authorization-on-portal-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "next-terminal",
+          "product": "next-terminal",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/next-terminal",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.3.7-b1",
+              "versionType": "custom"
+            }
+          ],
+          "repo": "https://github.com/next-terminal/next-terminal"
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-75483",
+      "publishedDate": "2026-08-17T20:36:08.150Z",
+      "lastModifiedDate": "2026-08-17T20:36:08.150Z",
+      "description": "powerlevel10k fails to neutralize control characters in the package.json version field when rendering the package prompt segment. Attackers can inject raw escape bytes in the version string to emit arbitrary terminal control sequences on each prompt render when the shell enters affected directories.",
+      "severity": 3.3,
+      "fix_suggestion": "📦 受影响组件：romkatv powerlevel10k\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/romkatv/powerlevel10k/issues/2961",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/romkatv/powerlevel10k",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/romkatv/powerlevel10k/commit/58e13d16a50e1d6908e39e20a670896808ccf350",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/romkatv/powerlevel10k/blob/master/internal/p10k.zsh",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/powerlevel10k-control-character-injection-via-package-json-version",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "romkatv",
+          "product": "powerlevel10k",
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/romkatv/powerlevel10k",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.20.0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Escape, Meta, or Control Sequences"
+      ]
+    },
+    {
+      "id": "CVE-2026-35219",
+      "publishedDate": "2026-08-17T20:28:40.828Z",
+      "lastModifiedDate": "2026-08-17T20:28:40.828Z",
+      "description": "Budibase is an open-source low-code platform. Prior to 3.41.3, automation steps in packages/server/src/automations/steps/outgoingWebhook.ts, packages/server/src/automations/steps/zapier.ts, packages/server/src/automations/steps/n8n.ts, packages/server/src/automations/steps/slack.ts, and packages/server/src/automations/steps/discord.ts use node-fetch on user-provided URLs without the BLACKLIST_IPS enforcement used by the REST integration, allowing an authenticated user to make server-side requests to cloud metadata and internal services. This issue is fixed in version 3.41.3.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Budibase budibase\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Budibase/budibase/security/advisories/GHSA-5fpj-28rv-84r7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/pull/19328",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/commit/cc07563a6b0fc0f91c51aae295952b1295546a90",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Budibase/budibase/releases/tag/3.41.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Budibase",
+          "product": "budibase",
+          "versions": [
+            {
+              "version": "< 3.41.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-918"
+      ],
+      "cvss_severity": "HIGH",
+      "ghsa_id": "GHSA-5fpj-28rv-84r7"
+    },
+    {
+      "id": "CVE-2026-39254",
       "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:07:48.971Z",
-      "description": "File Upload vulnerability in RainyGao-Hithub DocSys v.2.02.80 allows a remote attacker to execute arbitrary code",
+      "lastModifiedDate": "2026-08-17T20:30:24.608Z",
+      "description": "Buffer Overflow vulnerability in SteelSeries GG (macOS) v.107.0.0 allows a remote attacker to execute arbitrary code via the libSSEdevice.dylib, CxAudioHidDevice::DeviceGetDescriptionString components",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/RainyGao-GitHub/DocSys/issues/49",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Y4y17/CVE/blob/main/DocSys/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md",
+          "url": "https://github.com/Cipher-Security-Labs/research/tree/main/CSL-2026-03",
           "type": "reference"
         }
       ],
@@ -513,19 +780,15 @@
       ]
     },
     {
-      "id": "CVE-2026-68005",
+      "id": "CVE-2026-39255",
       "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:08:43.830Z",
-      "description": "An issue in ACME mini_httpd 1.30 and prior allows a remote attacker to cause a denial of service via the HTTP request header parser in the handle_request() function",
+      "lastModifiedDate": "2026-08-17T20:31:49.035Z",
+      "description": "Buffer Overflow vulnerability in SteelSeries GG (macOS) v.107.0.0 allows a remote attacker to execute arbitrary code via the libSSEdevice.dylib, dup_wcs components",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://acme.com/software/mini_httpd/",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/qop-qop-qop/qop-s-blog.github.io/blob/main/CVE-2026-68005/CVE-2026-68005.md",
+          "url": "https://github.com/Cipher-Security-Labs/research/tree/main/CSL-2026-03",
           "type": "reference"
         }
       ],
@@ -546,19 +809,15 @@
       ]
     },
     {
-      "id": "CVE-2026-68004",
+      "id": "CVE-2026-67965",
       "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-17T20:11:52.576Z",
-      "description": "An issue in OSSRS SRS (Simple Realtime Server) <v5.0.213 allows a remote attacker to execute arbitrary code via RTMP publish authorization, vhost-level security configuration (security.enabled), SrsSecurity::check(), trunk/src/app/srs_app_security.cpp, and SRS RTMP listener components",
+      "lastModifiedDate": "2026-08-17T20:40:26.401Z",
+      "description": "An issue in Tneda W20E v.16.01.0.6(2782) allows a remote attacker to execute arbitrary code via the url_need_login function",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/ossrs/srs/releases/tag/v5.0-r3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/xuwu-xuwu/CVE-2026-68004",
+          "url": "https://github.com/H0111mes/Tenda-W20E-Vulnerability-Disclosure",
           "type": "reference"
         }
       ],
@@ -579,28 +838,246 @@
       ]
     },
     {
-      "id": "CVE-2026-19728",
-      "publishedDate": "2026-08-16T06:00:16.962Z",
-      "lastModifiedDate": "2026-08-17T20:11:52.227Z",
-      "description": "The Extra Product Options Builder for WooCommerce WordPress plugin before 1.2.176 does not verify that the requester is entitled to a customer-uploaded file before serving it, allowing unauthenticated users who obtain a file's stored name to retrieve it.\n\nThe Extra Product Options Builder for WooCommerce WordPress plugin before 1.2.176 writes a deny-all rule into its upload directories, so the disclosure only crosses a boundary on web servers that honour it, such as Apache. Where it is ignored, as on a default nginx setup, the same files are already served at their direct URL and the endpoint exposes nothing further.",
+      "id": "CVE-2026-67926",
+      "publishedDate": "2026-08-17T00:00:00.000Z",
+      "lastModifiedDate": "2026-08-17T20:35:19.859Z",
+      "description": "An issue in JeecgBoot v.3.9.2 allows a remote attacker to execute arbitrary code via the files Parameter in JeecgBoot AI Chat Module",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/jeecgboot/JeecgBoot/issues/9774",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2026-15689",
+      "publishedDate": "2026-08-15T13:25:26.318Z",
+      "lastModifiedDate": "2026-08-17T20:27:51.814Z",
+      "description": "Dancer2::Plugin::Auth::Extensible versions through 0.713 for Perl allow password reset link poisoning via the request Host header in _default_email_password_reset and _default_welcome_send.\n\nBoth default emails emit a link of the form `$base/login/$code`, whose authority comes from the request Host header, or from X-Forwarded-Host under behind_proxy (obtained from Dancer2's request->base function). A POST to /login carrying submit_reset and a username needs no authentication: it stores a fresh reset code against that account and mails the account holder a link to a host of the sender's choosing. The welcome mail takes the same path when the application calls create_user with email_welcome set.\n\nThrough 0.711 the handlers read `request->uri_base` and `request->base` directly; Versions 0.712 and later provide an uri_base configuration key that defaults to the untrusted `request->uri_base` when unset.\n\nThe default configuration with reset_password_handler enabled and the default message text, a recipient who follows the link hands a working reset code to the sender's host, which is enough to take over the account.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ABEVERLEY Dancer2::Plugin::Auth::Extensible\n🔓 漏洞类型：CWE-640 (CWE-640)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.711/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L1031-1053",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.711/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L1097-1121",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.712/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L178-194",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.713/source/lib/Dancer2/Plugin/Auth/Extensible.pm#L178-196",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/ABEVERLEY/Dancer2-Plugin-Auth-Extensible-0.713/changes",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "packageName": "Dancer2-Plugin-Auth-Extensible",
+          "product": "Dancer2::Plugin::Auth::Extensible",
+          "programFiles": [
+            "lib/Dancer2/Plugin/Auth/Extensible.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Dancer2::Plugin::Auth::Extensible::_default_email_password_reset"
+            },
+            {
+              "name": "Dancer2::Plugin::Auth::Extensible::_default_welcome_send"
+            },
+            {
+              "name": "Dancer2::Plugin::Auth::Extensible::password_reset_send"
+            }
+          ],
+          "repo": "https://github.com/PerlDancer/Dancer2-Plugin-Auth-Extensible",
+          "vendor": "ABEVERLEY",
+          "versions": [
+            {
+              "lessThanOrEqual": "0.713",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-640 Weak Password Recovery Mechanism for Forgotten Password"
+      ],
+      "cwe_ids": [
+        "CWE-640"
+      ]
+    },
+    {
+      "id": "CVE-2026-73194",
+      "publishedDate": "2026-08-15T12:09:22.962Z",
+      "lastModifiedDate": "2026-08-17T20:29:56.764Z",
+      "description": "DBI versions before 1.652 for Perl allow a heap out-of-bounds write via an unvalidated numeric placeholder that sets the binder counter in preparse.\n\npreparse reserves seven output bytes per input byte, the width of the longest ':p99999' expansion. The ':N' branch parses the number with `atoi(src)` and assigns it to the binder counter with no range check, so a statement containing ':2147483648' leaves the counter negative (-2147483648 with glibc, where atoi wraps). Each following '?' then expands through `sprintf(start, \":p%d\", idx++)` to ':p-2147483648', 14 bytes with the terminating NUL where the buffer budgets 7. The placeholder limit added in 1.650 tests the counter against 99,999, which a negative counter passes.\n\nAny caller that preparses an untrusted statement into ':pN' style placeholders gets a heap out-of-bounds write that grows with the number of '?' marks following the poisoned placeholder. The '?' and '%s' return styles compare the parsed number against the expected sequence and error out, and are unaffected.",
+      "severity": "N/A",
+      "fix_suggestion": "🔓 漏洞类型：CWE-1284, CWE-787 (CWE-1284, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/perl5-dbi/dbi/security/advisories/GHSA-623j-hfpc-mrc4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/perl5-dbi/dbi/commit/29b72ae7d2a8114a734a55840bf1c45b89207809.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-14739",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-10879",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "DBI"
+          ],
+          "packageName": "DBI",
+          "packageURL": "pkg:cpan/DBI",
+          "programFiles": [
+            "DBI.xs"
+          ],
+          "programRoutines": [
+            {
+              "name": "preparse"
+            }
+          ],
+          "repo": "https://github.com/perl5-dbi/dbi",
+          "versions": [
+            {
+              "lessThan": "1.652",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1284 Improper Validation of Specified Quantity in Input",
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-1284",
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-73193",
+      "publishedDate": "2026-08-15T12:09:03.948Z",
+      "lastModifiedDate": "2026-08-17T20:31:48.261Z",
+      "description": "DBI versions before 1.652 for Perl allow a heap out-of-bounds write on 32-bit perl via an integer wraparound in the output buffer size computed by preparse.\n\npreparse reserves its output buffer with `newSV(strlen(statement) * 7 + 16)`, budgeting seven output bytes per input byte for the longest ':p99999' expansion. The product is computed in STRLEN, which is 32 bits wide on a 32-bit perl build, so a statement of 613,566,757 bytes multiplies to 4,294,967,299, wraps modulo 2^32 to 3, and reserves 19 bytes. The parser then copies the statement out through a raw pointer with no capacity check, writing the whole 585 MB input past the end of the allocation. The 99,999 placeholder limit does not bound this path, which is reached by ordinary non-placeholder content.\n\nAny caller that passes an untrusted statement of that length to preparse on a 32-bit perl gets a heap out-of-bounds write of attacker controlled bytes. Builds with a 64-bit STRLEN are not affected, since the wrap there needs a statement of about 2.3 exabytes.",
+      "severity": "5.5",
+      "fix_suggestion": "🔓 漏洞类型：Integer Overflow or Wraparound, CWE-787 (CWE-190, CWE-787)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-14739",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/perl5-dbi/dbi/security/advisories/GHSA-wj3v-c3hh-mhqr",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/perl5-dbi/dbi/commit/c751ae5a5a6f56c2f8284f37c1f4d43500352ef1.patch",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "DBI"
+          ],
+          "packageName": "DBI",
+          "packageURL": "pkg:cpan/DBI",
+          "programFiles": [
+            "DBI.xs"
+          ],
+          "programRoutines": [
+            {
+              "name": "preparse"
+            }
+          ],
+          "repo": "https://github.com/perl5-dbi/dbi",
+          "versions": [
+            {
+              "lessThan": "1.652",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-190 Integer Overflow or Wraparound",
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-190",
+        "CWE-787"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-18807",
+      "publishedDate": "2026-08-15T06:00:15.159Z",
+      "lastModifiedDate": "2026-08-17T20:34:02.880Z",
+      "description": "The ECS  WordPress plugin before 4.3.8 does not have capability or ownership checks on its dynamic repeater actions, relying only on a nonce available to any user who can open the page builder, allowing users with a contributor-level account or above to read, alter and delete the binding configuration of posts they do not own and to change the ECS  WordPress plugin before 4.3.8's site-wide presets.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Extra Product Options Builder for WooCommerce\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Unknown ECS\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/fd10aaab-d358-4d2f-aafa-dbfba09b7fff/",
+          "url": "https://wpscan.com/vulnerability/bf500bf2-1684-4ca1-a8ad-bcff9cbc127c/",
           "type": "poc"
         }
       ],
       "affected": [
         {
           "vendor": "Unknown",
-          "product": "Extra Product Options Builder for WooCommerce",
+          "product": "ECS",
           "versions": [
             {
               "status": "affected",
               "versionType": "semver",
               "version": "0",
-              "lessThan": "1.2.176"
+              "lessThan": "4.3.8"
             }
           ],
           "defaultStatus": "unaffected"
@@ -615,100 +1092,64 @@
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-19726",
-      "publishedDate": "2026-08-16T06:00:16.760Z",
-      "lastModifiedDate": "2026-08-17T20:10:30.320Z",
-      "description": "The Visualizer  WordPress plugin before 4.0.7 does not properly authorise access to the configuration of its charts, allowing users with the Contributor role and above to read the full configuration of any chart on the site, including charts the Visualizer  WordPress plugin before 4.0.7's own interface denies them, and to retrieve every chart's configuration in a single request. The disclosed configuration can include the credentials of a remote data source a chart reads from.",
+      "id": "CVE-2026-18216",
+      "publishedDate": "2026-08-15T06:00:14.986Z",
+      "lastModifiedDate": "2026-08-17T20:36:05.964Z",
+      "description": "The Backup Migration WordPress plugin before 2.1.7 does not properly restrict a post-restore automatic login mechanism, allowing a user who administers one site of a multisite network to obtain a long-lived authenticated session as an administrator of another site in the same network, without credentials and bypassing two-factor authentication.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Visualizer\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Unknown Backup Migration\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/61a1577e-077f-4a00-96b4-860eda48e03b/",
+          "url": "https://wpscan.com/vulnerability/f12530c5-4069-42c2-9f1c-b00fc62aa387/",
           "type": "poc"
         }
       ],
       "affected": [
         {
           "vendor": "Unknown",
-          "product": "Visualizer",
+          "product": "Backup Migration",
           "versions": [
             {
               "status": "affected",
               "versionType": "semver",
               "version": "0",
-              "lessThan": "4.0.7"
+              "lessThan": "2.1.7"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-863 Incorrect Authorization"
+        "CWE-287 Improper Authentication"
       ],
       "cwe_ids": [
-        "CWE-863"
+        "CWE-287"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-19725",
-      "publishedDate": "2026-08-16T06:00:16.549Z",
-      "lastModifiedDate": "2026-08-17T20:07:51.852Z",
-      "description": "The WPvivid — Backup, Migration & Staging WordPress plugin before 0.9.131 does not sanitise a value taken from an unauthenticated request before using it to build a log file path, allowing an attacker holding a site to site transfer key to create a log file in any existing writable directory of the site, including the web root.\n\nThe file name always carries a fixed suffix and the contents are always the WPvivid — Backup, Migration & Staging WordPress plugin before 0.9.131's own log header, so only the location of the file is attacker controlled.",
+      "id": "CVE-2026-16611",
+      "publishedDate": "2026-08-15T06:00:14.814Z",
+      "lastModifiedDate": "2026-08-17T20:38:04.941Z",
+      "description": "The Product Feed PRO for WooCommerce by AdTribes  WordPress plugin before 13.5.7 does not perform an authorization check on one of its REST read routes, allowing unauthenticated users to disclose a store's feed configuration (rules, filters and field mapping) and to enumerate the full product category taxonomy.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown WPvivid — Backup, Migration & Staging\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Unknown Product Feed PRO for WooCommerce by AdTribes\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/999889f4-f8be-4b44-b665-1a94df8d050d/",
+          "url": "https://wpscan.com/vulnerability/87fe63af-5a43-4812-88ce-568b1cc1598f/",
           "type": "poc"
         }
       ],
       "affected": [
         {
           "vendor": "Unknown",
-          "product": "WPvivid — Backup, Migration & Staging",
+          "product": "Product Feed PRO for WooCommerce by AdTribes",
           "versions": [
             {
               "status": "affected",
               "versionType": "semver",
               "version": "0",
-              "lessThan": "0.9.131"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-19717",
-      "publishedDate": "2026-08-16T06:00:16.376Z",
-      "lastModifiedDate": "2026-08-17T20:05:34.137Z",
-      "description": "The CatFolders Document Gallery & PDF Library WordPress plugin before 2.0.7 does not have authorisation checks in some of its REST API endpoints, allowing unauthenticated users to retrieve the title, type, size and URL of the media attachments assigned to any of its folders, including folders which are not published in any gallery on the site.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown CatFolders Document Gallery & PDF Library\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/79a4bae6-96e2-44b4-a56b-42198f8b3d32/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "CatFolders Document Gallery & PDF Library",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "2.0.7"
+              "lessThan": "13.5.7"
             }
           ],
           "defaultStatus": "unaffected"
@@ -721,6 +1162,78 @@
         "CWE-200"
       ],
       "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-16541",
+      "publishedDate": "2026-08-15T06:00:14.643Z",
+      "lastModifiedDate": "2026-08-17T20:38:51.723Z",
+      "description": "The Simply Schedule Appointments WordPress plugin before 1.6.12.17 does not restrict the user records returned by some of its REST endpoints to those the requester is entitled to see, allowing users with a low-privileged staff role to disclose the names and email addresses of arbitrary registered users.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Simply Schedule Appointments\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/8172f778-5dc5-49e8-9967-81215ac187d7/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Simply Schedule Appointments",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "1.6.12.17"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200 Information Exposure"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-14230",
+      "publishedDate": "2026-08-15T06:00:14.469Z",
+      "lastModifiedDate": "2026-08-17T20:40:06.972Z",
+      "description": "The ECS  WordPress plugin before 4.3.8 does not perform capability or object-ownership checks on its Dynamic Repeater AJAX handlers (gated only by a capability-agnostic nonce that any edit_posts user obtains from the Elementor editor), so a Contributor can write a data-source binding into any post — including admin-authored pages — whose attacker-controlled values are rendered into a widget's repeater output without sanitization, executing JavaScript in the session of any visitor or administrator who views the page.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Unknown ECS\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/fded2f21-d104-4dcb-8fd1-29db9866cabc/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "ECS",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "4.3.8"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Cross-Site Scripting (XSS)"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
