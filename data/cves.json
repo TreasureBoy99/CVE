@@ -2,370 +2,2009 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 9,
-    "last_updated": "2026-08-17T21:10:57.043715",
+    "total_count": 38,
+    "last_updated": "2026-08-17T21:40:22.326728",
     "severity_distribution": {
       "critical": 2,
-      "high": 3,
+      "high": 1,
       "medium": 3,
       "low": 0,
-      "none": 1
+      "none": 32
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-47686",
-      "publishedDate": "2026-08-17T20:54:39.406Z",
-      "lastModifiedDate": "2026-08-17T20:54:39.406Z",
-      "description": "vm2 is an open source vm/sandbox for Node.js. Prior to 3.11.6, handleException() in lib/setup-sandbox.js sanitizes SuppressedError.error, SuppressedError.suppressed, and AggregateError.errors but does not sanitize Error.cause, allowing sandbox code to obtain a powerful host object such as process from an embedder-exposed host function that throws an error with that object as its cause and then execute arbitrary host commands. This issue is fixed in version 3.11.6.",
-      "severity": 9.9,
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🔓 漏洞类型：CWE-693 (CWE-693)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-71424",
+      "publishedDate": "2026-08-17T21:28:32.814Z",
+      "lastModifiedDate": "2026-08-17T21:28:32.814Z",
+      "description": "Onyx is an open-source AI platform. Prior to 3.1.10, 3.2.14, and 4.0.0, Onyx's GET /api/mcp/servers and GET /api/mcp/servers/persona/{persona_id} endpoints expose another user's OAuth Authorization header because OnyxTokenStorage.set_tokens and OnyxTokenStorage.set_client_info in backend/onyx/server/features/mcp/api.py copy per-user tokens into a shared admin MCPConnectionConfig row and _db_mcp_server_to_api_mcp_server returns that row through auth_template.headers to any BASIC_ACCESS user. This issue is fixed in versions 3.1.10, 3.2.14, and 4.0.0.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：onyx-dot-app onyx\n🔓 漏洞类型：Exposure of Sensitive Information, Incorrect Authorization (CWE-200, CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-m283-3h24-438v",
+          "url": "https://github.com/onyx-dot-app/onyx/security/advisories/GHSA-q62f-rv3h-f822",
           "type": "reference"
         },
         {
-          "url": "https://github.com/patriksimek/vm2/commit/7e3faaf550f4ab975bf4cdde183fcec49b056d8e",
+          "url": "https://github.com/onyx-dot-app/onyx/pull/11238",
           "type": "reference"
         },
         {
-          "url": "https://github.com/patriksimek/vm2/releases/tag/3.11.6",
+          "url": "https://github.com/onyx-dot-app/onyx/pull/11242",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/pull/11243",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/commit/3f3d79d1a7722fdc84a1c61c8aa830d890017e9e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/commit/4001cedd0a8968723bfe95dd188914ed56777910",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/commit/b103937888fd5008067c2bb6eb6e5424576394f2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/releases/tag/v4.0.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "patriksimek",
-          "product": "vm2",
+          "vendor": "onyx-dot-app",
+          "product": "onyx",
           "versions": [
             {
-              "version": "< 3.11.6",
+              "version": "< 3.1.10",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.2.0, < 3.2.14",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.3.0-beta.0, < 4.0.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-693: Protection Mechanism Failure"
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+        "CWE-863: Incorrect Authorization"
       ],
       "cwe_ids": [
-        "CWE-693"
-      ],
-      "ghsa_id": "GHSA-m283-3h24-438v"
-    },
-    {
-      "id": "CVE-2026-47698",
-      "publishedDate": "2026-08-17T20:53:09.218Z",
-      "lastModifiedDate": "2026-08-17T20:53:09.218Z",
-      "description": "vm2 is an open source vm/sandbox for Node.js. Prior to 3.11.6, lib/bridge.js and lib/setup-sandbox.js fail to block stacked indirection through Function.prototype.call around dangerous host prototype getter and setter mutators, allowing sandbox code to sever a host intrinsic's prototype chain and reach e.constructor.constructor for arbitrary host command execution. This issue is fixed in version 3.11.6.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🔓 漏洞类型：CWE-913 (CWE-913)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-cfcw-xp6x-25gj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/patriksimek/vm2/commit/a85acb61f81402c6eabf32760aa11272af6d0f9e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/patriksimek/vm2/releases/tag/3.11.6",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "patriksimek",
-          "product": "vm2",
-          "versions": [
-            {
-              "version": "< 3.11.6",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-913: Improper Control of Dynamically-Managed Code Resources"
-      ],
-      "cwe_ids": [
-        "CWE-913"
-      ],
-      "ghsa_id": "GHSA-cfcw-xp6x-25gj"
-    },
-    {
-      "id": "CVE-2026-65832",
-      "publishedDate": "2026-08-17T20:59:08.714Z",
-      "lastModifiedDate": "2026-08-17T20:59:08.714Z",
-      "description": "Deskflow is a keyboard and mouse sharing app. Prior to continuous build 1.26.0.299, a remote unauthenticated Deskflow server can send kMsgDSetOptions (DSOP) values to ServerProxy::setOptions() in src/lib/client/ServerProxy.cpp so that the value following a modifier option poisons m_modifierTranslationTable, after which ServerProxy::translateKey() or ServerProxy::translateModifierMask() indexes the seven-row s_translationTable or s_masks arrays out of bounds, disclosing four bytes at an attacker-selected relative offset or crashing the connected client; an odd option count also causes an out-of-bounds OptionsList read. This issue is fixed in continuous build 1.26.0.299.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：deskflow deskflow\n🔓 漏洞类型：CWE-125, CWE-129 (CWE-125, CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/deskflow/deskflow/security/advisories/GHSA-8rcq-7w87-h64j",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/deskflow/deskflow/commit/205a3c803e5298d56683660736ec1a41b671b56e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/deskflow/deskflow/commit/8266fbbe6af93fa370018886c7f1f35d2cee8b3f",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "deskflow",
-          "product": "deskflow",
-          "versions": [
-            {
-              "version": "< 1.26.0.299",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-125: Out-of-bounds Read",
-        "CWE-129: Improper Validation of Array Index"
-      ],
-      "cwe_ids": [
-        "CWE-125",
-        "CWE-129"
+        "CWE-200",
+        "CWE-863"
       ]
     },
     {
-      "id": "CVE-2026-63409",
-      "publishedDate": "2026-08-17T20:57:19.326Z",
-      "lastModifiedDate": "2026-08-17T20:57:19.326Z",
-      "description": "Deskflow is a keyboard and mouse sharing app. From 1.17.0 until continuous build 1.26.0.296, a malicious Deskflow server can send an odd-length DSOP vector to ServerProxy::setOptions() in src/lib/client/ServerProxy.cpp, causing the missing value after the final option key to be read beyond the vector during the PacketStreamFilter::filterEvent to ServerProxy::handleData() to ServerProxy::parseHandshakeMessage() call chain and crash the connected client. This issue is fixed in continuous build 1.26.0.296.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：deskflow deskflow\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19516",
+      "publishedDate": "2026-08-11T05:28:30.662Z",
+      "lastModifiedDate": "2026-08-17T21:28:18.756Z",
+      "description": "A caller-supplied X-Grafana-URL request header controls the destination of mcp-grafana's outbound requests, and the grafana_api_request tool lets the caller also choose the HTTP method, path, and body. Because the destination is not restricted to the configured Grafana instance, a caller can direct requests at internal, loopback, and link-local network services (including metadata endpoints) and read the responses, resulting in server-side request forgery. The fix for CVE-2026-15583 prevented the configured service-account token from being sent to unintended destinations but did not restrict the destinations themselves.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：Grafana Grafana MCP Server\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/deskflow/deskflow/security/advisories/GHSA-gmvh-3c73-m5gg",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/deskflow/deskflow/commit/8266fbbe6af93fa370018886c7f1f35d2cee8b3f",
+          "url": "https://grafana.com/security/security-advisories/cve-2026-19516",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "deskflow",
-          "product": "deskflow",
+          "vendor": "Grafana",
+          "product": "Grafana MCP Server",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": ">= 1.17.0, < 1.26.0.296",
-              "status": "affected"
+              "version": "0.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "1.0.0"
+            }
+          ]
+        },
+        {
+          "vendor": "Grafana",
+          "product": "mcp-grafana",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "1.0.0"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-125: Out-of-bounds Read"
+        "CWE-918"
       ],
       "cwe_ids": [
-        "CWE-125"
+        "CWE-918"
       ]
     },
     {
-      "id": "CVE-2026-65976",
-      "publishedDate": "2026-08-17T21:00:41.175Z",
-      "lastModifiedDate": "2026-08-17T21:00:41.175Z",
-      "description": "Deskflow is a keyboard and mouse sharing app. From 1.17.0 until continuous build 1.26.0.300, a connected peer can send repeated DCLP DataChunk messages to ClipboardChunk::assemble() in src/lib/deskflow/ClipboardChunk.cpp, causing the server path in src/lib/server/ClientProxy1_6.cpp or client path in src/lib/client/ServerProxy.cpp to append data beyond the DataStart declared size and configured clipboard limit before DataEnd validation, exhausting receiver memory. This issue is fixed in continuous build 1.26.0.300.",
+      "id": "CVE-2026-63178",
+      "publishedDate": "2026-08-17T21:30:40.463Z",
+      "lastModifiedDate": "2026-08-17T21:30:40.463Z",
+      "description": "Onyx is an open-source AI platform. Prior to 4.3.0, Onyx Enterprise Edition's PATCH /manage/admin/user-group/{user_group_id} and POST /manage/admin/user-group/{user_group_id}/add-users endpoints in ee/onyx/server/user_group/api.py call update_user_group and add_users_to_user_group in ee/onyx/db/user_group.py without enforcing _validate_curator_can_modify_group, allowing a curator to add accounts to arbitrary groups and obtain document access through get_acl_for_user and the OpenSearch access_control_list filter. This issue is fixed in version 4.3.0.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：deskflow deskflow\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：onyx-dot-app onyx\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/deskflow/deskflow/security/advisories/GHSA-jf7g-qghg-p54x",
+          "url": "https://github.com/onyx-dot-app/onyx/security/advisories/GHSA-7f48-vgpj-h95m",
           "type": "reference"
         },
         {
-          "url": "https://github.com/deskflow/deskflow/commit/8a535fd5dd48315eaaf6b93d5c7534d0592addef",
+          "url": "https://github.com/onyx-dot-app/onyx/pull/12525",
           "type": "reference"
         },
         {
-          "url": "https://github.com/deskflow/deskflow/commit/bcd3a658fc3b2ad735146fdc9efefa9462d195b7",
+          "url": "https://github.com/onyx-dot-app/onyx/pull/12549",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/commit/46e19cc2750fed659488cb12a1f171016ba5a099",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/commit/b9e1c6894be3c237283f4b5fd4eb0af935b40664",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/onyx-dot-app/onyx/releases/tag/v4.3.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "deskflow",
-          "product": "deskflow",
+          "vendor": "onyx-dot-app",
+          "product": "onyx",
           "versions": [
             {
-              "version": ">= 1.17.0, < 1.26.0.300",
+              "version": "< 4.3.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption"
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
       ],
       "cwe_ids": [
-        "CWE-400"
+        "CWE-639"
       ]
     },
     {
-      "id": "CVE-2026-54336",
-      "publishedDate": "2026-08-17T21:01:48.667Z",
-      "lastModifiedDate": "2026-08-17T21:01:48.667Z",
-      "description": "JumpServer is an open source bastion host and an operation and maintenance security audit system. From 4.8.0 until 4.10.17, an authenticated user with SFTP permission to an authorized asset can submit crafted traversal paths through the KoKo Web Terminal SFTP feature, causing AssetDir.GetRealPath() in pkg/srvconn/sftp_asset.go to resolve paths outside the intended SFTP root and permit read, list, write, rename, or delete operations under the configured backend account on that asset. This issue is fixed in version 4.10.17.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：jumpserver jumpserver\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-68765",
+      "publishedDate": "2026-08-17T20:48:17.215Z",
+      "lastModifiedDate": "2026-08-17T21:32:26.985Z",
+      "description": "hashcat master branch builds after v7.1.2 contain a heap buffer overflow vulnerability in the KeePass AESKDF/KDBX v4 module (module 34301) that allows attackers to corrupt adjacent heap memory by supplying an oversized ninth hash field token. The module accepts up to 600 hex characters for the ninth token field but decodes it into a fixed 256-byte buffer with no length check, allowing a maximal input to write up to 44 bytes past the buffer boundary into adjacent esalt fields and heap chunk metadata, potentially enabling heap corruption or memory access violations.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：hashcat hashcat\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/jumpserver/jumpserver/security/advisories/GHSA-x6rg-36j6-76vr",
+          "url": "https://github.com/hashcat/hashcat",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jumpserver/koko/commit/02fabebe27dacce89114fba122c667a946fd12ea",
+          "url": "https://github.com/hashcat/hashcat/pull/4755",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jumpserver/koko/releases/tag/v4.10.17",
+          "url": "https://github.com/hashcat/hashcat/commit/6f374c4ff7d5dc951530fbbbcf6b45e3c169b100",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hashcat-keepass-kdbx-v4-module-heap-buffer-overflow-via-token-field",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "jumpserver",
-          "product": "jumpserver",
+          "defaultStatus": "affected",
+          "vendor": "hashcat",
+          "product": "hashcat",
           "versions": [
             {
-              "version": ">= 4.8.0, < 4.10.17",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-75531",
-      "publishedDate": "2026-08-17T21:00:12.848Z",
-      "lastModifiedDate": "2026-08-17T21:00:12.848Z",
-      "description": "Pandora contains a stored cross-site scripting (XSS) vulnerability in the rendering of URL observables. A URL extracted from or associated with an analyzed file was inserted directly into the inline JavaScript onclick handler used by the Submit to Lookyloo action.\n\n\nAlthough the value was subject to HTML escaping by the template engine, it was embedded inside a JavaScript string within an HTML attribute. An attacker-controlled URL containing specially crafted characters could therefore break out of the JavaScript string and inject arbitrary JavaScript code.\n\n\nThe malicious script would execute in the context of the Pandora web application when a victim interacts with the affected Submit to Lookyloo control. Successful exploitation could allow an attacker to access information available to the victim's browser or perform actions using the victim's authenticated Pandora session.\n\n\nThe patch removes the observable value from the inline JavaScript handler. The URL is instead stored in an HTML data-url attribute and retrieved through the DOM dataset API when needed. Additional uses of innerHTML were also replaced with textContent as defensive hardening.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：pandora-analysis pandora\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/pandora-analysis/pandora/commit/77a84a039e2079dba7ea0342816c9813099d75d0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "pandora",
-          "repo": "https://github.com/pandora-analysis/pandora",
-          "vendor": "pandora-analysis",
-          "versions": [
-            {
-              "lessThanOrEqual": "1.12.5",
               "status": "affected",
-              "version": "0",
-              "versionType": "semver"
+              "version": "ef52453",
+              "versionType": "custom",
+              "lessThan": "6f374c4"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation (XSS or 'Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
+        "Heap-based Buffer Overflow"
+      ]
     },
     {
-      "id": "CVE-2026-65640",
-      "publishedDate": "2026-08-17T20:55:33.162Z",
-      "lastModifiedDate": "2026-08-17T20:55:33.162Z",
-      "description": "WordPress is vulnerable to a remote code execution vulnerability via malicious Postscript file upload by an Author level user or higher.\n\nPrerequisites:\n* Imagick and Ghostscript in use on the server\n* A malicious user with the `upload_files` capability\n\nThis issue affects all versions of WordPress. Version 7.0.4 has been released, containing a fix for the vulnerability, and as a courtesy to users on older branches the fix has been backported to all branches back to 4.7.",
+      "id": "CVE-2026-45791",
+      "publishedDate": "2026-08-17T21:25:53.386Z",
+      "lastModifiedDate": "2026-08-17T21:25:53.386Z",
+      "description": "Dokploy is a free, self-hostable Platform as a Service (PaaS). Prior to 0.29.6, Dokploy's user.update procedure in apps/dokploy/server/api/routers/user.ts updates account.password without deleting other rows from session, allowing a compromised better-auth.session_token session to remain valid for up to three days after a password change. This issue is fixed in version 0.29.6.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：Dokploy dokploy\n🔓 漏洞类型：CWE-613 (CWE-613)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Dokploy/dokploy/security/advisories/GHSA-rr9m-w87g-46f3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/pull/4475",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Dokploy/dokploy/commit/a07106d649991ea09892220873ea3243766c3e08",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dokploy",
+          "product": "dokploy",
+          "versions": [
+            {
+              "version": "< 0.29.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-613: Insufficient Session Expiration"
+      ],
+      "cwe_ids": [
+        "CWE-613"
+      ]
+    },
+    {
+      "id": "CVE-2026-65331",
+      "publishedDate": "2026-08-17T21:31:37.955Z",
+      "lastModifiedDate": "2026-08-17T21:31:37.955Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64760",
+      "publishedDate": "2026-08-17T21:31:35.899Z",
+      "lastModifiedDate": "2026-08-17T21:31:35.899Z",
+      "description": "An information leakage was addressed with additional validation. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10. An app may be able to leak sensitive kernel state.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "An app may be able to leak sensitive kernel state"
+      ]
+    },
+    {
+      "id": "CVE-2026-43794",
+      "publishedDate": "2026-08-17T21:31:33.770Z",
+      "lastModifiedDate": "2026-08-17T21:31:33.770Z",
+      "description": "A memory corruption issue was addressed with improved memory handling. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to memory corruption.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to memory corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-65346",
+      "publishedDate": "2026-08-17T21:31:30.809Z",
+      "lastModifiedDate": "2026-08-17T21:31:30.809Z",
+      "description": "An integer overflow was addressed with improved input validation. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing an image may lead to arbitrary code execution.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing an image may lead to arbitrary code execution"
+      ]
+    },
+    {
+      "id": "CVE-2026-65351",
+      "publishedDate": "2026-08-17T21:31:25.582Z",
+      "lastModifiedDate": "2026-08-17T21:31:25.582Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64782",
+      "publishedDate": "2026-08-17T21:31:21.710Z",
+      "lastModifiedDate": "2026-08-17T21:31:21.710Z",
+      "description": "A memory corruption vulnerability was addressed with improved locking. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65347",
+      "publishedDate": "2026-08-17T21:31:20.751Z",
+      "lastModifiedDate": "2026-08-17T21:31:20.751Z",
+      "description": "The issue was addressed with improved checks. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing an image may lead to a denial-of-service.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing an image may lead to a denial-of-service"
+      ]
+    },
+    {
+      "id": "CVE-2026-43795",
+      "publishedDate": "2026-08-17T21:31:14.573Z",
+      "lastModifiedDate": "2026-08-17T21:31:14.573Z",
+      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65330",
+      "publishedDate": "2026-08-17T21:31:10.365Z",
+      "lastModifiedDate": "2026-08-17T21:31:10.365Z",
+      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. An app may be able to cause unexpected system termination or corrupt kernel memory.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "An app may be able to cause unexpected system termination or corrupt kernel memory"
+      ]
+    },
+    {
+      "id": "CVE-2026-65340",
+      "publishedDate": "2026-08-17T21:31:03.232Z",
+      "lastModifiedDate": "2026-08-17T21:31:03.232Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65337",
+      "publishedDate": "2026-08-17T21:31:00.092Z",
+      "lastModifiedDate": "2026-08-17T21:31:00.092Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64788",
+      "publishedDate": "2026-08-17T21:30:52.756Z",
+      "lastModifiedDate": "2026-08-17T21:30:52.756Z",
+      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to memory corruption.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to memory corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-65336",
+      "publishedDate": "2026-08-17T21:30:49.391Z",
+      "lastModifiedDate": "2026-08-17T21:30:49.391Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64784",
+      "publishedDate": "2026-08-17T21:30:45.212Z",
+      "lastModifiedDate": "2026-08-17T21:30:45.212Z",
+      "description": "An out-of-bounds access issue was addressed with improved bounds checking. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65341",
+      "publishedDate": "2026-08-17T21:30:42.172Z",
+      "lastModifiedDate": "2026-08-17T21:30:42.172Z",
+      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to memory corruption.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to memory corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-28984",
+      "publishedDate": "2026-08-17T21:30:37.215Z",
+      "lastModifiedDate": "2026-08-17T21:30:37.215Z",
+      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64787",
+      "publishedDate": "2026-08-17T21:30:33.068Z",
+      "lastModifiedDate": "2026-08-17T21:30:33.068Z",
+      "description": "A use-after-free issue was addressed with improved memory management. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected process termination.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected process termination"
+      ]
+    },
+    {
+      "id": "CVE-2026-65339",
+      "publishedDate": "2026-08-17T21:30:27.897Z",
+      "lastModifiedDate": "2026-08-17T21:30:27.897Z",
+      "description": "A logic issue was addressed with improved checks. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. An app may be able to leak sensitive user information.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "An app may be able to leak sensitive user information"
+      ]
+    },
+    {
+      "id": "CVE-2026-65335",
+      "publishedDate": "2026-08-17T21:30:18.797Z",
+      "lastModifiedDate": "2026-08-17T21:30:18.797Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65334",
+      "publishedDate": "2026-08-17T21:30:08.305Z",
+      "lastModifiedDate": "2026-08-17T21:30:08.305Z",
+      "description": "A memory corruption issue was addressed with improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65338",
+      "publishedDate": "2026-08-17T21:29:59.913Z",
+      "lastModifiedDate": "2026-08-17T21:29:59.913Z",
+      "description": "The issue was addressed with improved memory handling. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65343",
+      "publishedDate": "2026-08-17T21:29:58.866Z",
+      "lastModifiedDate": "2026-08-17T21:29:58.866Z",
+      "description": "A use after free issue was addressed with improved memory management. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. A remote attacker may be able to cause unexpected system termination.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "A remote attacker may be able to cause unexpected system termination"
+      ]
+    },
+    {
+      "id": "CVE-2026-65333",
+      "publishedDate": "2026-08-17T21:29:42.566Z",
+      "lastModifiedDate": "2026-08-17T21:29:42.566Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64778",
+      "publishedDate": "2026-08-17T21:29:37.539Z",
+      "lastModifiedDate": "2026-08-17T21:29:37.539Z",
+      "description": "The issue was addressed with improved checks. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Visiting a maliciously crafted website may leak sensitive data.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Visiting a maliciously crafted website may leak sensitive data"
+      ]
+    },
+    {
+      "id": "CVE-2026-43667",
+      "publishedDate": "2026-08-17T21:29:35.370Z",
+      "lastModifiedDate": "2026-08-17T21:29:35.370Z",
+      "description": "A reachable assertion was addressed with improved input validation. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10. An attacker in a privileged network position may be able to cause a denial-of-service.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "An attacker in a privileged network position may be able to cause a denial-of-service"
+      ]
+    },
+    {
+      "id": "CVE-2026-64781",
+      "publishedDate": "2026-08-17T21:29:34.312Z",
+      "lastModifiedDate": "2026-08-17T21:29:34.312Z",
+      "description": "The issue was addressed with improved input validation. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64715",
+      "publishedDate": "2026-08-17T21:29:27.827Z",
+      "lastModifiedDate": "2026-08-17T21:29:27.827Z",
+      "description": "A use-after-free issue was addressed with improved memory management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected process crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected process crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65329",
+      "publishedDate": "2026-08-17T21:29:26.606Z",
+      "lastModifiedDate": "2026-08-17T21:29:26.606Z",
+      "description": "An authentication issue was addressed with improved state management. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1. An attacker in a privileged network position may be able to bypass IPSec authentication and intercept network traffic.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "An attacker in a privileged network position may be able to bypass IPSec authentication and intercept network traffic"
+      ]
+    },
+    {
+      "id": "CVE-2026-64780",
+      "publishedDate": "2026-08-17T21:29:17.121Z",
+      "lastModifiedDate": "2026-08-17T21:29:17.121Z",
+      "description": "The issue was addressed with improved checks. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-64779",
+      "publishedDate": "2026-08-17T21:29:15.067Z",
+      "lastModifiedDate": "2026-08-17T21:29:15.067Z",
+      "description": "A memory corruption vulnerability was addressed with improved locking. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65332",
+      "publishedDate": "2026-08-17T21:29:09.891Z",
+      "lastModifiedDate": "2026-08-17T21:29:09.891Z",
+      "description": "This issue was addressed through improved state management. This issue is fixed in iOS 18.7.10 and iPadOS 18.7.10, iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. Processing maliciously crafted web content may lead to an unexpected Safari crash.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148287",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "18.7.10",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing maliciously crafted web content may lead to an unexpected Safari crash"
+      ]
+    },
+    {
+      "id": "CVE-2026-65349",
+      "publishedDate": "2026-08-17T21:29:07.889Z",
+      "lastModifiedDate": "2026-08-17T21:29:07.889Z",
+      "description": "An out-of-bounds read was addressed with improved input validation. This issue is fixed in iOS 26.6.1 and iPadOS 26.6.1, macOS Tahoe 26.6.2. An app may be able to cause unexpected system termination or read kernel memory.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple iOS and iPadOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/148281",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/148282",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "iOS and iPadOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.1",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.6.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "An app may be able to cause unexpected system termination or read kernel memory"
+      ]
+    },
+    {
+      "id": "CVE-2026-11817",
+      "publishedDate": "2026-08-17T21:28:17.497Z",
+      "lastModifiedDate": "2026-08-17T21:28:17.497Z",
+      "description": "This vulnerability only affects Grafana stacks configured with multiple organizations; single-organization deployments are not impacted. In a multi-organization stack, a user who is an Org Admin of a single organization can call GET /api/access-control/users/permissions/search?actionPrefix=dashboards: and receive permission data belonging to other organizations. The disclosed data is limited to dashboard and folder identifiers (UIDs) and per-user permission/scope mappings (which user holds which access on which dashboard). Dashboard contents, panels, query results, datasource credentials, secrets, and personal data are not exposed. This is a limited cross-organization information disclosure affecting multi-org deployments only.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：WordPress WordPress\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Grafana Grafana OSS\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wordpress.org/news/2026/08/wordpress-7-0-4-release/",
+          "url": "https://grafana.com/security/security-advisories/cve-2026-11817",
           "type": "reference"
         }
       ],
       "affected": [
         {
+          "vendor": "Grafana",
+          "product": "Grafana OSS",
           "defaultStatus": "unaffected",
-          "vendor": "WordPress",
-          "product": "WordPress",
           "versions": [
             {
-              "version": "0",
+              "version": "12.4.0",
               "status": "affected",
-              "lessThan": "7.0.4",
-              "versionType": "semver"
+              "versionType": "semver",
+              "lessThanOrEqual": "12.4.5"
+            },
+            {
+              "version": "11.2.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "11.6.16"
+            },
+            {
+              "version": "13.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "13.0.3"
+            },
+            {
+              "version": "13.1.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "13.1.0"
+            },
+            {
+              "version": "12.2.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "12.2.10"
+            },
+            {
+              "version": "12.3.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "12.3.8"
+            }
+          ]
+        },
+        {
+          "vendor": "Grafana",
+          "product": "Grafana Enterprise",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "13.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "13.0.3"
+            },
+            {
+              "version": "12.2.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "12.2.10"
+            },
+            {
+              "version": "11.2.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "11.6.16"
+            },
+            {
+              "version": "12.3.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "12.3.8"
+            },
+            {
+              "version": "12.4.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "12.4.5"
+            },
+            {
+              "version": "13.1.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "13.1.0"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+        "CWE-863"
       ],
       "cwe_ids": [
-        "CWE-434"
+        "CWE-863"
       ],
       "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-47683",
-      "publishedDate": "2026-08-17T20:55:32.019Z",
-      "lastModifiedDate": "2026-08-17T20:55:32.019Z",
-      "description": "vm2 is an open source vm/sandbox for Node.js. Prior to 3.11.6, the bufferAllocLimit enforcement in lib/setup-sandbox.js does not cover Buffer.concat(list, totalLength) or Buffer.from(arrayLike) with an attacker-controlled length, allowing sandbox code to perform large synchronous host external-memory allocations that bypass the configured cap and can exhaust the host process. This issue is fixed in version 3.11.6.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-gmc2-2x9w-cgh9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/patriksimek/vm2/commit/3ffb315512e634cf85c447375e85d6c83d00a4bd",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/patriksimek/vm2/releases/tag/3.11.6",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "patriksimek",
-          "product": "vm2",
-          "versions": [
-            {
-              "version": "< 3.11.6",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ],
-      "ghsa_id": "GHSA-gmc2-2x9w-cgh9"
     }
   ]
 }
