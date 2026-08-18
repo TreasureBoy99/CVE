@@ -2,388 +2,260 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 39,
-    "last_updated": "2026-08-18T15:58:46.636723",
+    "total_count": 18,
+    "last_updated": "2026-08-18T16:34:46.823618",
     "severity_distribution": {
-      "critical": 3,
-      "high": 8,
-      "medium": 14,
-      "low": 2,
-      "none": 12
+      "critical": 0,
+      "high": 7,
+      "medium": 1,
+      "low": 0,
+      "none": 10
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-45117",
-      "publishedDate": "2026-08-18T15:53:29.914Z",
-      "lastModifiedDate": "2026-08-18T15:53:29.914Z",
-      "description": "MyBB is free and open source forum software. From 1.8.13 until 1.8.40, the installer module does not properly escape user-supplied database configuration values written to the configuration file, resulting in PHP code injection and remote code execution when the installer is available. install/index.php processes the values with addcslashes(), but the $characters argument added in MyBB 1.8.13 does not include the backslash character, allowing crafted input to escape the generated PHP string. The uniquely identifying implementation details include introduced in MyBB 1.8.13. This issue is fixed in version 1.8.40.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Code Injection (CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-gpc4-77rp-3xqr",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/0fe713e3b964bfc878ea65bdd9f746f585f6ebbf",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-94"
-      ]
-    },
-    {
-      "id": "CVE-2026-59940",
-      "publishedDate": "2026-08-18T14:34:28.703Z",
-      "lastModifiedDate": "2026-08-18T15:49:59.261Z",
-      "description": "Seroval facilitates JS value stringification, including complex structures beyond JSON.stringify capabilities. Prior to 1.5.3, seroval.fromJSON() allows attacker-controlled JSON Promise control nodes to operate on values from the general deserialization reference table without verifying genuine internal Promise resolver records, causing deserialization side effects with plugins enabled and potentially unintended server-side invocation or remote code execution when downstream frameworks register callable wrappers. This issue is fixed in version 1.5.3.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：lxsmnsyc seroval\n🔓 漏洞类型：Deserialization of Untrusted Data, Type Confusion (CWE-502, CWE-843)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/lxsmnsyc/seroval/security/advisories/GHSA-mv8w-475r-vwqw",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "lxsmnsyc",
-          "product": "seroval",
-          "versions": [
-            {
-              "version": "< 1.5.3",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-502: Deserialization of Untrusted Data",
-        "CWE-843: Access of Resource Using Incompatible Type ('Type Confusion')"
-      ],
-      "cwe_ids": [
-        "CWE-502",
-        "CWE-843"
-      ],
-      "ghsa_id": "GHSA-mv8w-475r-vwqw"
-    },
-    {
-      "id": "CVE-2026-12564",
-      "publishedDate": "2026-08-18T15:50:54.646Z",
-      "lastModifiedDate": "2026-08-18T15:50:54.646Z",
-      "description": "A flaw was found in the AAP Controller's HashiCorp Vault credential plugin. The kubernetes_auth() function in awx_plugins/credentials/hashivault.py reads the controller pod's Kubernetes service account token and sends it to an attacker-controlled URL when a HashiCorp Vault Secret Lookup credential with kubernetes_role authentication is tested. An authenticated attacker with credential-creation privileges can exfiltrate the service account token, gaining Kubernetes API access to the control plane namespaces with full pod CRUD and secret read permissions, including database credentials and the Django SECRET_KEY.",
-      "severity": 9.6,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Ansible Automation Platform 2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-12564",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2490556",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Ansible Automation Platform 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ansible-automation-platform-26/controller-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:ansible_automation_platform:2"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Ansible Automation Platform 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ansible-automation-platform-27/controller-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:ansible_automation_platform:2"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Ansible Automation Platform 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "automation-controller",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:ansible_automation_platform:2"
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-45116",
-      "publishedDate": "2026-08-18T15:46:34.212Z",
-      "lastModifiedDate": "2026-08-18T15:46:34.212Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the user datahandler does not properly validate checkbox and multiselect profile field types, resulting in stored JavaScript code injection. UserDataHandler::verify_profile_fields() only performs the specialized validation when is_array($profile_fields[$field]) is true. A non-array profile_fields[fidX] value instead of the expected profile_fields[fidX][] shape falls through to generic text handling and is stored without verification. The affected value is then rendered directly by member.php and inc/functions_post.php rather than processed by the MyCode parser. The uniquely identifying implementation details include inc/datahandlers/user.php. This issue is fixed in version 1.8.40.",
+      "id": "CVE-2026-75924",
+      "publishedDate": "2026-08-18T16:27:58.232Z",
+      "lastModifiedDate": "2026-08-18T16:27:58.232Z",
+      "description": "A flaw was found in managed-serviceaccount. A compromised addon-manager pod, due to its ClusterRole granting excessive permissions, can read any secret across all namespaces. Additionally, it can approve arbitrary Certificate Signing Requests (CSRs), which could lead to information disclosure and privilege escalation within the cluster.",
       "severity": 8.7,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Advanced Cluster Management for Kubernetes 2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-4p6g-p3qh-559v",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-75924",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/commit/c32f0c22baab704a68b8d58fcdd2f26fadbbe19b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2515720",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "mybb",
-          "product": "mybb",
+          "vendor": "Red Hat",
+          "product": "Red Hat Advanced Cluster Management for Kubernetes 2",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhacm2/acm-cluster-permission-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:acm:2"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Advanced Cluster Management for Kubernetes 2",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhacm2/mtv-integrations-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:acm:2"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Privilege Management"
+      ]
+    },
+    {
+      "id": "CVE-2026-49224",
+      "publishedDate": "2026-08-18T16:17:30.832Z",
+      "lastModifiedDate": "2026-08-18T16:17:30.832Z",
+      "description": "Vvveb is a powerful and easy to use CMS with page builder to build websites, blogs or ecommerce stores. Prior to 1.0.8.4, Vvveb backend post revision operations allow a low-privileged Author to access revisions for posts owned by another Author. The admin/controller/content/revisions.php controller and admin/sql/sqlite/post_content_revision.sql queries trust caller-controlled post_id, language_id, and created_at values without consistently applying the current admin_id to revision lists, reads, restores, and deletes. An attacker can read historic post content, restore a revision over another Author's live post content, or delete revision records, exposing drafts, corrupting published content, and removing audit history. This issue is fixed in version 1.0.8.4.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：givanz Vvveb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/givanz/Vvveb/security/advisories/GHSA-88w5-4x93-48rf",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/givanz/Vvveb/commit/cbedd3754bccf8b7584f02ab301291f12e888b7e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/givanz/Vvveb/releases/tag/1.0.8.4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "givanz",
+          "product": "Vvveb",
           "versions": [
             {
-              "version": "< 1.8.40",
+              "version": "< 1.0.8.4",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-639"
       ]
     },
     {
-      "id": "CVE-2026-45115",
-      "publishedDate": "2026-08-18T15:46:00.862Z",
-      "lastModifiedDate": "2026-08-18T15:46:00.862Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the Buddy/Ignore component does not sanitize usernames correctly, allowing attackers to perform JavaScript code injection through a specially crafted username. The User CP Buddy/Ignore list and the Select Buddies list in Private Messages pass usernames through htmlspecialchars_uni(), which may leave single quotes unescaped. The payload is triggered when a victim chooses Yes in Please Confirm while removing the username in usercp.php, or selects the username through the onclick handler in the xmlhttp.php Select Buddies popup. The uniquely identifying implementation details include Private Messages Select Buddies list, and unescaped single quotes. This issue is fixed in version 1.8.40.",
-      "severity": 8.7,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-49225",
+      "publishedDate": "2026-08-18T16:16:24.999Z",
+      "lastModifiedDate": "2026-08-18T16:16:24.999Z",
+      "description": "Vvveb is a powerful and easy to use CMS with page builder to build websites, blogs or ecommerce stores. Prior to 1.0.8.4, Vvveb backend product revision operations allow a low-privileged Vendor to access revisions for products owned by another Vendor. The admin/controller/product/revisions.php route reuses admin/controller/content/revisions.php, while admin/sql/sqlite/product_content_revision.sql trusts caller-controlled product_id, language_id, and created_at values without applying the current admin_id to revision reads, restores, and deletes. An attacker can read historic product content, restore a revision over another Vendor's live product content, or delete revision records, exposing private copy, corrupting product pages, and removing audit history. This issue is fixed in version 1.0.8.4.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：givanz Vvveb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-p766-qqxv-rfc2",
+          "url": "https://github.com/givanz/Vvveb/security/advisories/GHSA-gmrp-ccwf-xggq",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
+          "url": "https://github.com/givanz/Vvveb/commit/e7413a29dcf1ccd04bbc44ebe26f20979223de14",
           "type": "reference"
         },
         {
-          "url": "https://mybb.com/versions/1.8.40",
+          "url": "https://github.com/givanz/Vvveb/releases/tag/1.0.8.4",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "mybb",
-          "product": "mybb",
+          "vendor": "givanz",
+          "product": "Vvveb",
           "versions": [
             {
-              "version": "< 1.8.40",
+              "version": "< 1.0.8.4",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-639"
       ]
     },
     {
-      "id": "CVE-2026-75926",
-      "publishedDate": "2026-08-18T15:47:49.048Z",
-      "lastModifiedDate": "2026-08-18T15:47:49.048Z",
-      "description": "Hugo 0.161.0 placed the Node asset pipelines behind the Node.js permission model so that code running through PostCSS, Babel, or TailwindCSS could not reach the file system outside the project directory. Hugo 0.162.0 added tailwindcss to the AllowChildProcess default in config/security/securityConfig.go, which makes nodePermissionArgs in common/hexec/exec.go append --allow-child-process whenever the tool being launched is named tailwindcss. TailwindCSS loads the site's tailwind.config.js through require at startup, so top-level code in that file executes inside the permitted Node process and can call child_process to spawn a shell. The spawned process is not a Node process and inherits none of the permission flags, so it runs with the full privileges of the account performing the build. Building a site whose theme, module, or starter template supplies the Tailwind configuration therefore yields arbitrary command execution rather than the confined file access the permission model was introduced to enforce. Hugo 0.165.0 removes tailwindcss from the default security.exec.allow list, so the tool is no longer launched under the default configuration.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：gohugoio hugo\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-49223",
+      "publishedDate": "2026-08-18T16:18:09.914Z",
+      "lastModifiedDate": "2026-08-18T16:18:09.914Z",
+      "description": "Vvveb is a powerful and easy to use CMS with page builder to build websites, blogs or ecommerce stores. Prior to 1.0.8.4, Vvveb backend product review operations allow a low-privileged Vendor to manage reviews under another Vendor's products. The admin/sql/sqlite/product_review.sql queries accept a caller-controlled product_review_id and do not verify product_review.product_id against product.admin_id for the current admin_id. An attacker can read pending review content, ratings, author information, and moderation state, change review status, edit review content, or delete reviews, manipulating product review visibility and integrity. This issue is fixed in version 1.0.8.4.",
+      "severity": 7.6,
+      "fix_suggestion": "📦 受影响组件：givanz Vvveb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/gohugoio/hugo/commit/8a55df7af2e6da31297245cc54fa2e3b521d93e8",
+          "url": "https://github.com/givanz/Vvveb/security/advisories/GHSA-cj37-c5m2-3jmc",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gohugoio/hugo/issues/15178",
+          "url": "https://github.com/givanz/Vvveb/commit/3d5c15dcf4b50e4580161f05cb9e643d834d044a",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gohugoio/hugo/blob/v0.164.0/config/security/securityConfig.go#L72-L79",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gohugoio/hugo/blob/v0.164.0/common/hexec/exec.go#L292-L295",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gohugoio/hugo",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/hugo-to-x-node-permission-model-bypass-via-default-tailwindcss-child-process-grant",
+          "url": "https://github.com/givanz/Vvveb/releases/tag/1.0.8.4",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "gohugoio",
-          "product": "hugo",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/gohugoio/hugo",
+          "vendor": "givanz",
+          "product": "Vvveb",
           "versions": [
             {
-              "version": "0.162.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.165.0"
-            }
-          ],
-          "repo": "https://github.com/gohugoio/hugo"
-        }
-      ],
-      "problemType": [
-        "Initialization of a Resource with an Insecure Default"
-      ]
-    },
-    {
-      "id": "CVE-2026-71365",
-      "publishedDate": "2026-08-18T15:51:10.748Z",
-      "lastModifiedDate": "2026-08-18T15:51:10.748Z",
-      "description": "A server-side request forgery (SSRF) vulnerability was found in AWX's webhook status callback mechanism. When processing GitHub pull request webhooks, AWX extracts the status callback URL (pull_request.statuses_url) from the incoming webhook payload without validating the target host against the expected Git provider. This URL is persisted in job extra variables and later used to send authenticated status updates. A user with admin role on a webhook-enabled job template can read the template's webhook signing key, forge a signed GitHub webhook payload with an arbitrary statuses_url, and cause AWX to POST status updates to an attacker-controlled or internal URL. The status update request includes the configured Git Personal Access Token (PAT) in the Authorization header, resulting in credential leakage to the attacker-specified endpoint.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Ansible Automation Platform 2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-71365",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2511901",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Ansible Automation Platform 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ansible-automation-platform-26/controller-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:ansible_automation_platform:2"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Ansible Automation Platform 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ansible-automation-platform-27/controller-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:ansible_automation_platform:2"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Ansible Automation Platform 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "automation-controller",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:ansible_automation_platform:2"
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-59825",
-      "publishedDate": "2026-08-18T15:07:14.555Z",
-      "lastModifiedDate": "2026-08-18T15:51:15.337Z",
-      "description": "Mastodon is a free, open-source social network server based on ActivityPub. Prior to 4.4.19 and from 4.5.0 until 4.5.12, Mastodon's app/models/concerns/user/ldap_authenticable.rb mutates OpenSSL::SSL::SSLContext::DEFAULT_PARAMS when LDAP authentication uses LDAP_TLS_NO_VERIFY=true, disabling SSL and TLS certificate verification globally for requests made by puma web processes while sidekiq background jobs remain unaffected. This issue is fixed in versions 4.4.19 and 4.5.12.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：mastodon mastodon\n🔓 漏洞类型：CWE-295 (CWE-295)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mastodon/mastodon/security/advisories/GHSA-3rhr-8phh-jm86",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mastodon/mastodon/pull/39571",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mastodon/mastodon/commit/2ccb6ef277e725d1932295690cf8ab9d3dc03149",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mastodon/mastodon/commit/5748d0b16ea09001e0933f76c7afe814e09652ef",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mastodon/mastodon/commit/761c61b42590a2fd91442fc15a0a7583e48bbea4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mastodon/mastodon/releases/tag/v4.4.19",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mastodon/mastodon/releases/tag/v4.5.12",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mastodon",
-          "product": "mastodon",
-          "versions": [
-            {
-              "version": "< 4.4.19",
+              "version": "< 1.0.8.4",
               "status": "affected"
-            },
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-49222",
+      "publishedDate": "2026-08-18T16:17:00.524Z",
+      "lastModifiedDate": "2026-08-18T16:17:00.524Z",
+      "description": "Vvveb is a powerful and easy to use CMS with page builder to build websites, blogs or ecommerce stores. Prior to 1.0.8.4, Vvveb backend product question operations allow a low-privileged Vendor to manage questions under another Vendor's products. The admin/sql/sqlite/product_question.sql queries accept a caller-controlled product_question_id and do not verify product_question.product_id against product.admin_id for the current admin_id. An attacker can read pending question content and moderation data, change question status, edit question content, or delete questions, manipulating product Q&A visibility and integrity. This issue is fixed in version 1.0.8.4.",
+      "severity": 7.6,
+      "fix_suggestion": "📦 受影响组件：givanz Vvveb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/givanz/Vvveb/security/advisories/GHSA-cjhq-xqq3-6xv8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/givanz/Vvveb/commit/1f2b117c1460818c9306a78f22c12f0b713886df",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/givanz/Vvveb/releases/tag/1.0.8.4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "givanz",
+          "product": "Vvveb",
+          "versions": [
             {
-              "version": ">= 4.5.0, < 4.5.12",
+              "version": "< 1.0.8.4",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-63336",
+      "publishedDate": "2026-08-18T16:29:23.115Z",
+      "lastModifiedDate": "2026-08-18T16:29:23.115Z",
+      "description": "The RabbitMQ Java client library allows Java and JVM-based applications to connect to and interact with RabbitMQ nodes. Prior to 5.33.0, com.rabbitmq.client.ConnectionFactory.useSslProtocol() and ConnectionFactory.useSslProtocol(String) configure com.rabbitmq.client.TrustEverythingTrustManager and leave hostname verification disabled, causing arbitrary server certificates, including self-signed certificates, to be accepted. A network attacker able to intercept a TLS connection can impersonate the RabbitMQ broker, read protected AMQP traffic, and modify traffic without certificate or hostname validation. The fix changes the production TLS helpers to use the JVM default trust store and enables hostname verification, while retaining an explicitly named development-only no-verification helper. This issue is fixed in version 5.33.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：rabbitmq rabbitmq-java-client\n🔓 漏洞类型：CWE-295 (CWE-295)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-5m9f-rphj-c435",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/1999",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2001",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/1e7deb2e6020c9793a81385a53ea378ec63b9339",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/a4bf571dd368765baaa9cecfae68ce09f1bdcc01",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "rabbitmq",
+          "product": "rabbitmq-java-client",
+          "versions": [
+            {
+              "version": "< 5.33.0",
               "status": "affected"
             }
           ]
@@ -394,287 +266,334 @@
       ],
       "cwe_ids": [
         "CWE-295"
-      ]
+      ],
+      "ghsa_id": "GHSA-5m9f-rphj-c435"
     },
     {
-      "id": "CVE-2026-75080",
-      "publishedDate": "2026-08-17T23:30:09.339Z",
-      "lastModifiedDate": "2026-08-18T15:43:53.158Z",
-      "description": "A security vulnerability has been detected in SourceCodester Class and Exam Timetabling System 1.0. This issue affects some unknown processing of the file /edit_subject1.php. The manipulation of the argument ID leads to sql injection. The attack is possible to be carried out remotely. The exploit has been disclosed publicly and may be used.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Class and Exam Timetabling System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-63337",
+      "publishedDate": "2026-08-18T16:27:09.782Z",
+      "lastModifiedDate": "2026-08-18T16:27:09.782Z",
+      "description": "The RabbitMQ Java client library allows Java and JVM-based applications to connect to and interact with RabbitMQ nodes. Prior to 5.33.0, com.rabbitmq.tools.jsonrpc.ProcedureDescription receives a javaReturnType value in an untrusted system.describe response and passes it through JSONUtil.tryFill, setJavaReturnType, and computeReturnTypeAsJavaClass to Class.forName(javaReturnType) with initialization enabled. An attacker able to answer the JsonRpcClient request through a shared broker or network interception can select a class already present in the victim JVM and trigger its static initializer, while JsonRpcClient.java later passes getReturnType output to mapper.parse and may also create type confusion. Successful exploitation can affect confidentiality, integrity, and availability in the client process. This issue is fixed in version 5.33.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：rabbitmq rabbitmq-java-client\n🔓 漏洞类型：CWE-470 (CWE-470)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/391308",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-6g32-pxv4-2wfj",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/391308/cti",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2000",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-75080",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2002",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/876546",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/0032f75f9dc3df847f94b2b85a16119250bf63cb",
           "type": "reference"
         },
         {
-          "url": "https://github.com/i-QvQ-i/first-OvO/issues/7",
-          "type": "poc"
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/9f8e7efd0c648f235dc0e96232ae7efa75ea4fa8",
+          "type": "reference"
         },
         {
-          "url": "https://www.sourcecodester.com/",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "SourceCodester",
-          "product": "Class and Exam Timetabling System",
+          "vendor": "rabbitmq",
+          "product": "rabbitmq-java-client",
           "versions": [
             {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:class_and_exam_timetabling_system:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ]
-    },
-    {
-      "id": "CVE-2026-63178",
-      "publishedDate": "2026-08-17T21:30:40.463Z",
-      "lastModifiedDate": "2026-08-18T15:43:08.077Z",
-      "description": "Onyx is an open-source AI platform. Prior to 4.3.0, Onyx Enterprise Edition's PATCH /manage/admin/user-group/{user_group_id} and POST /manage/admin/user-group/{user_group_id}/add-users endpoints in ee/onyx/server/user_group/api.py call update_user_group and add_users_to_user_group in ee/onyx/db/user_group.py without enforcing _validate_curator_can_modify_group, allowing a curator to add accounts to arbitrary groups and obtain document access through get_acl_for_user and the OpenSearch access_control_list filter. This issue is fixed in version 4.3.0.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：onyx-dot-app onyx\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/onyx-dot-app/onyx/security/advisories/GHSA-7f48-vgpj-h95m",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/onyx-dot-app/onyx/pull/12525",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/onyx-dot-app/onyx/pull/12549",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/onyx-dot-app/onyx/commit/46e19cc2750fed659488cb12a1f171016ba5a099",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/onyx-dot-app/onyx/commit/b9e1c6894be3c237283f4b5fd4eb0af935b40664",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/onyx-dot-app/onyx/releases/tag/v4.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "onyx-dot-app",
-          "product": "onyx",
-          "versions": [
-            {
-              "version": "< 4.3.0",
+              "version": "< 5.33.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
+        "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
       ],
       "cwe_ids": [
-        "CWE-639"
-      ]
+        "CWE-470"
+      ],
+      "ghsa_id": "GHSA-6g32-pxv4-2wfj"
     },
     {
-      "id": "CVE-2026-75088",
-      "publishedDate": "2026-08-18T00:45:10.286Z",
-      "lastModifiedDate": "2026-08-18T15:44:37.952Z",
-      "description": "A vulnerability was determined in itsourcecode Hospital Management System 1.0. This impacts an unknown function of the file /viewbilling.php. Executing a manipulation of the argument delid can lead to sql injection. The attack can be launched remotely. The exploit has been publicly disclosed and may be utilized.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：itsourcecode Hospital Management System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-69220",
+      "publishedDate": "2026-08-18T16:25:16.178Z",
+      "lastModifiedDate": "2026-08-18T16:25:16.178Z",
+      "description": "The RabbitMQ Java client library allows Java and JVM-based applications to connect to and interact with RabbitMQ nodes. Prior to 5.33.1, src/main/java/com/rabbitmq/client/impl/ValueReader.java permits ValueReader.readTable and ValueReader.readArray to call ValueReader.readFieldValue recursively for AMQP table type F and AMQP array type A values without a nesting-depth limit. A malicious AMQP server or network intermediary can send approximately 580 nested table levels in the pre-authentication connection.start frame, fitting within the default 131072-byte frame maximum, to trigger StackOverflowError. The error terminates the client input processing thread and causes denial of service. This issue is fixed in version 5.33.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：rabbitmq rabbitmq-java-client\n🔓 漏洞类型：CWE-674 (CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/391313",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-93j5-89vc-pph4",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/391313/cti",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2007",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-75088",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2008",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/876802",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/09af76fce136f3136931654a0a1d43095c80e2f0",
           "type": "reference"
         },
         {
-          "url": "https://github.com/CSDVi/cve/issues/1",
-          "type": "poc"
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/db89e34809fbc6ba4e946615f297f3684ccd0acc",
+          "type": "reference"
         },
         {
-          "url": "https://itsourcecode.com/",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "itsourcecode",
-          "product": "Hospital Management System",
+          "vendor": "rabbitmq",
+          "product": "rabbitmq-java-client",
           "versions": [
             {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:itsourcecode:hospital_management_system:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ]
-    },
-    {
-      "id": "CVE-2026-45120",
-      "publishedDate": "2026-08-18T15:52:03.093Z",
-      "lastModifiedDate": "2026-08-18T15:52:03.093Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the calendar module does not verify private event status consistently, allowing users with viewing and moderation permissions to access and moderate private events. The private-event check used by get_events() in inc/functions_calendar.php and the event action is missing from the remaining calendar.php actions, despite the limited-access behavior described in inc/languages/english/calendar.lang.php. This issue is fixed in version 1.8.40.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-c2hm-g9w6-pv6x",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/c077e6c29755187c4df78a1e674dd61bc55701b3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
+              "version": "< 5.33.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
+        "CWE-674: Uncontrolled Recursion"
       ],
       "cwe_ids": [
-        "CWE-639"
-      ]
+        "CWE-674"
+      ],
+      "ghsa_id": "GHSA-93j5-89vc-pph4"
     },
     {
-      "id": "CVE-2026-45734",
-      "publishedDate": "2026-08-18T15:51:07.257Z",
-      "lastModifiedDate": "2026-08-18T15:51:07.257Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the built-in CAPTCHA does not consistently enforce single-use semantics, allowing remote attackers to bypass CAPTCHA controls through challenge replay. The successful validation paths in contact.php, member.php?action=do_resendactivation, member.php?action=do_lostpw, member.php?action=do_emailuser, and sendthread.php?action=do_sendtofriend do not call captcha::invalidate_captcha() for the MyBB Default CAPTCHA selected by the captchaimage setting. A valid response can therefore be reused until a non-vulnerable endpoint invalidates it, an incorrect response is submitted, or the challenge expires. This issue is fixed in version 1.8.40.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：CWE-837 (CWE-837)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-69219",
+      "publishedDate": "2026-08-18T16:23:32.097Z",
+      "lastModifiedDate": "2026-08-18T16:23:32.097Z",
+      "description": "The RabbitMQ Java client library allows Java and JVM-based applications to connect to and interact with RabbitMQ nodes. Prior to 5.33.1, src/main/java/com/rabbitmq/client/impl/ValueReader.java uses ValueReader.readBytes to accept a wire-declared contentLength below Integer.MAX_VALUE and allocate a byte array before checking the bytes available in the frame. A malicious AMQP peer can send a LongString or byte-array field with type tag S and a declared length such as 0x7FFFFFFE during the pre-authentication connection.start server-properties table, causing an approximately 2 GB allocation and OutOfMemoryError before readFully consumes data. The resulting memory exhaustion can terminate the JVM and cause denial of service. This issue is fixed in version 5.33.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：rabbitmq rabbitmq-java-client\n🔓 漏洞类型：CWE-789 (CWE-789)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-jrrr-f3jw-mjmc",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-68mj-5wr7-6fgg",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/commit/c2ed54f9259b9ce05728a9e657169033fe4adffc",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2007",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2008",
           "type": "reference"
         },
         {
-          "url": "https://mybb.com/versions/1.8.40",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/388209356c6478088efce4d8a07b68e73837a7a0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/6a87a8dcdc8b4cc4b961a7cdd388276446e5dfb2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "mybb",
-          "product": "mybb",
+          "vendor": "rabbitmq",
+          "product": "rabbitmq-java-client",
           "versions": [
             {
-              "version": "< 1.8.40",
+              "version": "< 5.33.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-837: Improper Enforcement of a Single, Unique Action"
+        "CWE-789: Memory Allocation with Excessive Size Value"
       ],
       "cwe_ids": [
-        "CWE-837"
-      ]
+        "CWE-789"
+      ],
+      "ghsa_id": "GHSA-68mj-5wr7-6fgg"
     },
     {
-      "id": "CVE-2026-45125",
-      "publishedDate": "2026-08-18T15:50:38.936Z",
-      "lastModifiedDate": "2026-08-18T15:50:38.936Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the Email User controller does not sanitize sender names correctly, resulting in mail header injection. member.php?action=do_emailuser accepts the fromname HTTP parameter for guests or the stored username for authenticated users when the cansendemail group permission is enabled. When mail_handler is set to the default PHP mail value, the sender name is used without sanitization in Return-Path and Reply-To headers, allowing arbitrary headers to be injected with CRLF sequences. This issue is fixed in version 1.8.40.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：CWE-93 (CWE-93)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-63335",
+      "publishedDate": "2026-08-18T16:20:08.128Z",
+      "lastModifiedDate": "2026-08-18T16:20:08.128Z",
+      "description": "The RabbitMQ Java client library allows Java and JVM-based applications to connect to and interact with RabbitMQ nodes. Prior to 5.31.0, inbound AMQP command assembly in src/main/java/com/rabbitmq/client/impl/CommandAssembler.java processes a content-bearing method and header whose remainingBodyBytes value is smaller than a following AMQP.FRAME_BODY payload. CommandAssembler.consumeBodyFrame subtracts the peer-controlled payload length before validating that it fits, drives remainingBodyBytes negative, and throws a raw UnsupportedOperationException instead of MalformedFrameException. A malicious or compromised broker peer can send this malformed sequence on an open nonzero channel to terminate frame processing and close the client connection, causing denial of service for work using that connection. This issue is fixed in version 5.31.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：rabbitmq rabbitmq-java-client\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-f626-53q9-pqm9",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-qx7j-jv8m-fppr",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/commit/5046c56b515d4593297a4f65b0c6ccb0b55baa01",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/1959",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/1960",
           "type": "reference"
         },
         {
-          "url": "https://mybb.com/versions/1.8.40",
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/31735344d9f9dfc53740b67f06e560e8846b9322",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/abd6d60d4e2bfc1a327dc90ab246b2e8aca1f33b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.31.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "mybb",
-          "product": "mybb",
+          "vendor": "rabbitmq",
+          "product": "rabbitmq-java-client",
           "versions": [
             {
-              "version": "< 1.8.40",
+              "version": "< 5.31.0",
               "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation"
+      ],
+      "cwe_ids": [
+        "CWE-20"
+      ],
+      "ghsa_id": "GHSA-qx7j-jv8m-fppr"
+    },
+    {
+      "id": "CVE-2026-73336",
+      "publishedDate": "2026-08-18T16:06:00.144Z",
+      "lastModifiedDate": "2026-08-18T16:27:32.638Z",
+      "description": "Joomla! Core - [20260806] - XSS through schema.org outputs in Joomla 5.1.0-5.4.7, 6.0.0-6.1.2 - Improper escaping flags lead to an XSS vector in schema.org markup outputs.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.joomla.org/",
+          "type": "reference"
+        },
+        {
+          "url": "https://developer.joomla.org/security-centre/1073-20260806-core-xss-through-schema-org-outputs.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.1.0-5.4.6"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-73372",
+      "publishedDate": "2026-08-18T16:05:57.718Z",
+      "lastModifiedDate": "2026-08-18T16:27:29.377Z",
+      "description": "Joomla! Core - [20260809] - Improper ACL checks when injection schema.org contact data in Joomla 5.1.0-5.4.7 and 6.0.0-6.1.2 - An improper access check injects contact information for unaccessible contact items into schema.org snippets.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.joomla.org/",
+          "type": "reference"
+        },
+        {
+          "url": "https://developer.joomla.org/security-centre/1076-20260809-core-improper-acl-checks-when-injection-schema-org-contact-data.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "5.1.0-5.4.6"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284 Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-71572",
+      "publishedDate": "2026-08-18T16:05:56.682Z",
+      "lastModifiedDate": "2026-08-18T16:27:27.516Z",
+      "description": "Joomla! Core - [20260801] - Response header injection in download views in Joomla 3.0.0-5.4.7, 6.0.0-6.1.2 - Lack of output processing allowed a header injection in the multiple download views, leading to reflected file download / content-type confusion.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-93 (CWE-93)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.joomla.org/",
+          "type": "reference"
+        },
+        {
+          "url": "https://developer.joomla.org/security-centre/1068-20260801-core-response-header-injection-in-download-views.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0-5.4.6"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
             }
           ]
         }
@@ -687,1051 +606,225 @@
       ]
     },
     {
-      "id": "CVE-2026-46482",
-      "publishedDate": "2026-08-18T15:44:59.644Z",
-      "lastModifiedDate": "2026-08-18T15:44:59.644Z",
-      "description": "### Impact\nThe registration component does not validate the text-based _Security Question_ CAPTCHA correctly, allowing attackers to bypass the challenge via a specially crafted value.\n\n\n[CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N)\n\n### Details\nThe public _Registration_ workflow ([`member.php?action=do_register`](https://github.com/mybb/mybb/blob/mybb_1839/member.php#L262-L307)) accepts a hidden field `question_id` — expected to match the question session identifier (`mybb_questionsessions.sid`) — and validates the challenge answer without a fail-closed fallback for invalid identifiers. If the value is blank, forged, or expired, the request continues without a question-related error.\n\n### Patches\nMyBB 1.8.(...) resolves this issue with the following changes:\n\n- Commit: https://github.com/mybb/mybb/commit/\n  - `.patch`: https://github.com/mybb/mybb/commit/.patch\n\n### References\n- Release Notes: https://mybb.com/versions/1.8.(...)/\n\n### For more information\nGo to [mybb.com/security](https://mybb.com/security/) to report possible security concerns or to learn more about security research at MyBB.\n\n### Contact\nThe security team can be reached at [security@mybb.com](mailto:security@mybb.com).",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：CWE-636 (CWE-636)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73337",
+      "publishedDate": "2026-08-18T16:04:51.233Z",
+      "lastModifiedDate": "2026-08-18T16:26:22.170Z",
+      "description": "Joomla! Core - [20260807] - MFA Authentication Bypass in Joomla 4.0.0-5.4.7 and 6.0.0-6.1.2 - Insufficient state checks lead to a vector that allows to bypass 2FA checks.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-v2h7-4jp7-j6hh",
+          "url": "https://www.joomla.org/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mybb/mybb/commit/bd2a3447939d3084a5926dd66ece04649e0e0d60",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-636: Not Failing Securely ('Failing Open')"
-      ],
-      "cwe_ids": [
-        "CWE-636"
-      ]
-    },
-    {
-      "id": "CVE-2026-45129",
-      "publishedDate": "2026-08-18T15:53:03.385Z",
-      "lastModifiedDate": "2026-08-18T15:53:03.385Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the Admin CP Recovery Codes module does not validate requests correctly, allowing same-site attackers to rotate a victim administrator's recovery codes with a specially crafted URL. The Admin CP Home, Preferences, Recovery Codes action=recovery_codes page regenerates Two-Factor Authentication recovery codes in mybb_adminoptions.recovery_codes on GET requests without request forgery protection. The uniquely identifying implementation details include admin/modules/home/preferences.php. This issue is fixed in version 1.8.40.",
-      "severity": 4.6,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-75vg-6wgp-mcc9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/d2d9e47b53d85101cf25cb47e882bc7ba76355a4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-352: Cross-Site Request Forgery (CSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-352"
-      ]
-    },
-    {
-      "id": "CVE-2026-45119",
-      "publishedDate": "2026-08-18T15:49:14.763Z",
-      "lastModifiedDate": "2026-08-18T15:49:14.763Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the Admin CP UTF-8 Conversion module does not validate certain requests correctly, allowing same-site attackers to alter table encoding and deny service with a specially crafted URL. The do=all control flow in admin/modules/tools/system_health.php performs ALTER TABLE operations, column rewrite phases, and fulltext index rebuilds on GET requests for the database table named by the table parameter without request verification. The uniquely identifying implementation details include GET requests without request verification. This issue is fixed in version 1.8.40.",
-      "severity": 4.6,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-p48q-4vgf-q7x8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/70d445d14c8350cc014be66f7874611abef70ab4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-352: Cross-Site Request Forgery (CSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-352"
-      ]
-    },
-    {
-      "id": "CVE-2026-45124",
-      "publishedDate": "2026-08-18T15:52:31.738Z",
-      "lastModifiedDate": "2026-08-18T15:52:31.738Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the Mod CP Report Center does not check permissions consistently, allowing moderators without report-management permission to mark reports as resolved. The modcp.php?action=do_reports Mark Selected as Read handler is reachable with canmodcp even without canmanagereportedcontent or canmanagereportedposts. When no forums are in scope, $flist_reports is empty and the UPDATE mybb_reportedcontent query executes without the expected permission-based limitation. This issue is fixed in version 1.8.40.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-gfxj-g7w6-6w4v",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/5cda5f6d183bc2cac24f0533e8d3060a9a46cc42",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-47245",
-      "publishedDate": "2026-08-18T15:51:33.857Z",
-      "lastModifiedDate": "2026-08-18T15:51:33.857Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the User CP Buddy/Ignore List component does not validate reciprocal buddy-list updates correctly. The usercp.php?action=do_editlists delete handler removes the selected entry from the acting user's list and then updates mybb_users.buddylist for the target account. The reciprocal update searches for the deleted target UID instead of the acting user's UID and uses the unchecked array_search() return value as an array key. A false result can be converted to index 0, removing the target account's first stored buddy while leaving the actual reciprocal entry unchanged. The uniquely identifying implementation details include false converted to index 0. This issue is fixed in version 1.8.40.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：CWE-252 (CWE-252)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-w8gm-j57p-jqpc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/0557718f27503034fb1c2768729a2fb8239bba65",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-252: Unchecked Return Value"
-      ],
-      "cwe_ids": [
-        "CWE-252"
-      ]
-    },
-    {
-      "id": "CVE-2026-45122",
-      "publishedDate": "2026-08-18T15:50:02.080Z",
-      "lastModifiedDate": "2026-08-18T15:50:02.080Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the calendar module does not validate moderation permissions for the destination calendar when moving events. A user with moderation permission for the source calendar can move an event to a calendar where the user has only viewing permission because the do_move action in calendar.php does not check canmoderateevents for the target calendar. The uniquely identifying implementation details include calendar event move, source calendar moderation permission, and destination calendar viewing permission. This issue is fixed in version 1.8.40.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-839m-gpw8-59j4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/86ed2058e7f9a2c14828e731f684e997f9bb220c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-863"
-      ]
-    },
-    {
-      "id": "CVE-2026-45121",
-      "publishedDate": "2026-08-18T15:45:29.958Z",
-      "lastModifiedDate": "2026-08-18T15:45:29.958Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the calendar module does not check permissions consistently when listing calendars, allowing authenticated users to access titles of calendars that are otherwise inaccessible. The affected calendar-selection paths in calendar.php perform permission checks against an invalid calendar context before returning calendar titles. The uniquely identifying implementation details include titles of inaccessible calendars, and invalid calendar permission context. This issue is fixed in version 1.8.40.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-r25v-7pcm-q34p",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/78e07fea34a6f6c326e668526bfb8e451c19e966",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-863"
-      ]
-    },
-    {
-      "id": "CVE-2026-45123",
-      "publishedDate": "2026-08-18T15:44:26.555Z",
-      "lastModifiedDate": "2026-08-18T15:44:26.555Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the remote requests feature does not correctly handle IPv6 addresses, resulting in a server-side request forgery vulnerability. The default disallowed remote hosts list does not include IPv6 addresses. Verification in fetch_remote_file() fails open when get_ip_by_hostname() returns no result because that function does not return IPv6 results, allowing a crafted remote target to bypass the host restriction. The uniquely identifying implementation details include fail-open verification, and inc/functions.php. This issue is fixed in version 1.8.40.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-56wr-64wx-5g7j",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/9cdadbf66f4cef50019f13aaa8e3470ea6535cb7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ]
-    },
-    {
-      "id": "CVE-2026-75151",
-      "publishedDate": "2026-08-18T02:15:10.039Z",
-      "lastModifiedDate": "2026-08-18T15:45:29.572Z",
-      "description": "A vulnerability has been found in SourceCodester Onlne Examination & Learning Management System 1.0. Affected by this vulnerability is an unknown functionality. The manipulation leads to cross-site request forgery. The attack can be initiated remotely.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Onlne Examination & Learning Management System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/391392",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/391392/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-75151",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/877726",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SourceCodester",
-          "product": "Onlne Examination & Learning Management System",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:onlne_examination_learning_management_system:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "Cross-Site Request Forgery",
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-45126",
-      "publishedDate": "2026-08-18T15:47:09.205Z",
-      "lastModifiedDate": "2026-08-18T15:47:09.205Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the Admin CP Security Questions module does not validate the anti-CSRF token correctly, allowing same-site attackers to enable or disable registration challenge questions with a specially crafted URL. The controller processes GET requests for the disable and enable actions to modify mybb_questions.active without verifying the my_post_key token attached by the user interface. The uniquely identifying implementation details include admin/modules/config/questions.php. This issue is fixed in version 1.8.40.",
-      "severity": 3.5,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-m42q-vgx3-fqcc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/6893b395c7fa3b9e4de6235caea0ce198c376c4f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-352: Cross-Site Request Forgery (CSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-352"
-      ]
-    },
-    {
-      "id": "CVE-2026-45128",
-      "publishedDate": "2026-08-18T15:43:41.889Z",
-      "lastModifiedDate": "2026-08-18T15:43:41.889Z",
-      "description": "MyBB is free and open source forum software. Prior to 1.8.40, the ACP Users View Manager module does not validate requests correctly, allowing same-site attackers to change a victim administrator's default user list view by embedding a specially crafted URL. The Set as Default control named set_default in Admin CP, Users & Groups, Users, View Manager changes the administrator's default view on GET requests without request forgery protection. The uniquely identifying implementation details include Users & Groups → Users → View Manager, and admin/inc/functions_view_manager.php. This issue is fixed in version 1.8.40.",
-      "severity": 3.5,
-      "fix_suggestion": "📦 受影响组件：mybb mybb\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/mybb/mybb/security/advisories/GHSA-m6hr-25cj-p58q",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/commit/736a2bcbc7cc104df8ae6c0a160aa3917a1ceec0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mybb/mybb/releases/tag/mybb_1840",
-          "type": "reference"
-        },
-        {
-          "url": "https://mybb.com/versions/1.8.40",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "mybb",
-          "product": "mybb",
-          "versions": [
-            {
-              "version": "< 1.8.40",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-352: Cross-Site Request Forgery (CSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-352"
-      ]
-    },
-    {
-      "id": "CVE-2026-15806",
-      "publishedDate": "2026-08-18T15:50:57.983Z",
-      "lastModifiedDate": "2026-08-18T15:50:57.983Z",
-      "description": "The HTTPPasswordMgr class in the urllib.request module, along with its subclasses HTTPPasswordMgrWithDefaultRealm and HTTPPasswordMgrWithPriorAuth, did not take the URL scheme into account when matching stored credentials against a requested URL. Credentials added for an https:// URL were also used for requests to the same host over http://, so an attacker able to redirect or downgrade a client to plain HTTP (for example, via an HTTPS-to-HTTP redirect or an on-path position) could capture credentials in cleartext. Credentials added for http:// URLs could likewise be sent over https://.\n\nCredential matching is now scoped by URL scheme. Credentials registered with a URL that includes a scheme are only used for requests with the same scheme. Credentials registered with a bare authority (such as example.com or example.com:8080) continue to match any scheme, preserving compatibility with existing code, including proxy authentication.\n\nUsers who cannot upgrade immediately can mitigate by ensuring that applications never make plain http:// requests to hosts for which credentials are registered, for example by not following redirects to http:// URLs.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Python Software Foundation CPython\n🔓 漏洞类型：CWE-319, CWE-522 (CWE-319, CWE-522)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/python/cpython/issues/155694",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/python/cpython/pull/155696",
-          "type": "reference"
-        },
-        {
-          "url": "https://mail.python.org/archives/list/security-announce@python.org/thread/3OKPE5S75KDNA7FY7AI3PL2MXM2X5RB3/",
+          "url": "https://developer.joomla.org/security-centre/1074-20260807-core-mfa-authentication-bypass.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "defaultStatus": "unaffected",
-          "product": "CPython",
-          "repo": "https://github.com/python/cpython",
-          "vendor": "Python Software Foundation",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
           "versions": [
             {
-              "lessThan": "3.16.0",
               "status": "affected",
-              "version": "0",
-              "versionType": "python"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-319",
-        "CWE-522"
-      ],
-      "cwe_ids": [
-        "CWE-319",
-        "CWE-522"
-      ]
-    },
-    {
-      "id": "CVE-2026-63328",
-      "publishedDate": "2026-08-18T15:14:21.879Z",
-      "lastModifiedDate": "2026-08-18T15:48:40.395Z",
-      "description": "Trivy is a security scanner. Prior to 0.72.0, plugin manifest metadata is used by pkg/plugin/manager.go to construct paths under ~/.trivy/plugins without confining plugin names to that root, allowing an attacker who persuades a user to install or run a malicious plugin to write the manifest and plugin binary to arbitrary user-writable paths, while plugins from the official Trivy plugin index are not affected. This issue is fixed in version 0.72.0.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：aquasecurity trivy\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/aquasecurity/trivy/security/advisories/GHSA-8rc5-4fr6-64pw",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/aquasecurity/trivy/commit/d4213d7735c74e57f06c02ccb39ebca67abc7959",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/aquasecurity/trivy/releases/tag/v0.72.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "aquasecurity",
-          "product": "trivy",
-          "versions": [
+              "version": "4.0.0-5.4.6"
+            },
             {
-              "version": "< 0.72.0",
-              "status": "affected"
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-287 Improper Authentication"
       ],
       "cwe_ids": [
-        "CWE-22"
+        "CWE-287"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-45532",
-      "publishedDate": "2026-08-18T12:53:14.147Z",
-      "lastModifiedDate": "2026-08-18T15:52:34.805Z",
-      "description": "DataEase is an open source data visualization and analysis tool. Versions prior to 2.10.23 have a path traversal vulnerability. The root cause is that on Windows, the `FILE_SEPARATOR` is `\\`, while the server only filters the `/` character during string truncation. The vulnerability has been fixed in v2.10.23. No known workarounds are available.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：dataease dataease\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73371",
+      "publishedDate": "2026-08-18T16:04:11.177Z",
+      "lastModifiedDate": "2026-08-18T16:25:38.136Z",
+      "description": "Joomla! Core - [20260808] - Improper ACL checks for batch copy actions in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to perform copy batch operations on uneditable items.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/dataease/dataease/security/advisories/GHSA-2mqc-w4hm-f3p9",
+          "url": "https://www.joomla.org/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/dataease/dataease/releases/tag/v2.10.23",
+          "url": "https://developer.joomla.org/security-centre/1075-20260808-core-improper-acl-checks-for-batch-copy-actions.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "dataease",
-          "product": "dataease",
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
           "versions": [
             {
-              "version": "< 2.10.23",
-              "status": "affected"
+              "status": "affected",
+              "version": "4.0.0-5.4.6"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-284 Improper Access Control"
       ],
       "cwe_ids": [
-        "CWE-22"
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-72532",
+      "publishedDate": "2026-08-18T16:03:44.540Z",
+      "lastModifiedDate": "2026-08-18T16:24:47.488Z",
+      "description": "Joomla! Core - [20260806] - Improper ACL checks for category webservice endpoints in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to create categories via webservices endpoints.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.joomla.org/",
+          "type": "reference"
+        },
+        {
+          "url": "https://developer.joomla.org/security-centre/1072-20260805-core-improper-acl-checks-for-category-webservice-endpoints.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.0-5.4.6"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284 Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-73373",
+      "publishedDate": "2026-08-18T16:03:43.586Z",
+      "lastModifiedDate": "2026-08-18T16:24:45.139Z",
+      "description": "Joomla! Core - [20260810] - Unrestricted uploads of SHTML files in Joomla 1.0.0-5.4.7, 6.0.0-6.1.2 - The default list of dangerous files did not include SHTML files. On servers that executed these files, that could lead to code execution.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.joomla.org/",
+          "type": "reference"
+        },
+        {
+          "url": "https://developer.joomla.org/security-centre/1077-20260810-core-unrestricted-uploads-of-shtml-files.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.0.0-5.4.6"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "unaffected",
+          "product": "Joomla! Framework Filesystem package",
+          "vendor": "Joomla! Project",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.0.0-3.3.0"
+            },
+            {
+              "status": "affected",
+              "version": "4.0.0-4.2.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+      ],
+      "cwe_ids": [
+        "CWE-434"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-74950",
-      "publishedDate": "2026-08-18T12:23:36.466Z",
-      "lastModifiedDate": "2026-08-18T15:53:10.491Z",
-      "description": "Privilege escalation in the Downloads API component. This vulnerability was fixed in Firefox 154 and Firefox ESR 153.1.",
+      "id": "CVE-2026-71574",
+      "publishedDate": "2026-08-18T16:02:54.574Z",
+      "lastModifiedDate": "2026-08-18T16:23:54.501Z",
+      "description": "Joomla! Core - [20260803] - Inconsistent ACL checks for mutating webservice endpoints in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to perform mutation actions in webservice endpoints, where the same mutation was restricted in the backend UI.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=1880253",
+          "url": "https://www.joomla.org/",
           "type": "reference"
         },
         {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-77/",
+          "url": "https://developer.joomla.org/security-centre/1070-20260803-core-inconsistent-acl-checks-for-mutating-webservice-endpoints.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "product": "Firefox",
-          "vendor": "Mozilla",
+          "defaultStatus": "unaffected",
+          "product": "Joomla! CMS",
+          "vendor": "Joomla! Project",
           "versions": [
             {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
+              "status": "affected",
+              "version": "4.0.0-5.4.6"
             },
             {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-74947",
-      "publishedDate": "2026-08-18T12:23:36.203Z",
-      "lastModifiedDate": "2026-08-18T15:54:41.344Z",
-      "description": "Privilege escalation due to invalid pointer in the Graphics component. This vulnerability was fixed in Firefox 154 and Firefox ESR 153.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2060010",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-77/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-74939",
-      "publishedDate": "2026-08-18T12:23:28.208Z",
-      "lastModifiedDate": "2026-08-18T15:50:23.859Z",
-      "description": "Privilege escalation in the DOM: Navigation component. This vulnerability was fixed in Firefox 154, Firefox ESR 115.39, Firefox ESR 140.14, and Firefox ESR 153.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2054416",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-75/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-76/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-77/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "115.39",
-              "lessThanOrEqual": "115.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "140.14",
-              "lessThanOrEqual": "140.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-74935",
-      "publishedDate": "2026-08-18T12:23:27.630Z",
-      "lastModifiedDate": "2026-08-18T15:49:06.078Z",
-      "description": "Privilege escalation in the DOM: Networking component. This vulnerability was fixed in Firefox 154, Firefox ESR 115.39, Firefox ESR 140.14, and Firefox ESR 153.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2051013",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-75/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-76/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-77/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "115.39",
-              "lessThanOrEqual": "115.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "140.14",
-              "lessThanOrEqual": "140.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-67854",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:46:23.333Z",
-      "description": "SQL Injection vulnerability in Qcms v.6.0.6 allows a remote attacker to execute arbitrary code",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://jiuzero.github.io/2026/07/04/QCMS-tableField-Action-Backend-SQL-Injection-Vulnerability-White-box-Audit-Report?PASSWORD=cve520cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
+              "status": "affected",
+              "version": "6.0.0-6.1.2"
             }
           ]
         }
       ],
       "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67917",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:55:00.773Z",
-      "description": "zuraCast versions up to and including 0.23.7 contain a SQL injection vulnerability in the backup restore functionality. The `azuracast:restore` command executes the `db.sql` file extracted from a backup archive without any content validation or sanitization. This allows a remote attacker to escalate privileges",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/luoxuanxi/SQL-Injection-PoC",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/luoxuanxi/SQL-Injection-PoC/tree/main/SQL-Injection-PoC",
-          "type": "reference"
-        }
+        "CWE-284 Improper Access Control"
       ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67868",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:42:24.474Z",
-      "description": "A heap-based out-of-bounds write vulnerability exists in S2OPC 1.7.3 in server-side EventFilter handling during CreateMonitoredItems processing. This allows a remote attacker to execute arbitrary code.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/gff-cw/information/issues/16",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/systerel/S2OPC/tree/S2OPC_Toolkit_1.7.3/samples/ClientServer/demo_server_alarms",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/systerel/S2OPC/blob/b4c5c7d63cd69698461d514b905a7c92b3c377c4/src/ClientServer/services/b2c/monitored_item_event_filter_where_clause_bs.c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/systerel/S2OPC/blob/b4c5c7d63cd69698461d514b905a7c92b3c377c4/src/ClientServer/services/b2c/monitored_item_event_filter_treatment_bs.c",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.com/systerel/S2OPC/-/work_items/1779",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67925",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:53:31.421Z",
-      "description": "Cross Site Scripting vulnerability in JeecgBoot v.3.9.2 allows a remote attacker to execute arbitrary code via the endpoint /airag/chat/upload",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/jeecgboot/JeecgBoot/issues/9773",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67967",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:50:03.014Z",
-      "description": "Buffer Overflow vulnerability in Tenda W20E V16.01.0.6(2782) allows an attacker to execute arbitrary code. This is an incomplete fix for CVE-2025-44867 and CVE-2026-36819",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/H0111mes/Tenda-W20E-Vulnerability-Disclosure",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67966",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:52:41.425Z",
-      "description": "Tenda W20E V16.01.0.6(2782) /goform/telnet endpoint allows unauthenticated remote attackers to activate the Telnet daemon and obtain root shell access.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/H0111mes/Tenda-W20E-Vulnerability-Disclosure",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
-      ]
-    },
-    {
-      "id": "CVE-2026-67918",
-      "publishedDate": "2026-08-17T00:00:00.000Z",
-      "lastModifiedDate": "2026-08-18T15:45:14.997Z",
-      "description": "Directory Traversal vulnerability in hermes-studio v.0.6.26 allows a remote attacker to obtain sensitive information via the validatePath function in api/hermes/download endpoint",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/luoxuanxi/cve/tree/main/cve-hermes-studio-afr",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "n/a",
-          "versions": [
-            {
-              "version": "n/a",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "n/a"
+      "cwe_ids": [
+        "CWE-284"
       ]
     }
   ]
