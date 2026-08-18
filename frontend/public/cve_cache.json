@@ -2,442 +2,209 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 38,
-    "last_updated": "2026-08-18T19:17:15.209117",
+    "total_count": 26,
+    "last_updated": "2026-08-18T19:44:35.433979",
     "severity_distribution": {
-      "critical": 2,
-      "high": 12,
-      "medium": 10,
+      "critical": 1,
+      "high": 10,
+      "medium": 7,
       "low": 0,
-      "none": 14
+      "none": 8
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-67271",
-      "publishedDate": "2026-08-18T16:44:13.150Z",
-      "lastModifiedDate": "2026-08-18T19:09:49.433Z",
-      "description": "Dell PowerStore SDNAS, contains an Out-of-bounds Write vulnerability in the SMB/CIFS. An unauthenticated attacker with remote access could potentially exploit this vulnerability, leading to Denial of service and Remote execution. This is a Critical vulnerability as a remote user could send a specially crafted SMB packet and cause a crash, that is persistent in case automatic restarts are enabled. Additionally, a more sophisticated attacker could use the same vulnerability for Remote Code execution.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：Dell PowerStore 500T\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-55166",
+      "publishedDate": "2026-08-18T18:51:41.495Z",
+      "lastModifiedDate": "2026-08-18T19:34:19.740Z",
+      "description": "Lemur manages TLS certificate creation. Prior to 1.9.2, authenticated users could influence an ACME authority acme_url without an effective server-side destination restriction and trigger AcmeHandler.setup_acme_client to make backend requests. An attacker could target cloud instance metadata or internal services from Lemur network context, potentially obtaining credentials available to the host. The advisory also identifies creator-equality authorization behavior that could preserve access to certificate key material after ownership or role changes, with insufficient export_private_key audit context to distinguish that access path. Together, the acme_url server-side request forgery and authorization weakness could expose cloud credentials and long-lived PKI private-key access. The fix adds ACME_DIRECTORY_HOST_ALLOWLIST validation and enriches key-export audit events with creator and current-owner context. This issue is fixed in version 1.9.2.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：CWE-285, CWE-639, Server-Side Request Forgery (SSRF) (CWE-285, CWE-639, CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.dell.com/support/kbdoc/en-us/000497829/dsa-2026-330-dell-powerstore-t-security-update-for-multiple-vulnerabilities",
+          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-v2wp-frmc-5q3v",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Netflix/lemur/commit/872f6e282542352f2bf3f6e2bcc504ab81e1843d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Dell",
-          "product": "PowerStore 500T",
+          "vendor": "Netflix",
+          "product": "lemur",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 1000T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 1200T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 3000T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 3200Q",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 3200T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 5000T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 5200Q",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 5200T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 7000T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 9000T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Dell",
-          "product": "PowerStore 9200T",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "5.0.0.2-2761110 or later",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-787: Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-75625",
-      "publishedDate": "2026-08-18T17:56:54.292Z",
-      "lastModifiedDate": "2026-08-18T19:06:15.419Z",
-      "description": "Kraken agents fail to verify peer-to-peer downloaded blobs against their requested SHA-256 digest before committing to the content-addressable cache, relying only on CRC32 checksums for piece validation. Attackers on the agent-to-agent path or malicious peers can supply substituted content with forged CRC32 corrections that passes per-piece checks, poisoning the cache with attacker-chosen container image layers or manifests that are re-seeded and executed by other hosts.",
-      "severity": 9,
-      "fix_suggestion": "📦 受影响组件：uber kraken\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/uber/kraken/issues/638",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/uber/kraken",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/uber/kraken/blob/master/lib/torrent/storage/agentstorage/torrent.go",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/kraken-agents-peer-to-peer-download-cache-poisoning-via-digest-verification-bypass",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "uber",
-          "product": "kraken",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/uber/kraken",
-          "repo": "https://github.com/uber/kraken",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "0.1.27",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Validation of Integrity Check Value"
-      ]
-    },
-    {
-      "id": "CVE-2026-49221",
-      "publishedDate": "2026-08-18T15:57:45.748Z",
-      "lastModifiedDate": "2026-08-18T19:00:38.834Z",
-      "description": "Vvveb is a powerful and easy to use CMS with page builder to build websites, blogs or ecommerce stores. Prior to 1.0.8.4, Vvveb backend digital asset operations allow a low-privileged Vendor to access digital assets linked to another Vendor's products. The admin/controller/product/digital-asset.php and admin/controller/product/digital-assets.php controllers and the admin/sql/sqlite/digital_asset.sql data queries use a caller-controlled digital_asset_id without consistently enforcing the current admin_id ownership boundary. An attacker can list assets, read asset names and file metadata, edit asset metadata, or delete asset records, which can disclose private product metadata, corrupt resource links, and cause data loss. This issue is fixed in version 1.0.8.4.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：givanz Vvveb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/givanz/Vvveb/security/advisories/GHSA-chpc-xj4m-9g3j",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/givanz/Vvveb/commit/0463ae60cda5085238b380bf53780ccf4be5dd50",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/givanz/Vvveb/releases/tag/1.0.8.4",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "givanz",
-          "product": "Vvveb",
-          "versions": [
-            {
-              "version": "< 1.0.8.4",
+              "version": "< 1.9.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
+        "CWE-285: Improper Authorization",
+        "CWE-639: Authorization Bypass Through User-Controlled Key",
+        "CWE-918: Server-Side Request Forgery (SSRF)"
       ],
       "cwe_ids": [
-        "CWE-639"
-      ]
+        "CWE-285",
+        "CWE-639",
+        "CWE-918"
+      ],
+      "ghsa_id": "GHSA-v2wp-frmc-5q3v"
     },
     {
-      "id": "CVE-2026-75926",
-      "publishedDate": "2026-08-18T15:47:49.048Z",
-      "lastModifiedDate": "2026-08-18T19:05:00.939Z",
-      "description": "Hugo 0.161.0 placed the Node asset pipelines behind the Node.js permission model so that code running through PostCSS, Babel, or TailwindCSS could not reach the file system outside the project directory. Hugo 0.162.0 added tailwindcss to the AllowChildProcess default in config/security/securityConfig.go, which makes nodePermissionArgs in common/hexec/exec.go append --allow-child-process whenever the tool being launched is named tailwindcss. TailwindCSS loads the site's tailwind.config.js through require at startup, so top-level code in that file executes inside the permitted Node process and can call child_process to spawn a shell. The spawned process is not a Node process and inherits none of the permission flags, so it runs with the full privileges of the account performing the build. Building a site whose theme, module, or starter template supplies the Tailwind configuration therefore yields arbitrary command execution rather than the confined file access the permission model was introduced to enforce. Hugo 0.165.0 removes tailwindcss from the default security.exec.allow list, so the tool is no longer launched under the default configuration.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：gohugoio hugo\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-48508",
+      "publishedDate": "2026-08-18T18:03:08.944Z",
+      "lastModifiedDate": "2026-08-18T19:31:21.754Z",
+      "description": "Lemur manages TLS certificate creation. Prior to 1.9.1, StrictRolePermission and AuthorityCreatorPermission in lemur/auth/permissions.py call flask_principal.Permission.__init__() with zero Need objects when ADMIN_ONLY_AUTHORITY_CREATION and LEMUR_STRICT_ROLE_ENFORCEMENT are unset because both flags default to False. Flask-Principal Permission.allows() returns True when self.needs is empty, so the .can() authorization gate permits every authenticated identity, including the read-only role. A read-only user can access POST /api/1/authorities, POST /api/1/certificates/upload, POST /api/1/pending_certificates//upload, POST /api/1/notifications, PUT or DELETE /api/1/notifications/, and POST /api/1/domains to create root Certificate Authorities, upload arbitrary certificates, create or edit notifications that reach an SSRF sink, and create domain entries. Explicitly setting either flag to False continues to opt into the permissive behavior. This issue is fixed in version 1.9.1.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/gohugoio/hugo/commit/8a55df7af2e6da31297245cc54fa2e3b521d93e8",
+          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-qcqw-jwxc-2hqg",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gohugoio/hugo/issues/15178",
+          "url": "https://github.com/Netflix/lemur/commit/e6a41e2c1b2028840d19039b06895524a19ad36f",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gohugoio/hugo/blob/v0.164.0/config/security/securityConfig.go#L72-L79",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gohugoio/hugo/blob/v0.164.0/common/hexec/exec.go#L292-L295",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gohugoio/hugo",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/hugo-to-x-node-permission-model-bypass-via-default-tailwindcss-child-process-grant",
+          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "gohugoio",
-          "product": "hugo",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/gohugoio/hugo",
+          "vendor": "Netflix",
+          "product": "lemur",
           "versions": [
             {
-              "version": "0.162.0",
+              "version": "< 1.9.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ],
+      "ghsa_id": "GHSA-qcqw-jwxc-2hqg"
+    },
+    {
+      "id": "CVE-2026-14279",
+      "publishedDate": "2026-08-15T06:38:10.106Z",
+      "lastModifiedDate": "2026-08-18T19:33:27.928Z",
+      "description": "The Wholesale Market plugin for WordPress is vulnerable to privilege escalation in versions up to, and including, 2.2.2 via the ced_wholesale_request_send AJAX action. The ced_wholesale_request_send_callback() handler only verifies a nonce (which is exposed to any authenticated user through wp_localize_script on the frontend) and that the caller has a positive user ID, then calls WP_User::add_role() with the client-supplied role_required POST parameter without restricting the value to an allowlist of wholesale roles. This makes it possible for authenticated attackers, with Subscriber-level access and above, to elevate their privileges to Administrator when the site administrator has enabled the 'Assigning requested role directly' option.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：cedcommerce Wholesale Market\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/abd59d7a-e7f6-440d-9c2a-00266c0dcbff?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wholesale-market/tags/2.2.2/addons/wholesale-request/include/class-wholesale-user-register-addon.php#L141",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wholesale-market/tags/2.2.2/addons/wholesale-request/include/class-wholesale-user-register-addon.php#L153",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wholesale-market/tags/2.2.2/addons/wholesale-request/include/class-wholesale-user-register-addon.php#L276",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wholesale-market/tags/2.2.2/addons/wholesale-request/include/class-wholesale-user-register-addon.php#L30",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "cedcommerce",
+          "product": "Wholesale Market",
+          "versions": [
+            {
+              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.165.0"
+              "lessThanOrEqual": "2.2.2",
+              "versionType": "semver"
             }
           ],
-          "repo": "https://github.com/gohugoio/hugo"
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Initialization of a Resource with an Insecure Default"
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
       ]
     },
     {
-      "id": "CVE-2026-75856",
-      "publishedDate": "2026-08-18T15:21:55.627Z",
-      "lastModifiedDate": "2026-08-18T19:02:07.303Z",
-      "description": "CodeWhale before 0.8.64 contains a server-side request forgery bypass vulnerability in DNS pinning logic that fails to prevent time-of-check-time-of-use attacks. Attackers can manipulate DNS responses to fail initial resolution checks and succeed on secondary requests, allowing requests to internal IP addresses and bypassing SSRF mitigations.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：Hmbown CodeWhale\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-15312",
+      "publishedDate": "2026-08-15T02:26:15.792Z",
+      "lastModifiedDate": "2026-08-18T19:35:33.073Z",
+      "description": "The Propovoice: All-in-One Client Management System plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 1.7.8. This is due to the `create()` function's REST endpoint failing to validate the user-supplied `role` parameter against an allowlist of permitted WordPress roles and omitting any `promote_users` capability check before passing the sanitized value directly to `WP_User::set_role()`. This makes it possible for authenticated attackers with `ndpv_manager`-level access and above to create a new WordPress user account with the `administrator` role assigned, achieving full vertical privilege escalation. The `ndpv_manager` capability is a sub-administrator CRM team role granted by Propovoice itself, meaning the attack surface extends beyond site administrators to any user the plugin has elevated to a manager position.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：fassionstorage Propovoice: All-in-One Client Management System\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Hmbown/CodeWhale/security/advisories/GHSA-6v2g-fpxh-pmmh",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/6a39e4d4-890d-46f9-8bb9-0fc858e6f1e2?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Hmbown/CodeWhale/commit/26de44a8bd5051f8f944ea60b2c37ae1d2b7d25e",
+          "url": "https://plugins.trac.wordpress.org/browser/propovoice/trunk/includes/Api/Type/Team.php#L219",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/codewhale-before-ssrf-bypass-via-dns-pinning-toctou",
+          "url": "https://plugins.trac.wordpress.org/browser/propovoice/trunk/includes/Api/Type/Team.php#L169",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/propovoice/trunk/includes/Api/Type/Team.php#L423",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/propovoice/trunk/includes/Api/Type/Team.php#L38",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/deepseek-tui",
+          "vendor": "fassionstorage",
+          "product": "Propovoice: All-in-One Client Management System",
           "versions": [
             {
-              "version": "0.8.5",
+              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.41"
-            },
-            {
-              "version": "0.8.41",
-              "status": "unaffected",
+              "lessThanOrEqual": "1.7.8",
               "versionType": "semver"
             }
-          ]
-        },
-        {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/deepseek-tui",
-          "versions": [
-            {
-              "version": "0.8.5",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.41"
-            },
-            {
-              "version": "0.8.41",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/codewhale-tui",
-          "versions": [
-            {
-              "version": "0.8.41",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.64"
-            },
-            {
-              "version": "0.8.64",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/codewhale",
-          "versions": [
-            {
-              "version": "0.8.41",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.64"
-            },
-            {
-              "version": "0.8.64",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery (SSRF)"
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
       ]
     },
     {
       "id": "CVE-2026-71308",
       "publishedDate": "2026-08-18T19:00:40.503Z",
-      "lastModifiedDate": "2026-08-18T19:00:40.503Z",
+      "lastModifiedDate": "2026-08-18T19:34:59.015Z",
       "description": "Lemur manages TLS certificate creation. From 0.5.0 until 1.9.3, certificate create, upload, and edit requests accepted replaces[] or replacements identifiers that AssociatedCertificateSchema resolved with fetch_objects without a CertificatePermission check. Assigning those objects to Certificate.replaces invoked an append listener that disabled the victim certificate notifications and marked it as replaced. The victim was then excluded from get_all_pending_reissue, and certificate_rotate could deploy the attacker certificate to endpoints serving the victim. An authenticated non-read-only user could target certificates for which the user had no ownership or role, suppress lifecycle automation, and cause fleet-wide TLS disruption or unauthorized substitution. The fix authorizes every referenced replacement certificate before mutation. This issue is fixed in version 1.9.3.",
       "severity": 8.1,
       "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：CWE-639, Missing Authorization (CWE-639, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -477,136 +244,37 @@
       ]
     },
     {
-      "id": "CVE-2026-75911",
-      "publishedDate": "2026-08-18T15:21:59.493Z",
-      "lastModifiedDate": "2026-08-18T19:07:21.514Z",
-      "description": "CodeWhale versions before 0.8.64 fail to properly validate the allow_shell configuration parameter from project config files, allowing attackers to enable arbitrary shell command execution by committing a malicious .codewhale/config.toml file to a repository. When a user clones and opens the repository in CodeWhale, the AI model gains access to exec_shell and task_shell tools, enabling execution of arbitrary shell commands on the victim's machine without explicit user consent.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Hmbown CodeWhale\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-50143",
+      "publishedDate": "2026-08-18T17:51:18.888Z",
+      "lastModifiedDate": "2026-08-18T19:30:31.747Z",
+      "description": "The Apify MCP server enables AI agents to extract data from websites using ready-made scrapers, crawlers, and automation tools available on the Apify Store. Prior to 0.10.11, getActorMCPServerURL in src/mcp/actors.ts concatenates the trusted Actor standby URL with the attacker-controlled webServerMcpPath from an Actor definition without verifying the resulting origin, allowing a malicious Actor publisher to use a userinfo-style authority value to redirect connectMCPClient to a third-party host. The call-actor, fetch-actor-details, and actor-mcp tool-loading paths pass this URL to transports in src/mcp/client.ts that attach the victim Authorization bearer token, exposing the Apify API token and enabling access to Actors, stored data, and billable compute. A victim must invoke or inspect the attacker-controlled Actor. This issue is fixed in version 0.10.11.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：apify apify-mcp-server\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Hmbown/CodeWhale/security/advisories/GHSA-gx45-xrj5-g6c4",
+          "url": "https://github.com/apify/apify-mcp-server/security/advisories/GHSA-6gr2-qh89-hxwm",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Hmbown/CodeWhale/commit/43563356b98c6b993085554da82e77370160a31c",
+          "url": "https://github.com/apify/apify-mcp-server/pull/927",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/codewhale-before-remote-code-execution-via-allow-shell",
+          "url": "https://github.com/apify/apify-mcp-server/commit/ef686d77da3d3c86c30b2ae24218d756aa38e09c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apify/apify-mcp-server/releases/tag/v0.10.11",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/deepseek-tui",
+          "vendor": "apify",
+          "product": "apify-mcp-server",
           "versions": [
             {
-              "version": "0.8.6",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.41"
-            },
-            {
-              "version": "0.8.41",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/deepseek-tui",
-          "versions": [
-            {
-              "version": "0.8.6",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.41"
-            },
-            {
-              "version": "0.8.41",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/codewhale-tui",
-          "versions": [
-            {
-              "version": "0.8.41",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.64"
-            },
-            {
-              "version": "0.8.64",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "Hmbown",
-          "product": "CodeWhale",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/codewhale",
-          "versions": [
-            {
-              "version": "0.8.41",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.8.64"
-            },
-            {
-              "version": "0.8.64",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Control of Generation of Code ('Code Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-71303",
-      "publishedDate": "2026-08-18T19:03:55.524Z",
-      "lastModifiedDate": "2026-08-18T19:03:55.524Z",
-      "description": "Lemur manages TLS certificate creation. Prior to 1.9.3, _validate_acme_url enforced ACME_DIRECTORY_HOST_ALLOWLIST when an authority was created, but PUT /api/1/authorities/ passed options to lemur/authorities/service.py without applying the same check. A user holding an authority role could replace the stored acme_url with an internal service or instance-metadata URL such as 169.254.169.254. The next issuance operation loaded that value and passed it to ClientV2.get_directory, causing an outbound request from the Lemur backend. This bypassed the creation-time mitigation for CVE-2026-55166 and could expose internal services or cloud metadata. The fix revalidates acme_url whenever authority options are updated. This issue is fixed in version 1.9.3.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-v5rc-cpwc-cfpr",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/commit/edca0390f930344d65ff4ca37a669c2320e3dfad",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Netflix",
-          "product": "lemur",
-          "versions": [
-            {
-              "version": "< 1.9.3",
+              "version": "< 0.10.11",
               "status": "affected"
             }
           ]
@@ -617,12 +285,13 @@
       ],
       "cwe_ids": [
         "CWE-918"
-      ]
+      ],
+      "ghsa_id": "GHSA-6gr2-qh89-hxwm"
     },
     {
       "id": "CVE-2026-71307",
       "publishedDate": "2026-08-18T19:02:14.056Z",
-      "lastModifiedDate": "2026-08-18T19:02:14.056Z",
+      "lastModifiedDate": "2026-08-18T19:35:04.763Z",
       "description": "Lemur manages TLS certificate creation. Prior to 1.9.3, GET /api/1/destinations and GET /api/1/destinations/ relied only on authentication while sibling write handlers required admin_permission. DestinationOutputSchema returned raw options and copied them into pluginOptions without redacting sensitive values. The sftp-destination plugin stored password and privateKeyPass values in plaintext, allowing even a read-only user to retrieve credentials for remote certificate-deployment hosts. The exposed credentials could permit direct access to SFTP systems and TLS material outside the Lemur security boundary. The fix requires administrator permission for destination reads and redacts options marked sensitive. This issue is fixed in version 1.9.3.",
       "severity": 7.7,
       "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -660,199 +329,27 @@
       ]
     },
     {
-      "id": "CVE-2026-49223",
-      "publishedDate": "2026-08-18T16:18:09.914Z",
-      "lastModifiedDate": "2026-08-18T19:08:27.948Z",
-      "description": "Vvveb is a powerful and easy to use CMS with page builder to build websites, blogs or ecommerce stores. Prior to 1.0.8.4, Vvveb backend product review operations allow a low-privileged Vendor to manage reviews under another Vendor's products. The admin/sql/sqlite/product_review.sql queries accept a caller-controlled product_review_id and do not verify product_review.product_id against product.admin_id for the current admin_id. An attacker can read pending review content, ratings, author information, and moderation state, change review status, edit review content, or delete reviews, manipulating product review visibility and integrity. This issue is fixed in version 1.0.8.4.",
-      "severity": 7.6,
-      "fix_suggestion": "📦 受影响组件：givanz Vvveb\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75935",
+      "publishedDate": "2026-08-18T19:33:46.609Z",
+      "lastModifiedDate": "2026-08-18T19:33:46.609Z",
+      "description": "Uncontrolled memory allocation in the binary Ion stream cursor in Amazon ion-java before 1.12.0 might allow remote actors to cause a denial of service via a crafted Ion binary document containing a declared-length field that causes excessive heap preallocation.\n\n\n\nTo remediate this issue, users should upgrade to version 1.12.0.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Amazon Ion Amazon Ion Java\n🔓 漏洞类型：CWE-789 (CWE-789)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/givanz/Vvveb/security/advisories/GHSA-cj37-c5m2-3jmc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/givanz/Vvveb/commit/3d5c15dcf4b50e4580161f05cb9e643d834d044a",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/givanz/Vvveb/releases/tag/1.0.8.4",
+          "url": "https://github.com/amazon-ion/ion-java/releases/tag/v1.12.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "givanz",
-          "product": "Vvveb",
-          "versions": [
-            {
-              "version": "< 1.0.8.4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-70666",
-      "publishedDate": "2026-08-18T19:05:26.621Z",
-      "lastModifiedDate": "2026-08-18T19:05:26.621Z",
-      "description": "Lemur manages TLS certificate creation. Prior to 1.9.3, an authority-role member could update acme_url through PUT /api/1/authorities/ without revalidation and direct setup_acme_client_no_retry to an attacker-controlled ACME server. ACME directory and order responses contain newNonce, newOrder, authorizations, and finalize URLs chosen by that server. The Lemur ClientV2 followed those URLs without requiring their host to match the configured directory host, allowing JWS-signed requests to internal services or cloud metadata endpoints. The issue required an ACME authority and a user authorized for that authority, but did not require global administrator privileges. The fix revalidates updates and introduces _PinnedClientNetwork to enforce a single allowed host for the complete ACME flow. This issue is fixed in version 1.9.3.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-xpmj-wjcp-6pww",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/commit/6dcb19b6d6004e97796d6a0344b130b2ba57f050",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Netflix",
-          "product": "lemur",
-          "versions": [
-            {
-              "version": "< 1.9.3",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ]
-    },
-    {
-      "id": "CVE-2026-71417",
-      "publishedDate": "2026-08-18T19:12:16.427Z",
-      "lastModifiedDate": "2026-08-18T19:12:16.427Z",
-      "description": "Lemur manages TLS certificate creation. Prior to 1.9.3, POST /api/1/certificates/upload allowed a non-read-only user to create a duplicate row using another certificate body, authority_id, serial, or external_id without requiring permission on the underlying authority. PUT /api/1/certificates//revoke authorized the caller against only the selected Lemur row, so the creator of the duplicate bypassed CertificatePermission. The duplicate had no cert.endpoints, which also bypassed the safeguard that prevents revocation of deployed certificates. Issuer plugins then revoked the real CA-side certificate using certificate.body or external_id under the stored authority credentials. An attacker could therefore revoke arbitrary managed certificates and cause fleet-wide TLS denial of service. The fix rejects duplicate authority_id and serial identities, requires authority access on upload, and checks every matching row during revocation. This issue is fixed in version 1.9.3.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-pxmc-2ffp-8j67",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/commit/851389ae737a6d6bf16c1f9ca64a2ce56c1cc5c6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Netflix",
-          "product": "lemur",
-          "versions": [
-            {
-              "version": "< 1.9.3",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-50576",
-      "publishedDate": "2026-08-18T16:49:43.358Z",
-      "lastModifiedDate": "2026-08-18T19:07:45.151Z",
-      "description": "ePA 3.x Integration implements the authorization workflow and writes Medical Information Objects to Germany's electronic patient record. Prior to 1.3.0, ePA 3.x Integration does not neutralize CRLF characters in values used by app/vau/VAUProtokoll.py to construct VAU inner HTTP requests. The build_inner_header function interpolates the uri, host, accept_type, content_type, content_length, USER_AGENT, and insurant_id values into request lines and headers, including x-useragent and x-insurantid. An authenticated attacker who controls a value can inject additional headers into the inner request. Depending on ePA server handling, an injected x-insurantid header can expose another patient's records, and injected Authorization headers can bypass the intended authentication or authorization context. Session-derived USER_AGENT input can also poison requests across the session. This issue is fixed in version 1.3.0.",
-      "severity": 6.8,
-      "fix_suggestion": "📦 受影响组件：fbeta-GmbH ePA3-Service-OpenSource\n🔓 漏洞类型：CWE-113 (CWE-113)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/fbeta-GmbH/ePA3-Service-OpenSource/security/advisories/GHSA-j8jg-7fqf-4xx9",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/fbeta-GmbH/ePA3-Service-OpenSource/pull/11",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/fbeta-GmbH/ePA3-Service-OpenSource/commit/b984d15d261423302de337adae25e84c54e9c2d1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/fbeta-GmbH/ePA3-Service-OpenSource/releases/tag/1.3.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.machinespirits.de/advisory/013a60",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "fbeta-GmbH",
-          "product": "ePA3-Service-OpenSource",
-          "versions": [
-            {
-              "version": "< 1.3.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-113: Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Request/Response Splitting')"
-      ],
-      "cwe_ids": [
-        "CWE-113"
-      ]
-    },
-    {
-      "id": "CVE-2026-19671",
-      "publishedDate": "2026-08-18T19:11:58.230Z",
-      "lastModifiedDate": "2026-08-18T19:11:58.230Z",
-      "description": "Malcolm's upload-processing pipeline (scripts/safe-extract.py) enforces entry-count, nesting-depth, and total-uncompressed-byte limits when extracting container archives (zip/tar/rar/7z via libarchive), but those limits are not applied when the uploaded file is a single-stream compressed format (.gz, .bz2, .xz, .lzma, .lz) that isn't a .tar.*-style archive. Any authenticated user permitted to upload PCAP/log files can upload a small, highly compressible file (e.g. a gzip bomb) that decompresses to an effectively unbounded size on disk, exhausting the shared Docker volume used by OpenSearch, Logstash, Arkime, and Zeek, and disrupting the platform for all users.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：CISAgov Malcolm\n🔓 漏洞类型：CWE-409 (CWE-409)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-230-01",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/cisagov/Malcolm/security/advisories/GHSA-f2v6-8cj4-mhr6",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "CISAgov",
-          "product": "Malcolm",
+          "vendor": "Amazon Ion",
+          "product": "Amazon Ion Java",
           "versions": [
             {
               "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "26.07.1",
+              "version": "1.9.0",
+              "lessThan": "1.12.0",
               "versionType": "custom"
             }
           ],
@@ -860,151 +357,428 @@
         }
       ],
       "problemType": [
-        "CWE-409 Improper handling of highly compressed data (data amplification)"
+        "CWE-789 Memory allocation with excessive size value"
       ],
       "cwe_ids": [
-        "CWE-409"
+        "CWE-789"
       ]
     },
     {
-      "id": "CVE-2026-71317",
-      "publishedDate": "2026-08-18T19:06:27.618Z",
-      "lastModifiedDate": "2026-08-18T19:06:27.618Z",
-      "description": "Lemur manages TLS certificate creation. Prior to 1.9.3, POST /api/1/authorities with type=subca did not require AuthorityPermission on the parent authority when ADMIN_ONLY_AUTHORITY_CREATION was false. AssociatedAuthoritySchema resolved the caller-supplied parent and passed it through authority creation to cryptography-issuer, which used the parent authority_certificate.private_key to sign a new intermediate. Any authenticated non-read-only user in that supported configuration could chain a sub-CA to an internal root for which the user held no role. The resulting intermediate could issue trusted certificates and its private key could be used outside Lemur, bypassing normal issuance controls. The fix checks AuthorityPermission on every supplied parent before invoking the issuer. This issue is fixed in version 1.9.3.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-16145",
+      "publishedDate": "2026-08-15T03:25:59.974Z",
+      "lastModifiedDate": "2026-08-18T19:38:54.953Z",
+      "description": "The Invisible Anti-Spam & CAPTCHA — reCAPTCHA Alternative for All Forms plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'action' parameter in all versions up to, and including, 5.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The stored payload is written by any unauthenticated admin-ajax.php request whose action value matches an entry in the plugin's explicit-actions list, which is auto-populated for common form builders at activation and requires no authentication gate to reach the save path.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：matthiasnordwig Invisible Anti-Spam & CAPTCHA — reCAPTCHA Alternative for All Forms\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-g7p5-89mh-248h",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/ff1d2bd8-cc46-4763-8ba7-832b982ff56a?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Netflix/lemur/commit/8669011203ca3dd89d9e39bab9ef6850eca723f9",
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-compliant-recaptcha-for-all-forms/tags/5.0/includes/class-message-page.php#L621",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.3",
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-compliant-recaptcha-for-all-forms/tags/5.0/includes/class-stamp.php#L136",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-compliant-recaptcha-for-all-forms/tags/5.0/includes/class-stamp.php#L771",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3633500/gdpr-compliant-recaptcha-for-all-forms",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Netflix",
-          "product": "lemur",
+          "vendor": "matthiasnordwig",
+          "product": "Invisible Anti-Spam & CAPTCHA — reCAPTCHA Alternative for All Forms",
           "versions": [
             {
-              "version": "< 1.9.3",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-75876",
-      "publishedDate": "2026-08-18T19:15:09.296Z",
-      "lastModifiedDate": "2026-08-18T19:15:09.296Z",
-      "description": "A security vulnerability has been detected in xianrendzw EasyReport up to 2.0.17.0522_Beta. Affected by this issue is some unknown functionality of the file ModuleController.java of the component Move Operations. Such manipulation of the argument sourcePath leads to sql injection. The attack may be performed from remote. The exploit has been disclosed publicly and may be used. The project was informed of the problem early through an issue report but has not responded yet.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：xianrendzw EasyReport\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/391569",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/391569/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-75876",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/877794",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/xianrendzw/EasyReport/issues/84",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/xianrendzw/EasyReport/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "xianrendzw",
-          "product": "EasyReport",
-          "versions": [
-            {
-              "version": "2.0.17.0522_Beta",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:xianrendzw:easyreport:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Move Operations"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ]
-    },
-    {
-      "id": "CVE-2026-19670",
-      "publishedDate": "2026-08-18T19:06:44.659Z",
-      "lastModifiedDate": "2026-08-18T19:06:44.659Z",
-      "description": "Malcolm's nginx Lua role-based access control (RBAC) layer decides whether an authenticated user may reach a role-restricted path (e.g. /htadmin, /auth, /admin_login, /arkime/api/esadmin, NetBox, upload endpoints) by pattern-matching the raw, percent-encoded request URI. Nginx itself, however, selects which location block actually serves the request using the percent-decoded, normalized URI. Because the RBAC check never percent-decodes its input, an authenticated low-privilege user can request an admin-only path using percent-encoding (e.g. /%68tadmin.php) and have nginx route it to the restricted location while the Lua RBAC gate evaluating the un-decoded raw string finds no matching restriction and grants access.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：CISAgov Malcolm\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-230-01",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/cisagov/Malcolm/security/advisories/GHSA-f2v6-8cj4-mhr6",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "CISAgov",
-          "product": "Malcolm",
-          "versions": [
-            {
-              "status": "affected",
               "version": "0",
-              "lessThanOrEqual": "26.07.1",
-              "versionType": "custom"
+              "status": "affected",
+              "lessThanOrEqual": "5.1",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-863 Incorrect Authorization"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-863"
+        "CWE-79"
       ]
+    },
+    {
+      "id": "CVE-2026-13360",
+      "publishedDate": "2026-08-15T03:25:59.613Z",
+      "lastModifiedDate": "2026-08-18T19:34:40.413Z",
+      "description": "The Cookie Banner for GDPR / CCPA – WPLP Cookie Consent plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'regionArray' parameter in all versions up to, and including, 4.3.5 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. Successful exploitation requires that the site administrator has enabled the 'Support Google Consent Mode (GCM)' setting, which is disabled by default. Additionally, the AJAX handler performs no nonce or capability check, allowing any authenticated user including those with Subscriber-level access to overwrite the affected plugin setting.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：wplegalpages WPLP Cookie Consent – Cookie Banner & Consent Management for GDPR, CCPA & Google Consent Mode\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/bba8007f-7254-4201-8f94-7bf921a33a27?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/public/class-gdpr-cookie-consent-public.php#L209",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/admin/class-gdpr-cookie-consent-admin.php#L4961",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.3.5/includes/class-gdpr-cookie-consent.php#L245",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.2.7/public/class-gdpr-cookie-consent-public.php#L209",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.2.7/admin/class-gdpr-cookie-consent-admin.php#L4961",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gdpr-cookie-consent/tags/4.2.7/includes/class-gdpr-cookie-consent.php#L245",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3641387/gdpr-cookie-consent/tags/4.4.0/admin/class-gdpr-cookie-consent-admin.php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wplegalpages",
+          "product": "WPLP Cookie Consent – Cookie Banner & Consent Management for GDPR, CCPA & Google Consent Mode",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.3.5",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-14433",
+      "publishedDate": "2026-08-15T02:26:14.608Z",
+      "lastModifiedDate": "2026-08-18T19:39:53.784Z",
+      "description": "The Online Booking & Scheduling Calendar for WordPress by vcita plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'business_id' parameter in all versions up to, and including, 4.6.0 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：vcita Online Booking & Scheduling Calendar for WordPress by vcita\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/3fbfb185-d901-4789-9a13-137f72234ed4?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/meeting-scheduler-by-vcita/tags/4.6.0/vcita-widgets-functions.php#L22",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/meeting-scheduler-by-vcita/tags/4.6.0/vcita-api-functions.php#L83",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/meeting-scheduler-by-vcita/tags/4.6.0/vcita-api-functions.php#L17",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/meeting-scheduler-by-vcita/tags/4.6.0/vcita-scheduler.php#L379",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vcita",
+          "product": "Online Booking & Scheduling Calendar for WordPress by vcita",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.6.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-12248",
+      "publishedDate": "2026-08-15T11:27:35.103Z",
+      "lastModifiedDate": "2026-08-18T19:28:48.526Z",
+      "description": "The WPML Multilingual CMS plugin for WordPress is vulnerable to SQL Injection via the 'sorting' parameter in all versions up to, and including, 4.9.5 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with translator-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：WPML WPML Multilingual CMS\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/781b00cd-3af9-432a-876b-bff482106ab0?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/sitepress-multilingual-cms/trunk/classes/jobs/query/OrderQueryHelper.php#L34",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/sitepress-multilingual-cms/tags/4.9.2/classes/jobs/query/OrderQueryHelper.php#L34",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/sitepress-multilingual-cms/trunk/classes/API/REST/class-wpml-tm-rest-jobs.php#L144",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/sitepress-multilingual-cms/tags/4.9.2/classes/API/REST/class-wpml-tm-rest-jobs.php#L144",
+          "type": "reference"
+        },
+        {
+          "url": "https://wpml.org/category/changelog/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WPML",
+          "product": "WPML Multilingual CMS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.9.5",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-89"
+      ]
+    },
+    {
+      "id": "CVE-2026-12520",
+      "publishedDate": "2026-08-18T19:41:07.446Z",
+      "lastModifiedDate": "2026-08-18T19:41:07.446Z",
+      "description": "The Sierra Wireless HL7800 cellular modem driver (drivers/modem/vendor_standalone/hl7800.c, located at drivers/modem/hl7800.c in v4.4.0 and earlier) parses AT responses with roughly twenty handlers that call net_buf_linearize(value, sizeof(value), *buf, 0, len) into a 128-byte stack buffer and then write value[out_len] = 0. Because net_buf_linearize() (lib/net_buf/buf.c) can return a count equal to its destination-length argument, a field that exactly fills the buffer makes the terminating NUL land one byte past the end, a single-byte out-of-bounds write into adjacent stack memory.\n\nThe +KCELLMEAS cell-measurement handler on_cmd_atcmdinfo_rssi() is worse: it passed the wire length len as the destination size (net_buf_linearize(value, len, *buf, 0, len)), so a response line longer than 128 bytes overflows the value stack buffer with attacker-influenceable content. The line length comes from net_buf_findcrlf(), which accumulates bytes across the whole net_buf fragment chain and is not bounded to 128, so an over-long line reaches the defect.\n\nThe data originates from the cellular modem over UART, driven by the network: operator-scan results, +CGCONTRDP IP/DNS info, socket indications, and +KCELLMEAS neighbour-cell reports. An attacker able to shape what the modem emits — a rogue base station, a compromised modem baseband, or a remote peer feeding oversized response framing — can drive a line past 128 bytes. The handlers run in the driver's RX thread in kernel context, so the corruption is kernel-side.\n\nThe +KCELLMEAS path is a full stack buffer overflow whose worst case is code execution in kernel context and whose floor is a reliable crash; the remaining sites are single-byte NUL out-of-bounds writes. Exploitation requires the modem to emit an over-long AT response line, giving high attack complexity over an adjacent (cellular radio) vector. The fix passes sizeof(dst) - 1 (and correct explicit bounds for the IMSI and +KCELLMEAS sites) so the terminator always stays in bounds.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/ea91f9375677aa4268e4044e096902dbe789f101",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-9xc4-j5x8-v6jx",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "drivers/modem/vendor_standalone/hl7800.c"
+          ],
+          "versions": [
+            {
+              "version": "2.4.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "memory-safety"
+      ]
+    },
+    {
+      "id": "CVE-2026-15604",
+      "publishedDate": "2026-08-16T05:27:27.151Z",
+      "lastModifiedDate": "2026-08-18T19:38:03.065Z",
+      "description": "The Toocheke Companion plugin for WordPress is vulnerable to Stored Cross-Site Scripting in versions up to, and including, 2.10 via the 'series_bg_color' post meta field. This is due to insufficient input sanitization in the toocheke_series_bg_color_save() function (which stores the raw $_POST value in post meta) and insufficient output escaping in the series admin column rendering (where the stored value is concatenated into a style attribute without esc_attr()). This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user, such as an administrator, accesses the series list table in the admin dashboard.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：toocheke Toocheke Companion\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1bf78bc1-55d7-4230-913f-d7c521225367?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/toocheke-companion/tags/2.3/inc/class-toocheke-companion-admin-columns.php#L296",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/toocheke-companion/tags/2.3/inc/class-toocheke-companion-metaboxes.php#L959",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/toocheke-companion/tags/2.3/inc/class-toocheke-companion-metaboxes.php#L960",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/toocheke-companion/tags/2.11/inc/class-toocheke-companion-admin-columns.php#L296",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "toocheke",
+          "product": "Toocheke Companion",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.10",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-52732",
+      "publishedDate": "2026-08-18T19:26:07.345Z",
+      "lastModifiedDate": "2026-08-18T19:32:31.103Z",
+      "description": "ZEBRA is a Zcash node written entirely in Rust. Prior to 4.5.0, one unauthenticated P2P peer can monopolize all 25 MAX_INBOUND_CONCURRENCY slots in Zebra's inbound mempool download and verification pipeline. In zebrad/src/components/mempool/downloads.rs, the bounded queue was shared globally without per-peer accounting, while peer identity was not carried through Gossip and FullQueue responses were mapped to Response::Nil instead of reaching overload disconnection handling. An attacker can advertise fake transaction identifiers and remain silent so each task holds a slot until TRANSACTION_DOWNLOAD_TIMEOUT, then periodically refill the queue as slots expire. While saturated, honest peer transactions and local sendrawtransaction requests are rejected with MempoolError::FullQueue, although block validation and synchronization continue. This issue is fixed in version 4.5.0.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：ZcashFoundation zebra\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-4fc2-h7jh-287c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/commit/1440b43ca7df59aca948090d45117557b217a6cd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/releases/tag/v4.5.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ZcashFoundation",
+          "product": "zebra",
+          "versions": [
+            {
+              "version": "< 4.5.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ],
+      "ghsa_id": "GHSA-4fc2-h7jh-287c"
+    },
+    {
+      "id": "CVE-2026-52737",
+      "publishedDate": "2026-08-18T19:19:09.625Z",
+      "lastModifiedDate": "2026-08-18T19:33:34.092Z",
+      "description": "ZEBRA is a Zcash node written entirely in Rust. Prior to 4.5.0, a malicious unauthenticated P2P peer can answer Zebra's outbound getblocks or FindBlocks request with a small two-hash inventory and then serve a syntactically valid block whose coinbase height is far above the local chain tip. In zebrad/src/components/sync/downloads.rs, BlockDownloadVerifyError::AboveLookaheadHeightLimit originally carried only the block height and hash, so handle_block_response could not attribute the failure to the advertising peer. The error then reached the restart-worthy default path in zebrad/src/components/sync.rs, cancelling all in-flight downloads from honest peers and imposing a 67-second sync restart delay on mainnet. Because the peer was neither scored nor disconnected, the peer could repeat the cycle indefinitely with minimal bandwidth and significantly degrade synchronization without corrupting state. This issue is fixed in version 4.5.0.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：ZcashFoundation zebra\n🔓 漏洞类型：CWE-345 (CWE-345)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-gvjc-3w7c-92jx",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/pull/10647",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/commit/1440b43ca7df59aca948090d45117557b217a6cd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/commit/bc64dfe45746a86d14546a0a5a766387dd5a2942",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/releases/tag/v4.5.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ZcashFoundation",
+          "product": "zebra",
+          "versions": [
+            {
+              "version": "< 4.5.0",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "ZcashFoundation",
+          "product": "zebra-consensus",
+          "versions": [
+            {
+              "version": "< 7.0.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-345: Insufficient Verification of Data Authenticity"
+      ],
+      "cwe_ids": [
+        "CWE-345"
+      ],
+      "ghsa_id": "GHSA-gvjc-3w7c-92jx"
     },
     {
       "id": "CVE-2026-73529",
       "publishedDate": "2026-08-18T19:10:33.389Z",
-      "lastModifiedDate": "2026-08-18T19:10:33.389Z",
+      "lastModifiedDate": "2026-08-18T19:30:33.026Z",
       "description": "Plainpad through 1.1.1, fixed in commit d3823fc, contains a missing rate limiting vulnerability that allows unauthenticated attackers to send unbounded login requests to the POST /v1/sessions endpoint due to dead code in App\\Http\\Kernel.php that is never instantiated under the Laravel 11+ skeleton, leaving the API throttle configuration unattached to any route. Attackers can exploit this by sending unlimited credential attempts with no lockout or CAPTCHA enforcement, and additionally trigger CPU exhaustion by forcing repeated bcrypt comparisons on each request.",
       "severity": 5.3,
       "fix_suggestion": "📦 受影响组件：alextselegidis plainpad\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -1045,79 +819,19 @@
       ]
     },
     {
-      "id": "CVE-2026-55106",
-      "publishedDate": "2026-08-18T16:59:12.476Z",
-      "lastModifiedDate": "2026-08-18T19:07:09.460Z",
-      "description": "authentik is an open-source identity provider. Prior to 2026.2.6 and 2026.5.5, a diagnostic action on the LDAP Source API does not enforce the object-level read-authorization filter used by the rest of the API. Any party able to reach the API, including an unauthenticated client, can invoke the diagnostic action against a configured LDAP Source. The server then connects to the upstream directory using the source's configured bind credentials and returns a bounded set of directory entries. The response exposes the distinguished names of those entries and the names of the attributes present on them, revealing directory structure, naming conventions, and the existence of specific accounts and groups, but not attribute values. Deployments without a configured LDAP Source are not affected. This issue is fixed in versions 2026.2.6 and 2026.5.5.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：goauthentik authentik\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-55165",
+      "publishedDate": "2026-08-18T18:49:59.538Z",
+      "lastModifiedDate": "2026-08-18T19:35:55.129Z",
+      "description": "Lemur manages TLS certificate creation. Prior to 1.9.2, the JWT verifier in lemur/auth/service.py:130-137 used fetch_token_header to read header_data[\"alg\"] from an unverified token and passed that attacker-controlled value to decode_with_multiple_secrets. PyJWT 2.x rejects alg=none with the configured key, so the flaw is a defense-in-depth gap rather than a direct authentication bypass in the shipped configuration. The unpinned algorithm can become exploitable after an asymmetric-signing migration through algorithm confusion, and it weakens algorithm-based anomaly detection because the token chooses the recorded value. A separate disclosure of LEMUR_TOKEN_SECRET would also permit forged HS256 tokens, although that disclosure is an independent prerequisite. The fix introduces the server-controlled LEMUR_TOKEN_ALGORITHMS allowlist and defaults it to HS256. This issue is fixed in version 1.9.2.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：CWE-347 (CWE-347)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/goauthentik/authentik/security/advisories/GHSA-h8ff-c3h7-2gf8",
+          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-r9gp-7f88-9r54",
           "type": "reference"
         },
         {
-          "url": "https://github.com/goauthentik/authentik/pull/24055",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/goauthentik/authentik/pull/24060",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/goauthentik/authentik/commit/e638de23217480854ec5e48ca6fceae479321f99",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/goauthentik/authentik/commit/fc336da4bd32bef52800c77d91aa0b82c5533041",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/goauthentik/authentik/releases/tag/version/2026.2.6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/goauthentik/authentik/releases/tag/version/2026.5.5",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "goauthentik",
-          "product": "authentik",
-          "versions": [
-            {
-              "version": "< 2026.2.6",
-              "status": "affected"
-            },
-            {
-              "version": ">= 2026.5.0, < 2026.5.5",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-55164",
-      "publishedDate": "2026-08-18T18:53:12.483Z",
-      "lastModifiedDate": "2026-08-18T19:15:10.532Z",
-      "description": "Lemur manages TLS certificate creation. Prior to 1.9.2, lemur.users.service.update assigned a replacement password directly to users.password, while lemur/users/models.py registered User.hash_password only for the before_insert event. Because no before_update listener ran, administrator-initiated password changes through PUT /api/1/users/ were committed as plaintext. The affected user could no longer authenticate normally because bcrypt verification received an unhashed value. A database, backup, replica, query-log, or administrative read compromise exposed immediately usable credentials without offline cracking. The fix registers hashing for before_update and avoids rehashing values that already have a bcrypt prefix. This issue is fixed in version 1.9.2.",
-      "severity": 4.9,
-      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：CWE-256 (CWE-256)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-q437-g7fv-2jvv",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/commit/221c6d7275ac667bb8898ab48d2b96926a89c1c4",
+          "url": "https://github.com/Netflix/lemur/commit/89898e665beed044cf7bd5927dfaa484e55bf242",
           "type": "reference"
         },
         {
@@ -1138,250 +852,130 @@
         }
       ],
       "problemType": [
-        "CWE-256: Plaintext Storage of a Password"
+        "CWE-347: Improper Verification of Cryptographic Signature"
       ],
       "cwe_ids": [
-        "CWE-256"
+        "CWE-347"
       ],
-      "ghsa_id": "GHSA-q437-g7fv-2jvv"
+      "ghsa_id": "GHSA-r9gp-7f88-9r54"
     },
     {
-      "id": "CVE-2026-71322",
-      "publishedDate": "2026-08-18T19:08:23.118Z",
-      "lastModifiedDate": "2026-08-18T19:08:23.118Z",
-      "description": "Lemur manages TLS certificate creation. Prior to 1.9.3, CertificateExport placed its CertificatePermission ownership check inside the plugin.requires_key branch for POST /api/1/certificates//export. A plugin declaring requires_key false bypassed that check, and the handler still passed cert.private_key as an argument and recorded a key_view audit event. The bundled JavaTruststoreExportPlugin ignored the key, so the immediate exposure was limited to public certificate material and misleading audit entries, but a future plugin could have consumed the supplied key. The fix passes no private key to plugins that do not require one and confines ownership checks and key_view logging to actual private-key exports. This issue is fixed in version 1.9.3.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：Netflix lemur\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-73103",
+      "publishedDate": "2026-08-18T19:44:07.721033+00:00",
+      "lastModifiedDate": "2026-08-18T19:41:09.045Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-75936",
+      "publishedDate": "2026-08-18T19:34:19.472Z",
+      "lastModifiedDate": "2026-08-18T19:34:19.472Z",
+      "description": "Improper handling of highly compressed data in the GZIP auto-decompression handler in Amazon ion-java before 1.12.0 might allow remote actors to cause a denial of service via a crafted compressed Ion document that expands to an arbitrarily large size upon decompression.\n\n\n\nTo remediate this issue, users should upgrade to version 1.12.0 and configure withGzipDecompressionEnabled(false) and/or set an explicit withMaximumBufferSize() when parsing untrusted input.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Amazon Ion Amazon Ion Java\n🔓 漏洞类型：CWE-409 (CWE-409)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Netflix/lemur/security/advisories/GHSA-4h97-p9wq-chqj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/commit/5683bbea8b10cce07f9a8abf1e4a7d3b2031c585",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Netflix/lemur/releases/tag/v1.9.3",
+          "url": "https://github.com/amazon-ion/ion-java/releases/tag/v1.12.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Netflix",
-          "product": "lemur",
+          "vendor": "Amazon Ion",
+          "product": "Amazon Ion Java",
           "versions": [
             {
-              "version": "< 1.9.3",
+              "status": "affected",
+              "version": "1.9.0",
+              "lessThan": "1.12.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-409 (Improper Handling of Highly Compressed Data)"
+      ],
+      "cwe_ids": [
+        "CWE-409"
+      ]
+    },
+    {
+      "id": "CVE-2026-52736",
+      "publishedDate": "2026-08-18T19:26:40.575Z",
+      "lastModifiedDate": "2026-08-18T19:38:44.395Z",
+      "description": "ZEBRA is a Zcash node written entirely in Rust. Prior to 4.5.0, a remote unauthenticated P2P peer can stall a Zebra node by racing an invalid block body against the valid canonical body for the same block header hash. ZIP-244 permits the attacker to mutate coinbase scriptSig authentication data while retaining the transaction identifiers, merkle root, and block header hash, so the poisoned body fails later commitment validation but shares the canonical hash. In zebra-state/src/service.rs, queue_and_commit_to_non_finalized_state recorded the hash in non_finalized_block_write_sent_hashes before contextual validation completed and did not remove it when the write task rejected the body. When the honest body later arrived, the cached hash caused KnownBlock::WriteChannel duplicate handling to suppress it, leaving the node stuck one height behind until restart or reorganization. This issue is fixed in version 4.5.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ZcashFoundation zebra\n🔓 漏洞类型：CWE-459 (CWE-459)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-4m69-67m6-prqp",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/commit/1440b43ca7df59aca948090d45117557b217a6cd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ZcashFoundation/zebra/releases/tag/v4.5.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ZcashFoundation",
+          "product": "zebra",
+          "versions": [
+            {
+              "version": "< 4.5.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-862: Missing Authorization"
+        "CWE-459: Incomplete Cleanup"
       ],
       "cwe_ids": [
-        "CWE-862"
-      ]
+        "CWE-459"
+      ],
+      "ghsa_id": "GHSA-4m69-67m6-prqp"
     },
     {
-      "id": "CVE-2026-17106",
-      "publishedDate": "2026-08-18T18:35:13.465Z",
-      "lastModifiedDate": "2026-08-18T19:05:12.960Z",
-      "description": "The tar extraction routines in moby/go-archive (Unpack, UnpackLayer, Untar/UntarUncompressed, and the ApplyLayer helpers) do not confine filesystem operations to the destination directory. The extractor decides where each archive entry lands using lexical string checks and then performs the filesystem operation on a path that is resolved by the OS, so links introduced by the archive can be followed out of the destination directory. An attacker who controls the contents of an archive can create or overwrite files at arbitrary paths writable by the extracting process.",
+      "id": "CVE-2026-71880",
+      "publishedDate": "2026-08-18T17:56:54.655Z",
+      "lastModifiedDate": "2026-08-18T19:29:40.446Z",
+      "description": "Interpretation of untrusted input in template engine in GBIF Integrated Publishing Toolkit versions before 3.3.4 allows remote authenticated attackers to access server-side files and state via template injection",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：moby go-archive\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：GBIF Integrated Publishing Toolkit\n🔓 漏洞类型：CWE-1336 (CWE-1336)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/moby/go-archive/security/advisories/GHSA-hfg8-hc9c-6c3h",
+          "url": "https://www.gbif.org/ipt",
           "type": "reference"
         },
         {
-          "url": "https://docs.docker.com/desktop/release-notes/#4860",
+          "url": "https://github.com/gbif/ipt/issues/3118",
           "type": "reference"
         },
         {
-          "url": "https://github.com/docker/sbx-releases/releases/tag/v0.38.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://docs.docker.com/engine/release-notes/29/#2970",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/docker/cli/releases/tag/v29.7.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/docker/compose/releases/tag/v5.4.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/go-archive/releases/tag/v0.3.0",
+          "url": "https://github.com/mandiant/Vulnerability-Disclosures/blob/master/2026/MNDT-2026-0016.md",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "packageName": "github.com/moby/go-archive",
-          "product": "go-archive",
-          "vendor": "moby",
+          "vendor": "GBIF",
+          "product": "Integrated Publishing Toolkit",
           "versions": [
             {
+              "status": "affected",
               "version": "0",
-              "status": "affected",
-              "lessThan": "0.3.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "MacOS",
-            "Linux",
-            "Windows"
-          ],
-          "product": "Docker Sandboxes",
-          "vendor": "Docker",
-          "cpes": [
-            "cpe:2.3:a:docker:docker_sandboxes:*:*:*:*:*:*:*:*"
-          ],
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThan": "0.38.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "MacOS",
-            "Linux",
-            "Windows"
-          ],
-          "product": "Docker Desktop",
-          "vendor": "Docker",
-          "cpes": [
-            "cpe:2.3:a:docker:desktop:*:*:*:*:*:*:*:*"
-          ],
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThan": "4.86.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "MacOS",
-            "Linux",
-            "Windows"
-          ],
-          "product": "Docker Engine",
-          "vendor": "Docker",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThan": "29.7.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "MacOS",
-            "Linux",
-            "Windows"
-          ],
-          "product": "Docker CLI",
-          "vendor": "Docker",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThan": "29.7.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "platforms": [
-            "MacOS",
-            "Linux",
-            "Windows"
-          ],
-          "product": "Docker Compose",
-          "vendor": "Docker",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThan": "5.4.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
-      ],
-      "cwe_ids": [
-        "CWE-59"
-      ]
-    },
-    {
-      "id": "CVE-2026-19869",
-      "publishedDate": "2026-08-18T16:35:19.878Z",
-      "lastModifiedDate": "2026-08-18T19:09:31.066Z",
-      "description": "@neo4j/graphql from 5.2.0 until the patched versions fails to enforce field-level @authentication rules on root custom-resolver fields when a type-level @authentication rule is also present on the same operation type. When both a type-level @authentication (on Query/Mutation) and a field-level @authentication (on a root custom-resolver field within that type) are declared, only the type-level rule is evaluated and the field-level rule is silently discarded. As a result a stricter per-field requirement — such as an admin-role JWT claim (jwt: { roles_INCLUDES: \"admin\" }) — is never checked, and any client that satisfies the coarser type-level requirement can invoke the more-restricted field. No token forgery is involved: a legitimately issued, correctly signed non-admin token (e.g. roles: [\"user\"]) is sufficient.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：neo4j graphql\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/neo4j/graphql/security/advisories/GHSA-82m8-p9px-c3x5",
-          "type": "reference"
-        },
-        {
-          "url": "https://neo4j.com/security/CVE-2026-19869",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "neo4j",
-          "product": "graphql",
-          "collectionURL": "https://registry.npmjs.org",
-          "packageName": "@neo4j/graphql",
-          "repo": "https://github.com/neo4j/graphql",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "7.0.0",
-              "lessThan": "7.6.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "5.2.0",
-              "lessThan": "5.12.15",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0",
-              "lessThanOrEqual": "6.6.4",
+              "lessThan": "3.3.4",
               "versionType": "semver"
             }
           ],
@@ -1389,69 +983,59 @@
         }
       ],
       "problemType": [
-        "CWE-639 Authorization bypass through User-Controlled key"
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
       ],
       "cwe_ids": [
-        "CWE-639"
+        "CWE-1336"
       ]
     },
     {
-      "id": "CVE-2026-63337",
-      "publishedDate": "2026-08-18T16:27:09.782Z",
-      "lastModifiedDate": "2026-08-18T19:09:03.371Z",
-      "description": "The RabbitMQ Java client library allows Java and JVM-based applications to connect to and interact with RabbitMQ nodes. Prior to 5.33.0, com.rabbitmq.tools.jsonrpc.ProcedureDescription receives a javaReturnType value in an untrusted system.describe response and passes it through JSONUtil.tryFill, setJavaReturnType, and computeReturnTypeAsJavaClass to Class.forName(javaReturnType) with initialization enabled. An attacker able to answer the JsonRpcClient request through a shared broker or network interception can select a class already present in the victim JVM and trigger its static initializer, while JsonRpcClient.java later passes getReturnType output to mapper.parse and may also create type confusion. Successful exploitation can affect confidentiality, integrity, and availability in the client process. This issue is fixed in version 5.33.0.",
+      "id": "CVE-2026-71879",
+      "publishedDate": "2026-08-18T17:41:48.060Z",
+      "lastModifiedDate": "2026-08-18T19:29:12.627Z",
+      "description": "Missing authentication in initial setup functionality left exposed until first reboot in GBIF Integrated Publishing Toolkit versions before 3.3.4 allows remote authenticated attackers to gain administrative control via authentication bypass",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：rabbitmq rabbitmq-java-client\n🔓 漏洞类型：CWE-470 (CWE-470)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：GBIF Integrated Publishing Toolkit\n🔓 漏洞类型：CWE-288 (CWE-288)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-6g32-pxv4-2wfj",
+          "url": "https://www.gbif.org/ipt",
           "type": "reference"
         },
         {
-          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2000",
+          "url": "https://github.com/gbif/ipt/issues/3115",
           "type": "reference"
         },
         {
-          "url": "https://github.com/rabbitmq/rabbitmq-java-client/pull/2002",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/0032f75f9dc3df847f94b2b85a16119250bf63cb",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/rabbitmq/rabbitmq-java-client/commit/9f8e7efd0c648f235dc0e96232ae7efa75ea4fa8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.0",
+          "url": "https://github.com/mandiant/Vulnerability-Disclosures/blob/master/2026/MNDT-2026-0015.md",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "rabbitmq",
-          "product": "rabbitmq-java-client",
+          "vendor": "GBIF",
+          "product": "Integrated Publishing Toolkit",
           "versions": [
             {
-              "version": "< 5.33.0",
-              "status": "affected"
+              "status": "affected",
+              "version": "0",
+              "lessThan": "3.3.4",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+        "CWE-288: Authentication Bypass Using an Alternate Path or Channel"
       ],
       "cwe_ids": [
-        "CWE-470"
-      ],
-      "ghsa_id": "GHSA-6g32-pxv4-2wfj"
+        "CWE-288"
+      ]
     },
     {
       "id": "CVE-2026-71573",
       "publishedDate": "2026-08-18T16:09:47.440Z",
-      "lastModifiedDate": "2026-08-18T19:03:06.202Z",
+      "lastModifiedDate": "2026-08-18T19:30:43.316Z",
       "description": "Joomla! Core - [20260802] - Improper CORS origin validation in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper implementation prevented configured CORS origins from being properly validated in CORS requests.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-93 (CWE-93)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -1492,7 +1076,7 @@
     {
       "id": "CVE-2026-72531",
       "publishedDate": "2026-08-18T16:08:48.536Z",
-      "lastModifiedDate": "2026-08-18T19:03:28.451Z",
+      "lastModifiedDate": "2026-08-18T19:29:44.429Z",
       "description": "Joomla! Core - [20260804] - Improper ACL checks for custom fields webservice endpoints in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to create fields for inaccessible components.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -1531,365 +1115,31 @@
       ]
     },
     {
-      "id": "CVE-2026-73336",
-      "publishedDate": "2026-08-18T16:06:00.144Z",
-      "lastModifiedDate": "2026-08-18T19:03:48.902Z",
-      "description": "Joomla! Core - [20260806] - XSS through schema.org outputs in Joomla 5.1.0-5.4.7, 6.0.0-6.1.2 - Improper escaping flags lead to an XSS vector in schema.org markup outputs.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1073-20260806-core-xss-through-schema-org-outputs.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "5.1.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-73372",
-      "publishedDate": "2026-08-18T16:05:57.718Z",
-      "lastModifiedDate": "2026-08-18T19:04:32.666Z",
-      "description": "Joomla! Core - [20260809] - Improper ACL checks when injection schema.org contact data in Joomla 5.1.0-5.4.7 and 6.0.0-6.1.2 - An improper access check injects contact information for unaccessible contact items into schema.org snippets.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1076-20260809-core-improper-acl-checks-when-injection-schema-org-contact-data.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "5.1.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
-      ]
-    },
-    {
-      "id": "CVE-2026-71572",
-      "publishedDate": "2026-08-18T16:05:56.682Z",
-      "lastModifiedDate": "2026-08-18T19:04:52.907Z",
-      "description": "Joomla! Core - [20260801] - Response header injection in download views in Joomla 3.0.0-5.4.7, 6.0.0-6.1.2 - Lack of output processing allowed a header injection in the multiple download views, leading to reflected file download / content-type confusion.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-93 (CWE-93)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1068-20260801-core-response-header-injection-in-download-views.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "3.0.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-93: Improper Neutralization of CRLF Sequences ('CRLF Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-93"
-      ]
-    },
-    {
-      "id": "CVE-2026-73337",
-      "publishedDate": "2026-08-18T16:04:51.233Z",
-      "lastModifiedDate": "2026-08-18T19:05:16.847Z",
-      "description": "Joomla! Core - [20260807] - MFA Authentication Bypass in Joomla 4.0.0-5.4.7 and 6.0.0-6.1.2 - Insufficient state checks lead to a vector that allows to bypass 2FA checks.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1074-20260807-core-mfa-authentication-bypass.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "4.0.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-287 Improper Authentication"
-      ],
-      "cwe_ids": [
-        "CWE-287"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-73371",
-      "publishedDate": "2026-08-18T16:04:11.177Z",
-      "lastModifiedDate": "2026-08-18T19:05:40.105Z",
-      "description": "Joomla! Core - [20260808] - Improper ACL checks for batch copy actions in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to perform copy batch operations on uneditable items.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1075-20260808-core-improper-acl-checks-for-batch-copy-actions.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "4.0.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
-      ]
-    },
-    {
-      "id": "CVE-2026-72532",
-      "publishedDate": "2026-08-18T16:03:44.540Z",
-      "lastModifiedDate": "2026-08-18T19:06:13.509Z",
-      "description": "Joomla! Core - [20260806] - Improper ACL checks for category webservice endpoints in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to create categories via webservices endpoints.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1072-20260805-core-improper-acl-checks-for-category-webservice-endpoints.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "4.0.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
-      ]
-    },
-    {
-      "id": "CVE-2026-73373",
-      "publishedDate": "2026-08-18T16:03:43.586Z",
-      "lastModifiedDate": "2026-08-18T19:02:19.515Z",
-      "description": "Joomla! Core - [20260810] - Unrestricted uploads of SHTML files in Joomla 1.0.0-5.4.7, 6.0.0-6.1.2 - The default list of dangerous files did not include SHTML files. On servers that executed these files, that could lead to code execution.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1077-20260810-core-unrestricted-uploads-of-shtml-files.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! Framework Filesystem package",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.0"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.2.0"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-434 Unrestricted Upload of File with Dangerous Type"
-      ],
-      "cwe_ids": [
-        "CWE-434"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-71574",
-      "publishedDate": "2026-08-18T16:02:54.574Z",
-      "lastModifiedDate": "2026-08-18T19:01:55.303Z",
-      "description": "Joomla! Core - [20260803] - Inconsistent ACL checks for mutating webservice endpoints in Joomla 4.0.0-5.4.7, 6.0.0-6.1.2 - An improper access check allows unauthorized users to perform mutation actions in webservice endpoints, where the same mutation was restricted in the backend UI.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Joomla! Project Joomla! CMS\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.joomla.org/",
-          "type": "reference"
-        },
-        {
-          "url": "https://developer.joomla.org/security-centre/1070-20260803-core-inconsistent-acl-checks-for-mutating-webservice-endpoints.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Joomla! CMS",
-          "vendor": "Joomla! Project",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "4.0.0-5.4.6"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0-6.1.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
-      ]
-    },
-    {
-      "id": "CVE-2026-74958",
-      "publishedDate": "2026-08-18T12:23:37.936Z",
-      "lastModifiedDate": "2026-08-18T19:03:15.749Z",
-      "description": "Information disclosure in the WebRTC component. This vulnerability was fixed in Firefox 154, Firefox ESR 153.1, Thunderbird 154, and Thunderbird 153.1.",
+      "id": "CVE-2026-74990",
+      "publishedDate": "2026-08-18T12:23:35.129Z",
+      "lastModifiedDate": "2026-08-18T19:28:52.918Z",
+      "description": "Internally found bugs present in Thunderbird ESR 140.13, Thunderbird ESR 153.0 and Thunderbird 153. Some of these bugs showed evidence of memory corruption or another security-relevant defect and we presume that with enough effort some of these could have been exploited. This vulnerability was fixed in Firefox 154, Firefox ESR 115.39, Firefox ESR 140.14, Firefox ESR 153.1, Thunderbird 154, Thunderbird 140.14, and Thunderbird 153.1.",
       "severity": "N/A",
       "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2045368",
+          "url": "https://bugzilla.mozilla.org/buglist.cgi?bug_id=2045762%2C2052401%2C2058208",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.mozilla.org/buglist.cgi?bug_id=2045774%2C2048490%2C2050864%2C2053159%2C2053260%2C2053261%2C2053582%2C2053599%2C2053607%2C2053608%2C2053853%2C2054626%2C2054627%2C2054635%2C2054677%2C2054740%2C2054832%2C2056792%2C2057098%2C2057100%2C2057101%2C2057103%2C2057117%2C2057118%2C2058048%2C2058049%2C2058622%2C2058623%2C2058665%2C2058666%2C2059121%2C2059164%2C2059188",
           "type": "reference"
         },
         {
           "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-75/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-76/",
           "type": "reference"
         },
         {
@@ -1898,6 +1148,10 @@
         },
         {
           "url": "https://www.mozilla.org/security/advisories/mfsa2026-78/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-79/",
           "type": "reference"
         },
         {
@@ -1910,6 +1164,18 @@
           "product": "Firefox",
           "vendor": "Mozilla",
           "versions": [
+            {
+              "status": "unaffected",
+              "version": "115.39",
+              "lessThanOrEqual": "115.*",
+              "versionType": "rpm"
+            },
+            {
+              "status": "unaffected",
+              "version": "140.14",
+              "lessThanOrEqual": "140.*",
+              "versionType": "rpm"
+            },
             {
               "status": "unaffected",
               "version": "153.1",
@@ -1930,181 +1196,16 @@
           "versions": [
             {
               "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
+              "version": "140.14",
+              "lessThanOrEqual": "140.*",
               "versionType": "rpm"
             },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-74956",
-      "publishedDate": "2026-08-18T12:23:37.723Z",
-      "lastModifiedDate": "2026-08-18T19:07:59.054Z",
-      "description": "Same-origin policy bypass in the DOM: Service Workers component. This vulnerability was fixed in Firefox 154, Firefox ESR 153.1, Thunderbird 154, and Thunderbird 153.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2032406",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-77/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-78/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-80/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox",
-          "vendor": "Mozilla",
-          "versions": [
             {
               "status": "unaffected",
               "version": "153.1",
               "lessThanOrEqual": "153.*",
               "versionType": "rpm"
             },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        },
-        {
-          "product": "Thunderbird",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-74954",
-      "publishedDate": "2026-08-18T12:23:37.219Z",
-      "lastModifiedDate": "2026-08-18T19:11:42.423Z",
-      "description": "Information disclosure due to side-channel in the Storage: Cache API component. This vulnerability was fixed in Firefox 154, Firefox ESR 153.1, Thunderbird 154, and Thunderbird 153.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2025732",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-77/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-78/",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-80/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        },
-        {
-          "product": "Thunderbird",
-          "vendor": "Mozilla",
-          "versions": [
-            {
-              "status": "unaffected",
-              "version": "153.1",
-              "lessThanOrEqual": "153.*",
-              "versionType": "rpm"
-            },
-            {
-              "status": "unaffected",
-              "version": "154",
-              "lessThanOrEqual": "*",
-              "versionType": "rpm"
-            }
-          ]
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-74951",
-      "publishedDate": "2026-08-18T12:23:36.705Z",
-      "lastModifiedDate": "2026-08-18T19:13:58.944Z",
-      "description": "Clickjacking issue in Firefox for Android. This vulnerability was fixed in Firefox 154.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=1978587",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.mozilla.org/security/advisories/mfsa2026-74/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "product": "Firefox",
-          "vendor": "Mozilla",
-          "versions": [
             {
               "status": "unaffected",
               "version": "154",
