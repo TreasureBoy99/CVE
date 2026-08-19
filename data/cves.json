@@ -2,275 +2,401 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 8,
-    "last_updated": "2026-08-19T20:18:33.451700",
+    "total_count": 11,
+    "last_updated": "2026-08-19T20:49:11.573333",
     "severity_distribution": {
-      "critical": 0,
+      "critical": 3,
       "high": 5,
-      "medium": 1,
-      "low": 0,
-      "none": 2
+      "medium": 2,
+      "low": 1,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-73673",
-      "publishedDate": "2026-08-14T12:21:05.797Z",
-      "lastModifiedDate": "2026-08-19T20:09:35.701Z",
-      "description": "Netis NC63 router firmware V3.0.0.3327 contains an unauthenticated firmware update vulnerability that allows unauthenticated attackers to submit unsigned firmware images by exploiting a missing authentication enforcement flaw in the Boa web server and netis.cgi CGI dispatcher. Attackers can send a multipart POST request to /cgi-bin/upload_fw.cgi without a valid session cookie, bypassing authentication because Boa grants access to any path containing '.cgi' regardless of cookie validation, and netis.cgi reads but does not enforce the authentication state before invoking the firmware update handler, which accepts images validated only by a forgeable additive checksum and static product strings rather than a cryptographic signature, potentially enabling persistent router compromise.",
+      "id": "CVE-2026-53545",
+      "publishedDate": "2026-08-19T20:36:51.990Z",
+      "lastModifiedDate": "2026-08-19T20:36:51.990Z",
+      "description": "Termix is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities. Prior to 2.3.2, the DELETE /ssh/tunnel/disconnect/:tunnelName teardown path in src/backend/ssh/tunnel.ts interpolates endpointPort, sourcePort, endpointUsername, and endpointIP into single-quoted pkill -f patterns. An authenticated user who can edit a tunnel host field can include a single quote to terminate the pattern and append a shell command, which executes when the tunnel is disconnected. Successful exploitation runs arbitrary commands on the source SSH host with the privileges of the connected SSH account. This issue is fixed in version 2.3.2.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Termix-SSH Termix\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-5p86-jgr7-4hwx",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/pull/874",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/releases/tag/release-2.3.2-tag",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Termix-SSH",
+          "product": "Termix",
+          "versions": [
+            {
+              "version": "< 2.3.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ]
+    },
+    {
+      "id": "CVE-2026-53546",
+      "publishedDate": "2026-08-19T20:36:19.279Z",
+      "lastModifiedDate": "2026-08-19T20:36:19.279Z",
+      "description": "Termix is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities. Prior to 2.3.2, the terminal WebSocket accepts a user-controlled hostConfig.id and src/backend/ssh/host-resolver.ts resolves that host without requiring ownership or explicit access. When no credential is shared with the requester, resolveHostById performs an owner credential fallback, and src/backend/ssh/terminal.ts combines that credential with attacker-controlled ip, port, and username values. An authenticated low-privileged user can therefore make Termix authenticate to an attacker-controlled SSH server and disclose another user's stored SSH password or private-key material while the victim user's data key is unlocked. This issue is fixed in version 2.3.2.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：Termix-SSH Termix\n🔓 漏洞类型：CWE-639, Missing Authorization (CWE-639, CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-57gp-39c7-4g9r",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/pull/874",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/releases/tag/release-2.3.2-tag",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Termix-SSH",
+          "product": "Termix",
+          "versions": [
+            {
+              "version": "< 2.3.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key",
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-639",
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-53548",
+      "publishedDate": "2026-08-19T20:35:35.557Z",
+      "lastModifiedDate": "2026-08-19T20:35:35.557Z",
+      "description": "Termix is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities. Prior to 2.6.1, the GET /host/db/host/:id/password endpoint in src/backend/database/routes/host.ts accepts an authenticated user's numeric host ID and the field=password or field=sudoPassword query without enforcing host ownership during credential resolution. A failed requester-scoped lookup can resolve the host with the owner's context and return the owner's plaintext credential, allowing any authenticated user with a valid JWT to enumerate sequential hosts.id values and retrieve SSH or sudo passwords belonging to other users. The disclosed credentials can then be used to access and control managed systems outside the Termix instance. This issue is fixed in version 2.6.1.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：Termix-SSH Termix\n🔓 漏洞类型：CWE-285, CWE-639 (CWE-285, CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-j6h8-mww6-pgw6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/pull/874",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/releases/tag/release-2.3.2-tag",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Termix-SSH",
+          "product": "Termix",
+          "versions": [
+            {
+              "version": "< 2.3.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-285: Improper Authorization",
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-285",
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-53542",
+      "publishedDate": "2026-08-19T20:35:58.974Z",
+      "lastModifiedDate": "2026-08-19T20:35:58.974Z",
+      "description": "Termix is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities. Prior to 2.3.2, the archive creation endpoint in src/backend/ssh/file-manager.ts passes selected file basenames to tar without an end-of-options marker and without making the operands unambiguously relative. A user with access to an SSH file-manager session can select basenames beginning with GNU tar options such as --checkpoint=1 and --checkpoint-action=exec, causing tar, tar.gz, tar.bz2, or tar.xz creation to interpret those names as options. The resulting checkpoint action executes commands on the managed SSH host with the privileges of the connected SSH account, allowing file disclosure, modification, and service disruption. This issue is fixed in version 2.3.2.",
       "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Netis Systems Co., Ltd. Netis NC63 Wireless AC1200 Router\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Termix-SSH Termix\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.netis-systems.com/products/NC63.html",
+          "url": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-rwj6-6vh7-45pv",
           "type": "reference"
         },
         {
-          "url": "https://ozcanpng.dev/blog/cve-2026-73673-netis-nc63-unauthenticated-firmware-update/",
+          "url": "https://github.com/Termix-SSH/Termix/pull/874",
           "type": "reference"
         },
         {
-          "url": "https://github.com/ozcanpng/CVE-2026-73673",
+          "url": "https://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/netis-nc63-unauthenticated-firmware-update-with-missing-cryptographic-firmware-authentication",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.netis-systems.com/support/downinfo.html?id=35",
+          "url": "https://github.com/Termix-SSH/Termix/releases/tag/release-2.3.2-tag",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Netis Systems Co., Ltd.",
-          "product": "Netis NC63 Wireless AC1200 Router",
-          "defaultStatus": "affected",
-          "packageURL": "pkg:cargo/dua-cli",
+          "vendor": "Termix-SSH",
+          "product": "Termix",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom",
-              "lessThanOrEqual": "V3.0.0.3327"
+              "version": "< 2.3.2",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Missing Authentication for Critical Function"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
       ]
     },
     {
-      "id": "CVE-2026-16707",
-      "publishedDate": "2026-08-19T20:09:07.749Z",
-      "lastModifiedDate": "2026-08-19T20:09:07.749Z",
-      "description": "IBM PowerVM Hypervisor FW1120.00, FW1110.00 through FW1110.30, FW1060.00 through FW1060.80, and FW950.00 through FW950.H2 is affected by a vulnerability in the service processor mailbox interface. An attacker with authenticated service-level access to the FSP can send a specially crafted mailbox message to read or modify arbitrary regions of Hostboot memory, compromising the host firmware boot stack and the hypervisor subsequently loaded by it. Successful exploitation results in a confidentiality, integrity, and availability impact to the managed system.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：IBM PowerVM Hypervisor\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53547",
+      "publishedDate": "2026-08-19T20:34:52.221Z",
+      "lastModifiedDate": "2026-08-19T20:34:52.221Z",
+      "description": "Termix is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities. Prior to 2.3.2, the POST /database/export endpoint creates a user export that includes the global settings table even though the rest of the export is user-scoped. The settings table contains reset_code_ and temp_reset_token_ password-reset artifacts, allowing a low-privileged authenticated user to recover another local account's reset code and complete the normal password-reset flow. Successful exploitation results in local-user account takeover and administrative compromise when the victim is an administrator. This issue is fixed in version 2.3.2.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Termix-SSH Termix\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.ibm.com/support/pages/node/7283235",
+          "url": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-6r97-7wp3-2g3x",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/pull/874",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/releases/tag/release-2.3.2-tag",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Termix-SSH",
+          "product": "Termix",
+          "versions": [
+            {
+              "version": "< 2.3.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-18544",
+      "publishedDate": "2026-08-19T20:29:10.276Z",
+      "lastModifiedDate": "2026-08-19T20:29:10.276Z",
+      "description": "IBM Portieris 0.5.0 through 0.14.2 could allow a remote authenticated attacker to bypass image policy enforcement due to improper authorization of pod owner references.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：IBM Portieris\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7284125",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "IBM",
-          "product": "PowerVM Hypervisor",
+          "product": "Portieris",
           "versions": [
             {
               "status": "affected",
-              "version": "FW1120.00"
-            },
-            {
-              "status": "affected",
-              "version": "FW1110.00",
-              "lessThanOrEqual": "FW1110.30",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "FW1060.00",
-              "lessThanOrEqual": "FW1060.80",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "FW950.00",
-              "lessThanOrEqual": "FW950.H2",
+              "version": "0.5.0",
+              "lessThanOrEqual": "0.14.2",
               "versionType": "semver"
             }
           ],
           "cpes": [
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1120.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1110.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1110.30:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1060.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1060.80:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw950.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw950.h2:*:*:*:*:*:*:*"
+            "cpe:2.3:a:ibm:portieris:0.5.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:portieris:0.14.2:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-125 Out-of-bounds Read"
+        "CWE-862 Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-125"
+        "CWE-862"
       ]
     },
     {
-      "id": "CVE-2026-16933",
-      "publishedDate": "2026-08-19T19:13:26.703Z",
-      "lastModifiedDate": "2026-08-19T20:05:15.480Z",
-      "description": "IBM Power Systems Firmware FW1120.00, FW1110.00 through FW1110.30, FW1060.00 through FW1060.80, FW950.00 through FW950.H2, OP940.00 through OP940.a1 (Power9), and OP940.00 through OP940.81 (Power HMC) is affected by a vulnerability in the interface between the BMC/FSP and the host system. An attacker with service account or root access to the BMC/FSP can read and write arbitrary regions of host system memory, giving full control over the host system and all hosted partitions, resulting in a confidentiality, integrity, and availability impact.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：IBM Power Systems Firmware\n🔓 漏洞类型：Integer Overflow or Wraparound (CWE-190)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53549",
+      "publishedDate": "2026-08-19T20:34:22.539Z",
+      "lastModifiedDate": "2026-08-19T20:34:22.539Z",
+      "description": "Termix is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities. Prior to 2.3.2, the POST /host/db/proxy/test endpoint accepts the singleProxy, proxyChain, and testTarget request fields without validating their destination addresses. The testProxyConnectivity path uses raw TCP and SOCKS connections to attacker-selected hosts and ports, allowing an authenticated user to probe localhost, private networks, link-local metadata services, and other infrastructure reachable from the Termix server. Structured connection errors disclose host reachability and timing information, and successful metadata access can expose cloud credentials. This issue is fixed in version 2.3.2.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：Termix-SSH Termix\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.ibm.com/support/pages/node/7283216",
+          "url": "https://github.com/Termix-SSH/Termix/security/advisories/GHSA-x9pr-795g-rm5f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/pull/874",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/commit/52f4e51ae03b5b8d2608e1383e2ccf79d290132b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Termix-SSH/Termix/releases/tag/release-2.3.2-tag",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "IBM",
-          "product": "Power Systems Firmware",
+          "vendor": "Termix-SSH",
+          "product": "Termix",
           "versions": [
             {
-              "status": "affected",
-              "version": "FW1120.00"
-            },
-            {
-              "status": "affected",
-              "version": "FW1110.00",
-              "lessThanOrEqual": "FW1110.30",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "FW1060.00",
-              "lessThanOrEqual": "FW1060.80",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "FW950.00",
-              "lessThanOrEqual": "FW950.H2",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "OP940.00",
-              "lessThanOrEqual": "OP940.a1",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "OP940.00",
-              "lessThanOrEqual": "OP940.81",
-              "versionType": "semver"
+              "version": "< 2.3.2",
+              "status": "affected"
             }
-          ],
-          "cpes": [
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1120.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1110.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1110.30:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1060.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1060.80:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw950.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw950.h2:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:op940.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:op940.a1:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-190 Integer Overflow or Wraparound"
+        "CWE-918: Server-Side Request Forgery (SSRF)"
       ],
       "cwe_ids": [
-        "CWE-190"
+        "CWE-918"
       ]
     },
     {
-      "id": "CVE-2026-15961",
-      "publishedDate": "2026-08-19T14:36:03.055Z",
-      "lastModifiedDate": "2026-08-19T20:06:30.940Z",
-      "description": "IBM PowerVM Hypervisor FW1120.00, FW1110.00 through FW1110.30, and FW1060.00 through FW1060.80 IBM PowerVM could allow a local attacker to obtain sensitive information or cause a denial of service due to improper control of format strings.",
-      "severity": 5.2,
-      "fix_suggestion": "📦 受影响组件：IBM PowerVM Hypervisor\n🔓 漏洞类型：CWE-134 (CWE-134)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-76582",
+      "publishedDate": "2026-08-19T20:30:10.876Z",
+      "lastModifiedDate": "2026-08-19T20:30:10.876Z",
+      "description": "A vulnerability was determined in TRENDnet TEW-821DAP 2.2.01b05. Affected is the function popen/system of the file /cgi-bin/ping.cgi of the component ssi. Executing a manipulation of the argument ipaddr can lead to command injection. It is possible to launch the attack remotely. The exploit has been publicly disclosed and may be utilized.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：TRENDnet TEW-821DAP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.ibm.com/support/pages/node/7283228",
+          "url": "https://vuldb.com/vuln/393041",
           "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/393041/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-76582",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/877791",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/meishigana/CVE/tree/main/team15_20260702/06_821dap-ssi-remote-cmdi",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "IBM",
-          "product": "PowerVM Hypervisor",
+          "vendor": "TRENDnet",
+          "product": "TEW-821DAP",
           "versions": [
             {
-              "status": "affected",
-              "version": "FW1120.00"
-            },
-            {
-              "status": "affected",
-              "version": "FW1110.00",
-              "lessThanOrEqual": "FW1110.30",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "FW1060.00",
-              "lessThanOrEqual": "FW1060.80",
-              "versionType": "semver"
+              "version": "2.2.01b05",
+              "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1120.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1110.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1110.30:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1060.00:*:*:*:*:*:*:*",
-            "cpe:2.3:o:ibm:power_systems_firmware:fw1060.80:*:*:*:*:*:*:*"
+            "cpe:2.3:o:trendnet:tew-821dap_firmware:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ssi"
           ]
         }
       ],
       "problemType": [
-        "CWE-134 Use of Externally-Controlled Format String"
-      ],
-      "cwe_ids": [
-        "CWE-134"
+        "Command Injection",
+        "Injection"
       ]
     },
     {
-      "id": "CVE-2026-54742",
-      "publishedDate": "2026-08-19T20:10:56.632Z",
-      "lastModifiedDate": "2026-08-19T20:10:56.632Z",
-      "description": "Lemmy is a link aggregator and forum for the fediverse. From 0.19.18 until 0.19.19 and 1.0.0-alpha.20, a community moderator can feature or unfeature posts in other communities through federated CollectionAdd and CollectionRemove activities using CollectionType::Featured. After verify_mod_action authorizes the actor against self.community(), the receive handlers in crates/apub/activities/src/community/collection_add.rs and crates/apub/activities/src/community/collection_remove.rs dereference self.object as an ApubPost and update featured_community without verifying that post.community_id equals community.id. A moderator can therefore target an unrelated post owned by another community, push it into featured feeds and listings, or undo another community's legitimate curation decision. This issue is fixed in versions 0.19.19 and 1.0.0-alpha.20.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：LemmyNet lemmy\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54738",
+      "publishedDate": "2026-08-19T20:27:45.162Z",
+      "lastModifiedDate": "2026-08-19T20:27:45.162Z",
+      "description": "Lemmy is a link aggregator and forum for the fediverse. Prior to 0.19.19 and 1.0.0-beta.1, actix-web ConnectionInfo::realip_remote_addr reads the first value of X-Forwarded-For as the client address used by raw_ip_key in crates/utils/src/rate_limit/mod.rs. Lemmy's bundled docker/nginx.conf uses $proxy_add_x_forwarded_for instead of $remote_addr, which appends the real client address to an X-Forwarded-For value supplied by the client. An unauthenticated attacker can therefore place a different spoofed address first on each request and receive a new rate-limit bucket, bypassing limits on POST /api/v4/account/auth/register, POST /api/v4/account/auth/login, POST /api/v4/post, POST /api/v4/comment, GET /api/v4/search, POST /api/v4/image, and POST /api/v4/account/import_settings. This permits excessive account creation, brute-force attempts, spam, scraping, uploads, and repeated imports. This issue is fixed in versions 0.19.19 and 1.0.0-beta.1.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：LemmyNet lemmy\n🔓 漏洞类型：CWE-799 (CWE-799)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/LemmyNet/lemmy/security/advisories/GHSA-gwfj-h8r7-792v",
+          "url": "https://github.com/LemmyNet/lemmy/security/advisories/GHSA-2hrg-7x4g-9vpg",
           "type": "reference"
         },
         {
-          "url": "https://github.com/LemmyNet/lemmy/pull/6500",
+          "url": "https://github.com/LemmyNet/lemmy/pull/6574",
           "type": "reference"
         },
         {
-          "url": "https://github.com/LemmyNet/lemmy/pull/6501",
+          "url": "https://github.com/LemmyNet/lemmy/pull/6575",
           "type": "reference"
         },
         {
-          "url": "https://github.com/LemmyNet/lemmy/commit/108d78c592cc88bac2b0bf52ca6631be54f6fb23",
+          "url": "https://github.com/LemmyNet/lemmy/commit/41513c89ceecee719bff05acfe613e3b1e85f23c",
           "type": "reference"
         },
         {
-          "url": "https://github.com/LemmyNet/lemmy/commit/abe256243822526dcd4bca857f7c0adeb49944f5",
+          "url": "https://github.com/LemmyNet/lemmy/commit/8b5b2aa78417b53ff3622c01f5bed2f1590f3b82",
           "type": "reference"
         },
         {
@@ -278,7 +404,7 @@
           "type": "reference"
         },
         {
-          "url": "https://github.com/LemmyNet/lemmy/releases/tag/1.0.0-alpha.20",
+          "url": "https://github.com/LemmyNet/lemmy/releases/tag/1.0.0-beta.1",
           "type": "reference"
         },
         {
@@ -296,143 +422,121 @@
               "status": "affected"
             },
             {
-              "version": ">= 1.0.0-alpha.0, < 1.0.0-alpha.20",
+              "version": ">= 1.0.0-alpha.5, < 1.0.0-beta.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-863: Incorrect Authorization"
+        "CWE-799: Improper Control of Interaction Frequency"
       ],
       "cwe_ids": [
-        "CWE-863"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-75593",
-      "publishedDate": "2026-08-19T20:06:54.924Z",
-      "lastModifiedDate": "2026-08-19T20:06:54.924Z",
-      "description": "BuildKit is a toolkit for converting source code to build artifacts in an efficient, expressive and repeatable manner. Prior to 0.31.2, a custom client can produce such an upload request to the BuildKit daemon that files can escape from the BuildKit-controlled state directory. The client needs to have valid permissions to access BuildKit control API to issue builds, eg., bypass authentication, etc. This issue is fixed in version 0.31.2.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：moby buildkit\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/moby/buildkit/security/advisories/GHSA-g2h8-426c-7976",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/releases/tag/v0.31.2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "moby",
-          "product": "buildkit",
-          "versions": [
-            {
-              "version": "< 0.31.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-61711",
-      "publishedDate": "2026-08-19T20:03:38.250Z",
-      "lastModifiedDate": "2026-08-19T20:03:38.250Z",
-      "description": "BuildKit is a toolkit for converting source code to build artifacts in an efficient, expressive and repeatable manner. Prior to 0.31.1, a custom frontend could place an invalid SecurityMode value in a crafted build request, and executor/oci/spec_linux.go treated the unsupported value as a non-sandbox mode without requiring the security.insecure entitlement. This disabled Seccomp and AppArmor protections for the build container even though Linux capabilities remained restricted. This issue is fixed in version 0.31.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：moby buildkit\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/moby/buildkit/security/advisories/GHSA-7236-3392-c5c6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/commit/3ea6dd0ce7d269cdb8aa23348718e2c1bf64f109",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/commit/64bbec89ca43dd95b2853edeca240c33c6729910",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/releases/tag/v0.31.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "moby",
-          "product": "buildkit",
-          "versions": [
-            {
-              "version": "< 0.31.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-20: Improper Input Validation"
-      ],
-      "cwe_ids": [
-        "CWE-20"
+        "CWE-799"
       ]
     },
     {
-      "id": "CVE-2026-61712",
-      "publishedDate": "2026-08-19T20:01:18.074Z",
-      "lastModifiedDate": "2026-08-19T20:01:18.074Z",
-      "description": "BuildKit is a toolkit for converting source code to build artifacts in an efficient, expressive and repeatable manner. Prior to 0.31.1, BuildKit read attacker-controlled /etc/passwd and /etc/group files without an upper bound while resolving a username to a user identifier or group identifier in executor/oci/user.go and solver/llbsolver/ops/user_linux.go. A malicious base image or build could provide oversized files that exhausted memory during user resolution and caused out-of-memory termination of the buildkitd process. This issue is fixed in version 0.31.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：moby buildkit\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-17015",
+      "publishedDate": "2026-08-19T20:34:07.687Z",
+      "lastModifiedDate": "2026-08-19T20:34:07.687Z",
+      "description": "IBM i 7.6, 7.5, 7.4, and 7.3 could allow a remote authenticated attacker to cause a denial of service and obtain sensitive information due to an out-of-bounds read.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：IBM i\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/moby/buildkit/security/advisories/GHSA-72x6-4j93-7w86",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/commit/408266e4ba254cecabedaacdad6905de4d2a75a1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/commit/69a3924648e485acb3faad3081e03a8554431255",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/moby/buildkit/releases/tag/v0.31.1",
+          "url": "https://www.ibm.com/support/pages/node/7284068",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "moby",
-          "product": "buildkit",
+          "vendor": "IBM",
+          "product": "i",
           "versions": [
             {
-              "version": "< 0.31.1",
-              "status": "affected"
+              "status": "affected",
+              "version": "7.6"
+            },
+            {
+              "status": "affected",
+              "version": "7.5"
+            },
+            {
+              "status": "affected",
+              "version": "7.4"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:i:7.6:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.6.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.5:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.5.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.4:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.4.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:i:7.3.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
+        "CWE-125 Out-of-bounds Read"
       ],
       "cwe_ids": [
-        "CWE-770"
+        "CWE-125"
+      ]
+    },
+    {
+      "id": "CVE-2026-18102",
+      "publishedDate": "2026-08-19T20:32:50.506Z",
+      "lastModifiedDate": "2026-08-19T20:32:50.506Z",
+      "description": "IBM i 7.6, 7.5, 7.4, and 7.3 could allow a remote authenticated attacker to overwrite adjacent memory due to an integer underflow during bounds checking.",
+      "severity": 3.5,
+      "fix_suggestion": "📦 受影响组件：IBM i\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283297",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "i",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.6"
+            },
+            {
+              "status": "affected",
+              "version": "7.5"
+            },
+            {
+              "status": "affected",
+              "version": "7.4"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:o:ibm:i:7.6:*:*:*:*:*:*:*",
+            "cpe:2.3:o:ibm:i:7.5:*:*:*:*:*:*:*",
+            "cpe:2.3:o:ibm:i:7.4:*:*:*:*:*:*:*",
+            "cpe:2.3:o:ibm:i:7.3:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based Buffer Overflow"
+      ],
+      "cwe_ids": [
+        "CWE-122"
       ]
     }
   ]
