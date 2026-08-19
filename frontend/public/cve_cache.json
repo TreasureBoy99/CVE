@@ -2,216 +2,672 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-19T06:56:39.996161",
+    "total_count": 10,
+    "last_updated": "2026-08-19T07:37:15.947774",
     "severity_distribution": {
-      "critical": 0,
+      "critical": 2,
       "high": 2,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-75981",
-      "publishedDate": "2026-08-19T06:37:55.093Z",
-      "lastModifiedDate": "2026-08-19T06:37:55.093Z",
-      "description": "The TranslatePress – Translate Multilingual sites with AI Translation plugin for WordPress is vulnerable to unauthenticated Stored Cross-Site Scripting in versions up to and including 3.2.5. The special gettext markers '#!trpst#' and '#!trpen#' are unconditionally rewritten to '<' and '>' by translate_page() in includes/class-translation-render.php (lines 538-539). Because those markers are plain text with no HTML-special characters, an unauthenticated attacker can embed them in a comment; the markers survive wp_kses, and when the post is viewed in a secondary language the substitution turns the attacker's '#!trpst#img ... #!trpen#' into a real <img> tag. remove_tags_from_output() only strips <script>/<style>, so an <img onerror=...> executes in the visitor's browser.",
-      "severity": 7.2,
-      "fix_suggestion": "📦 受影响组件：cozmoslabs TranslatePress – Translate Multilingual sites with AI Translation\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-72210",
+      "publishedDate": "2026-08-15T05:54:05.527Z",
+      "lastModifiedDate": "2026-08-19T07:14:09.985Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nntfs: fix off-by-one in mapping pairs decoding bounds checks\n\nIn ntfs_mapping_pairs_decompress(), attr_end points one byte past the\nend of the attribute record:\n\n    attr_end = (u8 *)attr + le32_to_cpu(attr->length);\n\nThe two bounds checks validating that mapping pair data bytes fit within\nthe attribute use strict greater-than (>), which allows a one-byte\nout-of-bounds read when the data extends exactly to attr_end:\n\n  b = *buf & 0xf;\n  if (b) {\n      if (unlikely(buf + b > attr_end))   // off-by-one\n          goto io_error;\n      for (deltaxcn = (s8)buf[b--]; b; b--)\n          deltaxcn = (deltaxcn << 8) + buf[b];\n  }\n\nWhen buf + b == attr_end, the check evaluates to false and buf[b] reads\none byte past the valid attribute boundary. The same pattern appears in\nthe LCN delta bytes check.\n\nFix both checks to use >= so that buf[b] at exactly attr_end is\ncorrectly rejected as out of bounds.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/fec48853-afa5-4310-be2e-e86c01ece227?source=cve",
+          "url": "https://git.kernel.org/stable/c/bfe835e535fe0aa5767fdd8116f62e835ba50b55",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.5/includes/class-translation-render.php#L538",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.5/includes/class-translation-render.php#L539",
+          "url": "https://git.kernel.org/stable/c/18760a74ef7c28df93726445b5595162e62ed341",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "cozmoslabs",
-          "product": "TranslatePress – Translate Multilingual sites with AI Translation",
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/runlist.c"
+          ],
           "versions": [
             {
-              "version": "0",
+              "version": "1e9ea7e04472d4e5e12e58c881eaacfb3e49b669",
+              "lessThan": "bfe835e535fe0aa5767fdd8116f62e835ba50b55",
               "status": "affected",
-              "lessThanOrEqual": "3.2.5",
+              "versionType": "git"
+            },
+            {
+              "version": "1e9ea7e04472d4e5e12e58c881eaacfb3e49b669",
+              "lessThan": "18760a74ef7c28df93726445b5595162e62ed341",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/runlist.c"
+          ],
+          "versions": [
+            {
+              "version": "7.1",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "7.1",
+              "status": "unaffected",
               "versionType": "semver"
+            },
+            {
+              "version": "7.1.5",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-72200",
+      "publishedDate": "2026-08-15T05:53:58.100Z",
+      "lastModifiedDate": "2026-08-19T07:14:07.530Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nntfs: detect mapping-pairs LCN accumulator overflow\n\nThe NTFS mapping-pairs parser accumulates relative LCN deltas in a\nsigned integer.  A corrupted attribute can drive that addition past\nthe representable range.\n\nOne corrupt runlist shape sets the accumulated LCN to S64_MAX and\nthen adds a delta of 1 in the next mapping-pairs entry.\n\nSigned overflow is undefined and can turn an invalid runlist into a\ndifferent set of physical clusters.\n\nCheck the LCN addition for overflow before storing the next run.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/7fb64788812d137b37f6d8724e1e41c624c1e814",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/ec4f061f2219e0f0c6465d56d0380bf749235a53",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/runlist.c"
+          ],
+          "versions": [
+            {
+              "version": "1da177e4c3f41524e886b7f1b8a0c1fc7321cac2",
+              "lessThan": "7fb64788812d137b37f6d8724e1e41c624c1e814",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "1da177e4c3f41524e886b7f1b8a0c1fc7321cac2",
+              "lessThan": "ec4f061f2219e0f0c6465d56d0380bf749235a53",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/runlist.c"
+          ],
+          "versions": [
+            {
+              "version": "2.6.12",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "2.6.12",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.5",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-72198",
+      "publishedDate": "2026-08-15T05:53:56.782Z",
+      "lastModifiedDate": "2026-08-19T07:14:06.300Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nntfs: reject non-resident records for resident-only attributes\n\nThe shared lookup-time attribute validator rejects non-resident\n$FILE_NAME and $VOLUME_NAME records because their formats require\nresident values and callers handle returned records as resident\nattributes. Other resident-only attribute types still pass through the\ngeneric non-resident mapping-pairs checks.\n\nThat leaves real resident/non-resident union confusion paths. Inode load\nlooks up $STANDARD_INFORMATION and then reads data.resident.value_offset\nwithout checking a->non_resident. ntfs_inode_sync_standard_information()\ndoes the same when updating the standard information value.\nntfs_write_volume_flags() also looks up $VOLUME_INFORMATION and reads\ndata.resident.value_offset directly. $INDEX_ROOT callers in dir.c and\nindex.c depend on the same lookup contract before consuming the resident\nindex root value.\n\nReject non-resident records for all resident-only attribute types in the\nshared validator. Keep the existing $FILE_NAME and $VOLUME_NAME behavior,\nbut factor it through a helper and extend it to\n$STANDARD_INFORMATION, $OBJECT_ID, $VOLUME_INFORMATION, $INDEX_ROOT, and\n$EA_INFORMATION. For $OBJECT_ID and $EA_INFORMATION this is contract\nhardening for resident-only formats; this patch only rejects the\nnon-resident form and does not add new resident value validation for\nthose types.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/b54c9beb90e570bae17a9c18442aeeaf17165ccb",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/097cdfd0a55df5af82c9753833f39a8bfadbcfcb",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/attrib.c"
+          ],
+          "versions": [
+            {
+              "version": "1da177e4c3f41524e886b7f1b8a0c1fc7321cac2",
+              "lessThan": "b54c9beb90e570bae17a9c18442aeeaf17165ccb",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "1da177e4c3f41524e886b7f1b8a0c1fc7321cac2",
+              "lessThan": "097cdfd0a55df5af82c9753833f39a8bfadbcfcb",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/attrib.c"
+          ],
+          "versions": [
+            {
+              "version": "2.6.12",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "2.6.12",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.5",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-72203",
+      "publishedDate": "2026-08-15T05:54:00.321Z",
+      "lastModifiedDate": "2026-08-19T07:14:08.754Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nntfs: skip extent mft records in writeback to prevent deadlock\n\nThis patch fixes the ABBA deadlock between extent_lock and extent\nmrec_lock triggered by xfstests generic/113, that occurs since the commit\n6994acf33bae (\"ntfs: use base mft_no when looking up base inode for\n\t\textent record\").\n\nPath A (inode writeback):\n  VFS writeback\n    -> ntfs_write_inode()\n      -> __ntfs_write_inode()\n        -> mutex_lock(&ni->extent_lock)\n        -> mutex_lock(&tni->mrec_lock)\n\nPath B (MFT folio writeback):\n  VFS writeback of $MFT dirty folios\n    -> ntfs_mft_writepages()\n      -> ntfs_write_mft_block()\n        -> ntfs_may_write_mft_record()\n          -> holds one extent mrec_lock from a previous iteration\n          -> tries to acquire another base inode extent_lock\n\nBy removing all extent_lock and extent mrec_lock acquisition from the MFT\nfolio writeback path, the ABBA lock ordering is eliminated:\n\nPath A: __ntfs_write_inode(): extent_lock -> mrec_lock\nPath B (removed): ntfs_write_mft_block(): mrec_lock -> extent_lock\n\nPath B is always redundant for extent records because:\n\n1. mark_mft_record_dirty(ext_ni) does NOT dirty the MFT folio.\n   It only sets NInoDirty(ext_ni) and marks the base VFS inode dirty\n   via __mark_inode_dirty(I_DIRTY_DATASYNC), which triggers Path A.\n   Therefore, normal extent modifications never create a situation where\n   the MFT folio is dirty and Path B is not scheduled.\n\n2. The MFT folio only gets dirtied via ntfs_mft_mark_dirty() inside\n   ntfs_mft_record_alloc(). But all identified callers in attrib.c\n   (ntfs_attr_add, ntfs_attr_record_move_away,\n   ntfs_attr_make_non_resident, ntfs_attr_record_resize) follow through\n   with mark_mft_record_dirty(), which triggers Path A to write the\n   complete record.\n\n3. ntfs_evict_big_inode() calls ntfs_commit_inode() before freeing extent\n   inodes, ensuring all dirty extents are flushed via Path A before the\n   base inode leaves the icache.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/f831ab09d521898bf1dd99bf5adfd630ea1428e3",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/76bc14c7097ff678b2b5dbfd4fa33b46897d87ce",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/mft.c"
+          ],
+          "versions": [
+            {
+              "version": "1da177e4c3f41524e886b7f1b8a0c1fc7321cac2",
+              "lessThan": "f831ab09d521898bf1dd99bf5adfd630ea1428e3",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "1da177e4c3f41524e886b7f1b8a0c1fc7321cac2",
+              "lessThan": "76bc14c7097ff678b2b5dbfd4fa33b46897d87ce",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "fs/ntfs/mft.c"
+          ],
+          "versions": [
+            {
+              "version": "2.6.12",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "2.6.12",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.5",
+              "lessThanOrEqual": "7.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-75589",
+      "publishedDate": "2026-08-19T07:20:44.880Z",
+      "lastModifiedDate": "2026-08-19T07:20:44.880Z",
+      "description": "Net::OAuth versions before 0.33 for Perl check HMAC-SHA1, HMAC-SHA256 and PLAINTEXT signatures with a non-constant-time comparison in verify.\n\nEach of the three compares the signature carried in the message against the locally computed one with the eq operator, which returns as soon as the two strings differ. The time taken to reject a signature varies with the length of the matching prefix. RSA-SHA1 is not affected, as it verifies through the RSA key object rather than by comparing strings.\n\nA client that can submit messages and time the replies may recover a valid signature one byte at a time rather than searching the whole signature space. Under PLAINTEXT the value compared against is the signature key itself, so the search recovers consumer_secret and token_secret.",
+      "severity": "N/A",
+      "fix_suggestion": "🔓 漏洞类型：CWE-208 (CWE-208)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vurtdev/Net-OAuth/security/advisories/GHSA-g8xr-69p3-gw56",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vurtdev/Net-OAuth/commit/a1a16b58add85668ef4fcda642a486ceed098eba.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/RRWO/Net-OAuth-0.33/changes",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "Net::OAuth"
+          ],
+          "packageName": "Net-OAuth",
+          "packageURL": "pkg:cpan/Net-OAuth",
+          "programFiles": [
+            "lib/Net/OAuth/SignatureMethod/HMAC_SHA1.pm",
+            "lib/Net/OAuth/SignatureMethod/HMAC_SHA256.pm",
+            "lib/Net/OAuth/SignatureMethod/PLAINTEXT.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Net::OAuth::SignatureMethod::HMAC_SHA1::verify"
+            },
+            {
+              "name": "Net::OAuth::SignatureMethod::HMAC_SHA256::verify"
+            },
+            {
+              "name": "Net::OAuth::SignatureMethod::PLAINTEXT::verify"
             }
           ],
-          "defaultStatus": "unaffected"
+          "repo": "https://github.com/vurtdev/Net-OAuth",
+          "versions": [
+            {
+              "lessThan": "0.33",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-208 Observable Timing Discrepancy"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-208"
       ]
     },
     {
-      "id": "CVE-2026-15780",
-      "publishedDate": "2026-08-19T06:37:54.188Z",
-      "lastModifiedDate": "2026-08-19T06:37:54.188Z",
-      "description": "The WP Statistics – Simple, privacy-friendly Google Analytics alternative plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'utm_campaign' parameter in all versions up to, and including, 14.16.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The payload can be planted without authentication via the public /wp-statistics/v2/hit REST endpoint, because the required signature is exposed on the public homepage and a base64-encoded page_uri POST parameter overrides the previously sanitized REQUEST_URI, allowing the malicious utm_campaign value to bypass sanitization and be stored in the database.",
-      "severity": 7.2,
-      "fix_suggestion": "📦 受影响组件：veronalabs WP Statistics – Simple, privacy-friendly Google Analytics alternative\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-58082",
+      "publishedDate": "2026-08-19T07:20:37.172Z",
+      "lastModifiedDate": "2026-08-19T07:20:37.172Z",
+      "description": "The ISO-2022 encoding module used a stack buffer sized to MB_LEN_MAX (6 bytes) for intermediate character output.  Some ISO-2022 variants can require up to 10 bytes per character, in which case conversions can trigger a stack buffer overflow of up to four bytes.\n\nAn application that uses iconv(3) to convert untrusted input to or from one of the affected encodings may be vulnerable to buffer overflows if it uses one of the affected encoding modules.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b5baecfe-ce0b-4cec-8462-bfd7eadd41e9?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/views/components/tables/visitors.php#L94",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/views/components/tables/referred-visitors.php#L79",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/assets/dev/javascript/helper.js#L267",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/includes/api/v2/class-wp-statistics-api-hit.php#L78",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/includes/class-wp-statistics-helper.php#L1462",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/includes/class-wp-statistics-hits.php#L102",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/views/components/tables/visitors.php#L94",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/views/components/tables/referred-visitors.php#L79",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/assets/dev/javascript/helper.js#L267",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/includes/api/v2/class-wp-statistics-api-hit.php#L78",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/includes/class-wp-statistics-helper.php#L1462",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/includes/class-wp-statistics-hits.php#L102",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/wp-statistics/wp-statistics/commit/6ab74427778b89c9e88471e9dd7407d9055a9b34",
+          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:49.iconv.asc",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "veronalabs",
-          "product": "WP Statistics – Simple, privacy-friendly Google Analytics alternative",
+          "defaultStatus": "unknown",
+          "modules": [
+            "iconv"
+          ],
+          "product": "FreeBSD",
+          "vendor": "FreeBSD",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "14.16.8",
-              "versionType": "semver"
+              "versionType": "release",
+              "version": "15.1-RELEASE",
+              "lessThan": "p1"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "15.0-RELEASE",
+              "lessThan": "p11"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.4-RELEASE",
+              "lessThan": "p7"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.3-RELEASE",
+              "lessThan": "p16"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-121: Stack-based Buffer Overflow"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-121"
       ]
     },
     {
-      "id": "CVE-2026-15446",
-      "publishedDate": "2026-08-19T06:37:54.690Z",
-      "lastModifiedDate": "2026-08-19T06:37:54.690Z",
-      "description": "The EWWW Image Optimizer plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'data-script' Lazy Load Attribute in Post Content in all versions up to, and including, 8.7.3 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The exploit is achieved by embedding a crafted img element with class='lazyload' and a data-script attribute pointing to an attacker-controlled URL in post content, which the plugin's bundled lazysizes ls.unveilhooks addon then uses to dynamically create and insert a script element into the DOM at page view time.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：nosilver4u EWWW Image Optimizer\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-58081",
+      "publishedDate": "2026-08-19T07:20:26.880Z",
+      "lastModifiedDate": "2026-08-19T07:20:26.880Z",
+      "description": "Several encoding modules, including HZ, UTF-7, VIQR, and ZW, did not properly check the size of the caller-supplied output buffer before writing converted characters.\n\nAn application that uses iconv(3) to convert untrusted input to or from one of the affected encodings may be vulnerable to buffer overflows if it uses one of the affected encoding modules.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e8af1fdb-7fec-4bbe-937b-ee2e76cf5c5b?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/includes/ls.unveilhooks.js#L116",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/includes/ls.unveilhooks.js#L178",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/classes/class-lazy-load.php#L1679",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/classes/class-lazy-load.php#L496",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/includes/ls.unveilhooks.js#L116",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/includes/ls.unveilhooks.js#L178",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/classes/class-lazy-load.php#L1679",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/classes/class-lazy-load.php#L496",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/nosilver4u/ewww-image-optimizer/commit/4488aafaee9212db370a5ed2dcb9bad7912b897d",
+          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:49.iconv.asc",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "nosilver4u",
-          "product": "EWWW Image Optimizer",
+          "defaultStatus": "unknown",
+          "modules": [
+            "iconv"
+          ],
+          "product": "FreeBSD",
+          "vendor": "FreeBSD",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "8.7.3",
-              "versionType": "semver"
+              "versionType": "release",
+              "version": "15.1-RELEASE",
+              "lessThan": "p1"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "15.0-RELEASE",
+              "lessThan": "p11"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.4-RELEASE",
+              "lessThan": "p7"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.3-RELEASE",
+              "lessThan": "p16"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-122: Heap-based Buffer Overflow"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-122"
+      ]
+    },
+    {
+      "id": "CVE-2026-72889",
+      "publishedDate": "2026-08-19T07:20:09.095Z",
+      "lastModifiedDate": "2026-08-19T07:20:09.095Z",
+      "description": "Net::OAuth versions before 0.33 for Perl allow the sender to choose the signature algorithm in verify.\n\nverify resolves the signature method class from the signature_method parameter of the incoming message. signature_method is required on every request, so the algorithm used to check a signature is chosen by whoever sent it, and nothing lets the verifying party pin the method instead. When a message names HMAC-SHA1 or HMAC-SHA256, the key is derived from consumer_secret and token_secret rather than from the key the provider deployed.\n\nA provider deployed on RSA-SHA1 holds only the consumer public key, and RFC 5849 does not use consumer_secret for that method, so the required parameter is filled with a placeholder. A client that names HMAC-SHA1 instead has its signature checked against that placeholder, so a guessable one is enough to forge requests for any consumer key and token.",
+      "severity": "N/A",
+      "fix_suggestion": "🔓 漏洞类型：CWE-347, CWE-757 (CWE-347, CWE-757)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vurtdev/Net-OAuth/security/advisories/GHSA-c8rm-g5cm-4pf5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vurtdev/Net-OAuth/commit/c467adf45c8d77ac4b92ad78b3eebf949252ba7f.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://metacpan.org/release/RRWO/Net-OAuth-0.33/changes",
+          "type": "reference"
+        },
+        {
+          "url": "https://datatracker.ietf.org/doc/html/rfc5849#section-3.4.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://datatracker.ietf.org/doc/html/rfc5849#section-3.4.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "Net::OAuth"
+          ],
+          "packageName": "Net-OAuth",
+          "packageURL": "pkg:cpan/Net-OAuth",
+          "programFiles": [
+            "lib/Net/OAuth/Message.pm",
+            "lib/Net/OAuth/Request.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Net::OAuth::Message::verify"
+            },
+            {
+              "name": "Net::OAuth::Message::_signature_method_class"
+            },
+            {
+              "name": "Net::OAuth::Request::signature_key"
+            }
+          ],
+          "repo": "https://github.com/vurtdev/Net-OAuth",
+          "versions": [
+            {
+              "lessThan": "0.33",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-347 Improper Verification of Cryptographic Signature",
+        "CWE-757 Selection of Less-Secure Algorithm During Negotiation ('Algorithm Downgrade')"
+      ],
+      "cwe_ids": [
+        "CWE-347",
+        "CWE-757"
+      ]
+    },
+    {
+      "id": "CVE-2026-49425",
+      "publishedDate": "2026-08-19T07:11:21.113Z",
+      "lastModifiedDate": "2026-08-19T07:11:21.113Z",
+      "description": "The compat32 kevent() handler translates a 64-bit kevent struct into a stack- declared 32-bit struct.  It did not first zero the stack struct.\n\nAn unprivileged user may observe a small amount of uninitialized kernel stack data, which may contain sensitive information.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-908 (CWE-908)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:48.compat32.asc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unknown",
+          "modules": [
+            "compat32"
+          ],
+          "product": "FreeBSD",
+          "vendor": "FreeBSD",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "15.0-RELEASE",
+              "lessThan": "p11"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.4-RELEASE",
+              "lessThan": "p7"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.3-RELEASE",
+              "lessThan": "p16"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-908: Use of Uninitialized Resource"
+      ],
+      "cwe_ids": [
+        "CWE-908"
+      ]
+    },
+    {
+      "id": "CVE-2026-49424",
+      "publishedDate": "2026-08-19T07:08:35.691Z",
+      "lastModifiedDate": "2026-08-19T07:08:35.691Z",
+      "description": "The Linux waitid() implementation translates a FreeBSD siginfo_t struct into a stack-declared Linux siginfo_t.  It did not first zero the stack struct.\n\nAn unprivileged user may observe 104 bytes of uninitialized kernel stack data, which may contain sensitive information.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-908 (CWE-908)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:47.linux.asc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unknown",
+          "modules": [
+            "linux"
+          ],
+          "product": "FreeBSD",
+          "vendor": "FreeBSD",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "15.0-RELEASE",
+              "lessThan": "p11"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.4-RELEASE",
+              "lessThan": "p7"
+            },
+            {
+              "status": "affected",
+              "versionType": "release",
+              "version": "14.3-RELEASE",
+              "lessThan": "p16"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-908: Use of Uninitialized Resource"
+      ],
+      "cwe_ids": [
+        "CWE-908"
       ]
     }
   ]
