@@ -2,127 +2,216 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-19T05:59:45.474574",
+    "total_count": 3,
+    "last_updated": "2026-08-19T06:56:39.996161",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 2,
+      "medium": 1,
       "low": 0,
-      "none": 2
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-49428",
-      "publishedDate": "2026-08-19T05:57:04.674Z",
-      "lastModifiedDate": "2026-08-19T05:57:04.674Z",
-      "description": "Certain system calls, such open(2) with the O_TRUNC flag set, and fspacectl(2), could incorrectly free memory in largepage objects.  These operations are not permitted on largepage objects, but the implementation did not verify this.\n\nAn unprivileged local user can abuse the bug to access freed kernel memory.  This can be exploited to escalate privileges.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-915 (CWE-915)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75981",
+      "publishedDate": "2026-08-19T06:37:55.093Z",
+      "lastModifiedDate": "2026-08-19T06:37:55.093Z",
+      "description": "The TranslatePress – Translate Multilingual sites with AI Translation plugin for WordPress is vulnerable to unauthenticated Stored Cross-Site Scripting in versions up to and including 3.2.5. The special gettext markers '#!trpst#' and '#!trpen#' are unconditionally rewritten to '<' and '>' by translate_page() in includes/class-translation-render.php (lines 538-539). Because those markers are plain text with no HTML-special characters, an unauthenticated attacker can embed them in a comment; the markers survive wp_kses, and when the post is viewed in a secondary language the substitution turns the attacker's '#!trpst#img ... #!trpen#' into a real <img> tag. remove_tags_from_output() only strips <script>/<style>, so an <img onerror=...> executes in the visitor's browser.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：cozmoslabs TranslatePress – Translate Multilingual sites with AI Translation\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:44.posixshm.asc",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/fec48853-afa5-4310-be2e-e86c01ece227?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.5/includes/class-translation-render.php#L538",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.5/includes/class-translation-render.php#L539",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unknown",
-          "modules": [
-            "posixshm"
-          ],
-          "product": "FreeBSD",
-          "vendor": "FreeBSD",
+          "vendor": "cozmoslabs",
+          "product": "TranslatePress – Translate Multilingual sites with AI Translation",
           "versions": [
             {
+              "version": "0",
               "status": "affected",
-              "versionType": "release",
-              "version": "15.1-RELEASE",
-              "lessThan": "p1"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "15.0-RELEASE",
-              "lessThan": "p11"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "14.4-RELEASE",
-              "lessThan": "p7"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "14.3-RELEASE",
-              "lessThan": "p16"
+              "lessThanOrEqual": "3.2.5",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-915"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-49427",
-      "publishedDate": "2026-08-19T05:56:53.494Z",
-      "lastModifiedDate": "2026-08-19T05:56:53.494Z",
-      "description": "Pages belonging to largepage shared memory objects were not explicitly wired.  When sendfile(2) transmitted such an object with the SF_NOCACHE flag, it freed the underlying pages after transmission even though existing mappings still referred to them.\n\nAn unprivileged local user can abuse the bug to access freed kernel memory.  This can be exploited to escalate privileges.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-826 (CWE-826)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-15780",
+      "publishedDate": "2026-08-19T06:37:54.188Z",
+      "lastModifiedDate": "2026-08-19T06:37:54.188Z",
+      "description": "The WP Statistics – Simple, privacy-friendly Google Analytics alternative plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'utm_campaign' parameter in all versions up to, and including, 14.16.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The payload can be planted without authentication via the public /wp-statistics/v2/hit REST endpoint, because the required signature is exposed on the public homepage and a base64-encoded page_uri POST parameter overrides the previously sanitized REQUEST_URI, allowing the malicious utm_campaign value to bypass sanitization and be stored in the database.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：veronalabs WP Statistics – Simple, privacy-friendly Google Analytics alternative\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:44.posixshm.asc",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b5baecfe-ce0b-4cec-8462-bfd7eadd41e9?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/views/components/tables/visitors.php#L94",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/views/components/tables/referred-visitors.php#L79",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/assets/dev/javascript/helper.js#L267",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/includes/api/v2/class-wp-statistics-api-hit.php#L78",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/includes/class-wp-statistics-helper.php#L1462",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.8/includes/class-wp-statistics-hits.php#L102",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/views/components/tables/visitors.php#L94",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/views/components/tables/referred-visitors.php#L79",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/assets/dev/javascript/helper.js#L267",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/includes/api/v2/class-wp-statistics-api-hit.php#L78",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/includes/class-wp-statistics-helper.php#L1462",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/wp-statistics/tags/14.16.7/includes/class-wp-statistics-hits.php#L102",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wp-statistics/wp-statistics/commit/6ab74427778b89c9e88471e9dd7407d9055a9b34",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unknown",
-          "modules": [
-            "posixshm"
-          ],
-          "product": "FreeBSD",
-          "vendor": "FreeBSD",
+          "vendor": "veronalabs",
+          "product": "WP Statistics – Simple, privacy-friendly Google Analytics alternative",
           "versions": [
             {
+              "version": "0",
               "status": "affected",
-              "versionType": "release",
-              "version": "15.1-RELEASE",
-              "lessThan": "p1"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "15.0-RELEASE",
-              "lessThan": "p11"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "14.4-RELEASE",
-              "lessThan": "p7"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "14.3-RELEASE",
-              "lessThan": "p16"
+              "lessThanOrEqual": "14.16.8",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-826: Premature Release of Resource During Expected Lifetime"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-826"
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-15446",
+      "publishedDate": "2026-08-19T06:37:54.690Z",
+      "lastModifiedDate": "2026-08-19T06:37:54.690Z",
+      "description": "The EWWW Image Optimizer plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'data-script' Lazy Load Attribute in Post Content in all versions up to, and including, 8.7.3 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The exploit is achieved by embedding a crafted img element with class='lazyload' and a data-script attribute pointing to an attacker-controlled URL in post content, which the plugin's bundled lazysizes ls.unveilhooks addon then uses to dynamically create and insert a script element into the DOM at page view time.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：nosilver4u EWWW Image Optimizer\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e8af1fdb-7fec-4bbe-937b-ee2e76cf5c5b?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/includes/ls.unveilhooks.js#L116",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/includes/ls.unveilhooks.js#L178",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/classes/class-lazy-load.php#L1679",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.7.3/classes/class-lazy-load.php#L496",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/includes/ls.unveilhooks.js#L116",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/includes/ls.unveilhooks.js#L178",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/classes/class-lazy-load.php#L1679",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ewww-image-optimizer/tags/8.6.0/classes/class-lazy-load.php#L496",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/nosilver4u/ewww-image-optimizer/commit/4488aafaee9212db370a5ed2dcb9bad7912b897d",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "nosilver4u",
+          "product": "EWWW Image Optimizer",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "8.7.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
       ]
     }
   ]
