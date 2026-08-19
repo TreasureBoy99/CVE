@@ -2,84 +2,27 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-19T05:35:29.901216",
+    "total_count": 2,
+    "last_updated": "2026-08-19T05:59:45.474574",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
       "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-49422",
-      "publishedDate": "2026-08-19T05:28:32.468Z",
-      "lastModifiedDate": "2026-08-19T05:28:32.468Z",
-      "description": "The RACK setsockopt(2) handler drops the connection lock in order to copy option data from userspace, then reacquires the lock.  After reacquiring, it verifies that the TCP stack had not been switched away, but did not reload its pointer to the stack's per-connection control block.  If userspace switches stacks twice during this window, the check will succeed but the saved pointer will refer to freed memory.\n\nThe bug may be exploitable by an unprivileged local user to escalate privileges.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：Use After Free (CWE-416)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:43.tcp.asc",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unknown",
-          "modules": [
-            "tcp"
-          ],
-          "product": "FreeBSD",
-          "vendor": "FreeBSD",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "15.1-RELEASE",
-              "lessThan": "p1"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "15.0-RELEASE",
-              "lessThan": "p11"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "14.4-RELEASE",
-              "lessThan": "p7"
-            },
-            {
-              "status": "affected",
-              "versionType": "release",
-              "version": "14.3-RELEASE",
-              "lessThan": "p16"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-416: Use After Free"
-      ],
-      "cwe_ids": [
-        "CWE-416"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-49421",
-      "publishedDate": "2026-08-19T05:25:43.003Z",
-      "lastModifiedDate": "2026-08-19T05:25:43.003Z",
-      "description": "The kernel function that implements unlinkat(2) and funlinkat(2) validated the AT_RESOLVE_BENEATH flag but failed to pass it through to the underlying path lookup.  The flag was silently dropped, so path resolution was not actually restricted.\n\nA process that uses AT_RESOLVE_BENEATH with unlinkat(2) or funlinkat(2) to confine path resolution can in fact resolve paths above the starting directory.  A caller relying on this flag for path containment may delete files outside the intended directory tree.",
+      "id": "CVE-2026-49428",
+      "publishedDate": "2026-08-19T05:57:04.674Z",
+      "lastModifiedDate": "2026-08-19T05:57:04.674Z",
+      "description": "Certain system calls, such open(2) with the O_TRUNC flag set, and fspacectl(2), could incorrectly free memory in largepage objects.  These operations are not permitted on largepage objects, but the implementation did not verify this.\n\nAn unprivileged local user can abuse the bug to access freed kernel memory.  This can be exploited to escalate privileges.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-273 (CWE-273)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-915 (CWE-915)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:42.unlinkat.asc",
+          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:44.posixshm.asc",
           "type": "reference"
         }
       ],
@@ -87,7 +30,7 @@
         {
           "defaultStatus": "unknown",
           "modules": [
-            "libalias"
+            "posixshm"
           ],
           "product": "FreeBSD",
           "vendor": "FreeBSD",
@@ -120,22 +63,22 @@
         }
       ],
       "problemType": [
-        "CWE-273: Improper Check for Dropped Privileges"
+        "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
       ],
       "cwe_ids": [
-        "CWE-273"
+        "CWE-915"
       ]
     },
     {
-      "id": "CVE-2026-49420",
-      "publishedDate": "2026-08-19T05:20:00.559Z",
-      "lastModifiedDate": "2026-08-19T05:20:00.559Z",
-      "description": "The RTSP handler in libalias rewrote outgoing packets into a fixed-length stack buffer without checking whether the rewritten data fit in the buffer, or whether the result fit back in the original packet.\n\nA host sending crafted RTSP traffic from inside a NAT gateway using libalias can overflow a stack buffer, potentially achieving remote code execution in the kernel (when using ipfw(4) NAT) or in the natd(8) process (which generally runs as the root user).",
+      "id": "CVE-2026-49427",
+      "publishedDate": "2026-08-19T05:56:53.494Z",
+      "lastModifiedDate": "2026-08-19T05:56:53.494Z",
+      "description": "Pages belonging to largepage shared memory objects were not explicitly wired.  When sendfile(2) transmitted such an object with the SF_NOCACHE flag, it freed the underlying pages after transmission even though existing mappings still referred to them.\n\nAn unprivileged local user can abuse the bug to access freed kernel memory.  This can be exploited to escalate privileges.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：FreeBSD FreeBSD\n🔓 漏洞类型：CWE-826 (CWE-826)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:41.libalias.asc",
+          "url": "https://security.freebsd.org/advisories/FreeBSD-SA-26:44.posixshm.asc",
           "type": "reference"
         }
       ],
@@ -143,7 +86,7 @@
         {
           "defaultStatus": "unknown",
           "modules": [
-            "libalias"
+            "posixshm"
           ],
           "product": "FreeBSD",
           "vendor": "FreeBSD",
@@ -176,10 +119,10 @@
         }
       ],
       "problemType": [
-        "CWE-121: Stack-based Buffer Overflow"
+        "CWE-826: Premature Release of Resource During Expected Lifetime"
       ],
       "cwe_ids": [
-        "CWE-121"
+        "CWE-826"
       ]
     }
   ]
