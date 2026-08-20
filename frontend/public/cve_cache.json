@@ -2,126 +2,268 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-20T05:50:44.486035",
+    "total_count": 7,
+    "last_updated": "2026-08-20T06:20:04.926431",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 1,
+      "high": 4,
+      "medium": 3,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-75963",
-      "publishedDate": "2026-08-20T05:30:44.824Z",
-      "lastModifiedDate": "2026-08-20T05:30:44.824Z",
-      "description": "The Events Made Easy plugin for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 3.2.5 via the eme_single_event_page_template function. This makes it possible for authenticated attackers, with contributor-level access and above, to include and execute arbitrary .php files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where .php file types can be uploaded and included. The stored traversal payload is triggered passively when any visitor loads the affected single-event page, meaning post-submission execution does not require additional attacker interaction.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：liedekef Events Made Easy\n🔓 漏洞类型：CWE-98 (CWE-98)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75860",
+      "publishedDate": "2026-08-20T06:00:16.280Z",
+      "lastModifiedDate": "2026-08-20T06:00:16.280Z",
+      "description": "The JSON Options WordPress plugin through 0.0.4 does not have any capability check or nonce verification on one of its actions, which runs on every request and is available to unauthenticated users, allowing them to update arbitrary WordPress options. This can be leveraged to enable user registration and set the default role to administrator, leading to privilege escalation and full site takeover.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown JSON Options\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/24890c27-6db1-4ca9-8ebd-601fbce93d88?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-made-easy/tags/3.2.5/includes/eme-events.php#L1721",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-made-easy/tags/3.2.5/includes/eme-fs.php#L670",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-made-easy/tags/3.2.5/includes/eme-fs.php#L842",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3654766%40events-made-easy&new=3654766%40events-made-easy",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/6c9bbd44-cd10-40e2-af6f-440e7ccabf9a/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "liedekef",
-          "product": "Events Made Easy",
+          "vendor": "Unknown",
+          "product": "JSON Options",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "3.2.5",
-              "versionType": "semver"
+              "versionType": "semver",
+              "version": "0",
+              "lessThanOrEqual": "0.0.4"
             }
           ],
-          "defaultStatus": "unaffected"
+          "defaultStatus": "unknown"
         }
       ],
       "problemType": [
-        "CWE-98 Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
+        "CWE-269 Improper Privilege Management"
       ],
       "cwe_ids": [
-        "CWE-98"
-      ]
+        "CWE-269"
+      ],
+      "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-17153",
-      "publishedDate": "2026-08-20T05:30:45.341Z",
-      "lastModifiedDate": "2026-08-20T05:30:45.341Z",
-      "description": "The AI Agent by SiteGround plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.2.7. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to upload images to the WordPress media library, bypassing the upload_files capability restriction that Contributors are normally subject to, as authenticated attackers with Contributor-level access or above can satisfy the endpoint's nonce and permission checks. The sg_ai_studio_gutenberg_nonce required by the endpoint is emitted to any user with block editor access — including Contributors — making the absent upload_files check the sole barrier to exploitation.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：siteground AI Agent by SiteGround\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-74992",
+      "publishedDate": "2026-08-20T06:00:16.110Z",
+      "lastModifiedDate": "2026-08-20T06:00:16.110Z",
+      "description": "The Kirki  WordPress plugin before 6.2.3 does not properly validate the files contained in archives uploaded by users with the Editor role, and does not remove all unwanted files after extracting them, allowing such users to upload arbitrary files to a web accessible directory, leading to Stored XSS as well as RCE on some server configurations.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Kirki\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/6280f40e-2998-43d4-a78f-b393e4f36df5?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/sg-ai-studio/tags/1.2.6/core/Rest/Rest.php#L474",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/sg-ai-studio/tags/1.2.6/core/Rest/Rest.php#L325",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/sg-ai-studio/tags/1.2.6/core/Helper/Helper.php#L1077",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/sg-ai-studio/tags/1.2.6/core/Helper/Helper.php#L604",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/sg-ai-studio/tags/1.2.6/core/Rest/Gutenberg.php#L118",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3654622%40sg-ai-studio&new=3654622%40sg-ai-studio",
-          "type": "reference"
+          "url": "https://wpscan.com/vulnerability/ba981818-f4a0-444a-bf6a-e4caacc9d1aa/",
+          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "siteground",
-          "product": "AI Agent by SiteGround",
+          "vendor": "Unknown",
+          "product": "Kirki",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.2.7",
-              "versionType": "semver"
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "6.2.3"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-79 Cross-Site Scripting (XSS)"
       ],
       "cwe_ids": [
-        "CWE-862"
-      ]
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-19699",
+      "publishedDate": "2026-08-20T06:00:15.938Z",
+      "lastModifiedDate": "2026-08-20T06:00:15.938Z",
+      "description": "The GutenKit  WordPress plugin before 2.5.0 does not have a sufficient capability check on some of its REST API endpoints, allowing users with the Contributor role and above to retrieve mailing-list audience metadata from the site's connected marketing account.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown GutenKit\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/301f10fd-ac72-4d80-8ca3-402a4a55ba3d/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "GutenKit",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "2.4.12",
+              "lessThan": "2.5.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-19697",
+      "publishedDate": "2026-08-20T06:00:15.760Z",
+      "lastModifiedDate": "2026-08-20T06:00:15.760Z",
+      "description": "The GutenKit  WordPress plugin before 2.5.0 does not sanitise uploaded SVG files on all of the upload paths it enables, allowing users with the file upload capability, such as Author, to upload a malicious SVG and perform Stored Cross-Site Scripting attacks against any user opening it, including administrators.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Unknown GutenKit\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/d144679c-10ef-4a69-b0e9-fd9e18a2aafc/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "GutenKit",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "2.5.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Cross-Site Scripting (XSS)"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-19615",
+      "publishedDate": "2026-08-20T06:00:15.537Z",
+      "lastModifiedDate": "2026-08-20T06:00:15.537Z",
+      "description": "The Admin and Site Enhancements (ASE) WordPress plugin before 9.0.1 does not sanitise uploaded SVG files on every route it accepts them through, allowing users with a role the site owner granted upload access to store a file containing JavaScript which then executes in the browser of anyone who opens it.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Admin and Site Enhancements (ASE)\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/3a318175-8d25-4dba-a6ad-7a09d0a7fa5a/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Admin and Site Enhancements (ASE)",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "9.0.1"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Cross-Site Scripting (XSS)"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-15049",
+      "publishedDate": "2026-08-20T06:00:15.349Z",
+      "lastModifiedDate": "2026-08-20T06:00:15.349Z",
+      "description": "The Depicter — Popup & Slider Builder WordPress plugin before 4.8.0 does not validate the type of a file uploaded through its import feature and does not remove a malformed upload, allowing users with editor-level access to write an arbitrary file (including executable PHP) into a web-accessible directory, which can lead to remote code execution.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Depicter — Popup & Slider Builder\n🔓 漏洞类型：Unrestricted Upload of Dangerous File Type (CWE-434)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/c32e6a11-98f2-48e8-be64-f0c1966ddc18/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Depicter — Popup & Slider Builder",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "4.8.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-434 Unrestricted Upload of File with Dangerous Type"
+      ],
+      "cwe_ids": [
+        "CWE-434"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-13405",
+      "publishedDate": "2026-08-20T06:00:15.159Z",
+      "lastModifiedDate": "2026-08-20T06:00:15.159Z",
+      "description": "The Royal Addons for Elementor  WordPress plugin before 1.7.1066 does not correctly sanitise custom widget markup before writing it to a file that is later executed, allowing users with the manage_options capability (and, on WordPress Multisite, non-super subsite administrators who do not otherwise hold code-execution capabilities) to execute arbitrary PHP code.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Unknown Royal Addons for Elementor\n🔓 漏洞类型：Code Injection (CWE-94)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wpscan.com/vulnerability/247be7fc-a49f-429e-875d-8649510c42b5/",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Unknown",
+          "product": "Royal Addons for Elementor",
+          "versions": [
+            {
+              "status": "affected",
+              "versionType": "semver",
+              "version": "0",
+              "lessThan": "1.7.1066"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-94 Improper Control of Generation of Code ('Code Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-94"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
