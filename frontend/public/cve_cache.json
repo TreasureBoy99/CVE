@@ -2,240 +2,79 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 5,
-    "last_updated": "2026-08-20T02:34:31.096719",
+    "total_count": 1,
+    "last_updated": "2026-08-20T03:26:47.692505",
     "severity_distribution": {
-      "critical": 1,
-      "high": 2,
-      "medium": 2,
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-47627",
-      "publishedDate": "2026-08-18T18:23:58.396Z",
-      "lastModifiedDate": "2026-08-20T02:02:19.278Z",
-      "description": "NVIDIA Triton Inference Server for Linux contains a vulnerability where an attacker could cause path traversal. A successful exploit might lead to denial of service.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：NVIDIA Triton Inference Server\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75628",
+      "publishedDate": "2026-08-20T00:40:08.220Z",
+      "lastModifiedDate": "2026-08-20T02:25:36.019Z",
+      "description": "Punk::OAuth2 versions before 0.03 for Perl allow an attacker-chosen off-site redirect after login because same_origin_path accepts a backslash or tab in the return parameter.\n\noauth2_login reads the return parameter from the initiation request, runs same_origin_path over it, and stores the survivor in the session flow record as the post-login redirect target. That check rejects a value that does not begin with a slash, one with a slash as its second byte, and one containing CR or LF. A backslash and a tab pass. The URL Standard treats a backslash as equivalent to a slash for special schemes, so `/\\evil.example` parses with the authority `evil.example`. It also strips ASCII tab before parsing, so a tab between two leading slashes leaves `//evil.example`.\n\nA crafted link to the application's own login route lands the victim on the attacker's site after a genuine authentication. The redirect carries no authorization code or access token.",
+      "severity": "N/A",
+      "fix_suggestion": "🔓 漏洞类型：CWE-601 (CWE-601)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47627",
+          "url": "https://metacpan.org/release/LNATION/Punk-OAuth2-0.03/changes",
           "type": "reference"
         },
         {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-47627",
+          "url": "https://metacpan.org/release/LNATION/Punk-OAuth2-0.02/source/include/pox/pox_util.h#L94",
           "type": "reference"
         },
         {
-          "url": "https://github.com/NVIDIA/product-security/tree/main/2026/5865",
+          "url": "https://datatracker.ietf.org/doc/html/rfc9700#section-4.11.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://url.spec.whatwg.org/#relative-slash-state",
+          "type": "reference"
+        },
+        {
+          "url": "https://url.spec.whatwg.org/#concept-basic-url-parser",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "NVIDIA",
-          "product": "Triton Inference Server",
-          "platforms": [
-            "Linux"
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "Punk::OAuth2"
+          ],
+          "packageName": "Punk-OAuth2",
+          "packageURL": "pkg:cpan/Punk-OAuth2",
+          "programFiles": [
+            "include/pox/pox_util.h",
+            "lib/Punk/Plugin/OAuth2.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Punk::OAuth2::same_origin_path"
+            }
           ],
           "versions": [
             {
+              "lessThan": "0.03",
               "status": "affected",
-              "version": "0.0-26.05"
+              "version": "0",
+              "versionType": "custom"
             }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-47629",
-      "publishedDate": "2026-08-18T18:24:00.197Z",
-      "lastModifiedDate": "2026-08-20T02:04:00.102Z",
-      "description": "NVIDIA Triton Inference Server for Linux contains a vulnerability where an attacker could cause improper input validation. A successful exploit might lead to denial of service.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：NVIDIA Triton Inference Server\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47629",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-47629",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NVIDIA/product-security/tree/main/2026/5865",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NVIDIA",
-          "product": "Triton Inference Server",
-          "platforms": [
-            "Linux"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0-26.05"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-20 Improper Input Validation"
-      ],
-      "cwe_ids": [
-        "CWE-20"
-      ]
-    },
-    {
-      "id": "CVE-2026-47628",
-      "publishedDate": "2026-08-18T18:23:59.300Z",
-      "lastModifiedDate": "2026-08-20T02:03:39.940Z",
-      "description": "NVIDIA Triton Inference Server for Linux contains a vulnerability where an attacker could cause an allocation of resources without limits. A successful exploit might lead to denial of service.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：NVIDIA Triton Inference Server\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47628",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-47628",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NVIDIA/product-security/tree/main/2026/5865",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NVIDIA",
-          "product": "Triton Inference Server",
-          "platforms": [
-            "Linux"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0-26.05"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-770 Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2026-76800",
-      "publishedDate": "2026-08-20T02:00:43.643Z",
-      "lastModifiedDate": "2026-08-20T02:00:43.643Z",
-      "description": "A flaw has been found in DeDeCMS 3. Affected by this vulnerability is an unknown functionality of the file /include/dialog/select_media_post.php. Executing a manipulation of the argument uploadfile can lead to unrestricted upload. The attack can be executed remotely. The exploit has been published and may be used.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：n/a DeDeCMS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/393317",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/393317/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-76800",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/880081",
-          "type": "reference"
-        },
-        {
-          "url": "https://uvxbywu62qm.feishu.cn/wiki/TKqDwJGYaiBVXpk3EtFcdjRDnsg?from=from_copylink",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "DeDeCMS",
-          "versions": [
-            {
-              "version": "3",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:dedecms:dedecms:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "Unrestricted Upload",
-        "Improper Access Controls"
-      ]
-    },
-    {
-      "id": "CVE-2026-47630",
-      "publishedDate": "2026-08-18T18:24:01.079Z",
-      "lastModifiedDate": "2026-08-20T02:05:51.728Z",
-      "description": "NVIDIA Triton Inference Server for Linux contains a vulnerability where an attacker could cause an absolute path traversal. A successful exploit might lead to code execution.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：NVIDIA Triton Inference Server\n🔓 漏洞类型：CWE-36 (CWE-36)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47630",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-47630",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/NVIDIA/product-security/tree/main/2026/5865",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NVIDIA",
-          "product": "Triton Inference Server",
-          "platforms": [
-            "Linux"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0-26.05"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-36 Absolute Path Traversal"
+        "CWE-601 URL Redirection to Untrusted Site ('Open Redirect')"
       ],
       "cwe_ids": [
-        "CWE-36"
+        "CWE-601"
       ]
     }
   ]
