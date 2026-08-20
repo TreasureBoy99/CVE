@@ -2,486 +2,117 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 7,
-    "last_updated": "2026-08-20T10:49:34.499267",
+    "total_count": 2,
+    "last_updated": "2026-08-20T11:13:01.680051",
     "severity_distribution": {
-      "critical": 2,
-      "high": 2,
+      "critical": 0,
+      "high": 0,
       "medium": 2,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-11861",
-      "publishedDate": "2026-08-20T10:39:08.025Z",
-      "lastModifiedDate": "2026-08-20T10:39:08.025Z",
-      "description": "A flaw was found in FreeIPA. When a trust relationship is configured between FreeIPA and Active Directory, Active Directory users can bypass authentication for FreeIPA services, including the portal, SMB server, and LDAP directory. This is possible by impersonating a client name in the Ticket Granting Service (TGS) due to FreeIPA services not verifying Privilege Attribute Certificate (PAC) certificates. This vulnerability could allow an authenticated Active Directory user to escalate their privileges within the FreeIPA domain.",
-      "severity": 9.6,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77067",
+      "publishedDate": "2026-08-20T11:05:51.482Z",
+      "lastModifiedDate": "2026-08-20T11:05:51.482Z",
+      "description": "The setWebhookResolver in packages/api/src/resolvers/webhooks/index.ts stores the caller-supplied url without any address validation, and the file imports no validation helper. When a subscribed event fires, callWebhook in packages/api/src/jobs/call_webhook.ts issues axios.request with that url, the method and Content-Type recorded on the webhook, and a JSON body carrying the event data, so an authenticated user can make the server send repeated attacker-shaped requests to internal endpoints, including link-local metadata addresses. The request is blind: callWebhook discards the result and writes only a success line or the axios error to the server log, so the response is not returned through the API.",
+      "severity": 5,
+      "fix_suggestion": "📦 受影响组件：omnivore-app omnivore\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-11861",
+          "url": "https://github.com/omnivore-app/omnivore/issues/4647",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487472",
+          "url": "https://github.com/omnivore-app/omnivore/commit/c4d7d8562e6b9aabb1d8e4dabca268e314baa43a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/blob/0d66408746788e07cec43928581b2567308ab575/packages/api/src/resolvers/webhooks/index.ts#L108",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/blob/0d66408746788e07cec43928581b2567308ab575/packages/api/src/jobs/call_webhook.ts#L36",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/omnivore-stored-server-side-request-forgery-via-the-setwebhook-mutation",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Privilege Assignment"
-      ]
-    },
-    {
-      "id": "CVE-2026-13097",
-      "publishedDate": "2026-08-20T10:37:55.464Z",
-      "lastModifiedDate": "2026-08-20T10:37:55.464Z",
-      "description": "A privilege escalation flaw was found in FreeIPA. The uniqueness constraint enforced on Kerberos principal name attributes in the 389-ds directory server does not properly account for equivalent representations of the same principal name, allowing a user with sufficient LDAP write privileges to create a service principal that impersonates an existing privileged one. This can lead to unauthorized acquisition of Kerberos service tickets for sensitive services, potentially resulting in full domain compromise.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-13097",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2515974",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Use of Incorrectly-Resolved Name or Reference"
-      ]
-    },
-    {
-      "id": "CVE-2026-73198",
-      "publishedDate": "2026-08-20T10:39:00.713Z",
-      "lastModifiedDate": "2026-08-20T10:39:00.713Z",
-      "description": "A flaw was found in FreeIPA. A remote, unauthenticated attacker can exploit a vulnerability in the `/ipa/i18n_messages` endpoint by sending an arbitrarily large request body. This can cause the service to consume excessive memory, leading to memory exhaustion, degraded responsiveness, and a denial of service (DoS) condition.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-73198",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2472960",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Allocation of Resources Without Limits or Throttling"
-      ]
-    },
-    {
-      "id": "CVE-2026-73197",
-      "publishedDate": "2026-08-20T10:31:31.674Z",
-      "lastModifiedDate": "2026-08-20T10:31:31.674Z",
-      "description": "A flaw was found in FreeIPA. A remote, unauthenticated attacker can exploit this vulnerability by sending oversized form POST requests to the `/ipa/migration/migration.py` endpoint. This can force the migration handler to read attacker-controlled request bodies fully into memory, leading to increased memory usage, slower request handling, and potential service disruption or denial of service.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-73197",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2474697",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Allocation of Resources Without Limits or Throttling"
-      ]
-    },
-    {
-      "id": "CVE-2026-73199",
-      "publishedDate": "2026-08-20T10:39:13.688Z",
-      "lastModifiedDate": "2026-08-20T10:39:13.688Z",
-      "description": "A flaw was found in the `ipa-enrollment` SLAPI plugin. A remote authenticated client can exploit a null pointer dereference vulnerability by sending a malformed Lightweight Directory Access Protocol (LDAP) extended operation. By omitting the request value for the `JOIN_OID` in the `ipa-enrollment` extended operation, an attacker can trigger a server crash, potentially causing a denial of service.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-73199",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2471741",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "NULL Pointer Dereference"
-      ]
-    },
-    {
-      "id": "CVE-2026-73196",
-      "publishedDate": "2026-08-20T10:31:58.189Z",
-      "lastModifiedDate": "2026-08-20T10:31:58.189Z",
-      "description": "A flaw was found in FreeIPA. A low-privilege authenticated user can exploit this vulnerability by submitting an oversized One-Time Password (OTP) key value. This oversized key is then decoded and re-encoded without proper size limits, consuming excessive CPU and memory resources. This can lead to a denial of service, degrading the availability of the IPA service.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-73196",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2474712",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "unknown",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "ipa",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Allocation of Resources Without Limits or Throttling"
-      ]
-    },
-    {
-      "id": "CVE-2026-77026",
-      "publishedDate": "2026-08-20T10:35:55.185Z",
-      "lastModifiedDate": "2026-08-20T10:35:55.185Z",
-      "description": "Joomla Extension - tassos.gr - Client-controlled validation bypass in Convert Forms extension < 5.2.5 - The front-end Submissions view did not enforce access control. An unauthenticated visitor could therefore list a form's submissions.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：tassos.gr Convert Forms extension for Joomla\n🔓 漏洞类型：CWE-602 (CWE-602)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.tassos.gr/joomla-extensions/convert-forms",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
+          "vendor": "omnivore-app",
+          "product": "omnivore",
+          "repo": "https://github.com/omnivore-app/omnivore",
           "defaultStatus": "unaffected",
-          "product": "Convert Forms extension for Joomla",
-          "vendor": "tassos.gr",
           "versions": [
             {
+              "version": "0",
+              "lessThan": "c4d7d8562e6b9aabb1d8e4dabca268e314baa43a",
               "status": "affected",
-              "version": "1.0.0-5.2.5"
+              "versionType": "git"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-602: Client-Side Enforcement of Server-Side Security"
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-77066",
+      "publishedDate": "2026-08-20T11:05:50.791Z",
+      "lastModifiedDate": "2026-08-20T11:05:50.791Z",
+      "description": "The scanFeedsResolver in packages/api/src/resolvers/subscriptions/index.ts passes the caller-supplied url straight to axios.get(url, rssParserConfig()) with no address validation. The same file guards the subscribe path with validateUrl(), which rejects private and reserved ranges through the private-ip library, and createPageSaveRequest applies the same check, so the omission is specific to this resolver. An authenticated user can direct the server to request arbitrary internal endpoints. The response is parsed as a feed or as HTML and the resolver returns the resulting url, title, description and type fields, so disclosure is limited to feed-shaped metadata and to link elements advertising RSS or Atom feeds; requests that do not parse still distinguish reachable ports from unreachable ones through the resulting error.",
+      "severity": 5,
+      "fix_suggestion": "📦 受影响组件：omnivore-app omnivore\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/omnivore-app/omnivore/issues/4647",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/commit/c4d7d8562e6b9aabb1d8e4dabca268e314baa43a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/blob/0d66408746788e07cec43928581b2567308ab575/packages/api/src/resolvers/subscriptions/index.ts#L445",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/omnivore-server-side-request-forgery-via-the-scanfeeds-graphql-query",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-602"
+      "affected": [
+        {
+          "vendor": "omnivore-app",
+          "product": "omnivore",
+          "repo": "https://github.com/omnivore-app/omnivore",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "c4d7d8562e6b9aabb1d8e4dabca268e314baa43a",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
       ]
     }
   ]
