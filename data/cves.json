@@ -2,114 +2,320 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 13,
-    "last_updated": "2026-08-20T14:34:25.295417",
+    "total_count": 21,
+    "last_updated": "2026-08-20T15:08:33.181729",
     "severity_distribution": {
-      "critical": 2,
-      "high": 3,
-      "medium": 7,
+      "critical": 1,
+      "high": 14,
+      "medium": 4,
       "low": 0,
-      "none": 1
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-76850",
-      "publishedDate": "2026-08-19T21:41:28.068Z",
-      "lastModifiedDate": "2026-08-20T14:08:52.458Z",
-      "description": "LMDeploy deserializes disaggregated-serving peer messages with pickle. The handle_zmq_recv coroutine in lmdeploy/pytorch/disagg/conn/engine_conn.py reads peer-to-peer cache-free requests with recv_pyobj(), which deserializes the received bytes with pickle.loads(), and the isinstance check against DistServeCacheFreeRequest runs only after deserialization has already completed. The peer that supplies those bytes is caller-controlled: p2p_connect passes remote_engine_endpoint_info.zmq_address from the request body to connect() on the ZMQ PULL socket, and the POST /distserve/p2p_initialize and /distserve/p2p_connect endpoints in lmdeploy/serve/openai/api_server.py apply no authentication unless the server is started with api_keys, which defaults to None. A remote attacker can direct an engine to pull from a ZMQ endpoint under their control and execute arbitrary code in the engine process. Deployments that do not enable disaggregated serving are not affected, because the receive loop is only started once the migration backend accepts the connection.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：InternLM lmdeploy\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-16926",
+      "publishedDate": "2026-08-20T14:38:05.356Z",
+      "lastModifiedDate": "2026-08-20T14:38:05.356Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to overwrite arbitrary files due to improper neutralization of special elements in input.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/InternLM/lmdeploy/issues/4804",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/InternLM/lmdeploy/commit/f05b4ad8bf2e2d84101a1d63b3c44fadd99223b2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/InternLM/lmdeploy/blob/v0.15.0/lmdeploy/pytorch/disagg/conn/engine_conn.py#L79",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/InternLM/lmdeploy/blob/v0.15.0/lmdeploy/pytorch/disagg/conn/engine_conn.py#L61",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/InternLM/lmdeploy/releases/tag/v0.16.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/InternLM/lmdeploy",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/lmdeploy-remote-code-execution-via-unsafe-pickle-deserialization-in-the-disaggregated-serving-peer-connector",
+          "url": "https://www.ibm.com/support/pages/node/7283858",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "InternLM",
-          "product": "lmdeploy",
-          "collectionURL": "https://pypi.org",
-          "packageName": "lmdeploy",
-          "repo": "https://github.com/InternLM/lmdeploy",
-          "defaultStatus": "unaffected",
+          "vendor": "IBM",
+          "product": "AIX",
           "versions": [
             {
-              "version": "0.9.2",
-              "lessThan": "0.16.0",
               "status": "affected",
-              "versionType": "semver"
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
             }
           ],
-          "packageURL": "pkg:pypi/lmdeploy"
-        }
-      ],
-      "problemType": [
-        "Deserialization of Untrusted Data"
-      ]
-    },
-    {
-      "id": "CVE-2026-71472",
-      "publishedDate": "2026-08-17T19:28:43.057Z",
-      "lastModifiedDate": "2026-08-20T14:09:39.107Z",
-      "description": "A flaw was found in acm-search-v2-rhel9. This vulnerability allows an authenticated attacker, such as a hub administrator or a Search Custom Resource (CR) editor, to inject malicious shell commands or SQL statements. This occurs because the WORK_MEM string provided in the Search CR is not properly validated before being used in a bash script and an SQL query. Successful exploitation could lead to arbitrary code execution within the privileged postgres pod, potentially compromising the system.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Advanced Cluster Management for Kubernetes 2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-71472",
-          "type": "reference"
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2512151",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Advanced Cluster Management for Kubernetes 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "rhacm2/acm-search-v2-rhel9",
-          "defaultStatus": "affected",
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
           "cpes": [
-            "cpe:/a:redhat:acm:2"
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        "CWE-73 External Control of File Name or Path"
+      ],
+      "cwe_ids": [
+        "CWE-73"
+      ]
+    },
+    {
+      "id": "CVE-2026-16932",
+      "publishedDate": "2026-08-20T14:39:09.131Z",
+      "lastModifiedDate": "2026-08-20T14:39:09.131Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to execute arbitrary commands due to improper validation of the ODMDIR environment variable.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ]
+    },
+    {
+      "id": "CVE-2026-24301",
+      "publishedDate": "2026-08-18T13:19:23.436Z",
+      "lastModifiedDate": "2026-08-20T14:52:26.468Z",
+      "description": "Improper neutralization of special elements used in a command ('command injection') in Microsoft Copilot allows an unauthorized attacker to disclose information over a network.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Microsoft Copilot Web\n🔓 漏洞类型：Command Injection (CWE-77)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-24301",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Copilot Web",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-77"
+      ]
+    },
+    {
+      "id": "CVE-2026-72970",
+      "publishedDate": "2026-08-14T18:06:02.569Z",
+      "lastModifiedDate": "2026-08-20T14:50:27.097Z",
+      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-72970",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.86",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122: Heap-based Buffer Overflow"
+      ],
+      "cwe_ids": [
+        "CWE-122"
+      ]
+    },
+    {
+      "id": "CVE-2026-49825",
+      "publishedDate": "2026-08-20T14:42:30.748Z",
+      "lastModifiedDate": "2026-08-20T14:42:30.748Z",
+      "description": "lxml is a library for processing XML and HTML in the Python language. Prior to 6.1.1, link attributes in ``lxml.html.defs.link_attrs`` were missing ``xlink:href``, which can be used for URL bypass attacks in embedded SVG/MathML/etc. content. This vulnerability was fixed in lxml 6.1.1 and lxml_html_clean 0.4.5.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：lxml lxml\n🔓 漏洞类型：Cross-site Scripting (XSS), CWE-184 (CWE-79, CWE-184)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/fedora-python/lxml_html_clean/security/advisories/GHSA-4jhm-jv67-739f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/fedora-python/lxml_html_clean/commit/322357ac61c6cf80fcbaba53b4e92e31f3ded9f2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lxml/lxml/commit/5927a6d5e851845140975d99b65461e255caaab0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/fedora-python/lxml_html_clean/releases/tag/0.4.5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/lxml/lxml/releases/tag/lxml-6.1.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lxml",
+          "product": "lxml",
+          "versions": [
+            {
+              "version": "< 6.1.1",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "fedora-python",
+          "product": "lxml_html_clean",
+          "versions": [
+            {
+              "version": "< 0.4.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
+        "CWE-184: Incomplete List of Disallowed Inputs"
+      ],
+      "cwe_ids": [
+        "CWE-79",
+        "CWE-184"
+      ],
+      "ghsa_id": "GHSA-4jhm-jv67-739f"
+    },
+    {
+      "id": "CVE-2026-60413",
+      "publishedDate": "2026-08-18T20:58:54.658Z",
+      "lastModifiedDate": "2026-08-20T14:51:21.122Z",
+      "description": "Vulnerability in the Oracle Outside In Technology product of Oracle Fusion Middleware (component: Outside In Core).   The supported version that is affected is 8.5.8. Easily exploitable vulnerability allows unauthenticated attacker with logon to the infrastructure where Oracle Outside In Technology executes to compromise Oracle Outside In Technology.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in takeover of Oracle Outside In Technology. CVSS 3.1 Base Score 7.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H).",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Outside In Technology\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Outside In Technology",
+          "versions": [
+            {
+              "version": "8.5.8",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with logon to the infrastructure where Oracle Outside In Technology executes to compromise Oracle Outside In Technology.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in takeover of Oracle Outside In Technology."
+      ]
+    },
+    {
+      "id": "CVE-2026-60412",
+      "publishedDate": "2026-08-18T20:58:54.344Z",
+      "lastModifiedDate": "2026-08-20T14:42:52.039Z",
+      "description": "Vulnerability in the Oracle Outside In Technology product of Oracle Fusion Middleware (component: Outside In Core).   The supported version that is affected is 8.5.8. Easily exploitable vulnerability allows unauthenticated attacker with logon to the infrastructure where Oracle Outside In Technology executes to compromise Oracle Outside In Technology.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in takeover of Oracle Outside In Technology. CVSS 3.1 Base Score 7.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H).",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Outside In Technology\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Outside In Technology",
+          "versions": [
+            {
+              "version": "8.5.8",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with logon to the infrastructure where Oracle Outside In Technology executes to compromise Oracle Outside In Technology.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in takeover of Oracle Outside In Technology."
       ]
     },
     {
       "id": "CVE-2026-69414",
       "publishedDate": "2026-08-14T21:50:58.641Z",
-      "lastModifiedDate": "2026-08-20T14:05:49.052Z",
+      "lastModifiedDate": "2026-08-20T14:54:20.209Z",
       "description": "Microsoft is aware of an elevation of privilege in the Microsoft Malware Protection Engine in Microsoft Defender publicly referred to as &quot;ShieldBreak &quot;.\nWe are working to provide a high quality security update that addresses this vulnerability. We will provide information in this CVE when the update is available.",
       "severity": 7.8,
       "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Malware Protection Engine\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -139,154 +345,335 @@
       ]
     },
     {
-      "id": "CVE-2026-15571",
-      "publishedDate": "2026-08-18T20:40:17.770Z",
-      "lastModifiedDate": "2026-08-20T14:07:09.247Z",
-      "description": "A flaw was found in the legacy client-initiated account-linking endpoint of Keycloak, a widely used open-source identity and access management solution. The mechanism used to protect the account-linking process from unauthorized requests relies on a hash that can be predicted by a malicious OIDC client. By tricking a user into authenticating, an attacker-controlled client can forge a valid linking URL to connect the victim's account to an attacker's external identity. This results in a full account takeover, allowing the attacker to log in as the victim.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat build of Keycloak 26.6\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-50523",
+      "publishedDate": "2026-08-14T21:05:20.277Z",
+      "lastModifiedDate": "2026-08-20T14:52:25.726Z",
+      "description": "Improper neutralization of special elements used in a command ('command injection') in Microsoft PowerShell allows an authorized attacker to execute code locally.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Microsoft PowerShell 7.4\n🔓 漏洞类型：Command Injection (CWE-77)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/errata/RHSA-2026:56523",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:56524",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-15571",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2499591",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-50523",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Keycloak 26.6",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "rhbk/keycloak-operator-bundle",
-          "defaultStatus": "affected",
+          "vendor": "Microsoft",
+          "product": "PowerShell 7.4",
           "versions": [
             {
-              "version": "26.6.6-1",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "version": "7.4.0",
+              "lessThan": "7.4.19.0",
+              "versionType": "custom",
+              "status": "affected"
             }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:26.6::el9"
           ]
         },
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Keycloak 26.6",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "rhbk/keycloak-rhel9",
-          "defaultStatus": "affected",
+          "vendor": "Microsoft",
+          "product": "PowerShell 7.5",
           "versions": [
             {
-              "version": "26.6-12",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "version": "7.5.0",
+              "lessThan": "7.5.10.0",
+              "versionType": "custom",
+              "status": "affected"
             }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:26.6::el9"
           ]
         },
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Keycloak 26.6",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "rhbk/keycloak-rhel9-operator",
-          "defaultStatus": "affected",
+          "vendor": "Microsoft",
+          "product": "PowerShell 7.6",
           "versions": [
             {
-              "version": "26.6-12",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
+              "version": "7.6.0",
+              "lessThan": "7.6.5",
+              "versionType": "custom",
+              "status": "affected"
             }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:26.6::el9"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Keycloak 26.6.6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "defaultStatus": "unaffected",
-          "packageName": "keycloak-services",
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:26.6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Keycloak 26.6.6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "defaultStatus": "unaffected",
-          "packageName": "rhbk/keycloak-rhel9",
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:26.6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Keycloak 26.6.6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "defaultStatus": "unaffected",
-          "packageName": "rhbk-openshift-rhel9/rhbk-openshift-rhel9",
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:26.6"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Data Grid 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak-services",
-          "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_data_grid:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform Expansion Pack",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "keycloak-services",
-          "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:/a:redhat:jbosseapxp"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Single Sign-On 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak-services",
-          "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:/a:redhat:red_hat_single_sign_on:7"
           ]
         }
       ],
       "problemType": [
-        "Predictable from Observable State"
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-77"
+      ]
+    },
+    {
+      "id": "CVE-2026-63490",
+      "publishedDate": "2026-08-20T14:45:35.727Z",
+      "lastModifiedDate": "2026-08-20T14:45:35.727Z",
+      "description": "Handlebars.java provides logic-less and semantic Mustache templates with Java. Prior to 4.5.3, com.github.jknack.handlebars.springmvc.SpringTemplateLoader resolves attacker-influenced Spring MVC view names through Spring ResourceLoader without the path-containment validation used by other URL-based loaders. In handlebars-springmvc/src/main/java/com/github/jknack/handlebars/springmvc/SpringTemplateLoader.java, a view name using a file: or classpath: URL and ending with the # fragment delimiter places the appended .hbs suffix in the fragment, which FileUrlResource.exists() and URL.openStream() discard. HandlebarsViewResolver in handlebars-springmvc/src/main/java/com/github/jknack/handlebars/springmvc/HandlebarsViewResolver.java then passes the attacker-controlled name to handlebars.compile(), allowing an unauthenticated remote attacker to read files accessible to the JVM when an application exposes a controller with a user-influenced view name. This issue is fixed in version 4.5.3.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：jknack handlebars.java\n🔓 漏洞类型：Path Traversal, CWE-23, CWE-552 (CWE-22, CWE-23, CWE-552)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/jknack/handlebars.java/security/advisories/GHSA-g29j-rwfv-h99w",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/jknack/handlebars.java/commit/61f43423a337b87db5fec1fe59f0725aaaa38df5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/jknack/handlebars.java/releases/tag/v4.5.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "jknack",
+          "product": "handlebars.java",
+          "versions": [
+            {
+              "version": "< 4.5.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-23: Relative Path Traversal",
+        "CWE-552: Files or Directories Accessible to External Parties"
+      ],
+      "cwe_ids": [
+        "CWE-22",
+        "CWE-23",
+        "CWE-552"
+      ]
+    },
+    {
+      "id": "CVE-2026-16928",
+      "publishedDate": "2026-08-20T14:38:46.636Z",
+      "lastModifiedDate": "2026-08-20T14:38:46.636Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to cause a denial of service due to a heap-based buffer overflow.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122 Heap-based Buffer Overflow"
+      ],
+      "cwe_ids": [
+        "CWE-122"
+      ]
+    },
+    {
+      "id": "CVE-2026-16924",
+      "publishedDate": "2026-08-20T14:37:22.317Z",
+      "lastModifiedDate": "2026-08-20T14:37:22.317Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to cause a denial of service due to an improper calculation of a memory offset during IPsec decapsulation.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-191 (CWE-191)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-191 Integer Underflow (Wrap or Wraparound)"
+      ],
+      "cwe_ids": [
+        "CWE-191"
+      ]
+    },
+    {
+      "id": "CVE-2026-16927",
+      "publishedDate": "2026-08-20T14:38:26.229Z",
+      "lastModifiedDate": "2026-08-20T14:38:26.229Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to gain root privileges due to a time-of-check to time-of-use (TOCTOU) race condition.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-367 (CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-16925",
+      "publishedDate": "2026-08-20T14:37:50.496Z",
+      "lastModifiedDate": "2026-08-20T14:37:50.496Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to achieve privilege escalation due to improper authorization.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-285 (CWE-285)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-285 Improper Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-285"
       ]
     },
     {
       "id": "CVE-2026-62727",
       "publishedDate": "2026-08-19T20:58:27.911Z",
-      "lastModifiedDate": "2026-08-20T14:05:50.709Z",
+      "lastModifiedDate": "2026-08-20T14:54:21.788Z",
       "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Telephony Service allows an authorized attacker to elevate privileges locally.",
       "severity": 7,
       "fix_suggestion": "📦 受影响组件：Microsoft Windows 10 Version 1607\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -615,9 +1002,51 @@
       ]
     },
     {
+      "id": "CVE-2026-76634",
+      "publishedDate": "2026-08-20T13:48:20.910Z",
+      "lastModifiedDate": "2026-08-20T14:49:43.435Z",
+      "description": "WeGIA before 3.9.2 contains an insecure direct object reference vulnerability in the employee profile page that allows authenticated attackers to access arbitrary employee records by injecting an id_pessoa parameter through a request extraction function that overwrites the session-derived identifier. Attackers can enumerate all user identifiers to retrieve full profile data for any employee account, including name, CPF, address, contact details, and administrative flags.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：LabRedesCefetRJ WeGIA\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/LabRedesCefetRJ/WeGIA/security/advisories/GHSA-jqh5-66qr-85qv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/LabRedesCefetRJ/WeGIA/releases#release-3.9.2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/wegia-insecure-direct-object-reference-via-profile-funcionario-php",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "LabRedesCefetRJ",
+          "product": "WeGIA",
+          "packageURL": "pkg:github/LabRedesCefetRJ/WeGIA",
+          "repo": "https://github.com/LabRedesCefetRJ/WeGIA",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "3.9.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ]
+    },
+    {
       "id": "CVE-2026-69550",
       "publishedDate": "2026-08-19T21:17:18.285Z",
-      "lastModifiedDate": "2026-08-20T14:05:51.248Z",
+      "lastModifiedDate": "2026-08-20T14:54:22.325Z",
       "description": "Out-of-bounds read in Remote Desktop Client allows an unauthorized attacker to disclose information over a network.",
       "severity": 6.5,
       "fix_suggestion": "📦 受影响组件：Microsoft Windows App for Mac\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -646,77 +1075,95 @@
       ]
     },
     {
-      "id": "CVE-2026-14514",
-      "publishedDate": "2026-08-19T21:02:33.045Z",
-      "lastModifiedDate": "2026-08-20T14:07:31.122Z",
-      "description": "IBM Reliable Scalable Cluster Technology (RSCT) 3.0 could allow a remote attacker to cause a denial of service by sending a specially crafted request due improper input validation.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：IBM Reliable Scalable Cluster Technology (RSCT)\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77067",
+      "publishedDate": "2026-08-20T11:05:51.482Z",
+      "lastModifiedDate": "2026-08-20T14:48:13.117Z",
+      "description": "The setWebhookResolver in packages/api/src/resolvers/webhooks/index.ts stores the caller-supplied url without any address validation, and the file imports no validation helper. When a subscribed event fires, callWebhook in packages/api/src/jobs/call_webhook.ts issues axios.request with that url, the method and Content-Type recorded on the webhook, and a JSON body carrying the event data, so an authenticated user can make the server send repeated attacker-shaped requests to internal endpoints, including link-local metadata addresses. The request is blind: callWebhook discards the result and writes only a success line or the axios error to the server log, so the response is not returned through the API.",
+      "severity": 5,
+      "fix_suggestion": "📦 受影响组件：omnivore-app omnivore\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.ibm.com/support/pages/node/7283963",
+          "url": "https://github.com/omnivore-app/omnivore/issues/4647",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/commit/c4d7d8562e6b9aabb1d8e4dabca268e314baa43a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/blob/0d66408746788e07cec43928581b2567308ab575/packages/api/src/resolvers/webhooks/index.ts#L108",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore/blob/0d66408746788e07cec43928581b2567308ab575/packages/api/src/jobs/call_webhook.ts#L36",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/omnivore-app/omnivore",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/omnivore-stored-server-side-request-forgery-via-the-setwebhook-mutation",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "IBM",
-          "product": "Reliable Scalable Cluster Technology (RSCT)",
+          "vendor": "omnivore-app",
+          "product": "omnivore",
+          "repo": "https://github.com/omnivore-app/omnivore",
+          "defaultStatus": "unaffected",
           "versions": [
             {
+              "version": "0",
+              "lessThan": "c4d7d8562e6b9aabb1d8e4dabca268e314baa43a",
               "status": "affected",
-              "version": "3.0"
+              "versionType": "git"
             }
-          ],
-          "cpes": [
-            "cpe:2.3:a:ibm:reliable_scalable_cluster_technology:3.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-770 Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
+        "Server-Side Request Forgery (SSRF)"
       ]
     },
     {
-      "id": "CVE-2026-76991",
-      "publishedDate": "2026-08-20T14:15:09.667Z",
-      "lastModifiedDate": "2026-08-20T14:15:09.667Z",
-      "description": "A vulnerability was found in itsourcecode Hospital Management System 1.0. This affects an unknown part of the file /viewappointmentapproved.php. Performing a manipulation of the argument delid results in sql injection. Remote exploitation of the attack is possible. The exploit has been made public and could be used.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：itsourcecode Hospital Management System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-76995",
+      "publishedDate": "2026-08-20T14:45:07.980Z",
+      "lastModifiedDate": "2026-08-20T14:45:07.980Z",
+      "description": "A vulnerability was identified in SourceCodester Simple Online Food Ordering System 1.0. This issue affects some unknown processing of the file /admin/ajax.php?action=save_menu. The manipulation of the argument img leads to unrestricted upload. The attack is possible to be carried out remotely. The exploit is publicly available and might be used.",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：SourceCodester Simple Online Food Ordering System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/393616",
+          "url": "https://vuldb.com/vuln/393618",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/393616/cti",
+          "url": "https://vuldb.com/vuln/393618/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-76991",
+          "url": "https://vuldb.com/cve/CVE-2026-76995",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/880115",
+          "url": "https://vuldb.com/submit/880371",
           "type": "reference"
         },
         {
-          "url": "https://github.com/ltranquility/vuln_submit/issues/23",
+          "url": "https://github.com/hubdk01/cve/issues/1",
           "type": "poc"
         },
         {
-          "url": "https://itsourcecode.com/",
+          "url": "https://www.sourcecodester.com/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "itsourcecode",
-          "product": "Hospital Management System",
+          "vendor": "SourceCodester",
+          "product": "Simple Online Food Ordering System",
           "versions": [
             {
               "version": "1.0",
@@ -724,257 +1171,173 @@
             }
           ],
           "cpes": [
-            "cpe:2.3:a:itsourcecode:hospital_management_system:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:sourcecodester:simple_online_food_ordering_system:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "SQL Injection",
-        "Injection"
+        "Unrestricted Upload",
+        "Improper Access Controls"
       ]
     },
     {
-      "id": "CVE-2026-74245",
-      "publishedDate": "2026-08-14T22:43:10.895Z",
-      "lastModifiedDate": "2026-08-20T14:10:53.253Z",
-      "description": "A flaw was found in Red Hat Quay's exported logs feature. An unauthenticated attacker with a valid file ID could download exported action logs without proper authorization. While file IDs are complex, they can be intercepted from plaintext email or webhook callbacks. This vulnerability leads to information disclosure, potentially exposing sensitive data such as usernames, email addresses, IP addresses, and action-specific metadata.",
-      "severity": 5.9,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat OpenShift Update Service\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-74245",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2516145",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat OpenShift Update Service",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "openshift-update-service/openshift-update-service-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:openshift_update_service:5"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Quay 3",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "quay/quay-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:quay:3"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Quay 3",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "quay/quay-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:quay:3"
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authentication for Critical Function"
-      ]
-    },
-    {
-      "id": "CVE-2026-73834",
-      "publishedDate": "2026-08-18T15:15:38.508Z",
-      "lastModifiedDate": "2026-08-20T14:08:28.469Z",
-      "description": "A flaw was found in the must-gather component of Red Hat Advanced Cluster Management for Kubernetes. Certain ACM wrapper Custom Resources that embed Secret data are collected without redaction. When an administrator runs must-gather, credentials and tokens are captured in cleartext in the resulting archive, potentially exposing sensitive information to anyone with access to the archive.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Advanced Cluster Management for Kubernetes 2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-73834",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2517904",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Advanced Cluster Management for Kubernetes 2",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "rhacm2/acm-must-gather-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:acm:2"
-          ]
-        }
-      ],
-      "problemType": [
-        "Cleartext Storage of Sensitive Information"
-      ]
-    },
-    {
-      "id": "CVE-2026-74240",
-      "publishedDate": "2026-08-14T22:43:01.103Z",
-      "lastModifiedDate": "2026-08-20T14:12:03.863Z",
-      "description": "A flaw was found in Red Hat Quay's JWT (JSON Web Token) validation for federated robot accounts and single sign-on (SSO) authentication. Multiple issues related to audience verification and the enforcement of `azp` and `sub` claims were identified. These flaws could allow an attacker with a validly-signed token from the same identity provider to bypass configured security restrictions. This bypass could lead to unauthorized access by circumventing intended audience, subject, or authorized-client limitations.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat OpenShift Update Service\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-74240",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2516139",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat OpenShift Update Service",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "openshift-update-service/openshift-update-service-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:openshift_update_service:5"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Quay 3",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "quay/quay-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:quay:3"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Quay 3",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "quay/quay-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:quay:3"
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authentication"
-      ]
-    },
-    {
-      "id": "CVE-2026-76882",
-      "publishedDate": "2026-08-19T22:35:04.927Z",
-      "lastModifiedDate": "2026-08-20T14:14:23.082Z",
-      "description": "Bluetooth Attribute Protocol dissector crash in 4.6.0 to 4.6.7 and 4.4.0 to 4.4.18 allows denial of service",
-      "severity": 4.7,
-      "fix_suggestion": "📦 受影响组件：Wireshark Foundation Wireshark\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wireshark.org/security/wnpa-sec-2026-73.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.com/wireshark/wireshark/-/work_items/21424",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Wireshark Foundation",
-          "product": "Wireshark",
-          "versions": [
-            {
-              "version": "4.6.0",
-              "status": "affected",
-              "lessThan": "4.6.8",
-              "versionType": "semver"
-            },
-            {
-              "version": "4.4.0",
-              "status": "affected",
-              "lessThan": "4.4.18",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-125: Out-of-bounds Read"
-      ],
-      "cwe_ids": [
-        "CWE-125"
-      ]
-    },
-    {
-      "id": "CVE-2026-75595",
-      "publishedDate": "2026-08-19T21:00:27.627Z",
-      "lastModifiedDate": "2026-08-20T14:06:16.963Z",
-      "description": "Netty is an asynchronous, event-driven network application framework. Prior to 4.1.137.Fina and 4.2.17.Final, io.netty.handler.ssl.SslClientHelloHandler#decode checks the wrong offset before reading the four-byte TLS handshake header, so a ClientHello whose handshake header spans records can cause an IndexOutOfBoundsException and invoke select(ctx, null). This selects the default SslContext instead of the SNI-specific context. In deployments where per-SNI clientAuth=REQUIRE is the sole mutual TLS gate, the default SslContext uses clientAuth=NONE or clientAuth=OPTIONAL, and no application-layer certificate verification exists, an unauthenticated remote attacker can bypass the protected route's mutual TLS requirement. This issue is fixed in versions 4.1.137.Final and 4.2.17.Final.",
+      "id": "CVE-2026-77083",
+      "publishedDate": "2026-08-20T11:21:14.377Z",
+      "lastModifiedDate": "2026-08-20T14:53:36.111Z",
+      "description": "n8n is a workflow automation platform. In versions prior to 1.123.69, 2.33.4, and 2.34.1, the JavaScript Code node's VM sandbox did not freeze the sandbox's Function.prototype, allowing an authenticated user with the ability to create and execute workflows to pollute it from within a Code node execution and recover a reference to the host's globalThis, resulting in a sandbox escape. The full exploit chain additionally depends on specific modules being available as allowlisted imports in the deployment's configuration. The issue is fixed in versions 1.123.69, 2.33.4, and 2.34.1.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：netty netty\n🔓 漏洞类型：CWE-754 (CWE-754)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：n8n-io n8n\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/netty/netty/security/advisories/GHSA-c4c3-7fpv-j4q5",
+          "url": "https://github.com/n8n-io/n8n/security/advisories/GHSA-c9c6-rq46-h25v",
           "type": "reference"
         },
         {
-          "url": "https://github.com/netty/netty/pull/17213",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/netty/netty/pull/17217",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/netty/netty/commit/1b5abc6443b63726c72cdd285af2feb7ddbb8ff7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/netty/netty/commit/9e0519239108a69b7e9bbc5e9182ee139a0d7961",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/netty/netty/releases/tag/netty-4.1.137.Final",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/netty/netty/releases/tag/netty-4.2.17.Final",
+          "url": "https://www.vulncheck.com/advisories/n8n-before-code-node-sandbox-escape-via-function.prototype-pollution",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netty",
-          "product": "netty",
+          "vendor": "n8n-io",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
           "versions": [
             {
-              "version": "< 4.1.137.Final",
-              "status": "affected"
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.123.69"
             },
             {
-              "version": ">= 4.2.0.Final, < 4.2.17.Final",
-              "status": "affected"
+              "version": "1.123.69",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "n8n-io",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.34.1"
+            },
+            {
+              "version": "2.34.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "n8n-io",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.33.4"
+            },
+            {
+              "version": "2.33.4",
+              "status": "unaffected",
+              "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-754: Improper Check for Unusual or Exceptional Conditions"
+        "Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
+      ]
+    },
+    {
+      "id": "CVE-2026-77072",
+      "publishedDate": "2026-08-20T11:21:07.588Z",
+      "lastModifiedDate": "2026-08-20T14:51:52.920Z",
+      "description": "n8n before 1.123.69, 2.33.4, and 2.34.1 contains a stored cross-site scripting vulnerability in the Form node's completion page. The completion page applied its sandboxing Content-Security-Policy only when respondWith was not set to 'redirect', but responseText was always rendered as raw HTML. An authenticated member could set respondWith to 'redirect' via an expression while keeping responseText populated, causing the completion page to serve unsanitized HTML and script from the n8n origin. Any visitor who submitted the resulting public form would have that script execute same-origin with their session.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n8n-io n8n\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/n8n-io/n8n/security/advisories/GHSA-rmr5-775f-jvm2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/n8n-before-stored-xss-via-form-completion-page",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-754"
+      "affected": [
+        {
+          "vendor": "n8n-io",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.123.69"
+            },
+            {
+              "version": "1.123.69",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "n8n-io",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.34.1"
+            },
+            {
+              "version": "2.34.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "n8n-io",
+          "product": "n8n",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/n8n",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.33.4"
+            },
+            {
+              "version": "2.33.4",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ]
     }
   ]
