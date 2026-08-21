@@ -2,231 +2,257 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 8,
-    "last_updated": "2026-08-21T18:49:35.052007",
+    "total_count": 7,
+    "last_updated": "2026-08-21T19:16:04.814225",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 4,
+      "high": 2,
+      "medium": 1,
       "low": 0,
-      "none": 3
+      "none": 4
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-54682",
-      "publishedDate": "2026-08-21T18:40:05.196Z",
-      "lastModifiedDate": "2026-08-21T18:40:05.196Z",
-      "description": "DiscordChatExporter saves Discord chat logs to a file. Prior to 2.47.2, HTML exports generated with markdown formatting disabled pass attacker-controlled content through FormatMarkdownAsync and FormatEmbedMarkdownAsync in DiscordChatExporter.Core/Exporting/MessageGroupTemplate.cshtml and render it without HTML entity encoding. The affected fields include message.Content, message.ForwardedMessage.Content, message.ReferencedMessage.Content, embed.Title, embed.Description, field.Name, and field.Value. A Discord webhook or bot can store a script payload in these fields, and the payload executes when a user exports the channel with markdown formatting disabled and opens the resulting HTML, allowing the script to read the export or alter its displayed content. This issue is fixed in version 2.47.2.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：Tyrrrz DiscordChatExporter\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54071",
+      "publishedDate": "2026-08-21T18:55:42.248Z",
+      "lastModifiedDate": "2026-08-21T18:55:42.248Z",
+      "description": "BabelDOC is a document translation tool. Prior to 0.6.3, BabelDOC's vendored PDF parser in babeldoc/pdfminer/cmapdb.py deserializes untrusted pickle data when CMapDB._load_data() loads CMap files. PDF-controlled Encoding or CMapName values and embedded PostScript usecmap operators can reach this sink after path separators are decoded, while _normalize_cmap_name() removes only a leading slash. Absolute paths or traversal sequences can escape the trusted CMap directories through os.path.join(), select an attacker-writable .pickle.gz file, and cause pickle.loads() to execute arbitrary Python code with the privileges of the BabelDOC process. This issue is fixed in version 0.6.3.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：funstory-ai BabelDOC\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/security/advisories/GHSA-8qrv-mmch-fr9c",
+          "url": "https://github.com/funstory-ai/BabelDOC/security/advisories/GHSA-m8gf-v64p-gfmg",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/pull/1545",
+          "url": "https://github.com/funstory-ai/BabelDOC/commit/28f784ca6b437dbba040bfd9c67110373cd0924b",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/commit/5632d6c3867d2f79cba9578056c98caee4377c1b",
+          "url": "https://github.com/funstory-ai/BabelDOC/blob/main/docs/release-notes/v0.6.3.md",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/releases/tag/2.47.2",
+          "url": "https://github.com/funstory-ai/BabelDOC/releases/tag/v0.6.3",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Tyrrrz",
-          "product": "DiscordChatExporter",
+          "vendor": "funstory-ai",
+          "product": "BabelDOC",
           "versions": [
             {
-              "version": "< 2.47.2",
+              "version": "< 0.6.3",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-502: Deserialization of Untrusted Data"
       ],
       "cwe_ids": [
-        "CWE-79"
-      ]
+        "CWE-502"
+      ],
+      "ghsa_id": "GHSA-m8gf-v64p-gfmg"
     },
     {
-      "id": "CVE-2026-77795",
-      "publishedDate": "2026-08-21T18:30:07.737Z",
-      "lastModifiedDate": "2026-08-21T18:30:07.737Z",
-      "description": "A vulnerability was identified in Dromara RuoYi-Vue-Plus up to 5.6.2. This issue affects the function FlwInstanceController/FlwDefinitionController/FlwCategoryController/FlwSpelController/TestLeaveController of the component Workflow Endpoint. Such manipulation leads to improper authorization. The attack can be launched remotely.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：Dromara RuoYi-Vue-Plus\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53762",
+      "publishedDate": "2026-08-21T18:50:58.083Z",
+      "lastModifiedDate": "2026-08-21T18:50:58.083Z",
+      "description": "VeraCrypt provides disk encryption with strong security based on TrueCrypt. Prior to 1.26.29, non-default builds created with WOLFCRYPT=1 and WOLFCRYPT_BACKEND route SHA-256 and SHA-512 volume-header key derivation through derive_key_sha256 and derive_key_sha512 in src/Crypto/wolfCrypt.c, where the configured iterations value is discarded and wc_HKDF is used instead of PBKDF2-HMAC. Changing the PIM or iteration count therefore does not increase derivation cost, allowing an attacker with an affected container, disk image, or volume header to perform substantially cheaper offline password guesses. Official precompiled VeraCrypt binaries and normal distribution packages use the standard PBKDF2 backend and are not affected. Volumes created by an affected WOLFCRYPT=1 build require backup and recreation because corrected builds derive different keys. This issue is fixed in version 1.26.29.",
+      "severity": 6.2,
+      "fix_suggestion": "📦 受影响组件：veracrypt VeraCrypt\n🔓 漏洞类型：CWE-916 (CWE-916)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/394113",
+          "url": "https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-94c6-mgmv-mqc5",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/394113/cti",
+          "url": "https://github.com/veracrypt/VeraCrypt/commit/39f93910075e1cf492fcf4a9f99a53c7d0b96b87",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-77795",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/881227",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SunRisexyz/Vul-of-Ruoyi/issues/1",
+          "url": "https://github.com/veracrypt/VeraCrypt/releases/tag/VeraCrypt_1.26.29",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Dromara",
-          "product": "RuoYi-Vue-Plus",
+          "vendor": "veracrypt",
+          "product": "VeraCrypt",
           "versions": [
             {
-              "version": "5.6.0",
-              "status": "affected"
-            },
-            {
-              "version": "5.6.1",
-              "status": "affected"
-            },
-            {
-              "version": "5.6.2",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:dromara:ruoyi-vue-plus:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Workflow Endpoint"
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authorization",
-        "Incorrect Privilege Assignment"
-      ]
-    },
-    {
-      "id": "CVE-2026-54681",
-      "publishedDate": "2026-08-21T18:41:45.861Z",
-      "lastModifiedDate": "2026-08-21T18:41:45.861Z",
-      "description": "DiscordChatExporter saves Discord chat logs to a file. Prior to 2.47.2, the VisitEmojiAsync method in DiscordChatExporter.Core/Exporting/HtmlMarkdownVisitor.cs interpolates emoji.Name into the alt attribute and emoji.Code into the title attribute without HTML entity encoding. This affects HTML exports regardless of the markdown setting. Discord's current custom emoji name validation normally excludes attribute-breaking characters, but tampered offline input, a relaxed upstream validation rule, or another future metadata source can inject an HTML attribute and execute script when a user opens the export. This issue is fixed in version 2.47.2.",
-      "severity": 4.1,
-      "fix_suggestion": "📦 受影响组件：Tyrrrz DiscordChatExporter\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/security/advisories/GHSA-r7qm-wg9p-pjfc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/pull/1544",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/commit/f4d1e630f7f27120c3be4320d92cc8b932e78688",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Tyrrrz/DiscordChatExporter/releases/tag/2.47.2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Tyrrrz",
-          "product": "DiscordChatExporter",
-          "versions": [
-            {
-              "version": "< 2.47.2",
+              "version": "< 1.26.29",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-916: Use of Password Hash With Insufficient Computational Effort"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-916"
       ]
     },
     {
-      "id": "CVE-2026-56875",
-      "publishedDate": "2026-08-21T18:49:31.300807+00:00",
-      "lastModifiedDate": "2026-08-21T18:35:50.269Z",
-      "description": "",
+      "id": "CVE-2026-54073",
+      "publishedDate": "2026-08-21T18:51:58.855Z",
+      "lastModifiedDate": "2026-08-21T18:51:58.855Z",
+      "description": "VeraCrypt provides disk encryption with strong security based on TrueCrypt. From 1.26.6 until 1.26.29, file-hosted hidden volume creation forces quick format and the FormatNoFs function in src/Common/Format.c and FormatFat function in src/Common/Fat.c use WriteFile to place raw zeroed sectors at predictable 128 MiB intervals. These writes bypass the normal EncryptDataUnits formatting path, leaving deterministic plaintext markers in an area expected to resemble random ciphertext. The markers can weaken plausible deniability during forensic inspection, although they do not disclose hidden-volume content or reduce the strength of VeraCrypt encryption. This issue is fixed in version 1.26.29.",
       "severity": "N/A",
-      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [],
-      "affected": [],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-55850",
-      "publishedDate": "2026-08-21T18:30:12.251Z",
-      "lastModifiedDate": "2026-08-21T18:30:12.251Z",
-      "description": "Element Web is a Matrix web client built using the Matrix React SDK. Prior to 1.12.22, EmbeddedPage in apps/web/src/components/structures/EmbeddedPage.tsx renders homeserver-supplied homepage content through dangerouslySetInnerHTML without passing it through sanitizedHtmlNode. A malicious homeserver can provide crafted HTML that Element Web renders on the homepage; the content security policy prevents JavaScript but not phishing HTML. This issue is fixed in version 1.12.22.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：element-hq element-web\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：veracrypt VeraCrypt\n🔓 漏洞类型：CWE-693 (CWE-693)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/element-hq/element-web/security/advisories/GHSA-wrcp-5v3v-3j6v",
+          "url": "https://github.com/veracrypt/VeraCrypt/security/advisories/GHSA-jjcr-75w7-58jp",
           "type": "reference"
         },
         {
-          "url": "https://github.com/element-hq/element-web/commit/7949980a7e3c7e397d7afe899ef1b0563c417b0e",
+          "url": "https://github.com/veracrypt/VeraCrypt/commit/689a59cd584f090ca5f9214d5f2f3a9eac499e53",
           "type": "reference"
         },
         {
-          "url": "https://github.com/element-hq/element-web/releases/tag/v1.12.22",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.machinespirits.com/advisory/563a17",
+          "url": "https://github.com/veracrypt/VeraCrypt/releases/tag/VeraCrypt_1.26.29",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "element-hq",
-          "product": "element-web",
+          "vendor": "veracrypt",
+          "product": "VeraCrypt",
           "versions": [
             {
-              "version": "< 1.12.22",
+              "version": ">= 1.26.6, < 1.26.29",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-693: Protection Mechanism Failure"
       ],
       "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
+        "CWE-693"
+      ]
     },
     {
-      "id": "CVE-2026-63046",
-      "publishedDate": "2026-08-21T08:37:57.457Z",
-      "lastModifiedDate": "2026-08-21T18:42:34.370Z",
-      "description": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection') vulnerability in Apache InLong. Agent Installer's ModuleManager executes arbitrary shell\ncommands via ExcuteLinux.exeCmd() with no filtering or whitelist\nvalidation. \n\nThis issue affects Apache InLong: from 2.0.0 before 2.4.0.\n\n\n\nUsers are advised to upgrade to Apache InLong's  2.4.0 or cherry-pick [1]/[2] to solve it.\n\n[1]  https://github.com/apache/inlong/pull/12151 .\n\n[2]  https://github.com/apache/inlong/pull/12155 .",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache InLong\n🔓 漏洞类型：Argument Injection (CWE-88)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-76020",
+      "publishedDate": "2026-08-20T20:51:20.076Z",
+      "lastModifiedDate": "2026-08-21T18:53:22.100Z",
+      "description": "Race condition in V8 in Google Chrome prior to 151.0.7922.173 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://lists.apache.org/thread/2pgz70rz9ozfm7vm5c33po3yyspq846y",
+          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/541837151",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.173",
+              "status": "affected",
+              "lessThan": "151.0.7922.173",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Race condition"
+      ]
+    },
+    {
+      "id": "CVE-2026-76018",
+      "publishedDate": "2026-08-20T20:51:19.618Z",
+      "lastModifiedDate": "2026-08-21T18:50:50.672Z",
+      "description": "Privilege elevation in Import in Google Chrome prior to 151.0.7922.173 allowed a remote attacker leveraging social engineering to potentially execute arbitrary code outside the sandbox via a crafted file. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/513757918",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.173",
+              "status": "affected",
+              "lessThan": "151.0.7922.173",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Privilege elevation"
+      ]
+    },
+    {
+      "id": "CVE-2026-76017",
+      "publishedDate": "2026-08-20T20:51:19.395Z",
+      "lastModifiedDate": "2026-08-21T18:47:55.270Z",
+      "description": "Use after free in Chromoting in Google Chrome prior to 151.0.7922.173 allowed a remote attacker to execute arbitrary code outside the sandbox via crafted network traffic. (Chromium security severity: Critical)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/522819252",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.173",
+              "status": "affected",
+              "lessThan": "151.0.7922.173",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Use after free"
+      ]
+    },
+    {
+      "id": "CVE-2026-63044",
+      "publishedDate": "2026-08-20T15:57:02.234Z",
+      "lastModifiedDate": "2026-08-21T18:57:30.703Z",
+      "description": "Server-Side Request Forgery (SSRF) vulnerability in Apache InLong.  Any authenticated user (no admin role required) can cause the InLong Manager server to make outbound HTTP requests or TCP connections to\narbitrary internal hosts and ports.\n\nThis issue affects Apache InLong: from 2.0.0 before 2.4.0.\n\n\n\nUsers are advised to upgrade to Apache InLong's  2.4.0 or cherry-pick [1] to solve it.\n\n[1]  https://github.com/apache/inlong/pull/12130 .",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache InLong\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/b3rtzssd8hdk0dyq4y6mpdx6jj5ro4g6",
           "type": "reference"
         }
       ],
@@ -246,82 +272,12 @@
         }
       ],
       "problemType": [
-        "CWE-88 Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+        "CWE-918 Server-Side Request Forgery (SSRF)"
       ],
       "cwe_ids": [
-        "CWE-88"
+        "CWE-918"
       ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-76022",
-      "publishedDate": "2026-08-20T20:51:20.515Z",
-      "lastModifiedDate": "2026-08-21T18:39:49.449Z",
-      "description": "Buffer overflow in Network in Google Chrome prior to 151.0.7922.173 allowed a remote attacker to execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/543798025",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "151.0.7922.173",
-              "status": "affected",
-              "lessThan": "151.0.7922.173",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Buffer overflow"
-      ]
-    },
-    {
-      "id": "CVE-2026-76019",
-      "publishedDate": "2026-08-20T20:51:19.840Z",
-      "lastModifiedDate": "2026-08-21T18:44:00.304Z",
-      "description": "Incorrect authorization in Workers in Google Chrome prior to 151.0.7922.173 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to bypass web origin policy via a crafted HTML page. (Chromium security severity: High)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/539032888",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "151.0.7922.173",
-              "status": "affected",
-              "lessThan": "151.0.7922.173",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect authorization"
-      ]
+      "cvss_severity": "HIGH"
     }
   ]
 }
