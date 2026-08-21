@@ -2,1279 +2,759 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 30,
-    "last_updated": "2026-08-21T19:40:48.315115",
+    "total_count": 15,
+    "last_updated": "2026-08-21T19:56:36.233702",
     "severity_distribution": {
       "critical": 1,
-      "high": 11,
-      "medium": 12,
+      "high": 8,
+      "medium": 3,
       "low": 0,
-      "none": 6
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-71960",
-      "publishedDate": "2026-08-19T14:27:57.545Z",
-      "lastModifiedDate": "2026-08-21T19:25:47.794Z",
-      "description": "Cudy WR3000 2.0 running firmware before 2.5.24 contains a hard-coded JWT HMAC signing secret vulnerability in the Mosquitto MQTT broker's authentication plugin that allows unauthenticated attackers to forge valid JWT tokens by extracting the secret from the firmware image. Attackers can use the extracted secret to craft arbitrary JWT tokens and authenticate to the MQTT broker without legitimate credentials, gaining unauthorized access to the device's mesh networking interface.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：Shenzhen Cudy Technology Co., Ltd. WR3000 2.0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-55085",
+      "publishedDate": "2026-08-19T19:34:27.269Z",
+      "lastModifiedDate": "2026-08-21T19:47:13.022Z",
+      "description": "Etherpad is a real-time collaborative editor. Prior to 3.3.1, result.appendSpan in src/static/js/domline.ts interpolates the start attribute of a numbered list directly into an unquoted ol start attribute before assigning the generated markup to node.innerHTML. ImportEtherpad.setPadRaw in src/node/utils/ImportEtherpad.ts accepts attacker-controlled attribute-pool values from a crafted .etherpad import, including list:number1 and a malicious start value. Any user with write access to a pad can store markup that executes as cross-site scripting when another user opens the pad or /timeslider, including when an administrator views the pad. This issue is fixed in version 3.3.1.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：ether etherpad\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.cudy.com/en-us/pages/download-center/wr3000-2-0",
+          "url": "https://github.com/ether/etherpad/security/advisories/GHSA-f7h5-v9hm-548j",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/cudy-wr3000-hard-coded-jwt-secret-authentication-bypass-via-mqtt",
+          "url": "https://github.com/ether/etherpad/pull/7937",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ether/etherpad/commit/d828185efcac9abc2e46e6da1c171393500fa319",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ether/etherpad/releases/tag/v3.3.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "affected",
-          "vendor": "Shenzhen Cudy Technology Co., Ltd.",
-          "product": "WR3000 2.0",
+          "vendor": "ether",
+          "product": "etherpad",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThan": "2.5.24"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Use of Hard-coded Credentials"
-      ]
-    },
-    {
-      "id": "CVE-2026-75916",
-      "publishedDate": "2026-08-19T14:01:50.370Z",
-      "lastModifiedDate": "2026-08-21T19:22:16.263Z",
-      "description": "SiYuan through 3.7.3 contains a cross-site scripting vulnerability in the '((' block-reference autocomplete hint popup. In genHintItemHTML() (app/src/protyle/hint/extend.ts), a candidate block's name, alias, and memo fields are concatenated into the popup's HTML without escaping. An attacker who can set these metadata fields on a block can inject a self-firing payload (e.g. <img src=x onerror=...>) that executes automatically when a victim types '((' followed by a search term that surfaces the crafted block. Because SiYuan's Electron windows run with nodeIntegration enabled, contextIsolation disabled, and no CSP, the injected script gains require('child_process') access, allowing the XSS to escalate to arbitrary OS command execution.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-5prr-vgxq-69g9",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/siyuan-xss-to-rce-via-unescaped-block-metadata-in-hint-popup",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "affected",
-          "packageURL": "pkg:npm/siyuan"
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-76205",
-      "publishedDate": "2026-08-19T14:01:53.887Z",
-      "lastModifiedDate": "2026-08-21T19:21:08.640Z",
-      "description": "phpMyFAQ before 4.1.7 contains a SQL injection vulnerability in the glossary create and update endpoints caused by truncating an escaped string before embedding it in a SQL literal. Authenticated users with glossary add or edit permissions can craft a payload with a dangling backslash to escape the closing quote and inject arbitrary SQL commands to read sensitive database information.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：thorsten phpMyFAQ\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/thorsten/phpMyFAQ/security/advisories/GHSA-79h3-6hxj-g98h",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/phpmyfaq-before-sql-injection-via-glossary",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "thorsten",
-          "product": "phpMyFAQ",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.1.7"
-            },
-            {
-              "version": "4.1.7",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-76225",
-      "publishedDate": "2026-08-19T14:02:07.968Z",
-      "lastModifiedDate": "2026-08-21T19:27:51.765Z",
-      "description": "ArcadeDB before 26.8.1 contains a server-side request forgery vulnerability in the OpenCypher LOAD CSV implementation that fails to validate HTTP/HTTPS URLs. Authenticated attackers can craft LOAD CSV queries pointing to internal network addresses or cloud metadata endpoints to make the ArcadeDB server fetch and return sensitive data from restricted services.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-mmww-w3w3-6r86",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-server-side-request-forgery-via-load-csv",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-engine",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.8.1"
-            },
-            {
-              "version": "26.8.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-76048",
-      "publishedDate": "2026-08-19T03:00:11.436Z",
-      "lastModifiedDate": "2026-08-21T19:23:14.325Z",
-      "description": "A flaw has been found in SourceCodester Simple Online Food Ordering System 1.0. The impacted element is an unknown function of the file /admin/ajax.php?action=login. Executing a manipulation of the argument Username can lead to sql injection. The attack may be performed from remote. The exploit has been published and may be used.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Simple Online Food Ordering System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/391949",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/391949/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-76048",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/878218",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Kristin5634487/cve/issues/5",
-          "type": "poc"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SourceCodester",
-          "product": "Simple Online Food Ordering System",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:simple_online_food_ordering_system:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ]
-    },
-    {
-      "id": "CVE-2026-75987",
-      "publishedDate": "2026-08-19T01:45:09.722Z",
-      "lastModifiedDate": "2026-08-21T19:24:11.632Z",
-      "description": "A vulnerability was found in SPLWare esProc up to 20260507. This affects the function ObjectInputStream.readUnshared of the file src/main/java/com/scudata/parallel/SocketData.java. Performing a manipulation results in deserialization. Remote exploitation of the attack is possible.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：SPLWare esProc\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/391906",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/391906/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-75987",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/877849",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SPLWare/esProc/issues/67",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SPLWare/esProc/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SPLWare",
-          "product": "esProc",
-          "versions": [
-            {
-              "version": "20260507",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:splware:esproc:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "Deserialization",
-        "Improper Input Validation"
-      ]
-    },
-    {
-      "id": "CVE-2026-52873",
-      "publishedDate": "2026-08-18T21:28:18.806Z",
-      "lastModifiedDate": "2026-08-21T19:18:23.077Z",
-      "description": "Streambert is a cross-platform Electron Desktop App to stream and download video content. From version 2.5.0 until version 2.6.0, the wyzie-open-redeem IPC handler in index.js creates the partition:wyzie-redeem Electron session and registers an onHeadersReceived hook that removes the Content-Security-Policy header from every response in that session. The redeem window also lacks a setWindowOpenHandler restriction, so script injection in sub.wyzie.io, a loaded third-party resource, or a site reached through navigation executes without CSP constraints and can affect additional windows and persistent session storage. A user must open the Wyzie API key redemption window, and exploitation requires attacker-controlled script content in a loaded page. The resulting renderer script can invoke renderer-exposed application functionality and can be chained with other vulnerabilities to access internal services or sensitive data. This issue is fixed in version 2.6.0.",
-      "severity": 6.9,
-      "fix_suggestion": "📦 受影响组件：truelockmc streambert\n🔓 漏洞类型：Cross-site Scripting (XSS), CWE-693 (CWE-79, CWE-693)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/truelockmc/streambert/security/advisories/GHSA-2j2q-qvpf-wh43",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/truelockmc/streambert/pull/126",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/truelockmc/streambert/commit/0bd6b6ca8c830f22f75de1aa2e0d8b9bdf6d34c7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/truelockmc/streambert/releases/tag/2.6.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "truelockmc",
-          "product": "streambert",
-          "versions": [
-            {
-              "version": "< 2.6.0",
+              "version": "< 3.3.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
-        "CWE-693: Protection Mechanism Failure"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-79",
-        "CWE-693"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-76230",
-      "publishedDate": "2026-08-19T14:02:11.620Z",
-      "lastModifiedDate": "2026-08-21T19:28:44.635Z",
-      "description": "Renovate versions from 35.63.0 before 40.33.0 contain a command injection vulnerability in the npm manager where user-provided packageName values are appended to npm install commands without proper sanitization. Attackers with repository write access can craft malicious Renovate configuration files to execute arbitrary commands on the machine running Renovate.",
-      "severity": 6.7,
-      "fix_suggestion": "📦 受影响组件：renovatebot renovate\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77234",
+      "publishedDate": "2026-08-21T17:40:04.335Z",
+      "lastModifiedDate": "2026-08-21T19:41:52.919Z",
+      "description": "Improper input validation in FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports to execute code in privileged kernel context. To remediate this issue, users should upgrade to version 11.3.1 or later.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/renovatebot/renovate/security/advisories/GHSA-fr4j-65pv-gjjj",
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/tag/V11.3.1",
           "type": "reference"
         },
         {
-          "url": "https://github.com/renovatebot/renovate/commit/012c0ac2fe32832e60a62bde405c0a241efd314c",
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/renovatebot/renovate/commit/a70a6a376d31148e80be5a5c885ac33ff5ddb30c",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/renovate-before-command-injection-via-npm",
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/security/advisories/GHSA-w3vr-pr75-5hc6",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "renovatebot",
-          "product": "renovate",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/renovate",
+          "vendor": "FreeRTOS",
+          "product": "FreeRTOS-Kernel",
           "versions": [
             {
-              "version": "35.63.0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "40.33.0"
-            },
+              "version": "7.0.0",
+              "lessThanOrEqual": "11.3.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-75149",
+      "publishedDate": "2026-08-19T17:48:46.525Z",
+      "lastModifiedDate": "2026-08-21T19:41:11.333Z",
+      "description": "marimo before 0.23.15 contains a code injection vulnerability in the notebook configuration handler that allows attackers to execute arbitrary commands by supplying a crafted MCP server entry with an attacker-controlled command value embedded in a notebook. When the notebook is opened in edit mode, marimo launches the specified command as a local subprocess before any notebook cell is executed, requiring no authentication or cell execution to trigger the vulnerability.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：marimo-team marimo\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/marimo-team/marimo/releases/tag/0.23.15",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/marimo-team/marimo/pull/10281",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/marimo-team/marimo/commit/1a21bd71e258438d2511136b5edacc94c08855f4",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/marimo-code-injection-via-mcp-server-configuration",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "vendor": "marimo-team",
+          "product": "marimo",
+          "packageURL": "pkg:github/marimo-team/marimo",
+          "repo": "https://github.com/marimo-team/marimo",
+          "versions": [
             {
-              "version": "40.33.0",
-              "status": "unaffected",
-              "versionType": "semver"
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "0.23.15"
             }
           ]
         }
       ],
       "problemType": [
-        "Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+        "Improper Control of Generation of Code ('Code Injection')"
       ]
     },
     {
-      "id": "CVE-2026-76210",
-      "publishedDate": "2026-08-19T14:01:57.242Z",
-      "lastModifiedDate": "2026-08-21T19:19:16.246Z",
-      "description": "phpMyFAQ before 4.1.6 does not adequately sanitize HTML in FAQ answers before generating PDFs via TCPDF. An attacker with permission to create or edit FAQ content can embed an <img> tag whose src references a local file under the web root's content/ directory (e.g., content/core/config/database.php). When the PDF is generated, phpMyFAQ attempts to read the referenced file; because it is not a valid image the resulting error is converted into an uncaught exception whose stack trace discloses part of the file's contents to any user who triggers the PDF export. By default the disclosed portion is truncated (zend.exception_string_param_max_len), but a larger configured value can result in disclosure of entire files, including database credentials.",
+      "id": "CVE-2026-77236",
+      "publishedDate": "2026-08-21T17:47:49.957Z",
+      "lastModifiedDate": "2026-08-21T19:42:57.670Z",
+      "description": "Missing minimum size validation in secure context allocation in FreeRTOS-Kernel before 11.3.1 might allow local users to corrupt secure-world heap metadata via an out-of-bounds write with an undersized stack size parameter. To remediate this issue, users should upgrade to version 11.3.1 or later.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/tag/V11.3.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/security/advisories/GHSA-vq2f-9qj3-jj2m",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "FreeRTOS",
+          "product": "FreeRTOS-Kernel",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "10.2.0",
+              "lessThanOrEqual": "11.3.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-77235",
+      "publishedDate": "2026-08-21T17:42:12.312Z",
+      "lastModifiedDate": "2026-08-21T19:42:23.681Z",
+      "description": "Missing privilege verification in the secure context cleanup handler in FreeRTOS-Kernel before 11.3.1 might allow local users to cause a use-after-free condition in secure-world memory via the SVC handler for secure context deallocation. To remediate this issue, users should upgrade to version 11.3.1 or later.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：Use After Free (CWE-416)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/tag/V11.3.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/security/advisories/GHSA-55pf-q87x-c58c",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "FreeRTOS",
+          "product": "FreeRTOS-Kernel",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "10.2.0",
+              "lessThanOrEqual": "11.3.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use after free"
+      ],
+      "cwe_ids": [
+        "CWE-416"
+      ]
+    },
+    {
+      "id": "CVE-2026-77237",
+      "publishedDate": "2026-08-21T17:52:13.360Z",
+      "lastModifiedDate": "2026-08-21T19:43:15.837Z",
+      "description": "Missing queue-set type validation in xQueueAddToSet() in the FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports with configUSE_QUEUE_SETS=1 to read privileged kernel memory. To remediate this issue, users should upgrade to version 11.3.1 or later.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：thorsten phpMyFAQ\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：Type Confusion, CWE-125 (CWE-843, CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/thorsten/phpMyFAQ/security/advisories/GHSA-c63q-xx7x-j8w2",
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/tree/11.3.1",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/phpmyfaq-before-local-file-disclosure-via-pdf-export",
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/security/advisories/GHSA-9wvc-hqvx-5wf5",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "thorsten",
-          "product": "phpMyFAQ",
-          "defaultStatus": "unaffected",
+          "vendor": "FreeRTOS",
+          "product": "FreeRTOS-Kernel",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.1.6"
-            },
-            {
-              "version": "4.1.6",
-              "status": "unaffected",
-              "versionType": "semver"
+              "version": "7.4.0",
+              "lessThanOrEqual": "11.3.0",
+              "versionType": "custom"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "External Control of File Name or Path"
-      ]
-    },
-    {
-      "id": "CVE-2026-47699",
-      "publishedDate": "2026-08-18T21:24:54.280Z",
-      "lastModifiedDate": "2026-08-21T19:17:19.410Z",
-      "description": "Confidential Containers Guest Components provides guest tools and components for confidential container workloads. From 0.16.0 until 0.20.0, a crafted OCI image layer can make image_rs::stream::unpack::unpack() create a hardlink outside its destination directory. In image-rs/src/stream/unpack.rs, try_hardlink_fallback() validates the hardlink source but computes the destination with destination.join(&entry_rel). Rust Path::join replaces the base when entry_rel is an absolute tar entry path, so fs::hard_link(&src_canon, &dst_entry_abs) can write attacker-controlled content to an arbitrary absolute path. In Confidential Containers the workload owner already controls trusted image content, so the issue is a workload-owner escape into the pod virtual machine rather than a crossing of the image trust boundary, but it may enable access to pod virtual machine capabilities and attestation abuse. This issue is fixed in version 0.20.0.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：confidential-containers guest-components\n🔓 漏洞类型：Path Traversal, CWE-59 (CWE-22, CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/confidential-containers/guest-components/security/advisories/GHSA-84rc-2q4r-45pc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/confidential-containers/guest-components/pull/1440",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/confidential-containers/guest-components/pull/1457",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/confidential-containers/guest-components/commit/14fbb711af0b29bb9cad307969d57b0de9b85d7f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/confidential-containers/guest-components/commit/7cc1bc458973310296e58aedbb15cb7963297bbe",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/confidential-containers/guest-components/releases/tag/v0.20.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "confidential-containers",
-          "product": "guest-components",
-          "versions": [
-            {
-              "version": ">= 0.16.0, < 0.20.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
-        "CWE-59: Improper Link Resolution Before File Access ('Link Following')"
+        "CWE-843 Access of resource using incompatible type ('type confusion')",
+        "CWE-125 Out-of-bounds read"
       ],
       "cwe_ids": [
-        "CWE-22",
-        "CWE-59"
+        "CWE-843",
+        "CWE-125"
       ]
     },
     {
-      "id": "CVE-2026-75978",
-      "publishedDate": "2026-08-19T00:00:13.664Z",
-      "lastModifiedDate": "2026-08-21T19:24:51.463Z",
-      "description": "A security vulnerability has been detected in xianrendzw EasyReport up to 2.0.17.0522_Beta. The affected element is the function DataSourceController.add of the file DataSourceController.java of the component QueryerFactory. Such manipulation of the argument queryerClass leads to permission issues. The attack can be launched remotely. The exploit has been disclosed publicly and may be used. The project was informed of the problem early through an issue report but has not responded yet.",
+      "id": "CVE-2026-55482",
+      "publishedDate": "2026-08-19T18:18:35.455Z",
+      "lastModifiedDate": "2026-08-21T19:49:02.437Z",
+      "description": "Snipe-IT is an IT asset/license management system. Prior to 8.4.1, a non-superadmin can use app/Http/Controllers/Assets/BulkAssetsController.php update() to submit company_id directly without Company::getIdForCurrentUser(), allowing assets to be moved across company boundaries and breaking multi-tenant isolation. This issue is fixed in version 8.4.1.",
       "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：xianrendzw EasyReport\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：grokability snipe-it\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/391893",
+          "url": "https://github.com/grokability/snipe-it/security/advisories/GHSA-33g4-646g-qwmm",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/391893/cti",
+          "url": "https://github.com/grokability/snipe-it/commit/d58fda626e8febfeff4cabbc20ba03edfc411e18",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-75978",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/877797",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/xianrendzw/EasyReport/issues/83",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/xianrendzw/EasyReport/",
+          "url": "https://github.com/grokability/snipe-it/releases/tag/v8.4.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "xianrendzw",
-          "product": "EasyReport",
+          "vendor": "grokability",
+          "product": "snipe-it",
           "versions": [
             {
-              "version": "2.0.17.0522_Beta",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:xianrendzw:easyreport:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "QueryerFactory"
-          ]
-        }
-      ],
-      "problemType": [
-        "Permission Issues",
-        "Incorrect Privilege Assignment"
-      ]
-    },
-    {
-      "id": "CVE-2026-75900",
-      "publishedDate": "2026-08-19T07:44:35.968Z",
-      "lastModifiedDate": "2026-08-21T19:22:41.001Z",
-      "description": "An out-of-bounds read vulnerability was found in swtpm's SWTPM_NVRAM_CheckHeader() function. The entry guard checks the buffer length against sizeof(bh), where bh is a pointer, instead of sizeof(*bh), the actual struct size. This allows an undersized buffer to pass validation, causing a 2-byte heap overread on 64-bit systems (6 bytes on 32-bit) when accessing the totlen field. This may cause daemon termination on some platforms and leaks heap data to the log.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-75900",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2517910",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 10",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "swtpm",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:10"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 8",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "virt:rhel/swtpm",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:8"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Enterprise Linux 9",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "swtpm",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/o:redhat:enterprise_linux:9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-63004",
-      "publishedDate": "2026-08-21T18:05:20.458Z",
-      "lastModifiedDate": "2026-08-21T19:22:22.158Z",
-      "description": "Unleash is an open-source feature management platform. Prior to 7.5.2, 7.6.5, and 8.0.2, the addon and integration subsystem passes the operator-controlled parameters.url value from src/lib/addons/webhook.ts and the Slack, Microsoft Teams, Datadog, and New Relic integrations to Addon.fetchRetry in src/lib/addons/addon.ts without restricting loopback, link-local, private, or cloud metadata addresses. An authenticated actor with the root CREATE_ADDON or UPDATE_ADDON permission can cause the server to send requests from inside its network boundary, use integration event status as a blind probing oracle, forward Authorization, customHeaders, or DD-API-KEY values to an attacker-observed host, and deliver the feature-event JSON body to internal services. This issue is fixed in versions 7.5.2, 7.6.5, and 8.0.2.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：Unleash unleash\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Unleash/unleash/security/advisories/GHSA-5vf6-jrqr-78fj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Unleash/unleash/commit/2100db76af3473f13e6fb40096cf17a9c2b741a1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Unleash/unleash/commit/d45f99df924c0d24747b3e45e46fcda7dcd3c1c1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Unleash/unleash/commit/d862562a5ab8f2d1e40f6519c64cf0b4fdaf806d",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Unleash/unleash/releases/tag/v7.5.2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Unleash/unleash/releases/tag/v7.6.5",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Unleash/unleash/releases/tag/v8.0.2",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unleash",
-          "product": "unleash",
-          "versions": [
-            {
-              "version": "< 7.5.2",
-              "status": "affected"
-            },
-            {
-              "version": ">= 7.6.0, < 7.6.5",
-              "status": "affected"
-            },
-            {
-              "version": ">= 8.0.0, < 8.0.2",
+              "version": "< 8.4.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
       ],
       "cwe_ids": [
-        "CWE-918"
+        "CWE-639"
       ],
-      "ghsa_id": "GHSA-5vf6-jrqr-78fj"
+      "ghsa_id": "GHSA-33g4-646g-qwmm"
     },
     {
-      "id": "CVE-2026-76215",
-      "publishedDate": "2026-08-19T14:02:00.603Z",
-      "lastModifiedDate": "2026-08-21T19:26:45.651Z",
-      "description": "phpMyFAQ before 4.1.7 fails to apply parent FAQ visibility checks before returning child resources including comments and attachments. Unauthenticated attackers can retrieve restricted comment text, commenter email addresses, and attachment filenames for FAQ records they cannot directly access by querying the comments and attachments API endpoints.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：thorsten phpMyFAQ\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-55703",
+      "publishedDate": "2026-08-19T18:23:43.567Z",
+      "lastModifiedDate": "2026-08-21T19:48:06.094Z",
+      "description": "Snipe-IT is an IT asset/license management system. Prior to 8.6.3, any activated account can request /maintenances/{id} and read maintenance records for assets in the same company without asset or maintenance permission. app/Http/Controllers/MaintenancesController.php show() renders the record without authorize(), while company-scoped route-model binding only prevents access to other companies. Disclosed fields include asset tags, suppliers, purchase costs, notes, and dates. This issue is fixed in version 8.6.3.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：grokability snipe-it\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/thorsten/phpMyFAQ/security/advisories/GHSA-jmv9-23mw-mxpq",
+          "url": "https://github.com/grokability/snipe-it/security/advisories/GHSA-r9r3-g9fp-3q4q",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/phpmyfaq-before-missing-authorization-via-child-resources",
+          "url": "https://github.com/grokability/snipe-it/commit/69c50aa2aee25f837626556b4f4f3d05ec7ace96",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/grokability/snipe-it/releases/tag/v8.6.3",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "thorsten",
-          "product": "phpMyFAQ",
-          "defaultStatus": "unaffected",
+          "vendor": "grokability",
+          "product": "snipe-it",
           "versions": [
             {
-              "version": "0",
+              "version": "< 8.6.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ],
+      "ghsa_id": "GHSA-r9r3-g9fp-3q4q"
+    },
+    {
+      "id": "CVE-2026-66797",
+      "publishedDate": "2026-08-21T08:21:58.452Z",
+      "lastModifiedDate": "2026-08-21T19:45:45.850Z",
+      "description": "Improper access control in CloudStack's annotation functionality allows unauthorized comment creation and disclosure.\n\n\n\n\nThe addAnnotation and listAnnotation APIs perform an ownership check when an entity's UUID is specified, but fail to honor its result correctly. This lets any authenticated user write annotations to, and disclose existing annotations/comments on, an entity they don't own by simply supplying its UUID.\n\n\n\n\nThis issue affects Apache CloudStack: from 4.15.0.0 through 4.20.3.0 and from 4.21.0.0 through 4.22.1.0.\n\n\n\n\n\nUsers are recommended to upgrade to version 4.20.3.1 or 4.22.1.1 or later, which fixes the issue.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache CloudStack\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/g6cwddtjrwbh1d56wjz4cfp3fzfm4kbc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Apache CloudStack",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThanOrEqual": "4.20.3.0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.1.7"
+              "version": "4.16.0.0",
+              "versionType": "semver"
             },
             {
-              "version": "4.1.7",
-              "status": "unaffected",
+              "lessThanOrEqual": "4.22.1.0",
+              "status": "affected",
+              "version": "4.21.0.0",
               "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-284 Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
       ]
     },
     {
-      "id": "CVE-2026-67361",
-      "publishedDate": "2026-08-21T19:23:29.970Z",
-      "lastModifiedDate": "2026-08-21T19:23:29.970Z",
-      "description": "Joomla Extension - j2commerce.com - Unauthenticated file upload with missing directory protection in J2Store 1.0.0-3.3.20, 4.0.0-4.0.20, 4.1.0-4.1.5 - The file upload endpoint accepted POST requests from unauthenticated visitors with no CSRF token. Compounding this, the installer manifest omitted the upload and invoices directories, causing fresh installs to deploy those directories without .htaccess/web.config protection, making uploaded files directly web-accessible.",
+      "id": "CVE-2026-20679",
+      "publishedDate": "2026-08-21T00:38:59.996Z",
+      "lastModifiedDate": "2026-08-21T19:48:44.209Z",
+      "description": "The issue was addressed with improved checks. This issue is fixed in macOS Sequoia 15.7.5, macOS Sonoma 14.8.5, macOS Tahoe 26.4. Processing a maliciously crafted file may lead to unexpected app termination.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apple macOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.apple.com/en-us/126794",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/126795",
+          "type": "reference"
+        },
+        {
+          "url": "https://support.apple.com/en-us/126796",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apple",
+          "product": "macOS",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "14.8.5",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "15.7.5",
+              "versionType": "custom"
+            },
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThan": "26.4",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Processing a maliciously crafted file may lead to unexpected app termination"
+      ]
+    },
+    {
+      "id": "CVE-2026-53424",
+      "publishedDate": "2026-08-20T17:27:11.115Z",
+      "lastModifiedDate": "2026-08-21T19:42:21.623Z",
+      "description": "Authentication Bypass by Capture-replay vulnerability in dropbox samly allows an attacker to authenticate as the subject of a captured SAML assertion by resubmitting it.\n\nSamly.Helper.decode_idp_auth_resp/3 in lib/samly/helper.ex calls esaml_sp:validate_assertion/2, whose default duplicate detector is a no-op. The /3 arity accepting a DuplicateFun exists in esaml and implements the check, but Samly never calls it and offers no configuration to supply one, so the SAML 2.0 Web Browser SSO Profile requirement that a bearer assertion be used once is unenforced. An attacker holding a valid SAMLResponse obtained from the network, from browser history, or from logs can submit the identical bytes repeatedly until the assertion's NotOnOrAfter passes, each time establishing a session as the assertion's subject.\n\nThis issue affects samly: from 0.3.0 onward.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：dropbox samly\n🔓 漏洞类型：CWE-294 (CWE-294)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-53424.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-53424",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:dropbox:samly:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Samly.Helper'"
+          ],
+          "packageName": "samly",
+          "packageURL": "pkg:hex/samly",
+          "product": "samly",
+          "programFiles": [
+            "lib/samly/helper.ex"
+          ],
+          "programRoutines": [
+            {
+              "name": "'Elixir.Samly.Helper':decode_idp_auth_resp/3"
+            }
+          ],
+          "repo": "https://github.com/dropbox/samly",
+          "vendor": "dropbox",
+          "versions": [
+            {
+              "lessThan": "*",
+              "status": "affected",
+              "version": "0.3.0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:dropbox:samly:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Samly.Helper'"
+          ],
+          "packageName": "dropbox/samly",
+          "packageURL": "pkg:github/dropbox/samly",
+          "product": "samly",
+          "programFiles": [
+            "lib/samly/helper.ex"
+          ],
+          "programRoutines": [
+            {
+              "name": "'Elixir.Samly.Helper':decode_idp_auth_resp/3"
+            }
+          ],
+          "repo": "https://github.com/dropbox/samly",
+          "vendor": "dropbox",
+          "versions": [
+            {
+              "lessThan": "*",
+              "status": "affected",
+              "version": "8a5bb1b4a4753d05470da2036323477f63cfdf4c",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:handnot2:samly:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Samly.Helper'"
+          ],
+          "packageName": "handnot2/samly",
+          "packageURL": "pkg:github/handnot2/samly",
+          "product": "samly",
+          "programFiles": [
+            "lib/samly/helper.ex"
+          ],
+          "programRoutines": [
+            {
+              "name": "'Elixir.Samly.Helper':decode_idp_auth_resp/3"
+            }
+          ],
+          "repo": "https://github.com/handnot2/samly",
+          "vendor": "handnot2",
+          "versions": [
+            {
+              "lessThan": "*",
+              "status": "affected",
+              "version": "8a5bb1b4a4753d05470da2036323477f63cfdf4c",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-294 Authentication Bypass by Capture-replay"
+      ],
+      "cwe_ids": [
+        "CWE-294"
+      ]
+    },
+    {
+      "id": "CVE-2026-68560",
+      "publishedDate": "2026-08-19T19:23:45.761Z",
+      "lastModifiedDate": "2026-08-21T19:46:13.849Z",
+      "description": "Wekan is open source kanban built with Meteor. Prior to 9.75, models/fileValidation.js interpolated the uploaded fileObj.path into the administrator-configured externalCommandLine at its {file} placeholder and executed the result through asyncExec, which is promisify(exec) and invokes `/bin/sh -c`. On deployments with an external scanner configured, an authenticated user able to upload an attachment could place shell metacharacters such as command substitutions in the filename and execute commands as the Wekan server process. Version 9.75 adds shellQuote() and passes the file path as a POSIX single-quoted argument so shell metacharacters cannot escape the placeholder. This issue is fixed in version 9.75.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：j2commerce.com J2Store extension for Joomla\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF), CWE-538 (CWE-352, CWE-538)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：wekan wekan\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.j2commerce.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J2Store extension for Joomla",
-          "vendor": "j2commerce.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.0.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.1.0-4.1.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-352 Cross-Site Request Forgery (CSRF)",
-        "CWE-538 (Insertion of Sensitive Information into Externally-Accessible File or Directory)"
-      ],
-      "cwe_ids": [
-        "CWE-352",
-        "CWE-538"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-74252",
-      "publishedDate": "2026-08-21T19:21:10.157Z",
-      "lastModifiedDate": "2026-08-21T19:21:10.157Z",
-      "description": "Joomla Extension - j2commerce.com - Stored XSS in Guest checkout in J2Store 1.0.0-3.3.20, 4.0.0-4.0.20, 4.1.0-4.1.5 - J2Commerce 4.1.5 is vulnerable to Stored Cross-Site Scripting (XSS) through the guest checkout billing address fields. An unauthenticated attacker exploits a filter bypass in Joomla's Input::getArray() combined with PHP's variables_order=EGPCS (Cookie overrides POST in $_REQUEST ) to store unsanitized HTML in fields such as billing_first_name.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：j2commerce.com J2Store extension for Joomla\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.j2commerce.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J2Store extension for Joomla",
-          "vendor": "j2commerce.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.0.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.1.0-4.1.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-67358",
-      "publishedDate": "2026-08-21T19:20:36.445Z",
-      "lastModifiedDate": "2026-08-21T19:20:36.445Z",
-      "description": "Joomla Extension - j2commerce.com - Download quota manipulation in J2Store 1.0.0-3.3.20, 4.0.0-4.0.20, 4.1.0-4.1.5 - An authenticated user with a valid order token could increment the download limit counter on a download record belonging to a different order. The endpoint also lacked a CSRF token.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：j2commerce.com J2Store extension for Joomla\n🔓 漏洞类型：CWE-639, Cross-Site Request Forgery (CSRF) (CWE-639, CWE-352)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.j2commerce.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J2Store extension for Joomla",
-          "vendor": "j2commerce.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.0.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.1.0-4.1.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639 (Authorization Bypass Through User-Controlled Key)",
-        "CWE-352 Cross-Site Request Forgery (CSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-639",
-        "CWE-352"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-67362",
-      "publishedDate": "2026-08-21T19:19:33.471Z",
-      "lastModifiedDate": "2026-08-21T19:19:33.471Z",
-      "description": "Joomla Extension - j2commerce.com - Open redirect in cart controller in J2Store 1.0.0-3.3.20, 4.0.0-4.0.20, 4.1.0-4.1.5 - Four task handlers accepted a base64-encoded URL from user input and redirected to it without validating the destination host, enabling phishing using the shop's trusted domain. No authentication required.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：j2commerce.com J2Store extension for Joomla\n🔓 漏洞类型：CWE-601 (CWE-601)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.j2commerce.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J2Store extension for Joomla",
-          "vendor": "j2commerce.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.0.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.1.0-4.1.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-601 URL Redirection to Untrusted Site ('Open Redirect')"
-      ],
-      "cwe_ids": [
-        "CWE-601"
-      ]
-    },
-    {
-      "id": "CVE-2026-67359",
-      "publishedDate": "2026-08-21T19:18:44.371Z",
-      "lastModifiedDate": "2026-08-21T19:18:44.371Z",
-      "description": "Joomla Extension - j2commerce.com - Order content disclosure J2Store 1.0.0-3.3.20, 4.0.0-4.0.20, 4.1.0-4.1.5 - An unauthenticated visitor could supply any order_id as a query parameter to render the full checkout confirmation page for that order, including line items, prices, and totals.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：j2commerce.com J2Store extension for Joomla\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.j2commerce.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J2Store extension for Joomla",
-          "vendor": "j2commerce.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.0.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.1.0-4.1.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639 (Authorization Bypass Through User-Controlled Key)"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-67360",
-      "publishedDate": "2026-08-21T19:16:36.014Z",
-      "lastModifiedDate": "2026-08-21T19:16:36.014Z",
-      "description": "Joomla Extension - j2commerce.com - Cross-customer order replication in J2Store 1.0.0-3.3.20, 4.0.0-4.0.20, 4.1.0-4.1.5 - An authenticated user could supply another customer's order_id to copy their cart contents and address data into the attacker's session. The CSRF token was validated but ownership was not checked.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：j2commerce.com J2Store extension for Joomla\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.j2commerce.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J2Store extension for Joomla",
-          "vendor": "j2commerce.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-3.3.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.0.0-4.0.20"
-            },
-            {
-              "status": "affected",
-              "version": "4.1.0-4.1.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639 (Authorization Bypass Through User-Controlled Key)"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-71494",
-      "publishedDate": "2026-08-21T17:50:43.655Z",
-      "lastModifiedDate": "2026-08-21T19:23:57.520Z",
-      "description": "Infracost provides cloud cost intelligence for engineers, AI coding agents, and CI/CD. Prior to 0.10.45, internal/hcl/remote_variables_loader.go and related Terraform Cloud, remote-plan, and Terragrunt registry request paths can attach a configured Terraform Cloud or registry token to a destination hostname derived from untrusted Terraform input without confirming that it is the configured trusted host. When a CI run provides a token while scanning attacker-controlled Terraform, including pull_request_target or a same-repository pull request, an attacker can direct the request to an attacker-controlled host and disclose the token. Standard fork pull_request workflows without secrets are not exposed. This issue is fixed in version 0.10.45.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：infracost infracost\n🔓 漏洞类型：CWE-522 (CWE-522)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/infracost/infracost/security/advisories/GHSA-6x6c-w9w9-hv4h",
+          "url": "https://github.com/wekan/wekan/security/advisories/GHSA-x3xm-pxrv-jg7p",
           "type": "reference"
         },
         {
-          "url": "https://github.com/infracost/infracost/pull/3590",
+          "url": "https://github.com/wekan/wekan/commit/1a222c4477e68c76fd6a866954b535fba0a78d05",
           "type": "reference"
         },
         {
-          "url": "https://github.com/infracost/infracost/commit/3d24c757f5e4e60c7259f1b89ad7ceaabcfca86f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/infracost/infracost/releases/tag/v0.10.45",
+          "url": "https://github.com/wekan/wekan/releases/tag/v9.75",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "infracost",
-          "product": "infracost",
+          "vendor": "wekan",
+          "product": "wekan",
           "versions": [
             {
-              "version": "< 0.10.45",
+              "version": "< 9.75",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-522: Insufficiently Protected Credentials"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
       ],
       "cwe_ids": [
-        "CWE-522"
-      ]
-    },
-    {
-      "id": "CVE-2026-76612",
-      "publishedDate": "2026-08-21T12:17:08.946Z",
-      "lastModifiedDate": "2026-08-21T19:22:11.591Z",
-      "description": "Joomla Extension - yootheme.com - Unauthenticated stored XSS via user-controlled fields in Zoo < 4.1.66 - User supplied input in comments and user supplied field elements weren't escaped, leading to a stored XSS vector.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：yootheme.com Zoo extension for Joomla\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.yootheme.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Zoo extension for Joomla",
-          "vendor": "yootheme.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-4.1.65"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-76611",
-      "publishedDate": "2026-08-21T12:15:01.640Z",
-      "lastModifiedDate": "2026-08-21T19:20:00.136Z",
-      "description": "Joomla Extension - yootheme.com - Unauthenticated arbitrary directory listing via the Gallery element in Zoo < 4.1.66.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：yootheme.com Zoo extension for Joomla\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.yootheme.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Zoo extension for Joomla",
-          "vendor": "yootheme.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-4.1.65"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory"
-      ],
-      "cwe_ids": [
-        "CWE-22"
+        "CWE-78"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-75115",
-      "publishedDate": "2026-08-21T12:14:13.260Z",
-      "lastModifiedDate": "2026-08-21T19:19:09.831Z",
-      "description": "Joomla Extension - yootheme.com - Authenticated, privileged arbitrary file read in YOOtheme Pro 2.3.0-5.0.40 - The Filesystem source's path filter is vulnerable to glob-based pattern attacks, allowing authorized users to read arbitrary files.",
+      "id": "CVE-2026-72717",
+      "publishedDate": "2026-08-19T17:39:23.125Z",
+      "lastModifiedDate": "2026-08-21T19:44:34.681Z",
+      "description": "Orval generates type-safe JavaScript clients in TypeScript from OpenAPI v3 and Swagger v2 specifications. Prior to 8.21.0, a ${...} expression or backtick in a schema default is emitted into a module-level template literal emitted by zod schema generation without safe encoding. This permits attacker-controlled JavaScript to be evaluated when the generated zod schema module is imported, resulting in code execution in the developer, CI, test, or application environment. The affected code is packages/zod/src/index.ts function formatDefaultValue. This issue is fixed in version 8.21.0.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：yootheme.com YOOtheme Pro extension for Joomla\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：orval-labs orval\n🔓 漏洞类型：Code Injection, CWE-116, CWE-1336 (CWE-94, CWE-116, CWE-1336)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.yootheme.com/",
+          "url": "https://github.com/orval-labs/orval/security/advisories/GHSA-w727-8j6c-2rj4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/pull/3692",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/commit/8ef1bfdf3f9bcaf9dabfbe2e42887f1c0e159ab6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/releases/tag/v8.21.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "product": "YOOtheme Pro extension for Joomla",
-          "vendor": "yootheme.com",
+          "vendor": "orval-labs",
+          "product": "orval",
           "versions": [
             {
-              "status": "affected",
-              "version": "2.3.0-5.0.40"
+              "version": "< 8.21.0",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-116: Improper Encoding or Escaping of Output",
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
       ],
       "cwe_ids": [
-        "CWE-22"
+        "CWE-94",
+        "CWE-116",
+        "CWE-1336"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-76613",
-      "publishedDate": "2026-08-21T12:14:02.505Z",
-      "lastModifiedDate": "2026-08-21T19:18:58.211Z",
-      "description": "Joomla Extension - yootheme.com - Authenticated, privileged SQL injection in YOOtheme Pro 1.0.0-5.0.40 - An SQL injection allowed any contributor-level user to inject own content into SQL queries.",
+      "id": "CVE-2026-71868",
+      "publishedDate": "2026-08-19T17:37:34.092Z",
+      "lastModifiedDate": "2026-08-21T19:43:39.471Z",
+      "description": "Orval generates type-safe JavaScript clients in TypeScript from OpenAPI v3 and Swagger v2 specifications. Prior to 8.21.0, a ${...} expression or backtick in an enum default is emitted into a module-level template literal emitted by zod schema generation without safe encoding. This permits attacker-controlled JavaScript to be evaluated when the generated zod schema module is imported, resulting in code execution in the developer, CI, test, or application environment. The affected code is packages/zod/src/index.ts function formatDefaultValue. This issue is fixed in version 8.21.0.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：yootheme.com YOOtheme Pro extension for Joomla\n🔓 漏洞类型：SQL Injection (CWE-89)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：orval-labs orval\n🔓 漏洞类型：Code Injection, CWE-1336 (CWE-94, CWE-1336)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.yootheme.com/",
+          "url": "https://github.com/orval-labs/orval/security/advisories/GHSA-3575-w9fc-c2j6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/pull/3692",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/commit/8ef1bfdf3f9bcaf9dabfbe2e42887f1c0e159ab6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/releases/tag/v8.21.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "product": "YOOtheme Pro extension for Joomla",
-          "vendor": "yootheme.com",
+          "vendor": "orval-labs",
+          "product": "orval",
           "versions": [
             {
-              "status": "affected",
-              "version": "1.0.0-5.0.40"
+              "version": "< 8.21.0",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
       ],
       "cwe_ids": [
-        "CWE-89"
+        "CWE-94",
+        "CWE-1336"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-77028",
-      "publishedDate": "2026-08-21T12:13:04.328Z",
-      "lastModifiedDate": "2026-08-21T19:17:58.399Z",
-      "description": "Joomla Extension - yootheme.com - Reflected XSS and open redirect via the submission redirect parameter in Zoo < 4.1.66",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：yootheme.com Zoo extension for Joomla\n🔓 漏洞类型：Cross-site Scripting (XSS), CWE-601 (CWE-79, CWE-601)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.yootheme.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Zoo extension for Joomla",
-          "vendor": "yootheme.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-4.1.65"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')",
-        "CWE-601 URL Redirection to Untrusted Site ('Open Redirect')"
-      ],
-      "cwe_ids": [
-        "CWE-79",
-        "CWE-601"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-77029",
-      "publishedDate": "2026-08-21T12:11:41.823Z",
-      "lastModifiedDate": "2026-08-21T19:16:33.222Z",
-      "description": "Joomla Extension - yootheme.com - Missing CSRF tokens on front-end state changes in Zoo < 4.1.66",
+      "id": "CVE-2026-62681",
+      "publishedDate": "2026-08-19T17:31:02.756Z",
+      "lastModifiedDate": "2026-08-21T19:42:09.266Z",
+      "description": "Orval generates type-safe JavaScript clients in TypeScript from OpenAPI v3 and Swagger v2 specifications. Prior to 8.21.0, an unescaped backtick in an OpenAPI path is emitted into request URL template literals generated for axios, fetch, react-query, and SWR clients without safe encoding. This permits attacker-controlled JavaScript to be evaluated when a generated request, URL-builder, or query-key function is called, resulting in code execution in the developer, CI, test, or application environment. The affected code is packages/core/src/getters/route.ts and route generation consumers. This issue is fixed in version 8.21.0.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：yootheme.com Zoo extension for Joomla\n🔓 漏洞类型：Cross-Site Request Forgery (CSRF) (CWE-352)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：orval-labs orval\n🔓 漏洞类型：Code Injection, CWE-116, CWE-1336 (CWE-94, CWE-116, CWE-1336)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.yootheme.com/",
+          "url": "https://github.com/orval-labs/orval/security/advisories/GHSA-fg9p-mrxr-hvq7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/pull/3692",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/commit/8ef1bfdf3f9bcaf9dabfbe2e42887f1c0e159ab6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/releases/tag/v8.21.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "product": "Zoo extension for Joomla",
-          "vendor": "yootheme.com",
+          "vendor": "orval-labs",
+          "product": "orval",
           "versions": [
             {
-              "status": "affected",
-              "version": "1.0.0-4.1.65"
+              "version": "< 8.21.0",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-352 Cross-Site Request Forgery (CSRF)"
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-116: Improper Encoding or Escaping of Output",
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
       ],
       "cwe_ids": [
-        "CWE-352"
+        "CWE-94",
+        "CWE-116",
+        "CWE-1336"
       ],
       "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-75955",
-      "publishedDate": "2026-08-19T14:45:23.106Z",
-      "lastModifiedDate": "2026-08-21T19:21:07.383Z",
-      "description": "Joomla Extension - cmsjunkie.com - Reflected XSS / XML injection in J-BusinessDirectory < 6.2.3 - companyName from the request was written unescaped into an XML attribute.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：cmsjunkie.com J-BusinessDirectory extension for Joomla\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cmsjunkie.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J-BusinessDirectory extension for Joomla",
-          "vendor": "cmsjunkie.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-6.2.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-75951",
-      "publishedDate": "2026-08-19T14:41:50.385Z",
-      "lastModifiedDate": "2026-08-21T19:17:21.847Z",
-      "description": "Joomla Extension - cmsjunkie.com - Insecure Direct Object Reference (multiple frontend/API actions) in J-BusinessDirectory < 6.2.3",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：cmsjunkie.com J-BusinessDirectory extension for Joomla\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cmsjunkie.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J-BusinessDirectory extension for Joomla",
-          "vendor": "cmsjunkie.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-6.2.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-639 (Authorization Bypass Through User-Controlled Key)"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-75956",
-      "publishedDate": "2026-08-19T14:41:30.075Z",
-      "lastModifiedDate": "2026-08-21T19:17:00.605Z",
-      "description": "Joomla Extension - cmsjunkie.com - DOS vector in pagination parameter handling in J-BusinessDirectory < 6.2.3 - Pagination values were not strictly typed. Array/non-numeric values (for example limitstart[]) could trigger PHP type errors in arithmetic, and limit was not validated before use in list queries.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：cmsjunkie.com J-BusinessDirectory extension for Joomla\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.cmsjunkie.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "J-BusinessDirectory extension for Joomla",
-          "vendor": "cmsjunkie.com",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.0-6.2.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
     }
   ]
 }
