@@ -2,794 +2,325 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 14,
-    "last_updated": "2026-08-21T18:01:18.769059",
+    "total_count": 8,
+    "last_updated": "2026-08-21T18:49:35.052007",
     "severity_distribution": {
-      "critical": 2,
-      "high": 8,
-      "medium": 1,
+      "critical": 0,
+      "high": 1,
+      "medium": 4,
       "low": 0,
       "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-77806",
-      "publishedDate": "2026-08-21T13:37:43.289Z",
-      "lastModifiedDate": "2026-08-21T17:43:56.771Z",
-      "description": "SPIP before 4.4.21 allows unauthenticated remote attackers to execute arbitrary code, as exploited in the wild in August 2026. This is related to code injection via an X-Spip-Filtre HTTP request header that is mishandled by analyse_resultat_skel.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：SPIP SPIP\n🔓 漏洞类型：Code Injection (CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-54682",
+      "publishedDate": "2026-08-21T18:40:05.196Z",
+      "lastModifiedDate": "2026-08-21T18:40:05.196Z",
+      "description": "DiscordChatExporter saves Discord chat logs to a file. Prior to 2.47.2, HTML exports generated with markdown formatting disabled pass attacker-controlled content through FormatMarkdownAsync and FormatEmbedMarkdownAsync in DiscordChatExporter.Core/Exporting/MessageGroupTemplate.cshtml and render it without HTML entity encoding. The affected fields include message.Content, message.ForwardedMessage.Content, message.ReferencedMessage.Content, embed.Title, embed.Description, field.Name, and field.Value. A Discord webhook or bot can store a script payload in these fields, and the payload executes when a user exports the channel with markdown formatting disabled and opens the resulting HTML, allowing the script to read the export or alter its displayed content. This issue is fixed in version 2.47.2.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：Tyrrrz DiscordChatExporter\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/rapid7/metasploit-framework/pull/21790",
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/security/advisories/GHSA-8qrv-mmch-fr9c",
           "type": "reference"
         },
         {
-          "url": "https://github.com/rapid7/metasploit-framework/pull/21790#issuecomment-5368038123",
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/pull/1545",
           "type": "reference"
         },
         {
-          "url": "https://blog.spip.net/Mise-a-jour-critique-de-securite-sortie-de-SPIP-4-4-21.html",
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/commit/5632d6c3867d2f79cba9578056c98caee4377c1b",
           "type": "reference"
         },
         {
-          "url": "https://github.com/rapid7/metasploit-framework/pull/21790/commits/b16eca819abb8f1401f21d115e71e3dfc67b847c",
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/releases/tag/2.47.2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "product": "SPIP",
-          "vendor": "SPIP",
+          "vendor": "Tyrrrz",
+          "product": "DiscordChatExporter",
           "versions": [
             {
-              "lessThan": "4.4.21",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94 Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-94"
-      ]
-    },
-    {
-      "id": "CVE-2026-62674",
-      "publishedDate": "2026-08-21T17:47:37.976Z",
-      "lastModifiedDate": "2026-08-21T17:47:37.976Z",
-      "description": "Omnigent is an open-source AI agent framework and meta-harness for orchestrating coding agents. Prior to 0.3.0, PUT /sessions/{session_id}/agent checks LEVEL_EDIT permission for a session but does not reject a bound shared or template agent whose agent.session_id is None. An authenticated user with edit access to a session can replace that shared agent bundle through omnigent/server/routes/sessions.py, add a stdio MCP server, and cause later sessions that use the shared agent to launch an attacker-controlled command through omnigent/tools/mcp.py. The command executes with the Omnigent runner process permissions and can expose files, credentials, workspace data, internal services, and runner availability. This issue is fixed in version 0.3.0.",
-      "severity": 9,
-      "fix_suggestion": "📦 受影响组件：omnigent-ai omnigent\n🔓 漏洞类型：Code Injection (CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/security/advisories/GHSA-jrrm-9hc7-2v3h",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/pull/1418",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/commit/25a22dc9e6da4648d23749f0a589e47e6aed991b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/releases/tag/v0.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "omnigent-ai",
-          "product": "omnigent",
-          "versions": [
-            {
-              "version": "< 0.3.0",
+              "version": "< 2.47.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-94"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-62675",
-      "publishedDate": "2026-08-21T17:49:00.242Z",
-      "lastModifiedDate": "2026-08-21T17:49:00.242Z",
-      "description": "Omnigent is an open-source AI agent framework and meta-harness for orchestrating coding agents. Prior to 0.3.0, multipart POST /v1/sessions accepts an authenticated user's agent bundle and omnigent/server/bundles.py validate_agent_bundle does not reject a tools..callable dotted Python path. omnigent/runner/tool_dispatch.py _resolve_spec_callable imports the specified module and _execute_spec_callable_tool invokes the resolved function, allowing a bundle to select subprocess.check_output and execute a local command with the runner process permissions. This can expose runner files, environment variables, credentials, workspace data, internal services, and availability without administrator access. This issue is fixed in version 0.3.0.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：omnigent-ai omnigent\n🔓 漏洞类型：Code Injection (CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77795",
+      "publishedDate": "2026-08-21T18:30:07.737Z",
+      "lastModifiedDate": "2026-08-21T18:30:07.737Z",
+      "description": "A vulnerability was identified in Dromara RuoYi-Vue-Plus up to 5.6.2. This issue affects the function FlwInstanceController/FlwDefinitionController/FlwCategoryController/FlwSpelController/TestLeaveController of the component Workflow Endpoint. Such manipulation leads to improper authorization. The attack can be launched remotely.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：Dromara RuoYi-Vue-Plus\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/omnigent-ai/omnigent/security/advisories/GHSA-756x-9hf6-q4h4",
+          "url": "https://vuldb.com/vuln/394113",
           "type": "reference"
         },
         {
-          "url": "https://github.com/omnigent-ai/omnigent/pull/1430",
+          "url": "https://vuldb.com/vuln/394113/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/omnigent-ai/omnigent/commit/1f3f398f41cbf97b905133c21e848621c21da6e0",
+          "url": "https://vuldb.com/cve/CVE-2026-77795",
           "type": "reference"
         },
         {
-          "url": "https://github.com/omnigent-ai/omnigent/releases/tag/v0.3.0",
+          "url": "https://vuldb.com/submit/881227",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/SunRisexyz/Vul-of-Ruoyi/issues/1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "omnigent-ai",
-          "product": "omnigent",
+          "vendor": "Dromara",
+          "product": "RuoYi-Vue-Plus",
           "versions": [
             {
-              "version": "< 0.3.0",
+              "version": "5.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "5.6.1",
+              "status": "affected"
+            },
+            {
+              "version": "5.6.2",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:dromara:ruoyi-vue-plus:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Workflow Endpoint"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Authorization",
+        "Incorrect Privilege Assignment"
+      ]
+    },
+    {
+      "id": "CVE-2026-54681",
+      "publishedDate": "2026-08-21T18:41:45.861Z",
+      "lastModifiedDate": "2026-08-21T18:41:45.861Z",
+      "description": "DiscordChatExporter saves Discord chat logs to a file. Prior to 2.47.2, the VisitEmojiAsync method in DiscordChatExporter.Core/Exporting/HtmlMarkdownVisitor.cs interpolates emoji.Name into the alt attribute and emoji.Code into the title attribute without HTML entity encoding. This affects HTML exports regardless of the markdown setting. Discord's current custom emoji name validation normally excludes attribute-breaking characters, but tampered offline input, a relaxed upstream validation rule, or another future metadata source can inject an HTML attribute and execute script when a user opens the export. This issue is fixed in version 2.47.2.",
+      "severity": 4.1,
+      "fix_suggestion": "📦 受影响组件：Tyrrrz DiscordChatExporter\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/security/advisories/GHSA-r7qm-wg9p-pjfc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/pull/1544",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/commit/f4d1e630f7f27120c3be4320d92cc8b932e78688",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Tyrrrz/DiscordChatExporter/releases/tag/2.47.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Tyrrrz",
+          "product": "DiscordChatExporter",
+          "versions": [
+            {
+              "version": "< 2.47.2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-94"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-62677",
-      "publishedDate": "2026-08-21T17:44:37.312Z",
-      "lastModifiedDate": "2026-08-21T17:44:37.312Z",
-      "description": "Omnigent is an open-source AI agent framework and meta-harness for orchestrating coding agents. Prior to 0.3.0, an authenticated user can upload a session-scoped agent bundle with an absolute or traversal-containing os_env.cwd value because omnigent/spec/parser.py stores the value verbatim and omnigent/spec/validator.py does not constrain it. On a runner where OMNIGENT_RUNNER_WORKSPACE is unset, omnigent/runner/resource_registry.py preserves the attacker-controlled path and omnigent/inner/os_env.py uses the resolved path as the environment root and copytree source. The _assert_within_cwd check then treats that attacker-selected root as trusted, allowing sys_os_read, write, edit, and shell tools to access runner files and environment secrets outside the intended workspace. This issue is fixed in version 0.3.0.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：omnigent-ai omnigent\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/security/advisories/GHSA-p8rw-8qj3-hf33",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/pull/1417",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/commit/7ca0cca3c9a65c04c489edf68f0e080424a26868",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/releases/tag/v0.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "omnigent-ai",
-          "product": "omnigent",
-          "versions": [
-            {
-              "version": "< 0.3.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ]
-    },
-    {
-      "id": "CVE-2026-77234",
-      "publishedDate": "2026-08-21T17:40:04.335Z",
-      "lastModifiedDate": "2026-08-21T17:40:04.335Z",
-      "description": "Improper input validation in FreeRTOS-Kernel before 11.3.1 might allow an unprivileged task on MPU-enabled ports to execute code in privileged kernel context.\n\n\n\nTo remediate this issue, users should upgrade to version 11.3.1 or later",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/tag/V11.3.1",
-          "type": "reference"
-        },
-        {
-          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "FreeRTOS",
-          "product": "FreeRTOS-Kernel",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "7.0.0",
-              "lessThanOrEqual": "11.3.0",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-863: Incorrect Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-863"
-      ]
-    },
-    {
-      "id": "CVE-2026-61268",
-      "publishedDate": "2026-08-18T20:59:56.274Z",
-      "lastModifiedDate": "2026-08-21T17:46:21.249Z",
-      "description": "Vulnerability in the JD Edwards EnterpriseOne Tools product of Oracle JD Edwards (component: Business Logic Infra SEC).  Supported versions that are affected are 9.2.0.0-9.2.26.4. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise JD Edwards EnterpriseOne Tools.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all JD Edwards EnterpriseOne Tools accessible data as well as  unauthorized access to critical data or complete access to all JD Edwards EnterpriseOne Tools accessible data. CVSS 3.1 Base Score 8.1 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N).",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：Oracle Corporation JD Edwards EnterpriseOne Tools\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Oracle Corporation",
-          "product": "JD Edwards EnterpriseOne Tools",
-          "versions": [
-            {
-              "version": "9.2.0.0",
-              "status": "affected",
-              "lessThanOrEqual": "9.2.26.4",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise JD Edwards EnterpriseOne Tools.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all JD Edwards EnterpriseOne Tools accessible data as well as  unauthorized access to critical data or complete access to all JD Edwards EnterpriseOne Tools accessible data."
-      ]
-    },
-    {
-      "id": "CVE-2026-41450",
-      "publishedDate": "2026-08-21T17:35:04.844Z",
-      "lastModifiedDate": "2026-08-21T17:47:29.453Z",
-      "description": "UAC (Unix-like Artifacts Collector) versions prior to 3.3.0 contain a command injection vulnerability in the _command_collector function where foreach command output lines are substituted directly into command strings via sed without proper escaping before being evaluated with eval. Attackers can exploit this by crafting malicious filenames or artifact definitions containing shell metacharacters such as command substitution syntax or semicolons to execute arbitrary commands on the analyst's host system.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：tclahr uac\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/tclahr/uac/pull/443",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/tclahr/uac/commit/2cc367d8ead388f05abd3cfb8af537788a124e72",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/uac-command-injection-via-command-collector-sh",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "tclahr",
-          "product": "uac",
-          "repo": "https://github.com/tclahr/uac",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "3.3.0",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-77236",
-      "publishedDate": "2026-08-21T17:47:49.957Z",
-      "lastModifiedDate": "2026-08-21T17:47:49.957Z",
-      "description": "Missing minimum size validation in secure context allocation in FreeRTOS-Kernel before 11.3.1 might allow local users to corrupt secure-world heap metadata via an out-of-bounds write with an undersized stack size parameter. To remediate this issue, users should upgrade to version 11.3.1 or later.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/tag/V11.3.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "FreeRTOS",
-          "product": "FreeRTOS-Kernel",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "10.2.0",
-              "lessThanOrEqual": "11.3.0",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-787 Out-of-bounds write"
-      ],
-      "cwe_ids": [
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-77235",
-      "publishedDate": "2026-08-21T17:42:12.312Z",
-      "lastModifiedDate": "2026-08-21T17:43:26.725Z",
-      "description": "Missing privilege verification in the secure context cleanup handler in FreeRTOS-Kernel before 11.3.1 might allow local users to cause a use-after-free condition in secure-world memory via the SVC handler for secure context deallocation. \n\n\n\nTo remediate this issue, users should upgrade to version 11.3.1 or later.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：FreeRTOS FreeRTOS-Kernel\n🔓 漏洞类型：Use After Free (CWE-416)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel/releases/tag/V11.3.1",
-          "type": "reference"
-        },
-        {
-          "url": "https://aws.amazon.com/security/security-bulletins/2026-086-aws/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "FreeRTOS",
-          "product": "FreeRTOS-Kernel",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "10.2.0",
-              "lessThanOrEqual": "11.3.0",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-416 Use after free"
-      ],
-      "cwe_ids": [
-        "CWE-416"
-      ]
-    },
-    {
-      "id": "CVE-2026-62676",
-      "publishedDate": "2026-08-21T17:42:21.563Z",
-      "lastModifiedDate": "2026-08-21T17:42:21.563Z",
-      "description": "Omnigent is an open-source AI agent framework and meta-harness for orchestrating coding agents. Prior to 0.3.0, the shared shell-command parser in omnigent/policies/builtins/_shell.py fails to recognize combined interpreter flags, the timeout, nice, setsid, and stdbuf wrappers, command substitutions, and a single background control operator. A gated git push or gh write hidden with these forms produces no parsed operation, causing the github.py write_repos and write_branches allowlist and the working_dir.py workspace confinement policies to abstain and allow the command. An authenticated or prompt-injected agent can therefore push to an unauthorized repository or branch or escape the intended workspace. This issue is fixed in version 0.3.0.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：omnigent-ai omnigent\n🔓 漏洞类型：CWE-184 (CWE-184)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/security/advisories/GHSA-7mqg-cx4g-x2rf",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/pull/389",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/commit/1a05b7b139ef504bf2be89bf37918abe104fb95c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/omnigent-ai/omnigent/releases/tag/v0.3.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "omnigent-ai",
-          "product": "omnigent",
-          "versions": [
-            {
-              "version": "< 0.3.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-184: Incomplete List of Disallowed Inputs"
-      ],
-      "cwe_ids": [
-        "CWE-184"
-      ]
-    },
-    {
-      "id": "CVE-2026-71494",
-      "publishedDate": "2026-08-21T17:50:43.655Z",
-      "lastModifiedDate": "2026-08-21T17:50:43.655Z",
-      "description": "Infracost provides cloud cost intelligence for engineers, AI coding agents, and CI/CD. Prior to 0.10.45, internal/hcl/remote_variables_loader.go and related Terraform Cloud, remote-plan, and Terragrunt registry request paths can attach a configured Terraform Cloud or registry token to a destination hostname derived from untrusted Terraform input without confirming that it is the configured trusted host. When a CI run provides a token while scanning attacker-controlled Terraform, including pull_request_target or a same-repository pull request, an attacker can direct the request to an attacker-controlled host and disclose the token. Standard fork pull_request workflows without secrets are not exposed. This issue is fixed in version 0.10.45.",
+      "id": "CVE-2026-56875",
+      "publishedDate": "2026-08-21T18:49:31.300807+00:00",
+      "lastModifiedDate": "2026-08-21T18:35:50.269Z",
+      "description": "",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：infracost infracost\n🔓 漏洞类型：CWE-522 (CWE-522)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-55850",
+      "publishedDate": "2026-08-21T18:30:12.251Z",
+      "lastModifiedDate": "2026-08-21T18:30:12.251Z",
+      "description": "Element Web is a Matrix web client built using the Matrix React SDK. Prior to 1.12.22, EmbeddedPage in apps/web/src/components/structures/EmbeddedPage.tsx renders homeserver-supplied homepage content through dangerouslySetInnerHTML without passing it through sanitizedHtmlNode. A malicious homeserver can provide crafted HTML that Element Web renders on the homepage; the content security policy prevents JavaScript but not phishing HTML. This issue is fixed in version 1.12.22.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：element-hq element-web\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/infracost/infracost/security/advisories/GHSA-6x6c-w9w9-hv4h",
+          "url": "https://github.com/element-hq/element-web/security/advisories/GHSA-wrcp-5v3v-3j6v",
           "type": "reference"
         },
         {
-          "url": "https://github.com/infracost/infracost/pull/3590",
+          "url": "https://github.com/element-hq/element-web/commit/7949980a7e3c7e397d7afe899ef1b0563c417b0e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/infracost/infracost/commit/3d24c757f5e4e60c7259f1b89ad7ceaabcfca86f",
+          "url": "https://github.com/element-hq/element-web/releases/tag/v1.12.22",
           "type": "reference"
         },
         {
-          "url": "https://github.com/infracost/infracost/releases/tag/v0.10.45",
+          "url": "https://www.machinespirits.com/advisory/563a17",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "infracost",
-          "product": "infracost",
+          "vendor": "element-hq",
+          "product": "element-web",
           "versions": [
             {
-              "version": "< 0.10.45",
+              "version": "< 1.12.22",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-522: Insufficiently Protected Credentials"
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-522"
-      ]
-    },
-    {
-      "id": "CVE-2026-17251",
-      "publishedDate": "2026-08-21T17:16:45.791Z",
-      "lastModifiedDate": "2026-08-21T17:40:36.098Z",
-      "description": "A NULL\npointer dereference vulnerability exists in the HTTP request parsing\nfunctionality of \nTL-MR6400 v7. An unauthenticated remote attacker can\ntrigger the vulnerability by sending a specially crafted HTTP request\ncontaining a malformed session cookie header. \n\n\n\n\n\nSuccessful\nexploitation may cause the HTTP service process to crash, resulting in a\ndenial-of-service condition and temporary loss of management or CGI\nfunctionality until service recovery.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. TL-MR6400 v7.0\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.tp-link.com/en/support/download/tl-mr6400/v7/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/tw/support/download/tl-mr6400/v7/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/us/support/faq/5259/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "TL-MR6400 v7.0",
-          "platforms": [
-            "Linux"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "1.9.0 Build 260714",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-476 NULL pointer dereference"
-      ],
-      "cwe_ids": [
-        "CWE-476"
+        "CWE-79"
       ],
       "cvss_severity": "MEDIUM"
     },
     {
-      "id": "CVE-2026-17250",
-      "publishedDate": "2026-08-21T17:16:38.888Z",
-      "lastModifiedDate": "2026-08-21T17:41:01.254Z",
-      "description": "A\nstack-based buffer overflow vulnerability exists in the firmware update\nfunctionality of TL-MR6400 v7 due to unsafe processing of\nattacker-controlled metadata within a firmware image. \n\n\n\n\n\nSuccessful\nexploitation may allow an authenticated attacker to trigger memory corruption\nand execute arbitrary code on the affected device.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. TL-MR6400 v7.0\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-63046",
+      "publishedDate": "2026-08-21T08:37:57.457Z",
+      "lastModifiedDate": "2026-08-21T18:42:34.370Z",
+      "description": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection') vulnerability in Apache InLong. Agent Installer's ModuleManager executes arbitrary shell\ncommands via ExcuteLinux.exeCmd() with no filtering or whitelist\nvalidation. \n\nThis issue affects Apache InLong: from 2.0.0 before 2.4.0.\n\n\n\nUsers are advised to upgrade to Apache InLong's  2.4.0 or cherry-pick [1]/[2] to solve it.\n\n[1]  https://github.com/apache/inlong/pull/12151 .\n\n[2]  https://github.com/apache/inlong/pull/12155 .",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache InLong\n🔓 漏洞类型：Argument Injection (CWE-88)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.tp-link.com/en/support/download/tl-mr6400/v7/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/tw/support/download/tl-mr6400/v7/#Firmware",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.tp-link.com/us/support/faq/5259/",
+          "url": "https://lists.apache.org/thread/2pgz70rz9ozfm7vm5c33po3yyspq846y",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "TP-Link Systems Inc.",
-          "product": "TL-MR6400 v7.0",
-          "platforms": [
-            "Linux"
-          ],
+          "defaultStatus": "unaffected",
+          "product": "Apache InLong",
+          "vendor": "Apache Software Foundation",
           "versions": [
             {
+              "lessThan": "2.4.0",
               "status": "affected",
-              "version": "0",
-              "lessThan": "1.9.0 Build 260714",
-              "versionType": "custom"
+              "version": "2.0.0",
+              "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-121 Stack-based buffer overflow"
+        "CWE-88 Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
       ],
       "cwe_ids": [
-        "CWE-121"
+        "CWE-88"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-76022",
+      "publishedDate": "2026-08-20T20:51:20.515Z",
+      "lastModifiedDate": "2026-08-21T18:39:49.449Z",
+      "description": "Buffer overflow in Network in Google Chrome prior to 151.0.7922.173 allowed a remote attacker to execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: High)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/543798025",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "151.0.7922.173",
+              "status": "affected",
+              "lessThan": "151.0.7922.173",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Buffer overflow"
       ]
     },
     {
-      "id": "CVE-2026-77812",
-      "publishedDate": "2026-08-21T14:06:55.723Z",
-      "lastModifiedDate": "2026-08-21T17:42:36.191Z",
-      "description": "DJI drones transmit DUML (DJI Universal Markup Language) protocol messages over BLE (Bluetooth Low Energy) without encryption. When a client attempts to connect to the drone over Wi-Fi, or when the drone is switched to QuickTransfer mode, the DJI Fly application exchanges DUML messages with the drone over BLE, including the Wi-Fi credentials. An attacker within BLE range can passively sniff this traffic and recover the credentials in cleartext, including the drone's Wi-Fi PSK, SSID, and trusted identifier UUID. Obtaining these credentials allows the attacker to join the drone's internal Wi-Fi network, interact with network services exposed by the drone, and decrypt Wi-Fi traffic exchanged between the drone and the legitimate user.\n\n* An attacker within BLE range recovers the Wi-Fi SSID and PSK in cleartext, and can then join the drone's network \n* The same capture also exposes the session UUID identifier, which is the only thing the drone uses to tell a trusted client from an unknown one, so the attacker can replay it and skip the physical confirmation of new connected devices.\n* The credentials do not change between sessions unless the operator manually resets the Wi-Fi settings, so one capture stays valid indefinitely\n* The attack is fully passive, with nothing transmitted and no connection made, so neither the operator nor the drone has any indication the session was observed\n* A BLE sniffer and presence during one normal DJI Fly connection are needed\n\nAffected models are DJI Neo until 01.00.0400, DJI Neo 2 until 01.00.0500, DJI Flip until 01.00.1200, DJI Air 3 until 01.00.1600, DJI Air 3S until 01.00.1400, DJI Avata 2 until 01.00.0400, DJI Avata 360 until 01.00.0300, DJI Mavic 3 until 01.00.1400, DJI Mavic 3 Classic until 01.00.0800, DJI Mavic 3 Pro until 01.01.0700, DJI Mavic 4 Pro until 01.00.0500, DJI Mini 2 until 01.07.0200, DJI Mini 3 until 01.00.0500, DJI Mini 3 Pro until 01.00.0900, DJI Mini 4 Pro until 01.00.1100, and DJI Mini 5 Pro until 01.00.0600.\n\nRemediation requires a firmware update from the vendor. There is no user-side mitigation that fully addresses the vulnerability without upgrading.",
+      "id": "CVE-2026-76019",
+      "publishedDate": "2026-08-20T20:51:19.840Z",
+      "lastModifiedDate": "2026-08-21T18:44:00.304Z",
+      "description": "Incorrect authorization in Workers in Google Chrome prior to 151.0.7922.173 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to bypass web origin policy via a crafted HTML page. (Chromium security severity: High)",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：DJI DJI Neo\n🔓 漏洞类型：CWE-311 (CWE-311)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://support.dji.com/help/content?customId=en-us03400011149&amp;spaceId=34&amp;re=US&amp;lang=en",
+          "url": "https://chromereleases.googleblog.com/2026/08/stable-channel-update-for-desktop_0404570826.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/539032888",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "product": "DJI Neo",
-          "vendor": "DJI",
+          "vendor": "Google",
+          "product": "Chrome",
           "versions": [
             {
-              "lessThanOrEqual": "01.00.0400",
+              "version": "151.0.7922.173",
               "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Neo 2",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0500",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Flip",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.1200",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Air 3",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.1600",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Air 3S",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.1400",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Avata 2",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0400",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Avata 360",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0300",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mavic 3",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.1400",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mavic 3 Classic",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0800",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mavic 3 Pro",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.01.0700",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mavic 4 Pro",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0500",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mini 2",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.07.0200",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mini 3",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0500",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mini 3 Pro",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0900",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mini 4 Pro",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.1100",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "DJI Mini 5 Pro",
-          "vendor": "DJI",
-          "versions": [
-            {
-              "lessThanOrEqual": "01.00.0600",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
+              "lessThan": "151.0.7922.173",
+              "versionType": "custom"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-311 Missing Encryption of Sensitive Data"
-      ],
-      "cwe_ids": [
-        "CWE-311"
+        "Incorrect authorization"
       ]
     }
   ]
