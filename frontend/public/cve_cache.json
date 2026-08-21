@@ -2,252 +2,81 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-08-20T23:51:16.047881",
+    "total_count": 1,
+    "last_updated": "2026-08-21T00:26:48.270371",
     "severity_distribution": {
-      "critical": 1,
-      "high": 2,
-      "medium": 1,
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-72843",
-      "publishedDate": "2026-08-20T21:57:34.880Z",
-      "lastModifiedDate": "2026-08-20T23:28:27.272Z",
-      "description": "The customer update route in EverShop is declared with \"access\": \"public\" in packages/evershop/src/modules/customer/api/updateCustomer/route.json, which causes the admin authentication middleware to call next() without checking the caller, and no customer-session middleware guards the route; the only middleware in the chain parses the JSON body. The handler in updateCustomer.js then loads the customer by the uuid taken from the URL path and writes the supplied fields back to that record, hashing a password if one is provided, without verifying that the caller owns the record. An unauthenticated request carrying a known customer uuid can therefore overwrite that customer's email address and password and read back the updated record from the 200 response, taking over the account and locking out its owner. Customer uuids are exposed through order confirmation email links and administrative URLs. Version 2.2.1 changes the route to \"access\": \"private\".",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：evershopcommerce evershop\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-15806",
+      "publishedDate": "2026-08-18T15:50:57.983Z",
+      "lastModifiedDate": "2026-08-21T00:21:36.215Z",
+      "description": "The HTTPPasswordMgr class in the urllib.request module, along with its subclasses HTTPPasswordMgrWithDefaultRealm and HTTPPasswordMgrWithPriorAuth, did not take the URL scheme into account when matching stored credentials against a requested URL. Credentials added for an https:// URL were also used for requests to the same host over http://, so an attacker able to redirect or downgrade a client to plain HTTP (for example, via an HTTPS-to-HTTP redirect or an on-path position) could capture credentials in cleartext. Credentials added for http:// URLs could likewise be sent over https://.\n\nCredential matching is now scoped by URL scheme. Credentials registered with a URL that includes a scheme are only used for requests with the same scheme. Credentials registered with a bare authority (such as example.com or example.com:8080) continue to match any scheme, preserving compatibility with existing code, including proxy authentication.\n\nUsers who cannot upgrade immediately can mitigate by ensuring that applications never make plain http:// requests to hosts for which credentials are registered, for example by not following redirects to http:// URLs.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Python Software Foundation CPython\n🔓 漏洞类型：CWE-319, CWE-522 (CWE-319, CWE-522)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/evershopcommerce/evershop/issues/952",
+          "url": "https://github.com/python/cpython/issues/155694",
           "type": "reference"
         },
         {
-          "url": "https://github.com/evershopcommerce/evershop/blob/v2.1.2/packages/evershop/src/modules/customer/api/updateCustomer/route.json",
+          "url": "https://github.com/python/cpython/pull/155696",
           "type": "reference"
         },
         {
-          "url": "https://github.com/evershopcommerce/evershop/blob/v2.1.2/packages/evershop/src/modules/customer/api/updateCustomer/updateCustomer.js",
+          "url": "https://mail.python.org/archives/list/security-announce@python.org/thread/3OKPE5S75KDNA7FY7AI3PL2MXM2X5RB3/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/evershopcommerce/evershop/releases/tag/v2.2.1",
+          "url": "https://github.com/python/cpython/commit/a0d023fbd23773e24b35d8368789470e22cda5d8",
           "type": "reference"
         },
         {
-          "url": "https://github.com/evershopcommerce/evershop",
+          "url": "https://github.com/python/cpython/commit/a2773a34183b7d94a243bb98fd658926cc5348ce",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/evershop-missing-authorization-on-patch-api-customers-id-allows-unauthenticated-account-takeover",
+          "url": "https://github.com/python/cpython/commit/a7bb524fef61f77ede01f660ffbd591e1d5837ce",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/python/cpython/commit/641be42bb07921ba0f8bffe228b1dc706b092ef6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/python/cpython/commit/851cf9a7142ecbdd39f831055533f58284ad2bcc",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "evershopcommerce",
-          "product": "evershop",
           "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/evershop",
-          "repo": "https://github.com/evershopcommerce/evershop",
+          "product": "CPython",
+          "repo": "https://github.com/python/cpython",
+          "vendor": "Python Software Foundation",
           "versions": [
             {
               "version": "0",
-              "lessThan": "2.2.1",
+              "lessThan": "3.15.0",
               "status": "affected",
-              "versionType": "semver"
-            },
-            {
-              "version": "2.2.1",
-              "status": "unaffected",
-              "versionType": "semver"
+              "versionType": "python"
             }
-          ],
-          "programFiles": [
-            "packages/evershop/src/modules/customer/api/updateCustomer/route.json",
-            "packages/evershop/src/modules/customer/api/updateCustomer/updateCustomer.js"
           ]
         }
       ],
       "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-72848",
-      "publishedDate": "2026-08-20T21:57:36.212Z",
-      "lastModifiedDate": "2026-08-20T23:28:28.546Z",
-      "description": "SitemapLoader.parse_sitemap in langchain_community/document_loaders/sitemap.py applies the documented restrict_to_same_domain control only to leaf url entries. The loop over url elements filters cross-domain locations, but the loop over nested sitemap elements passes the child loc straight to self.scrape_all([loc.text], \"xml\"), which reaches WebBaseLoader.scrape_all and an aiohttp GET, with no domain comparison and no check for private, loopback or link-local destinations. An attacker who controls or influences an ingested sitemap can therefore point a nested sitemap entry at an internal address and make the server fetch it even when the deploying application set restrict_to_same_domain to True specifically to confine outbound requests. The fetched content is parsed and surfaces in the returned Documents, so internal responses are disclosed to the caller rather than merely requested.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：langchain-ai langchain-community\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/langchain-ai/langchain/issues/38814",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/langchain-ai/langchain-community/blob/main/libs/community/langchain_community/document_loaders/sitemap.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/langchain-ai/langchain-community",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/langchain-community-sitemaploader-does-not-apply-restrict-to-same-domain-to-nested-sitemap-index-entries-allowing-server-side-request-forgery",
-          "type": "reference"
-        }
+        "CWE-319",
+        "CWE-522"
       ],
-      "affected": [
-        {
-          "vendor": "langchain-ai",
-          "product": "langchain-community",
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://pypi.org",
-          "packageName": "langchain-community",
-          "packageURL": "pkg:pypi/langchain-community",
-          "repo": "https://github.com/langchain-ai/langchain-community",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "0.4.2",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "programFiles": [
-            "langchain_community/document_loaders/sitemap.py"
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-72818",
-      "publishedDate": "2026-08-20T21:57:34.230Z",
-      "lastModifiedDate": "2026-08-20T23:28:26.593Z",
-      "description": "The URLS regular expression in nltk/tokenize/casual.py, compiled into TweetTokenizer.WORD_RE and applied by TweetTokenizer.tokenize, contains a naked-domain branch whose domain-label prefix [a-z0-9]+(?:[.\\-][a-z0-9]+)* is unbounded. Input consisting of many alternating label separators can be partitioned in exponentially many ways, and because the branch also requires a trailing top-level domain that such input never supplies, the engine explores those partitions before failing at each offset. A few kilobytes of input therefore consumes seconds to minutes of single-threaded CPU, and the HANG_RE substitution performed before matching does not collapse the pattern. TweetTokenizer is intended for tokenizing untrusted social-media text, so any service that applies it, or the module-level casual_tokenize, to submitted text can be stalled per request without authentication. Version 3.10.1 bounds the label repetition.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：nltk nltk\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/nltk/nltk/issues/3704",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/nltk/nltk/blob/3.9.4/nltk/tokenize/casual.py",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/nltk/nltk/releases/tag/v3.10.1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/nltk/nltk",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/nltk-tweettokenizer-url-pattern-backtracks-catastrophically-on-naked-domain-like-input",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "nltk",
-          "product": "nltk",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/nltk",
-          "collectionURL": "https://pypi.org",
-          "packageName": "nltk",
-          "repo": "https://github.com/nltk/nltk",
-          "versions": [
-            {
-              "version": "0",
-              "lessThan": "3.10.1",
-              "status": "affected",
-              "versionType": "semver"
-            },
-            {
-              "version": "3.10.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ],
-          "programFiles": [
-            "nltk/tokenize/casual.py"
-          ]
-        }
-      ],
-      "problemType": [
-        "Inefficient Regular Expression Complexity"
-      ]
-    },
-    {
-      "id": "CVE-2026-72846",
-      "publishedDate": "2026-08-20T21:57:35.568Z",
-      "lastModifiedDate": "2026-08-20T23:28:27.936Z",
-      "description": "Lightdash stores the webhook URL supplied with a scheduled delivery and later posts to it from sendWebhook in packages/backend/src/clients/GoogleChat/GoogleChatClient.ts and in packages/backend/src/clients/MicrosoftTeams/MicrosoftTeamsClient.ts. In affected versions both call fetch on the stored URL directly. The validatePublicHttpUrl helper in packages/backend/src/utils/ssrfProtection.ts, used for MCP server URLs, is not applied on either path, and the webhook fields carry no server-side URL constraint. A user able to create or trigger a scheduled delivery can therefore direct the server to issue POST requests to private, loopback and link-local addresses, including cloud metadata endpoints, and can distinguish reachable internal services from unreachable ones through the resulting errors. The upstream response is never returned to the requester; on a failure status its body is written to the server log instead. Version 1.146.4 routes both clients through postSchedulerWebhook from packages/backend/src/utils/schedulerWebhookValidation rather than calling fetch directly.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：lightdash lightdash\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/lightdash/lightdash/issues/24389",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lightdash/lightdash/blob/1.146.3/packages/backend/src/clients/GoogleChat/GoogleChatClient.ts",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lightdash/lightdash/blob/1.146.3/packages/backend/src/clients/MicrosoftTeams/MicrosoftTeamsClient.ts",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lightdash/lightdash/releases/tag/1.146.4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lightdash/lightdash",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/lightdash-scheduled-delivery-webhook-urls-are-not-validated-allowing-server-side-request-forgery",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "lightdash",
-          "product": "lightdash",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/lightdash",
-          "repo": "https://github.com/lightdash/lightdash",
-          "versions": [
-            {
-              "version": "0",
-              "lessThan": "1.146.4",
-              "status": "affected",
-              "versionType": "semver"
-            },
-            {
-              "version": "1.146.4",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ],
-          "programFiles": [
-            "packages/backend/src/clients/GoogleChat/GoogleChatClient.ts",
-            "packages/backend/src/clients/MicrosoftTeams/MicrosoftTeamsClient.ts"
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
+      "cwe_ids": [
+        "CWE-319",
+        "CWE-522"
       ]
     }
   ]
