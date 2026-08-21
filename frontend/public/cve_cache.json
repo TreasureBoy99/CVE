@@ -2,84 +2,84 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-08-21T09:58:55.545749",
+    "total_count": 2,
+    "last_updated": "2026-08-21T10:35:07.181433",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 2,
+      "critical": 1,
+      "high": 0,
+      "medium": 0,
       "low": 0,
-      "none": 3
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-77681",
-      "publishedDate": "2026-08-21T09:45:08.456Z",
-      "lastModifiedDate": "2026-08-21T09:45:08.456Z",
-      "description": "A vulnerability was identified in CodeAstro Online Job Portal 1.0. Affected by this vulnerability is an unknown functionality of the file /users/update-profile.php. The manipulation of the argument Name leads to unrestricted upload. The attack can be initiated remotely. The exploit is publicly available and might be used.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：CodeAstro Online Job Portal\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77683",
+      "publishedDate": "2026-08-21T10:15:08.099Z",
+      "lastModifiedDate": "2026-08-21T10:15:08.099Z",
+      "description": "A security flaw has been discovered in Comfast CF-N1-S 2.6.0.1. Affected by this issue is the function system of the file /cgi-bin/mbox-config?method=SET&section=ntp_timezone. The manipulation of the argument timestr results in command injection. The attack can be launched remotely. The exploit has been released to the public and may be used for attacks.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：Comfast CF-N1-S\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/394032",
+          "url": "https://vuldb.com/vuln/394033",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/394032/cti",
+          "url": "https://vuldb.com/vuln/394033/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-77681",
+          "url": "https://vuldb.com/cve/CVE-2026-77683",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/881033",
+          "url": "https://vuldb.com/submit/881058",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Witiers/CVEs/issues/3",
+          "url": "https://github.com/AdminSafe/CVE/issues/8",
           "type": "poc"
-        },
-        {
-          "url": "https://codeastro.com/",
-          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "CodeAstro",
-          "product": "Online Job Portal",
+          "vendor": "Comfast",
+          "product": "CF-N1-S",
           "versions": [
             {
-              "version": "1.0",
+              "version": "2.6.0.1",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:codeastro:online_job_portal:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:comfast:cf-n1-s:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "Unrestricted Upload",
-        "Improper Access Controls"
+        "Command Injection",
+        "Injection"
       ]
     },
     {
-      "id": "CVE-2026-77755",
-      "publishedDate": "2026-08-21T09:55:11.079Z",
-      "lastModifiedDate": "2026-08-21T09:55:11.079Z",
-      "description": "A denial-of-service vulnerability was identified in misp-stix when processing attacker-controlled STIX 1 or STIX 2 documents.\n\nThe STIX import code used sys.exit() to handle several parsing and loading failures. Because SystemExit inherits from BaseException rather than Exception, these failures bypassed the exception handlers used by callers of the library. As a result, a malformed STIX document could terminate a long-running importer process instead of returning a recoverable parsing error.\n\nAdditionally, no limit was imposed on the size of STIX documents before parsing. A submitted document was therefore read and materialised in memory before its validity or type was evaluated. Depending on the document and parsing path, processing could consume approximately two to seven times the input size in memory, allowing a sufficiently large STIX document to cause excessive memory and CPU consumption and potentially terminate or severely degrade the importing service.\n\nAn attacker able to provide STIX content to a MISP-STIX import workflow could exploit either condition to affect availability. A malformed document could cause abnormal process termination through an uncaught SystemExit, while a large document could exhaust resources during deserialisation and conversion.\n\nThe fixes replace process-terminating sys.exit() calls with catchable exceptions such as STIXLoadingError and MissingSTIXContentError, and extend exception handling around the complete STIX detection and conversion process. The importer also now enforces an input-size limit before parsing. The default maximum is 100 MB, can be adjusted by callers, and can explicitly be disabled when required. STIX 1 inputs are additionally checked for the expected root element before the complete XML tree is constructed.\n\nImpactSuccessful exploitation can cause:\n\n  *  termination of a long-running MISP-STIX importer;\n  *  excessive memory allocation;\n  *  excessive CPU consumption;\n  *  degradation or temporary unavailability of services relying on the converter;\n  *  interruption of batch or automated STIX ingestion workflows.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：misp misp-stix\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77761",
+      "publishedDate": "2026-08-21T10:11:54.840Z",
+      "lastModifiedDate": "2026-08-21T10:11:54.840Z",
+      "description": "A parser state isolation vulnerability in misp-stix could cause data from a previously processed STIX document to be retained and incorporated into the MISP event generated from a subsequent document when the same parser instance is reused.\n\nSeveral STIX 1 and STIX 2 parser components maintained per-document state that was not completely cleared between conversions. In the STIX 2 parser, galaxy and galaxy-cluster information, including custom galaxy clusters, could survive a parser reset and subsequently be associated with objects from another bundle.\n\nThe STIX 1 parsers were affected by the same underlying state-management issue. Depending on the parser type, retained information could include galaxies, references, passive DNS bookkeeping, package titles, dates, and timestamps. As a result, parsing a second STIX package with an already-used parser could produce a MISP event containing information that was present only in the previously processed package. For example, a generated event could inherit passive DNS records from an earlier document, reference unrelated galaxy information, combine titles from different packages, or use timestamps originating from another conversion.\n\nThe issue primarily affects applications using the misp-stix API directly and reusing parser instances across independent STIX documents. Normal conversion entry points that instantiate a new parser for each file are not affected by this particular reuse scenario.\n\nAn attacker able to influence documents processed by such a long-lived parser could potentially cause information from one conversion to contaminate a subsequent MISP event. This can affect the integrity of generated threat intelligence, resulting in incorrect associations, misleading contextual information, or unrelated indicators being attributed to an event. In environments where consecutive documents have different access controls or distribution scopes, the retained state could additionally result in limited disclosure of information from a previously processed document.\n\nSuccessful exploitation depends on the consuming application reusing the same parser instance and on the ordering of processed documents, which increases attack complexity. No direct availability impact or code execution is involved.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：misp misp-stix\n🔓 漏洞类型：CWE-459 (CWE-459)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/MISP/misp-stix/commit/e8e732ad",
+          "url": "https://github.com/MISP/misp-stix/commit/f08373dd",
           "type": "reference"
         },
         {
-          "url": "https://github.com/MISP/misp-stix/commit/66119552",
+          "url": "https://github.com/MISP/misp-stix/commit/ad4f0a65.patch",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/MISP/misp-stix/commit/f6593931",
           "type": "reference"
         }
       ],
@@ -100,395 +100,11 @@
         }
       ],
       "problemType": [
-        "CWE-400 Uncontrolled Resource Consumption"
+        "CWE-459 Incomplete Cleanup"
       ],
       "cwe_ids": [
-        "CWE-400"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-47079",
-      "publishedDate": "2026-08-21T09:52:44.178Z",
-      "lastModifiedDate": "2026-08-21T09:52:44.178Z",
-      "description": "Inappropriate Encoding for Output Context vulnerability in joshnuss xml_builder (XmlBuilder module) allows Content Spoofing, Cross-site Scripting.\n\nThis vulnerability is associated with program files lib/xml_builder.ex and program routines XmlBuilder.generate/1, XmlBuilder.generate/2, XmlBuilder.escape_string/1, XmlBuilder.escape_entity/1.\n\nXmlBuilder.generate/1 does not escape literal & characters in text or attribute values when they are followed by an entity-like token (lt;, gt;, amp;, quot;, apos;). As a result, attacker-supplied input such as &lt;script&gt; is emitted verbatim into the serialized XML rather than being escaped to &amp;lt;script&amp;gt;. When a downstream XML parser later reads the document, it decodes the entity sequences into the literal characters <script>, promoting inert-looking text into real markup. This allows an attacker to bypass upstream filters that block raw < and > characters, injecting markup into any downstream consumer that parses the produced XML and renders the text content in a markup-sensitive context (HTML, SVG, RSS/Atom feeds). Both element text and attribute values are affected.\n\nThis issue affects xml_builder: from 0.0.6 before 2.4.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：joshnuss xml_builder\n🔓 漏洞类型：CWE-838 (CWE-838)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/joshnuss/xml_builder/security/advisories/GHSA-5hjx-8g53-cmvm",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-47079.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-47079",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/joshnuss/xml_builder/commit/c3390e2046ec297b3bb8c30d5779cdfd6508c275",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:joshnuss:xml_builder:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.XmlBuilder'"
-          ],
-          "packageName": "xml_builder",
-          "packageURL": "pkg:hex/xml_builder",
-          "product": "xml_builder",
-          "programFiles": [
-            "lib/xml_builder.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.XmlBuilder':generate/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':generate/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':escape_string/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':escape_entity/1"
-            }
-          ],
-          "repo": "https://github.com/joshnuss/xml_builder",
-          "vendor": "joshnuss",
-          "versions": [
-            {
-              "lessThan": "2.4.1",
-              "status": "affected",
-              "version": "0.0.6",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:joshnuss:xml_builder:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.XmlBuilder'"
-          ],
-          "packageName": "joshnuss/xml_builder",
-          "packageURL": "pkg:github/joshnuss/xml_builder",
-          "product": "xml_builder",
-          "programFiles": [
-            "lib/xml_builder.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.XmlBuilder':generate/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':generate/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':escape_string/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':escape_entity/1"
-            }
-          ],
-          "repo": "https://github.com/joshnuss/xml_builder",
-          "vendor": "joshnuss",
-          "versions": [
-            {
-              "lessThan": "c3390e2046ec297b3bb8c30d5779cdfd6508c275",
-              "status": "affected",
-              "version": "aae31e6e8ac837bcbb8afb816c0d14324b5cfe2b",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-838 Inappropriate Encoding for Output Context"
-      ],
-      "cwe_ids": [
-        "CWE-838"
+        "CWE-459"
       ]
-    },
-    {
-      "id": "CVE-2026-48590",
-      "publishedDate": "2026-08-21T09:51:25.412Z",
-      "lastModifiedDate": "2026-08-21T09:51:25.412Z",
-      "description": "XML Injection vulnerability in joshnuss xml_builder (XmlBuilder module) allows Content Spoofing, XML Injection.\n\nThis vulnerability is associated with program files lib/xml_builder.ex and program routines XmlBuilder.generate/1, XmlBuilder.generate/2, XmlBuilder.element/1, XmlBuilder.element/2, XmlBuilder.element/3.\n\nElement names, attribute names, and doctype identifiers are interpolated verbatim into the serialized XML output without validation or escaping of structural characters (<, >, \", ', &). An attacker who can influence a name argument (for example, an element name derived from a JSON object key or an HTTP form field name) can inject arbitrary XML markup including extra elements, comments, and event-handler attributes into the output document.\n\nThis issue affects xml_builder: from 0.0.1 before 2.4.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：joshnuss xml_builder\n🔓 漏洞类型：CWE-91 (CWE-91)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/joshnuss/xml_builder/security/advisories/GHSA-r82p-3q2p-728w",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-48590.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-48590",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/joshnuss/xml_builder/commit/d5c0aec32a8eecbb440fb9bbb0f59d4d188d5859",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:joshnuss:xml_builder:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.XmlBuilder'"
-          ],
-          "packageName": "xml_builder",
-          "packageURL": "pkg:hex/xml_builder",
-          "product": "xml_builder",
-          "programFiles": [
-            "lib/xml_builder.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.XmlBuilder':generate/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':generate/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':element/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':element/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':element/3"
-            }
-          ],
-          "repo": "https://github.com/joshnuss/xml_builder",
-          "vendor": "joshnuss",
-          "versions": [
-            {
-              "lessThan": "2.4.1",
-              "status": "affected",
-              "version": "0.0.1",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:joshnuss:xml_builder:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.XmlBuilder'"
-          ],
-          "packageName": "joshnuss/xml_builder",
-          "packageURL": "pkg:github/joshnuss/xml_builder",
-          "product": "xml_builder",
-          "programFiles": [
-            "lib/xml_builder.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.XmlBuilder':generate/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':generate/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':element/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':element/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':element/3"
-            }
-          ],
-          "repo": "https://github.com/joshnuss/xml_builder",
-          "vendor": "joshnuss",
-          "versions": [
-            {
-              "lessThan": "d5c0aec32a8eecbb440fb9bbb0f59d4d188d5859",
-              "status": "affected",
-              "version": "9fb49131ad3ee146a4c9db9bc175bdffe32e30a0",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-91 XML Injection (aka Blind XPath Injection)"
-      ],
-      "cwe_ids": [
-        "CWE-91"
-      ]
-    },
-    {
-      "id": "CVE-2026-47080",
-      "publishedDate": "2026-08-21T09:49:34.772Z",
-      "lastModifiedDate": "2026-08-21T09:49:34.772Z",
-      "description": "XML Injection vulnerability in joshnuss xml_builder (XmlBuilder module) allows Content Spoofing, XML Injection.\n\nThis vulnerability is associated with program files lib/xml_builder.ex and program routines XmlBuilder.generate/1, XmlBuilder.generate/2, XmlBuilder.escape/1.\n\nThe escape/1 clause for {:cdata, data} in lib/xml_builder.ex concatenates data verbatim between the CDATA opener <![CDATA[ and closer ]]> without rewriting or splitting on the embedded ]]> sequence. Because CDATA sections have no internal escape mechanism, the only safe way to embed arbitrary bytes is to split on ]]> and emit adjacent CDATA sections. An attacker who can supply input containing ]]> closes the CDATA section early; any bytes that follow are parsed as ordinary XML markup by downstream consumers, allowing injection of arbitrary elements, text, or entity references into the output document.\n\nThis issue affects xml_builder: from 0.0.7 before 2.4.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：joshnuss xml_builder\n🔓 漏洞类型：CWE-91 (CWE-91)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/joshnuss/xml_builder/security/advisories/GHSA-67r9-hmxw-h595",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-47080.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-47080",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/joshnuss/xml_builder/commit/bfb1ada071ccc1e384c30f782197ca5154106706",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:joshnuss:xml_builder:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.XmlBuilder'"
-          ],
-          "packageName": "xml_builder",
-          "packageURL": "pkg:hex/xml_builder",
-          "product": "xml_builder",
-          "programFiles": [
-            "lib/xml_builder.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.XmlBuilder':generate/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':generate/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':escape/1"
-            }
-          ],
-          "repo": "https://github.com/joshnuss/xml_builder",
-          "vendor": "joshnuss",
-          "versions": [
-            {
-              "lessThan": "2.4.1",
-              "status": "affected",
-              "version": "0.0.7",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:joshnuss:xml_builder:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.XmlBuilder'"
-          ],
-          "packageName": "joshnuss/xml_builder",
-          "packageURL": "pkg:github/joshnuss/xml_builder",
-          "product": "xml_builder",
-          "programFiles": [
-            "lib/xml_builder.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.XmlBuilder':generate/1"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':generate/2"
-            },
-            {
-              "name": "'Elixir.XmlBuilder':escape/1"
-            }
-          ],
-          "repo": "https://github.com/joshnuss/xml_builder",
-          "vendor": "joshnuss",
-          "versions": [
-            {
-              "lessThan": "bfb1ada071ccc1e384c30f782197ca5154106706",
-              "status": "affected",
-              "version": "26766f884ed19adee1563522c7afb5f056a6f3b5",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-91 XML Injection (aka Blind XPath Injection)"
-      ],
-      "cwe_ids": [
-        "CWE-91"
-      ]
-    },
-    {
-      "id": "CVE-2026-77751",
-      "publishedDate": "2026-08-21T09:48:20.168Z",
-      "lastModifiedDate": "2026-08-21T09:48:20.168Z",
-      "description": "A path traversal vulnerability existed in the handling of MISP object template names during STIX 2 import and MISP-to-STIX 2 export.\n\nMISP object names are passed to PyMISP's object-template resolution mechanism, which constructs a filesystem path by joining the configured MISP object-template directory, the object name, and definition.json. An object name originating from untrusted STIX or MISP content was not sufficiently restricted before being used in this filesystem path.\n\nAn attacker able to supply a crafted object name containing path separators or traversal sequences such as ../ could therefore cause template resolution to escape the expected template directory and attempt to load a definition.json file from another location accessible to the process.\n\nDuring STIX 2 import, an attacker-controlled x_misp_name from a custom STIX object could directly reach this template-resolution mechanism.\n\nThe issue could also become persistent. A malicious object name stored in a MISP event could later be processed again during STIX 2 export. Consequently, content originally introduced in one security context could trigger filesystem access later when the event is exported by a process operating with different or greater privileges.\n\nIf a suitable definition.json file exists outside the intended template directory, its contents may be interpreted as a MISP object template and fields from that file copied into the converted object. This can result in unintended disclosure of locally accessible data represented by the template file and modification of the resulting object's metadata or semantics.\n\nThe patches introduce strict validation of object-template names. Valid names are restricted to a single path component containing letters, digits, hyphens, or underscores. Names that do not meet these requirements are replaced with the generic unknown-template name before reaching PyMISP template resolution. The original rejected name is preserved in the object's comment and a warning is generated, preventing traversal while retaining the source information.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：misp misp-stix\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/misp-stix/commit/a8b6808d",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/MISP/misp-stix/commit/a0f54070",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "misp-stix",
-          "repo": "https://github.com/MISP/misp-stix/",
-          "vendor": "misp",
-          "versions": [
-            {
-              "lessThanOrEqual": "2026.7.8",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
     }
   ]
 }
