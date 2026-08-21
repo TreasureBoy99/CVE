@@ -2,11 +2,11 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-08-21T22:45:48.790704",
+    "total_count": 3,
+    "last_updated": "2026-08-21T23:02:59.741384",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
+      "high": 0,
       "medium": 1,
       "low": 0,
       "none": 2
@@ -14,77 +14,46 @@
   },
   "cves": [
     {
-      "id": "CVE-2026-34948",
-      "publishedDate": "2026-08-21T22:26:22.269Z",
-      "lastModifiedDate": "2026-08-21T22:26:22.269Z",
-      "description": "Combodo iTop is a web based IT service management tool. Prior to 3.2.3, only classes present in the SELECT clause are protected by the silos access check in OQL. This issue has been fixed in version 3.2.3.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：Combodo iTop\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-53541",
+      "publishedDate": "2026-08-21T22:51:52.752Z",
+      "lastModifiedDate": "2026-08-21T22:51:52.752Z",
+      "description": "OliveTin gives access to predefined shell commands from a web interface. The `filterToDefinedArgumentsOnly` function in the executor is intended to discard any arguments not explicitly defined in the action's configuration. However, prior to commit ebffd9f040f791208aee1db2e5a8aecd1e3e603d, a special case allows any argument whose name starts with `ot_` to bypass this filter. While two system arguments (`ot_executionTrackingId` and `ot_username`) are injected by OliveTin and overridden, all other `ot_`-prefixed arguments supplied by the user pass through unmodified. These bypassed arguments are not type-checked — the validation loop only iterates over the action's defined arguments, so `ot_`-prefixed arguments skip all type safety checks entirely; set as environment variables — via `buildEnv()`, with completely unvalidated values, and passed to the executed command; and included in the template context — available as `.Arguments.ot_*` in template rendering. Commit ebffd9f040f791208aee1db2e5a8aecd1e3e603d contains a patch.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：OliveTin OliveTin\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/Combodo/iTop/security/advisories/GHSA-cm4j-52rf-whgc",
+          "url": "https://github.com/OliveTin/OliveTin/security/advisories/GHSA-prj9-97mp-mwh2",
           "type": "reference"
         },
         {
-          "url": "https://github.com/Combodo/iTop/commit/e467ca83cfcfc5ba1f1d78a99d4805e595f114ba",
+          "url": "https://github.com/OliveTin/OliveTin/commit/ebffd9f040f791208aee1db2e5a8aecd1e3e603d",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Combodo",
-          "product": "iTop",
+          "vendor": "OliveTin",
+          "product": "OliveTin",
           "versions": [
             {
-              "version": "< 3.2.3",
+              "version": "<= 2025.03.07",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+        "CWE-20: Improper Input Validation"
       ],
       "cwe_ids": [
-        "CWE-200"
-      ]
+        "CWE-20"
+      ],
+      "ghsa_id": "GHSA-prj9-97mp-mwh2"
     },
     {
-      "id": "CVE-2026-34949",
-      "publishedDate": "2026-08-21T22:31:49.110Z",
-      "lastModifiedDate": "2026-08-21T22:31:49.110Z",
-      "description": "Combodo iTop is a web based IT service management tool.Prior to 3.2.3, an unauthenticated user could delete the .readonly file on iTop instances — a file created during the setup process that prevents users from performing write actions. This issue has been fixed in version 3.2.3.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Combodo iTop\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Combodo/iTop/security/advisories/GHSA-2xh3-r27f-3pr5",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Combodo",
-          "product": "iTop",
-          "versions": [
-            {
-              "version": "< 3.2.3",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-306: Missing Authentication for Critical Function"
-      ],
-      "cwe_ids": [
-        "CWE-306"
-      ]
-    },
-    {
-      "id": "CVE-2026-11418",
-      "publishedDate": "2026-08-21T22:45:44.683042+00:00",
-      "lastModifiedDate": "2026-08-21T22:36:33.268Z",
+      "id": "CVE-2026-73323",
+      "publishedDate": "2026-08-21T23:02:56.512883+00:00",
+      "lastModifiedDate": "2026-08-21T22:50:39.287Z",
       "description": "",
       "severity": "N/A",
       "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -93,36 +62,45 @@
       "problemType": []
     },
     {
-      "id": "CVE-2026-53499",
-      "publishedDate": "2026-08-21T22:29:48.970Z",
-      "lastModifiedDate": "2026-08-21T22:29:48.970Z",
-      "description": "FORT Validator is a Resource Public Key Infrastructure (RPKI) relying-party validator that produces validated route-origin data. FORT Validator versions through 1.6.7 contain an origin-validation error in their RRDP processing: a delegated CA under the same Trust Anchor Locator (TAL) can reference a victim CA’s public RRDP notification and snapshot URLs, causing FORT’s URL-based download cache to report success after deleting the victim’s local snapshot. Following a routine victim publication, this can silently remove the victim’s VRPs and other signed objects from FORT’s output, potentially enabling route hijacking or loss of reachability. Version 1.6.8 contains a patch that rejects cross-origin RRDP snapshot and delta URLs; as a workaround, administrators can disable HTTP/RRDP with  --http.enabled=false  while keeping rsync enabled, although this can leave data unavailable or stale where rsync is not supported.",
+      "id": "CVE-2026-49360",
+      "publishedDate": "2026-08-21T22:54:33.382Z",
+      "lastModifiedDate": "2026-08-21T22:54:33.382Z",
+      "description": "Recce is a data-validation toolkit for enhanced dbt (data build tool) PR review. Prior to version 1.50.0, OSS server deployments that expose the server to an untrusted network without authentication are vulnerable to unauthenticated SQL execution through the query run API. When Recce is configured with a DuckDB-backed project, an attacker can use DuckDB filesystem primitives to read and write files accessible to the Recce server process. The impact depends on how Recce is deployed, but may include disclosure of local files, tampering with Recce/dbt artifacts, modification of browser-served static files leading to stored XSS, and modification of application files if those paths are writable. If Recce is run as root, file access occurs with root privileges inside that host or container. This issue has been patched in Recce `v1.50.0`. Users should upgrade to Recce `v1.50.0` or later. The patch restricts unsafe file read/write behavior for DuckDB-backed query execution and hardens the affected query path. Other warehouse adapters have also been reviewed for similar exposure. Users who cannot upgrade immediately should avoid exposing `recce server` to the public internet or any untrusted network. Recommended mitigations include enabling authentication or placing Recce behind an authenticated reverse proxy/VPN, running Recce as a non-root user, using a read-only application filesystem where possible, and ensuring that sensitive files or credentials are not available to the Recce process.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：NICMx FORT-validator\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：DataRecce recce\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/NICMx/FORT-validator/security/advisories/GHSA-qfm3-577x-rh54",
+          "url": "https://github.com/DataRecce/recce/security/advisories/GHSA-rh62-j648-g5qc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/DataRecce/recce/releases/tag/v1.50.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/pypa/advisory-database/tree/main/vulns/recce/PYSEC-2026-3049.yaml",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "NICMx",
-          "product": "FORT-validator",
+          "vendor": "DataRecce",
+          "product": "recce",
           "versions": [
             {
-              "version": "< 1.6.8",
+              "version": "< 1.50.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-346: Origin Validation Error"
+        "CWE-73: External Control of File Name or Path"
       ],
       "cwe_ids": [
-        "CWE-346"
-      ]
+        "CWE-73"
+      ],
+      "ghsa_id": "GHSA-rh62-j648-g5qc"
     }
   ]
 }
