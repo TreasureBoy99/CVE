@@ -3,78 +3,73 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-08-23T19:50:02.679656",
+    "last_updated": "2026-08-23T20:01:15.537102",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-78140",
-      "publishedDate": "2026-08-23T19:45:07.529Z",
-      "lastModifiedDate": "2026-08-23T19:45:07.529Z",
-      "description": "A flaw has been found in Dromara UJCMS up to 10.1.3. The impacted element is the function update of the file src/main/java/com/ujcms/cms/ext/web/backendapi/WebFileTemplateController.java of the component web-file-template Endpoint. Executing a manipulation can lead to improper neutralization of special elements used in a template engine. The attack can be launched remotely. The exploit has been published and may be used.",
-      "severity": 4.7,
-      "fix_suggestion": "📦 受影响组件：Dromara UJCMS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-78183",
+      "publishedDate": "2026-08-23T19:53:18.185Z",
+      "lastModifiedDate": "2026-08-23T19:53:18.185Z",
+      "description": "DBD::Pg version 3.21.0 for Perl has a heap out-of-bounds write in quote_float.\n\nquote_float() allocates the length of the string + 1, which is the size of the bare numeric symbol plus NULL.  But for special literals NaN, Inf, +Inf, -Inf, Infinity, +Infinity, -Infinity it emits the literal surrounded by quotes plus NULL, which is length + 3 bytes. Every recognised literal (case-insensitive) overflows by 2 bytes, a single quote and a NULL.\n\nThis can be reached by the $dbh->quote method, for example\n\n    $dbh->quote( \"Infinity\", DBI::SQL_NUMERIC ).\n\nThis regression was introduced in 3.21.0 by the quote.c rewrite.",
+      "severity": "N/A",
+      "fix_suggestion": "🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/394523",
+          "url": "https://github.com/bucardo/dbdpg/security/advisories/GHSA-785p-fw3v-r822",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/394523/cti",
+          "url": "https://metacpan.org/release/TURNSTEP/DBD-Pg-3.21.1/source/Changes",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-78140",
+          "url": "https://github.com/bucardo/dbdpg/commit/6d6f47ed2403cda55c82b1bad56e388ba7390065.patch",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/882065",
+          "url": "https://github.com/bucardo/dbdpg/commit/adacf1de872326a465e13f9e4281a674ebcd227e",
           "type": "reference"
-        },
-        {
-          "url": "https://github.com/d0ctorsec/CVE-Reports/blob/main/CVE-UJCMS-v10.1.3-FreeMarker-SSTI/CVE-UJCMS-v10.1.3-FreeMarker-SSTI.md",
-          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "Dromara",
-          "product": "UJCMS",
-          "versions": [
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "DBD::Pg"
+          ],
+          "packageName": "DBD-Pg",
+          "packageURL": "pkg:cpan/DBD-Pg",
+          "programFiles": [
+            "quote.c"
+          ],
+          "programRoutines": [
             {
-              "version": "10.1.0",
-              "status": "affected"
-            },
-            {
-              "version": "10.1.1",
-              "status": "affected"
-            },
-            {
-              "version": "10.1.2",
-              "status": "affected"
-            },
-            {
-              "version": "10.1.3",
-              "status": "affected"
+              "name": "quote_float"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:ujcms:ujcms:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "web-file-template Endpoint"
+          "repo": "https://github.com/bucardo/dbdpg",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.21.0",
+              "versionType": "custom"
+            }
           ]
         }
       ],
       "problemType": [
-        "Improper Neutralization of Special Elements Used in a Template Engine",
-        "Incomplete Filtering of Special Elements"
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
       ]
     }
   ]
