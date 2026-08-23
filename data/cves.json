@@ -3,73 +3,78 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-08-23T23:19:16.431027",
+    "last_updated": "2026-08-23T23:40:10.386744",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
+      "high": 1,
       "medium": 0,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-78183",
-      "publishedDate": "2026-08-23T19:53:18.185Z",
-      "lastModifiedDate": "2026-08-23T23:04:55.125Z",
-      "description": "DBD::Pg version 3.21.0 for Perl has a heap out-of-bounds write in quote_float.\n\nquote_float() allocates the length of the string + 1, which is the size of the bare numeric symbol plus NULL.  But for special literals NaN, Inf, +Inf, -Inf, Infinity, +Infinity, -Infinity it emits the literal surrounded by quotes plus NULL, which is length + 3 bytes. Every recognised literal (case-insensitive) overflows by 2 bytes, a single quote and a NULL.\n\nThis can be reached by the $dbh->quote method, for example\n\n    $dbh->quote( \"Infinity\", DBI::SQL_NUMERIC ).\n\nThis regression was introduced in 3.21.0 by the quote.c rewrite.",
-      "severity": "N/A",
-      "fix_suggestion": "🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-78154",
+      "publishedDate": "2026-08-23T23:30:09.983Z",
+      "lastModifiedDate": "2026-08-23T23:30:09.983Z",
+      "description": "A vulnerability was identified in the-momentum open-wearables up to 0.6.2. This impacts the function redeem_invitation_code of the file backend/app/api/routes/v1/user_invitation_code.py of the component Public Invitation-Code Redemption Endpoint. The manipulation of the argument code leads to missing authentication. Remote exploitation of the attack is possible. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：the-momentum open-wearables\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/bucardo/dbdpg/security/advisories/GHSA-785p-fw3v-r822",
+          "url": "https://vuldb.com/vuln/394536",
           "type": "reference"
         },
         {
-          "url": "https://metacpan.org/release/TURNSTEP/DBD-Pg-3.21.1/source/Changes",
+          "url": "https://vuldb.com/vuln/394536/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/bucardo/dbdpg/commit/6d6f47ed2403cda55c82b1bad56e388ba7390065.patch",
+          "url": "https://vuldb.com/cve/CVE-2026-78154",
           "type": "reference"
         },
         {
-          "url": "https://github.com/bucardo/dbdpg/commit/adacf1de872326a465e13f9e4281a674ebcd227e",
+          "url": "https://vuldb.com/submit/882887",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/the-momentum/open-wearables/issues/1274",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/the-momentum/open-wearables/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "modules": [
-            "DBD::Pg"
-          ],
-          "packageName": "DBD-Pg",
-          "packageURL": "pkg:cpan/DBD-Pg",
-          "programFiles": [
-            "quote.c"
-          ],
-          "programRoutines": [
-            {
-              "name": "quote_float"
-            }
-          ],
-          "repo": "https://github.com/bucardo/dbdpg",
+          "vendor": "the-momentum",
+          "product": "open-wearables",
           "versions": [
             {
-              "status": "affected",
-              "version": "3.21.0",
-              "versionType": "custom"
+              "version": "0.6.0",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.6.2",
+              "status": "affected"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:the-momentum:open-wearables:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Public Invitation-Code Redemption Endpoint"
           ]
         }
       ],
       "problemType": [
-        "CWE-787 Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-787"
+        "Missing Authentication",
+        "Improper Authentication"
       ]
     }
   ]
