@@ -2,23 +2,82 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-08-24T17:52:01.517476",
+    "total_count": 13,
+    "last_updated": "2026-08-24T18:19:44.071996",
     "severity_distribution": {
       "critical": 1,
-      "high": 2,
-      "medium": 1,
+      "high": 6,
+      "medium": 4,
       "low": 0,
-      "none": 0
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-78207",
-      "publishedDate": "2026-08-24T00:30:47.125Z",
-      "lastModifiedDate": "2026-08-24T17:46:59.464Z",
-      "description": "exceljs-hardened before 5.0.0 contains a prototype pollution vulnerability in the deepMerge helper that fails to reject __proto__, constructor, or prototype keys when merging note objects. Attackers can assign parsed JSON with a malicious __proto__ property to cell notes, modifying Object.prototype and affecting all plain objects created in the process.",
-      "severity": 9.4,
+      "id": "CVE-2026-78167",
+      "publishedDate": "2026-08-24T01:15:12.094Z",
+      "lastModifiedDate": "2026-08-24T18:00:21.875Z",
+      "description": "A weakness has been identified in EFM ipTIME T16000M 14.20.2. The impacted element is the function httpcon_check_session_url of the component Session Validation Handler. This manipulation causes improper authentication. Remote exploitation of the attack is possible. The exploit has been made available to the public and could be used for attacks. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：EFM ipTIME T16000M\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394556",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394556/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-78167",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/874154",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/874302",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AdminSafe/CVE/issues/2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AdminSafe/CVE/issues/3",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "EFM",
+          "product": "ipTIME T16000M",
+          "versions": [
+            {
+              "version": "14.20.2",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:efm:iptime_t16000m:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Session Validation Handler"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Authentication"
+      ]
+    },
+    {
+      "id": "CVE-2026-78209",
+      "publishedDate": "2026-08-24T00:30:48.493Z",
+      "lastModifiedDate": "2026-08-24T18:02:29.223Z",
+      "description": "exceljs-hardened versions before 5.0.0 fail to neutralize leading equals, plus, minus, or at signs in cell values written to CSV output. Attackers who can influence exported cell values can inject formulas that execute when the CSV file is opened in a spreadsheet application, potentially exfiltrating data or performing other malicious actions.",
+      "severity": 8.2,
       "fix_suggestion": "📦 受影响组件：exceljs exceljs\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
@@ -26,15 +85,15 @@
           "type": "reference"
         },
         {
-          "url": "https://github.com/mateocallec/exceljs-hardened/security/advisories/GHSA-qwr4-7h29-chpf",
+          "url": "https://github.com/mateocallec/exceljs-hardened/security/advisories/GHSA-9wxc-4rhw-hfrw",
           "type": "reference"
         },
         {
-          "url": "https://github.com/exceljs/exceljs/blob/v4.4.0/lib/utils/under-dash.js#L155-L181",
+          "url": "https://github.com/exceljs/exceljs/blob/v4.4.0/lib/csv/csv.js#L109-L182",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/exceljs-through-prototype-pollution-via-deepmerge-reached-from-note-serialization",
+          "url": "https://www.vulncheck.com/advisories/exceljs-through-csv-formula-injection-via-unescaped-cell-values",
           "type": "reference"
         }
       ],
@@ -57,114 +116,569 @@
         }
       ],
       "problemType": [
-        "Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
+        "Improper Neutralization of Formula Elements in a CSV File"
       ]
     },
     {
-      "id": "CVE-2026-76836",
-      "publishedDate": "2026-08-24T17:36:01.620Z",
-      "lastModifiedDate": "2026-08-24T17:36:01.620Z",
-      "description": "AzuraCast exposes the Liquidsoap custom configuration fields through an endpoint that does not require the permission guarding them. The backend_config property in backend/src/Entity/Station.php is annotated with GROUP_GENERAL, and PUT /api/station/{station_id}/profile/edit in backend/src/Controller/Api/Stations/ProfileEditController.php deserializes with that group while requiring only StationPermissions::Profile. AbstractArrayEntity::fromArray() then assigns every public property with no field-level permission check, so custom_config_top, custom_config, custom_config_pre_playlists, custom_config_pre_live, custom_config_pre_fade and custom_config_bottom are writable through it. ConfigWriter::writeCustomConfigurationSection() emits those values verbatim into the generated Liquidsoap .liq script, where the process.run() and process.exec() built-ins execute operating system commands when the backend restarts, which the built-in sync task triggers automatically once needs_restart is set. The dedicated endpoint for the same data, PUT /api/station/{id}/liquidsoap-config, requires StationPermissions::Broadcasting, so a station manager holding only the profile permission reaches configuration that the intended boundary reserves for broadcasting operators.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：AzuraCast AzuraCast\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-4671",
+      "publishedDate": "2026-08-23T13:34:08.443Z",
+      "lastModifiedDate": "2026-08-24T18:09:57.316Z",
+      "description": "justhtml before 1.18.0 contains multiple low-severity denial-of-service issues in CSS selector handling and linkification. Applications that evaluate attacker-controlled selector strings (via query(), matches(), or selector-based transforms), run selector matching over very large untrusted documents, construct DOM trees from untrusted structure, or enable linkification over attacker-controlled text may consume disproportionate CPU or memory. Triggers include oversized selectors, large selector lists, oversized compound selectors, long combinator chains, deeply nested functional pseudo-classes, repeated token/positional matching, cyclic DOM graphs causing non-terminating traversal, and punctuation-heavy or trailing-bracket linkification input. These are availability-only concerns and do not by themselves allow script execution, data disclosure, or sanitizer bypass. Default JustHTML(sanitize=True) usage is not expected to be exposed, since selectors are normally supplied by application code.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：EmilStenstrom justhtml\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/AzuraCast/AzuraCast/security/advisories/GHSA-q8wg-3qg7-8pc7",
+          "url": "https://github.com/EmilStenstrom/justhtml/security/advisories/GHSA-r8cj-3554-33mr",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AzuraCast/AzuraCast",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/AzuraCast/AzuraCast/blob/0.23.8/backend/src/Radio/Backend/Liquidsoap/ConfigWriter.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/AzuraCast/AzuraCast/blob/0.23.8/backend/src/Entity/Station.php",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/azuracast-through-liquidsoap-configuration-write-via-profile-edit-serialization-group-bypass",
+          "url": "https://www.vulncheck.com/advisories/justhtml-before-denial-of-service-via-css-selector",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "AzuraCast",
-          "product": "AzuraCast",
+          "vendor": "EmilStenstrom",
+          "product": "justhtml",
           "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/justhtml",
           "versions": [
             {
               "version": "0",
-              "lessThanOrEqual": "0.23.8",
               "status": "affected",
+              "versionType": "semver",
+              "lessThan": "1.18.0"
+            },
+            {
+              "version": "1.18.0",
+              "status": "unaffected",
               "versionType": "semver"
             }
-          ],
-          "repo": "https://github.com/AzuraCast/AzuraCast",
-          "packageURL": "pkg:github/AzuraCast/AzuraCast"
+          ]
         }
       ],
       "problemType": [
-        "Improper Control of Generation of Code ('Code Injection')",
-        "Incorrect Authorization"
+        "Uncontrolled Resource Consumption"
       ]
     },
     {
-      "id": "CVE-2026-76838",
-      "publishedDate": "2026-08-24T17:36:02.928Z",
-      "lastModifiedDate": "2026-08-24T17:36:02.928Z",
-      "description": "Hi.Events validates a webhook destination only when it is registered, never when it is used. NoInternalUrlRule in backend/app/Validators/Rules/NoInternalUrlRule.php resolves the hostname with gethostbyname() and rejects private and reserved ranges, which any public hostname passes. At dispatch, WebhookDispatchService takes the stored URL and calls it through spatie/laravel-webhook-server without repeating the check, and backend/config/webhook-server.php sets no Guzzle options, so redirect following remains enabled by default. A destination that answers with a redirect to a loopback, private or cloud metadata address therefore causes the server to issue that request, and changing the hostname's DNS record after registration reaches the same result because no resolution is repeated. The response is not discarded: WebhookResponseHandlerService stores the body on the webhook log and WebhookLogResource returns it from the webhook logs endpoint, so the requester reads what the internal service replied rather than inferring it. Both event and organizer webhooks share the rule and the dispatch path. Version 1.11.1-beta revalidates at dispatch, pins the validated address, checks every redirect hop, and decodes IPv6 transition addresses that previously bypassed the filter.",
-      "severity": 8.5,
-      "fix_suggestion": "📦 受影响组件：HiEventsDev Hi.Events\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-78157",
+      "publishedDate": "2026-08-24T00:00:13.451Z",
+      "lastModifiedDate": "2026-08-24T18:06:13.764Z",
+      "description": "A vulnerability was detected in Open5GS 2.8.0. This affects the function pcrf_rx_aar_cb of the file src/pcrf/pcrf-rx-path.c of the component Rx AA-Request Handler. Performing a manipulation results in out-of-bounds read. It is possible to initiate the attack remotely. The patch is named c18dc6938bf63cc7374315d3dca303d92066e746. To fix this issue, it is recommended to deploy a patch.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：n/a Open5GS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/HiEventsDev/Hi.Events",
+          "url": "https://vuldb.com/vuln/394540",
           "type": "reference"
         },
         {
-          "url": "https://github.com/HiEventsDev/Hi.Events/pull/1311",
+          "url": "https://vuldb.com/vuln/394540/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/HiEventsDev/Hi.Events/commit/cfbf468bb5b1",
+          "url": "https://vuldb.com/cve/CVE-2026-78157",
           "type": "reference"
         },
         {
-          "url": "https://github.com/HiEventsDev/Hi.Events/blob/v.1.11.0-beta/backend/app/Validators/Rules/NoInternalUrlRule.php",
+          "url": "https://vuldb.com/submit/882953",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/hi-events-before-beta-server-side-request-forgery-via-unvalidated-webhook-redirects",
+          "url": "https://github.com/open5gs/open5gs/issues/4663",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/open5gs/open5gs/commit/c18dc6938bf63cc7374315d3dca303d92066e746",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/open5gs/open5gs/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "HiEventsDev",
-          "product": "Hi.Events",
+          "vendor": "n/a",
+          "product": "Open5GS",
+          "versions": [
+            {
+              "version": "2.8.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:open5gs:open5gs:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Rx AA-Request Handler"
+          ]
+        }
+      ],
+      "problemType": [
+        "Out-of-Bounds Read",
+        "Memory Corruption"
+      ]
+    },
+    {
+      "id": "CVE-2026-71930",
+      "publishedDate": "2026-08-24T17:07:56.987Z",
+      "lastModifiedDate": "2026-08-24T18:08:32.208Z",
+      "description": "Multiple DrayTek VigorSwitch models contain a command injection vulnerability in the setTime function. The vulnerability is caused by insufficient filtering of the username and password fields before command execution. A remote attacker can trigger this vulnerability via crafted input to execute arbitrary commands with root privileges. Exploitation requires valid administrative credentials for the device's web management interface.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：DrayTek Corporation VigorSwitch G2540xs\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.draytek.com/about/security-advisory/multiple-vulnerabilities-in-vigorswitch-series-august-2026/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/draytek-vigorswitch-multiple-models-os-command-injection-via-settime",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2540xs",
           "defaultStatus": "unaffected",
           "versions": [
             {
               "version": "0",
-              "lessThan": "1.11.1-beta",
+              "lessThan": "3.9.10",
               "status": "affected",
-              "versionType": "semver"
+              "versionType": "custom"
             }
-          ],
-          "repo": "https://github.com/HiEventsDev/Hi.Events",
-          "packageURL": "pkg:github/HiEventsDev/Hi.Events"
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2540xs",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "3.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch FX2120",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "3.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2282x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.10.6",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2282x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.10.6",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch Q2300x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.10.7",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch PQ2300xb",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.10.7",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2542x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "3.10.6",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2542x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "3.10.6",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2542xh",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "3.10.6",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch PX2060",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G1280",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P1280",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P1281x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G1282",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P1282",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2121",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2121",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch PQ2121x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch Q2121x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2280x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2280x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch Q2200x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch PQ2200xb",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2100",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2100",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch G2540x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "vendor": "DrayTek Corporation",
+          "product": "VigorSwitch P2540x",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThan": "2.9.10",
+              "status": "affected",
+              "versionType": "custom"
+            }
+          ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery (SSRF)"
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-78465",
+      "publishedDate": "2026-08-24T16:28:12.574Z",
+      "lastModifiedDate": "2026-08-24T18:00:19.816Z",
+      "description": "A flaw was found in the file-pcx plugin in GIMP, affecting 32-bit builds only. When processing a PCX image file, the plugin calculates memory allocation sizes based on the image dimensions and the number of color planes. If a crafted file sets the number of planes to 4 alongside sufficiently large dimensions, the calculation exceeds the 32-bit integer limit and overflows, resulting in an undersized heap-based buffer allocation. This integer overflow issue results in a heap-based buffer overflow when the plugin subsequently writes image data into the undersized buffer, causing memory corruption, potentially leading to arbitrary code execution or a denial of service.",
+      "severity": 7,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 6\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-78465",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2522057",
+          "type": "reference"
+        },
+        {
+          "url": "https://gitlab.gnome.org/GNOME/gimp/-/work_items/16578",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp:2.8/gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "gimp",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Integer Overflow or Wraparound"
       ]
     },
     {
       "id": "CVE-2026-76837",
       "publishedDate": "2026-08-24T17:36:02.268Z",
-      "lastModifiedDate": "2026-08-24T17:36:02.268Z",
+      "lastModifiedDate": "2026-08-24T18:12:09.134Z",
       "description": "Baserow interpolates a user's display name into the rich-text mention markup without HTML encoding. PATCH /api/user/account/ stores the first_name value verbatim, and the mention renderer in web-frontend/modules/core/editor/mention.js builds its element with a template literal that places the name into a data-label attribute and the element body unescaped. A name containing a double quote closes that attribute and the opening tag, so following markup lands in the element content. The result is rendered through v-html by the rich-text field components, so any rich-text cell mentioning the account executes the stored script for every workspace member who views the table, without a click. Any workspace member, at the lowest permission level, can set the name and reach every other member of the workspace, and the payload persists until the name is changed or the mentioning row is removed. Version 2.3.0 escapes the value before interpolation.",
       "severity": 6.4,
       "fix_suggestion": "📦 受影响组件：Baserow Baserow\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -209,6 +723,273 @@
       ],
       "problemType": [
         "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ]
+    },
+    {
+      "id": "CVE-2026-74793",
+      "publishedDate": "2026-08-23T13:34:11.936Z",
+      "lastModifiedDate": "2026-08-24T18:08:10.972Z",
+      "description": "justhtml before 3.11.0 contains a cross-site scripting vulnerability where the default sanitizer bypasses event handler removal in selectedcontent projections. Attackers can inject SVG or MathML elements with event handlers that are cloned and reinserted into output without sanitization, enabling stored or reflected XSS attacks.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：EmilStenstrom justhtml\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/EmilStenstrom/justhtml/security/advisories/GHSA-gjf2-f4jc-69xf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/justhtml-before-xss-via-selectedcontent-projection",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "EmilStenstrom",
+          "product": "justhtml",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/justhtml",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.11.0"
+            },
+            {
+              "version": "3.11.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ]
+    },
+    {
+      "id": "CVE-2026-78204",
+      "publishedDate": "2026-08-24T00:30:45.134Z",
+      "lastModifiedDate": "2026-08-24T18:03:47.115Z",
+      "description": "Ghostwriter through 7.2.6 does not apply per-object authorization on its report template lint endpoints. RoleBasedAccessControlMixin.test_func returns only request.user.is_active unless a view overrides it, and neither the endpoint that lints a report template nor the endpoint that returns stored lint results provides an override, so each resolves a ReportTemplate from a caller-supplied primary key with no ownership or client-scope check. Any authenticated account can therefore lint an arbitrary template, which overwrites that template's stored lint result, and can read the returned findings, which enumerate the template's variable names and template-engine errors and so disclose its structure. This is distinct from the template swap path: that endpoint authorizes the report but omits the per-template check, whereas these endpoints omit authorization entirely and remain unfixed.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：GhostManager Ghostwriter\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/GhostManager/Ghostwriter",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/GhostManager/Ghostwriter/blob/v7.2.6/ghostwriter/api/utils.py#L470-L480",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geo-chen/oss/blob/main/Ghostwriter.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ghostwriter-through-missing-authorization-on-report-template-lint-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "GhostManager",
+          "product": "Ghostwriter",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "7.2.6",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-78145",
+      "publishedDate": "2026-08-23T22:45:11.793Z",
+      "lastModifiedDate": "2026-08-24T18:12:57.182Z",
+      "description": "A vulnerability has been found in CTFd up to 3.8.4. The affected element is the function _is_safe_url of the file CTFd/utils/validators/__init__.py. Such manipulation of the argument Next leads to open redirect. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. The name of the patch is 5d8515842fd1ab2c3a9f2dde9ffca907aa334ea9. Upgrading the affected component is recommended.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：n/a CTFd\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394533",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394533/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-78145",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/882469",
+          "type": "reference"
+        },
+        {
+          "url": "https://mblunt.dev/writeups/ctfd-open-redirect/",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/CTFd/CTFd/pull/3026",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/CTFd/CTFd/commit/5d8515842fd1ab2c3a9f2dde9ffca907aa334ea9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/CTFd/CTFd/releases/tag/3.8.4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/CTFd/CTFd/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "CTFd",
+          "versions": [
+            {
+              "version": "3.8.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.8.1",
+              "status": "affected"
+            },
+            {
+              "version": "3.8.2",
+              "status": "affected"
+            },
+            {
+              "version": "3.8.3",
+              "status": "affected"
+            },
+            {
+              "version": "3.8.4",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ctfd:ctfd:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Open Redirect"
+      ]
+    },
+    {
+      "id": "CVE-2026-71982",
+      "publishedDate": "2026-08-24T18:19:35.494819+00:00",
+      "lastModifiedDate": "2026-08-24T18:07:52.169Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-75099",
+      "publishedDate": "2026-08-24T16:42:20.920Z",
+      "lastModifiedDate": "2026-08-24T18:08:37.753Z",
+      "description": "Unauthenticated REST disclosure of certain content items in Apache Allura.\n\n\n\nThis issue affects Apache Allura: through 1.19.1.\n\n\n\nUsers are recommended to upgrade to version 1.20.0, which fixes the issue.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Allura\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/lnsfx58o6mx6m44qk4vzqrq8ccmrywcy",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apache Software Foundation",
+          "product": "Apache Allura",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "1.19.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-200 Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-15469",
+      "publishedDate": "2026-08-24T16:32:12.573Z",
+      "lastModifiedDate": "2026-08-24T18:00:49.583Z",
+      "description": "The use of\nhard-coded cryptographic key vulnerability has been identified in the mesh\nfunctionality of Deco XE75 v3, XE5300 v3.6 and WE10800 v3.6. \nA shared RSA-512 mesh group private key is present in the affected\nfirmware and is used by the mesh protocol for node authentication.  An attacker who obtains the firmware image\nand has local network access may be able to authenticate as a mesh node without\npossessing a device-specific credential.\n\n\n\n\n\nSuccessful\nexploitation may allow an unauthenticated adjacent attacker to impersonate a\ntrusted mesh node and bypass mesh node authentication, which may permit unauthorized\nchanges to device or mesh configuration, affecting confidentiality, integrity\nand availability.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Deco XE75 v3 / XE5300  v3.6/ WE10800 v3.6\n🔓 漏洞类型：CWE-321 (CWE-321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/us/support/download/deco-xe75/v3.60/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/deco-xe75/v3.60/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/download/deco-xe5300/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/download/deco-we10800/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/faq/5263/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Deco XE75 v3 / XE5300  v3.6/ WE10800 v3.6",
+          "modules": [
+            "mesh"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.5.0 Build 20260603",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-321 Use of hard-coded cryptographic key"
+      ],
+      "cwe_ids": [
+        "CWE-321"
       ]
     }
   ]
