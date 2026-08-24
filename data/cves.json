@@ -2,84 +2,162 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-24T10:04:46.224653",
+    "total_count": 3,
+    "last_updated": "2026-08-24T10:49:19.392741",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 0,
+      "high": 2,
+      "medium": 1,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-75975",
-      "publishedDate": "2026-08-24T09:58:07.698Z",
-      "lastModifiedDate": "2026-08-24T09:58:07.698Z",
-      "description": "fast-uri is a URI parser for Node.js. Its custom parser for bracketed IPv6 literals does not validate the complete IPv6 grammar, so invalid trailing text in an authority can be silently discarded and a malformed attacker-controlled host is turned into a different valid IPv6 destination. For example, a bracketed literal with invalid trailing characters is normalized to the unspecified address, which a Node HTTP client then connects to a local service over loopback, and other malformed literals collapse to private-range addresses. No error is set on the parsed result, so an application checking the error field cannot detect the rewrite. An application that normalizes untrusted URLs before outbound requests, redirects, proxy routing, or address-policy enforcement can be redirected to a local or private IPv6 target, giving a server-side request forgery and address-policy bypass primitive. The affected versions are 2.3.1 up to but not including 2.4.5, 3.0.0 up to but not including 3.1.6, and 4.0.0 up to but not including 4.1.3. The issue is fixed in 2.4.5, 3.1.6, and 4.1.3, which validate bracketed IP literals against the full grammar and mark malformed literals as authority errors. Users should upgrade to a patched version.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：fast-uri fast-uri\n🔓 漏洞类型：CWE-20, Server-Side Request Forgery (SSRF) (CWE-20, CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-10582",
+      "publishedDate": "2026-08-24T10:29:09.560Z",
+      "lastModifiedDate": "2026-08-24T10:29:09.560Z",
+      "description": "Hugo's security.http.urls allowlist is the only control on outbound fetches made by resources.GetRemote, and it inspects the URL text alone. CheckAllowedHTTPURL in config/security/securityConfig.go applies the configured pattern list and then re-checks a canonicalised form of an integer, hex or octal IPv4 host, but it never resolves the hostname and never inspects the address the HTTP client actually connects to. The client constructed in resources/resource_factories/create/create.go installs no dial-time hook, so no check occurs at connection time either. A hostname that resolves to a loopback, private or cloud-metadata address therefore satisfies the policy, and the response body is embedded in the generated site. An attacker who can supply a URL through content, for example a front-matter field or a CMS field, can make the build fetch an internal endpoint and publish the response in the static output, so the build artifact itself carries the data out.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：gohugoio hugo\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/fastify/fast-uri/security/advisories/GHSA-f65p-4m7j-42xc",
+          "url": "https://github.com/gohugoio/hugo",
           "type": "reference"
         },
         {
-          "url": "https://cna.openjsf.org/security-advisories.html",
+          "url": "https://github.com/gohugoio/hugo/blob/v0.165.0/config/security/securityConfig.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gohugoio/hugo/blob/v0.165.0/resources/resource_factories/create/create.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hugo-through-server-side-request-forgery-via-security-http-urls-lacking-destination-address-validation",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "fast-uri",
-          "product": "fast-uri",
+          "vendor": "gohugoio",
+          "product": "hugo",
+          "collectionURL": "https://github.com/gohugoio/hugo",
           "defaultStatus": "unaffected",
           "versions": [
             {
-              "versionType": "semver",
+              "version": "0.91.0",
+              "lessThanOrEqual": "0.165.0",
               "status": "affected",
-              "version": "2.3.1",
-              "lessThan": "2.4.5"
-            },
-            {
-              "versionType": "semver",
-              "status": "unaffected",
-              "version": "2.4.5"
-            },
-            {
-              "versionType": "semver",
-              "status": "affected",
-              "version": "3.0.0",
-              "lessThan": "3.1.6"
-            },
-            {
-              "versionType": "semver",
-              "status": "unaffected",
-              "version": "3.1.6"
-            },
-            {
-              "versionType": "semver",
-              "status": "affected",
-              "version": "4.0.0",
-              "lessThan": "4.1.3"
-            },
-            {
-              "versionType": "semver",
-              "status": "unaffected",
-              "version": "4.1.3"
+              "versionType": "semver"
             }
-          ],
-          "packageURL": "pkg:npm/fast-uri"
+          ]
         }
       ],
       "problemType": [
-        "CWE-20: Improper Input Validation",
-        "CWE-918: Server-Side Request Forgery (SSRF)"
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-78244",
+      "publishedDate": "2026-08-24T10:30:10.234Z",
+      "lastModifiedDate": "2026-08-24T10:30:10.234Z",
+      "description": "A vulnerability was detected in itsourcecode Real Estate Management System 1.0. Affected by this issue is some unknown functionality of the file search.php. Performing a manipulation of the argument search/delivery_type/search_price/property_type results in sql injection. The attack may be initiated remotely. The exploit is now public and may be used.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：itsourcecode Real Estate Management System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394594",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394594/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-78244",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/886160",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/microwaveabi/vul/issues/5",
+          "type": "poc"
+        },
+        {
+          "url": "https://itsourcecode.com/",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-20",
-        "CWE-918"
+      "affected": [
+        {
+          "vendor": "itsourcecode",
+          "product": "Real Estate Management System",
+          "versions": [
+            {
+              "version": "1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:itsourcecode:real_estate_management_system:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "SQL Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-10618",
+      "publishedDate": "2026-08-24T10:29:10.191Z",
+      "lastModifiedDate": "2026-08-24T10:29:10.191Z",
+      "description": "Hugo's default fenced-code-block renderer writes attribute values taken from the code-fence info string into the rendered HTML without escaping them. New in markup/internal/attributes/attributes.go converts every attribute value from a byte slice to a string as it is stored, deliberately dropping the escaping that used to happen there, and RenderAttributes in the same file escapes only values that are still byte slices, so its escaping branch is never reached and every value is written verbatim. The function's documentation states that it performs HTML escaping of string attributes, which it does not. A quote inside an attribute value in the info string therefore terminates the attribute and allows a further attribute, including an event handler, to be placed on the wrapper element, and the script runs for every visitor who loads the page. This path is reached under the default configuration, with code fences enabled and without goldmark's unsafe setting or any custom render hook. Attribute names beginning with on are filtered when the attributes are parsed, so injection is achieved through the value rather than the name.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：gohugoio hugo\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/gohugoio/hugo",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gohugoio/hugo/blob/v0.165.0/markup/internal/attributes/attributes.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gohugoio/hugo/blob/v0.165.0/markup/goldmark/codeblocks/render.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gohugoio/hugo/blob/v0.165.0/markup/highlight/highlight.go",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/hugo-through-stored-cross-site-scripting-via-unescaped-code-fence-attribute-values",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "gohugoio",
+          "product": "hugo",
+          "collectionURL": "https://github.com/gohugoio/hugo",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0.93.0",
+              "lessThanOrEqual": "0.165.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ]
     }
   ]
