@@ -2,224 +2,549 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-08-25T18:51:45.590510",
+    "total_count": 20,
+    "last_updated": "2026-08-25T19:20:27.777977",
     "severity_distribution": {
-      "critical": 1,
-      "high": 3,
-      "medium": 2,
+      "critical": 2,
+      "high": 8,
+      "medium": 8,
       "low": 0,
-      "none": 0
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-66794",
-      "publishedDate": "2026-08-19T17:30:07.984Z",
-      "lastModifiedDate": "2026-08-25T18:41:54.905Z",
-      "description": "A flaw was found in the `cluster-proxy-addon` component of Multicluster Engine for Kubernetes. This vulnerability allows an unauthenticated attacker, who can access the user-facing route, to bypass authentication and authorization checks. By manipulating URL path segments, the attacker can proxy requests to arbitrary services across any managed cluster. This enables unauthorized access to internal services that would otherwise be protected, potentially leading to information disclosure or further compromise of the cluster environment.",
-      "severity": 9.3,
-      "fix_suggestion": "📦 受影响组件：Red Hat multicluster engine for Kubernetes 2.11\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-45018",
+      "publishedDate": "2026-08-25T19:18:46.439Z",
+      "lastModifiedDate": "2026-08-25T19:18:46.439Z",
+      "description": "Chainlit is a Python framework for building production-ready conversational AI applications. From 2.4.0rc0 until 2.12.0, Chainlit deployments with features.mcp.enabled set to true in .chainlit/config.toml expose the POST /mcp endpoint without requiring authentication. For stdio transport, the endpoint accepts a user-controlled fullCommand string. The validate_mcp_command() function in backend/chainlit/mcp.py checks only the executable name against config.features.mcp.stdio.allowed_executables and passes unchecked arguments to StdioServerParameters in backend/chainlit/server.py. Because npx supports the -c argument, an attacker can execute arbitrary shell commands with the privileges of the Chainlit process. If allowed_executables is unset, its None default is treated as allowing every executable. This issue is fixed in version 2.12.0.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Chainlit chainlit\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/errata/RHSA-2026:59556",
+          "url": "https://github.com/Chainlit/chainlit/security/advisories/GHSA-w3fx-mc44-mf6j",
           "type": "reference"
         },
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-66794",
+          "url": "https://github.com/Chainlit/chainlit/commit/0565fd0eccb915fce159929598b053ed79f6e0c9",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507539",
+          "url": "https://github.com/Chainlit/chainlit/blob/2.12.0/docs/security-advisory-2026-mcp.md#spl-2026-001--command-injection-via-mcp-stdio",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Chainlit/chainlit/releases/tag/2.12.0",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "multicluster engine for Kubernetes 2.11",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "multicluster-engine/cluster-proxy-rhel9",
-          "defaultStatus": "affected",
+          "vendor": "Chainlit",
+          "product": "chainlit",
           "versions": [
             {
-              "version": "1787276784",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:multicluster_engine:2.11::el9"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Multicluster Engine for Kubernetes",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "multicluster-engine/cluster-proxy-addon-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:multicluster_engine"
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-75750",
-      "publishedDate": "2026-08-25T17:58:15.938Z",
-      "lastModifiedDate": "2026-08-25T18:33:56.282Z",
-      "description": "Substance3D - Painter is affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Heap-based Buffer Overflow (CWE-122)"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-73267",
-      "publishedDate": "2026-08-21T02:43:36.017Z",
-      "lastModifiedDate": "2026-08-25T18:42:09.970Z",
-      "description": "A flaw was found in the clusterclaims-controller component of multicluster engine (MCE). A tenant with standard permissions to create and delete ClusterClaim resources can exploit this by manipulating the `spec.namespace` field. This allows the tenant to specify and delete any ManagedCluster, including the hub's local-cluster or other tenants' clusters, due to a missing ownership check. This vulnerability can lead to a denial of service by enabling unauthorized deletion of ManagedClusters.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：Red Hat multicluster engine for Kubernetes 2.11\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/errata/RHSA-2026:59556",
-          "type": "reference"
-        },
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-73267",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2514218",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "multicluster engine for Kubernetes 2.11",
-          "collectionURL": "https://catalog.redhat.com/software/containers/",
-          "packageName": "multicluster-engine/clusterclaims-controller-rhel9",
-          "defaultStatus": "affected",
-          "versions": [
-            {
-              "version": "1787239442",
-              "lessThan": "*",
-              "versionType": "rpm",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:/a:redhat:multicluster_engine:2.11::el9"
-          ]
-        }
-      ],
-      "problemType": [
-        "Client-Side Enforcement of Server-Side Security"
-      ]
-    },
-    {
-      "id": "CVE-2026-55609",
-      "publishedDate": "2026-08-25T18:34:47.633Z",
-      "lastModifiedDate": "2026-08-25T18:34:47.633Z",
-      "description": "sublinear-time-solver is a Rust and WebAssembly library for solving asymmetric diagonally dominant systems in sublinear time. Prior to consciousness-explorer 1.1.2 and sublinear-time-solver 1.6.0, the export_state and import_state tools in src/consciousness-explorer/mcp/server.js pass the attacker-controlled filepath parameter to filesystem operations in src/consciousness-explorer/index.js without restricting the destination or rejecting traversal. The saveVectorToFile and loadVectorFromFile tools in src/mcp/server.ts contain the same sink class through the file_path parameter. An attacker able to invoke the MCP tools can read, write, or overwrite any file accessible to the server process, causing confidentiality and integrity loss and possible service disruption. This issue is fixed in consciousness-explorer 1.1.2 and sublinear-time-solver 1.6.0.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：ruvnet sublinear-time-solver\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ruvnet/sublinear-time-solver/security/advisories/GHSA-xc9g-j69q-37xw",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/BruceJqs/public_exp/issues/32",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ruvnet/sublinear-time-solver/issues/19",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ruvnet/sublinear-time-solver/pull/20",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ruvnet/sublinear-time-solver/commit/a701296e363192be863e79d788fa268095e3d229",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ruvnet/sublinear-time-solver/commit/ea9a212b69e4449ec443fe088a7aec7546f70b4a",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ruvnet/sublinear-time-solver/releases/tag/v1.6.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ruvnet",
-          "product": "sublinear-time-solver",
-          "versions": [
-            {
-              "version": "< 1.6.0",
+              "version": ">= 2.4.0rc0, < 2.12.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-73: External Control of File Name or Path"
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
       ],
       "cwe_ids": [
-        "CWE-73"
+        "CWE-78"
       ],
-      "ghsa_id": "GHSA-xc9g-j69q-37xw"
+      "ghsa_id": "GHSA-w3fx-mc44-mf6j"
     },
     {
-      "id": "CVE-2026-59984",
-      "publishedDate": "2026-08-25T18:13:01.835Z",
-      "lastModifiedDate": "2026-08-25T18:38:43.746Z",
-      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions 3.1.0 through 3.2.10, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13 are vulnerable on ILP32 builds to an out-of-bounds write. When a crafted B44-compressed scanline EXR causes the logical scratch size to truncate before allocation and uncompress_b44_impl() writes using the attacker-controlled channel width, allowing denial of service and memory corruption. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-32554",
+      "publishedDate": "2026-08-24T21:31:25.000Z",
+      "lastModifiedDate": "2026-08-25T19:12:24.665Z",
+      "description": "Unauthenticated SQL Injection in WooBeWoo Product Filter Pro <= 3.1.8 versions.",
+      "severity": 9.3,
+      "fix_suggestion": "📦 受影响组件：WBW WooBeWoo Product Filter Pro\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-92pq-9qv4-g68q",
+          "url": "https://patchstack.com/database/wordpress/plugin/woofilter-pro/vulnerability/wordpress-woobewoo-product-filter-pro-plugin-3-1-8-sql-injection-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WBW",
+          "defaultStatus": "unaffected",
+          "product": "WooBeWoo Product Filter Pro",
+          "versions": [
+            {
+              "lessThanOrEqual": "3.1.8",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-89"
+      ]
+    },
+    {
+      "id": "CVE-2026-80049",
+      "publishedDate": "2026-08-25T18:23:16.504Z",
+      "lastModifiedDate": "2026-08-25T19:15:04.934Z",
+      "description": "Airbyte Platform resolves the workspace used for its authorization decision from a field the caller supplies. AuthorizationServerHandler copies recognised identifiers out of the raw JSON request body into X-Airbyte-* headers, and AuthenticationHeaderResolver.resolveWorkspace consults X-Airbyte-Workspace-Id ahead of every resource-derived header, including those for connection, source and destination identifiers. Endpoints whose declared request bodies carry only a resource identifier are nonetheless reached with an added workspaceId field, because the extractor reads the body rather than the endpoint's schema, so the permission check is performed against the workspace the caller nominated while the handler acts on the resource identifier the caller supplied. Nothing afterwards compares the resource's owning workspace with the one that was authorized. A member of any workspace can therefore read source and destination configuration, trigger and cancel syncs, and delete connections, sources and destinations that belong to workspaces they have no access to, at whatever privilege level their own workspace membership grants them.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：airbytehq airbyte-platform\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/airbytehq/airbyte-platform",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geo-chen/oss/blob/main/airbyte-platform.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/airbytehq/airbyte-platform/blob/v2.0.0/airbyte-commons-server/src/main/kotlin/io/airbyte/commons/server/support/AuthenticationHeaderResolver.kt",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/airbyte-platform-through-2.0.0-cross-workspace-authorization-bypass-via-caller-supplied-workspaceid",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "airbytehq",
+          "product": "airbyte-platform",
+          "collectionURL": "https://github.com/airbytehq/airbyte-platform",
+          "repo": "https://github.com/airbytehq/airbyte-platform",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "lessThanOrEqual": "2.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Authorization Bypass Through User-Controlled Key"
+      ]
+    },
+    {
+      "id": "CVE-2026-32561",
+      "publishedDate": "2026-08-24T21:31:28.568Z",
+      "lastModifiedDate": "2026-08-25T19:17:36.940Z",
+      "description": "Subscriber Privilege Escalation in Booking Hub <= 1.3.0 versions.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：LiquidThemes Booking Hub\n🔓 漏洞类型：CWE-266 (CWE-266)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/booking-hub/vulnerability/wordpress-booking-hub-plugin-1-3-0-privilege-escalation-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "LiquidThemes",
+          "defaultStatus": "unaffected",
+          "product": "Booking Hub",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.3.0",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-266 Incorrect Privilege Assignment"
+      ],
+      "cwe_ids": [
+        "CWE-266"
+      ]
+    },
+    {
+      "id": "CVE-2026-18420",
+      "publishedDate": "2026-08-20T20:40:40.709Z",
+      "lastModifiedDate": "2026-08-25T19:19:07.471Z",
+      "description": "Improper input validation in the Time Series Visual Builder (TSVB) plugin in OpenSearch Dashboards allows an authenticated remote user to execute arbitrary code on the server via a crafted JSON payload to the metrics visualization API endpoint. This issue is a form of prototype pollution that enables remote code execution. \n\n\n\nTo remediate this issue, users should upgrade to OpenSearch Dashboards 3.8 or later.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：AWS Amazon OpenSearch Service\n🔓 漏洞类型：CWE-1321 (CWE-1321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/opensearch-project/OpenSearch-Dashboards/releases/tag/3.8.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/opensearch-project/OpenSearch-Dashboards/security/advisories/GHSA-xmqx-xq2p-8jq2",
+          "type": "reference"
+        },
+        {
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-085-aws/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AWS",
+          "product": "Amazon OpenSearch Service",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "lessThan": "3.8.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "OpenSearch",
+          "product": "OpenSearch Dashboards",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "lessThan": "3.8.0",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1321 Improperly controlled modification of object prototype attributes ('prototype pollution')"
+      ],
+      "cwe_ids": [
+        "CWE-1321"
+      ]
+    },
+    {
+      "id": "CVE-2026-68513",
+      "publishedDate": "2026-08-25T19:06:11.692Z",
+      "lastModifiedDate": "2026-08-25T19:06:11.692Z",
+      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. Versions 3.3.0 through 3.3.12 and 3.4.0 through 3.4.13 contain a heap buffer overflow in PyOpenEXR triggered by a channel-name key collision between literal and prefixed RGB channels. When separate_channels=false, PyOpenEXR maps each physical channel name through channelNameToRGBA() and coalesces the results into a shared RGB array. A crafted flat scanline EXR that contains both a literal channel such as left and prefixed channels such as left.R, left.G, and left.B causes these names to collide, so the wrapper reuses an undersized two-dimensional NumPy array for the coalesced RGB slices and writes out of bounds when OpenEXR.File(path) decodes the pixels. This issue is fixed in versions 3.3.13 and 3.4.14.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-122, CWE-787 (CWE-122, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-rw5h-3q4v-c3vc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/c1f3ec0d91cfa5a8035ecd00920835ac76e01640",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/d134e3cd81a2e343f2919e86bf949f576b1ab16a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AcademySoftwareFoundation",
+          "product": "openexr",
+          "versions": [
+            {
+              "version": ">= 3.3.0, < 3.3.13",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.4.0, < 3.4.14",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122: Heap-based Buffer Overflow",
+        "CWE-787: Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-122",
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-78264",
+      "publishedDate": "2026-08-24T21:31:32.102Z",
+      "lastModifiedDate": "2026-08-25T19:06:19.855Z",
+      "description": "Unauthenticated Cross Site Scripting (XSS) in Toolset Blocks <= 1.6.26 versions.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：Site Building with Toolset Toolset Blocks\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://patchstack.com/database/wordpress/plugin/toolset-blocks/vulnerability/wordpress-toolset-blocks-plugin-1-6-26-cross-site-scripting-xss-vulnerability?_s_id=cve",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Site Building with Toolset",
+          "defaultStatus": "unaffected",
+          "product": "Toolset Blocks",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.6.26",
+              "status": "affected",
+              "version": "n/a",
+              "versionType": "custom",
+              "changes": [
+                {
+                  "at": "1.6.27",
+                  "status": "unaffected"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-77584",
+      "publishedDate": "2026-08-20T20:38:42.159Z",
+      "lastModifiedDate": "2026-08-25T19:09:53.308Z",
+      "description": "Tor before 0.4.9.10 did not reject a CONFLUX_LINK cell that arrives on a circuit which already has attached streams. A malicious client could send a RELAY_COMMAND_BEGIN before the CONFLUX_LINK on the same circuit, attaching an exit stream that would later end up orphan leaving a dangling circuit back-pointer and a use-after-free (UAF) when the circuit is freed. This is TROVE-2026-025.",
+      "severity": 7,
+      "fix_suggestion": "📦 受影响组件：torproject Tor\n🔓 漏洞类型：CWE-821 (CWE-821)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://gitlab.torproject.org/tpo/core/tor/-/raw/tor-0.4.9.10/ChangeLog",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Tor",
+          "vendor": "torproject",
+          "versions": [
+            {
+              "lessThan": "0.4.9.10",
+              "status": "affected",
+              "version": "0.4.8.1-alpha",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-821 Incorrect Synchronization"
+      ],
+      "cwe_ids": [
+        "CWE-821"
+      ]
+    },
+    {
+      "id": "CVE-2026-78434",
+      "publishedDate": "2026-08-24T21:30:08.526Z",
+      "lastModifiedDate": "2026-08-25T19:14:49.643Z",
+      "description": "A flaw has been found in Faveo Helpdesk up to 2.0.3. This impacts the function FormController::post_ticket_reply of the file app/Http/Controllers/Client/helpdesk/FormController.php of the component post-ticket-reply Endpoint. This manipulation causes missing authentication. The attack can be initiated remotely. The exploit has been published and may be used. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Faveo Helpdesk\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394712",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394712/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-78434",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/886394",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/faveosuite/faveo-helpdesk/issues/8346",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Faveo",
+          "product": "Helpdesk",
+          "versions": [
+            {
+              "version": "2.0.0",
+              "status": "affected"
+            },
+            {
+              "version": "2.0.1",
+              "status": "affected"
+            },
+            {
+              "version": "2.0.2",
+              "status": "affected"
+            },
+            {
+              "version": "2.0.3",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:faveo:helpdesk:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "post-ticket-reply Endpoint"
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication",
+        "Improper Authentication"
+      ]
+    },
+    {
+      "id": "CVE-2026-75910",
+      "publishedDate": "2026-08-20T20:06:54.217Z",
+      "lastModifiedDate": "2026-08-25T19:13:06.552Z",
+      "description": "Incorrect privilege assignment in the ClickHouse connector deployment template in Amazon Athena Federated Query prior to v2026.17.1 could allow an authenticated remote user to read arbitrary AWS Secrets Manager secrets in the deploying account by pointing the connector's connection string at an unrelated secret and at a database endpoint under the user's control, causing the connector to transmit the secret to that endpoint. To remediate this issue, users should upgrade to aws-athena-query-federation connectors version v2026.17.1 or later and ensure that any forked or derivative code is patched to incorporate the new fixes. Alternatively, to remediate this issue, users should redeploy the connector with the current template and supply a non-empty SecretNamePrefix value.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：AWS Athena Federated Query Clickhouse Connector deployment template\n🔓 漏洞类型：CWE-266 (CWE-266)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/awslabs/aws-athena-query-federation/releases/tag/v2026.17.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://aws.amazon.com/security/security-bulletins/2026-084-aws/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/awslabs/aws-athena-query-federation/security/advisories/GHSA-vmjg-c6wv-wjm9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AWS",
+          "product": "Athena Federated Query Clickhouse Connector deployment template",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2026.17.1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-266 Incorrect privilege assignment"
+      ],
+      "cwe_ids": [
+        "CWE-266"
+      ]
+    },
+    {
+      "id": "CVE-2026-9728",
+      "publishedDate": "2026-08-24T14:28:46.429Z",
+      "lastModifiedDate": "2026-08-25T19:06:35.431Z",
+      "description": "The userspace syscall verifier z_vrfy_mbox_send() in drivers/mbox/mbox_handlers.c validated the nested msg->data/msg->size fields by reading them directly out of live userspace memory, and then forwarded the original, still-mutable userspace struct mbox_msg * pointer to z_impl_mbox_send() and the underlying driver. Between the access check and the driver's use of msg->data, the validated pointer could be replaced, leaving a time-of-check/time-of-use window.\n\nOn a system built with CONFIG_USERSPACE, any unprivileged userspace thread may invoke the mbox_send() system call. A second thread sharing the caller's address space can race to overwrite msg->data with a supervisor (kernel) address after the verifier's bounds check has passed but before the driver dereferences it. The driver then reads from the attacker-chosen address in supervisor context (for example memcpy(&data32, msg->data, msg->size) in the NXP mailbox driver, whose bytes are subsequently emitted to the peer mailbox endpoint).\n\nThe impact is a userspace-to-supervisor access-control bypass: disclosure of kernel memory contents (high confidentiality impact), or, for an invalid/unmapped target address, a faulting kernel read causing denial of service. The fix snapshots the entire struct mbox_msg into a kernel-stack copy with k_usermode_from_copy() and validates and forwards that immutable copy, closing the race.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/ab35eaccec5976f05c196f176d0c32885754496f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-47q2-w832-7w67",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "drivers/mbox/mbox_handlers.c"
+          ],
+          "versions": [
+            {
+              "version": "3.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "race"
+      ]
+    },
+    {
+      "id": "CVE-2026-77587",
+      "publishedDate": "2026-08-20T20:47:39.964Z",
+      "lastModifiedDate": "2026-08-25T19:09:06.542Z",
+      "description": "Tor before 0.4.9.11 is prone to a use-after-free (and potential double free) of a conflux object when a recovery leg revives a conflux set whose last linked leg has already been closed. A malicious exit node could use this to crash a client. This is TROVE-2026-026.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：torproject Tor\n🔓 漏洞类型：CWE-911 (CWE-911)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://gitlab.torproject.org/tpo/core/tor/-/raw/tor-0.4.9.11/ChangeLog",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Tor",
+          "vendor": "torproject",
+          "versions": [
+            {
+              "lessThan": "0.4.9.11",
+              "status": "affected",
+              "version": "0.4.8.1-alpha",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-911 Improper Update of Reference Count"
+      ],
+      "cwe_ids": [
+        "CWE-911"
+      ]
+    },
+    {
+      "id": "CVE-2026-59985",
+      "publishedDate": "2026-08-25T18:16:37.986Z",
+      "lastModifiedDate": "2026-08-25T19:16:49.514Z",
+      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions 3.2.0 through 3.2.10, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13 are vulnerable on ILP32 builds to a heap out-of-bounds read. The issue occurs when a crafted RLE-compressed EXR causes the 64-bit unpacked size to truncate before allocation in OpenEXRCore decoding.c and unpack_32bit() reads beyond the resulting buffer, allowing denial of service. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-v6v5-344m-64vm",
           "type": "reference"
         },
         {
@@ -241,59 +566,7 @@
           "product": "openexr",
           "versions": [
             {
-              "version": ">= 3.1.0, < 3.2.11",
-              "status": "affected"
-            },
-            {
-              "version": ">= 3.3.0, < 3.3.13",
-              "status": "affected"
-            },
-            {
-              "version": ">= 3.4.0, < 3.4.14",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-787: Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-59983",
-      "publishedDate": "2026-08-25T18:02:42.977Z",
-      "lastModifiedDate": "2026-08-25T18:32:39.465Z",
-      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions before 3.2.11, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13 are vulnerable on ILP32 builds to an out-of-bounds read. The vulnerability is reached when a crafted uncompressed deep-tile EXR causes the sample-count table size calculation in OpenEXRCore decoding.c to wrap before unpack_sample_table() iterates over the full attacker-controlled tile dimensions, allowing denial of service. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-p42q-g5c9-mh9w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/0efec58d2d28a0ee322f5028dee6fb57d459580e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/78e91146fceeee317820a146ba99a96f380945b8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/f0e404f7298cd8563a1d30a64a1c982dbd68fc49",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "AcademySoftwareFoundation",
-          "product": "openexr",
-          "versions": [
-            {
-              "version": "< 3.2.11",
+              "version": ">= 3.2.0, < 3.2.11",
               "status": "affected"
             },
             {
@@ -313,6 +586,288 @@
       "cwe_ids": [
         "CWE-125"
       ]
+    },
+    {
+      "id": "CVE-2026-12999",
+      "publishedDate": "2026-08-22T20:35:40.445Z",
+      "lastModifiedDate": "2026-08-25T19:07:22.689Z",
+      "description": "The Infineon Airoc Wi-Fi driver's transmit callback airoc_mgmt_send() in drivers/wifi/infineon/airoc_wifi.c allocates a net_buf from the fixed airoc_pool for every outbound packet. When whd_network_send_ethernet_data() returns a synchronous failure, the underlying WHD library does not take ownership of the buffer, but the pre-fix driver returned -EIO without releasing it. Each failed transmit therefore permanently leaks one buffer from the pool.\n\nairoc_pool is small and fixed (AIROC_WIFI_TX_PACKET_POOL_COUNT + AIROC_WIFI_RX_PACKET_POOL_COUNT, default 20 buffers) and is shared by WHD's whd_host_buffer_get callback for both transmit and receive. Once enough send failures have leaked the pool dry, airoc_wifi_host_buffer_get() returns WHD_BUFFER_ALLOC_FAIL for all subsequent allocations, so both transmit and the WHD-driven receive path fail and Wi-Fi connectivity is lost until the device is rebooted.\n\nThe leak occurs only on the transmit error path. A Wi-Fi-adjacent attacker can influence the conditions that cause synchronous send failures (for example by deauthenticating/disassociating the station while the local stack continues to attempt transmits), and ordinary transient failures over the device's lifetime accumulate toward the same state. Reliable on-demand triggering is of high complexity and the impact is availability-only, but the resulting denial of service is permanent and non-recoverable without a reboot.\n\nThe fix releases the buffer with airoc_wifi_buffer_release() on the failure branch, returning it to the pool. The commit also removes a redundant k_sem_give() in airoc_mgmt_disconnect(); because data->sema_common is a binary semaphore (limit 1) the duplicate give merely saturated at 1 and had no security impact.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/4e6f624292ed153a762e98c7a297998c8d0b52c4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-8w97-ghfm-5wjp",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "drivers/wifi/infineon/airoc_wifi.c"
+          ],
+          "versions": [
+            {
+              "version": "3.6.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.2"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "dos"
+      ]
+    },
+    {
+      "id": "CVE-2026-77506",
+      "publishedDate": "2026-08-20T20:18:55.670Z",
+      "lastModifiedDate": "2026-08-25T19:12:24.097Z",
+      "description": "Znuny before LTS 6.5.22 allows AgentTicketEmailResend template XSS.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：Znuny Znuny\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.znuny.org/en/advisories/zsa-2026-12",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Znuny",
+          "vendor": "Znuny",
+          "versions": [
+            {
+              "lessThan": "6.5.22",
+              "status": "affected",
+              "version": "6.0",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-65979",
+      "publishedDate": "2026-08-25T18:58:25.871Z",
+      "lastModifiedDate": "2026-08-25T19:16:25.169Z",
+      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. From version 3.4.0 through 3.4.12, the HTJ2K decoder parses a header-length field (PLEN) from a chunk's compressed data but never checks that this value fits within the available buffer before using it. When decoding, it advances the codestream pointer by the attacker-supplied header size and passes the resulting offset and remaining length to the OpenJPH memory-input path, so a crafted value pushes the pointer past the end of the buffer and causes an out-of-bounds read. Because this field comes straight from attacker-controlled EXR chunk data, the flaw is reachable during normal decoding of an untrusted file. This issue is fixed in version 3.4.13.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-20, CWE-125 (CWE-20, CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-3j9c-j7c9-x293",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/c7af2d233b7b2a4452c11f26cf47584cc2b35721",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.4.13",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "AcademySoftwareFoundation",
+          "product": "openexr",
+          "versions": [
+            {
+              "version": ">= 3.4.0, < 3.4.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-125: Out-of-bounds Read"
+      ],
+      "cwe_ids": [
+        "CWE-20",
+        "CWE-125"
+      ]
+    },
+    {
+      "id": "CVE-2026-66916",
+      "publishedDate": "2026-08-22T11:16:35.832Z",
+      "lastModifiedDate": "2026-08-25T19:07:52.235Z",
+      "description": "Joomla Extension - joomgalleryfriends.net - Password-Protected Category Bypass via JSON Format in JoomGallery < 4.4.0- An unauthenticated access control bypass exists in JoomGallery's category JSON view. When a gallery category is protected with a password, the HTML view correctly enforces the password gate - but the JSON view ( format=json ) skips this check entirely.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：joomgalleryfriends.net JoomGallery extension for Joomla\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.joomgalleryfriends.net/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "JoomGallery extension for Joomla",
+          "vendor": "joomgalleryfriends.net",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.0-4.3.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284 - Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-77354",
+      "publishedDate": "2026-08-21T20:44:47.792Z",
+      "lastModifiedDate": "2026-08-25T19:15:23.235Z",
+      "description": "kin-openapi is a Go project for handling OpenAPI files. From 0.124.0 until 0.142.0, openapi3filter.sliceMapToSlice in openapi3filter/req_resp_decoder.go converts attacker-controlled sparse indexes from a deepObject query parameter into a dense slice by allocating entries from zero through the largest supplied index, after which buildResObj creates another slice of the same length. This allocation occurs before schema validation, so maxItems does not prevent it. An unauthenticated client can send a small query such as param[items][50000000]=x to an endpoint whose deepObject schema contains an array, forcing multi-gigabyte heap allocation and causing an OOM kill or restart loop. Other request-body encodings and styled parameters that do not produce bracketed integer indexes are not affected. This issue is fixed in version 0.142.0.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：getkin kin-openapi\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-789 (CWE-400, CWE-789)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/getkin/kin-openapi/security/advisories/GHSA-xhj3-7xw9-vr34",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getkin/kin-openapi/pull/923",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getkin/kin-openapi/commit/1223a0f215d2cf9beb2d9eb9ea2649d001c21388",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/getkin/kin-openapi/releases/tag/v0.142.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "getkin",
+          "product": "kin-openapi",
+          "versions": [
+            {
+              "version": ">= 0.124.0, < 0.142.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-789: Memory Allocation with Excessive Size Value"
+      ],
+      "cwe_ids": [
+        "CWE-400",
+        "CWE-789"
+      ],
+      "cvss_severity": "MEDIUM",
+      "ghsa_id": "GHSA-xhj3-7xw9-vr34"
+    },
+    {
+      "id": "CVE-2026-77751",
+      "publishedDate": "2026-08-21T09:48:20.168Z",
+      "lastModifiedDate": "2026-08-25T19:08:25.414Z",
+      "description": "A path traversal vulnerability existed in the handling of MISP object template names during STIX 2 import and MISP-to-STIX 2 export.\n\nMISP object names are passed to PyMISP's object-template resolution mechanism, which constructs a filesystem path by joining the configured MISP object-template directory, the object name, and definition.json. An object name originating from untrusted STIX or MISP content was not sufficiently restricted before being used in this filesystem path.\n\nAn attacker able to supply a crafted object name containing path separators or traversal sequences such as ../ could therefore cause template resolution to escape the expected template directory and attempt to load a definition.json file from another location accessible to the process.\n\nDuring STIX 2 import, an attacker-controlled x_misp_name from a custom STIX object could directly reach this template-resolution mechanism.\n\nThe issue could also become persistent. A malicious object name stored in a MISP event could later be processed again during STIX 2 export. Consequently, content originally introduced in one security context could trigger filesystem access later when the event is exported by a process operating with different or greater privileges.\n\nIf a suitable definition.json file exists outside the intended template directory, its contents may be interpreted as a MISP object template and fields from that file copied into the converted object. This can result in unintended disclosure of locally accessible data represented by the template file and modification of the resulting object's metadata or semantics.\n\nThe patches introduce strict validation of object-template names. Valid names are restricted to a single path component containing letters, digits, hyphens, or underscores. Names that do not meet these requirements are replaced with the generic unknown-template name before reaching PyMISP template resolution. The original rejected name is preserved in the object's comment and a warning is generated, preventing traversal while retaining the source information.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：misp misp-stix\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/MISP/misp-stix/commit/a8b6808d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/MISP/misp-stix/commit/a0f54070",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "misp-stix",
+          "repo": "https://github.com/MISP/misp-stix/",
+          "vendor": "misp",
+          "versions": [
+            {
+              "lessThanOrEqual": "2026.7.8",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "cwe_ids": [
+        "CWE-22"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-19755",
+      "publishedDate": "2026-08-20T20:26:12.423Z",
+      "lastModifiedDate": "2026-08-25T19:11:30.734Z",
+      "description": "NoSleep 1.5.1 exposes a privileged XPC Mach service and accepts raw dictionary messages containing attacker-controlled command and NSBundlePath values.This issue affects NoSleep: 1.5.1.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：NoSleep NoSleep\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://fluidattacks.com/advisories/iggy",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/integralpro/nosleep/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "MacOS"
+          ],
+          "product": "NoSleep",
+          "repo": "https://github.com/integralpro/nosleep",
+          "vendor": "NoSleep",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.5.1"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
