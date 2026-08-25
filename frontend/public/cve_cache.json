@@ -2,15 +2,173 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-08-25T10:53:03.905452",
+    "total_count": 3,
+    "last_updated": "2026-08-25T11:16:43.783889",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 1,
+      "medium": 2,
       "low": 0,
       "none": 0
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-59335",
+      "publishedDate": "2026-08-25T11:05:11.166Z",
+      "lastModifiedDate": "2026-08-25T11:05:11.166Z",
+      "description": "Improper handling of case sensitivity (CWE-178) in the identity zone authorization check in the Identity Zone Endpoint in Cloud Foundry UAA allows a remote authenticated attacker holding only the zones.write authority to bypass the intended restriction that this authority does not grant access to the privileged uaa (system) identity zone, by referring to the zone identifier in a non-lowercase form (e.g. UAA) in the request path and body. The authorization layer performs a case-sensitive comparison against the system zone identifier, while the underlying MySQL persistence layer resolves identifiers case-insensitively under its default collation, so the request is authorized incorrectly and is then resolved against the real system zone record. This allows the attacker to overwrite the system zone's JWT signing key with attacker-controlled key material, forge JWTs claiming the admin client and administrator scopes, and fully compromise UAA and any Cloud Foundry deployment that trusts it. This issue only affects UAA deployments backed by MySQL using its default collation; PostgreSQL and HSQLDB backends are not affected.",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：Cloud Foundry UAA\n🔓 漏洞类型：CWE-178 (CWE-178)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.cloudfoundry.org/blog/cve-2026-59335-uaa-case-insensitive-check-bypass/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cloud Foundry",
+          "product": "UAA",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "78.16.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "78.16.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unknown"
+        },
+        {
+          "vendor": "Cloud Foundry",
+          "product": "cf-deployment",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "57.0.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "57.0.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-178: Improper Handling of Case Sensitivity"
+      ],
+      "cwe_ids": [
+        "CWE-178"
+      ]
+    },
+    {
+      "id": "CVE-2026-79652",
+      "publishedDate": "2026-08-25T11:07:48.988Z",
+      "lastModifiedDate": "2026-08-25T11:07:48.988Z",
+      "description": "A flaw was found in the JWT Bearer authorization grant implementation within the keycloak-services component of Red Hat Build of Keycloak. This component handles various OAuth2 and OpenID Connect grant types used for issuing access tokens. The issue occurs because the JWT Bearer grant fails to check if a client requires user consent before issuing a token. This allows an authenticated attacker with valid client credentials and a trusted identity provider assertion to bypass the consent requirement and obtain unauthorized access to a user account at a consent-gated client.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Build of Keycloak\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-79652",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2523347",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Build of Keycloak",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "keycloak/rhbk-openshift-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:build_keycloak:"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Build of Keycloak",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "keycloak-services",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:build_keycloak:"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Build of Keycloak",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "rhbk/keycloak-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:build_keycloak:"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Single Sign-On 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "keycloak-services",
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:/a:redhat:red_hat_single_sign_on:7"
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-12600",
+      "publishedDate": "2026-08-25T10:57:57.486Z",
+      "lastModifiedDate": "2026-08-25T11:04:43.876Z",
+      "description": "Denial-of-service (DoS) vulnerability in the internal JPEG2000 (JPX) decoding implementation of the Poppler fork developed by Innodata Labs. When an application processes an untrusted PDF file containing specially crafted JPXDecode images, a remote attacker can cause uncontrolled memory consumption. The flaw occurs in the JPXStream::readCodestream() function, where values controlled from the SIZ segment (such as img.nComps) are used for the memory allocation of tiles and components without adequate validation. This allows an attacker to force excessive memory allocation and cause a resource exhaustion, ultimately causing the pdftoppm process to terminate due to out-of-memory (OOM) conditions.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Poppler Innodata Labs\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.incibe.es/en/incibe-cert/notices/aviso/uncontrolled-memory-usage-innodata-labs-poppler-jpx-decoderuncontrolled",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Poppler",
+          "product": "Innodata Labs",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "25/08/2026",
+              "versionType": "date"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-400 Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
+    }
+  ]
 }
