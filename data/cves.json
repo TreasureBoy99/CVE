@@ -2,43 +2,324 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-08-25T12:17:30.465222",
+    "total_count": 30,
+    "last_updated": "2026-08-25T13:16:01.483037",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 3,
-      "low": 0,
-      "none": 0
+      "high": 9,
+      "medium": 12,
+      "low": 1,
+      "none": 8
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-78478",
-      "publishedDate": "2026-08-25T05:31:28.313Z",
-      "lastModifiedDate": "2026-08-25T12:02:00.193Z",
-      "description": "The Mane theme for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 1.7. This makes it possible for unauthenticated attackers to include and execute arbitrary files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where images and other “safe” file types can be uploaded and included.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：Elated-Themes Mane\n🔓 漏洞类型：CWE-98 (CWE-98)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-57863",
+      "publishedDate": "2026-08-25T12:52:11.549Z",
+      "lastModifiedDate": "2026-08-25T12:52:11.549Z",
+      "description": "Crater Invoice through 6.0.6 contains a path traversal vulnerability in the self-update API that allows authenticated company owners to write arbitrary files outside the intended extraction directory by supplying crafted ZIP archives with ../ sequences to the unzip endpoint. Attackers can exploit unsanitized ZIP entry names passed to PHP's ZipArchive::extractTo() to write arbitrary PHP files into the web-accessible public directory and achieve remote code execution on the server.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：crater-invoice-inc crater\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a71e330e-8673-49b4-8c31-63771533476f?source=cve",
-          "type": "reference"
+          "url": "https://gist.github.com/sermikr0/cc58727e6a777b6ea1104e923803a0ba",
+          "type": "poc"
         },
         {
-          "url": "https://themeforest.net/item/mne-a-modern-portfolio-theme-for-creatives/21333576",
+          "url": "https://www.vulncheck.com/advisories/crater-invoice-path-traversal-rce-via-update-unzip-endpoint",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Elated-Themes",
-          "product": "Mane",
+          "defaultStatus": "affected",
+          "vendor": "crater-invoice-inc",
+          "product": "crater",
+          "packageURL": "pkg:github/crater-invoice-inc/crater",
+          "repo": "https://github.com/crater-invoice-inc/crater",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThanOrEqual": "6.0.6"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-59335",
+      "publishedDate": "2026-08-25T11:05:11.166Z",
+      "lastModifiedDate": "2026-08-25T13:09:07.719Z",
+      "description": "Improper handling of case sensitivity (CWE-178) in the identity zone authorization check in the Identity Zone Endpoint in Cloud Foundry UAA allows a remote authenticated attacker holding only the zones.write authority to bypass the intended restriction that this authority does not grant access to the privileged uaa (system) identity zone, by referring to the zone identifier in a non-lowercase form (e.g. UAA) in the request path and body. The authorization layer performs a case-sensitive comparison against the system zone identifier, while the underlying MySQL persistence layer resolves identifiers case-insensitively under its default collation, so the request is authorized incorrectly and is then resolved against the real system zone record. This allows the attacker to overwrite the system zone's JWT signing key with attacker-controlled key material, forge JWTs claiming the admin client and administrator scopes, and fully compromise UAA and any Cloud Foundry deployment that trusts it. This issue only affects UAA deployments backed by MySQL using its default collation; PostgreSQL and HSQLDB backends are not affected.",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：Cloud Foundry UAA\n🔓 漏洞类型：CWE-178 (CWE-178)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.cloudfoundry.org/blog/cve-2026-59335-uaa-case-insensitive-check-bypass/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Cloud Foundry",
+          "product": "UAA",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "78.16.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "78.16.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unknown"
+        },
+        {
+          "vendor": "Cloud Foundry",
+          "product": "cf-deployment",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "57.0.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "unaffected",
+              "version": "57.0.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-178: Improper Handling of Case Sensitivity"
+      ],
+      "cwe_ids": [
+        "CWE-178"
+      ]
+    },
+    {
+      "id": "CVE-2026-78675",
+      "publishedDate": "2026-08-25T01:30:32.739Z",
+      "lastModifiedDate": "2026-08-25T12:52:44.531Z",
+      "description": "GitPython before 3.1.59 fails to disable merge_includes when parsing .gitmodules, allowing attackers to disclose local file content by including arbitrary file paths via [include] directives. Attackers can craft a malicious .gitmodules file with include directives pointing to sensitive files; when repo.submodules is accessed, GitConfigParser raises MissingSectionHeaderError embedding the target file's first line verbatim in the exception message.",
+      "severity": 8.4,
+      "fix_suggestion": "📦 受影响组件：gitpython-developers GitPython\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-7833-fr7j-v32q",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/gitpython-before-local-file-content-disclosure-via-gitmodules",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "gitpython-developers",
+          "product": "GitPython",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/GitPython",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.7",
+              "versionType": "semver",
+              "lessThan": "3.1.59"
+            },
+            {
+              "version": "3.1.59",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "External Control of File Name or Path"
+      ]
+    },
+    {
+      "id": "CVE-2026-79659",
+      "publishedDate": "2026-08-25T11:33:23.996Z",
+      "lastModifiedDate": "2026-08-25T13:03:53.372Z",
+      "description": "Ech0 before 4.7.3 contains a server-side request forgery vulnerability in the fetchPeerConnectInfo function that uses unvalidated HTTP requests instead of safe request methods with URL validation. Authenticated attackers can supply arbitrary URLs to access internal services and cloud metadata endpoints by triggering connection health checks or peer connection operations.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-8mc6-xjpr-h98x",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-server-side-request-forgery-via-fetchpeerconnectinfo",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-79664",
+      "publishedDate": "2026-08-25T11:33:27.375Z",
+      "lastModifiedDate": "2026-08-25T13:01:48.306Z",
+      "description": "Ech0 before 4.7.3 fails to properly revoke access tokens created with never-expire option, allowing attackers to maintain perpetual authenticated access after token theft. Three independent revocation mechanisms fail: logout panics on nil ExpiresAt field, RevokeToken skips when remainTTL is zero, and admin delete does not blacklist the JTI, leaving stolen tokens cryptographically valid until JWT secret rotation.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-fpw6-hrg5-q5x5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-access-token-revocation-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient Session Expiration"
+      ]
+    },
+    {
+      "id": "CVE-2026-77945",
+      "publishedDate": "2026-08-22T10:45:09.511Z",
+      "lastModifiedDate": "2026-08-25T13:08:41.610Z",
+      "description": "A vulnerability was found in TRENDnet TEW-821DAP 2.2.01b05. Affected is an unknown function of the file /cgi-bin/upload.cgi of the component ssi. Performing a manipulation of the argument filename results in command injection. The attack may be initiated remotely. The exploit has been made public and could be used.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：TRENDnet TEW-821DAP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394174",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394174/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-77945",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/881248",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/dxz0069/WAVLINK-WN530H4-Command-Injection-in-set_add_routing/blob/main/TEW-821DAP_ssi_Arbitrary_File_Command_Injection.md",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TRENDnet",
+          "product": "TEW-821DAP",
+          "versions": [
+            {
+              "version": "2.2.01b05",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:o:trendnet:tew-821dap_firmware:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "ssi"
+          ]
+        }
+      ],
+      "problemType": [
+        "Command Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-75971",
+      "publishedDate": "2026-08-25T11:27:11.397Z",
+      "lastModifiedDate": "2026-08-25T13:08:29.780Z",
+      "description": "The ShopEngine Elementor WooCommerce Builder Addon – All in One WooCommerce Solution plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 4.9.4. This is due to the `rum_importer()` function being registered on the WordPress core `import_start` action hook with no plugin-owned capability check and no allowlist filtering, causing arbitrary `<wp_option>` name/value pairs parsed from an attacker-supplied WXR import file to be passed directly to `update_option()`. This makes it possible for authenticated attackers, with Shop Manager-level access and above, to write arbitrary WordPress options — most critically setting `users_can_register` to `1` and `default_role` to `administrator` — enabling open self-registration of Administrator accounts and full site takeover. This is exploitable by Shop Manager-level users because WooCommerce grants that role the `import` capability, allowing it to reach the WordPress Importer flow that fires the `import_start` hook on which `rum_importer()` is registered, contrary to the assumption that the hook is restricted to Administrators.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：roxnor ShopEngine Elementor WooCommerce Builder Addon – All in One WooCommerce Solution with eCommerce Templates & Woo Widgets\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4045d49f-fd12-4906-9e60-97fdb082fe84?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/shopengine/tags/4.9.4/core/export-import/import.php#L45",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/shopengine/tags/4.9.4/core/export-import/import.php#L19",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/shopengine/tags/4.9.4/core/builders/base.php#L57",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "roxnor",
+          "product": "ShopEngine Elementor WooCommerce Builder Addon – All in One WooCommerce Solution with eCommerce Templates & Woo Widgets",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.9.4",
               "versionType": "semver"
             }
           ],
@@ -46,148 +327,38 @@
         }
       ],
       "problemType": [
-        "CWE-98 Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
+        "CWE-269 Improper Privilege Management"
       ],
       "cwe_ids": [
-        "CWE-98"
+        "CWE-269"
       ]
     },
     {
-      "id": "CVE-2026-12561",
-      "publishedDate": "2026-08-25T04:27:01.129Z",
-      "lastModifiedDate": "2026-08-25T12:06:05.846Z",
-      "description": "The tagDiv Composer plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the vc_raw_html shortcode in all versions up to and including 5.4.5. This is due to insufficient input sanitization and output escaping in the vc_raw_html::render() method, which base64-decodes shortcode content (after a strip_tags() that is bypassed because the encoded payload contains no tags on save) and concatenates the result directly into the page HTML. Because WordPress's save-time wp_kses_post() filter only sees the inert base64 text inside a normal shortcode bracket and does not decode it, the dangerous tags survive into post_content and are emitted unescaped at render time. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page (for example, when an Editor or Administrator previews the pending post).",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：tagDiv tagDiv Composer\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/48ae6e52-4a66-4676-9528-6f997ef54c7a?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://tagdiv.com/tagdiv-composer-page-builder-basics/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "tagDiv",
-          "product": "tagDiv Composer",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "5.4.5",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-17089",
-      "publishedDate": "2026-08-25T03:27:06.684Z",
-      "lastModifiedDate": "2026-08-25T12:12:47.435Z",
-      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'header_format' parameter in all versions up to, and including, 7.4.0.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link. The shortcode entry point sanitizes 'header_format' via wp_kses(), but the unauthenticated 'search_events_grouped' AJAX action bypasses this sanitization entirely, leaving the parameter unsanitized before it is echoed into the HTML body in output_grouped().",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a56d1a9e-7564-41b0-af03-c272ffbbbb97?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/classes/em-events.php#L469",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/classes/em-events.php#L469",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/classes/em-object.php#L1176",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/em-actions.php#L891",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/em-actions.php#L920",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/classes/em-object.php#L1176",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/em-actions.php#L891",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/em-actions.php#L920",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?old_path=/events-manager/tags/7.4.0.1&new_path=/events-manager/tags/7.4.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "netweblogic",
-          "product": "Events Manager – Calendar, Bookings, Tickets, and more!",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "7.4.0.1",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-78885",
-      "publishedDate": "2026-08-25T12:15:08.513Z",
-      "lastModifiedDate": "2026-08-25T12:15:08.513Z",
-      "description": "A vulnerability was identified in liketrek TREK up to 3.0.22. The impacted element is the function findOrCreateUser of the file server/src/services/oidcService.ts of the component OIDC Service. Such manipulation leads to improper authentication. It is possible to launch the attack remotely. The attack requires a high level of complexity. The exploitability is regarded as difficult. Upgrading to version 3.1.0 is sufficient to resolve this issue. Upgrading the affected component is advised.",
-      "severity": 5.6,
+      "id": "CVE-2026-78864",
+      "publishedDate": "2026-08-25T11:30:09.324Z",
+      "lastModifiedDate": "2026-08-25T13:07:48.384Z",
+      "description": "A vulnerability was determined in liketrek TREK up to 3.0.22. The affected element is the function journeyService.updateEntry of the file server/src/nest/journey/journey.controller.t of the component Journey Entry Update. This manipulation causes sql injection. It is possible to initiate the attack remotely. Upgrading to version 3.1.0 is sufficient to fix this issue. It is recommended to upgrade the affected component.",
+      "severity": 6.3,
       "fix_suggestion": "📦 受影响组件：liketrek TREK\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/394941",
+          "url": "https://vuldb.com/vuln/394940",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/394941/cti",
+          "url": "https://vuldb.com/vuln/394940/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-78885",
+          "url": "https://vuldb.com/cve/CVE-2026-78864",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/886931",
+          "url": "https://vuldb.com/submit/886930",
           "type": "reference"
         },
         {
-          "url": "https://github.com/mauriceboe/TREK/security/advisories/GHSA-fvgw-r58q-4cw4",
+          "url": "https://github.com/mauriceboe/TREK/security/advisories/GHSA-627x-pmfq-98qv",
           "type": "reference"
         },
         {
@@ -301,13 +472,1290 @@
             "cpe:2.3:a:liketrek:trek:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "OIDC Service"
+            "Journey Entry Update"
           ]
         }
       ],
       "problemType": [
-        "Improper Authentication"
+        "SQL Injection",
+        "Injection"
       ]
+    },
+    {
+      "id": "CVE-2026-71127",
+      "publishedDate": "2026-08-18T21:03:39.215Z",
+      "lastModifiedDate": "2026-08-25T12:57:54.735Z",
+      "description": "Vulnerability in the Oracle VM VirtualBox product of Oracle Virtualization (component: Core).   The supported version that is affected is 7.2.14. Easily exploitable vulnerability allows high privileged attacker with logon to the infrastructure where Oracle VM VirtualBox executes to compromise Oracle VM VirtualBox.  While the vulnerability is in Oracle VM VirtualBox, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of Oracle VM VirtualBox. CVSS 3.1 Base Score 6.0 (Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:C/C:N/I:N/A:H).",
+      "severity": 6,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle VM VirtualBox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle VM VirtualBox",
+          "versions": [
+            {
+              "version": "7.2.14",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows high privileged attacker with logon to the infrastructure where Oracle VM VirtualBox executes to compromise Oracle VM VirtualBox.  While the vulnerability is in Oracle VM VirtualBox, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in unauthorized ability to cause a hang or frequently repeatable crash (complete DOS) of Oracle VM VirtualBox."
+      ]
+    },
+    {
+      "id": "CVE-2026-21754",
+      "publishedDate": "2026-08-25T10:51:48.749Z",
+      "lastModifiedDate": "2026-08-25T13:12:18.697Z",
+      "description": "HCL Hive is affected by multiple infrastructure and network configuration vulnerabilities, which could lead to unauthorized lateral movement, container breakout, and sensitive data exposure within internal communications.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：HCL Software Hive\n🔓 漏洞类型：CWE-1004 (CWE-1004)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0133342",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCL Software",
+          "product": "Hive",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "V1.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1004 Sensitive Cookie Without 'HttpOnly' Flag"
+      ],
+      "cwe_ids": [
+        "CWE-1004"
+      ]
+    },
+    {
+      "id": "CVE-2026-70912",
+      "publishedDate": "2026-08-18T21:02:29.058Z",
+      "lastModifiedDate": "2026-08-25T12:57:43.061Z",
+      "description": "Vulnerability in the Oracle Hyperion Financial Management product of Oracle Hyperion (component: Security).   The supported version that is affected is 11.2.25.0.000. Difficult to exploit vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  Successful attacks require human interaction from a person other than the attacker and while the vulnerability is in Oracle Hyperion Financial Management, attacks may significantly impact additional products (scope change). Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data. CVSS 3.1 Base Score 5.3 (Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:C/C:N/I:H/A:N).",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Financial Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Financial Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  Successful attacks require human interaction from a person other than the attacker and while the vulnerability is in Oracle Hyperion Financial Management, attacks may significantly impact additional products (scope change). Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-79406",
+      "publishedDate": "2026-08-25T13:00:09.821Z",
+      "lastModifiedDate": "2026-08-25T13:00:09.821Z",
+      "description": "A security vulnerability has been detected in macrozheng mall up to 1.0.3. Affected is the function OmsCartItemServiceImpl.updateQuantity of the file /cart/update/quantity. The manipulation of the argument quantity leads to business logic errors. The attack may be initiated remotely. The vendor deleted the GitHub issue for this vulnerability without any explanation.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：macrozheng mall\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394944",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394944/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-79406",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/886961",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/macrozheng/mall/issues/984",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/macrozheng/mall/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "macrozheng",
+          "product": "mall",
+          "versions": [
+            {
+              "version": "1.0.0",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.1",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.2",
+              "status": "affected"
+            },
+            {
+              "version": "1.0.3",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:macrozheng:mall:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Business Logic Errors"
+      ]
+    },
+    {
+      "id": "CVE-2026-79669",
+      "publishedDate": "2026-08-25T11:33:30.826Z",
+      "lastModifiedDate": "2026-08-25T12:57:52.706Z",
+      "description": "Ech0 before 4.4.3 lacks authorization checks on system log endpoints allowing any authenticated non-admin user to read and stream all server logs. Attackers can access historical logs and real-time log streams via GET /api/system/logs, GET /api/system/logs/stream, and WS /ws/system/logs to gather reconnaissance data including internal file paths, error stack traces, and application state.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-w8jj-cwmc-wgq2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-missing-authorization-on-system-logs",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-78581",
+      "publishedDate": "2026-08-25T13:08:11.520Z",
+      "lastModifiedDate": "2026-08-25T13:08:11.520Z",
+      "description": "Authorization Bypass Through User-Controlled Key (CWE-639) in Kibana can lead to unauthorized data modification via Accessing Functionality Not Properly Constrained by ACLs (CAPEC-1). Under certain conditions, an authenticated user could reference another user's AI Assistant conversation identifier to access or modify a conversation they do not own. Successful exploitation requires knowledge of a hard-to-guess identifier.",
+      "severity": 4.2,
+      "fix_suggestion": "📦 受影响组件：Elastic Kibana\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://discuss.elastic.co/t/kibana-8-16-3-8-17-2-security-update-esa-2026-51/387446",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Kibana",
+          "vendor": "Elastic",
+          "versions": [
+            {
+              "lessThanOrEqual": "8.16.2",
+              "status": "affected",
+              "version": "8.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-21753",
+      "publishedDate": "2026-08-25T10:50:27.071Z",
+      "lastModifiedDate": "2026-08-25T13:12:40.952Z",
+      "description": "HCL Hive is affected by weak software supply chain governance, which could lead to the inclusion of vulnerable, unmaintained, or malicious third-party dependencies within the application environment.",
+      "severity": 4.2,
+      "fix_suggestion": "📦 受影响组件：HCL Software Hive\n🔓 漏洞类型：CWE-1104 (CWE-1104)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hcl-software.com/csm?id=kb_article&sysparm_article=KB0133342",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HCL Software",
+          "product": "Hive",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "V1.0"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1104 Use of Unmaintained Third Party Components"
+      ],
+      "cwe_ids": [
+        "CWE-1104"
+      ]
+    },
+    {
+      "id": "CVE-2026-78886",
+      "publishedDate": "2026-08-25T12:30:09.424Z",
+      "lastModifiedDate": "2026-08-25T13:13:00.971Z",
+      "description": "A security flaw has been discovered in liketrek TREK up to 3.0.22. This affects an unknown function of the file server/src/nest/journey/journey-public.controller.ts of the component Public Journey Photo Proxy. Performing a manipulation results in path traversal. The attack can be initiated remotely. The attack's complexity is rated as high. The exploitability is reported as difficult. Upgrading to version 3.1.0 mitigates this issue. It is advisable to upgrade the affected component.",
+      "severity": 3.7,
+      "fix_suggestion": "📦 受影响组件：liketrek TREK\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394942",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394942/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-78886",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/886932",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mauriceboe/TREK/security/advisories/GHSA-h66w-m5g2-cqpc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/liketrek/TREK/releases/tag/v3.1.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "liketrek",
+          "product": "TREK",
+          "versions": [
+            {
+              "version": "3.0.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.1",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.2",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.3",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.4",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.5",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.6",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.7",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.8",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.9",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.10",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.11",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.12",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.13",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.14",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.15",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.16",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.17",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.18",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.19",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.20",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.21",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.22",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:liketrek:trek:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Public Journey Photo Proxy"
+          ]
+        }
+      ],
+      "problemType": [
+        "Path Traversal"
+      ]
+    },
+    {
+      "id": "CVE-2026-75803",
+      "publishedDate": "2026-08-25T13:00:25.067Z",
+      "lastModifiedDate": "2026-08-25T13:00:25.067Z",
+      "description": "Issue summary: ChaCha20-Poly1305 and AES-OCB decryption with an empty\nciphertext can report success without verifying the supplied authentication\ntag when the operation is finalized by calling the EVP_Cipher() function.\n\nImpact summary: Applications calling EVP_Cipher() on an empty ciphertext and\nexpecting the call to check the AEAD tag may accept forged messages.\n\nCWE: CWE-354 (Improper Validation of Integrity Check Value)\n\nDescription: The EVP_Cipher() API call for AEAD ciphers behaves like a one\nshot encryption and decryption call. It also verifies the AEAD tag after the\ndecryption operation. However for AES-OCB and ChaCha20-Poly1305 ciphers\nit skipped the AEAD tag verification when an empty ciphertext was passed to\nthe function. The callers of this function might believe that a successful\nreturn indicates a valid AEAD tag for these ciphers, even when that has not\ntruly been validated in this case.\n\nFIPS impact: no\nThe FIPS modules in 4.0, 3.6, 3.5, 3.4, and 3.0 are not affected by this CVE\nas the affected algorithms are not FIPS approved and thus not implemented\nin the FIPS module.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/6c7aa6f8f6449b7fe0137ee8be65fcd239bd7d6a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/3621257986e27e540bf96a11570929a6e5a9e05b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/bdeb0cd994d915342787f117ee75044f0dc36f34",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/bf95f5f772e9362f87b25cfa2f8cb15d984865b9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/119ab9555dc62275bbd71f6f49529b1a44feba42",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.0.22",
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Validation of Integrity Check Value"
+      ]
+    },
+    {
+      "id": "CVE-2026-63076",
+      "publishedDate": "2026-08-25T13:00:11.218Z",
+      "lastModifiedDate": "2026-08-25T13:00:11.218Z",
+      "description": "Issue summary: OpenSSL CMP password based protection verification only\nchecks whether the protectionAlg parameter was not NULL and not its\nASN.1 type, before treating it as a PBMParameter. A crafted message can\ncontain a parameter of a different type, which is then dereferenced as an\ninvalid pointer.\n\nImpact summary: A remote, unauthenticated attacker can crash an application\nacting as a CMP server that accepts PBM-protected messages, or a CMP client\ntalking to a malicious or intercepted CMP server, resulting in a Denial of\nService.\n\nCWE: CWE-476: NULL Pointer Dereference\n\nDescription: When verifying the password-based MAC protection of a CMP\nmessage, OpenSSL library reads the protectionAlg algorithm parameter with\nX509_ALGOR_get0(), which returns both the parameter type and its value\npointer. The value is then cast to an ASN1_STRING and treated as the\nexpected PBMParameter after only checking that pointer is not NULL. The\nparameter type returned by X509_ALGOR_get0() was never consulted.\n\nThis happens during protection verification, before any MAC is computed, so\nno knowledge of the PBM shared secret is required; the only precondition is\nthat PBM verification is reachable. On the server side this is reached from\nOSSL_CMP_SRV_process_request() for any application that stands up a CMP\nserver accepting PBM-protected messages, and on the client side from CMP\nresponse validation against a malicious or on-path (MITM) server. The\nreliable consequence is a denial of service; there is no memory disclosure,\nno controlled memory write, and no path to code execution. CMP is a\nspecialized feature that an application must explicitly enable.\n\nFIPS impact: no\nAs the CMP code lives outside the FIPS module boundary, no FIPS modules\nare affected by this CVE.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a17cc8d612ecff6d94a9b7ca8b5283ddf5ff570e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a7af46a92d0ce19a90e669ef56d2576a07924226",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/cdacfff557389abfa9e4615abded2ec984517d6c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a1f348ccb328c3afbd4ba6883f9b7c813c043259",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/37882aa2e0256e1072442a8f62f7db45b995c45b",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.0.22",
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-476 NULL Pointer Dereference"
+      ],
+      "cwe_ids": [
+        "CWE-476"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-63075",
+      "publishedDate": "2026-08-25T13:00:04.752Z",
+      "lastModifiedDate": "2026-08-25T13:00:04.752Z",
+      "description": "Issue summary: When OpenSSL processes QUIC traffic from a peer that repeatedly\nsends ack-eliciting packets while not acknowledging ACK-only responses, the\nQUIC stack can retain ACK-only packet metadata for the lifetime of the\nconnection.\n\nImpact summary: A remote peer that can complete a QUIC handshake can\ncause connection-scoped memory growth which may lead to Denial of Service\nthrough memory exhaustion, especially with sustained traffic or many concurrent\nQUIC connections.\n\nCWE: CWE-770: Allocation of Resources Without Limits or Throttling\n\nDescription: When the OpenSSL QUIC stack sends an ACK-only packet,\nthere is no requirement by the QUIC protocol that the peer will acknowledge\nthat ACK-only packet (i.e. it is itself not ack-eliciting). However, the OpenSSL\nimplementation stores the metadata about the ACK frames regardless.\nIn and of itself that's ok, but if a malicious peer establishes a connection, and\nthen drives the connection such that ACK-only packets are forced from the \nOpenSSL implementation peer (i.e., by sending numerous PING frames),\nand then withholding any subsequent acks for ack-eliciting data, like\nlegitimate data, said malicious peer can force inappropriate memory growth\non the OpenSSL peer, potentially leading to a Denial of Service.\n\nThe fix is to ensure that we account for the transmission of the ACK-only\npacket in the packet histories high and low watermark without actually storing\nthe ACK-only packet metadata itself.\n\nFIPS impact: no\nThe OpenSSL FIPS module is not affected as the QUIC code is\noutside the FIPS module boundary.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/7308946576b12e64b8be53bcf0a120354b2b42bc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/bf84721c2548351176e367e6de505792f0118dc6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/7c98d79738549df92868e7dd9be4bbf061eed709",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/c902e5f16d6a9e130e96d3ca6d8f64d71652e393",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-63074",
+      "publishedDate": "2026-08-25T12:59:58.278Z",
+      "lastModifiedDate": "2026-08-25T12:59:58.278Z",
+      "description": "Issue summary: The OpenSSL Certificate Management Protocol (CMP) caches\nadditional certificates (extraCerts) sent in a CMP message, but never expunges\nthem (for instance if they are invalid).  If a server reuses an OSSL_CMP_CTX\nfrequently, this cache of extraCerts may grow unboundedly, and a malicious\nclient may flood a CMP server with requests driving this growth.\n\nImpact summary: Users utilizing a CMP server that reuses a single OSSL_CMP_CTX\nfor the lifetime of a server process may observe unbounded memory growth in the\nevent a malicious client repeatedly sends requests containing unique extra\ncertificates, which may lead to OOM conditions.\n\nCWE: CWE-770: Allocation of Resources Without Limits or Throttling\n\nDescription: If a remote user sends CMP messages to a server with a list of\nextraCerts and the message is rejected, the extraCerts from the message remains\nin the server contexts untrusted certificate stack.  This exposes servers with\nlong lived ctx objects to Denial of Service attacks in which an attacker sends\nmessages intending to be rejected with a large list of additional certificates\nrepeatedly, forcing the server to store them indefinitely.\n   \nThe issue was fixed by removing the added extra certs if the message is\nrejected, using the same method as when the context is configured to not do\ncaching at all.\n\nFIPS impact: no\nAs the CMP code lives outside the FIPS module boundary, no FIPS\nmodules are affected by this CVE.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/74ae7f6df47a5767c1010b88c47507dfc5b32c46",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/01e567978a55fba18142a230380c31296049fae7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/75360af9650d4e0c82ba0050c5c9912cd79e54af",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/f636f9ca0fa1bae5b42f9e787f025c96fb09c43a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/21a5d9658b0c66daace60e10ea18ff32a448de9f",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.0.22",
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-63073",
+      "publishedDate": "2026-08-25T12:59:43.356Z",
+      "lastModifiedDate": "2026-08-25T12:59:43.356Z",
+      "description": "Issue summary: OpenSSL CMP response validation passed an unexpected response\nsender distinguished name directly as the format string to `ERR_raise_data()`.\n\nImpact summary: A malicious or intercepted CMP endpoint can crash a CMP client\nthat enforces an expected sender or uses a pinned server certificate whose\nsubject becomes the default expected sender.\n\nCWE: CWE-134 (Use of Externally-Controlled Format String)\n\nDescription: When validating a received CMP message, ossl_cmp_msg_check_update()\nconverts the peer-supplied sender distinguished name with X509_NAME_oneline()\nand passes it directly as the format argument to ERR_raise_data(). Percent\ncharacters survive the conversion, so a sender DN such as \"CN=%s%n\" reaches\nBIO_vsnprintf() as an attacker-controlled format string with no matching variadic\narguments. This path is only reached when the caller configures an expected\nsender or pins a server certificate, which is the normal configuration for a\nCMP client validating server responses.\n\nSince the attacker controls the format string but none of the variadic\narguments, such specifiers as %s and %n dereference or write through unrelated\nstack contents and crash the client. The reliable consequence is a denial of\nservice, when the response comes from a malicious or intercepted CMP endpoint.\nThere is no controlled memory write, arbitrary-address read, or reliable path\nto remote code execution.\n\nFIPS impact: no\n\nNo FIPS modules are affected by this issue, as the CMP protocol\nimplementation is outside the OpenSSL FIPS module boundary.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/7eb2e3ec9d1d4f35c8022fccd4b03398b3f33e21",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/6a0acc072b4d37a7cac1252a29c1ce1f00c5ec29",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/0cc20b322639919aa423e90799d9a57c3b4b76ca",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a7e5a6eea8fd3ccca6b6fbba031a5fbf8a3d93b4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Use of Externally-Controlled Format String"
+      ]
+    },
+    {
+      "id": "CVE-2026-63072",
+      "publishedDate": "2026-08-25T12:59:34.428Z",
+      "lastModifiedDate": "2026-08-25T12:59:34.428Z",
+      "description": "Issue summary: OpenSSL CMS decryption sizes the key-unwrap output buffer based\non querying the unwrapped key size, but the AES-WRAP-PAD unwrap primitive\ncan write and cleanse more bytes than that query reports, causing an 8-byte\nout-of-bounds heap write.\n\nImpact summary: An attacker who supplies a crafted CMS message can trigger a\ndeterministic 8-byte out-of-bounds heap write when the victim decrypts it\nwith CMS_decrypt(), corrupting the heap and typically resulting in a Denial\nof Service.\n\nCWE: CWE-787: Out-of-bounds Write\n\nDescription: The key-wrap OID is potentially attacker-controlled on the wire.\nCMS unwrapping allows both id-aesNNN-wrap-pad and id-aesNNN-wrap ciphers.\nAn attacker can take a legitimate message and change a single OID byte to\nselect the padded variant while leaving the message otherwise valid. Since\nthe unwrap key is derived from the recipient's private operation (ECDH key\nagreement or ML-KEM decapsulation), the RFC 5649 integrity check cannot\npass, and the decryption fails with integrity failure.\n\nThe write is a fixed-size (8-byte), fixed-value (zero) heap overflow\nimmediately past the allocation, requires no special configuration, and is\nreachable from the public CMS_decrypt() function. The consequence is\na heap corruption leading to a Denial of Service. The fix in the CMS code\nsizes the unwrap output buffer for the worst case so a failed unwrap cannot\nwrite past the allocation.\n\nFIPS impact: no\n\nAs the CMS code lives outside the FIPS module boundary, no FIPS\nmodules are affected by this CVE.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/9530a5fd1aacaeccdced4478ea2340a480613335",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/2a3dac874c8057c1f0186849bf1ede1ae7b6b756",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/87784ad619af36b8807c2044b3940006fccc1e42",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/9ec2f6d2ae2bcad907cf7ee38584855bafe4979a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a0c8ec557d9cac078f032d76cdf684fe743eb382",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.0.22",
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "1.1.1zi",
+              "status": "affected",
+              "version": "1.1.1",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-54874",
+      "publishedDate": "2026-08-25T12:59:17.912Z",
+      "lastModifiedDate": "2026-08-25T12:59:17.912Z",
+      "description": "Issue summary: Receiving a DTLS record for a future epoch while a handshake\nis in progress causes OpenSSL to buffer far more memory than the record\nitself requires.\n\nImpact summary: A peer can use a small amount of network traffic to make an\nOpenSSL DTLS endpoint retain a disproportionately large amount of memory,\nwhich may lead to a Denial of Service.\n\nCWE: CWE-405: Asymmetric Resource Consumption (Amplification)\n\nDescription: While a DTLS handshake is in progress, a peer may legitimately\nhave already moved on to the next epoch (for example, having sent its\nChangeCipherSpec and Finished messages) before the local endpoint has\nprocessed the same transition, typically because of reordering on the\nunderlying UDP transport. OpenSSL buffers such early records so that they\ncan be processed once the local endpoint catches up.\n\nBuffering a record currently retains the entire read buffer it arrived in,\nwhich is sized to hold the largest possible DTLS record (around 16\nkilobytes), rather than just the bytes that make up the record itself. Up\nto 100 such records may be buffered per connection. As a result, a peer\nthat sends a stream of small forged records claiming to belong to the next\nepoch can cause an OpenSSL DTLS endpoint to retain around 1.7 megabytes of\nmemory, despite sending only a small fraction of that amount of data over\nthe network.\n\nAn attacker therefore gains a memory amplification factor of around 1200,\nand can multiply the effect across as many associations as it is able to\nopen, making this a remote memory exhaustion Denial of Service risk for\nDTLS servers. Since the memory retained per connection remains bounded,\nand any limit an application already places on the number of concurrent\nassociations also bounds the total exposure, this issue has been assessed\nas Low severity.\n\nFIPS impact: no\n\nNo FIPS modules are affected by this issue as the affected code is outside\nthe OpenSSL FIPS module boundary.\n\nOpenSSL 4.0, 3.6, 3.5, 3.4, 3.0, 1.1.1 and 1.0.2 are vulnerable to this\nissue.\n\nOpenSSL 4.0 users should upgrade to OpenSSL 4.0.2.\nOpenSSL 3.6 users should upgrade to OpenSSL 3.6.4.\nOpenSSL 3.5 users should upgrade to OpenSSL 3.5.8.\nOpenSSL 3.4 users should upgrade to OpenSSL 3.4.7.\nOpenSSL 3.0 users should upgrade to OpenSSL 3.0.22.\n\nPremium support customers only:\nOpenSSL 1.1.1 users should upgrade to OpenSSL 1.1.1zi\nOpenSSL 1.0.2 users should upgrade to OpenSSL 1.0.2zr\n\nThis issue was reported on 18 May 2026 by Amazon Web Services.\nThe fix has been developed by Matt Caswell.\n\n-- cut (non-publishing metadata for internal use) --\nReported by: Amazon Web Services\nFixed by: Matt Caswell",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：CWE-405 (CWE-405)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/cc0c6710917cd5eec001b297355d2ba723505107",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/f52ffc11b90737ac89083909618dc2e1f42c561c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/4808b5d64176451f3d93d87d0ac9c81a9b13fb23",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/7110cb2f75806d0bf809eb2f90790d477900be40",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a0c8ec557d9cac078f032d76cdf684fe743eb382",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.0.22",
+              "status": "affected",
+              "version": "3.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "1.1.1zi",
+              "status": "affected",
+              "version": "1.1.1",
+              "versionType": "custom"
+            },
+            {
+              "lessThan": "1.0.2zr",
+              "status": "affected",
+              "version": "1.0.2",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-405 Asymmetric Resource Consumption (Amplification)"
+      ],
+      "cwe_ids": [
+        "CWE-405"
+      ]
+    },
+    {
+      "id": "CVE-2026-18798",
+      "publishedDate": "2026-08-25T12:59:04.715Z",
+      "lastModifiedDate": "2026-08-25T12:59:04.715Z",
+      "description": "Issue summary: QUIC server may double free QRX (QUIC record layer RX) object\nwhen channel creation fails for initial packet.\n\nImpact summary: Double free leads to heap corruption, which typically results in \ntermination of QUIC server process, leading to Denial of Service. There is so\nfar no evidence that this double free is exploitable for remote code execution,\nthus it is considered highly improbable.\n\nCWE: CWE-415: Double Free\n\nDescription: In order to validate initial packet, OpenSSL QUIC stack default\npacket handler (port_default_packet_handler()) creates a so-called QRX object.\nIf the initial packet validates successfully with QRX object, the default packet\nhandler proceeds to channel (connection object) creation. The QRX object used\nfor packet validation is passed to port_bind_channel(), so it becomes part of\nthe newly created connection. If port_bind_channel() fails, then it also frees\nthe QRX object. Once port_bind_channel() returns, the port_default_packet_handler()\ndetects the failure and proceeds to the error branch, where the same QRX object is\nfreed for the second time.\n\nThe failure in port_bind_channel() function can be induced with a relatively\nlow effort by a malformed (non RFC 9000 compliant) INITIAL packet. If the packet\ncarries DCID (destination connection ID) which is shorter than 8 bytes, then\nport_bind_channel() jumps to the error path after ossl_quic_lcidm_enrol_odcid()\ndetects that the DCID has invalid length.\n\nFIPS impact: no\nThe FIPS module is not affected, as the QUIC implementation is outside of\nthe OpenSSL FIPS module boundary.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：CWE-415 (CWE-415)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/a14a1deac403522fbeafabcb198503cf6caa7dc4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/70cebd74d3592f5272945501b58a60374c4e13af",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/967582d5037f01a26b6d19beae19af62a1b15c3c",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-415 Double Free"
+      ],
+      "cwe_ids": [
+        "CWE-415"
+      ]
+    },
+    {
+      "id": "CVE-2026-14457",
+      "publishedDate": "2026-08-25T12:58:29.349Z",
+      "lastModifiedDate": "2026-08-25T12:58:29.349Z",
+      "description": "Issue summary: In a server or client configuration with RFC7250 Raw Public Keys (RPKs)\nenabled, and only the private key (with no associated certificate) configured locally,\na NULL pointer dereference may occur when the remote peer solicits raw public keys and\nalso sends the typically omitted \"signature_algorithms_cert\" TLS extension.\n\nImpact summary: The impact is limited to a possible Denial of Service as a result of\nan application abort, no data disclosure or remote command execution are possible.\n\nCWE: CWE-476: NULL Pointer Dereference\n\nDescription: While a passing comment in sample code in the documentation suggests\nthat key-only RPK configurations are supported, the best-practice RPK configuration\nis to always configure a corresponding certificate (possibly self-signed or\nsigned by any convenient CA).\n\nWhen the private key is configured along with a matching certificate, the\n\"signature_algorithms_cert\" extension is handled reliably even without the\nfix, and peer clients or servers that don't support raw public keys may be\nable to complete a TLS connection by pinning or verifying the corresponding\ncertificate or its public key.\n\nDeployments that prefer to configure just a private key with no certificate\nneed to upgrade to an updated release as noted below.\n\nFIPS impact: no\n\nNo FIPS modules are affected by this issue, as the SSL protocol implementation\nis outside the OpenSSL FIPS module boundary.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：OpenSSL OpenSSL\n🔓 漏洞类型：NULL Pointer Dereference (CWE-476)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://openssl-library.org/news/secadv/20260825.txt",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/dad836b071da6579510c968615848ba03cac593b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/581aaa0f0a35d214740f0fe1f5283ec41f1212e1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/d0af20478688a6aa2f59d61caa3f82136b181d7f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/openssl/openssl/commit/1e8c398db67404babd3e5af999bb6bd86f720c76",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "OpenSSL",
+          "vendor": "OpenSSL",
+          "versions": [
+            {
+              "lessThan": "4.0.2",
+              "status": "affected",
+              "version": "4.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.6.4",
+              "status": "affected",
+              "version": "3.6.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.5.8",
+              "status": "affected",
+              "version": "3.5.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "3.4.7",
+              "status": "affected",
+              "version": "3.4.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-476 NULL Pointer Dereference"
+      ],
+      "cwe_ids": [
+        "CWE-476"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-77997",
+      "publishedDate": "2026-08-25T11:53:21.796Z",
+      "lastModifiedDate": "2026-08-25T13:04:10.377Z",
+      "description": "Joomla Extension - yootheme.com - Authenticated, privileged information disclosure in YOOtheme Pro 1.0.0-5.0.41 - A missing access check allowed users with com_template editing permissions to access information about arbitrary modules without the respective com_modules permissions.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：yootheme.com YOOtheme Pro extension for Joomla\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.yootheme.com/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "YOOtheme Pro extension for Joomla",
+          "vendor": "yootheme.com",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.0.0-5.0.41"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284 Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-77996",
+      "publishedDate": "2026-08-25T11:52:16.807Z",
+      "lastModifiedDate": "2026-08-25T13:03:02.422Z",
+      "description": "Joomla Extension - yootheme.com - Authenticated, privileged stored XSS in YOOtheme Pro 1.0.0-5.0.41 - Lack of escaping in the location custom field lead to a XSS vector.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：yootheme.com YOOtheme Pro extension for Joomla\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.yootheme.com/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "YOOtheme Pro extension for Joomla",
+          "vendor": "yootheme.com",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.0.0-5.0.41"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-57910",
+      "publishedDate": "2026-08-25T11:47:49.189Z",
+      "lastModifiedDate": "2026-08-25T12:53:13.695Z",
+      "description": "Improper authentication in the WatchGuard Agent allows an unauthenticated attacker with network access to cause the agent to execute arbitrary code with elevated privileges.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：WatchGuard WatchGuard Agent\n🔓 漏洞类型：Missing Authentication for Critical Function, CWE-347, CWE-494 (CWE-306, CWE-347, CWE-494)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://psirt.watchguard.com/CVE-2026-57910",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WatchGuard",
+          "product": "WatchGuard Agent",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "1.25.13.0000"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "platforms": [
+            "Windows"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-306",
+        "CWE-347",
+        "CWE-494"
+      ],
+      "cwe_ids": [
+        "CWE-306",
+        "CWE-347",
+        "CWE-494"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-57909",
+      "publishedDate": "2026-08-25T11:47:03.000Z",
+      "lastModifiedDate": "2026-08-25T12:54:36.813Z",
+      "description": "A path traversal vulnerability in WatchGuard Agent allows a remote, unauthenticated attacker on an adjacent network to execute arbitrary code on an affected system.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：WatchGuard WatchGuard Agent\n🔓 漏洞类型：Missing Authentication for Critical Function, Code Injection (CWE-306, CWE-94)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://psirt.watchguard.com/CVE-2026-57909",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WatchGuard",
+          "product": "WatchGuard Agent",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "1.25.13.0000"
+            }
+          ],
+          "defaultStatus": "affected",
+          "platforms": [
+            "Windows"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-306",
+        "CWE-94"
+      ],
+      "cwe_ids": [
+        "CWE-306",
+        "CWE-94"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-12600",
+      "publishedDate": "2026-08-25T10:57:57.486Z",
+      "lastModifiedDate": "2026-08-25T13:10:20.470Z",
+      "description": "Denial-of-service (DoS) vulnerability in the internal JPEG2000 (JPX) decoding implementation of the Poppler fork developed by Innodata Labs. When an application processes an untrusted PDF file containing specially crafted JPXDecode images, a remote attacker can cause uncontrolled memory consumption. The flaw occurs in the JPXStream::readCodestream() function, where values controlled from the SIZ segment (such as img.nComps) are used for the memory allocation of tiles and components without adequate validation. This allows an attacker to force excessive memory allocation and cause a resource exhaustion, ultimately causing the pdftoppm process to terminate due to out-of-memory (OOM) conditions.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Poppler Innodata Labs\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.incibe.es/en/incibe-cert/notices/aviso/uncontrolled-memory-usage-innodata-labs-poppler-jpx-decoderuncontrolled",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Poppler",
+          "product": "Innodata Labs",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "25/08/2026",
+              "versionType": "date"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-400 Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
