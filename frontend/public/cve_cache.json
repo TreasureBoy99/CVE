@@ -2,346 +2,1570 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-08-25T03:33:43.420748",
+    "total_count": 74,
+    "last_updated": "2026-08-25T04:19:57.338029",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 5,
+      "critical": 19,
+      "high": 47,
+      "medium": 1,
       "low": 0,
-      "none": 0
+      "none": 7
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-19892",
-      "publishedDate": "2026-08-25T03:27:05.993Z",
-      "lastModifiedDate": "2026-08-25T03:27:05.993Z",
-      "description": "The InfusedWoo Pro plugin for WordPress is vulnerable to Privilege Escalation via Account Takeover in all versions up to, and including, 5.1.17. This is due to a missing capability check in the `ajax_iwar_preview_email()` function, which uses `is_admin()` as its only authorization check and allows low-privilege users to render email preview merge fields for an arbitrary email address. This makes it possible for authenticated attackers, with subscriber-level access and above, to generate and retrieve a valid password reset link for any WordPress user, including administrators, enabling account takeover.",
+      "id": "CVE-2026-69502",
+      "publishedDate": "2026-08-21T16:03:56.685Z",
+      "lastModifiedDate": "2026-08-25T03:56:40.351Z",
+      "description": "Server-side request forgery (ssrf) in Azure SQL Database allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure SQL Database\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69502",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure SQL Database",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-918"
+      ]
+    },
+    {
+      "id": "CVE-2026-66897",
+      "publishedDate": "2026-08-24T09:08:04.188Z",
+      "lastModifiedDate": "2026-08-25T03:55:49.930Z",
+      "description": "A path traversal vulnerability in LXD's instance template processing allows an attacker with container edit permissions, or any user launching a crafted image, to overwrite arbitrary files on the host system as root. When processing target template paths specified in metadata.yaml, LXD validates the path against a confined os.Root directory handle but subsequently opens and creates the file using os.Create with an unconfined string path. This discrepancy between path resolution checks and file creation allows an attacker to escape directory confinement, overwrite root-owned host files, and achieve host root code execution.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：Canonical LXD\n🔓 漏洞类型：Path Traversal, CWE-23 (CWE-22, CWE-23)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/canonical/lxd/security/advisories/GHSA-q39m-8fx9-42fv",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Canonical",
+          "product": "LXD",
+          "packageName": "LXD",
+          "platforms": [
+            "Linux"
+          ],
+          "repo": "https://github.com/canonical/lxd",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "4.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.0.13"
+            },
+            {
+              "version": "5.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.0.9"
+            },
+            {
+              "version": "5.21.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.21.7"
+            },
+            {
+              "version": "6.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "6.10"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-23: Relative Path Traversal"
+      ],
+      "cwe_ids": [
+        "CWE-22",
+        "CWE-23"
+      ]
+    },
+    {
+      "id": "CVE-2026-76904",
+      "publishedDate": "2026-08-21T20:13:20.536Z",
+      "lastModifiedDate": "2026-08-25T03:56:50.811Z",
+      "description": "GeoTools is an open source Java library that provides tools for geospatial data. Starting in version 30.5 and prior to versions 33.6, 34.5, and 33.6, an SQL Injection Vulnerability is present when executing OGC Filters with PostGIS DataStore implementation: `jsonArrayContains` function; Requires PostGIS 12 or greater with a String or JSON field. For PostGIS 12 and greater `jsonArrayContains(<column>, <pointer>, <value>)` function writes `<value>` into generated SQL without escaping. Patches are available in versions 33.6, 34.5, and 33.6. No known workaround is available. To limit scope of SQL Injection the PostGIS connection pool should be configured with limited rights.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：geotools geotools\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/geotools/geotools/security/advisories/GHSA-mqjf-5f49-2fjh",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geotools/geotools/pull/5829",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geotools/geotools/commit/d821c4d321dd91c22e31fcd5b1ce676645da5176",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geotools/geotools/releases/tag/33.6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geotools/geotools/releases/tag/34.5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/geotools/geotools/releases/tag/35.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://osgeo-org.atlassian.net/browse/GEOT-7589",
+          "type": "reference"
+        },
+        {
+          "url": "https://osgeo-org.atlassian.net/browse/GEOT-7958",
+          "type": "reference"
+        },
+        {
+          "url": "https://osgeo-org.atlassian.net/browse/GEOT-7959",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "geotools",
+          "product": "geotools",
+          "versions": [
+            {
+              "version": "= 35.0",
+              "status": "affected"
+            },
+            {
+              "version": ">= 34.0, < 34.5",
+              "status": "affected"
+            },
+            {
+              "version": ">= 30.5, < 33.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-89"
+      ],
+      "ghsa_id": "GHSA-mqjf-5f49-2fjh"
+    },
+    {
+      "id": "CVE-2026-17152",
+      "publishedDate": "2026-08-20T21:54:50.204Z",
+      "lastModifiedDate": "2026-08-25T03:56:16.751Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a buffer overflow.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-17145",
+      "publishedDate": "2026-08-20T21:54:27.497Z",
+      "lastModifiedDate": "2026-08-25T03:56:15.651Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to improper privilege management.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
+      ]
+    },
+    {
+      "id": "CVE-2026-17142",
+      "publishedDate": "2026-08-20T21:54:07.638Z",
+      "lastModifiedDate": "2026-08-25T03:56:14.514Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary commands due to improper authentication.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-287 Improper Authentication"
+      ],
+      "cwe_ids": [
+        "CWE-287"
+      ]
+    },
+    {
+      "id": "CVE-2026-17141",
+      "publishedDate": "2026-08-20T21:53:42.750Z",
+      "lastModifiedDate": "2026-08-25T03:56:13.432Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a buffer overflow.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-17136",
+      "publishedDate": "2026-08-20T21:53:05.259Z",
+      "lastModifiedDate": "2026-08-25T03:56:11.106Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a format string vulnerability.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-134 (CWE-134)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-134 Use of Externally-Controlled Format String"
+      ],
+      "cwe_ids": [
+        "CWE-134"
+      ]
+    },
+    {
+      "id": "CVE-2026-17122",
+      "publishedDate": "2026-08-20T21:52:30.209Z",
+      "lastModifiedDate": "2026-08-25T03:56:06.691Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a stack-based buffer overflow.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-17118",
+      "publishedDate": "2026-08-20T21:51:39.174Z",
+      "lastModifiedDate": "2026-08-25T03:56:05.575Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a use-after-free vulnerability.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：Use After Free (CWE-416)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-416 Use After Free"
+      ],
+      "cwe_ids": [
+        "CWE-416"
+      ]
+    },
+    {
+      "id": "CVE-2026-17040",
+      "publishedDate": "2026-08-20T21:50:29.115Z",
+      "lastModifiedDate": "2026-08-25T03:56:04.352Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a buffer overflow.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-120 (CWE-120)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-120 Buffer Copy without Checking Size of Input ('Classic Buffer Overflow')"
+      ],
+      "cwe_ids": [
+        "CWE-120"
+      ]
+    },
+    {
+      "id": "CVE-2026-70873",
+      "publishedDate": "2026-08-18T21:02:16.299Z",
+      "lastModifiedDate": "2026-08-25T03:56:31.135Z",
+      "description": "Vulnerability in the Oracle Hyperion Data Relationship Management product of Oracle Hyperion (component: Access and security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows unauthenticated attacker with network access via TCP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management. CVSS 3.1 Base Score 9.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Data Relationship Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Data Relationship Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with network access via TCP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management."
+      ]
+    },
+    {
+      "id": "CVE-2026-70871",
+      "publishedDate": "2026-08-18T21:02:15.656Z",
+      "lastModifiedDate": "2026-08-25T03:56:33.455Z",
+      "description": "Vulnerability in the Oracle Hyperion Data Relationship Management product of Oracle Hyperion (component: Access and security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows unauthenticated attacker with network access via TCP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management. CVSS 3.1 Base Score 9.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Data Relationship Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Data Relationship Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with network access via TCP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management."
+      ]
+    },
+    {
+      "id": "CVE-2026-70689",
+      "publishedDate": "2026-08-18T21:01:01.643Z",
+      "lastModifiedDate": "2026-08-25T03:57:09.048Z",
+      "description": "Vulnerability in Oracle Essbase (component: Infrastructure).   The supported version that is affected is 21.8.1.0.0. Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Essbase.  Successful attacks of this vulnerability can result in takeover of Oracle Essbase. CVSS 3.1 Base Score 9.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Essbase\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Essbase",
+          "versions": [
+            {
+              "version": "21.8.1.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Essbase.  Successful attacks of this vulnerability can result in takeover of Oracle Essbase."
+      ]
+    },
+    {
+      "id": "CVE-2026-62539",
+      "publishedDate": "2026-08-18T21:00:26.292Z",
+      "lastModifiedDate": "2026-08-25T03:57:12.356Z",
+      "description": "Vulnerability in the Oracle Hyperion Infrastructure Technology product of Oracle Hyperion (component: Installation and Configuration).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Hyperion Infrastructure Technology.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Infrastructure Technology. CVSS 3.1 Base Score 9.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Infrastructure Technology\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Infrastructure Technology",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Hyperion Infrastructure Technology.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Infrastructure Technology."
+      ]
+    },
+    {
+      "id": "CVE-2026-70846",
+      "publishedDate": "2026-08-18T21:02:08.308Z",
+      "lastModifiedDate": "2026-08-25T03:56:34.560Z",
+      "description": "Vulnerability in the Oracle Demand Planning product of Oracle Supply Chain (component: Internal Operations).  Supported versions that are affected are 12.1 and  12.2. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Demand Planning.  While the vulnerability is in Oracle Demand Planning, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Demand Planning accessible data as well as  unauthorized access to critical data or complete access to all Oracle Demand Planning accessible data. CVSS 3.1 Base Score 9.6 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N).",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Demand Planning\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Demand Planning",
+          "versions": [
+            {
+              "version": "12.1",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "12.2",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Demand Planning.  While the vulnerability is in Oracle Demand Planning, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Demand Planning accessible data as well as  unauthorized access to critical data or complete access to all Oracle Demand Planning accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-59568",
+      "publishedDate": "2026-08-24T13:44:21.795Z",
+      "lastModifiedDate": "2026-08-25T03:56:59.614Z",
+      "description": "Multiple vulnerabilities on affected versions of Zscaler Client Connector allow remote code execution, giving an unauthenticated, unprivileged user the ability to execute arbitrary code in the ZCC context.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：Zscaler Client Connector\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://help.zscaler.com/zscaler-client-connector/client-connector-app-release-summary-2026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Zscaler",
+          "product": "Client Connector",
+          "platforms": [
+            "Windows",
+            "MacOS",
+            "Linux",
+            "iOS",
+            "Android",
+            "ChromeOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Windows: 4.6.0.457, 4.7.0.317, 4.8.0.232, 4.9.0.372",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "MacOS: 4.5.2.312, 4.7.0.292, 4.8.0.191",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Linux: 3.7.2.64, 4.2.1.64",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Android: 4.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "ChromeOS: 4.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "iOS: 4.5.1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-20 Improper input validation"
+      ],
+      "cwe_ids": [
+        "CWE-20"
+      ]
+    },
+    {
+      "id": "CVE-2026-59564",
+      "publishedDate": "2026-08-24T13:39:16.063Z",
+      "lastModifiedDate": "2026-08-25T03:56:08.874Z",
+      "description": "An authentication bypass issue exists in communications between affected versions of the Zscaler Client Connector and the Zscaler Client Connector Portal.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：Zscaler Client Connector\n🔓 漏洞类型：CWE-304 (CWE-304)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://help.zscaler.com/zscaler-client-connector/client-connector-app-release-summary-2026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Zscaler",
+          "product": "Client Connector",
+          "platforms": [
+            "Windows",
+            "MacOS",
+            "Linux",
+            "iOS",
+            "Android"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Windows: 4.6.0.457, 4.7.0.317, 4.8.0.232, 4.9.0.372",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "MacOS: 4.5.2.312, 4.7.0.292, 4.8.0.191",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "iOS: 4.5.1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Android: 4.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "ChromeOS: 4.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Linux: 3.7.2.64, 4.2.1.64",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-304 Missing critical step in authentication"
+      ],
+      "cwe_ids": [
+        "CWE-304"
+      ]
+    },
+    {
+      "id": "CVE-2026-70872",
+      "publishedDate": "2026-08-18T21:02:15.978Z",
+      "lastModifiedDate": "2026-08-25T03:56:32.353Z",
+      "description": "Vulnerability in the Oracle Hyperion Data Relationship Management product of Oracle Hyperion (component: Access and security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Data Relationship Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Data Relationship Management accessible data. CVSS 3.1 Base Score 9.1 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N).",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Data Relationship Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Data Relationship Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Data Relationship Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Data Relationship Management accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-19200",
+      "publishedDate": "2026-08-24T03:22:14.118Z",
+      "lastModifiedDate": "2026-08-25T03:55:47.734Z",
+      "description": "The Velociraptor verify() VQL function allows a user to verify an artifact for syntatic and other issues. Due to an implementation fault in this VQL function, the global artifact repository is used which allows callers to overwrite existing artifacts without the required permissions.  The attacker need only have the NOTEBOOK_EDIT permission (e.g. an analyst role) to be able to call this function.",
+      "severity": 8.9,
+      "fix_suggestion": "📦 受影响组件：Rapid7 Velociraptor\n🔓 漏洞类型：Missing Authorization, Code Injection (CWE-862, CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "http://docs.velociraptor.app/announcements/advisories/cve-2026-19200/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Velocidex/velociraptor/pull/4962",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Rapid7",
+          "product": "Velociraptor",
+          "platforms": [
+            "Linux",
+            "Windows"
+          ],
+          "packageName": "Velociraptor",
+          "repo": "https://github.com/Velocidex/velociraptor/",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "0.77.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization",
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-862",
+        "CWE-94"
+      ]
+    },
+    {
+      "id": "CVE-2026-59567",
+      "publishedDate": "2026-08-24T13:41:38.737Z",
+      "lastModifiedDate": "2026-08-25T03:56:58.533Z",
+      "description": "Multiple vulnerabilities on affected versions of Zscaler Client Connector allow local privilege escalation, giving an unprivileged user the ability to execute arbitrary code in a privileged context.",
       "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Infused Addons InfusedWoo Pro\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Zscaler Client Connector\n🔓 漏洞类型：CWE-280 (CWE-280)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/207fc33b-ccf6-4c39-976d-41e6a89ad1ec?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://downloads.infusedwoo.com/updater/iw5.php?changelog",
+          "url": "https://help.zscaler.com/zscaler-client-connector/client-connector-app-release-summary-2026",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Infused Addons",
-          "product": "InfusedWoo Pro",
+          "vendor": "Zscaler",
+          "product": "Client Connector",
+          "platforms": [
+            "Windows",
+            "MacOS",
+            "Linux"
+          ],
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "5.1.17",
-              "versionType": "semver"
+              "version": "0",
+              "lessThan": "Windows: 4.6.0.457, 4.7.0.317, 4.8.0.232, 4.9.0372",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "MacOS: 4.5.2.312, 4.7.0.292, 4.8.0.191",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "Linux: 3.7.2.64, 4.2.1.64",
+              "versionType": "custom"
             }
           ],
-          "defaultStatus": "unaffected"
+          "defaultStatus": "affected"
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-280 Improper handling of insufficient permissions or privileges"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-280"
       ]
     },
     {
-      "id": "CVE-2026-14280",
-      "publishedDate": "2026-08-25T03:27:07.025Z",
-      "lastModifiedDate": "2026-08-25T03:27:07.025Z",
-      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 7.3.7.4 via the em_options_save function. This makes it possible for authenticated attackers, with administrator-level access and above, to include and execute arbitrary .php files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where .php file types can be uploaded and included. The stored traversal key is subsequently executed via an include_once() call that fires on every admin_init invocation — including unauthenticated admin-ajax.php requests — meaning once the malicious key is stored by an administrator, the inclusion is triggered without any further authentication or capability check.",
-      "severity": 6.6,
-      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：CWE-98 (CWE-98)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-78376",
+      "publishedDate": "2026-08-24T13:29:17.412Z",
+      "lastModifiedDate": "2026-08-25T03:56:09.994Z",
+      "description": "A flaw was found in WebKitGTK. Processing malicious web content can cause a use-after-free issue due to improper memory handling and result in memory corruption.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 6\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/aead557d-aec9-4218-9e5f-01b58432486f?source=cve",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-78376",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L405",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2521858",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L405",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L47",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L56",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L400",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L47",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L56",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L400",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?old_path=/events-manager/tags/7.3.7.4&new_path=/events-manager/tags/7.4",
+          "url": "https://github.com/WebKit/WebKit/pull/72142",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netweblogic",
-          "product": "Events Manager – Calendar, Bookings, Tickets, and more!",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "7.3.7.4",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "webkitgtk",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "webkitgtk3",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "webkitgtk4",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "webkit2gtk3",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "webkit2gtk3",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
         }
       ],
       "problemType": [
-        "CWE-98 Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
-      ],
-      "cwe_ids": [
-        "CWE-98"
+        "Use After Free"
       ]
     },
     {
-      "id": "CVE-2026-19943",
-      "publishedDate": "2026-08-25T03:27:07.375Z",
-      "lastModifiedDate": "2026-08-25T03:27:07.375Z",
-      "description": "The Gutenverse – WordPress Blocks, Page Builder & Site Editor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'titleTag' Block Attribute in all versions up to, and including, 4.0.2 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The malicious titleTag value survives wp_kses_post on save because it is stored inside a block-comment delimiter and the live HTML is only synthesized at render time by do_blocks(), meaning the payload also fires in administrator and editor sessions during post preview.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：jegstudio Gutenverse – WordPress Blocks, Page Builder & Site Editor\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-71513",
+      "publishedDate": "2026-08-22T13:34:07.811Z",
+      "lastModifiedDate": "2026-08-25T03:56:56.352Z",
+      "description": "NLTK before 3.10.3 contains a remote code execution vulnerability in AllowlistUnpickler that validates only the pickle module string and not the global name, allowing attackers to resolve dotted names by attribute traversal to callables outside the allowlisted namespace. Attackers can craft untrusted transition-parser models that execute arbitrary commands when TransitionParser.parse loads the model through allowlisted_pickle_load.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：nltk nltk\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b7eb4cac-cf16-438e-81cc-516646e77cdc?source=cve",
+          "url": "https://github.com/nltk/nltk/commit/c3e37113742a1ebeeb4f2ca58941f320f98805ea",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.0/includes/block/class-chart.php#L80",
+          "url": "https://github.com/nltk/nltk",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.2/includes/block/class-chart.php#L80",
+          "url": "https://github.com/nltk/nltk/blob/v3.10.2/nltk/picklesec.py#L119-L124",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.2/includes/block/class-chart.php#L28",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.0/includes/block/class-chart.php#L28",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3662715%40gutenverse&new=3662715%40gutenverse",
+          "url": "https://www.vulncheck.com/advisories/nltk-through-remote-code-execution-via-allowlistunpickler-dotted-name-bypass",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "jegstudio",
-          "product": "Gutenverse – WordPress Blocks, Page Builder & Site Editor",
+          "vendor": "nltk",
+          "product": "nltk",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/nltk",
           "versions": [
             {
-              "version": "0",
+              "version": "3.10.0",
+              "lessThan": "3.10.3",
               "status": "affected",
-              "lessThanOrEqual": "4.0.2",
+              "versionType": "semver"
+            },
+            {
+              "version": "3.10.3",
+              "status": "unaffected",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
+        "Deserialization of Untrusted Data"
       ]
     },
     {
-      "id": "CVE-2026-76063",
-      "publishedDate": "2026-08-25T03:27:06.337Z",
-      "lastModifiedDate": "2026-08-25T03:27:06.337Z",
-      "description": "The FundEngine – Donation and Crowdfunding Platform plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'wfp_featured_video_url' parameter in all versions up to, and including, 1.8.1 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The REST endpoint used to submit the video URL has its permission_callback set to __return_true, meaning any authenticated user — including those with Subscriber-level access — can reach the vulnerable code path.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：roxnor FundEngine – Donation and Crowdfunding Platform\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-16996",
+      "publishedDate": "2026-08-20T21:48:13.651Z",
+      "lastModifiedDate": "2026-08-25T03:55:55.615Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to execute arbitrary code due to an integer underflow.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/9cf1230e-759e-4892-8de8-1adb3a0e48a1?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/featured.php#L175",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/featured.php#L467",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1425",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1198",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656562%40wp-fundraising-donation&new=3656562%40wp-fundraising-donation",
+          "url": "https://www.ibm.com/support/pages/node/7283858",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "roxnor",
-          "product": "FundEngine – Donation and Crowdfunding Platform",
+          "vendor": "IBM",
+          "product": "AIX",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.8.1",
-              "versionType": "semver"
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
             }
           ],
-          "defaultStatus": "unaffected"
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-787 Out-of-bounds Write"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-787"
       ]
     },
     {
-      "id": "CVE-2026-17089",
-      "publishedDate": "2026-08-25T03:27:06.684Z",
-      "lastModifiedDate": "2026-08-25T03:27:06.684Z",
-      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'header_format' parameter in all versions up to, and including, 7.4.0.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link. The shortcode entry point sanitizes 'header_format' via wp_kses(), but the unauthenticated 'search_events_grouped' AJAX action bypasses this sanitization entirely, leaving the parameter unsanitized before it is echoed into the HTML body in output_grouped().",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-71051",
+      "publishedDate": "2026-08-18T21:03:15.507Z",
+      "lastModifiedDate": "2026-08-25T03:55:54.431Z",
+      "description": "Vulnerability in the Oracle Product Lifecycle Analytics product of Oracle Supply Chain (component: Installation Issues).   The supported version that is affected is 3.6.1. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Product Lifecycle Analytics executes to compromise Oracle Product Lifecycle Analytics.  While the vulnerability is in Oracle Product Lifecycle Analytics, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of Oracle Product Lifecycle Analytics. CVSS 3.1 Base Score 8.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H).",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Product Lifecycle Analytics\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a56d1a9e-7564-41b0-af03-c272ffbbbb97?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/classes/em-events.php#L469",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/classes/em-events.php#L469",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/classes/em-object.php#L1176",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/em-actions.php#L891",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/em-actions.php#L920",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/classes/em-object.php#L1176",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/em-actions.php#L891",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/em-actions.php#L920",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?old_path=/events-manager/tags/7.4.0.1&new_path=/events-manager/tags/7.4.1",
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "netweblogic",
-          "product": "Events Manager – Calendar, Bookings, Tickets, and more!",
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Product Lifecycle Analytics",
           "versions": [
             {
-              "version": "0",
+              "version": "3.6.1",
               "status": "affected",
-              "lessThanOrEqual": "7.4.0.1",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Product Lifecycle Analytics executes to compromise Oracle Product Lifecycle Analytics.  While the vulnerability is in Oracle Product Lifecycle Analytics, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of Oracle Product Lifecycle Analytics."
       ]
     },
     {
-      "id": "CVE-2026-75930",
-      "publishedDate": "2026-08-25T03:27:05.464Z",
-      "lastModifiedDate": "2026-08-25T03:27:05.464Z",
-      "description": "The FundEngine – Donation and Crowdfunding Platform plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.8.1. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to modify arbitrary posts and pages — overwriting title and content, and seizing ownership by supplying an attacker-controlled post_author integer that bypasses wp_kses_post sanitization. The wp_rest nonce required by the handler is trivially obtainable by any logged-in user via /wp-admin/admin-ajax.php?action=rest-nonce and therefore does not constitute an authorization barrier.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：roxnor FundEngine – Donation and Crowdfunding Platform\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-70918",
+      "publishedDate": "2026-08-18T21:02:30.432Z",
+      "lastModifiedDate": "2026-08-25T03:55:51.082Z",
+      "description": "Vulnerability in the Oracle Product Hub product of Oracle E-Business Suite (component: Outbound Data).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Product Hub.  Successful attacks of this vulnerability can result in takeover of Oracle Product Hub. CVSS 3.1 Base Score 8.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Product Hub\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/08057fa2-90e1-4537-a828-a2c5902b348c?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1228",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1195",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L289",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656562%40wp-fundraising-donation&new=3656562%40wp-fundraising-donation",
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "roxnor",
-          "product": "FundEngine – Donation and Crowdfunding Platform",
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Product Hub",
           "versions": [
             {
-              "version": "0",
+              "version": "12.2.3",
               "status": "affected",
-              "lessThanOrEqual": "1.8.1",
+              "lessThanOrEqual": "12.2.15",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Product Hub.  Successful attacks of this vulnerability can result in takeover of Oracle Product Hub."
+      ]
+    },
+    {
+      "id": "CVE-2026-70874",
+      "publishedDate": "2026-08-18T21:02:16.611Z",
+      "lastModifiedDate": "2026-08-25T03:56:30.047Z",
+      "description": "Vulnerability in the Oracle Hyperion Data Relationship Management product of Oracle Hyperion (component: Access and security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management. CVSS 3.1 Base Score 8.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Data Relationship Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Data Relationship Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management."
+      ]
+    },
+    {
+      "id": "CVE-2026-70821",
+      "publishedDate": "2026-08-18T21:01:59.983Z",
+      "lastModifiedDate": "2026-08-25T03:57:00.796Z",
+      "description": "Vulnerability in the Oracle Hyperion Financial Management product of Oracle Hyperion (component: Security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows low privileged attacker with network access via SQL to compromise Oracle Hyperion Financial Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Financial Management. CVSS 3.1 Base Score 8.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Financial Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Financial Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via SQL to compromise Oracle Hyperion Financial Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Financial Management."
+      ]
+    },
+    {
+      "id": "CVE-2026-70737",
+      "publishedDate": "2026-08-18T21:01:17.553Z",
+      "lastModifiedDate": "2026-08-25T03:57:05.677Z",
+      "description": "Vulnerability in the Oracle Enterprise Manager for Systems Infrastructure product of Oracle Enterprise Manager (component: Storage Server Management).  Supported versions that are affected are 13.5 and  24.1. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Enterprise Manager for Systems Infrastructure.  Successful attacks of this vulnerability can result in takeover of Oracle Enterprise Manager for Systems Infrastructure. CVSS 3.1 Base Score 8.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Enterprise Manager for Systems Infrastructure\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Enterprise Manager for Systems Infrastructure",
+          "versions": [
+            {
+              "version": "13.5",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "24.1",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Enterprise Manager for Systems Infrastructure.  Successful attacks of this vulnerability can result in takeover of Oracle Enterprise Manager for Systems Infrastructure."
+      ]
+    },
+    {
+      "id": "CVE-2026-70688",
+      "publishedDate": "2026-08-18T21:01:01.341Z",
+      "lastModifiedDate": "2026-08-25T03:57:10.118Z",
+      "description": "Vulnerability in Oracle Essbase (component: Calculator).   The supported version that is affected is 21.8.1.0.0. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Essbase.  Successful attacks of this vulnerability can result in takeover of Oracle Essbase. CVSS 3.1 Base Score 8.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Essbase\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Essbase",
+          "versions": [
+            {
+              "version": "21.8.1.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Essbase.  Successful attacks of this vulnerability can result in takeover of Oracle Essbase."
+      ]
+    },
+    {
+      "id": "CVE-2026-71050",
+      "publishedDate": "2026-08-18T21:03:15.176Z",
+      "lastModifiedDate": "2026-08-25T03:55:57.772Z",
+      "description": "Vulnerability in the Oracle Product Lifecycle Analytics product of Oracle Supply Chain (component: Installation Issues).   The supported version that is affected is 3.6.1. Easily exploitable vulnerability allows high privileged attacker with network access via Oracle Net to compromise Oracle Product Lifecycle Analytics.  While the vulnerability is in Oracle Product Lifecycle Analytics, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Product Lifecycle Analytics accessible data as well as  unauthorized access to critical data or complete access to all Oracle Product Lifecycle Analytics accessible data. CVSS 3.1 Base Score 8.7 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:N).",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Product Lifecycle Analytics\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Product Lifecycle Analytics",
+          "versions": [
+            {
+              "version": "3.6.1",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows high privileged attacker with network access via Oracle Net to compromise Oracle Product Lifecycle Analytics.  While the vulnerability is in Oracle Product Lifecycle Analytics, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Product Lifecycle Analytics accessible data as well as  unauthorized access to critical data or complete access to all Oracle Product Lifecycle Analytics accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-60934",
+      "publishedDate": "2026-08-18T20:59:22.150Z",
+      "lastModifiedDate": "2026-08-25T03:56:25.576Z",
+      "description": "Vulnerability in the Oracle WebCenter Content product of Oracle Fusion Middleware (component: Content Server).  Supported versions that are affected are 12.2.1.4.0 and  14.1.2.0.0. Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  While the vulnerability is in Oracle WebCenter Content, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle WebCenter Content accessible data as well as  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data. CVSS 3.1 Base Score 8.7 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N).",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle WebCenter Content\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle WebCenter Content",
+          "versions": [
+            {
+              "version": "12.2.1.4.0",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "14.1.2.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  While the vulnerability is in Oracle WebCenter Content, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle WebCenter Content accessible data as well as  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-60903",
+      "publishedDate": "2026-08-18T20:59:19.020Z",
+      "lastModifiedDate": "2026-08-25T03:56:23.292Z",
+      "description": "Vulnerability in the Oracle WebCenter Content product of Oracle Fusion Middleware (component: Content Server).  Supported versions that are affected are 12.2.1.4.0 and  14.1.2.0.0. Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  While the vulnerability is in Oracle WebCenter Content, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle WebCenter Content accessible data as well as  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data. CVSS 3.1 Base Score 8.7 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N).",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle WebCenter Content\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle WebCenter Content",
+          "versions": [
+            {
+              "version": "12.2.1.4.0",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "14.1.2.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  While the vulnerability is in Oracle WebCenter Content, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle WebCenter Content accessible data as well as  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-10053",
+      "publishedDate": "2026-08-23T09:27:01.138Z",
+      "lastModifiedDate": "2026-08-25T03:55:48.856Z",
+      "description": "GitLab has remediated an issue in GitLab CE/EE affecting all versions from 18.8 before 19.0.6, 19.1 before 19.1.4, and 19.2 before 19.2.2 that under certain conditions could have allowed an authenticated user to achieve remote code execution due to a path traversal vulnerability in the package registry.",
+      "severity": 8.5,
+      "fix_suggestion": "📦 受影响组件：GitLab GitLab\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/601596",
+          "type": "reference"
+        },
+        {
+          "url": "https://hackerone.com/reports/3754194",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "GitLab",
+          "product": "GitLab",
+          "repo": "git://git@gitlab.com:gitlab-org/gitlab.git",
+          "cpes": [
+            "cpe:2.3:a:gitlab:gitlab:*:*:*:*:*:*:*:*"
+          ],
+          "versions": [
+            {
+              "version": "18.8",
+              "status": "affected",
+              "lessThan": "19.0.6",
+              "versionType": "semver"
+            },
+            {
+              "version": "19.1",
+              "status": "affected",
+              "lessThan": "19.1.4",
+              "versionType": "semver"
+            },
+            {
+              "version": "19.2",
+              "status": "affected",
+              "lessThan": "19.2.2",
               "versionType": "semver"
             }
           ],
@@ -349,10 +1573,1742 @@
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-22"
+      ]
+    },
+    {
+      "id": "CVE-2026-17168",
+      "publishedDate": "2026-08-20T21:56:34.694Z",
+      "lastModifiedDate": "2026-08-25T03:56:17.832Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote authenticated attacker to execute arbitrary code due to a stack-based buffer overflow.",
+      "severity": 8.5,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-71049",
+      "publishedDate": "2026-08-18T21:03:14.856Z",
+      "lastModifiedDate": "2026-08-25T03:55:52.214Z",
+      "description": "Vulnerability in the Oracle Product Lifecycle Analytics product of Oracle Supply Chain (component: Installation Issues).   The supported version that is affected is 3.6.1. Easily exploitable vulnerability allows low privileged attacker with network access via Oracle Net to compromise Oracle Product Lifecycle Analytics.  While the vulnerability is in Oracle Product Lifecycle Analytics, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle Product Lifecycle Analytics accessible data as well as  unauthorized update, insert or delete access to some of Oracle Product Lifecycle Analytics accessible data. CVSS 3.1 Base Score 8.5 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:N).",
+      "severity": 8.5,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Product Lifecycle Analytics\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Product Lifecycle Analytics",
+          "versions": [
+            {
+              "version": "3.6.1",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via Oracle Net to compromise Oracle Product Lifecycle Analytics.  While the vulnerability is in Oracle Product Lifecycle Analytics, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle Product Lifecycle Analytics accessible data as well as  unauthorized update, insert or delete access to some of Oracle Product Lifecycle Analytics accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-70842",
+      "publishedDate": "2026-08-18T21:02:07.043Z",
+      "lastModifiedDate": "2026-08-25T03:56:38.104Z",
+      "description": "Vulnerability in the Oracle Hyperion Financial Management product of Oracle Hyperion (component: Security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  While the vulnerability is in Oracle Hyperion Financial Management, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data. CVSS 3.1 Base Score 8.4 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N).",
+      "severity": 8.4,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Financial Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Financial Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  While the vulnerability is in Oracle Hyperion Financial Management, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-70840",
+      "publishedDate": "2026-08-18T21:02:06.400Z",
+      "lastModifiedDate": "2026-08-25T03:56:36.932Z",
+      "description": "Vulnerability in the Oracle Hyperion Financial Management product of Oracle Hyperion (component: Security).   The supported version that is affected is 11.2.25.0.000. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  While the vulnerability is in Oracle Hyperion Financial Management, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data. CVSS 3.1 Base Score 8.4 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N).",
+      "severity": 8.4,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Financial Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Financial Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  While the vulnerability is in Oracle Hyperion Financial Management, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-17006",
+      "publishedDate": "2026-08-20T21:49:15.632Z",
+      "lastModifiedDate": "2026-08-25T03:56:01.047Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a heap buffer overflow.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-39909",
+      "publishedDate": "2026-08-21T16:28:26.774Z",
+      "lastModifiedDate": "2026-08-25T03:56:41.455Z",
+      "description": "llama.cpp before b8585 contains a use-after-free vulnerability in the RPC server's GRAPH_RECOMPUTE handler that allows unauthenticated remote attackers to achieve arbitrary read and write access by storing a computation graph, freeing referenced buffers, and reclaiming freed memory with attacker-controlled content. Attackers can send RPC requests to trigger re-execution of stored graphs with dangling pointers, enabling full remote code execution without requiring authentication or user interaction.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b8585",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ggml-org/llama.cpp/pull/21175",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ggml-org/llama.cpp/commit/389c7d4955ba55c7418afaebf7c23d9ed64ef707",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/llama-cpp-use-after-free-in-rpc-graph-recompute-handler",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ggml-org",
+          "product": "llama.cpp",
+          "repo": "https://github.com/ggml-org/llama.cpp",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "b8585",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/ggml-org/llama.cpp"
+        }
+      ],
+      "problemType": [
+        "Use After Free"
+      ]
+    },
+    {
+      "id": "CVE-2026-17138",
+      "publishedDate": "2026-08-20T21:53:22.652Z",
+      "lastModifiedDate": "2026-08-25T03:56:12.294Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to a stack-based buffer overflow.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-121 Stack-based Buffer Overflow"
+      ],
+      "cwe_ids": [
+        "CWE-121"
+      ]
+    },
+    {
+      "id": "CVE-2026-17000",
+      "publishedDate": "2026-08-20T21:48:45.345Z",
+      "lastModifiedDate": "2026-08-25T03:55:58.833Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to improper authentication.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-287 Improper Authentication"
+      ],
+      "cwe_ids": [
+        "CWE-287"
+      ]
+    },
+    {
+      "id": "CVE-2026-70805",
+      "publishedDate": "2026-08-18T21:01:54.682Z",
+      "lastModifiedDate": "2026-08-25T03:56:45.160Z",
+      "description": "Vulnerability in the Oracle Project Planning and Control product of Oracle E-Business Suite (component: Change Management).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Project Planning and Control.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Project Planning and Control accessible data as well as  unauthorized access to critical data or complete access to all Oracle Project Planning and Control accessible data. CVSS 3.1 Base Score 8.1 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N).",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Project Planning and Control\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Project Planning and Control",
+          "versions": [
+            {
+              "version": "12.2.3",
+              "status": "affected",
+              "lessThanOrEqual": "12.2.15",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Project Planning and Control.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Project Planning and Control accessible data as well as  unauthorized access to critical data or complete access to all Oracle Project Planning and Control accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-70684",
+      "publishedDate": "2026-08-18T21:01:00.072Z",
+      "lastModifiedDate": "2026-08-25T03:57:06.789Z",
+      "description": "Vulnerability in the Oracle Enterprise Manager Base Platform product of Oracle Enterprise Manager (component: Agent Next Gen).  Supported versions that are affected are 13.5 and  24.1. Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Enterprise Manager Base Platform.  Successful attacks of this vulnerability can result in takeover of Oracle Enterprise Manager Base Platform. CVSS 3.1 Base Score 8.1 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Enterprise Manager Base Platform\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Enterprise Manager Base Platform",
+          "versions": [
+            {
+              "version": "13.5",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "24.1",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Enterprise Manager Base Platform.  Successful attacks of this vulnerability can result in takeover of Oracle Enterprise Manager Base Platform."
+      ]
+    },
+    {
+      "id": "CVE-2026-61419",
+      "publishedDate": "2026-08-24T19:21:40.484Z",
+      "lastModifiedDate": "2026-08-25T03:57:11.232Z",
+      "description": "Dell ThinOS 10, versions prior to 2605_10.2518, contain an Improper Access Control vulnerability. A low privileged attacker with local access could potentially exploit this vulnerability, leading to Unauthorized access.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Dell ThinOS 10\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.dell.com/support/kbdoc/en-us/000496575/dsa-2026-350-security-update-for-dell-thinos-10-for-multiple-vulnerabilities",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Dell",
+          "product": "ThinOS 10",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2605_10.2518",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-284: Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-17171",
+      "publishedDate": "2026-08-20T21:57:12.124Z",
+      "lastModifiedDate": "2026-08-25T03:56:18.917Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to overwrite arbitrary files due to improper resolution of symbolic links.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-59 (CWE-59)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-59 Improper Link Resolution Before File Access ('Link Following')"
+      ],
+      "cwe_ids": [
+        "CWE-59"
+      ]
+    },
+    {
+      "id": "CVE-2026-17124",
+      "publishedDate": "2026-08-20T21:52:48.085Z",
+      "lastModifiedDate": "2026-08-25T03:56:07.803Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to execute arbitrary code due to an out-of-bounds read.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-125 Out-of-bounds Read"
+      ],
+      "cwe_ids": [
+        "CWE-125"
+      ]
+    },
+    {
+      "id": "CVE-2026-16997",
+      "publishedDate": "2026-08-20T21:48:30.728Z",
+      "lastModifiedDate": "2026-08-25T03:55:56.693Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to execute arbitrary commands due to improper privilege management.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
+      ]
+    },
+    {
+      "id": "CVE-2026-16991",
+      "publishedDate": "2026-08-20T21:47:26.487Z",
+      "lastModifiedDate": "2026-08-25T03:55:53.313Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a local attacker to gain elevated privileges due to improper handling of symbolic links.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
+      ]
+    },
+    {
+      "id": "CVE-2026-71126",
+      "publishedDate": "2026-08-18T21:03:38.896Z",
+      "lastModifiedDate": "2026-08-25T03:56:26.661Z",
+      "description": "Vulnerability in the Oracle VM VirtualBox product of Oracle Virtualization (component: Core).   The supported version that is affected is 7.2.14. Difficult to exploit vulnerability allows low privileged attacker with logon to the infrastructure where Oracle VM VirtualBox executes to compromise Oracle VM VirtualBox.  While the vulnerability is in Oracle VM VirtualBox, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of Oracle VM VirtualBox. CVSS 3.1 Base Score 7.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H).",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle VM VirtualBox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle VM VirtualBox",
+          "versions": [
+            {
+              "version": "7.2.14",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows low privileged attacker with logon to the infrastructure where Oracle VM VirtualBox executes to compromise Oracle VM VirtualBox.  While the vulnerability is in Oracle VM VirtualBox, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of Oracle VM VirtualBox."
+      ]
+    },
+    {
+      "id": "CVE-2026-70798",
+      "publishedDate": "2026-08-18T21:01:52.440Z",
+      "lastModifiedDate": "2026-08-25T03:57:03.363Z",
+      "description": "Vulnerability in the Oracle Purchasing product of Oracle E-Business Suite (component: Internal Operations).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Purchasing executes to compromise Oracle Purchasing.  Successful attacks of this vulnerability can result in takeover of Oracle Purchasing. CVSS 3.1 Base Score 7.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Purchasing\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Purchasing",
+          "versions": [
+            {
+              "version": "12.2.3",
+              "status": "affected",
+              "lessThanOrEqual": "12.2.15",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle Purchasing executes to compromise Oracle Purchasing.  Successful attacks of this vulnerability can result in takeover of Oracle Purchasing."
+      ]
+    },
+    {
+      "id": "CVE-2026-61291",
+      "publishedDate": "2026-08-18T21:00:00.274Z",
+      "lastModifiedDate": "2026-08-25T03:56:22.202Z",
+      "description": "Vulnerability in the Oracle WebCenter Content product of Oracle Fusion Middleware (component: Content Server).  Supported versions that are affected are 12.2.1.4.0 and  14.1.2.0.0. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle WebCenter Content executes to compromise Oracle WebCenter Content.  Successful attacks of this vulnerability can result in takeover of Oracle WebCenter Content. CVSS 3.1 Base Score 7.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle WebCenter Content\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle WebCenter Content",
+          "versions": [
+            {
+              "version": "12.2.1.4.0",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "14.1.2.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Oracle WebCenter Content executes to compromise Oracle WebCenter Content.  Successful attacks of this vulnerability can result in takeover of Oracle WebCenter Content."
+      ]
+    },
+    {
+      "id": "CVE-2026-17024",
+      "publishedDate": "2026-08-20T21:50:07.941Z",
+      "lastModifiedDate": "2026-08-25T03:56:03.236Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to execute arbitrary code due to improper certificate validation.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-295 (CWE-295)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-295 Improper Certificate Validation"
+      ],
+      "cwe_ids": [
+        "CWE-295"
+      ]
+    },
+    {
+      "id": "CVE-2026-17003",
+      "publishedDate": "2026-08-20T21:49:00.546Z",
+      "lastModifiedDate": "2026-08-25T03:55:59.920Z",
+      "description": "IBM AIX 7.2, and 7.3 and IBM PowerVM VIOS 4.1 could allow a remote attacker to compromise the confidentiality and integrity of the system due to an out-of-bounds write.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：IBM AIX\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7283858",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "AIX",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.2"
+            },
+            {
+              "status": "affected",
+              "version": "7.3"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:aix:7.2:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.2.0:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:aix:7.3.0:*:*:*:*:*:*:*"
+          ]
+        },
+        {
+          "vendor": "IBM",
+          "product": "PowerVM VIOS",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.1"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:powervm_vios:4.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:powervm_vios:4.1.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-71160",
+      "publishedDate": "2026-08-18T21:03:49.844Z",
+      "lastModifiedDate": "2026-08-25T03:56:54.156Z",
+      "description": "Vulnerability in the Helidon product of Oracle Fusion Middleware (component: Imperative Web Server).   The supported version that is affected is 3.2.18. Difficult to exploit vulnerability allows low privileged attacker with network access via HTTP to compromise Helidon.  Successful attacks of this vulnerability can result in takeover of Helidon. CVSS 3.1 Base Score 7.5 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Helidon\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Helidon",
+          "versions": [
+            {
+              "version": "3.2.18",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows low privileged attacker with network access via HTTP to compromise Helidon.  Successful attacks of this vulnerability can result in takeover of Helidon."
+      ]
+    },
+    {
+      "id": "CVE-2026-71116",
+      "publishedDate": "2026-08-18T21:03:35.663Z",
+      "lastModifiedDate": "2026-08-25T03:56:27.774Z",
+      "description": "Vulnerability in the Oracle VM VirtualBox product of Oracle Virtualization (component: Core).   The supported version that is affected is 7.2.14. Difficult to exploit vulnerability allows high privileged attacker with logon to the infrastructure where Oracle VM VirtualBox executes to compromise Oracle VM VirtualBox.  While the vulnerability is in Oracle VM VirtualBox, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of Oracle VM VirtualBox. CVSS 3.1 Base Score 7.5 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle VM VirtualBox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle VM VirtualBox",
+          "versions": [
+            {
+              "version": "7.2.14",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows high privileged attacker with logon to the infrastructure where Oracle VM VirtualBox executes to compromise Oracle VM VirtualBox.  While the vulnerability is in Oracle VM VirtualBox, attacks may significantly impact additional products (scope change).  Successful attacks of this vulnerability can result in takeover of Oracle VM VirtualBox."
+      ]
+    },
+    {
+      "id": "CVE-2026-70875",
+      "publishedDate": "2026-08-18T21:02:16.924Z",
+      "lastModifiedDate": "2026-08-25T03:56:28.891Z",
+      "description": "Vulnerability in the Oracle Hyperion Data Relationship Management product of Oracle Hyperion (component: Access and security).   The supported version that is affected is 11.2.25.0.000. Difficult to exploit vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management. CVSS 3.1 Base Score 7.5 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Data Relationship Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Data Relationship Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows low privileged attacker with network access via HTTP to compromise Oracle Hyperion Data Relationship Management.  Successful attacks of this vulnerability can result in takeover of Oracle Hyperion Data Relationship Management."
+      ]
+    },
+    {
+      "id": "CVE-2026-70691",
+      "publishedDate": "2026-08-18T21:01:02.261Z",
+      "lastModifiedDate": "2026-08-25T03:57:07.940Z",
+      "description": "Vulnerability in the Oracle Agile Engineering Data Management product of Oracle Supply Chain (component: Engineering Communication Interface).   The supported version that is affected is 6.2.1. Difficult to exploit vulnerability allows unauthenticated attacker with access to the physical communication segment attached to the hardware where the Oracle Agile Engineering Data Management executes to compromise Oracle Agile Engineering Data Management.  Successful attacks of this vulnerability can result in takeover of Oracle Agile Engineering Data Management. CVSS 3.1 Base Score 7.5 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Agile Engineering Data Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Agile Engineering Data Management",
+          "versions": [
+            {
+              "version": "6.2.1",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with access to the physical communication segment attached to the hardware where the Oracle Agile Engineering Data Management executes to compromise Oracle Agile Engineering Data Management.  Successful attacks of this vulnerability can result in takeover of Oracle Agile Engineering Data Management."
+      ]
+    },
+    {
+      "id": "CVE-2026-70823",
+      "publishedDate": "2026-08-18T21:02:00.613Z",
+      "lastModifiedDate": "2026-08-25T03:56:44.046Z",
+      "description": "Vulnerability in the Oracle Hyperion Financial Management product of Oracle Hyperion (component: Security).   The supported version that is affected is 11.2.25.0.000. Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTPS to compromise Oracle Hyperion Financial Management.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data. CVSS 3.1 Base Score 7.4 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N).",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Financial Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Financial Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTPS to compromise Oracle Hyperion Financial Management.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-60933",
+      "publishedDate": "2026-08-18T20:59:21.824Z",
+      "lastModifiedDate": "2026-08-25T03:56:24.401Z",
+      "description": "Vulnerability in the Oracle WebCenter Content product of Oracle Fusion Middleware (component: Content Server).  Supported versions that are affected are 12.2.1.4.0 and  14.1.2.0.0. Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle WebCenter Content accessible data as well as  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data. CVSS 3.1 Base Score 7.4 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N).",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle WebCenter Content\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle WebCenter Content",
+          "versions": [
+            {
+              "version": "12.2.1.4.0",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "14.1.2.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle WebCenter Content accessible data as well as  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-70797",
+      "publishedDate": "2026-08-18T21:01:52.127Z",
+      "lastModifiedDate": "2026-08-25T03:57:04.511Z",
+      "description": "Vulnerability in the Oracle Purchasing product of Oracle E-Business Suite (component: Internal Operations).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows high privileged attacker with network access via HTTP to compromise Oracle Purchasing.  Successful attacks of this vulnerability can result in takeover of Oracle Purchasing. CVSS 3.1 Base Score 7.2 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H).",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Purchasing\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Purchasing",
+          "versions": [
+            {
+              "version": "12.2.3",
+              "status": "affected",
+              "lessThanOrEqual": "12.2.15",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows high privileged attacker with network access via HTTP to compromise Oracle Purchasing.  Successful attacks of this vulnerability can result in takeover of Oracle Purchasing."
+      ]
+    },
+    {
+      "id": "CVE-2026-70843",
+      "publishedDate": "2026-08-18T21:02:07.351Z",
+      "lastModifiedDate": "2026-08-25T03:56:35.831Z",
+      "description": "Vulnerability in the Oracle Hyperion Financial Management product of Oracle Hyperion (component: Security).   The supported version that is affected is 11.2.25.0.000. Difficult to exploit vulnerability allows unauthenticated attacker with access to the physical communication segment attached to the hardware where the Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data. CVSS 3.1 Base Score 6.8 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N).",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Hyperion Financial Management\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cspuaug2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Hyperion Financial Management",
+          "versions": [
+            {
+              "version": "11.2.25.0.000",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with access to the physical communication segment attached to the hardware where the Oracle Hyperion Financial Management executes to compromise Oracle Hyperion Financial Management.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Oracle Hyperion Financial Management accessible data as well as  unauthorized access to critical data or complete access to all Oracle Hyperion Financial Management accessible data."
+      ]
+    },
+    {
+      "id": "CVE-2026-78541",
+      "publishedDate": "2026-08-24T18:26:11.670Z",
+      "lastModifiedDate": "2026-08-25T03:56:57.446Z",
+      "description": "A stored OS\ncommand injection vulnerability exists in the parent-control module of TP-Link\nArcher BE3600 V1. An authenticated adjacent attacker with administrative access\nmay store a crafted profile name containing shell metacharacters, which is\nlater processed unsafely during daily cloud report generation and may result in\narbitrary command execution.\n\n\n\n\n\nSuccessful\nexploitation may allow command execution on the affected device with potential\nimpact to device confidentiality, integrity, and availability.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer BE3600 v1\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-be3600/v1.26/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-be3600/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/faq/5264/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer BE3600 v1",
+          "modules": [
+            "parent-control"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.2.6 Build 20260617",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-16348",
+      "publishedDate": "2026-08-24T17:25:46.598Z",
+      "lastModifiedDate": "2026-08-25T03:56:53.071Z",
+      "description": "An authenticated command injection vulnerability in TP-Link Archer BE800 V1 allows an attacker with administrative access to execute arbitrary system commands with root privileges by injecting shell metacharacters via a VPN connection. \n\n\n\n\nSuccessful exploitation may enable persistent backdoors, credential theft, LAN reconnaissance, and router-assisted attacks against connected devices.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer BE800 v1\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-be800/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-be800/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/faq/5264/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer BE800 v1",
+          "modules": [
+            "vpn connection"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.4.2 Build 260708",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-9254",
+      "publishedDate": "2026-08-24T17:25:30.486Z",
+      "lastModifiedDate": "2026-08-25T03:56:51.934Z",
+      "description": "An unauthenticated OS command injection vulnerability exists in the parental control functionality of Archer BE800 V1, BE3600 V1, and AX75 V1 due to improper filtering and neutralization of special characters in certain parameters. A LAN-based attacker can inject arbitrary commands and execute them with root privileges.\n\n\n\n\n\n\nSuccessful exploitation may result in complete device compromise and impact the confidentiality, integrity, and availability of the affected device and network traffic.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. Archer BE800 V1\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-be800/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-be800/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-be3600/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-be3600/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/kr/support/download/archer-be3600/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/en/support/download/archer-ax75/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/download/archer-ax75/v1/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/faq/5264/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer BE800 V1",
+          "modules": [
+            "parent control"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.4.2 Build 260708",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer BE3600 V1",
+          "modules": [
+            "parent control"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.2.6 Build 20260617",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "Archer AX75 V1",
+          "modules": [
+            "parent control"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.1.6 Build 260716",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-12556",
+      "publishedDate": "2026-08-24T16:01:58.193Z",
+      "lastModifiedDate": "2026-08-25T03:56:48.603Z",
+      "description": "Potential security vulnerabilities have been identified in HP Easy Start for macOS, versions prior to 2.16.7.260722. These potential vulnerabilities may lead to escalation of privilege. HP is releasing updates to mitigate these potential vulnerabilities.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：HP Inc HP Easy Start for macOS\n🔓 漏洞类型：CWE-319 (CWE-319)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hp.com/us-en/document/ish_15512340-15512362-16/hpsbpi04124",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HP Inc",
+          "product": "HP Easy Start for macOS",
+          "platforms": [
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "<2.16.7.260722",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-319 Cleartext transmission of sensitive information"
+      ],
+      "cwe_ids": [
+        "CWE-319"
+      ]
+    },
+    {
+      "id": "CVE-2026-12555",
+      "publishedDate": "2026-08-24T16:00:23.156Z",
+      "lastModifiedDate": "2026-08-25T03:56:47.393Z",
+      "description": "Potential security vulnerabilities have been identified in HP Easy Start for macOS, versions prior to 2.16.7.260722. These potential vulnerabilities may lead to escalation of privilege. HP is releasing updates to mitigate these potential vulnerabilities.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：HP Inc HP Easy Start for macOS\n🔓 漏洞类型：CWE-379 (CWE-379)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hp.com/in-en/document/ish_15512340-15512362-16/hpsbpi04124",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HP Inc",
+          "product": "HP Easy Start for macOS",
+          "platforms": [
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2.16.7.260722",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-379 Creation of temporary file in directory with insecure permissions"
+      ],
+      "cwe_ids": [
+        "CWE-379"
+      ]
+    },
+    {
+      "id": "CVE-2026-12554",
+      "publishedDate": "2026-08-24T15:58:29.333Z",
+      "lastModifiedDate": "2026-08-25T03:56:46.260Z",
+      "description": "Potential security vulnerabilities have been identified in HP Easy Start for macOS, versions prior to 2.16.7.260722. These potential vulnerabilities may lead to escalation of privilege. HP is releasing updates to mitigate these potential vulnerabilities.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：HP Inc HP Easy Start for macOS\n🔓 漏洞类型：CWE-1104 (CWE-1104)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hp.com/in-en/document/ish_15512340-15512362-16/hpsbpi04124",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "HP Inc",
+          "product": "HP Easy Start for macOS",
+          "platforms": [
+            "MacOS"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2.16.7.260722",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1104 Use of unmaintained third party components"
+      ],
+      "cwe_ids": [
+        "CWE-1104"
+      ]
+    },
+    {
+      "id": "CVE-2026-78416",
+      "publishedDate": "2026-08-24T15:36:07.971Z",
+      "lastModifiedDate": "2026-08-25T03:56:39.218Z",
+      "description": "Craft CMS versions from 4.0.0-RC1 before 4.18.2 and from 5.0.0-RC1 before 5.10.6 contain an authenticated remote code execution vulnerability in control panel element-search condition handling. A JSON cleanse bypass in condition.config allows Yii behavior/event configuration keys to be interpreted after decoding, enabling command execution as the PHP/web user.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：craftcms cms\n🔓 漏洞类型：CWE-915 (CWE-915)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.hckrt.com/hacktivity/HCKRT-JD662P",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/craftcms/cms/releases/tag/5.10.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "craftcms",
+          "product": "cms",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.0-RC1",
+              "lessThan": "4.18.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "5.0.0-RC1",
+              "lessThan": "5.10.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-915 Improperly controlled modification of Dynamically-Determined object attributes"
+      ],
+      "cwe_ids": [
+        "CWE-915"
+      ]
+    },
+    {
+      "id": "CVE-2026-59989",
+      "publishedDate": "2026-08-21T20:25:44.767Z",
+      "lastModifiedDate": "2026-08-25T03:56:55.263Z",
+      "description": "Phalcon is a high-performance, full-stack PHP framework. In 5.15.0 and earlier, resolveFilter in phalcon/Mvc/View/Engine/Volt/Compiler.zep builds the join filter by inserting the raw separator and array token values into generated PHP without passing them through expression(). An attacker who can influence Volt template source can place quote-breaking content in a join argument, inject PHP into the compiled cache file, and execute it when Phalcon\\Mvc\\View\\Engine\\Volt::render() loads the template. This issue is fixed in version 5.16.0.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：phalcon cphalcon\n🔓 漏洞类型：Code Injection, CWE-1336 (CWE-94, CWE-1336)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/phalcon/cphalcon/security/advisories/GHSA-hrwp-4hh9-c8r8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phalcon/cphalcon/pull/17217",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phalcon/cphalcon/commit/e434061be3b7161930476c1368c868badc71e1bd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/phalcon/cphalcon/releases/tag/v5.16.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "phalcon",
+          "product": "cphalcon",
+          "versions": [
+            {
+              "version": "< 5.16.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine"
+      ],
+      "cwe_ids": [
+        "CWE-94",
+        "CWE-1336"
+      ],
+      "cvss_severity": "HIGH",
+      "ghsa_id": "GHSA-hrwp-4hh9-c8r8"
+    },
+    {
+      "id": "CVE-2026-17250",
+      "publishedDate": "2026-08-21T17:16:38.888Z",
+      "lastModifiedDate": "2026-08-25T03:56:42.953Z",
+      "description": "A\nstack-based buffer overflow vulnerability exists in the firmware update\nfunctionality of TL-MR6400 v7 due to unsafe processing of\nattacker-controlled metadata within a firmware image. \n\n\n\n\n\nSuccessful\nexploitation may allow an authenticated attacker to trigger memory corruption\nand execute arbitrary code on the affected device.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TP-Link Systems Inc. TL-MR6400 v7.0\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.tp-link.com/en/support/download/tl-mr6400/v7/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/tw/support/download/tl-mr6400/v7/#Firmware",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.tp-link.com/us/support/faq/5259/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TP-Link Systems Inc.",
+          "product": "TL-MR6400 v7.0",
+          "platforms": [
+            "Linux"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.9.0 Build 260714",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-121 Stack-based buffer overflow"
+      ],
+      "cwe_ids": [
+        "CWE-121"
+      ]
+    },
+    {
+      "id": "CVE-2026-47359",
+      "publishedDate": "2026-08-21T08:30:07.701Z",
+      "lastModifiedDate": "2026-08-25T03:56:21.092Z",
+      "description": "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') vulnerability in Apache CloudStack's NAS backup provider plugin. The addBackupRepository API (available since 4.20.0.0) and updateBackupRepository API (introduced in 4.22.0.0) accept unsanitized command options for the backup repository. A malicious operator account can exploit this to inject arbitrary commands that execute on the KVM hypervisor host when any account subsequently performs a backup restore.\n\nThis issue affects Apache CloudStack: from 4.20.0.0 through 4.20.3.0 and from 4.21.0.0 through 4.22.1.0.\n\nUsers are recommended to upgrade to version 4.20.3.1 or 4.22.1.1 or later, which fixes the issue.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache CloudStack\n🔓 漏洞类型：OS Command Injection (CWE-78)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/g6cwddtjrwbh1d56wjz4cfp3fzfm4kbc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Apache CloudStack",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThanOrEqual": "4.20.3.0",
+              "status": "affected",
+              "version": "4.20.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "4.22.1.0",
+              "status": "affected",
+              "version": "4.21.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-66722",
+      "publishedDate": "2026-08-21T08:22:36.337Z",
+      "lastModifiedDate": "2026-08-25T03:56:49.706Z",
+      "description": "Improper authorization for CRUD operations on Project Roles and Project Role permissions for domain admins in CloudStack.\n\n\n\n\nA Domain Admin can create, update, delete, and list project roles and project role permissions for projects in any domain, not just their own. The check only confirms the caller is a Domain Admin, without verifying whether the target project belongs to their domain or subdomain. This allows a malicious Domain Admin to tamper with project roles and permissions across unrelated domains.\n\n\n\n\nThis issue affects Apache CloudStack: from 4.15.0.0 through 4.20.3.0 and from 4.21.0.0 through 4.22.1.0.\n\n\n\n\n\nUsers are recommended to upgrade to version 4.20.3.1 or 4.22.1.1 or later, which fixes the issue.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache CloudStack\n🔓 漏洞类型：CWE-285 (CWE-285)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/g6cwddtjrwbh1d56wjz4cfp3fzfm4kbc",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "Apache CloudStack",
+          "vendor": "Apache Software Foundation",
+          "versions": [
+            {
+              "lessThanOrEqual": "4.20.3.0",
+              "status": "affected",
+              "version": "4.15.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "4.22.1.0",
+              "status": "affected",
+              "version": "4.21.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-285 Improper Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-285"
+      ]
+    },
+    {
+      "id": "CVE-2026-45199",
+      "publishedDate": "2026-08-21T03:36:39.887Z",
+      "lastModifiedDate": "2026-08-25T03:56:19.990Z",
+      "description": "Kernel software installed and running inside a Guest VM may post improper commands to the GPU Firmware to trigger a write of data outside the Guest's virtualised GPU memory.\n\n\n\nSoftware installed and run under a Guest VM can send commands to the GPU which result in out of bounds memory accesses. These can be used to escalate privileges.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Imagination Technologies Graphics DDK\n🔓 漏洞类型：CWE-823 (CWE-823)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.imaginationtech.com/gpu-driver-vulnerabilities/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Imagination Technologies",
+          "product": "Graphics DDK",
+          "platforms": [
+            "Linux",
+            "Android"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.18 RTM2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "23.2 RTM2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "24.2 RTM2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "25.1 RTM2",
+              "lessThanOrEqual": "25.3 RTM",
+              "versionType": "custom"
+            },
+            {
+              "status": "unaffected",
+              "version": "26.1 RTM1",
+              "versionType": "custom"
+            },
+            {
+              "status": "unaffected",
+              "version": "26.1 RTM2",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unknown"
+        }
+      ],
+      "problemType": [
+        "CWE-823: Use of Out-of-range Pointer Offset (4.16)"
+      ],
+      "cwe_ids": [
+        "CWE-823"
       ]
     }
   ]
