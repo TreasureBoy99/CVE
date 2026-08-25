@@ -2,264 +2,1663 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-25T08:25:36.778577",
+    "total_count": 29,
+    "last_updated": "2026-08-25T09:07:39.600183",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 1,
+      "critical": 1,
+      "high": 17,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 11
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-65633",
-      "publishedDate": "2026-08-25T08:03:51.846Z",
-      "lastModifiedDate": "2026-08-25T08:03:51.846Z",
-      "description": "Improper Authentication vulnerability in team-alembic AshAuthentication allows purpose-limited JWTs to be replayed as full bearer API credentials when a resource uses stateless bearer-token verification.\n\nThe bearer-token authentication helper AshAuthentication.Plug.Helpers.retrieve_from_bearer/3 verifies an Authorization: Bearer JWT's signature and rejects tokens containing an act claim, but performs no check that the token's purpose claim equals user at the bearer boundary. When the resource is configured with require_token_presence_for_authentication?: false (the DSL default), the follow-on validate_token/3 helper returns {:ok, nil} without consulting the token resource, so no downstream check on purpose takes place either. As a result, any valid, non-expired JWT the library itself issued for a narrow, single-purpose flow (most notably the purpose: sign_in token that WebAuthn always emits during sign-in, and that the Password strategy emits when sign-in tokens are enabled) is accepted directly as a general-purpose bearer credential and resolves to a full current_user assignment.\n\nThis bypasses the library's intended token-exchange contract, in which the sign_in token is meant to be presented exactly once to a preparation that validates the purpose claim and immediately revokes the token. The first use of a still-valid sign-in token presented directly in the Authorization header succeeds because the stateless bearer path never scopes it to purpose == \"user\".\n\nAn attacker who obtains a not-yet-exchanged sign-in token for a target subject (for example via log or referrer leakage, an intercepted magic-link delivery channel, or a partially compromised intermediary) can present it as a bearer token and be authenticated as that subject, fully bypassing the intended one-time-use and revocation semantics. Exploitation additionally requires that the host application wire up retrieve_from_bearer/3 on a reachable route and uses either WebAuthn (sign-in tokens are always issued) or the Password strategy with sign_in_tokens_enabled?: true. Resources configured with require_token_presence_for_authentication?: true (including applications scaffolded by the Igniter installer since v4.5.0) and the session-based path (authenticate_resource_from_session/4) enforce purpose == \"user\" against the stored token record and are not affected.\n\nThis issue affects ash_authentication: from 3.10.5 before 4.14.2 and from 5.0.0-rc.0 before 5.0.0-rc.13.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：team-alembic ash_authentication\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-63586",
+      "publishedDate": "2026-08-25T08:54:55.934Z",
+      "lastModifiedDate": "2026-08-25T08:54:55.934Z",
+      "description": "The web-based management interface uses a modified uhttpd server with CGI shell scripts. The HTTP Basic Authentication username, taken directly from the Authorization header without sanitization, is inserted into a shell command string executed via the system() function. By submitting a specially crafted username containing shell metacharacters, an unauthenticated attacker with network access to the device can escape the command context and execute arbitrary commands with root privileges.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Weidmueller Interface IE-SR-2TX-WL\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/team-alembic/ash_authentication/security/advisories/GHSA-6vcj-3h59-rrc3",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-65633.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-65633",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/team-alembic/ash_authentication/commit/8cf8b2d4426172be0900a3505e9491800b951750",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/team-alembic/ash_authentication/commit/124eddd1bbeb40289c3fe8831ac10677a19fcf09",
+          "url": "https://www.certvde.com/en/advisories/VDE-2026-083/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:team-alembic:ash_authentication:*:*:*:*:*:*:*:*"
-          ],
           "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.AshAuthentication.Plug.Helpers'"
-          ],
-          "packageName": "ash_authentication",
-          "packageURL": "pkg:hex/ash_authentication",
-          "product": "ash_authentication",
-          "programFiles": [
-            "lib/ash_authentication/plug/helpers.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.AshAuthentication.Plug.Helpers':retrieve_from_bearer/3"
-            }
-          ],
-          "repo": "https://github.com/team-alembic/ash_authentication",
-          "vendor": "team-alembic",
+          "product": "IE-SR-2TX-WL",
+          "vendor": "Weidmueller Interface",
           "versions": [
             {
-              "lessThan": "4.14.2",
+              "lessThan": "1.57",
               "status": "affected",
-              "version": "3.10.5",
-              "versionType": "semver"
-            },
-            {
-              "lessThan": "5.0.0-rc.13",
-              "status": "affected",
-              "version": "5.0.0-rc.0",
+              "version": "1.52",
               "versionType": "semver"
             }
           ]
         },
         {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:team-alembic:ash_authentication:*:*:*:*:*:*:*:*"
-          ],
           "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.AshAuthentication.Plug.Helpers'"
-          ],
-          "packageName": "team-alembic/ash_authentication",
-          "packageURL": "pkg:github/team-alembic/ash_authentication",
-          "product": "ash_authentication",
-          "programFiles": [
-            "lib/ash_authentication/plug/helpers.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.AshAuthentication.Plug.Helpers':retrieve_from_bearer/3"
-            }
-          ],
-          "repo": "https://github.com/team-alembic/ash_authentication",
-          "vendor": "team-alembic",
+          "product": "IE-SR-2TX-WL-4G-EU",
+          "vendor": "Weidmueller Interface",
           "versions": [
             {
-              "changes": [
-                {
-                  "at": "8cf8b2d4426172be0900a3505e9491800b951750",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "124eddd1bbeb40289c3fe8831ac10677a19fcf09",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "*",
+              "lessThan": "1.74",
               "status": "affected",
-              "version": "eca8cadea0f1595ed2c10a0c177b1da9aa9e5269",
-              "versionType": "git"
+              "version": "1.67",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "unaffected",
+          "product": "IE-SR-2TX-WL-4G-US-V",
+          "vendor": "Weidmueller Interface",
+          "versions": [
+            {
+              "lessThan": "1.74",
+              "status": "affected",
+              "version": "1.67",
+              "versionType": "semver"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-287 Improper Authentication"
+        "CWE-78 Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
       ],
       "cwe_ids": [
-        "CWE-287"
+        "CWE-78"
+      ]
+    },
+    {
+      "id": "CVE-2026-63587",
+      "publishedDate": "2026-08-25T08:55:12.442Z",
+      "lastModifiedDate": "2026-08-25T08:55:12.442Z",
+      "description": "The SMS control function of IE-SR-2TX-WL-4G devices can require a password for SMS commands via the 'Enable Password Authorization' setting. The device increments a retry counter on each failed SMS password attempt; after 5 consecutive failed attempts, SMS password authorization is automatically disabled. An unauthenticated remote attacker who is able to send SMS messages to the device can deliberately trigger this by submitting 5 or more invalid passwords, after which subsequent SMS commands are executed without requiring a password, resulting in potential limited configuration tampering, limited information leakage and potentially full loss of availability.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：Weidmueller Interface IE-SR-2TX-WL-4G-EU\n🔓 漏洞类型：CWE-288 (CWE-288)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.certvde.com/en/advisories/VDE-2026-083/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
+          "product": "IE-SR-2TX-WL-4G-EU",
+          "vendor": "Weidmueller Interface",
+          "versions": [
+            {
+              "lessThan": "1.74",
+              "status": "affected",
+              "version": "1.67",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "defaultStatus": "unaffected",
+          "product": "IE-SR-2TX-WL-4G-US-V",
+          "vendor": "Weidmueller Interface",
+          "versions": [
+            {
+              "lessThan": "1.74",
+              "status": "affected",
+              "version": "1.67",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-288 Authentication Bypass Using an Alternate Path or Channel"
+      ],
+      "cwe_ids": [
+        "CWE-288"
+      ]
+    },
+    {
+      "id": "CVE-2026-71366",
+      "publishedDate": "2026-08-24T15:42:44.869Z",
+      "lastModifiedDate": "2026-08-25T08:47:09.744Z",
+      "description": "A server-side request forgery (SSRF) vulnerability was found in multiple AWX notification backends. The webhook, Mattermost, Rocket.Chat, and Grafana notification backends use notification template URLs as direct HTTP request targets without validating the target address against private, loopback, or reserved IP ranges. An organization notification administrator can create notification templates pointing to internal or loopback addresses, causing the AWX control node to issue HTTP requests to services that are not externally accessible. Additionally, the webhook notification backend follows HTTP redirects and resends configured Basic Authentication credentials to redirect targets regardless of host change, allowing an attacker to exfiltrate notification credentials by redirecting to an attacker-controlled host. The Grafana backend sends its API key in the Authorization header to the configured target URL.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Ansible Automation Platform 2.5 for RHEL 8\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59135",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59136",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59153",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59155",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-71366",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2511902",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.5 for RHEL 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.6.32-1.el8ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.5 for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.6.32-1.el9ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.6 for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.7.16-1.el9ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el10",
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.6::el10",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.6::el9",
+            "cpe:/a:redhat:ansible_automation_platform_inside:2.6::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.6",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "ansible-automation-platform-26/controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787244009",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.7",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "ansible-automation-platform-27/controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787220257",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.7::el9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-71365",
+      "publishedDate": "2026-08-18T15:51:10.748Z",
+      "lastModifiedDate": "2026-08-25T08:47:09.117Z",
+      "description": "A server-side request forgery (SSRF) vulnerability was found in AWX's webhook status callback mechanism. When processing GitHub pull request webhooks, AWX extracts the status callback URL (pull_request.statuses_url) from the incoming webhook payload without validating the target host against the expected Git provider. This URL is persisted in job extra variables and later used to send authenticated status updates. A user with admin role on a webhook-enabled job template can read the template's webhook signing key, forge a signed GitHub webhook payload with an arbitrary statuses_url, and cause AWX to POST status updates to an attacker-controlled or internal URL. The status update request includes the configured Git Personal Access Token (PAT) in the Authorization header, resulting in credential leakage to the attacker-specified endpoint.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Ansible Automation Platform 2.5 for RHEL 8\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59135",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59136",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59153",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59155",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-71365",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2511901",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.5 for RHEL 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.6.32-1.el8ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.5 for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.6.32-1.el9ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.6 for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.7.16-1.el9ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el10",
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.6::el10",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.6::el9",
+            "cpe:/a:redhat:ansible_automation_platform_inside:2.6::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.6",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "ansible-automation-platform-26/controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787244009",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.7",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "ansible-automation-platform-27/controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787220257",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.7::el9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-71364",
+      "publishedDate": "2026-08-24T15:21:54.196Z",
+      "lastModifiedDate": "2026-08-25T08:47:04.532Z",
+      "description": "A path traversal vulnerability was found in AWX's project archive extraction. The project_archive action plugin extracts zip and tar archive members by joining the project directory path with the member filename without performing path normalization, boundary validation, or rejecting directory traversal sequences. A malicious archive containing members with path traversal components can write files to arbitrary locations on the execution node's filesystem outside the intended project directory. An attacker who controls the archive content, either through a compromised upstream source, a malicious archive URL, or a man-in-the-middle attack on a plain HTTP connection, can achieve arbitrary file writes as the user performing the extraction, potentially leading to remote code execution through mechanisms such as cron files, SSH authorized keys, or playbook content injection.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Ansible Automation Platform 2.5 for RHEL 8\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59135",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59136",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59153",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59155",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-71364",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2511900",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.5 for RHEL 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.6.32-1.el8ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.5 for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.6.32-1.el9ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform:2.5::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el8",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.5::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.6 for RHEL 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "automation-controller",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "0:4.7.16-1.el9ap",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el10",
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el9",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.6::el10",
+            "cpe:/a:redhat:ansible_automation_platform_developer:2.6::el9",
+            "cpe:/a:redhat:ansible_automation_platform_inside:2.6::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.6",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "ansible-automation-platform-26/controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787244009",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.6::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Ansible Automation Platform 2.7",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "ansible-automation-platform-27/controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787220257",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:ansible_automation_platform:2.7::el9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-56092",
+      "publishedDate": "2026-08-25T09:00:49.567Z",
+      "lastModifiedDate": "2026-08-25T09:00:49.567Z",
+      "description": "The extension forces empty frontend-group and subpage-inheritance restrictions onto page records during indexer sub-requests, and this forged state was persisted into the shared rootline cache, allowing anonymous visitors to bypass extendToSubpages-inherited access restrictions on cached pages.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Apache Solr for TYPO3 - Enterprise Search\"\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-025",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Apache Solr for TYPO3 - Enterprise Search\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "apache-solr-for-typo3/solr",
+          "repo": "https://github.com/TYPO3-Solr/ext-solr",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "12.0.0",
+              "lessThan": "12.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "11.6.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-66882",
-      "publishedDate": "2026-08-25T08:03:47.721Z",
-      "lastModifiedDate": "2026-08-25T08:03:47.721Z",
-      "description": "Improper Neutralization of Input During Web Page Generation (XSS) vulnerability in team-alembic AshAuthentication allows reflected cross-site scripting via the confirmation and magic link interaction forms.\n\nWhen a strategy is configured with require_interaction? set to true, AshAuthentication serves an intermediate HTML page asking the user to confirm the action by submitting a form. Both such pages embed a request parameter directly into a hidden input's value attribute without HTML escaping: lib/ash_authentication/add_ons/confirmation/confirmation_form.html.eex interpolates the confirm parameter, and lib/ash_authentication/strategies/magic_link/sign_in_form.html.eex interpolates the magic link token parameter. These templates are compiled with EEx.function_from_file/3 using plain <%= %> expressions, which perform no escaping, so the parameter is reflected verbatim.\n\nNeither accept handler validates the value before rendering it. AshAuthentication.AddOn.Confirmation.Plug.accept/2 only checks that a confirm key is present, and AshAuthentication.Strategy.MagicLink.Plug.accept/2 reads the parameter directly, so no token signature is verified at this stage and arbitrary attacker-supplied text reaches the template. An unauthenticated attacker can therefore craft a URL whose parameter terminates the attribute and injects markup, for example a quote followed by a <script> element. Because the accept phase is served over GET, loading the crafted link is sufficient; no form submission or prior authentication is required.\n\nThe injected script executes in the origin of the application embedding AshAuthentication, giving it access to that origin's cookies, session, and same-origin responses. Since these pages are part of the authentication flow, a victim following what appears to be a legitimate confirmation or sign-in link is a plausible target.\n\nThis issue affects ash_authentication: from 4.8.0 before 4.14.2 and from 5.0.0-rc.0 before 5.0.0-rc.13.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：team-alembic ash_authentication\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-56093",
+      "publishedDate": "2026-08-25T09:00:48.858Z",
+      "lastModifiedDate": "2026-08-25T09:00:48.858Z",
+      "description": "The extension's frontend detail-view document lookup does not apply the current site's siteHash filter or frontend user access filter, unlike the regular search path. A visitor who can obtain or guess a valid Solr document id can retrieve documents through this lookup without the same access restrictions enforced elsewhere.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Apache Solr for TYPO3 - Enterprise Search\"\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/team-alembic/ash_authentication/security/advisories/GHSA-54fc-x3hv-ffhw",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-66882.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-66882",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/team-alembic/ash_authentication/commit/62719710790a150a9eacab9c0a066e0d122d15be",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/team-alembic/ash_authentication/commit/0bd5199db066be22b2ca1ec8bc6109e5d62e6070",
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-025",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:team-alembic:ash_authentication:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.AshAuthentication.Strategy.MagicLink.Plug'",
-            "'Elixir.AshAuthentication.AddOn.Confirmation.Plug'"
-          ],
-          "packageName": "ash_authentication",
-          "packageURL": "pkg:hex/ash_authentication",
-          "product": "ash_authentication",
-          "programFiles": [
-            "lib/ash_authentication/strategies/magic_link/sign_in_form.html.eex",
-            "lib/ash_authentication/strategies/magic_link/plug.ex",
-            "lib/ash_authentication/add_ons/confirmation/confirmation_form.html.eex",
-            "lib/ash_authentication/add_ons/confirmation/plug.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.AshAuthentication.Strategy.MagicLink.Plug':accept/2"
-            },
-            {
-              "name": "'Elixir.AshAuthentication.AddOn.Confirmation.Plug':accept/2"
-            }
-          ],
-          "repo": "https://github.com/team-alembic/ash_authentication",
-          "vendor": "team-alembic",
+          "vendor": "TYPO3",
+          "product": "Extension \"Apache Solr for TYPO3 - Enterprise Search\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "apache-solr-for-typo3/solr",
+          "repo": "https://github.com/TYPO3-Solr/ext-solr",
           "versions": [
             {
-              "lessThan": "4.14.2",
               "status": "affected",
-              "version": "4.8.0",
+              "version": "13.0.0",
+              "lessThan": "13.1.4",
               "versionType": "semver"
             },
             {
-              "lessThan": "5.0.0-rc.13",
               "status": "affected",
-              "version": "5.0.0-rc.0",
+              "version": "12.0.0",
+              "lessThan": "12.1.4",
               "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:team-alembic:ash_authentication:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "'Elixir.AshAuthentication.Strategy.MagicLink.Plug'",
-            "'Elixir.AshAuthentication.AddOn.Confirmation.Plug'"
-          ],
-          "packageName": "team-alembic/ash_authentication",
-          "packageURL": "pkg:github/team-alembic/ash_authentication",
-          "product": "ash_authentication",
-          "programFiles": [
-            "lib/ash_authentication/strategies/magic_link/sign_in_form.html.eex",
-            "lib/ash_authentication/strategies/magic_link/plug.ex",
-            "lib/ash_authentication/add_ons/confirmation/confirmation_form.html.eex",
-            "lib/ash_authentication/add_ons/confirmation/plug.ex"
-          ],
-          "programRoutines": [
-            {
-              "name": "'Elixir.AshAuthentication.Strategy.MagicLink.Plug':accept/2"
             },
             {
-              "name": "'Elixir.AshAuthentication.AddOn.Confirmation.Plug':accept/2"
+              "status": "affected",
+              "version": "0",
+              "lessThan": "11.6.6",
+              "versionType": "semver"
             }
           ],
-          "repo": "https://github.com/team-alembic/ash_authentication",
-          "vendor": "team-alembic",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "62719710790a150a9eacab9c0a066e0d122d15be",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "0bd5199db066be22b2ca1ec8bc6109e5d62e6070",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "*",
-              "status": "affected",
-              "version": "fe0b4558dbe852fee5d81a460a8355577618a8c8",
-              "versionType": "git"
-            }
-          ]
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-56094",
+      "publishedDate": "2026-08-25T09:00:48.087Z",
+      "lastModifiedDate": "2026-08-25T09:00:48.087Z",
+      "description": "The extension allows a request-provided additionalFilters parameter to register a named siteHash filter before the system's own siteHash filter is applied, and the query builder does not overwrite an already-registered named filter. In a shared Solr core serving multiple TYPO3 sites, a visitor can use this to read public documents belonging to another site. The same root cause also affects the suggest top-results path when suggest is enabled.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Apache Solr for TYPO3 - Enterprise Search\"\n🔓 漏洞类型：CWE-943 (CWE-943)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-025",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "MEDIUM"
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Apache Solr for TYPO3 - Enterprise Search\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "apache-solr-for-typo3/solr",
+          "repo": "https://github.com/TYPO3-Solr/ext-solr",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "12.0.0",
+              "lessThan": "12.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "11.6.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-943 Improper Neutralization of Special Elements in Data Query Logic"
+      ],
+      "cwe_ids": [
+        "CWE-943"
+      ]
+    },
+    {
+      "id": "CVE-2026-56095",
+      "publishedDate": "2026-08-25T09:00:47.261Z",
+      "lastModifiedDate": "2026-08-25T09:00:47.261Z",
+      "description": "The extension's indexer passed every field value returned by content object rendering through PHP's unserialize() function when transferring multi-value data for the SOLR_CLASSIFICATION, SOLR_MULTIVALUE and SOLR_RELATION content object types, rather than a safe format. If user-generated content saved in the TYPO3 database can reach an indexed field, this exposes a PHP Object Injection surface.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Apache Solr for TYPO3 - Enterprise Search\"\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-025",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Apache Solr for TYPO3 - Enterprise Search\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "apache-solr-for-typo3/solr",
+          "repo": "https://github.com/TYPO3-Solr/ext-solr",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "12.0.0",
+              "lessThan": "12.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "11.6.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "cwe_ids": [
+        "CWE-502"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-56096",
+      "publishedDate": "2026-08-25T09:00:46.440Z",
+      "lastModifiedDate": "2026-08-25T09:00:46.440Z",
+      "description": "The extension passes the user-supplied search query parameter to Apache Solr without restricting advanced Solr query syntax such as wildcards, field selectors and range queries. A remote, unauthenticated attacker can use this syntax to enumerate indexed field names and extract their stored values through boolean- and range-based blind extraction techniques, independent of any site-specific configuration.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Apache Solr for TYPO3 - Enterprise Search\"\n🔓 漏洞类型：CWE-943 (CWE-943)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-025",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Apache Solr for TYPO3 - Enterprise Search\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "apache-solr-for-typo3/solr",
+          "repo": "https://github.com/TYPO3-Solr/ext-solr",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "12.0.0",
+              "lessThan": "12.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "11.6.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-943 Improper Neutralization of Special Elements in Data Query Logic"
+      ],
+      "cwe_ids": [
+        "CWE-943"
+      ]
+    },
+    {
+      "id": "CVE-2026-77127",
+      "publishedDate": "2026-08-25T09:00:45.715Z",
+      "lastModifiedDate": "2026-08-25T09:00:45.715Z",
+      "description": "The extension fails to restrict a backend AJAX endpoint for inline editing to fields the current user is permitted to see or edit. An authenticated, low-privileged backend user can supply arbitrary table, field and record parameters, and trigger an error response that discloses the current database value of the requested field, leading to disclosure of sensitive information such as backend and frontend user password hashes. Exploitation requires a valid, authenticated TYPO3 backend user account with access to the extensions backend module.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Modules\"\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-016",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Modules\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "codingms/modules",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.1.4",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "7.10.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-77128",
+      "publishedDate": "2026-08-25T09:00:44.929Z",
+      "lastModifiedDate": "2026-08-25T09:00:44.929Z",
+      "description": "The extension fails to enforce enable-field restrictions on a repository query parameter. An unauthenticated remote user can pass a demand-override parameter to view hidden or time-restricted events, unless the disableOverrideDemand plugin setting is active. Exploitation of this issue requires only that disableOverrideDemand is not enabled.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Event management and registration\"\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-023",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Event management and registration\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "derhansen/sf_event_mgt",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "9.0.0",
+              "lessThan": "9.0.3",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.6.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.9.3",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.7.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "5.9.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/derhansen/sf_event_mgt"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77129",
+      "publishedDate": "2026-08-25T09:00:44.104Z",
+      "lastModifiedDate": "2026-08-25T09:00:44.104Z",
+      "description": "The extension passes an editor-configurable email subject string directly into a Fluid template source without restriction. A backend user with edit access to the event plugin or Backend Module can supply Fluid ViewHelper syntax in this field to disclose sensitive data or execute TypoScript content objects. Exploitation of this issue requires an authenticated backend account with edit access to the event registration plugin or backend module.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Event management and registration\"\n🔓 漏洞类型：CWE-1336 (CWE-1336)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-023",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Event management and registration\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "derhansen/sf_event_mgt",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "9.0.0",
+              "lessThan": "9.0.3",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.6.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.9.3",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.7.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "5.9.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/derhansen/sf_event_mgt"
+        }
+      ],
+      "problemType": [
+        "CWE-1336 Improper Neutralization of Special Elements Used in a Template Engine"
+      ],
+      "cwe_ids": [
+        "CWE-1336"
+      ]
+    },
+    {
+      "id": "CVE-2026-77130",
+      "publishedDate": "2026-08-25T09:00:43.390Z",
+      "lastModifiedDate": "2026-08-25T09:00:43.390Z",
+      "description": "The extension fails to properly validate the expiration of a client-supplied JWT token, allowing an attacker in control of a valid API key to authenticate with an expired token. Exploitation requires the attacker to already be in control of the SYSSY project's API key.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"SYSSY - TYPO3 Monitoring & Security Checks\"\n🔓 漏洞类型：CWE-613 (CWE-613)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-015",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"SYSSY - TYPO3 Monitoring & Security Checks\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "syssy/syssy-typo3-extension",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "3.0.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-613 Insufficient Session Expiration"
+      ],
+      "cwe_ids": [
+        "CWE-613"
+      ]
+    },
+    {
+      "id": "CVE-2026-77131",
+      "publishedDate": "2026-08-25T09:00:42.646Z",
+      "lastModifiedDate": "2026-08-25T09:00:42.646Z",
+      "description": "When OpenSSL is unavailable on the server, the extension transmits TYPO3 system information in cleartext instead of encrypting it. Exploitation requires the attacker to already be in control of the SYSSY project's API key.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"SYSSY - TYPO3 Monitoring & Security Checks\"\n🔓 漏洞类型：CWE-319 (CWE-319)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-015",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"SYSSY - TYPO3 Monitoring & Security Checks\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "syssy/syssy-typo3-extension",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "3.0.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-319 Cleartext Transmission of Sensitive Information"
+      ],
+      "cwe_ids": [
+        "CWE-319"
+      ]
+    },
+    {
+      "id": "CVE-2026-77133",
+      "publishedDate": "2026-08-25T09:00:41.795Z",
+      "lastModifiedDate": "2026-08-25T09:00:41.795Z",
+      "description": "The extension fails to restrict which frontend usergroups a logged-in user may assign to their own account when the profile edit plugin uses its default field configuration, allowing self-service privilege escalation into arbitrary frontend groups.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"femanager\"\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-024",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"femanager\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "in2code/femanager",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.3.5",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.4.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.5.5",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "6.4.5",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/in2code-de/femanager"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77134",
+      "publishedDate": "2026-08-25T09:00:40.986Z",
+      "lastModifiedDate": "2026-08-25T09:00:40.986Z",
+      "description": "The extension fails to require the dedicated admin confirmation token when processing an admin-approval request, so a regular user confirmation hash, obtainable by any visitor through the public resend-confirmation action, is sufficient to self-approve a pending account awaiting admin approval.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"femanager\"\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-024",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"femanager\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "in2code/femanager",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.3.5",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.4.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.5.5",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "6.4.5",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/in2code-de/femanager"
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77135",
+      "publishedDate": "2026-08-25T09:00:40.231Z",
+      "lastModifiedDate": "2026-08-25T09:00:40.231Z",
+      "description": "The extension's user detail view fails to verify that a requested user record matches the configured or logged-in target, allowing any visitor with access to the Detail or List plugin to retrieve another frontend user's profile data, including name, email, date of birth and address, by supplying an arbitrary user ID.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"femanager\"\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-024",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"femanager\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "in2code/femanager",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.3.5",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.4.2",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.5.5",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "6.4.5",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/in2code-de/femanager"
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-77136",
+      "publishedDate": "2026-08-25T09:00:39.526Z",
+      "lastModifiedDate": "2026-08-25T09:00:39.526Z",
+      "description": "The extension passes the raw value of a form field configured as \"This field contains the name of the sender\" directly into a Fluid View as template source, without any sanitization, and renders it. An anonymous, unauthenticated user can submit Fluid template syntax in that field to execute arbitrary Fluid ViewHelpers leading to disclosure of server configuration, environment variables and application source, and potentially remote code execution. Exploitation requires only that a form field is configured as the sender_name field, a common and default-adjacent Powermail configuration. No authentication or user interaction beyond a normal form submission is required. This vulnerability is reported to be actively exploited in the wild.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"powermail\"\n🔓 漏洞类型：CWE-1336 (CWE-1336)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-022",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"powermail\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "in2code/powermail",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "13.0.0",
+              "lessThan": "13.2.1",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "11.0.0",
+              "lessThan": "12.6.1",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "10.9.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/in2code-de/powermail"
+        }
+      ],
+      "problemType": [
+        "CWE-1336 Improper Neutralization of Special Elements Used in a Template Engine"
+      ],
+      "cwe_ids": [
+        "CWE-1336"
+      ]
+    },
+    {
+      "id": "CVE-2026-77137",
+      "publishedDate": "2026-08-25T09:00:38.789Z",
+      "lastModifiedDate": "2026-08-25T09:00:38.789Z",
+      "description": "The extension fails to properly sanitize user input before using it in a database query. As a result, a low-privileged backend user can inject arbitrary SQL through a URL parameter within the \"Forms Export\" backend module. Exploitation requires a low-privileged backend user and read access to the \"Forms Export\" Backend module.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Forms Export\"\n🔓 漏洞类型：SQL Injection (CWE-89)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-027",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Forms Export\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "frappant/frp-form-answers",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.1.1",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.1.3",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "5.0.5",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-89"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77138",
+      "publishedDate": "2026-08-25T09:00:38.059Z",
+      "lastModifiedDate": "2026-08-25T09:00:38.059Z",
+      "description": "The extension fails to safely process untrusted client input of an attacker-controlled cookie directly to PHP's unserialize(). A remote, unauthenticated attacker can supply a crafted serialized payload to trigger PHP Object Injection, leading to Remote Code Execution on the TYPO3 server.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"HTML5 Video Player vs. Powermail\"\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-014",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"HTML5 Video Player vs. Powermail\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "lochmueller/html5videoplayer-powermail",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThanOrEqual": "0.2.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "cwe_ids": [
+        "CWE-502"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77139",
+      "publishedDate": "2026-08-25T09:00:37.199Z",
+      "lastModifiedDate": "2026-08-25T09:00:37.199Z",
+      "description": "The extension fails to validate a client-supplied template element key before using it to build file paths for saving and deleting Mask template files. An authenticated backend user with access to the Mask module can supply a key containing path traversal sequences to create or delete .html files outside the configured template directory.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Mask\"\n🔓 漏洞类型：Path Traversal, CWE-73 (CWE-22, CWE-73)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-017",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Mask\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "mask/mask",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "9.0.0",
+              "lessThan": "9.0.11",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.3.12",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-73 External Control of File Name or Path"
+      ],
+      "cwe_ids": [
+        "CWE-22",
+        "CWE-73"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77140",
+      "publishedDate": "2026-08-25T09:00:36.477Z",
+      "lastModifiedDate": "2026-08-25T09:00:36.477Z",
+      "description": "The extension validates the HMAC of a frontend employee edit link only in the action that renders the edit form, not in the action that persists the change. An unauthenticated visitor who knows the UID of a visible employee record can send a direct POST request to the update action and overwrite that record without a valid edit link or any ownership check.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Telephone Directory\"\n🔓 漏洞类型：Missing Authorization, CWE-639 (CWE-862, CWE-639)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-018",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Telephone Directory\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "jweiland/telephonedirectory",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "6.2.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization",
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-862",
+        "CWE-639"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77141",
+      "publishedDate": "2026-08-25T09:00:35.744Z",
+      "lastModifiedDate": "2026-08-25T09:00:35.744Z",
+      "description": "The extension resolves the targeted club record from a user-supplied request argument in its frontend edit, update, and activate actions, but performs no ownership check in any of them. An unauthenticated visitor who knows the UID of a club record can send a direct request to the update or activate action and overwrite that record, or publish one still awaiting approval, without owning it.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Club Directory\"\n🔓 漏洞类型：Missing Authorization, CWE-639 (CWE-862, CWE-639)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-019",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Club Directory\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "jweiland/clubdirectory",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.1.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization",
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-862",
+        "CWE-639"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77142",
+      "publishedDate": "2026-08-25T09:00:35.035Z",
+      "lastModifiedDate": "2026-08-25T09:00:35.035Z",
+      "description": "The frontend company self-service editing feature relies on a template-level visibility flag to hide the edit form for company records a visitor does not own, but the corresponding write operation does not repeat this ownership check on the server side. As a result, a visitor who knows the identifier of a company record from the public directory can submit a modified update request for that record directly and overwrite its data, without the application ever confirming that the visitor owns it.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Industry Directory\"\n🔓 漏洞类型：Missing Authorization, CWE-639 (CWE-862, CWE-639)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-020",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Industry Directory\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "jweiland/yellowpages2",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.1.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization",
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-862",
+        "CWE-639"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77143",
+      "publishedDate": "2026-08-25T09:00:34.130Z",
+      "lastModifiedDate": "2026-08-25T09:00:34.130Z",
+      "description": "The frontend topic editing flow does not verify on the server side that the requesting visitor owns the topic being modified. As a result, a visitor who knows the identifier of a topic from the public forum can submit a modified update request for that topic directly and overwrite its content, without the application confirming ownership. Topic identifiers are visible in the public forum listing, and exploitation requires no privileged access or non-default configuration.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Forum\"\n🔓 漏洞类型：Missing Authorization, CWE-639 (CWE-862, CWE-639)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-021",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Forum\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "jweiland/pforum",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "6.2.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization",
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-862",
+        "CWE-639"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-77144",
+      "publishedDate": "2026-08-25T09:00:33.297Z",
+      "lastModifiedDate": "2026-08-25T09:00:33.297Z",
+      "description": "The frontend management plugin attributed a newly created event to the submitting user's organizer record only when the request supplied no organizer of its own. The accompanying permission check confirmed only that the submitting user held any organizer role. A user with frontend event management access could therefore create an event that is attributed to another organizer.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Events 2\"\n🔓 漏洞类型：CWE-915 (CWE-915)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Events 2\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "jweiland/events2",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "10.0.0",
+              "lessThan": "10.2.12",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-915 Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+      ],
+      "cwe_ids": [
+        "CWE-915"
+      ]
+    },
+    {
+      "id": "CVE-2026-77145",
+      "publishedDate": "2026-08-25T09:00:32.558Z",
+      "lastModifiedDate": "2026-08-25T09:00:32.558Z",
+      "description": "The permission check for the frontend management update flow verified a different event than the one the request went on to modify. A user with frontend event management access could therefore modify events belonging to other organizers.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"Events 2\"\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-026",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"Events 2\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "jweiland/events2",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "10.0.0",
+              "lessThan": "10.2.12",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-639 Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-77146",
+      "publishedDate": "2026-08-25T09:00:31.815Z",
+      "lastModifiedDate": "2026-08-25T09:00:31.815Z",
+      "description": "The extension's invitation controller fails to stop processing after redirecting on invalid input (missing hash, non-existent, disabled, or deleted users), allowing an unauthenticated attacker to set a new password for and re-enable an arbitrary existing frontend user account. This vulnerability is only present in the 8.x versions of the extension.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：TYPO3 Extension \"femanager\"\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://typo3.org/security/advisory/typo3-ext-sa-2026-024",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "TYPO3",
+          "product": "Extension \"femanager\"",
+          "collectionURL": "https://packagist.org/",
+          "packageName": "in2code/femanager",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.4.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "repo": "https://github.com/in2code-de/femanager"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
