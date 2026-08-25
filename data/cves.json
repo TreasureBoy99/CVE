@@ -2,131 +2,92 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-08-25T11:16:43.783889",
+    "total_count": 27,
+    "last_updated": "2026-08-25T11:48:17.276092",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 2,
+      "critical": 1,
+      "high": 8,
+      "medium": 18,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-59335",
-      "publishedDate": "2026-08-25T11:05:11.166Z",
-      "lastModifiedDate": "2026-08-25T11:05:11.166Z",
-      "description": "Improper handling of case sensitivity (CWE-178) in the identity zone authorization check in the Identity Zone Endpoint in Cloud Foundry UAA allows a remote authenticated attacker holding only the zones.write authority to bypass the intended restriction that this authority does not grant access to the privileged uaa (system) identity zone, by referring to the zone identifier in a non-lowercase form (e.g. UAA) in the request path and body. The authorization layer performs a case-sensitive comparison against the system zone identifier, while the underlying MySQL persistence layer resolves identifiers case-insensitively under its default collation, so the request is authorized incorrectly and is then resolved against the real system zone record. This allows the attacker to overwrite the system zone's JWT signing key with attacker-controlled key material, forge JWTs claiming the admin client and administrator scopes, and fully compromise UAA and any Cloud Foundry deployment that trusts it. This issue only affects UAA deployments backed by MySQL using its default collation; PostgreSQL and HSQLDB backends are not affected.",
-      "severity": 8.7,
-      "fix_suggestion": "📦 受影响组件：Cloud Foundry UAA\n🔓 漏洞类型：CWE-178 (CWE-178)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-79657",
+      "publishedDate": "2026-08-25T11:33:22.645Z",
+      "lastModifiedDate": "2026-08-25T11:36:41.768Z",
+      "description": "NLTK versions before 3.10.3 contain a remote code execution vulnerability in allowlisted pickle loaders that trust entire module namespaces instead of specific safe callables. Attackers can craft malicious pickle payloads invoking dangerous in-namespace functions like ReppTokenizer._execute and numpy.f2py.crackfortran.myeval through pickle REDUCE to execute arbitrary commands during model or tokenizer artifact loading.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：nltk nltk\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.cloudfoundry.org/blog/cve-2026-59335-uaa-case-insensitive-check-bypass/",
+          "url": "https://github.com/nltk/nltk/security/advisories/GHSA-x99w-6fgc-pmfw",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/nltk-before-3.10.3-remote-code-execution-via-unsafe-pickle-deserialization",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Cloud Foundry",
-          "product": "UAA",
+          "vendor": "nltk",
+          "product": "nltk",
+          "defaultStatus": "unaffected",
           "versions": [
             {
-              "status": "affected",
               "version": "0",
-              "lessThan": "78.16.0",
-              "versionType": "semver"
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "3.10.3"
             },
             {
+              "version": "3.10.3",
               "status": "unaffected",
-              "version": "78.16.0",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unknown"
-        },
-        {
-          "vendor": "Cloud Foundry",
-          "product": "cf-deployment",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "57.0.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "57.0.0",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unknown"
+          ]
         }
       ],
       "problemType": [
-        "CWE-178: Improper Handling of Case Sensitivity"
-      ],
-      "cwe_ids": [
-        "CWE-178"
+        "Deserialization of Untrusted Data"
       ]
     },
     {
-      "id": "CVE-2026-79652",
-      "publishedDate": "2026-08-25T11:07:48.988Z",
-      "lastModifiedDate": "2026-08-25T11:07:48.988Z",
-      "description": "A flaw was found in the JWT Bearer authorization grant implementation within the keycloak-services component of Red Hat Build of Keycloak. This component handles various OAuth2 and OpenID Connect grant types used for issuing access tokens. The issue occurs because the JWT Bearer grant fails to check if a client requires user consent before issuing a token. This allows an authenticated attacker with valid client credentials and a trusted identity provider assertion to bypass the consent requirement and obtain unauthorized access to a user account at a consent-gated client.",
-      "severity": 5.9,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Build of Keycloak\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-79665",
+      "publishedDate": "2026-08-25T11:33:28.065Z",
+      "lastModifiedDate": "2026-08-25T11:33:28.065Z",
+      "description": "Ech0 before 4.5.1 contains an authorization bypass vulnerability where session tokens skip scope validation in RequireScopes middleware, allowing logged-in non-admin users to access admin endpoints. Attackers can read system logs, visitor statistics, user emails, and subscribe to live WebSocket logs by sending authenticated session tokens to unprotected endpoints.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-79652",
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-hmmq-qh6g-6wgh",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2523347",
+          "url": "https://www.vulncheck.com/advisories/ech0-before-authorization-bypass-via-session-tokens",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Build of Keycloak",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak/rhbk-openshift-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Build of Keycloak",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak-services",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Build of Keycloak",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "rhbk/keycloak-rhel9",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:build_keycloak:"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Single Sign-On 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak-services",
+          "vendor": "lin-snow",
+          "product": "Ech0",
           "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:/a:redhat:red_hat_single_sign_on:7"
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.5.1"
+            },
+            {
+              "version": "4.5.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
           ]
         }
       ],
@@ -135,40 +96,1287 @@
       ]
     },
     {
-      "id": "CVE-2026-12600",
-      "publishedDate": "2026-08-25T10:57:57.486Z",
-      "lastModifiedDate": "2026-08-25T11:04:43.876Z",
-      "description": "Denial-of-service (DoS) vulnerability in the internal JPEG2000 (JPX) decoding implementation of the Poppler fork developed by Innodata Labs. When an application processes an untrusted PDF file containing specially crafted JPXDecode images, a remote attacker can cause uncontrolled memory consumption. The flaw occurs in the JPXStream::readCodestream() function, where values controlled from the SIZ segment (such as img.nComps) are used for the memory allocation of tiles and components without adequate validation. This allows an attacker to force excessive memory allocation and cause a resource exhaustion, ultimately causing the pdftoppm process to terminate due to out-of-memory (OOM) conditions.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Poppler Innodata Labs\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19949",
+      "publishedDate": "2026-08-25T11:27:11.038Z",
+      "lastModifiedDate": "2026-08-25T11:27:11.038Z",
+      "description": "The All-in-One WP Migration and Backup plugin for WordPress is vulnerable to SQL Injection via archive restore functionality in all versions up to, and including, 7.109 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for unauthenticated attackers to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. This can be leveraged to obtain the ai1wm_secret_key when a site administrator performs an archive restore and achieve remote code execution once able to leverage the ai1wm_secret_key value.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：servmask All-in-One WP Migration and Backup\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.incibe.es/en/incibe-cert/notices/aviso/uncontrolled-memory-usage-innodata-labs-poppler-jpx-decoderuncontrolled",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/22e273d9-a268-4dc5-b1f6-3bc5c29232c5?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/all-in-one-wp-migration/tags/7.109/lib/vendor/servmask/database/class-ai1wm-database.php#L1637",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/all-in-one-wp-migration/tags/7.109/lib/vendor/servmask/database/class-ai1wm-database.php#L1250",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/all-in-one-wp-migration/tags/7.109/lib/vendor/servmask/database/class-ai1wm-database.php#L1726",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/all-in-one-wp-migration/tags/7.109/lib/model/import/class-ai1wm-import-database.php#L1065",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/all-in-one-wp-migration/tags/7.109/lib/controller/class-ai1wm-main-controller.php#L1336",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/all-in-one-wp-migration/tags/7.109/lib/controller/class-ai1wm-import-controller.php#L68",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656677%40all-in-one-wp-migration&new=3656677%40all-in-one-wp-migration",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Poppler",
-          "product": "Innodata Labs",
+          "vendor": "servmask",
+          "product": "All-in-One WP Migration and Backup",
           "versions": [
             {
-              "status": "affected",
               "version": "0",
-              "lessThan": "25/08/2026",
-              "versionType": "date"
+              "status": "affected",
+              "lessThanOrEqual": "7.109",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-400 Uncontrolled Resource Consumption"
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
       ],
       "cwe_ids": [
-        "CWE-400"
+        "CWE-89"
+      ]
+    },
+    {
+      "id": "CVE-2026-79662",
+      "publishedDate": "2026-08-25T11:33:26.056Z",
+      "lastModifiedDate": "2026-08-25T11:33:26.056Z",
+      "description": "Ech0 through 4.5.6 contains an OAuth redirect URI validation vulnerability in parseAndValidateClientRedirect (internal/service/auth/auth.go) that compares only the scheme and host of the client-supplied redirect_uri against the admin-configured allowlist, ignoring path, query, and fragment components. The redirect_uri is embedded into the signed state JWT at login time without validation. An attacker can craft a redirect_uri whose host matches an allowed origin but whose path is attacker-influenced; after the OAuth exchange the victim is redirected to that path with a one-time exchange code in the query string. If the code leaks (e.g., via Referer, analytics, or an open redirect on that host), the attacker can trade it at the public POST /api/auth/exchange endpoint for the victim's access and refresh tokens. Fixed in 4.7.3.",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-p64j-f4x9-wq66",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-oauth-redirect-uri-validation-bypass",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "MEDIUM"
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "URL Redirection to Untrusted Site ('Open Redirect')"
+      ]
+    },
+    {
+      "id": "CVE-2026-79659",
+      "publishedDate": "2026-08-25T11:33:23.996Z",
+      "lastModifiedDate": "2026-08-25T11:33:23.996Z",
+      "description": "Ech0 before 4.7.3 contains a server-side request forgery vulnerability in the fetchPeerConnectInfo function that uses unvalidated HTTP requests instead of safe request methods with URL validation. Authenticated attackers can supply arbitrary URLs to access internal services and cloud metadata endpoints by triggering connection health checks or peer connection operations.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-8mc6-xjpr-h98x",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-server-side-request-forgery-via-fetchpeerconnectinfo",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-79667",
+      "publishedDate": "2026-08-25T11:33:29.421Z",
+      "lastModifiedDate": "2026-08-25T11:33:29.421Z",
+      "description": "Ech0 version 4.3.4 and earlier fails to reliably enforce scoped access token (least-privilege) restrictions on several privileged admin routes. Multiple privileged endpoints (e.g., /api/inbox, /api/panel/comments, /api/backup/export) omit scope checks and authorize based only on the user's admin role, and the backup export handler discards token scope metadata entirely. An attacker holding a deliberately limited (low-scope) admin access token can reach broader privileged functionality than intended, including reading the inbox and exporting a full database backup ZIP archive. Fixed in 4.4.3.",
+      "severity": 7.6,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-4h9q-p5j4-xvvh",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-authentication-bypass-via-scope-enforcement",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-79658",
+      "publishedDate": "2026-08-25T11:33:23.319Z",
+      "lastModifiedDate": "2026-08-25T11:33:23.319Z",
+      "description": "Ech0 before 5.0.1 does not impose any size or shape limit on the Accept-Language header processed by its i18n middleware, which runs on every HTTP request. The header is passed unfiltered to go-i18n's NewLocalizer, which internally calls golang.org/x/text/language.ParseAcceptLanguage. The CVE-2022-32149 mitigation in x/text caps '-' characters but not '_' characters, which the parser aliases to '-', allowing quadratic-time parsing to be triggered with a large header (up to Go's default 1 MiB) built from underscore separators. An unauthenticated attacker can send such requests to consume roughly 1.5 seconds of CPU each, and concurrent requests can saturate a multi-core server (denial of service).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-mqxv-9rm6-w8qc",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-denial-of-service-via-accept-language",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.0.1+"
+            },
+            {
+              "version": "5.0.1+",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2026-79664",
+      "publishedDate": "2026-08-25T11:33:27.375Z",
+      "lastModifiedDate": "2026-08-25T11:33:27.375Z",
+      "description": "Ech0 before 4.7.3 fails to properly revoke access tokens created with never-expire option, allowing attackers to maintain perpetual authenticated access after token theft. Three independent revocation mechanisms fail: logout panics on nil ExpiresAt field, RevokeToken skips when remainTTL is zero, and admin delete does not blacklist the JTI, leaving stolen tokens cryptographically valid until JWT secret rotation.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-fpw6-hrg5-q5x5",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-access-token-revocation-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient Session Expiration"
+      ]
+    },
+    {
+      "id": "CVE-2026-75971",
+      "publishedDate": "2026-08-25T11:27:11.397Z",
+      "lastModifiedDate": "2026-08-25T11:27:11.397Z",
+      "description": "The ShopEngine Elementor WooCommerce Builder Addon – All in One WooCommerce Solution plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 4.9.4. This is due to the `rum_importer()` function being registered on the WordPress core `import_start` action hook with no plugin-owned capability check and no allowlist filtering, causing arbitrary `<wp_option>` name/value pairs parsed from an attacker-supplied WXR import file to be passed directly to `update_option()`. This makes it possible for authenticated attackers, with Shop Manager-level access and above, to write arbitrary WordPress options — most critically setting `users_can_register` to `1` and `default_role` to `administrator` — enabling open self-registration of Administrator accounts and full site takeover. This is exploitable by Shop Manager-level users because WooCommerce grants that role the `import` capability, allowing it to reach the WordPress Importer flow that fires the `import_start` hook on which `rum_importer()` is registered, contrary to the assumption that the hook is restricted to Administrators.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：roxnor ShopEngine Elementor WooCommerce Builder Addon – All in One WooCommerce Solution with eCommerce Templates & Woo Widgets\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4045d49f-fd12-4906-9e60-97fdb082fe84?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/shopengine/tags/4.9.4/core/export-import/import.php#L45",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/shopengine/tags/4.9.4/core/export-import/import.php#L19",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/shopengine/tags/4.9.4/core/builders/base.php#L57",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "roxnor",
+          "product": "ShopEngine Elementor WooCommerce Builder Addon – All in One WooCommerce Solution with eCommerce Templates & Woo Widgets",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.9.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
+      ]
+    },
+    {
+      "id": "CVE-2026-79673",
+      "publishedDate": "2026-08-25T11:33:33.528Z",
+      "lastModifiedDate": "2026-08-25T11:33:33.528Z",
+      "description": "Ech0 before 4.4.3 protects the PUT /user endpoint with the profile:read scope, a read-only scope, but allows write operations including password changes. An attacker with an admin's profile:read access token can change the admin's password and login to obtain an unrestricted session token that bypasses all scope enforcement.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-hm2h-wwwh-g49x",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-scope-bypass-via-profile-read-token",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-79666",
+      "publishedDate": "2026-08-25T11:33:28.747Z",
+      "lastModifiedDate": "2026-08-25T11:33:28.747Z",
+      "description": "Ech0 before 4.4.3 fails to enforce administrator authorization on dashboard log endpoints, allowing any authenticated user to access system logs. Attackers with valid user sessions can query GET /api/system/logs and subscribe to SSE and WebSocket log streams to retrieve sensitive operational data including file paths, stack traces, and internal URLs.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-cp79-9mwr-wr49",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-missing-authorization-via-dashboard-log-endpoints",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-79661",
+      "publishedDate": "2026-08-25T11:33:25.369Z",
+      "lastModifiedDate": "2026-08-25T11:33:25.369Z",
+      "description": "Ech0 through 4.5.6 registers the PUT /api/echo/like/:id endpoint on the public router group without authentication or rate limiting. Unauthenticated attackers can increment the fav_count counter of any echo (including private echoes) by supplying its UUID, which can be harvested from the public GET /api/echo/page feed. Repeated requests are accepted without deduplication, each triggering a database write and a four-key cache invalidation, allowing attackers to inflate popularity metrics and amplify load on the database and cache. Fixed in 4.7.3.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-pj6q-4vq4-r8cg",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-unauthenticated-fav-count-modification",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Allocation of Resources Without Limits or Throttling"
+      ]
+    },
+    {
+      "id": "CVE-2026-18547",
+      "publishedDate": "2026-08-25T11:27:12.131Z",
+      "lastModifiedDate": "2026-08-25T11:27:12.131Z",
+      "description": "The Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction & Membership Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Textarea Profile Field with HTML Support (DOM Gadget via id Attribute) in all versions up to, and including, 2.12.1 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. This is possible because the wp_kses 'templates' allowlist permits the id attribute on div elements but does not neutralize unescaped quotes within its value; when pickadate.js concatenates the stored id value into an HTML string via jQuery .html() on profile page load, the smuggled onfocus and autofocus attribute syntax breaks out of attribute context and executes as JavaScript.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：ultimatemember Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction & Membership Plugin\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a7961bcc-eae7-40e1-8838-9755c7655500?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.12.1/includes/core/class-form.php#L853",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.12.1/includes/class-functions.php#L580",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.12.1/assets/js/common.js#L51",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/core/class-form.php#L853",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/includes/class-functions.php#L580",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ultimate-member/tags/2.11.4/assets/js/common.js#L51",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3663931%40ultimate-member&new=3663931%40ultimate-member",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ultimatemember",
+          "product": "Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction & Membership Plugin",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.12.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-76128",
+      "publishedDate": "2026-08-25T09:27:52.427Z",
+      "lastModifiedDate": "2026-08-25T11:31:27.695Z",
+      "description": "The eCommerce Product Catalog plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'style' Shortcode Attribute in all versions up to, and including, 3.5.10 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The payload bypasses WordPress's save-time wp_kses_post sanitization because the malicious content is stored inside shortcode brackets with no HTML tags; the tainted HTML output is only generated at render time by the shortcode handler.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：implecode eCommerce Product Catalog\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/bb2778ee-f875-4494-ad42-fccc7b38d692?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ecommerce-product-catalog/tags/3.5.9/ic/simple-formbuilder/pluggable.php#L842",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/ecommerce-product-catalog/tags/3.5.9/ic/simple-formbuilder/pluggable.php#L840",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3656358/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "implecode",
+          "product": "eCommerce Product Catalog",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.5.10",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-18512",
+      "publishedDate": "2026-08-25T07:39:51.116Z",
+      "lastModifiedDate": "2026-08-25T11:34:36.708Z",
+      "description": "The TranslatePress – Translate Multilingual sites with AI Translation plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Approved Comment Body Rendered in Translation Editor Strings Dropdown in all versions up to, and including, 3.2.6 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：cozmoslabs TranslatePress – Translate Multilingual sites with AI Translation\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/e1b18095-d328-4658-81fc-7b15ca526c18?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.6/assets/src/js/editor.vue#L914",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.6/assets/src/js/editor.vue#L909",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.6/assets/src/js/utils.js#L26",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.6/assets/src/js/editor.vue#L923",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/translatepress-multilingual/tags/3.2.6/includes/class-translation-render.php#L527",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&new=3634273%40translatepress-multilingual%2Ftags%2F3.3&old=3624567%40translatepress-multilingual%2Ftags%2F3.2.6",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset/3634273/translatepress-multilingual/trunk/assets/src/js/editor.vue",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Ftranslatepress-multilingual/tags/3.2.6&new_path=%2Ftranslatepress-multilingual/tags/3.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "cozmoslabs",
+          "product": "TranslatePress – Translate Multilingual sites with AI Translation",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.2.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-78864",
+      "publishedDate": "2026-08-25T11:30:09.324Z",
+      "lastModifiedDate": "2026-08-25T11:30:09.324Z",
+      "description": "A vulnerability was determined in liketrek TREK up to 3.0.22. The affected element is the function journeyService.updateEntry of the file server/src/nest/journey/journey.controller.t of the component Journey Entry Update. This manipulation causes sql injection. It is possible to initiate the attack remotely. Upgrading to version 3.1.0 is sufficient to fix this issue. It is recommended to upgrade the affected component.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：liketrek TREK\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/394940",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/394940/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-78864",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/886930",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mauriceboe/TREK/security/advisories/GHSA-627x-pmfq-98qv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/liketrek/TREK/releases/tag/v3.1.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "liketrek",
+          "product": "TREK",
+          "versions": [
+            {
+              "version": "3.0.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.1",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.2",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.3",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.4",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.5",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.6",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.7",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.8",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.9",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.10",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.11",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.12",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.13",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.14",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.15",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.16",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.17",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.18",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.19",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.20",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.21",
+              "status": "affected"
+            },
+            {
+              "version": "3.0.22",
+              "status": "affected"
+            },
+            {
+              "version": "3.1.0",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:liketrek:trek:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Journey Entry Update"
+          ]
+        }
+      ],
+      "problemType": [
+        "SQL Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-79672",
+      "publishedDate": "2026-08-25T11:33:32.848Z",
+      "lastModifiedDate": "2026-08-25T11:33:32.848Z",
+      "description": "Ech0 before 4.4.3 fails to enforce scope-based authorization on nine comment panel admin endpoints, allowing access tokens with minimal scopes to perform full comment moderation operations. Attackers with a limited-scope access token can list, approve, reject, delete comments, and modify comment system settings by directly accessing the unprotected panel endpoints.",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-fwg7-53p4-g33c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-authentication-bypass-via-comment-panel",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-79671",
+      "publishedDate": "2026-08-25T11:33:32.174Z",
+      "lastModifiedDate": "2026-08-25T11:33:32.174Z",
+      "description": "Ech0 through 4.2.1 contains a server-side request forgery vulnerability in the validateWebhookURL function (webhook_setting_service.go), which only validates literal IP addresses via net.ParseIP() and fails to reject hostnames that DNS-resolve to private or internal IPs (e.g., 169.254.169.254.nip.io). An attacker with admin privileges can create a webhook with such a hostname to bypass validation and cause the server to make requests to internal services, cloud metadata endpoints, and private network resources. The issue is fixed in 4.4.3.",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-r2x7-427f-rq69",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-ssrf-via-dns-resolution-bypass",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-79668",
+      "publishedDate": "2026-08-25T11:33:30.130Z",
+      "lastModifiedDate": "2026-08-25T11:33:30.130Z",
+      "description": "Ech0 before 4.7.3 contains an authentication bypass vulnerability in the PUT /api/echo/like/:id endpoint that allows unauthenticated attackers to increment engagement metrics without identity verification or rate limiting. Attackers can send repeated requests to arbitrarily inflate the fav_count field for any known echo identifier, compromising the integrity of engagement metrics and social ranking systems.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-rgj7-vg8v-j4wr",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-unauthenticated-like-endpoint-metric-inflation",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-79660",
+      "publishedDate": "2026-08-25T11:33:24.692Z",
+      "lastModifiedDate": "2026-08-25T11:33:24.692Z",
+      "description": "Ech0 versions before 4.7.3 expose guest commenter email addresses through public API endpoints due to improper JSON serialization tags on the Comment model. Unauthenticated attackers can harvest all commenter emails by calling the /api/comments and /api/comments/public endpoints without authentication.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-rj4g-rqgh-rx9h",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-email-disclosure-via-public-api",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of Sensitive Information to an Unauthorized Actor"
+      ]
+    },
+    {
+      "id": "CVE-2026-78684",
+      "publishedDate": "2026-08-25T11:33:22.005Z",
+      "lastModifiedDate": "2026-08-25T11:33:22.005Z",
+      "description": "vLLM before 0.27.0 fails to properly classify DeepStream as a GPU backend and omits pixel-limit enforcement in its decode path. Unauthenticated attackers can activate DeepStream at request time to initialize the process-wide GPU decode pool and submit video that bypasses resource controls, causing partial denial of service for concurrent requests.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：vllm-project vllm\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vllm-project/vllm/security/advisories/GHSA-cqm8-jxg6-fqfq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/commit/e23b19309b8705b21c3b3ff4129c9974ba15a419",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/vllm-before-denial-of-service-via-deepstream-backend",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vllm-project",
+          "product": "vllm",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/vllm",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.27.0"
+            },
+            {
+              "version": "0.27.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Uncontrolled Resource Consumption"
+      ]
+    },
+    {
+      "id": "CVE-2026-17587",
+      "publishedDate": "2026-08-25T11:27:11.761Z",
+      "lastModifiedDate": "2026-08-25T11:27:11.761Z",
+      "description": "The My Agile Privacy® – CMP, Cookie Consent & Privacy Tools plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 3.3.6. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to modify plugin settings including missing_cookie_shield, cookie_shield_running, cmode_v2_js_on_error, cmode_v2_js_error_code, and cmode_v2_js_error_motivation stored in the plugin's settings key.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：formulaagile My Agile Privacy® – CMP, Cookie Consent & Privacy Tools\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/7956fe49-b3b3-4f8d-8e90-8719bc2fa0fa?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/myagileprivacy/tags/3.3.6/frontend/my-agile-privacy-frontend.php#L3391",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/myagileprivacy/tags/3.3.6/frontend/my-agile-privacy-frontend.php#L3509",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/myagileprivacy/tags/3.3.6/frontend/my-agile-privacy-frontend.php#L2205",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/myagileprivacy/tags/3.3.6/includes/my-agile-privacy-class.php#L460",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3650495%40myagileprivacy&new=3650495%40myagileprivacy",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "formulaagile",
+          "product": "My Agile Privacy® – CMP, Cookie Consent & Privacy Tools",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "3.3.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-77824",
+      "publishedDate": "2026-08-25T11:27:12.470Z",
+      "lastModifiedDate": "2026-08-25T11:27:12.470Z",
+      "description": "The Media Sweep – WordPress Media Cleaner plugin for WordPress is vulnerable to generic SQL Injection via the 'fields' parameter in all versions up to, and including, 1.1.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with administrator-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
+      "severity": 4.9,
+      "fix_suggestion": "📦 受影响组件：wpcreatix Media Sweep – WordPress Media Cleaner\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/c42139fc-34a2-47ae-b172-d2cd4f1cf098?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/media-sweep/tags/1.1.3/includes/rest-api/v1/class-scan-files-controller.php#L257",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/media-sweep/tags/1.1.3/includes/utils/class-query-builder.php#L822",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/media-sweep/tags/1.1.3/includes/utils/class-query-builder.php#L471",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/media-sweep/tags/1.1.3/includes/rest-api/v1/class-scan-files-controller.php#L214",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/media-sweep/tags/1.1.3/includes/rest-api/v1/class-scan-files-controller.php#L187",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/media-sweep/tags/1.1.3/includes/rest-api/v1/class-rest-controller.php#L47",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3663766%40media-sweep&new=3663766%40media-sweep",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpcreatix",
+          "product": "Media Sweep – WordPress Media Cleaner",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.1.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-89"
+      ]
+    },
+    {
+      "id": "CVE-2026-79670",
+      "publishedDate": "2026-08-25T11:33:31.499Z",
+      "lastModifiedDate": "2026-08-25T11:33:31.499Z",
+      "description": "Ech0 before 4.4.3 contains a stored cross-site scripting vulnerability in the file upload endpoint that validates Content-Type using only client-supplied headers without server-side inspection. Attackers with admin privileges can upload SVG or HTML files containing JavaScript that executes in the application origin when accessed by any user, enabling session hijacking and data exfiltration.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-69hx-63pv-f8f4",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-stored-xss-via-svg-upload",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Unrestricted Upload of File with Dangerous Type"
+      ]
+    },
+    {
+      "id": "CVE-2026-79663",
+      "publishedDate": "2026-08-25T11:33:26.721Z",
+      "lastModifiedDate": "2026-08-25T11:33:26.721Z",
+      "description": "Ech0 before 4.7.3 contains a stored cross-site scripting vulnerability in the public RSS feed where tag names and markdown content are rendered without HTML escaping. Attackers with admin privileges can inject malicious tag names or raw HTML in echo content that executes as JavaScript in RSS readers that render HTML-type summaries, affecting anonymous subscribers and other users.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-3v85-fqvh-7rxf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-stored-xss-via-rss-feed-tag-names",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/Ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.7.3"
+            },
+            {
+              "version": "4.7.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ]
+    },
+    {
+      "id": "CVE-2026-79669",
+      "publishedDate": "2026-08-25T11:33:30.826Z",
+      "lastModifiedDate": "2026-08-25T11:33:30.826Z",
+      "description": "Ech0 before 4.4.3 lacks authorization checks on system log endpoints allowing any authenticated non-admin user to read and stream all server logs. Attackers can access historical logs and real-time log streams via GET /api/system/logs, GET /api/system/logs/stream, and WS /ws/system/logs to gather reconnaissance data including internal file paths, error stack traces, and application state.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：lin-snow Ech0\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/lin-snow/Ech0/security/advisories/GHSA-w8jj-cwmc-wgq2",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ech0-before-missing-authorization-on-system-logs",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "lin-snow",
+          "product": "Ech0",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:golang/github.com/lin-snow/ech0",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.3"
+            },
+            {
+              "version": "4.4.3",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-75908",
+      "publishedDate": "2026-08-25T11:27:10.516Z",
+      "lastModifiedDate": "2026-08-25T11:27:10.516Z",
+      "description": "The Newsletters plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 4.17. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with author-level access and above, to send arbitrary newsletter emails to users of any WordPress role, including administrators, by forging POST fields during a normal post submission. This allows an attacker-supplied role slug via the newsletters_mailinglistsroles POST field to be passed directly to get_users(), enabling unauthorized mass-mailing and potential phishing against privileged site users through the site's own outbound email channel.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：contrid Newsletters\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/1d3eddce-1b41-4a33-8d57-bd594cf06a06?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/newsletters-lite/tags/4.17/wp-mailinglist.php#L3957",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/newsletters-lite/tags/4.17/wp-mailinglist.php#L4114",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/newsletters-lite/tags/4.17/wp-mailinglist.php#L3897",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/newsletters-lite/tags/4.17/includes/checkinit.php#L63",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3663788%40newsletters-lite&new=3663788%40newsletters-lite",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "contrid",
+          "product": "Newsletters",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.17",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
     }
   ]
 }
