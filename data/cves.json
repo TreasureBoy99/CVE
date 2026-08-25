@@ -2,109 +2,395 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-08-25T01:42:14.554549",
+    "total_count": 7,
+    "last_updated": "2026-08-25T02:44:43.477524",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 1,
+      "high": 2,
+      "medium": 5,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-66766",
-      "publishedDate": "2026-08-25T01:08:36.749Z",
-      "lastModifiedDate": "2026-08-25T01:08:36.749Z",
-      "description": "SAP S/4HANA (Private Cloud) uses a third-party component that contains a Regular Expression Denial of Service (ReDoS) vulnerability. An unauthenticated attacker could supply specially crafted input that triggers excessive processing within the affected functionality. Successful exploitation could exhaust system resources and make the service unavailable, resulting in a high impact on availability. There is no impact on confidentiality and integrity.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：SAP_SE SAP S/4HANA (Manage Supply Protection)\n🔓 漏洞类型：CWE-1333 (CWE-1333)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75147",
+      "publishedDate": "2026-08-19T16:29:03.399Z",
+      "lastModifiedDate": "2026-08-25T02:19:35.199Z",
+      "description": "FFmpeg before commit 983dae9 contains an out-of-bounds read in the AV1 RTP packetizer (libavformat/rtpenc_av1.c). The keyframe detection loop that searches for a sequence header OBU advanced its pointer and remaining-size counter by the encoded header length plus the OBU payload size without first bounding the OBU size against the remaining data. A crafted OBU size causes the remaining-size counter to wrap to a positive value, causing the next loop iteration to dereference a pointer beyond the end of the packet buffer. A crafted AV1 input packet muxed to RTP triggers the out-of-bounds read.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：FFmpeg FFmpeg\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://me.sap.com/notes/3771065",
+          "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24096",
           "type": "reference"
         },
         {
-          "url": "https://url.sap/sapsecuritypatchday",
+          "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/983dae9c19f46c87d597598c0fd2f2fcee0ad2f8",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/ffmpeg-out-of-bounds-read-in-av1-rtp-packetizer-via-rtpenc-av1-c",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "SAP_SE",
-          "product": "SAP S/4HANA (Manage Supply Protection)",
+          "vendor": "FFmpeg",
+          "product": "FFmpeg",
+          "repo": "https://code.ffmpeg.org/FFmpeg/FFmpeg",
           "versions": [
             {
               "status": "affected",
-              "version": "UIS4HOP1 800"
-            },
+              "version": "0",
+              "lessThan": "983dae9c19f46c87d597598c0fd2f2fcee0ad2f8",
+              "versionType": "git"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:github/FFmpeg/FFmpeg"
+        }
+      ],
+      "problemType": [
+        "Out-of-bounds Read"
+      ]
+    },
+    {
+      "id": "CVE-2026-75019",
+      "publishedDate": "2026-08-25T02:26:49.343Z",
+      "lastModifiedDate": "2026-08-25T02:26:49.343Z",
+      "description": "The Cozy Blocks – Page Builder for Gutenberg Editor & FSE with 700+ Patterns, 58 Blocks & Templates plugin for WordPress is vulnerable to Stored Cross-Site Scripting via cozyHoverEffect Block Attribute in all versions up to, and including, 2.2.16 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The payload survives wp_kses_post on save because it contains no angle brackets — only a double-quote breakout of the cozyHoverEffect.boxShadow.color attribute value — allowing event-handler injection at the render stage.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：cozythemes Cozy Blocks – Page Builder for Gutenberg Editor & FSE with 700+ Patterns, 58 Blocks & Templates\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f29d27aa-a0d9-4675-b762-6509c5743dff?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L1824",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L1759",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L1788",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L2074",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656701%40cozy-addons&new=3656701%40cozy-addons",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "cozythemes",
+          "product": "Cozy Blocks – Page Builder for Gutenberg Editor & FSE with 700+ Patterns, 58 Blocks & Templates",
+          "versions": [
             {
+              "version": "0",
               "status": "affected",
-              "version": "900"
+              "lessThanOrEqual": "2.2.16",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-1333: Inefficient Regular Expression Complexity"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-1333"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-59183",
-      "publishedDate": "2026-08-25T00:45:02.860Z",
-      "lastModifiedDate": "2026-08-25T00:45:02.860Z",
-      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. In versions 3.1.0 through 3.2.10, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13, an int32_t multiplication in OpenEXRCore's unpack_sample_table() can overflow while decoding a crafted deep tiled EXR file, producing an invalid pointer that leads to a read from an unmapped memory address and a crash. Because the overflow occurs in the standard decoding path (exr_decoding_run), any application that decodes deep tiled EXR files is affected. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：Integer Overflow or Wraparound (CWE-190)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2025-9878",
+      "publishedDate": "2026-08-25T02:26:48.990Z",
+      "lastModifiedDate": "2026-08-25T02:26:48.990Z",
+      "description": "The PPWP – Password Protect WordPress | #1 Most-Reviewed Password Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's 'ppwp' shortcode in all versions up to, and including, 1.9.21 due to insufficient input sanitization and output escaping on user supplied attributes. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：buildwps PPWP – Password Protect Pages\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-rqp5-pmwm-wj6x",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/99772f4b-4152-42dc-8bde-697bba3d031f?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/5e55a64ad1f119a8166542f4b6e034c31b7e043a",
+          "url": "https://plugins.trac.wordpress.org/browser/password-protect-page/tags/1.9.12/includes/services/class-ppw-shortcode.php#L544",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/a6cf183725b5665ac3fdbec640125fba5ee1ab39",
+          "url": "https://reserach.cleantalk.org/CVE-2025-9878",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/e2adb5be3bbc3a1f82f2bc06cc9699995a99a607",
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3637624%40password-protect-page&new=3637624%40password-protect-page",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3642939%40password-protect-page&new=3642939%40password-protect-page",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "AcademySoftwareFoundation",
-          "product": "openexr",
+          "vendor": "buildwps",
+          "product": "PPWP – Password Protect Pages",
           "versions": [
             {
-              "version": ">= 3.1.0, < 3.2.11",
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.9.21",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-10627",
+      "publishedDate": "2026-08-25T02:26:48.141Z",
+      "lastModifiedDate": "2026-08-25T02:26:48.141Z",
+      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 7.4.0. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to view the titles, dates, descriptions, and location details of events and locations that administrators have marked as draft, pending, trashed, or private.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/0e52475e-2a04-4973-b419-fb477fe872e5?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/classes/em-object.php#L314",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/classes/em-object.php#L1166",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/em-actions.php#L823",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/em-actions.php#L906",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/classes/em-events.php#L654",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/classes/em-object.php#L314",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/classes/em-object.php#L1166",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/em-actions.php#L823",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/em-actions.php#L906",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/classes/em-events.php#L654",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=/events-manager/tags/7.4.0.1&new_path=/events-manager/tags/7.4.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "netweblogic",
+          "product": "Events Manager – Calendar, Bookings, Tickets, and more!",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "7.4.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-44255",
+      "publishedDate": "2026-08-19T16:15:19.929Z",
+      "lastModifiedDate": "2026-08-25T02:17:14.746Z",
+      "description": "Wazuh is a free and open source platform used for threat prevention, detection, and response. From 4.0.0 until 4.14.6 and 5.0.0-beta2, AuthenticationManager.check_user() in framework/wazuh/rbac/orm.py performs check_password_hash() only when the supplied username exists. A nonexistent username returns immediately, while a valid username causes an expensive bcrypt calculation. An unauthenticated remote attacker can compare authentication response times to enumerate valid Wazuh usernames and use that information in subsequent credential attacks. This issue is fixed in versions 4.14.6 and 5.0.0-beta2.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：wazuh wazuh\n🔓 漏洞类型：CWE-208 (CWE-208)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/wazuh/wazuh/security/advisories/GHSA-3978-44q9-9px9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wazuh/wazuh/pull/35757",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wazuh/wazuh/commit/5ecea7b38b998407cb0d205467dd247140a0f981",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wazuh/wazuh/releases/tag/v4.14.6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wazuh/wazuh/releases/tag/v5.0.0-beta2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wazuh",
+          "product": "wazuh",
+          "versions": [
+            {
+              "version": ">= 4.0.0, < 4.14.6",
               "status": "affected"
             },
             {
-              "version": ">= 3.3.0, < 3.3.13",
-              "status": "affected"
-            },
-            {
-              "version": ">= 3.4.0, < 3.4.14",
+              "version": ">= 5.0.0-beta1, < 5.0.0-beta2",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-190: Integer Overflow or Wraparound"
+        "CWE-208: Observable Timing Discrepancy"
       ],
       "cwe_ids": [
-        "CWE-190"
+        "CWE-208"
       ]
+    },
+    {
+      "id": "CVE-2026-75982",
+      "publishedDate": "2026-08-25T02:26:48.639Z",
+      "lastModifiedDate": "2026-08-25T02:26:48.639Z",
+      "description": "The LearnPress plugin for WordPress is vulnerable to unauthorized modification of arbitrary WordPress options in versions up to, and including, 4.4.4 via the learnpress_create_page AJAX action. The LP_Admin_Ajax::create_page() handler only checks the edit_pages capability and a wp_rest nonce (both available to Editors), then reads the field_name parameter from the request without restricting it to a learn_press_* allow-list before passing it as the option key to LP_Helper::create_page(), which calls update_option($key_option, $page_id). This makes it possible for authenticated attackers, with Editor-level access and above, to update arbitrary WordPress options to a positive integer (a newly created page ID), enabling actions such as flipping users_can_register to a truthy value to open public registration, corrupting active_plugins to break the site, or otherwise tampering with site-wide settings normally reserved for administrators.",
+      "severity": 4.4,
+      "fix_suggestion": "📦 受影响组件：thimpress LearnPress – WordPress LMS Plugin for Create and Sell Online Courses\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/2f8b8bfe-8d73-4289-b212-7baf7bceaaf6?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learnpress/trunk/inc/class-lp-helper.php#L264",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learnpress/trunk/inc/admin/class-lp-admin-ajax.php#L649",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/learnpress/trunk/inc/admin/class-lp-admin-ajax.php#L45",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3659902%40learnpress&new=3659902%40learnpress",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "thimpress",
+          "product": "LearnPress – WordPress LMS Plugin for Create and Sell Online Courses",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.4.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ]
+    },
+    {
+      "id": "CVE-2026-71864",
+      "publishedDate": "2026-08-19T17:34:55.340Z",
+      "lastModifiedDate": "2026-08-25T02:21:34.265Z",
+      "description": "Orval generates type-safe JavaScript clients in TypeScript from OpenAPI v3 and Swagger v2 specifications. Prior to 8.21.0, a double quote in a header parameter name is emitted into the generated request-validation zod.object({...}) schema without safe encoding. This permits attacker-controlled JavaScript to be evaluated when the generated zod schema module is imported, resulting in code execution in the developer, CI, test, or application environment. The affected code is packages/zod/src/index.ts and header request-validation generation. This issue is fixed in version 8.21.0.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：orval-labs orval\n🔓 漏洞类型：Code Injection, CWE-95, CWE-116 (CWE-94, CWE-95, CWE-116)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/orval-labs/orval/security/advisories/GHSA-6437-gxhq-pqv8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/pull/3692",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/commit/8ef1bfdf3f9bcaf9dabfbe2e42887f1c0e159ab6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/orval-labs/orval/releases/tag/v8.21.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "orval-labs",
+          "product": "orval",
+          "versions": [
+            {
+              "version": "< 8.21.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
+        "CWE-116: Improper Encoding or Escaping of Output"
+      ],
+      "cwe_ids": [
+        "CWE-94",
+        "CWE-95",
+        "CWE-116"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
