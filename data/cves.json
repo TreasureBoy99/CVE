@@ -2,406 +2,236 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 16,
-    "last_updated": "2026-08-25T18:02:31.276769",
+    "total_count": 6,
+    "last_updated": "2026-08-25T18:51:45.590510",
     "severity_distribution": {
-      "critical": 0,
-      "high": 11,
-      "medium": 3,
-      "low": 1,
-      "none": 1
+      "critical": 1,
+      "high": 3,
+      "medium": 2,
+      "low": 0,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-55571",
-      "publishedDate": "2026-08-25T16:05:49.069Z",
-      "lastModifiedDate": "2026-08-25T17:56:03.253Z",
-      "description": "djust provides Phoenix LiveView-style reactive server-side rendering for Django with Rust-powered performance. Prior to 1.0.4, LiveViewConsumer.handle_mount sends a `{\"type\":\"navigate\",\"to\":...}` frame when login_required, permission_required, or a redirecting on_mount hook denies a LiveView mount, but returns without closing the WebSocket or clearing self.view_instance. A browser follows the redirect, but a raw WebSocket client can ignore it and retain the mounted socket. Because LiveViewConsumer.handle_event does not recheck authentication or authorization, the client can send `{\"type\":\"event\",...}` frames that invoke @event_handler methods without an authenticated session, including through handle_live_redirect_mount, enabling unauthorized sensitive reads or mutations. This issue is fixed in version 1.0.4.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：djust-org djust\n🔓 漏洞类型：CWE-285, Missing Authentication for Critical Function (CWE-285, CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-66794",
+      "publishedDate": "2026-08-19T17:30:07.984Z",
+      "lastModifiedDate": "2026-08-25T18:41:54.905Z",
+      "description": "A flaw was found in the `cluster-proxy-addon` component of Multicluster Engine for Kubernetes. This vulnerability allows an unauthenticated attacker, who can access the user-facing route, to bypass authentication and authorization checks. By manipulating URL path segments, the attacker can proxy requests to arbitrary services across any managed cluster. This enables unauthorized access to internal services that would otherwise be protected, potentially leading to information disclosure or further compromise of the cluster environment.",
+      "severity": 9.3,
+      "fix_suggestion": "📦 受影响组件：Red Hat multicluster engine for Kubernetes 2.11\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/djust-org/djust/security/advisories/GHSA-xx4j-w367-7247",
+          "url": "https://access.redhat.com/errata/RHSA-2026:59556",
           "type": "reference"
         },
         {
-          "url": "https://github.com/djust-org/djust/pull/1780",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-66794",
           "type": "reference"
         },
         {
-          "url": "https://github.com/djust-org/djust/commit/1ae8aa9246b80477de7ddc4d90319a3b267bef04",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/djust-org/djust/releases/tag/v1.0.4",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507539",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "djust-org",
-          "product": "djust",
+          "vendor": "Red Hat",
+          "product": "multicluster engine for Kubernetes 2.11",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "multicluster-engine/cluster-proxy-rhel9",
+          "defaultStatus": "affected",
           "versions": [
             {
-              "version": "< 1.0.4",
+              "version": "1787276784",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:multicluster_engine:2.11::el9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Multicluster Engine for Kubernetes",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "multicluster-engine/cluster-proxy-addon-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:multicluster_engine"
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    },
+    {
+      "id": "CVE-2026-75750",
+      "publishedDate": "2026-08-25T17:58:15.938Z",
+      "lastModifiedDate": "2026-08-25T18:33:56.282Z",
+      "description": "Substance3D - Painter is affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "product": "Adobe Substance 3D Painter",
+          "vendor": "Adobe",
+          "versions": [
+            {
+              "lessThanOrEqual": "12.1.2",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            },
+            {
+              "status": "unaffected",
+              "version": "12.1.3",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Heap-based Buffer Overflow (CWE-122)"
+      ],
+      "cwe_ids": [
+        "CWE-122"
+      ]
+    },
+    {
+      "id": "CVE-2026-73267",
+      "publishedDate": "2026-08-21T02:43:36.017Z",
+      "lastModifiedDate": "2026-08-25T18:42:09.970Z",
+      "description": "A flaw was found in the clusterclaims-controller component of multicluster engine (MCE). A tenant with standard permissions to create and delete ClusterClaim resources can exploit this by manipulating the `spec.namespace` field. This allows the tenant to specify and delete any ManagedCluster, including the hub's local-cluster or other tenants' clusters, due to a missing ownership check. This vulnerability can lead to a denial of service by enabling unauthorized deletion of ManagedClusters.",
+      "severity": 7.7,
+      "fix_suggestion": "📦 受影响组件：Red Hat multicluster engine for Kubernetes 2.11\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:59556",
+          "type": "reference"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-73267",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2514218",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "multicluster engine for Kubernetes 2.11",
+          "collectionURL": "https://catalog.redhat.com/software/containers/",
+          "packageName": "multicluster-engine/clusterclaims-controller-rhel9",
+          "defaultStatus": "affected",
+          "versions": [
+            {
+              "version": "1787239442",
+              "lessThan": "*",
+              "versionType": "rpm",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:/a:redhat:multicluster_engine:2.11::el9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Client-Side Enforcement of Server-Side Security"
+      ]
+    },
+    {
+      "id": "CVE-2026-55609",
+      "publishedDate": "2026-08-25T18:34:47.633Z",
+      "lastModifiedDate": "2026-08-25T18:34:47.633Z",
+      "description": "sublinear-time-solver is a Rust and WebAssembly library for solving asymmetric diagonally dominant systems in sublinear time. Prior to consciousness-explorer 1.1.2 and sublinear-time-solver 1.6.0, the export_state and import_state tools in src/consciousness-explorer/mcp/server.js pass the attacker-controlled filepath parameter to filesystem operations in src/consciousness-explorer/index.js without restricting the destination or rejecting traversal. The saveVectorToFile and loadVectorFromFile tools in src/mcp/server.ts contain the same sink class through the file_path parameter. An attacker able to invoke the MCP tools can read, write, or overwrite any file accessible to the server process, causing confidentiality and integrity loss and possible service disruption. This issue is fixed in consciousness-explorer 1.1.2 and sublinear-time-solver 1.6.0.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：ruvnet sublinear-time-solver\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ruvnet/sublinear-time-solver/security/advisories/GHSA-xc9g-j69q-37xw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/BruceJqs/public_exp/issues/32",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ruvnet/sublinear-time-solver/issues/19",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ruvnet/sublinear-time-solver/pull/20",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ruvnet/sublinear-time-solver/commit/a701296e363192be863e79d788fa268095e3d229",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ruvnet/sublinear-time-solver/commit/ea9a212b69e4449ec443fe088a7aec7546f70b4a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ruvnet/sublinear-time-solver/releases/tag/v1.6.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ruvnet",
+          "product": "sublinear-time-solver",
+          "versions": [
+            {
+              "version": "< 1.6.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-285: Improper Authorization",
-        "CWE-306: Missing Authentication for Critical Function"
+        "CWE-73: External Control of File Name or Path"
       ],
       "cwe_ids": [
-        "CWE-285",
-        "CWE-306"
+        "CWE-73"
       ],
-      "ghsa_id": "GHSA-xx4j-w367-7247"
+      "ghsa_id": "GHSA-xc9g-j69q-37xw"
     },
     {
-      "id": "CVE-2026-75750",
-      "publishedDate": "2026-08-25T17:58:15.938Z",
-      "lastModifiedDate": "2026-08-25T17:58:15.938Z",
-      "description": "Substance3D - Painter is affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-59984",
+      "publishedDate": "2026-08-25T18:13:01.835Z",
+      "lastModifiedDate": "2026-08-25T18:38:43.746Z",
+      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions 3.1.0 through 3.2.10, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13 are vulnerable on ILP32 builds to an out-of-bounds write. When a crafted B44-compressed scanline EXR causes the logical scratch size to truncate before allocation and uncompress_b44_impl() writes using the attacker-controlled channel width, allowing denial of service and memory corruption. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Heap-based Buffer Overflow (CWE-122)"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-75767",
-      "publishedDate": "2026-08-25T17:58:15.230Z",
-      "lastModifiedDate": "2026-08-25T17:58:15.230Z",
-      "description": "Substance3D - Painter is affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Heap-based Buffer Overflow (CWE-122)"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-75768",
-      "publishedDate": "2026-08-25T17:58:14.535Z",
-      "lastModifiedDate": "2026-08-25T17:58:14.535Z",
-      "description": "Substance3D - Painter is affected by an Untrusted Search Path vulnerability that could result in arbitrary code execution in the context of the current user. An attacker could exploit this vulnerability to execute arbitrary code. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-426 (CWE-426)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Untrusted Search Path (CWE-426)"
-      ],
-      "cwe_ids": [
-        "CWE-426"
-      ]
-    },
-    {
-      "id": "CVE-2026-75766",
-      "publishedDate": "2026-08-25T17:58:13.842Z",
-      "lastModifiedDate": "2026-08-25T17:58:13.842Z",
-      "description": "Substance3D - Painter is affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Heap-based Buffer Overflow (CWE-122)"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-75769",
-      "publishedDate": "2026-08-25T17:58:13.141Z",
-      "lastModifiedDate": "2026-08-25T17:58:13.141Z",
-      "description": "Substance3D - Painter is affected by a Heap-based Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Heap-based Buffer Overflow (CWE-122)"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-75770",
-      "publishedDate": "2026-08-25T17:58:12.441Z",
-      "lastModifiedDate": "2026-08-25T17:58:12.441Z",
-      "description": "Substance3D - Painter is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "cwe_ids": [
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-75749",
-      "publishedDate": "2026-08-25T17:58:11.054Z",
-      "lastModifiedDate": "2026-08-25T17:58:11.054Z",
-      "description": "Substance3D - Painter is affected by an out-of-bounds write vulnerability that could result in arbitrary code execution in the context of the current user. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write (CWE-787)"
-      ],
-      "cwe_ids": [
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-71399",
-      "publishedDate": "2026-08-25T17:52:37.463Z",
-      "lastModifiedDate": "2026-08-25T17:52:37.463Z",
-      "description": "Adobe XD is affected by a Buffer Overflow vulnerability that could result in arbitrary code execution in the context of the current user. An attacker could exploit this vulnerability to execute arbitrary code. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe XD\n🔓 漏洞类型：CWE-120 (CWE-120)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/xd/apsb26-125.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe XD",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "60",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "61",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Buffer Overflow (CWE-120)"
-      ],
-      "cwe_ids": [
-        "CWE-120"
-      ]
-    },
-    {
-      "id": "CVE-2026-59982",
-      "publishedDate": "2026-08-25T17:59:25.292Z",
-      "lastModifiedDate": "2026-08-25T17:59:25.292Z",
-      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions before 3.2.11, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13 can return an out-of-bounds pointer from TypedDeepImageChannel::row() when a crafted deep EXR has a nonzero dataWindow origin. This vulnerability occurs because the API combines zero-based row access with an absolute-coordinate-adjusted base pointer, allowing a crash or limited information disclosure. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：Integer Overflow or Wraparound, CWE-787 (CWE-190, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-6662-fq6f-93mp",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-92pq-9qv4-g68q",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/37f03b6ed90f3dd9910f31de3a40f25f2bc2aca1",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.2.11",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/55b7958ecb5ac32c427ff39c1e063f6f7bbee77c",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.3.13",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/aef02224ba282a802de65d16c49c1cdb82089dec",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/releases/tag/v3.4.14",
           "type": "reference"
         }
       ],
@@ -426,32 +256,34 @@
         }
       ],
       "problemType": [
-        "CWE-190: Integer Overflow or Wraparound",
         "CWE-787: Out-of-bounds Write"
       ],
       "cwe_ids": [
-        "CWE-190",
         "CWE-787"
       ]
     },
     {
-      "id": "CVE-2026-59187",
-      "publishedDate": "2026-08-25T16:38:51.404Z",
-      "lastModifiedDate": "2026-08-25T17:52:03.356Z",
-      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions 3.3.0 through 3.3.12 and 3.4.0 through 3.4.13 are vulnerable to a heap out-of-bounds write when exrmetrics reads a crafted deep scanline EXR. This occurs with pixel conversion options such as --pixelmode float or --bench because DeepSlice requests FLOAT output while the backing sample buffers are allocated using the input HALF element size. The issue is fixed in versions 3.3.13 and 3.4.14.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-122, CWE-787 (CWE-122, CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-59983",
+      "publishedDate": "2026-08-25T18:02:42.977Z",
+      "lastModifiedDate": "2026-08-25T18:32:39.465Z",
+      "description": "OpenEXR is the reference implementation and specification for the EXR image format, widely used in the motion picture industry. OpenEXR versions before 3.2.11, 3.3.0 through 3.3.12, and 3.4.0 through 3.4.13 are vulnerable on ILP32 builds to an out-of-bounds read. The vulnerability is reached when a crafted uncompressed deep-tile EXR causes the sample-count table size calculation in OpenEXRCore decoding.c to wrap before unpack_sample_table() iterates over the full attacker-controlled tile dimensions, allowing denial of service. This issue is fixed in versions 3.2.11, 3.3.13, and 3.4.14.",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：AcademySoftwareFoundation openexr\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-6jj8-cxcr-j8hm",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-p42q-g5c9-mh9w",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/46e70220dc91dbc1341fac4671704e970b450585",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/0efec58d2d28a0ee322f5028dee6fb57d459580e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/7e772dd704b9b5d6dc2564647d89f7813f608e94",
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/78e91146fceeee317820a146ba99a96f380945b8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/AcademySoftwareFoundation/openexr/commit/f0e404f7298cd8563a1d30a64a1c982dbd68fc49",
           "type": "reference"
         }
       ],
@@ -460,6 +292,10 @@
           "vendor": "AcademySoftwareFoundation",
           "product": "openexr",
           "versions": [
+            {
+              "version": "< 3.2.11",
+              "status": "affected"
+            },
             {
               "version": ">= 3.3.0, < 3.3.13",
               "status": "affected"
@@ -472,333 +308,10 @@
         }
       ],
       "problemType": [
-        "CWE-122: Heap-based Buffer Overflow",
-        "CWE-787: Out-of-bounds Write"
-      ],
-      "cwe_ids": [
-        "CWE-122",
-        "CWE-787"
-      ]
-    },
-    {
-      "id": "CVE-2026-78468",
-      "publishedDate": "2026-08-25T16:23:01.099Z",
-      "lastModifiedDate": "2026-08-25T17:53:16.246Z",
-      "description": "The FluentCRM Pro – Email Newsletter, Automation, Email Marketing, Email Campaigns, Optins, Leads, and CRM Solution plugin for WordPress is vulnerable to SQL Injection in all versions up to, and including, 3.1.12 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query.  This makes it possible for authenticated attackers, with Author-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：FluentCRM FluentCRM Pro – Email Newsletter, Automation, Email Marketing, Email Campaigns, Optins, Leads, and CRM Solution\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/01b598a3-8437-4644-badb-438c34a364ed?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://fluentcrm.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "FluentCRM",
-          "product": "FluentCRM Pro – Email Newsletter, Automation, Email Marketing, Email Campaigns, Optins, Leads, and CRM Solution",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "3.1.12",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-89"
-      ]
-    },
-    {
-      "id": "CVE-2026-75752",
-      "publishedDate": "2026-08-25T17:58:11.743Z",
-      "lastModifiedDate": "2026-08-25T17:58:11.743Z",
-      "description": "Substance3D - Painter is affected by an out-of-bounds read vulnerability that could lead to disclosure of sensitive memory. An attacker could leverage this vulnerability to disclose sensitive information. Exploitation of this issue requires user interaction in that a victim must open a malicious file.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：Adobe Adobe Substance 3D Painter\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/substance3d_painter/apsb26-129.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "product": "Adobe Substance 3D Painter",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "12.1.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "12.1.3",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read (CWE-125)"
+        "CWE-125: Out-of-bounds Read"
       ],
       "cwe_ids": [
         "CWE-125"
-      ]
-    },
-    {
-      "id": "CVE-2026-26211",
-      "publishedDate": "2026-08-25T17:28:19.228Z",
-      "lastModifiedDate": "2026-08-25T18:01:02.481Z",
-      "description": "Ekushey Project Manager CRM stores the administrator-configured system name and writes it to the login page without output encoding. The value is emitted in three places on that page: the content attribute of the description meta element, the title element, and the text of an h4 element in the page header. The h4 occurrence is parsed as markup, so HTML placed in the system name field is rendered as markup and any event handler it carries runs. The login page is served without authentication, so the stored value executes in the browser of every visitor who loads it, including visitors who are not signed in, within the origin that serves the login form and alongside the credential fields on it. Storing the value requires an administrator session; the resulting script runs for unauthenticated visitors and persists until the setting is changed.",
-      "severity": 4.8,
-      "fix_suggestion": "📦 受影响组件：Creativeitem Ekushey Project Manager CRM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/LindHunt/CVE-2026-26211",
-          "type": "poc"
-        },
-        {
-          "url": "https://codecanyon.net/item/ekushey-project-manager-crm/9492104",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/ekushey-project-manager-crm-5.0-stored-xss-via-system-name-field",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "affected",
-          "vendor": "Creativeitem",
-          "product": "Ekushey Project Manager CRM",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "versionType": "custom",
-              "lessThanOrEqual": "5.0"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-78887",
-      "publishedDate": "2026-08-25T12:45:10.723Z",
-      "lastModifiedDate": "2026-08-25T17:59:31.339Z",
-      "description": "A weakness has been identified in liketrek TREK up to 3.0.22. This impacts the function validateShareTokenForAsset of the component Journey Photo Proxy. Executing a manipulation can lead to incorrect authorization. The attack can be launched remotely. This attack is characterized by high complexity. The exploitability is said to be difficult. Upgrading to version 3.1.0 will fix this issue. You should upgrade the affected component.",
-      "severity": 3.7,
-      "fix_suggestion": "📦 受影响组件：liketrek TREK\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/394943",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/394943/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-78887",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/886933",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/mauriceboe/TREK/security/advisories/GHSA-24x9-fcj9-vp6w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/liketrek/TREK/releases/tag/v3.1.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "liketrek",
-          "product": "TREK",
-          "versions": [
-            {
-              "version": "3.0.0",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.1",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.2",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.3",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.4",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.5",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.6",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.7",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.8",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.9",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.10",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.11",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.12",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.13",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.14",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.15",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.16",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.17",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.18",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.19",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.20",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.21",
-              "status": "affected"
-            },
-            {
-              "version": "3.0.22",
-              "status": "affected"
-            },
-            {
-              "version": "3.1.0",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:liketrek:trek:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Journey Photo Proxy"
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Authorization",
-        "Improper Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-80051",
-      "publishedDate": "2026-08-25T17:55:57.383Z",
-      "lastModifiedDate": "2026-08-25T17:55:57.383Z",
-      "description": "github.com/graphql-go/graphql (GraphQL for Go) through 0.8.1 does not validate that a scalar variable value matches its declared type. The built-in coerceString and coerceBool functions (scalars.go) accept input whose type does not match the declared String, ID, or Boolean scalar instead of raising the request error that the GraphQL specification mandates. In some cases (but not any typical case of JSON sent to a website), a deeply nested value leads to an unrecoverable \"fatal error: stack overflow\" condition.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：graphql-go project graphql-go\n🔓 漏洞类型：CWE-1287 (CWE-1287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/graphql-go/graphql/blob/v0.8.1/scalars.go#L307-L315",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.openwall.com/lists/oss-security/2026/08/25/2",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://pkg.go.dev",
-          "defaultStatus": "unknown",
-          "packageName": "github.com/graphql-go/graphql",
-          "packageURL": "pkg:golang/github.com/graphql-go/graphql",
-          "product": "graphql-go",
-          "programFiles": [
-            "scalars.go"
-          ],
-          "programRoutines": [
-            {
-              "name": "coerceString"
-            },
-            {
-              "name": "coerceBool"
-            }
-          ],
-          "repo": "https://github.com/graphql-go/graphql",
-          "vendor": "graphql-go project",
-          "versions": [
-            {
-              "lessThanOrEqual": "0.8.1",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1287 Improper Validation of Specified Type of Input"
-      ],
-      "cwe_ids": [
-        "CWE-1287"
       ]
     }
   ]
