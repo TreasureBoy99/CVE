@@ -2,11 +2,11 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 7,
-    "last_updated": "2026-08-25T02:44:43.477524",
+    "total_count": 6,
+    "last_updated": "2026-08-25T03:33:43.420748",
     "severity_distribution": {
       "critical": 0,
-      "high": 2,
+      "high": 1,
       "medium": 5,
       "low": 0,
       "none": 0
@@ -14,89 +14,157 @@
   },
   "cves": [
     {
-      "id": "CVE-2026-75147",
-      "publishedDate": "2026-08-19T16:29:03.399Z",
-      "lastModifiedDate": "2026-08-25T02:19:35.199Z",
-      "description": "FFmpeg before commit 983dae9 contains an out-of-bounds read in the AV1 RTP packetizer (libavformat/rtpenc_av1.c). The keyframe detection loop that searches for a sequence header OBU advanced its pointer and remaining-size counter by the encoded header length plus the OBU payload size without first bounding the OBU size against the remaining data. A crafted OBU size causes the remaining-size counter to wrap to a positive value, causing the next loop iteration to dereference a pointer beyond the end of the packet buffer. A crafted AV1 input packet muxed to RTP triggers the out-of-bounds read.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：FFmpeg FFmpeg\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19892",
+      "publishedDate": "2026-08-25T03:27:05.993Z",
+      "lastModifiedDate": "2026-08-25T03:27:05.993Z",
+      "description": "The InfusedWoo Pro plugin for WordPress is vulnerable to Privilege Escalation via Account Takeover in all versions up to, and including, 5.1.17. This is due to a missing capability check in the `ajax_iwar_preview_email()` function, which uses `is_admin()` as its only authorization check and allows low-privilege users to render email preview merge fields for an arbitrary email address. This makes it possible for authenticated attackers, with subscriber-level access and above, to generate and retrieve a valid password reset link for any WordPress user, including administrators, enabling account takeover.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Infused Addons InfusedWoo Pro\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24096",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/207fc33b-ccf6-4c39-976d-41e6a89ad1ec?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/983dae9c19f46c87d597598c0fd2f2fcee0ad2f8",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/ffmpeg-out-of-bounds-read-in-av1-rtp-packetizer-via-rtpenc-av1-c",
+          "url": "https://downloads.infusedwoo.com/updater/iw5.php?changelog",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "FFmpeg",
-          "product": "FFmpeg",
-          "repo": "https://code.ffmpeg.org/FFmpeg/FFmpeg",
+          "vendor": "Infused Addons",
+          "product": "InfusedWoo Pro",
           "versions": [
             {
-              "status": "affected",
               "version": "0",
-              "lessThan": "983dae9c19f46c87d597598c0fd2f2fcee0ad2f8",
-              "versionType": "git"
+              "status": "affected",
+              "lessThanOrEqual": "5.1.17",
+              "versionType": "semver"
             }
           ],
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:github/FFmpeg/FFmpeg"
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Out-of-bounds Read"
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
       ]
     },
     {
-      "id": "CVE-2026-75019",
-      "publishedDate": "2026-08-25T02:26:49.343Z",
-      "lastModifiedDate": "2026-08-25T02:26:49.343Z",
-      "description": "The Cozy Blocks – Page Builder for Gutenberg Editor & FSE with 700+ Patterns, 58 Blocks & Templates plugin for WordPress is vulnerable to Stored Cross-Site Scripting via cozyHoverEffect Block Attribute in all versions up to, and including, 2.2.16 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The payload survives wp_kses_post on save because it contains no angle brackets — only a double-quote breakout of the cozyHoverEffect.boxShadow.color attribute value — allowing event-handler injection at the render stage.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：cozythemes Cozy Blocks – Page Builder for Gutenberg Editor & FSE with 700+ Patterns, 58 Blocks & Templates\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-14280",
+      "publishedDate": "2026-08-25T03:27:07.025Z",
+      "lastModifiedDate": "2026-08-25T03:27:07.025Z",
+      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 7.3.7.4 via the em_options_save function. This makes it possible for authenticated attackers, with administrator-level access and above, to include and execute arbitrary .php files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where .php file types can be uploaded and included. The stored traversal key is subsequently executed via an include_once() call that fires on every admin_init invocation — including unauthenticated admin-ajax.php requests — meaning once the malicious key is stored by an administrator, the inclusion is triggered without any further authentication or capability check.",
+      "severity": 6.6,
+      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：CWE-98 (CWE-98)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/f29d27aa-a0d9-4675-b762-6509c5743dff?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/aead557d-aec9-4218-9e5f-01b58432486f?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L1824",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L405",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L1759",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L405",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L1788",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L47",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/cozy-addons/tags/2.2.16/includes/functions.php#L2074",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L56",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656701%40cozy-addons&new=3656701%40cozy-addons",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.7.4/admin/em-options.php#L400",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L47",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L56",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.6/admin/em-options.php#L400",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=/events-manager/tags/7.3.7.4&new_path=/events-manager/tags/7.4",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "cozythemes",
-          "product": "Cozy Blocks – Page Builder for Gutenberg Editor & FSE with 700+ Patterns, 58 Blocks & Templates",
+          "vendor": "netweblogic",
+          "product": "Events Manager – Calendar, Bookings, Tickets, and more!",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "2.2.16",
+              "lessThanOrEqual": "7.3.7.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-98 Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')"
+      ],
+      "cwe_ids": [
+        "CWE-98"
+      ]
+    },
+    {
+      "id": "CVE-2026-19943",
+      "publishedDate": "2026-08-25T03:27:07.375Z",
+      "lastModifiedDate": "2026-08-25T03:27:07.375Z",
+      "description": "The Gutenverse – WordPress Blocks, Page Builder & Site Editor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'titleTag' Block Attribute in all versions up to, and including, 4.0.2 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The malicious titleTag value survives wp_kses_post on save because it is stored inside a block-comment delimiter and the live HTML is only synthesized at render time by do_blocks(), meaning the payload also fires in administrator and editor sessions during post preview.",
+      "severity": 6.4,
+      "fix_suggestion": "📦 受影响组件：jegstudio Gutenverse – WordPress Blocks, Page Builder & Site Editor\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/b7eb4cac-cf16-438e-81cc-516646e77cdc?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.0/includes/block/class-chart.php#L80",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.2/includes/block/class-chart.php#L80",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.2/includes/block/class-chart.php#L28",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/gutenverse/tags/4.0.0/includes/block/class-chart.php#L28",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3662715%40gutenverse&new=3662715%40gutenverse",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "jegstudio",
+          "product": "Gutenverse – WordPress Blocks, Page Builder & Site Editor",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "4.0.2",
               "versionType": "semver"
             }
           ],
@@ -111,43 +179,47 @@
       ]
     },
     {
-      "id": "CVE-2025-9878",
-      "publishedDate": "2026-08-25T02:26:48.990Z",
-      "lastModifiedDate": "2026-08-25T02:26:48.990Z",
-      "description": "The PPWP – Password Protect WordPress | #1 Most-Reviewed Password Plugin plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the plugin's 'ppwp' shortcode in all versions up to, and including, 1.9.21 due to insufficient input sanitization and output escaping on user supplied attributes. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
+      "id": "CVE-2026-76063",
+      "publishedDate": "2026-08-25T03:27:06.337Z",
+      "lastModifiedDate": "2026-08-25T03:27:06.337Z",
+      "description": "The FundEngine – Donation and Crowdfunding Platform plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the 'wfp_featured_video_url' parameter in all versions up to, and including, 1.8.1 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The REST endpoint used to submit the video URL has its permission_callback set to __return_true, meaning any authenticated user — including those with Subscriber-level access — can reach the vulnerable code path.",
       "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：buildwps PPWP – Password Protect Pages\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：roxnor FundEngine – Donation and Crowdfunding Platform\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/99772f4b-4152-42dc-8bde-697bba3d031f?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/9cf1230e-759e-4892-8de8-1adb3a0e48a1?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/password-protect-page/tags/1.9.12/includes/services/class-ppw-shortcode.php#L544",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/featured.php#L175",
           "type": "reference"
         },
         {
-          "url": "https://reserach.cleantalk.org/CVE-2025-9878",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/featured.php#L467",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3637624%40password-protect-page&new=3637624%40password-protect-page",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1425",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3642939%40password-protect-page&new=3642939%40password-protect-page",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1198",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656562%40wp-fundraising-donation&new=3656562%40wp-fundraising-donation",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "buildwps",
-          "product": "PPWP – Password Protect Pages",
+          "vendor": "roxnor",
+          "product": "FundEngine – Donation and Crowdfunding Platform",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.9.21",
+              "lessThanOrEqual": "1.8.1",
               "versionType": "semver"
             }
           ],
@@ -162,55 +234,47 @@
       ]
     },
     {
-      "id": "CVE-2026-10627",
-      "publishedDate": "2026-08-25T02:26:48.141Z",
-      "lastModifiedDate": "2026-08-25T02:26:48.141Z",
-      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 7.4.0. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to view the titles, dates, descriptions, and location details of events and locations that administrators have marked as draft, pending, trashed, or private.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-17089",
+      "publishedDate": "2026-08-25T03:27:06.684Z",
+      "lastModifiedDate": "2026-08-25T03:27:06.684Z",
+      "description": "The Events Manager – Calendar, Bookings, Tickets, and more! plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'header_format' parameter in all versions up to, and including, 7.4.0.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link. The shortcode entry point sanitizes 'header_format' via wp_kses(), but the unauthenticated 'search_events_grouped' AJAX action bypasses this sanitization entirely, leaving the parameter unsanitized before it is echoed into the HTML body in output_grouped().",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：netweblogic Events Manager – Calendar, Bookings, Tickets, and more!\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/0e52475e-2a04-4973-b419-fb477fe872e5?source=cve",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a56d1a9e-7564-41b0-af03-c272ffbbbb97?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/classes/em-object.php#L314",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/classes/em-events.php#L469",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/classes/em-object.php#L1166",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/classes/em-events.php#L469",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/em-actions.php#L823",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/classes/em-object.php#L1176",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/em-actions.php#L906",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/em-actions.php#L891",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.1/classes/em-events.php#L654",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.4.0.1/em-actions.php#L920",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/classes/em-object.php#L314",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/classes/em-object.php#L1176",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/classes/em-object.php#L1166",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/em-actions.php#L891",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/em-actions.php#L823",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/em-actions.php#L906",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.2.3.1/classes/em-events.php#L654",
+          "url": "https://plugins.trac.wordpress.org/browser/events-manager/tags/7.3.4/em-actions.php#L920",
           "type": "reference"
         },
         {
@@ -226,7 +290,7 @@
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "7.4.0",
+              "lessThanOrEqual": "7.4.0.1",
               "versionType": "semver"
             }
           ],
@@ -234,102 +298,50 @@
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-44255",
-      "publishedDate": "2026-08-19T16:15:19.929Z",
-      "lastModifiedDate": "2026-08-25T02:17:14.746Z",
-      "description": "Wazuh is a free and open source platform used for threat prevention, detection, and response. From 4.0.0 until 4.14.6 and 5.0.0-beta2, AuthenticationManager.check_user() in framework/wazuh/rbac/orm.py performs check_password_hash() only when the supplied username exists. A nonexistent username returns immediately, while a valid username causes an expensive bcrypt calculation. An unauthenticated remote attacker can compare authentication response times to enumerate valid Wazuh usernames and use that information in subsequent credential attacks. This issue is fixed in versions 4.14.6 and 5.0.0-beta2.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：wazuh wazuh\n🔓 漏洞类型：CWE-208 (CWE-208)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75930",
+      "publishedDate": "2026-08-25T03:27:05.464Z",
+      "lastModifiedDate": "2026-08-25T03:27:05.464Z",
+      "description": "The FundEngine – Donation and Crowdfunding Platform plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.8.1. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to modify arbitrary posts and pages — overwriting title and content, and seizing ownership by supplying an attacker-controlled post_author integer that bypasses wp_kses_post sanitization. The wp_rest nonce required by the handler is trivially obtainable by any logged-in user via /wp-admin/admin-ajax.php?action=rest-nonce and therefore does not constitute an authorization barrier.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：roxnor FundEngine – Donation and Crowdfunding Platform\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/wazuh/wazuh/security/advisories/GHSA-3978-44q9-9px9",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/08057fa2-90e1-4537-a828-a2c5902b348c?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://github.com/wazuh/wazuh/pull/35757",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1228",
           "type": "reference"
         },
         {
-          "url": "https://github.com/wazuh/wazuh/commit/5ecea7b38b998407cb0d205467dd247140a0f981",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L1195",
           "type": "reference"
         },
         {
-          "url": "https://github.com/wazuh/wazuh/releases/tag/v4.14.6",
+          "url": "https://plugins.trac.wordpress.org/browser/wp-fundraising-donation/tags/1.8.1/apps/content.php#L289",
           "type": "reference"
         },
         {
-          "url": "https://github.com/wazuh/wazuh/releases/tag/v5.0.0-beta2",
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3656562%40wp-fundraising-donation&new=3656562%40wp-fundraising-donation",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "wazuh",
-          "product": "wazuh",
-          "versions": [
-            {
-              "version": ">= 4.0.0, < 4.14.6",
-              "status": "affected"
-            },
-            {
-              "version": ">= 5.0.0-beta1, < 5.0.0-beta2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-208: Observable Timing Discrepancy"
-      ],
-      "cwe_ids": [
-        "CWE-208"
-      ]
-    },
-    {
-      "id": "CVE-2026-75982",
-      "publishedDate": "2026-08-25T02:26:48.639Z",
-      "lastModifiedDate": "2026-08-25T02:26:48.639Z",
-      "description": "The LearnPress plugin for WordPress is vulnerable to unauthorized modification of arbitrary WordPress options in versions up to, and including, 4.4.4 via the learnpress_create_page AJAX action. The LP_Admin_Ajax::create_page() handler only checks the edit_pages capability and a wp_rest nonce (both available to Editors), then reads the field_name parameter from the request without restricting it to a learn_press_* allow-list before passing it as the option key to LP_Helper::create_page(), which calls update_option($key_option, $page_id). This makes it possible for authenticated attackers, with Editor-level access and above, to update arbitrary WordPress options to a positive integer (a newly created page ID), enabling actions such as flipping users_can_register to a truthy value to open public registration, corrupting active_plugins to break the site, or otherwise tampering with site-wide settings normally reserved for administrators.",
-      "severity": 4.4,
-      "fix_suggestion": "📦 受影响组件：thimpress LearnPress – WordPress LMS Plugin for Create and Sell Online Courses\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/2f8b8bfe-8d73-4289-b212-7baf7bceaaf6?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/learnpress/trunk/inc/class-lp-helper.php#L264",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/learnpress/trunk/inc/admin/class-lp-admin-ajax.php#L649",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/learnpress/trunk/inc/admin/class-lp-admin-ajax.php#L45",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3659902%40learnpress&new=3659902%40learnpress",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "thimpress",
-          "product": "LearnPress – WordPress LMS Plugin for Create and Sell Online Courses",
+          "vendor": "roxnor",
+          "product": "FundEngine – Donation and Crowdfunding Platform",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "4.4.4",
+              "lessThanOrEqual": "1.8.1",
               "versionType": "semver"
             }
           ],
@@ -342,55 +354,6 @@
       "cwe_ids": [
         "CWE-862"
       ]
-    },
-    {
-      "id": "CVE-2026-71864",
-      "publishedDate": "2026-08-19T17:34:55.340Z",
-      "lastModifiedDate": "2026-08-25T02:21:34.265Z",
-      "description": "Orval generates type-safe JavaScript clients in TypeScript from OpenAPI v3 and Swagger v2 specifications. Prior to 8.21.0, a double quote in a header parameter name is emitted into the generated request-validation zod.object({...}) schema without safe encoding. This permits attacker-controlled JavaScript to be evaluated when the generated zod schema module is imported, resulting in code execution in the developer, CI, test, or application environment. The affected code is packages/zod/src/index.ts and header request-validation generation. This issue is fixed in version 8.21.0.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：orval-labs orval\n🔓 漏洞类型：Code Injection, CWE-95, CWE-116 (CWE-94, CWE-95, CWE-116)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/orval-labs/orval/security/advisories/GHSA-6437-gxhq-pqv8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/orval-labs/orval/pull/3692",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/orval-labs/orval/commit/8ef1bfdf3f9bcaf9dabfbe2e42887f1c0e159ab6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/orval-labs/orval/releases/tag/v8.21.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "orval-labs",
-          "product": "orval",
-          "versions": [
-            {
-              "version": "< 8.21.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
-        "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')",
-        "CWE-116: Improper Encoding or Escaping of Output"
-      ],
-      "cwe_ids": [
-        "CWE-94",
-        "CWE-95",
-        "CWE-116"
-      ],
-      "cvss_severity": "HIGH"
     }
   ]
 }
