@@ -2,141 +2,169 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-08-29T07:27:18.101619",
+    "total_count": 3,
+    "last_updated": "2026-08-29T13:18:20.126314",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "critical": 1,
+      "high": 1,
+      "medium": 1,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-80725",
-      "publishedDate": "2026-08-29T06:39:35.212Z",
-      "lastModifiedDate": "2026-08-29T06:40:30.300Z",
-      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: gro: properly validate BIG TCP aggregation criteria\n\nWhen GRO attempts to aggregate packets beyond GRO_LEGACY_MAX_SIZE (64KB),\nBIG TCP should only be permitted for plain IPv4 TCP and plain IPv6 TCP\n(with sufficient MAC header room to insert the temporary HBH jumbo header).\n\nHowever, commit b1a78b9b9886 (\"net: add support for ipv4 big tcp\")\nloosened the check in skb_gro_receive(), leading to several issues:\n\n1. skb_gro_receive() checked skb_headroom(p) instead of the actual space\n   before the MAC header (p->mac_header). Because skb_headroom(p) includes\n   mac_len, crafted frames (e.g. injected via AF_PACKET) can pass the check\n   with p->mac_header < 8 bytes. When ipv6_gro_complete() inserts the\n   temporary HBH jumbo header, the memmove() starts before skb->head,\n   causing an out-of-bounds write and wrapping skb->mac_header.\n2. It allowed non-IP protocols such as software VLAN (ETH_P_8021Q /\n   ETH_P_8021AD) to aggregate beyond 64KB because\n   p->protocol != ETH_P_IPV6 was true.\n3. It checked p->encapsulation instead of NAPI_GRO_CB(skb)->encap_mark,\n   allowing encapsulated flows (e.g. SIT / IPv6-in-IPv4) to aggregate\n   beyond 64KB.\n\nFix skb_gro_receive() to strictly enforce:\n- NAPI_GRO_CB(skb)->proto == IPPROTO_TCP\n- Not encapsulated (!NAPI_GRO_CB(skb)->encap_mark && !p->encapsulation)\n- Protocol must be either ETH_P_IP or ETH_P_IPV6\n- If ETH_P_IPV6, p->mac_header must be at least\n  sizeof(struct hop_jumbo_hdr)\n\nReturning -E2BIG from skb_gro_receive() ensures that packets which cannot\nbecome BIG TCP are cleanly flushed at <= 64KB and delivered intact without\ndropping.\n\nThis issue does not exist in mainline (7.0+) because the subsystem was\nrewritten in commit 81be30c1f5f2 (\"net/ipv6: Drop HBH for BIG TCP on RX\nside\"), making this fix relevant only for older stable branches like\n6.18.y.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-82448",
+      "publishedDate": "2026-08-29T12:05:34.812Z",
+      "lastModifiedDate": "2026-08-29T12:05:34.812Z",
+      "description": "Shinobi before commit 5a76c74f contains a hardcoded connection key in the child node service that allows unauthenticated attackers to execute arbitrary database queries. Attackers reaching the child node port can present the hardcoded key during WebSocket handshake, then dispatch SQL queries through the onWebSocketDataFromChildNode handler to read and modify user records and camera configuration.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：Shinobi Systems Shinobi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://git.kernel.org/stable/c/37a5dcd6837fc2afc44a7bc3ed8af4e983783d46",
+          "url": "https://gitlab.com/Shinobi-Systems/Shinobi/-/merge_requests/554",
           "type": "reference"
         },
         {
-          "url": "https://git.kernel.org/stable/c/e907bf694ed55bdfe421be99dba35751a655df25",
+          "url": "https://gitlab.com/Shinobi-Systems/Shinobi/-/commit/5a76c74f3977661ff3f9fd55a260db352c0b19c0",
           "type": "reference"
         },
         {
-          "url": "https://git.kernel.org/stable/c/03cb8cc2961f5f781d12e903782cb3815ed84b1c",
+          "url": "https://gitlab.com/Shinobi-Systems/Shinobi",
           "type": "reference"
         },
         {
-          "url": "https://git.kernel.org/stable/c/3ce832e2bd431d0c12ba525ed73ad8fbc4191da5",
+          "url": "https://gitlab.com/Shinobi-Systems/Shinobi/-/blob/f04e685b8bd4c6190fcd62993131b86a76c2b806/libs/childNode/utils.js",
           "type": "reference"
         },
         {
-          "url": "https://git.kernel.org/stable/c/81be30c1f5f2bffda1f04c0efd0746af10b9643a",
+          "url": "https://www.vulncheck.com/advisories/shinobi-before-commit-5a76c74f-arbitrary-database-query-execution-via-hardcoded-child-node-key",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "product": "Linux",
-          "vendor": "Linux",
-          "defaultStatus": "unaffected",
-          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
-          "programFiles": [
-            "net/core/gro.c"
-          ],
+          "vendor": "Shinobi Systems",
+          "product": "Shinobi",
+          "collectionURL": "https://gitlab.com/Shinobi-Systems/Shinobi",
+          "repo": "https://gitlab.com/Shinobi-Systems/Shinobi",
           "versions": [
             {
-              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
-              "lessThan": "37a5dcd6837fc2afc44a7bc3ed8af4e983783d46",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
-              "lessThan": "e907bf694ed55bdfe421be99dba35751a655df25",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
-              "lessThan": "03cb8cc2961f5f781d12e903782cb3815ed84b1c",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
-              "lessThan": "3ce832e2bd431d0c12ba525ed73ad8fbc4191da5",
-              "status": "affected",
-              "versionType": "git"
-            },
-            {
-              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
-              "lessThan": "81be30c1f5f2bffda1f04c0efd0746af10b9643a",
+              "version": "0",
+              "lessThan": "5a76c74f3977661ff3f9fd55a260db352c0b19c0",
               "status": "affected",
               "versionType": "git"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Use of Hard-coded Credentials"
+      ]
+    },
+    {
+      "id": "CVE-2026-82447",
+      "publishedDate": "2026-08-29T12:05:34.113Z",
+      "lastModifiedDate": "2026-08-29T12:05:34.113Z",
+      "description": "Skyvern before 1.0.45 contains a sandbox escape vulnerability in TextPromptBlock that renders prompts twice, first through a sandboxed Jinja environment and then through an unsandboxed environment. Attackers can inject malicious Jinja template syntax through workflow parameters or upstream block output to execute arbitrary code with server process privileges.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Skyvern-AI skyvern\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Skyvern-AI/skyvern/commit/d723de621d5b3a340f3cc4d5b46bfe40a9a3124e",
+          "type": "reference"
         },
         {
-          "product": "Linux",
-          "vendor": "Linux",
-          "defaultStatus": "affected",
-          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
-          "programFiles": [
-            "net/core/gro.c"
-          ],
+          "url": "https://github.com/Skyvern-AI/skyvern",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Skyvern-AI/skyvern/blob/v1.0.44/skyvern/forge/sdk/workflow/models/block.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Skyvern-AI/skyvern/blob/v1.0.44/skyvern/forge/sdk/prompting.py",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/skyvern-before-1.0.45-sandbox-escape-via-textpromptblock",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Skyvern-AI",
+          "product": "skyvern",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:pypi/skyvern",
           "versions": [
             {
-              "version": "5.19",
-              "status": "affected"
-            },
-            {
-              "version": "0",
-              "lessThan": "5.19",
-              "status": "unaffected",
+              "version": "0.2.1",
+              "lessThan": "1.0.45",
+              "status": "affected",
               "versionType": "semver"
-            },
-            {
-              "version": "6.1.185",
-              "lessThanOrEqual": "6.1.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "6.6.154",
-              "lessThanOrEqual": "6.6.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "6.12.106",
-              "lessThanOrEqual": "6.12.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "6.18.47",
-              "lessThanOrEqual": "6.18.*",
-              "status": "unaffected",
-              "versionType": "semver"
-            },
-            {
-              "version": "7.0",
-              "lessThanOrEqual": "*",
-              "status": "unaffected",
-              "versionType": "original_commit_for_fix"
             }
           ]
         }
       ],
-      "problemType": []
+      "problemType": [
+        "Improper Neutralization of Special Elements Used in a Template Engine"
+      ]
+    },
+    {
+      "id": "CVE-2026-82449",
+      "publishedDate": "2026-08-29T12:05:35.516Z",
+      "lastModifiedDate": "2026-08-29T12:05:35.516Z",
+      "description": "Cockpit CMS before 2.14.1 contains an account enumeration vulnerability in the auth check endpoint due to timing discrepancies in password verification. Attackers can measure response times across multiple requests to determine which accounts exist by observing that existing accounts trigger bcrypt verification while non-existent accounts return immediately.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：cockpit-hq cockpit\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Cockpit-HQ/Cockpit/commit/5d65ae7b63a261a63e8809e5fba857ef3eadb2ac",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Cockpit-HQ/Cockpit",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/Cockpit-HQ/Cockpit/blob/2.14.0/modules/App/Controller/Auth.php",
+          "type": "reference"
+        },
+        {
+          "url": "https://link.mateocallec.com/MFC-2026-001",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/cockpit-cms-before-2.14.1-account-enumeration-via-auth-timing",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "cockpit-hq",
+          "product": "cockpit",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:composer/cockpit-hq/cockpit",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "2.14.1"
+            },
+            {
+              "version": "2.14.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Observable Timing Discrepancy"
+      ]
     }
   ]
 }
