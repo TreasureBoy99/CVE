@@ -3,62 +3,140 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-08-29T00:45:47.385470",
+    "last_updated": "2026-08-29T07:27:18.101619",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-3129",
-      "publishedDate": "2026-08-28T03:39:35.416Z",
-      "lastModifiedDate": "2026-08-28T23:18:59.081Z",
-      "description": "The LiteSpeed Cache plugin for WordPress is vulnerable to Stored Cross-Site Scripting via crafted `<img>` tag attributes in all versions up to, and including, 7.7. This is due to a flawed regular expression that is used to strip `width` and `height` attributes from images when the \"Lazy Load Images\" and \"Add Missing Sizes\" features are enabled. This makes it possible for authenticated attackers, with Author-level access and above, to inject arbitrary web scripts in pages that execute whenever a user accesses an injected page.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：litespeedtech LiteSpeed Cache\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-80725",
+      "publishedDate": "2026-08-29T06:39:35.212Z",
+      "lastModifiedDate": "2026-08-29T06:40:30.300Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet: gro: properly validate BIG TCP aggregation criteria\n\nWhen GRO attempts to aggregate packets beyond GRO_LEGACY_MAX_SIZE (64KB),\nBIG TCP should only be permitted for plain IPv4 TCP and plain IPv6 TCP\n(with sufficient MAC header room to insert the temporary HBH jumbo header).\n\nHowever, commit b1a78b9b9886 (\"net: add support for ipv4 big tcp\")\nloosened the check in skb_gro_receive(), leading to several issues:\n\n1. skb_gro_receive() checked skb_headroom(p) instead of the actual space\n   before the MAC header (p->mac_header). Because skb_headroom(p) includes\n   mac_len, crafted frames (e.g. injected via AF_PACKET) can pass the check\n   with p->mac_header < 8 bytes. When ipv6_gro_complete() inserts the\n   temporary HBH jumbo header, the memmove() starts before skb->head,\n   causing an out-of-bounds write and wrapping skb->mac_header.\n2. It allowed non-IP protocols such as software VLAN (ETH_P_8021Q /\n   ETH_P_8021AD) to aggregate beyond 64KB because\n   p->protocol != ETH_P_IPV6 was true.\n3. It checked p->encapsulation instead of NAPI_GRO_CB(skb)->encap_mark,\n   allowing encapsulated flows (e.g. SIT / IPv6-in-IPv4) to aggregate\n   beyond 64KB.\n\nFix skb_gro_receive() to strictly enforce:\n- NAPI_GRO_CB(skb)->proto == IPPROTO_TCP\n- Not encapsulated (!NAPI_GRO_CB(skb)->encap_mark && !p->encapsulation)\n- Protocol must be either ETH_P_IP or ETH_P_IPV6\n- If ETH_P_IPV6, p->mac_header must be at least\n  sizeof(struct hop_jumbo_hdr)\n\nReturning -E2BIG from skb_gro_receive() ensures that packets which cannot\nbecome BIG TCP are cleanly flushed at <= 64KB and delivered intact without\ndropping.\n\nThis issue does not exist in mainline (7.0+) because the subsystem was\nrewritten in commit 81be30c1f5f2 (\"net/ipv6: Drop HBH for BIG TCP on RX\nside\"), making this fix relevant only for older stable branches like\n6.18.y.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/c107674d-173f-49cf-b329-e7bffaee841d?source=cve",
+          "url": "https://git.kernel.org/stable/c/37a5dcd6837fc2afc44a7bc3ed8af4e983783d46",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/browser/litespeed-cache/trunk/src/media.cls.php#L761",
+          "url": "https://git.kernel.org/stable/c/e907bf694ed55bdfe421be99dba35751a655df25",
           "type": "reference"
         },
         {
-          "url": "https://plugins.trac.wordpress.org/changeset/3473912/",
+          "url": "https://git.kernel.org/stable/c/03cb8cc2961f5f781d12e903782cb3815ed84b1c",
           "type": "reference"
         },
         {
-          "url": "https://blog.litespeedtech.com/2026/08/27/security-update-for-lscwp-cve-2026-3129/",
+          "url": "https://git.kernel.org/stable/c/3ce832e2bd431d0c12ba525ed73ad8fbc4191da5",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/81be30c1f5f2bffda1f04c0efd0746af10b9643a",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "litespeedtech",
-          "product": "LiteSpeed Cache",
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "net/core/gro.c"
+          ],
           "versions": [
             {
-              "version": "0",
+              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
+              "lessThan": "37a5dcd6837fc2afc44a7bc3ed8af4e983783d46",
               "status": "affected",
-              "lessThanOrEqual": "7.7",
-              "versionType": "semver"
+              "versionType": "git"
+            },
+            {
+              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
+              "lessThan": "e907bf694ed55bdfe421be99dba35751a655df25",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
+              "lessThan": "03cb8cc2961f5f781d12e903782cb3815ed84b1c",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
+              "lessThan": "3ce832e2bd431d0c12ba525ed73ad8fbc4191da5",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "0fe79f28bfaf73b66b7b1562d2468f94aa03bd12",
+              "lessThan": "81be30c1f5f2bffda1f04c0efd0746af10b9643a",
+              "status": "affected",
+              "versionType": "git"
             }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "affected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "net/core/gro.c"
           ],
-          "defaultStatus": "unaffected"
+          "versions": [
+            {
+              "version": "5.19",
+              "status": "affected"
+            },
+            {
+              "version": "0",
+              "lessThan": "5.19",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.1.185",
+              "lessThanOrEqual": "6.1.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.6.154",
+              "lessThanOrEqual": "6.6.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.106",
+              "lessThanOrEqual": "6.12.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.47",
+              "lessThanOrEqual": "6.18.*",
+              "status": "unaffected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.0",
+              "lessThanOrEqual": "*",
+              "status": "unaffected",
+              "versionType": "original_commit_for_fix"
+            }
+          ]
         }
       ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
+      "problemType": []
     }
   ]
 }
