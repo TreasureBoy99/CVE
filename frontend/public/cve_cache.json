@@ -2,21 +2,547 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-09-02T09:54:00.921946",
+    "total_count": 12,
+    "last_updated": "2026-09-02T13:01:15.210829",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
+      "critical": 1,
+      "high": 7,
       "medium": 0,
       "low": 0,
-      "none": 5
+      "none": 4
     }
   },
   "cves": [
     {
+      "id": "CVE-2026-9055",
+      "publishedDate": "2026-09-02T04:26:46.198Z",
+      "lastModifiedDate": "2026-09-02T12:57:12.354Z",
+      "description": "The Booking for Appointments and Events Calendar – Amelia (Premium) plugin for WordPress is vulnerable to Privilege Escalation in versions 8.0 - 9.6.2. This is due to insufficient validation of the attacker-controlled 'type' parameter in the customer update endpoint, which allows customers to set their role to 'manager' and trigger creation of a WordPress user with the wpamelia-manager role when the 'externalId' parameter is set to 0. This makes it possible for unauthenticated attackers to escalate their privileges to administrator by first elevating to the manager role, then creating a provider entity linked to an administrator user ID and overwriting that administrator's password.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：melograno Booking for Appointments and Events Calendar – Amelia\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/0c2266b8-cc23-46de-bc80-09e3d6294854?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://wpamelia.com/documentation/changelog/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "melograno",
+          "product": "Booking for Appointments and Events Calendar – Amelia",
+          "versions": [
+            {
+              "version": "8.0",
+              "status": "affected",
+              "lessThanOrEqual": "9.6.2",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-269 Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
+      ]
+    },
+    {
+      "id": "CVE-2026-74753",
+      "publishedDate": "2026-08-26T14:37:00.168Z",
+      "lastModifiedDate": "2026-09-02T12:49:47.692Z",
+      "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nperf: Reject exited events as group leaders\n\nperf_event_remove_on_exec() sets remove-on-exec events to the EXIT state\nand detaches their group relationships.  The event's file descriptor can\nremain open, however, and perf_event_open() currently accepts that event\nas a group leader because its early validation rejects only REVOKED and\nDEAD events.\n\nA new sibling can consequently be linked to the detached leader.  When\nthe leader is closed, perf_group_detach() observes that its\nPERF_ATTACH_GROUP bit is already clear and skips the new sibling.  The\nsibling then retains a group_leader pointer to the freed event.\n\nReject group leaders in the EXIT state.  Perform the check while holding\nthe shared context mutex so that an exec in the target task cannot detach\nthe leader between validation and group attachment.\n\n[peterz: make the earlier test fully consistent]",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Linux Linux\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://git.kernel.org/stable/c/ce12e1170c0c78dffb9b28af6d287492ae7dd99d",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/e593031ff19a9484e8a00bc47edd447187721846",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/7a03413f31c196ab3894f988cdce0bb47b4fec42",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/7ce010275c531475f9d6e7efb11b9e522c74ed2e",
+          "type": "reference"
+        },
+        {
+          "url": "https://git.kernel.org/stable/c/fa091f46c3833fb22384f10eade2b4e1e1d0b278",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "kernel/events/core.c"
+          ],
+          "versions": [
+            {
+              "version": "4cdb1b3ab96eb1b7eb70bc5c82fede334bd60df2",
+              "lessThan": "ce12e1170c0c78dffb9b28af6d287492ae7dd99d",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "39358e856fb89e62e3c8d7389a2dc4ec33dbe90e",
+              "lessThan": "e593031ff19a9484e8a00bc47edd447187721846",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "a2d5d3ee7b6e3953114726b1521e62123ab5b043",
+              "lessThan": "7a03413f31c196ab3894f988cdce0bb47b4fec42",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "06ccef0434e98058ddae7bcebc901f93d22b7653",
+              "lessThan": "7ce010275c531475f9d6e7efb11b9e522c74ed2e",
+              "status": "affected",
+              "versionType": "git"
+            },
+            {
+              "version": "037a3c43edfb597665dd34457cd22b14692f2ba3",
+              "lessThan": "fa091f46c3833fb22384f10eade2b4e1e1d0b278",
+              "status": "affected",
+              "versionType": "git"
+            }
+          ]
+        },
+        {
+          "product": "Linux",
+          "vendor": "Linux",
+          "defaultStatus": "unaffected",
+          "repo": "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git",
+          "programFiles": [
+            "kernel/events/core.c"
+          ],
+          "versions": [
+            {
+              "version": "6.6.145",
+              "lessThan": "6.6.156",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.12.96",
+              "lessThan": "6.12.108",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "6.18.39",
+              "lessThan": "6.18.46",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.1.4",
+              "lessThan": "7.1.10",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-73770",
+      "publishedDate": "2026-09-01T20:28:31.725Z",
+      "lastModifiedDate": "2026-09-02T12:57:31.869Z",
+      "description": "An authenticated arbitrary file write vulnerability exists in AOS-CX. Successful exploitation could allow an authenticated malicious actor, under specific conditions outside the attacker's control and following a required action by another user, to create or modify arbitrary files and execute arbitrary commands as a privileged user on the underlying operating system.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：Hewlett Packard Enterprise (HPE) AOS-CX\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05134en_us&docLocale=en_US",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "product": "AOS-CX",
+          "vendor": "Hewlett Packard Enterprise (HPE)",
+          "versions": [
+            {
+              "lessThanOrEqual": "10.18.0001",
+              "status": "affected",
+              "version": "10.18.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.17.1021",
+              "status": "affected",
+              "version": "10.17.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.16.1051",
+              "status": "affected",
+              "version": "10.16.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.13.1180",
+              "status": "affected",
+              "version": "10.13.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.10.1180",
+              "status": "affected",
+              "version": "10.10.0000",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-73768",
+      "publishedDate": "2026-09-01T20:28:29.900Z",
+      "lastModifiedDate": "2026-09-02T12:52:36.742Z",
+      "description": "A vulnerability exists in the command line interface of AOS-CX that may allow for improper processing of malformed input. Successful exploitation could result in the execution of arbitrary commands with root privileges.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：Hewlett Packard Enterprise (HPE) AOS-CX\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05134en_us&docLocale=en_US",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "product": "AOS-CX",
+          "vendor": "Hewlett Packard Enterprise (HPE)",
+          "versions": [
+            {
+              "lessThanOrEqual": "10.18.0001",
+              "status": "affected",
+              "version": "10.18.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.17.1021",
+              "status": "affected",
+              "version": "10.17.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.16.1051",
+              "status": "affected",
+              "version": "10.16.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.13.1180",
+              "status": "affected",
+              "version": "10.13.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.10.1180",
+              "status": "affected",
+              "version": "10.10.0000",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-75528",
+      "publishedDate": "2026-09-02T07:39:09.117Z",
+      "lastModifiedDate": "2026-09-02T12:54:35.366Z",
+      "description": "The Broken Link Checker plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Comment Author URL / Link Log in all versions up to, and including, 2.4.13 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. Exploitation requires an administrator to perform the plugin's standard dismiss-and-recheck workflow on a link submitted by the attacker via the WordPress comment author URL field, after which the attacker's HTTP server issues a redirect to a URL containing an HTML/JavaScript payload that is stored verbatim in the link log.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：wpmudev Broken Link Checker\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/ec96308f-3944-48c5-94be-b1555c0830b7?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.13/legacy/includes/admin/table-printer.php#L658",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.13/legacy/includes/links.php#L485",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.13/legacy/modules/checkers/http.php#L291",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.13/legacy/modules/checkers/http.php#L432",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.13/legacy/modules/containers/comment.php#L228",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.8/legacy/includes/admin/table-printer.php#L658",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.8/legacy/includes/links.php#L485",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.8/legacy/modules/checkers/http.php#L291",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.8/legacy/modules/checkers/http.php#L432",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/browser/broken-link-checker/tags/2.4.8/legacy/modules/containers/comment.php#L228",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&new=3662785%40broken-link-checker%2Ftags%2F2.4.13.1&old=3644192%40broken-link-checker%2Ftags%2F2.4.13",
+          "type": "reference"
+        },
+        {
+          "url": "https://plugins.trac.wordpress.org/changeset?old_path=%2Fbroken-link-checker/tags/2.4.13&new_path=%2Fbroken-link-checker/tags/2.4.13.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "wpmudev",
+          "product": "Broken Link Checker",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "2.4.13",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-73767",
+      "publishedDate": "2026-09-01T20:28:28.337Z",
+      "lastModifiedDate": "2026-09-02T12:49:56.505Z",
+      "description": "Authenticated command injection vulnerabilities exist in the command line interface of AOS-CX. Successful exploitation of these vulnerabilities results in the ability to execute arbitrary commands as a privileged user on the underlying operating system.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：Hewlett Packard Enterprise (HPE) AOS-CX\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05134en_us&docLocale=en_US",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "product": "AOS-CX",
+          "vendor": "Hewlett Packard Enterprise (HPE)",
+          "versions": [
+            {
+              "lessThanOrEqual": "10.18.0001",
+              "status": "affected",
+              "version": "10.18.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.17.1021",
+              "status": "affected",
+              "version": "10.17.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.16.1051",
+              "status": "affected",
+              "version": "10.16.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.13.1180",
+              "status": "affected",
+              "version": "10.13.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.10.1180",
+              "status": "affected",
+              "version": "10.10.0000",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-73765",
+      "publishedDate": "2026-09-01T20:28:25.206Z",
+      "lastModifiedDate": "2026-09-02T12:51:49.727Z",
+      "description": "Authenticated path traversal vulnerabilities exist in API endpoints of AOS-CX. Successful exploitation of these vulnerabilities allows an attacker to write arbitrary files to the underlying operating system, which could lead to remote code execution.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：Hewlett Packard Enterprise (HPE) AOS-CX\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05134en_us&docLocale=en_US",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "affected",
+          "product": "AOS-CX",
+          "vendor": "Hewlett Packard Enterprise (HPE)",
+          "versions": [
+            {
+              "lessThanOrEqual": "10.18.0001",
+              "status": "affected",
+              "version": "10.18.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.17.1021",
+              "status": "affected",
+              "version": "10.17.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.16.1051",
+              "status": "affected",
+              "version": "10.16.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.13.1180",
+              "status": "affected",
+              "version": "10.13.0000",
+              "versionType": "semver"
+            },
+            {
+              "lessThanOrEqual": "10.10.1180",
+              "status": "affected",
+              "version": "10.10.0000",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-16647",
+      "publishedDate": "2026-09-02T12:55:30.885Z",
+      "lastModifiedDate": "2026-09-02T12:55:30.885Z",
+      "description": "Authentication Bypass Using an Alternate Path or Channel vulnerability in Drupal Disable Login Page allows Functionality Bypass. This issue affects Disable Login Page versions: from 0.0.0 to 1.1.4.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Drupal Disable Login Page\n🔓 漏洞类型：CWE-288 (CWE-288)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.drupal.org/sa-contrib-2026-111",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://www.drupal.org/project/disable_login",
+          "product": "Disable Login Page",
+          "vendor": "Drupal",
+          "repo": "https://git.drupalcode.org/project/disable_login",
+          "versions": [
+            {
+              "lessThan": "1.1.4",
+              "status": "affected",
+              "version": "0.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-288 Authentication Bypass Using an Alternate Path or Channel"
+      ],
+      "cwe_ids": [
+        "CWE-288"
+      ]
+    },
+    {
+      "id": "CVE-2026-82958",
+      "publishedDate": "2026-09-02T10:12:49.085Z",
+      "lastModifiedDate": "2026-09-02T12:53:05.342Z",
+      "description": "In Eclipse Ditto versions [1.3.0, 3.9.6], the ImplicitThingCreationMessageMapper of the connectivity service builds a CreateThing command by substituting placeholder values (e.g. {{ header:device_id }}) resolved from inbound message headers into a pre-configured JSON \"thing\" template as raw, un-escaped strings, and then parses the resulting string as JSON. Because the placeholder engine performs no JSON escaping and is unaware of the surrounding JSON string context, a resolved value containing a double-quote character can break out of its string and inject additional JSON structure.\n\n\n\n\nWhen a connection is configured to use this mapper with a template that reflects a header whose value a publishing device can control (for example an MQTT 5 user property, an AMQP 1.0 application property, or a Kafka record header), an attacker able to publish on that connection can inject an inline _policy object. The inline policy overrides the administrator-configured policyId, letting the attacker assign an arbitrary access-control policy to the newly created digital twin — gaining full read/write access to it and potentially revoking the legitimate owner's access, with no administrator interaction.\n\n\n\n\nExploitation requires all of the following: the connection uses the (non-default) ImplicitThingCreation mapper; its template reflects an attacker-controllable header; and, for the policy-override impact, the connection's authorization subjects are permitted to create policies (the default). Deployments that restrict the connection's subjects to thing creation only via the entity-creation configuration are not affected by the policy-override impact.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Eclipse Foundation Eclipse Ditto\n🔓 漏洞类型：CWE-1336, CWE-116, CWE-74 (CWE-1336, CWE-116, CWE-74)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/work_items/764",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/eclipse-ditto/ditto/security/advisories/GHSA-cgfq-3fv9-5c44",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse Ditto",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.3.0",
+              "lessThanOrEqual": "3.9.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1336 Improper neutralization of special elements used in a template engine",
+        "CWE-116 Improper Encoding or Escaping of Output",
+        "CWE-74 Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-1336",
+        "CWE-116",
+        "CWE-74"
+      ]
+    },
+    {
       "id": "CVE-2026-84175",
       "publishedDate": "2026-09-02T09:45:58.359Z",
-      "lastModifiedDate": "2026-09-02T09:45:58.359Z",
+      "lastModifiedDate": "2026-09-02T12:53:55.919Z",
       "description": "In Eclipse Ditto versions 3.0.0 to 3.9.6, the Things service fetches WoT (Web of Things) ThingModels over HTTP from URLs supplied by API users in the definition field of a Thing or Feature, without validating the target host, and follows HTTP redirects without re-validating the redirect target and without a hop limit. An authenticated user who is permitted to create a Thing, or who holds WRITE permission on an existing Thing, can thereby cause the Things service to issue arbitrary HTTP GET requests from inside the deployment's network — including to cloud instance-metadata endpoints and other internal services — and can use the differing error responses returned to the caller to enumerate internal services. Versions 2.4.0 to 2.5.x contain the same code, but are only affected where the operator explicitly enabled the WoT integration feature toggle, which is disabled by default in those versions.",
       "severity": "8.5",
       "fix_suggestion": "📦 受影响组件：Eclipse Foundation Eclipse Ditto\n🔓 漏洞类型：Server-Side Request Forgery (SSRF), CWE-674 (CWE-918, CWE-674)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
@@ -68,178 +594,69 @@
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-84335",
-      "publishedDate": "2026-09-01T23:42:29.487Z",
-      "lastModifiedDate": "2026-09-02T09:43:59.939Z",
-      "description": "Incorrect authorization in TabStrip in Google Chrome prior to 152.0.7977.75 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "id": "CVE-2026-12661",
+      "publishedDate": "2026-09-01T13:41:53.240Z",
+      "lastModifiedDate": "2026-09-02T12:52:36.085Z",
+      "description": "A denial-of-service security issue exists within FactoryTalk® Historian Machine Edition.  A network adjacent attacker who is authenticated could send crafted requests to the web interface, resulting in buffer overflow conditions that may cause the device to crash and become unresponsive.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Rockwell Automation FactoryTalk® Historian Machine Edition\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/522302504",
+          "url": "https://www.rockwellautomation.com/en-us/trust-center/security-advisories/advisory.SD1796.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Google",
-          "product": "Chrome",
+          "vendor": "Rockwell Automation",
+          "product": "FactoryTalk® Historian Machine Edition",
           "versions": [
             {
-              "version": "152.0.7977.75",
               "status": "affected",
-              "lessThan": "152.0.7977.75",
-              "versionType": "custom"
+              "version": "Series C: 7.101  Series B: 5.202"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Incorrect authorization"
+        "CWE-121 Stack-based buffer overflow"
+      ],
+      "cwe_ids": [
+        "CWE-121"
       ]
     },
     {
-      "id": "CVE-2026-84348",
-      "publishedDate": "2026-09-01T23:42:29.292Z",
-      "lastModifiedDate": "2026-09-02T09:46:30.440Z",
-      "description": "Information leak in MediaCapture in Google Chrome prior to 152.0.7977.75 allowed a remote attacker to potentially leak sensitive information via a crafted HTML page. (Chromium security severity: Medium)",
+      "id": "CVE-2025-12768",
+      "publishedDate": "2026-09-01T13:40:50.136Z",
+      "lastModifiedDate": "2026-09-02T12:52:42.270Z",
+      "description": "A security issue exists within FactoryTalk® Historian Machine Edition. An attacker with low-level authentication could exploit this vulnerability to achieve remote code execution on the affected device.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Rockwell Automation FactoryTalk® Historian Machine Edition\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/518100026",
+          "url": "https://www.rockwellautomation.com/en-us/trust-center/security-advisories/advisory.SD1796.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Google",
-          "product": "Chrome",
+          "vendor": "Rockwell Automation",
+          "product": "FactoryTalk® Historian Machine Edition",
           "versions": [
             {
-              "version": "152.0.7977.75",
               "status": "affected",
-              "lessThan": "152.0.7977.75",
-              "versionType": "custom"
+              "version": "Series C: 7.101  Series B: 5.202"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Information leak"
-      ]
-    },
-    {
-      "id": "CVE-2026-84334",
-      "publishedDate": "2026-09-01T23:42:29.115Z",
-      "lastModifiedDate": "2026-09-02T09:45:09.092Z",
-      "description": "Incorrect authorization in Chromoting in Google Chrome on on Windows prior to 152.0.7977.75 allowed a local attacker to execute arbitrary code outside the sandbox via a local program. (Chromium security severity: Medium)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/517798926",
-          "type": "reference"
-        }
+        "CWE-787 Out-of-bounds write"
       ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "152.0.7977.75",
-              "status": "affected",
-              "lessThan": "152.0.7977.75",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-84323",
-      "publishedDate": "2026-09-01T23:42:28.177Z",
-      "lastModifiedDate": "2026-09-02T09:48:39.299Z",
-      "description": "Missing authorization in FileSystem in Google Chrome prior to 152.0.7977.75 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to obtain sensitive information via a crafted HTML page. (Chromium security severity: Medium)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/502411391",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "152.0.7977.75",
-              "status": "affected",
-              "lessThan": "152.0.7977.75",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-84347",
-      "publishedDate": "2026-09-01T23:42:27.992Z",
-      "lastModifiedDate": "2026-09-02T09:48:12.934Z",
-      "description": "Use after free in WebRTC in Google Chrome prior to 152.0.7977.75 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://issues.chromium.org/issues/501679156",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Chrome",
-          "versions": [
-            {
-              "version": "152.0.7977.75",
-              "status": "affected",
-              "lessThan": "152.0.7977.75",
-              "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Use after free"
+      "cwe_ids": [
+        "CWE-787"
       ]
     }
   ]
