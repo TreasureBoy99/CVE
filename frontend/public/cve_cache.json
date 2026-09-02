@@ -2,43 +2,55 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-09-02T05:39:24.541557",
+    "total_count": 6,
+    "last_updated": "2026-09-02T09:54:00.921946",
     "severity_distribution": {
-      "critical": 1,
+      "critical": 0,
       "high": 1,
       "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 5
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-78657",
-      "publishedDate": "2026-09-02T05:29:52.087Z",
-      "lastModifiedDate": "2026-09-02T05:29:52.087Z",
-      "description": "The SigmaForms Pro – AI Generated Forms plugin for WordPress is vulnerable to arbitrary file deletion due to insufficient file path validation in the delete_submission_files function in all versions up to, and including, 1.4.11. This makes it possible for unauthenticated attackers to delete arbitrary files on the server, which can easily lead to remote code execution when the right file is deleted (such as wp-config.php). The malicious path traversal URL is submitted via form upload field and stored in the database, with deletion triggered when an administrator deletes the submission record from the admin panel.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：bdthemes SigmaForms Pro – AI Generated Forms\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-84175",
+      "publishedDate": "2026-09-02T09:45:58.359Z",
+      "lastModifiedDate": "2026-09-02T09:45:58.359Z",
+      "description": "In Eclipse Ditto versions 3.0.0 to 3.9.6, the Things service fetches WoT (Web of Things) ThingModels over HTTP from URLs supplied by API users in the definition field of a Thing or Feature, without validating the target host, and follows HTTP redirects without re-validating the redirect target and without a hop limit. An authenticated user who is permitted to create a Thing, or who holds WRITE permission on an existing Thing, can thereby cause the Things service to issue arbitrary HTTP GET requests from inside the deployment's network — including to cloud instance-metadata endpoints and other internal services — and can use the differing error responses returned to the caller to enumerate internal services. Versions 2.4.0 to 2.5.x contain the same code, but are only affected where the operator explicitly enabled the WoT integration feature toggle, which is disabled by default in those versions.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Eclipse Foundation Eclipse Ditto\n🔓 漏洞类型：Server-Side Request Forgery (SSRF), CWE-674 (CWE-918, CWE-674)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/c714e2b3-8a96-4078-99a4-4ce620939828?source=cve",
+          "url": "https://gitlab.eclipse.org/security/vulnerability-reports/-/work_items/659",
           "type": "reference"
         },
         {
-          "url": "https://feedback.bdthemes.com/announcements",
+          "url": "https://github.com/eclipse-ditto/ditto/security/advisories/GHSA-7f3j-xpvm-wwmg",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "bdthemes",
-          "product": "SigmaForms Pro – AI Generated Forms",
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse Ditto",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "lessThanOrEqual": "1.4.11",
+              "version": "3.9.0",
+              "lessThanOrEqual": "3.9.6",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "3.0.0",
+              "lessThanOrEqual": "3.8.12",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2.4.0",
+              "lessThan": "3.0.0",
               "versionType": "semver"
             }
           ],
@@ -46,49 +58,188 @@
         }
       ],
       "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+        "CWE-918 Server-Side request forgery (SSRF)",
+        "CWE-674 Uncontrolled Recursion"
       ],
       "cwe_ids": [
-        "CWE-22"
+        "CWE-918",
+        "CWE-674"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-84335",
+      "publishedDate": "2026-09-01T23:42:29.487Z",
+      "lastModifiedDate": "2026-09-02T09:43:59.939Z",
+      "description": "Incorrect authorization in TabStrip in Google Chrome prior to 152.0.7977.75 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to potentially execute arbitrary code outside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/522302504",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "152.0.7977.75",
+              "status": "affected",
+              "lessThan": "152.0.7977.75",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect authorization"
       ]
     },
     {
-      "id": "CVE-2026-14357",
-      "publishedDate": "2026-09-02T05:29:51.595Z",
-      "lastModifiedDate": "2026-09-02T05:29:51.595Z",
-      "description": "The DevKit Pro plugin for WordPress is vulnerable to Missing Authorization in versions up to, and including, 2.3.0. This is due to a missing capability check and missing nonce validation in the DPDEV_install_themes_func() function registered on the wp_ajax_DPDEV_install_themes action. This makes it possible for authenticated attackers, with Subscriber-level access and above, to install arbitrary theme ZIP packages containing PHP files that are extracted into the web-accessible wp-content/themes/ directory, which may make remote code execution possible.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：dplugins DevKit Pro\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-84348",
+      "publishedDate": "2026-09-01T23:42:29.292Z",
+      "lastModifiedDate": "2026-09-02T09:46:30.440Z",
+      "description": "Information leak in MediaCapture in Google Chrome prior to 152.0.7977.75 allowed a remote attacker to potentially leak sensitive information via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a3a6143d-051d-4a21-9ef7-4ecb2e9e187a?source=cve",
+          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
           "type": "reference"
         },
         {
-          "url": "https://dplugins.com/downloads/",
+          "url": "https://issues.chromium.org/issues/518100026",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "dplugins",
-          "product": "DevKit Pro",
+          "vendor": "Google",
+          "product": "Chrome",
           "versions": [
             {
-              "version": "0",
+              "version": "152.0.7977.75",
               "status": "affected",
-              "lessThanOrEqual": "2.3.0",
-              "versionType": "semver"
+              "lessThan": "152.0.7977.75",
+              "versionType": "custom"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "Information leak"
+      ]
+    },
+    {
+      "id": "CVE-2026-84334",
+      "publishedDate": "2026-09-01T23:42:29.115Z",
+      "lastModifiedDate": "2026-09-02T09:45:09.092Z",
+      "description": "Incorrect authorization in Chromoting in Google Chrome on on Windows prior to 152.0.7977.75 allowed a local attacker to execute arbitrary code outside the sandbox via a local program. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/517798926",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-862"
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "152.0.7977.75",
+              "status": "affected",
+              "lessThan": "152.0.7977.75",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-84323",
+      "publishedDate": "2026-09-01T23:42:28.177Z",
+      "lastModifiedDate": "2026-09-02T09:48:39.299Z",
+      "description": "Missing authorization in FileSystem in Google Chrome prior to 152.0.7977.75 allowed a remote attacker who had compromised the renderer process and leveraged social engineering to obtain sensitive information via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/502411391",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "152.0.7977.75",
+              "status": "affected",
+              "lessThan": "152.0.7977.75",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-84347",
+      "publishedDate": "2026-09-01T23:42:27.992Z",
+      "lastModifiedDate": "2026-09-02T09:48:12.934Z",
+      "description": "Use after free in WebRTC in Google Chrome prior to 152.0.7977.75 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Medium)",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://chromereleases.googleblog.com/2026/09/stable-channel-update-for-desktop.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.chromium.org/issues/501679156",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Chrome",
+          "versions": [
+            {
+              "version": "152.0.7977.75",
+              "status": "affected",
+              "lessThan": "152.0.7977.75",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Use after free"
       ]
     }
   ]
