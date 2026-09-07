@@ -2,15 +2,469 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-09-07T21:48:23.657803",
+    "total_count": 8,
+    "last_updated": "2026-09-07T23:49:03.983766",
     "severity_distribution": {
-      "critical": 0,
-      "high": 0,
+      "critical": 2,
+      "high": 6,
       "medium": 0,
       "low": 0,
       "none": 0
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-86543",
+      "publishedDate": "2026-09-07T23:03:20.773Z",
+      "lastModifiedDate": "2026-09-07T23:03:20.773Z",
+      "description": "knowns versions before 0.30.0 serve the management API without authentication on all network interfaces by default, with no password required on fresh installations. Attackers can access the unauthenticated /api/tunnel/start endpoint to provision a public tunnel and republish the API at a publicly accessible address.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-fc85-99vc-9c75",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/server/auth.go#L80-L86",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/cli/browser.go#L193-L200",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/server/routes/tunnel.go#L26-L38",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/878a02cb7cc14f0a592fdfda7a520af3cac500fb",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-unauthenticated-management-api-exposure",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-86542",
+      "publishedDate": "2026-09-07T23:03:20.058Z",
+      "lastModifiedDate": "2026-09-07T23:03:20.058Z",
+      "description": "knowns before 0.30.0 fails to validate import names in the import routes, allowing unauthenticated attackers to write files outside the imports directory. Attackers can supply traversal sequences in the name parameter to escape the imports directory and overwrite arbitrary files writable by the server process.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-wh3c-v55g-qfg8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/server/routes/imports.go#L519-L551",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/server/routes/imports.go#L376-L420",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/d3989829fb5095666d23d005b2f78a082832a396",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-path-traversal-via-import-name",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "cwe_ids": [
+        "CWE-22"
+      ]
+    },
+    {
+      "id": "CVE-2026-86439",
+      "publishedDate": "2026-09-07T23:03:16.548Z",
+      "lastModifiedDate": "2026-09-07T23:03:16.548Z",
+      "description": "knowns versions before 0.30.0 fail to validate filesystem paths in MCP tool arguments, allowing attackers to read, create, overwrite and delete files outside the project directory. Attackers can supply path arguments containing directory traversal sequences to access arbitrary Markdown files accessible to the server process.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-9gfj-28hw-jchp",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/storage/doc_store.go#L124-L129",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/storage/memory_store.go#L203-L211",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/09c5a96fd5817b941dc86669278c1a17db10ed4e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-path-traversal-via-mcp-doc-and-memory-tools",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-86541",
+      "publishedDate": "2026-09-07T23:03:19.358Z",
+      "lastModifiedDate": "2026-09-07T23:03:19.358Z",
+      "description": "knowns versions before 0.30.0 contain a path traversal vulnerability in the handleCodeReplace() function that allows attackers to overwrite arbitrary files outside the project root. Attackers can supply absolute paths or relative paths containing directory traversal sequences to write malicious content to sensitive files like shell startup scripts or SSH configuration files.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-f539-xgc6-xw7q",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/mcp/handlers/code.go#L588-L646",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/a2c98fc5c313463576c9348beeec6a74ddd7333b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-path-traversal-via-code-replace-mcp-action",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-86544",
+      "publishedDate": "2026-09-07T23:03:21.458Z",
+      "lastModifiedDate": "2026-09-07T23:03:21.458Z",
+      "description": "knowns versions before 0.30.0 contain an authorization bypass vulnerability where mutating code actions are incorrectly classified as read-only operations. Attackers with read-restricted sessions can exploit code.replace to modify permission configurations and escalate privileges on subsequent calls.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-w323-3wpx-f7g5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/permissions/registry.go#L99-L140",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/permissions/guard.go#L44-L60",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/a2c98fc5c313463576c9348beeec6a74ddd7333b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-authorization-bypass-via-misclassified-code-actions",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-86540",
+      "publishedDate": "2026-09-07T23:03:18.654Z",
+      "lastModifiedDate": "2026-09-07T23:03:18.654Z",
+      "description": "knowns versions before 0.30.0 fail to validate the settings.lsp.languages binary field in project configuration files, allowing attackers to execute arbitrary binaries by crafting a malicious .knowns/config.json file. When a repository with a crafted configuration is opened, the unvalidated binary path is executed twice under the user's account without any verification.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-mc52-mwq4-vfx3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/lsp/detect.go#L128-L157",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/models/config.go#L205-L216",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/d3989829fb5095666d23d005b2f78a082832a396",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-arbitrary-code-execution-via-lsp-binary",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ]
+    },
+    {
+      "id": "CVE-2026-86538",
+      "publishedDate": "2026-09-07T23:03:17.221Z",
+      "lastModifiedDate": "2026-09-07T23:03:17.221Z",
+      "description": "knowns versions before 0.30.0 contain a path traversal vulnerability in the POST /api/templates/preview endpoint that allows unauthenticated attackers to read arbitrary files. Attackers can supply directory traversal sequences in the templateFile parameter to bypass path restrictions and read sensitive files like credentials and configuration through the JSON response.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-fpxv-c555-rhm3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.29.1/internal/server/routes/templates.go#L299-L310",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/commit/09c5a96fd5817b941dc86669278c1a17db10ed4e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/releases/tag/v0.30.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-before-0.30.0-path-traversal-via-templatefile-parameter",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "0.30.0"
+            },
+            {
+              "version": "0.30.0",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "cwe_ids": [
+        "CWE-22"
+      ]
+    },
+    {
+      "id": "CVE-2026-86539",
+      "publishedDate": "2026-09-07T23:03:17.906Z",
+      "lastModifiedDate": "2026-09-07T23:03:17.906Z",
+      "description": "knowns through 0.33.0 contains a server-side request forgery vulnerability in the POST /api/embedding-models/test endpoint that issues outbound requests to caller-supplied destinations without validation. Attackers can enumerate internal hosts and cloud metadata endpoints by observing transport error messages that reveal network reachability information.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：knowns-dev knowns\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/knowns-dev/knowns/security/advisories/GHSA-qx9v-m9gg-p5jg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.33.0/internal/server/routes/embedding_models.go#L64-L110",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/knowns-dev/knowns/blob/v0.33.0/internal/server/routes/imports.go#L317-L330",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/knowns-through-0.33.0-server-side-request-forgery-via-embedding-models-endpoint",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "knowns-dev",
+          "product": "knowns",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/knowns",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "0.33.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Server-Side Request Forgery (SSRF)"
+      ]
+    }
+  ]
 }
