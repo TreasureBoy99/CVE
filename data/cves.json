@@ -2,231 +2,499 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-09-08T11:34:01.965662",
+    "total_count": 11,
+    "last_updated": "2026-09-08T15:17:29.748911",
     "severity_distribution": {
       "critical": 0,
-      "high": 3,
-      "medium": 1,
+      "high": 2,
+      "medium": 3,
       "low": 0,
-      "none": 0
+      "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-86712",
-      "publishedDate": "2026-09-08T11:23:05.131Z",
-      "lastModifiedDate": "2026-09-08T11:23:05.131Z",
-      "description": "SiYuan before 3.8.2 trusts the attacker-writable text/siyuan clipboard MIME type and skips sanitization in the paste handler, allowing code execution in the Node-enabled desktop renderer. Attackers can craft malicious web pages that write to the clipboard, and when pasted into SiYuan, injected scripts execute with full Node.js access through the Electron main process.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-14296",
+      "publishedDate": "2026-09-07T07:58:09.190Z",
+      "lastModifiedDate": "2026-09-08T15:00:36.748Z",
+      "description": "When using the Direct XIP\nupdate strategy, the main application image starts other cores (i.e. radio\ncore), based on the currently active slot without additional verification. The\nMCUboot in the bare (upstream) configuration assumes that if there is at least\na single slot for each image available, the system is bootable and continues\nthe boot process. This may lead to a situation when MCUboot picks different\nslot for different images (i.e. (a) for the main application and (b) for the\nradio image), boots the main application (from slot (a)) that afterwards starts\nthe radio image by providing an address of the unauthenticated slot ((a)\ninstead of (b)).",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Nordic Semiconductor ASA nRF54H20\n🔓 漏洞类型：CWE-347 (CWE-347)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-9rr9-pxr4-gcgc",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/siyuan-note/siyuan/commit/9ce660652de2ced26ec2d98a5a242cb0b8bb7273",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/siyuan-note/siyuan/releases/tag/v3.8.2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/siyuan-note/siyuan/blob/v3.8.1/app/src/protyle/util/paste.ts",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/siyuan-note/siyuan",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-3.8.2-remote-code-execution-via-clipboard",
+          "url": "https://docs.nordicsemi.com/r/bundle/struct_sa/page/struct/sa.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
+          "vendor": "Nordic Semiconductor ASA",
+          "product": "nRF54H20",
           "versions": [
             {
-              "version": "0",
-              "lessThan": "3.8.2",
               "status": "affected",
-              "versionType": "semver"
+              "version": "3.2"
+            },
+            {
+              "status": "affected",
+              "version": "3.3"
             }
           ],
-          "packageURL": "pkg:github/siyuan-note/siyuan",
-          "collectionURL": "https://github.com/siyuan-note/siyuan",
-          "repo": "https://github.com/siyuan-note/siyuan"
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-347 Improper verification of cryptographic signature"
+      ],
+      "cwe_ids": [
+        "CWE-347"
       ]
     },
     {
-      "id": "CVE-2026-86711",
-      "publishedDate": "2026-09-08T11:23:04.485Z",
-      "lastModifiedDate": "2026-09-08T11:23:04.485Z",
-      "description": "electerm before 5.3.15 exposes 40+ main-process functions through an unvalidated Electron IPC handler with no function-name allowlist or sender validation. Renderer-side script execution can invoke openFileWithEditor and other functions with arbitrary arguments to execute system commands in the main process.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：electerm electerm\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-86245",
+      "publishedDate": "2026-09-07T01:45:13.449Z",
+      "lastModifiedDate": "2026-09-08T14:59:21.909Z",
+      "description": "A vulnerability was detected in itsourcecode Sales and Inventory System 1.0. Affected by this vulnerability is an unknown functionality of the file /pages/sup_transac.php. Performing a manipulation of the argument companyname results in sql injection. It is possible to initiate the attack remotely. The exploit is now public and may be used.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：itsourcecode Sales and Inventory System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/electerm/electerm/security/advisories/GHSA-qc8j-6jr2-qr32",
+          "url": "https://vuldb.com/vuln/399400",
           "type": "reference"
         },
         {
-          "url": "https://github.com/electerm/electerm/issues/4509",
+          "url": "https://vuldb.com/vuln/399400/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/electerm/electerm/commit/b1f880534b8ae066c5d25bbf291ca7437e052750",
+          "url": "https://vuldb.com/cve/CVE-2026-86245",
           "type": "reference"
         },
         {
-          "url": "https://github.com/electerm/electerm/releases/tag/v5.3.15",
+          "url": "https://vuldb.com/submit/902051",
           "type": "reference"
         },
         {
-          "url": "https://github.com/electerm/electerm/blob/v5.3.5/src/app/lib/ipc.js",
-          "type": "reference"
+          "url": "https://github.com/9ue33/cve/issues/1",
+          "type": "poc"
         },
         {
-          "url": "https://github.com/electerm/electerm",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/electerm-before-5.3.15-arbitrary-command-execution-via-unvalidated-runglobalasync-ipc-bridge",
+          "url": "https://itsourcecode.com/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "electerm",
-          "product": "electerm",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/electerm",
+          "vendor": "itsourcecode",
+          "product": "Sales and Inventory System",
           "versions": [
             {
-              "version": "0",
-              "lessThan": "5.3.15",
-              "status": "affected",
-              "versionType": "semver"
+              "version": "1.0",
+              "status": "affected"
             }
           ],
-          "collectionURL": "https://github.com/electerm/electerm",
-          "repo": "https://github.com/electerm/electerm"
+          "cpes": [
+            "cpe:2.3:a:itsourcecode:sales_and_inventory_system:*:*:*:*:*:*:*:*"
+          ]
         }
       ],
       "problemType": [
-        "Exposed Dangerous Method or Function"
+        "SQL Injection",
+        "Injection"
       ]
     },
     {
-      "id": "CVE-2026-86713",
-      "publishedDate": "2026-09-08T11:23:05.792Z",
-      "lastModifiedDate": "2026-09-08T11:23:05.792Z",
-      "description": "PX4 Autopilot through 1.17.0 contains a use-after-free vulnerability in the load_mon module's stop path where exit_and_cleanup() deletes the LoadMon object and frees the performance counter before perf_end() attempts to access it. Attackers can trigger this vulnerability by issuing the load_mon stop command from any PXH or MAVLink shell, causing reads and writes through freed memory that corrupt heap objects and destabilize the flight stack.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：PX4 PX4-Autopilot\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-86317",
+      "publishedDate": "2026-09-07T14:15:15.855Z",
+      "lastModifiedDate": "2026-09-08T15:00:51.658Z",
+      "description": "A vulnerability was detected in ggml-org llama.cpp up to 0.4.0. This impacts the function rpc_server::deserialize_tensor of the file ggml/src/ggml-rpc/ggml-rpc.cpp of the component RPC Server. Performing a manipulation of the argument ne results in reachable assertion. The attack is possible to be carried out remotely. The reported GitHub issue was closed automatically due to inactivity.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：ggml-org llama.cpp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/PX4/PX4-Autopilot/pull/28544",
+          "url": "https://vuldb.com/vuln/399508",
           "type": "reference"
         },
         {
-          "url": "https://github.com/PX4/PX4-Autopilot/commit/354823e2efd8dd7ac47f4b8984b8e0fb06dc3b79",
+          "url": "https://vuldb.com/vuln/399508/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/PX4/PX4-Autopilot",
+          "url": "https://vuldb.com/cve/CVE-2026-86317",
           "type": "reference"
         },
         {
-          "url": "https://github.com/PX4/PX4-Autopilot/blob/v1.17.0/src/modules/load_mon/LoadMon.cpp",
+          "url": "https://vuldb.com/submit/908271",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/px4-autopilot-through-1.17.0-use-after-free-in-load-mon",
+          "url": "https://github.com/ggml-org/llama.cpp/issues/25288",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ggml-org/llama.cpp/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "PX4",
-          "product": "PX4-Autopilot",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:github/PX4/PX4-Autopilot",
-          "collectionURL": "https://github.com/PX4/PX4-Autopilot",
-          "repo": "https://github.com/PX4/PX4-Autopilot",
+          "vendor": "ggml-org",
+          "product": "llama.cpp",
           "versions": [
             {
-              "version": "0",
-              "lessThanOrEqual": "1.17.0",
-              "status": "affected",
-              "versionType": "semver"
+              "version": "0.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.4.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ggml-org:llama.cpp:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "RPC Server"
+          ]
+        }
+      ],
+      "problemType": [
+        "Reachable Assertion"
+      ]
+    },
+    {
+      "id": "CVE-2026-86238",
+      "publishedDate": "2026-09-07T00:30:08.356Z",
+      "lastModifiedDate": "2026-09-08T15:00:19.746Z",
+      "description": "A vulnerability was determined in projectworlds Online Examination System 1.0. The affected element is an unknown function of the file feedback.php of the component Feedback Form. Executing a manipulation of the argument Name/Subject can lead to cross site scripting. The attack may be launched remotely. The exploit has been publicly disclosed and may be utilized.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：projectworlds Online Examination System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/399395",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/399395/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-86238",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/901822",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/CyberShailendra1/Online-Examination-System-Project",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "projectworlds",
+          "product": "Online Examination System",
+          "versions": [
+            {
+              "version": "1.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:projectworlds:online_examination_system:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Feedback Form"
+          ]
+        }
+      ],
+      "problemType": [
+        "Cross Site Scripting",
+        "Code Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-79575",
+      "publishedDate": "2026-09-08T00:00:00.000Z",
+      "lastModifiedDate": "2026-09-08T14:58:56.831Z",
+      "description": "The JWT signing secret in yfexam-exam v2.0 is derived from the username and the current month instead of a random server-side key, making the secret key easily obtainable via a bruteforce attack.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/fangtang7/CVE/blob/main/yf-exam/JWT.md",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Use After Free"
+        "n/a"
       ]
     },
     {
-      "id": "CVE-2026-86714",
-      "publishedDate": "2026-09-08T11:23:06.416Z",
-      "lastModifiedDate": "2026-09-08T11:23:06.416Z",
-      "description": "PX4 Autopilot through 1.17.0 contains a stack buffer over-read vulnerability in the netman system command that fails to validate interface name length. Attackers can supply interface names of 74 bytes or more via the -i option to read beyond buffer boundaries, leaking stack memory to console output or writing it into persistent network configuration files.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：PX4 PX4-Autopilot\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-18796",
+      "publishedDate": "2026-09-07T08:07:31.633Z",
+      "lastModifiedDate": "2026-09-08T15:01:26.689Z",
+      "description": "Any application that\n     uses external QSPI flash for encrypted XIP on nRF5340 and relies on that\n     encryption for confidentiality and/or integrity of the externally stored\n     code. No specific nRF Connect SDK version is the root cause; the weakness\n     is in the on-the-fly decryption scheme.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Nordic Semiconductor ASA nRF5340\n🔓 漏洞类型：CWE-1342 (CWE-1342)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/PX4/PX4-Autopilot/pull/28483",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/PX4/PX4-Autopilot/commit/fec216e9d716d96d93b9d882b0c9cf00db3c6810",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/PX4/PX4-Autopilot",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/PX4/PX4-Autopilot/blob/v1.17.0/src/systemcmds/netman/netman.cpp",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/px4-autopilot-through-1.17.0-stack-buffer-over-read-via-netman",
+          "url": "https://docs.nordicsemi.com/r/bundle/struct_sa/page/struct/sa.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "PX4",
-          "product": "PX4-Autopilot",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:github/PX4/PX4-Autopilot",
-          "collectionURL": "https://github.com/PX4/PX4-Autopilot",
-          "repo": "https://github.com/PX4/PX4-Autopilot",
+          "vendor": "Nordic Semiconductor ASA",
+          "product": "nRF5340",
           "versions": [
             {
-              "version": "0",
-              "lessThanOrEqual": "1.17.0",
               "status": "affected",
-              "versionType": "semver"
+              "version": "All build codes"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Out-of-bounds Read"
+        "CWE-1342 Information exposure through microarchitectural state after transient execution"
+      ],
+      "cwe_ids": [
+        "CWE-1342"
+      ]
+    },
+    {
+      "id": "CVE-2026-14297",
+      "publishedDate": "2026-09-07T08:07:08.746Z",
+      "lastModifiedDate": "2026-09-08T15:01:09.643Z",
+      "description": "A buffer overflow in the Bluetooth Continuous Glucose\n     Monitoring Service (CGMS) Record Access Control Point (RACP) write handler\n     allows an authenticated BLE peer to overflow a 20-byte static buffer into\n     adjacent BSS memory. The exploitable impact cannot be predetermined - it\n     is entirely dependent on the linker-assigned BSS layout of the specific\n     firmware build, which may vary.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Nordic Semiconductor ASA nRF Connect SDK\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://docs.nordicsemi.com/r/bundle/struct_sa/page/struct/sa.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Nordic Semiconductor ASA",
+          "product": "nRF Connect SDK",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.2.0",
+              "lessThanOrEqual": "3.3.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-787 Out-of-bounds write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-84256",
+      "publishedDate": "2026-09-07T07:55:27.465Z",
+      "lastModifiedDate": "2026-09-08T15:00:15.389Z",
+      "description": "An argument parsing issue in OpenVPN 2.1_rc10 through 2.6.22 and 2.7_alpha1 through 2.7.6 on Windows allows remote authenticated users to execute arbitrary commands via a crafted certificate subject",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：OpenVPN OpenVPN\n🔓 漏洞类型：OS Command Injection, Argument Injection (CWE-78, CWE-88)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://community.openvpn.net/Security%20Announcements/CVE-2026-84256",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenVPN",
+          "product": "OpenVPN",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.1_rc10",
+              "lessThanOrEqual": "2.6.22",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2.7_alpha1",
+              "lessThanOrEqual": "2.7.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')",
+        "CWE-88 Improper neutralization of argument delimiters in a command ('argument injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78",
+        "CWE-88"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-84226",
+      "publishedDate": "2026-09-07T07:47:04.345Z",
+      "lastModifiedDate": "2026-09-08T14:59:53.551Z",
+      "description": "OpenVPN version 2.5.0 through 2.6.22 and 2.7_alpha1 through 2.7.6 on Windows allows local authenticated users to perform a binary planting attack during network configuration steps",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenVPN OpenVPN\n🔓 漏洞类型：CWE-426 (CWE-426)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://community.openvpn.net/Security%20Announcements/CVE-2026-84226",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenVPN",
+          "product": "OpenVPN",
+          "platforms": [
+            "Windows"
+          ],
+          "modules": [
+            "tapctl"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.5.0",
+              "lessThanOrEqual": "2.6.22",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2.7_alpha1",
+              "lessThanOrEqual": "2.7.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-426 Untrusted Search Path"
+      ],
+      "cwe_ids": [
+        "CWE-426"
+      ]
+    },
+    {
+      "id": "CVE-2026-82312",
+      "publishedDate": "2026-09-07T07:40:14.456Z",
+      "lastModifiedDate": "2026-09-08T14:59:05.003Z",
+      "description": "OpenVPN 2.0.0 through 2.6.22 and 2.7_alpha1 through 2.7.6 on Windows allows local authenticated users to cause a denial of service via a NULL DACL on named IPC objects",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenVPN OpenVPN\n🔓 漏洞类型：CWE-732, CWE-412 (CWE-732, CWE-412)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://community.openvpn.net/Security%20Announcements/CVE-2026-82312",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenVPN",
+          "product": "OpenVPN",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.0.0",
+              "lessThanOrEqual": "2.6.22",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "2.7_alpha1",
+              "lessThanOrEqual": "2.7.6",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-732 Incorrect Permission Assignment for Critical Resource",
+        "CWE-412 Unrestricted externally accessible lock"
+      ],
+      "cwe_ids": [
+        "CWE-732",
+        "CWE-412"
+      ]
+    },
+    {
+      "id": "CVE-2026-81830",
+      "publishedDate": "2026-09-07T07:36:19.096Z",
+      "lastModifiedDate": "2026-09-08T14:56:14.402Z",
+      "description": "The Windows interactive service in OpenVPN 2.4.0 through 2.6.22 allows local authenticated users to bypass the trusted configuration directory constraint via incorrect file path validation",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：OpenVPN OpenVPN\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://community.openvpn.net/Security%20Announcements/CVE-2026-81830",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "OpenVPN",
+          "product": "OpenVPN",
+          "platforms": [
+            "Windows"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.4.0",
+              "lessThanOrEqual": "2.6.22",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-73 External control of file name or path"
+      ],
+      "cwe_ids": [
+        "CWE-73"
       ]
     }
   ]
