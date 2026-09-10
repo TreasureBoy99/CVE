@@ -2,206 +2,108 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-09-10T20:10:20.768343",
+    "total_count": 2,
+    "last_updated": "2026-09-10T22:34:02.394682",
     "severity_distribution": {
-      "critical": 0,
-      "high": 2,
-      "medium": 1,
+      "critical": 1,
+      "high": 1,
+      "medium": 0,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-89054",
-      "publishedDate": "2026-09-10T19:36:21.570Z",
-      "lastModifiedDate": "2026-09-10T20:03:12.742Z",
-      "description": "A missing authorization vulnerability in OpenNMS Horizon allows configuration changes without authentication. The Spring Security policy for the /api/v2 REST API defines authorization rules for every HTTP method except PATCH, so the shipped @PATCH configuration endpoints for event configuration and SNMP data collection (which enable and disable event definitions and data-collection sources) are reachable with no authorization enforced. An unauthenticated attacker able to reach the web UI can disable event definitions and SNMP data collection, suppressing event and alarm generation and stopping metric collection - silently degrading monitoring and detection - with the change persisted and reloaded into the running system.\n\n\n\nThe solution is to upgrade to Horizon 36.0.4 or newer. Meridian and Horizon installation instructions state that they are intended for installation within an organization's private networks and should not be directly accessible from the Internet.",
-      "severity": 8.2,
-      "fix_suggestion": "📦 受影响组件：The OpenNMS Group Horizon\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19646",
+      "publishedDate": "2026-09-10T22:02:47.364Z",
+      "lastModifiedDate": "2026-09-10T22:02:47.364Z",
+      "description": "IBM Common Licensing Agent 9.0, Agent 9.0.0.1, Agent 9.0.0.2, ART 9.0, ART 9.0.0.1, and ART 9.0.0.2 could allow a remote attacker to redirect users to an arbitrary domain due to improper validation of the HTTP Host header.",
+      "severity": 9.1,
+      "fix_suggestion": "📦 受影响组件：IBM Common Licensing\n🔓 漏洞类型：CWE-1149 (CWE-1149)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/OpenNMS/opennms/pull/8833",
+          "url": "https://www.ibm.com/support/pages/node/7286490",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "The OpenNMS Group",
-          "product": "Horizon",
-          "repo": "https://github.com/OpenNMS",
+          "vendor": "IBM",
+          "product": "Common Licensing",
           "versions": [
             {
               "status": "affected",
-              "version": "36.0.0",
-              "lessThan": "36.0.4",
-              "versionType": "maven"
+              "version": "Agent 9.0"
+            },
+            {
+              "status": "affected",
+              "version": "Agent 9.0.0.1"
+            },
+            {
+              "status": "affected",
+              "version": "Agent 9.0.0.2"
+            },
+            {
+              "status": "affected",
+              "version": "ART 9.0"
+            },
+            {
+              "status": "affected",
+              "version": "ART 9.0.0.1"
+            },
+            {
+              "status": "affected",
+              "version": "ART 9.0.0.2"
             }
           ],
-          "defaultStatus": "unaffected"
+          "cpes": [
+            "cpe:2.3:a:ibm:common_licensing:agent:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:common_licensing:art:*:*:*:*:*:*:*"
+          ]
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-1149 SEI CERT Oracle Secure Coding Standard for Java - Guidelines 15. Platform Security (SEC)"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-1149"
       ]
     },
     {
-      "id": "CVE-2026-86060",
-      "publishedDate": "2026-09-05T20:00:59.107Z",
-      "lastModifiedDate": "2026-09-10T19:58:23.426Z",
-      "description": "RouterOS contains an argument-handling flaw in the SSH login\npath involving usernames that begin with a prohibited character, allowing for the trusted RouterOS policy mask to be changed, leading to privilege escalation. Exploitation requires an unauthenticated SSH session to reach the RouterOS login helper.This issue was fixed in versions: 6.49.21 (Long-term), 7.23.4 (Long-term) and 7.24.2 (Stable)",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：MikroTik RouterOS\n🔓 漏洞类型：Argument Injection (CWE-88)\n⚠️ **已在 CISA KEV 中标记为已知被利用 — 请立即修复！**\n📊 官方评级：MEDIUM (CVSS 5.5)\n📝 MikroTik RouterOS contains an improper neutralization of argument delimiters in a command vulnerability which allows an attacked to change the trusted RouterOS policy mask, leading to privilege escalation.\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-2310",
+      "publishedDate": "2026-09-10T22:03:06.079Z",
+      "lastModifiedDate": "2026-09-10T22:03:06.079Z",
+      "description": "IBM webMethods Integration Server 11.1 IBM webMethods Integration is vulnerable to an XML external entity injection (XXE) attack when processing XML data. A remote attacker could exploit this vulnerability to expose sensitive information or consume memory resources.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：IBM webMethods Integration Server\n🔓 漏洞类型：CWE-91 (CWE-91)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://cert.pl/en/posts/2026/09/mikrotik-routeros-cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://cert.pl/en/posts/2026/09/vulnerabilities-in-mikrotik-routeros-actively-exploited/",
-          "type": "reference"
-        },
-        {
-          "url": "https://npratley.net/reversing-mikrotiks-silent-patch-the-routeros-7-23-4-fix-they-wouldnt-explain/",
-          "type": "poc"
-        },
-        {
-          "url": "https://mikrotik.com/supportsec/september-2026-vulnerability/",
-          "type": "reference"
-        },
-        {
-          "url": "https://forum.mikrotik.com/t/6-49-21-long-term-is-released/272802",
-          "type": "reference"
-        },
-        {
-          "url": "https://forum.mikrotik.com/t/7-23-4-long-term-is-released/272801",
-          "type": "reference"
-        },
-        {
-          "url": "https://forum.mikrotik.com/t/7-24-2-stable-is-released/272800",
+          "url": "https://www.ibm.com/support/pages/node/7286620",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Mikrotik",
-          "product": "RouterOS",
+          "vendor": "IBM",
+          "product": "webMethods Integration Server",
           "versions": [
             {
               "status": "affected",
-              "version": "7.24",
-              "lessThan": "7.24.2",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "7.0.0",
-              "lessThan": "7.23.4",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0",
-              "lessThan": "6.49.21",
-              "versionType": "custom"
+              "version": "11.1"
             }
           ],
-          "defaultStatus": "unaffected"
+          "cpes": [
+            "cpe:2.3:a:ibm:webmethods_integration_server:11.1:*:*:*:*:*:*:*",
+            "cpe:2.3:a:ibm:webmethods_integration_server:11.1.0:*:*:*:*:*:*:*"
+          ]
         }
       ],
       "problemType": [
-        "CWE-88 Improper neutralization of argument delimiters in a command ('argument injection')"
+        "CWE-91 XML Injection (aka Blind XPath Injection)"
       ],
       "cwe_ids": [
-        "CWE-88"
-      ],
-      "cvss_severity": "MEDIUM",
-      "cisa_kev": true,
-      "cisa_kev_vendor": "MikroTik",
-      "cisa_kev_product": "RouterOS",
-      "cisa_kev_date_added": "2026-09-10",
-      "short_description": "MikroTik RouterOS contains an improper neutralization of argument delimiters in a command vulnerability which allows an attacked to change the trusted RouterOS policy mask, leading to privilege escalation."
-    },
-    {
-      "id": "CVE-2026-67277",
-      "publishedDate": "2026-09-05T20:00:56.614Z",
-      "lastModifiedDate": "2026-09-10T19:58:23.754Z",
-      "description": "RouterOS accepts a \"related\" btest connection before the corresponding primary session has completed authentication. An unauthenticated client can use this state to start an IPv4 UDP test. With \"random-data=false\", the sender transmits an uninitialized tail from a kernel packet buffer. A separate unchecked, inverted packet-size interval causes unsigned integer underflow, anomalously large fragmented output, and can restart the RouterOS kernel.\n\n\n\nThis issue was fixed in versions: 6.49.21 (Long-term), 7.23.4 (Long-term) and 7.24.2 (Stable)",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：MikroTik RouterOS\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n⚠️ **已在 CISA KEV 中标记为已知被利用 — 请立即修复！**\n📊 官方评级：HIGH (CVSS 8.5)\n📝 MikroTik RouterOS contains a missing authenticaion for critical function vulnerability which allows kernel memory disclosure and denial of service in the btest service.\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://cert.pl/en/posts/2026/09/mikrotik-routeros-cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://cert.pl/en/posts/2026/09/vulnerabilities-in-mikrotik-routeros-actively-exploited/",
-          "type": "reference"
-        },
-        {
-          "url": "https://npratley.net/reversing-mikrotiks-silent-patch-the-routeros-7-23-4-fix-they-wouldnt-explain/",
-          "type": "poc"
-        },
-        {
-          "url": "https://mikrotik.com/supportsec/september-2026-vulnerability/",
-          "type": "reference"
-        },
-        {
-          "url": "https://forum.mikrotik.com/t/6-49-21-long-term-is-released/272802",
-          "type": "reference"
-        },
-        {
-          "url": "https://forum.mikrotik.com/t/7-23-4-long-term-is-released/272801",
-          "type": "reference"
-        },
-        {
-          "url": "https://forum.mikrotik.com/t/7-24-2-stable-is-released/272800",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Mikrotik",
-          "product": "RouterOS",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "7.24",
-              "lessThan": "7.24.2",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "7.0.0",
-              "lessThan": "7.23.4",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "6.0.0",
-              "lessThan": "6.49.21",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-306 Missing authentication for critical function"
-      ],
-      "cwe_ids": [
-        "CWE-306"
-      ],
-      "cvss_severity": "HIGH",
-      "cisa_kev": true,
-      "cisa_kev_vendor": "MikroTik",
-      "cisa_kev_product": "RouterOS",
-      "cisa_kev_date_added": "2026-09-10",
-      "short_description": "MikroTik RouterOS contains a missing authenticaion for critical function vulnerability which allows kernel memory disclosure and denial of service in the btest service."
+        "CWE-91"
+      ]
     }
   ]
 }
