@@ -2,15 +2,160 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-09-11T13:27:31.371980",
+    "total_count": 3,
+    "last_updated": "2026-09-11T13:47:51.226591",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
+      "high": 3,
       "medium": 0,
       "low": 0,
       "none": 0
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-71416",
+      "publishedDate": "2026-09-11T13:34:38.794Z",
+      "lastModifiedDate": "2026-09-11T13:34:38.794Z",
+      "description": "Headroom compresses data before the data reaches a large language model. Prior to version 0.35.0, the Headroom WebSocket server does not validate the `Origin` header of incoming client WebSocket requests before forwarding the request to the upstream server, allowing malicious WebSocket clients to perform arbitrary LLM requests without authentication. This can be exploited by a malicious WebSocket client executed in a traditional or headless browser such as lightpanda, if the browser has access to the Headroom proxy and the OpenAI API key is stored in the `OPENAI_API_KEY` environment variable. Version 0.35.0 fixes the issue.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：headroomlabs-ai headroom\n🔓 漏洞类型：Improper Authentication, CWE-1385 (CWE-287, CWE-1385)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/headroomlabs-ai/headroom/security/advisories/GHSA-h46j-26q3-rggf",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/headroomlabs-ai/headroom/releases/tag/v0.35.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "headroomlabs-ai",
+          "product": "headroom",
+          "versions": [
+            {
+              "version": "< 0.35.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-287: Improper Authentication",
+        "CWE-1385: Missing Origin Validation in WebSockets"
+      ],
+      "cwe_ids": [
+        "CWE-287",
+        "CWE-1385"
+      ]
+    },
+    {
+      "id": "CVE-2026-89212",
+      "publishedDate": "2026-09-11T13:23:56.485Z",
+      "lastModifiedDate": "2026-09-11T13:34:49.778Z",
+      "description": "A flaw resulting in XML external entity (XXE) was found in Akana API Platform in which references were improperly restricted during XML-to-JSON processing. The issue affects Akana versions 2026.1, 2025.1.1, and all versions before 2024.1.6 (including older unsupported versions of Akana) and has been fixed as a security patch in the latest release of supported versions.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：Perforce Akana\n🔓 漏洞类型：XML External Entity (XXE) (CWE-611)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://portal.perforce.com/s/cve/a91Qi000003CxPBIA0/xml-external-entity-in-akana-api-platform",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Perforce",
+          "product": "Akana",
+          "platforms": [
+            "Akana API Platform"
+          ],
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "2024.1.6, 2025.1.2, 2026.2",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "All versions prior to 2024.1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "2024.1.0",
+              "lessThanOrEqual": "2024.1.5",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "2025.1.0",
+              "lessThanOrEqual": "2025.1.1",
+              "versionType": "custom"
+            },
+            {
+              "status": "affected",
+              "version": "2026.1",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-611 Improper restriction of XML external entity reference"
+      ],
+      "cwe_ids": [
+        "CWE-611"
+      ]
+    },
+    {
+      "id": "CVE-2026-87776",
+      "publishedDate": "2026-09-11T11:24:55.150Z",
+      "lastModifiedDate": "2026-09-11T13:36:30.531Z",
+      "description": "compression is a Node.js and Express compression middleware. In versions before 1.8.2, when a client aborts the connection while a compressed response is still being sent, the zlib stream created to compress that response is never destroyed, so each aborted compressed response leaks its native zlib memory. A remote unauthenticated attacker can repeatedly open requests and disconnect early, exhausting the available memory and crashing the server. All applications using compression are affected. The issue is fixed in compression 1.8.2, and users should upgrade to 1.8.2 or later.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：compression compression\n🔓 漏洞类型：CWE-401, CWE-459 (CWE-401, CWE-459)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/expressjs/compression/security/advisories/GHSA-vc2v-76pw-4v95",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.openjsf.org/security-advisories.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "compression",
+          "product": "compression",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "versionType": "semver",
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.8.2"
+            },
+            {
+              "versionType": "semver",
+              "status": "unaffected",
+              "version": "1.8.2"
+            }
+          ],
+          "packageURL": "pkg:npm/compression"
+        }
+      ],
+      "problemType": [
+        "CWE-401: Missing Release of Memory after Effective Lifetime",
+        "CWE-459: Incomplete Cleanup"
+      ],
+      "cwe_ids": [
+        "CWE-401",
+        "CWE-459"
+      ]
+    }
+  ]
 }
