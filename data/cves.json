@@ -2,63 +2,138 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-09-12T21:39:59.464261",
+    "total_count": 2,
+    "last_updated": "2026-09-12T23:22:06.431760",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
       "medium": 1,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-90485",
-      "publishedDate": "2026-09-12T21:15:09.296Z",
-      "lastModifiedDate": "2026-09-12T21:15:09.296Z",
-      "description": "A flaw has been found in IOBit Uninstaller 15.5.0.11. Affected by this issue is the function sub_11838 of the file IURegistryFilter.sys of the component IOCTL Dispatch Handler. This manipulation causes null pointer dereference. The attack requires local access. The exploit has been published and may be used. Identical IURegistryFilter.sys ships across multiple IObit families. The vendor was contacted early about this disclosure but did not respond in any way.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：IOBit Uninstaller\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-90488",
+      "publishedDate": "2026-09-12T23:15:19.934Z",
+      "lastModifiedDate": "2026-09-12T23:15:19.934Z",
+      "description": "A vulnerability was determined in Xuxueli xxl-job up to 3.4.2. This affects the function GroovyClassLoader.parseClass of the file xxl-job-core/src/main/java/com/xxl/job/core/glue/GlueFactory.java. This manipulation causes code injection. Remote exploitation of the attack is possible. The exploit has been publicly disclosed and may be utilized. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：Xuxueli xxl-job\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/403064",
+          "url": "https://vuldb.com/vuln/403076",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/403064/cti",
+          "url": "https://vuldb.com/vuln/403076/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-90485",
+          "url": "https://vuldb.com/cve/CVE-2026-90488",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/887954",
+          "url": "https://vuldb.com/submit/888470",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zhaizejiang/xxl-job-vuln-poc/blob/main/xxl-job%20v3.4.2%20Remote%20Code%20Execution%20via%20Groovy%20Code%20Execution.md",
+          "type": "poc"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Xuxueli",
+          "product": "xxl-job",
+          "versions": [
+            {
+              "version": "3.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "3.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "3.4.2",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:xuxueli:xxl-job:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Code Injection",
+        "Injection"
+      ]
+    },
+    {
+      "id": "CVE-2026-90648",
+      "publishedDate": "2026-09-12T23:16:34.123Z",
+      "lastModifiedDate": "2026-09-12T23:16:34.123Z",
+      "description": "wasm2c in WebAssembly wabt through 1.0.41 allows sandbox escape in some situations that primarily involve 32-bit platforms, aka a \"table flip\" attack. It does not check the return value of calloc() in wasm_rt_allocate_funcref_table() (wasm2c/wasm-rt-impl-tableops.inc). When the funcref table allocation fails, table->data is left NULL while table->size keeps the guest-declared element count; thus, bounds checks still pass and table element accesses resolve to absolute memory addresses (i * sizeof(wasm_rt_funcref_t)). This gives arbitrary read and write of host process memory and - via table.get, table.set, and call_indirect - arbitrary code execution, defeating the isolation that wasm2c exists to provide (a full sandbox escape). wasm2c is used as an in-process sandboxing boundary by RLBox and WasmBoxC, including in Firefox, which compiles the Graphite, Hunspell, Ogg, Expat, and Woff2 libraries via wasm2c to contain untrusted font, media, and XML input. Therefore, sandboxing in these applications is potentially affected. Exploitation requires the funcref table allocation to fail, for example under an address-space limit (RLIMIT_AS), on 32-bit hosts, with vm.overcommit_memory=2, or under memory pressure. On 64-bit Linux with default overcommit the allocation succeeds and the defect is not triggered. The wasm2c memory allocator aborts on calloc failure in the same runtime; the table allocator lacks this abort behavior. This was introduced in commit ab9e0b55 (PR #813).",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：WebAssembly wabt\n🔓 漏洞类型：CWE-252 (CWE-252)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/trustsig-eu/wasm2c-tableflip",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/WebAssembly/wabt",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=1827704",
+          "type": "reference"
+        },
+        {
+          "url": "https://https://blog.mozilla.org/attack-and-defense/2021/12/06/webassembly-and-back-again-fine-grained-sandboxing-in-firefox-95",
+          "type": "reference"
+        },
+        {
+          "url": "https://rlbox.dev",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "IOBit",
-          "product": "Uninstaller",
-          "versions": [
+          "defaultStatus": "unknown",
+          "modules": [
+            "wasm2c / wasm-rt runtime (funcref table allocation)"
+          ],
+          "platforms": [
+            "32 bit"
+          ],
+          "product": "wabt",
+          "programFiles": [
+            "wasm2c/wasm-rt-impl-tableops.inc"
+          ],
+          "programRoutines": [
             {
-              "version": "15.5.0.11",
-              "status": "affected"
+              "name": "wasm_rt_allocate_funcref_table"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:iobit:uninstaller:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "IOCTL Dispatch Handler"
+          "repo": "https://github.com/WebAssembly/wabt",
+          "vendor": "WebAssembly",
+          "versions": [
+            {
+              "lessThanOrEqual": "1.0.41",
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
           ]
         }
       ],
       "problemType": [
-        "NULL Pointer Dereference",
-        "Denial of Service"
+        "CWE-252 Unchecked Return Value"
+      ],
+      "cwe_ids": [
+        "CWE-252"
       ]
     }
   ]
