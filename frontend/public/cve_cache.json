@@ -2,430 +2,62 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 7,
-    "last_updated": "2026-09-15T06:39:49.501272",
+    "total_count": 1,
+    "last_updated": "2026-09-15T12:07:35.999856",
     "severity_distribution": {
-      "critical": 1,
-      "high": 2,
-      "medium": 4,
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-90711",
-      "publishedDate": "2026-09-15T06:19:46.332Z",
-      "lastModifiedDate": "2026-09-15T06:19:46.332Z",
-      "description": "proxy-addr is a Node.js module that determines a request's client address behind trusted reverse proxies, and it backs Express req.ip and req.ips. In versions 1.1.0 through 2.0.7, a trust subnet written in IPv4-mapped IPv6 notation with an IPv4-sized prefix, such as ::ffff:10.0.0.0/8 instead of the correct ::ffff:10.0.0.0/104, is accepted without error but trusts every IPv4 address on the internet rather than the block it names. Because the socket peer then becomes trusted at hop 0, any unauthenticated client can supply an arbitrary X-Forwarded-For header and control the address the application reads, which defeats IP-based access control, rate limiting, geolocation, and audit logging. This is a fail-open regression introduced in version 1.1.0. The issue is fixed in proxy-addr 2.0.8, and users should upgrade to 2.0.8 or later. As a workaround, ensure any IPv4-mapped IPv6 trust subnet uses a prefix length of at least 97, or express the range in plain IPv4 notation.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：proxy-addr proxy-addr\n🔓 漏洞类型：CWE-290, CWE-348, CWE-697 (CWE-290, CWE-348, CWE-697)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-91997",
+      "publishedDate": "2026-09-15T11:35:51.378Z",
+      "lastModifiedDate": "2026-09-15T11:54:53.810Z",
+      "description": "evolution-api through 2.3.7 contains an incorrect array comparison in the metricsIPWhitelist middleware that always evaluates to false, allowing unauthenticated access to the /metrics endpoint. Attackers can bypass IP whitelist restrictions to access sensitive metrics disclosing server version, database client name, configured server URL, and WhatsApp instance details.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：evolution-foundation evolution-api\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/jshttp/proxy-addr/security/advisories/GHSA-jqcg-44mw-7w3h",
+          "url": "https://github.com/geo-chen/oss/blob/main/evolution-api.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/evolution-foundation/evolution-api/blob/2.3.7/src/api/routes/index.router.ts#L49-L65",
           "type": "reference"
         },
         {
-          "url": "https://cna.openjsf.org/security-advisories.html",
+          "url": "https://github.com/evolution-foundation/evolution-api",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/evolution-api-through-2.3.7-prometheus-metrics-ip-allowlist-bypass",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "proxy-addr",
-          "product": "proxy-addr",
+          "vendor": "evolution-foundation",
+          "product": "evolution-api",
+          "packageURL": "pkg:github/evolution-foundation/evolution-api",
           "defaultStatus": "unaffected",
           "versions": [
             {
-              "versionType": "semver",
-              "status": "affected",
-              "version": "1.1.0",
-              "lessThan": "2.0.8"
-            },
-            {
-              "versionType": "semver",
-              "status": "unaffected",
-              "version": "2.0.8"
-            }
-          ],
-          "packageURL": "pkg:npm/proxy-addr"
-        }
-      ],
-      "problemType": [
-        "CWE-290: Authentication Bypass by Spoofing",
-        "CWE-348: Use of Less Trusted Source",
-        "CWE-697: Incorrect Comparison"
-      ],
-      "cwe_ids": [
-        "CWE-290",
-        "CWE-348",
-        "CWE-697"
-      ]
-    },
-    {
-      "id": "CVE-2026-75983",
-      "publishedDate": "2026-09-15T06:07:31.947Z",
-      "lastModifiedDate": "2026-09-15T06:07:31.947Z",
-      "description": "The Eventin – Event Calendar, Tickets, Registration, Booking & WooCommerce plugin for WordPress is vulnerable to Privilege Escalation in all versions up to, and including, 4.1.23. This is due to the `PermissionManager::manage_permissions()` function being registered as a callback on WordPress core's `map_meta_cap` filter and unconditionally returning the always-true `'exist'` primitive for every capability check whenever the evaluated user ID is 1, without scoping this behavior to plugin-specific capabilities. This makes it possible for authenticated attackers whose account is user ID 1, even subscribers, to pass every WordPress capability check, including `manage_options`, `edit_plugins`, `edit_themes`, `promote_users`, and `update_core`, thereby elevating their privileges to administrator-equivalent power and achieving full site takeover, including remote code execution via the plugin and theme editors. Exploitation is only impactful when user ID 1 has been deliberately demoted to a lower-privilege role as a common administrator-account hardening practice; on default installations where user ID 1 retains the administrator role, no incremental privilege gain occurs.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：arraytics Eventin – Event Calendar, Tickets, Registration, Booking & WooCommerce\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/ff48db43-9cfa-4dab-b25e-bbc211121f6c?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.21/core/AccessControl/PermissionManager.php#L52",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.21/core/AccessControl/PermissionManager.php#L24",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.21/core/Admin/AdminProvider.php#L32",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3689867%40wp-event-solution&new=3689867%40wp-event-solution",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "arraytics",
-          "product": "Eventin – Event Calendar, Tickets, Registration, Booking & WooCommerce",
-          "versions": [
-            {
               "version": "0",
+              "lessThanOrEqual": "2.3.7",
               "status": "affected",
-              "lessThanOrEqual": "4.1.23",
               "versionType": "semver"
             }
           ],
-          "defaultStatus": "unaffected"
+          "repo": "https://github.com/evolution-foundation/evolution-api"
         }
       ],
       "problemType": [
-        "CWE-269 Improper Privilege Management"
-      ],
-      "cwe_ids": [
-        "CWE-269"
+        "Incorrect Comparison"
       ]
-    },
-    {
-      "id": "CVE-2026-89141",
-      "publishedDate": "2026-09-15T06:07:31.075Z",
-      "lastModifiedDate": "2026-09-15T06:07:31.075Z",
-      "description": "The AI Engine – The Chatbot, AI Framework & MCP for WordPress plugin for WordPress is vulnerable to Insecure Direct Object Reference in all versions up to, and including, 3.7.7 via the 'mediaId' parameter due to missing validation on a user controlled key. This makes it possible for authenticated attackers, with subscriber-level access and above, to access and retrieve the transcribed contents of private audio attachments belonging to other users, including Administrators, via a supplied attachment ID. This vulnerability requires the Public API module to be enabled in the plugin settings; when disabled, the REST route is absent and the endpoint returns HTTP 404.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：tigroumeow AI Engine – The Chatbot, AI Framework & MCP for WordPress\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/2cb2ad5d-aa92-4186-aaae-45dde4a52f30?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ai-engine/tags/3.7.7/classes/api.php#L663",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ai-engine/tags/3.7.7/classes/api.php#L637",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ai-engine/tags/3.7.7/classes/core.php#L253",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/ai-engine/tags/3.7.7/classes/api.php#L1168",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset/3693379",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "tigroumeow",
-          "product": "AI Engine – The Chatbot, AI Framework & MCP for WordPress",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "3.7.7",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-639 Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-15402",
-      "publishedDate": "2026-09-15T06:07:31.589Z",
-      "lastModifiedDate": "2026-09-15T06:07:31.589Z",
-      "description": "The Eventin – Event Calendar, Event Registration, Tickets & Booking (AI Powered) plugin for WordPress is vulnerable to Stored Cross-Site Scripting via 'etn_shedule_objective' schedule_slot Parameter in all versions up to, and including, 4.1.23 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：arraytics Eventin – Event Calendar, Tickets, Registration, Booking & WooCommerce\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a07070b6-37d2-4ccf-ae81-a08ac7b76241?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/templates/event/schedule-list.php#L115",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/utils/helper.php#L78",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/core/schedule/Api/ScheduleController.php#L516",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/utils/functions.php#L47",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/core/schedule/Api/ScheduleController.php#L253",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/base/post-model.php#L202",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.16/core/AccessControl/Permission.php#L297",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/templates/event/schedule-list.php#L115",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/utils/helper.php#L78",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/core/schedule/Api/ScheduleController.php#L516",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/utils/functions.php#L47",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/core/schedule/Api/ScheduleController.php#L253",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/base/post-model.php#L202",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/browser/wp-event-solution/tags/4.1.15/core/AccessControl/Permission.php#L297",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset?reponame=&old=3689867%40wp-event-solution&new=3689867%40wp-event-solution",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "arraytics",
-          "product": "Eventin – Event Calendar, Tickets, Registration, Booking & WooCommerce",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "4.1.23",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-91086",
-      "publishedDate": "2026-09-15T06:30:16.129Z",
-      "lastModifiedDate": "2026-09-15T06:30:16.129Z",
-      "description": "A security vulnerability has been detected in GPAC up to f1219cde. Affected by this issue is the function mpgviddmx_process of the file filters/reframe_mpgvid.c of the component MPEG Video Reframer. Such manipulation leads to heap-based buffer overflow. The attack can be executed remotely. The exploit has been disclosed publicly and may be used. Upgrading to version abi-16.23 can resolve this issue. The name of the patch is afca1f1181668d85941d51ed1adf647807d5d975. Upgrading the affected component is recommended.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：n/a GPAC\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/403647",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/403647/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-91086",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/919755",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gpac/gpac/issues/3806",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/user-attachments/files/30399291/poc_10_add.zip",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/gpac/gpac/commit/afca1f1181668d85941d51ed1adf647807d5d975",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gpac/gpac/releases/tag/abi-16.23",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gpac/gpac/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "GPAC",
-          "versions": [
-            {
-              "version": "f1219cde",
-              "status": "affected"
-            },
-            {
-              "version": "abi-16.23",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:gpac:gpac:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "MPEG Video Reframer"
-          ]
-        }
-      ],
-      "problemType": [
-        "Heap-based Buffer Overflow",
-        "Memory Corruption"
-      ]
-    },
-    {
-      "id": "CVE-2026-91005",
-      "publishedDate": "2026-09-15T06:15:12.465Z",
-      "lastModifiedDate": "2026-09-15T06:15:12.465Z",
-      "description": "A vulnerability was found in SourceCodester Online Faculty Clearance System 1.0. This affects the function move_uploaded_file of the file production/edit_picture.php of the component Profile Picture Upload. Performing a manipulation of the argument File results in unrestricted upload. The attack is possible to be carried out remotely. The exploit has been made public and could be used.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Online Faculty Clearance System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/403588",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/403588/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-91005",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/932334",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zzjzzzj389/cve/issues/1",
-          "type": "poc"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SourceCodester",
-          "product": "Online Faculty Clearance System",
-          "versions": [
-            {
-              "version": "1.0",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:online_faculty_clearance_system:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Profile Picture Upload"
-          ]
-        }
-      ],
-      "problemType": [
-        "Unrestricted Upload",
-        "Improper Access Controls"
-      ]
-    },
-    {
-      "id": "CVE-2026-81022",
-      "publishedDate": "2026-09-09T06:00:06.580Z",
-      "lastModifiedDate": "2026-09-15T06:24:49.346Z",
-      "description": "The SupportCandy  WordPress plugin before 3.5.3 does not validate a submitted per-ticket authorization code before disclosing the real code to the requester, allowing unauthenticated users to read the contents of any support ticket.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown SupportCandy\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/30866042-7003-434d-9d86-c6527f97374b/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "SupportCandy",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "3.3.6",
-              "lessThan": "3.5.3"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-200 Information Exposure"
-      ],
-      "cwe_ids": [
-        "CWE-200"
-      ],
-      "cvss_severity": "HIGH"
     }
   ]
 }
