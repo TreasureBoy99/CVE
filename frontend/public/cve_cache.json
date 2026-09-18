@@ -2,1734 +2,263 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 31,
-    "last_updated": "2026-09-18T13:32:28.946391",
+    "total_count": 19,
+    "last_updated": "2026-09-18T13:57:29.642710",
     "severity_distribution": {
-      "critical": 3,
-      "high": 12,
-      "medium": 8,
-      "low": 7,
+      "critical": 9,
+      "high": 6,
+      "medium": 3,
+      "low": 0,
       "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-93606",
-      "publishedDate": "2026-09-18T13:20:15.036Z",
-      "lastModifiedDate": "2026-09-18T13:20:15.036Z",
-      "description": "vm2 (npm) versions 3.12.0 and earlier contain a sandbox escape in `VM` and `NodeVM`. When an embedder exposes a host API that returns a host-realm Promise, the bridge's rejection sanitizer (hostPromiseSanitizeReject / makeSanitizedPromiseCallback / normalizeHostPromiseCallbacks in lib/bridge.js) only wraps `then`/`catch` rejection slots that hold a function, and the sandbox-side `Symbol.species`/`.then` neutralization is installed only on the sandbox intrinsic `Promise.prototype`, so it never applies to a host Promise. Code running inside the sandbox can overwrite `p.constructor[Symbol.species]` on the host Promise and then call `p.then()` with no `onRejected` handler; V8 substitutes its internal Thrower, which re-throws the raw host rejection value into a resolve/reject closure captured by the attacker. This delivers an unsanitized, fully functional bridge proxy of the host object to sandboxed code, bypassing handleException and hostPromiseSanitizeReject. If the rejection value is host-pivotable (for example a host `process` object), this results in arbitrary code execution on the host. Fixed in 3.12.1.",
+      "id": "CVE-2026-85889",
+      "publishedDate": "2026-09-17T22:55:58.597Z",
+      "lastModifiedDate": "2026-09-18T13:49:54.053Z",
+      "description": "Missing authentication for critical function in Azure AI Foundry allows an unauthorized attacker to elevate privileges over a network.",
       "severity": 10,
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure AI Foundry\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-6454-5x88-m6jw",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/vm2-before-3.12.1-sandbox-escape-via-promise-symbol-species",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-85889",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "patriksimek",
-          "product": "vm2",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/vm2",
+          "vendor": "Microsoft",
+          "product": "Azure AI Foundry",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.12.1"
-            },
-            {
-              "version": "3.12.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Protection Mechanism Failure"
-      ]
-    },
-    {
-      "id": "CVE-2026-93605",
-      "publishedDate": "2026-09-18T13:20:14.332Z",
-      "lastModifiedDate": "2026-09-18T13:20:14.332Z",
-      "description": "vm2 NodeVM versions before 3.12.1 contain a sandbox escape vulnerability where the DANGEROUS_BUILTINS denylist omits child_process despite blocking other host-spawning modules. Attackers can require child_process and execute arbitrary commands on the host system when NodeVM is configured with builtin:['*'] or explicit child_process allowance.",
-      "severity": 10,
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-pq68-rvw4-xp4r",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/vm2-nodevm-before-3.12.1-remote-code-execution-via-child-process",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "patriksimek",
-          "product": "vm2",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/vm2",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.12.1"
-            },
-            {
-              "version": "3.12.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Protection Mechanism Failure"
-      ]
-    },
-    {
-      "id": "CVE-2026-93603",
-      "publishedDate": "2026-09-18T13:20:12.955Z",
-      "lastModifiedDate": "2026-09-18T13:20:12.955Z",
-      "description": "vm2 through 3.12.0 (fixed in 3.12.1) does not correctly handle a nullish `this` receiver in the apply trap of its bridge (lib/bridge.js): when sandboxed code calls a host-provided non-strict (sloppy-mode) function without a receiver — e.g. `fn()`, a detached method, `fn.call()`, `fn.apply(undefined)`, `Reflect.apply(fn, undefined, [])`, or `fn.bind()()` — the undefined receiver is passed straight through to the host call, and V8 substitutes the host realm's global object for `this`. vm2 then wraps and returns that object to the sandbox, giving sandboxed script a live proxy of the host global. This allows a complete sandbox escape: untrusted script can reach `process` and execute arbitrary code/commands on the host (for example via `process.getBuiltinModule('child_process').execSync`). Exploitation requires that the embedding application expose at least one non-strict host function to the sandbox; strict-mode and ES module host functions are not affected.",
-      "severity": 10,
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-j89j-5m6r-cr2q",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/vm2-before-3.12.1-sandbox-escape-rce-via-non-strict-host-function",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "patriksimek",
-          "product": "vm2",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/vm2",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.12.1"
-            },
-            {
-              "version": "3.12.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Control of Generation of Code ('Code Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-54597",
-      "publishedDate": "2026-09-17T20:34:22.555Z",
-      "lastModifiedDate": "2026-09-18T13:26:07.177Z",
-      "description": "ITFlow provides an IT documentation, ticketing and accounting system for small managed service providers. Prior to version 26.07, an authenticated user with module_support write permission and access to a credential record can perform time-based blind SQL injection through the expires parameter of the share_generate_link handler in agent/ajax.php. sanitizeInput applies string-context escaping, but expires is inserted unquoted into the item_expire_at MySQL INTERVAL expression, allowing a crafted expression and interval unit to execute conditional database queries whose results are inferred from response delays. This can expose password hashes, SMTP credentials, API keys, encrypted vault data, and database metadata and support administrative takeover after credential cracking. This issue is fixed in version 26.07.",
-      "severity": 8.3,
-      "fix_suggestion": "📦 受影响组件：itflow-org itflow\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/itflow-org/itflow/security/advisories/GHSA-m63v-j7fw-hq2h",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/itflow-org/itflow/pull/1289",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/itflow-org/itflow/commit/63d86917ae0438548d21d4e28e4d3c55176f5cbf",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/itflow-org/itflow/releases/tag/v26.07",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "itflow-org",
-          "product": "itflow",
-          "versions": [
-            {
-              "version": "< 26.07",
+              "version": "-",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+        "CWE-306: Missing Authentication for Critical Function"
       ],
       "cwe_ids": [
-        "CWE-89"
+        "CWE-306"
       ]
     },
     {
-      "id": "CVE-2026-93594",
-      "publishedDate": "2026-09-18T13:20:06.730Z",
-      "lastModifiedDate": "2026-09-18T13:20:06.730Z",
-      "description": "ArcadeDB (Maven artifact com.arcadedb:arcadedb-engine) through 26.8.1 enforces its per-type/per-record access-control rules only in LocalBucket, keyed on file id. Query-execution paths that reach record data through LSM index files or the TimeSeries engine never invoke that permission check, so an authenticated user who is denied readRecord/deleteRecord on a type can still, with a single ordinary SQL statement, read the type's indexed key values and record IDs (e.g. SELECT key, rid FROM INDEX:Type[field]), read MAX/MIN values via the index shortcut, read and count TimeSeries samples, learn the type's record count, and delete index entries (DELETE FROM INDEX:Type[field]), which desynchronizes the index from the data and can defeat unique constraints. Index and type names needed for exploitation are discoverable because SELECT FROM schema:indexes is unfiltered. The issue affects both embedded and server deployments and all transports (HTTP, Bolt, Postgres, Gremlin) once a principal is bound. Fixed in 26.9.1.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-70200",
+      "publishedDate": "2026-09-17T22:55:58.067Z",
+      "lastModifiedDate": "2026-09-18T13:49:53.537Z",
+      "description": "Improper limitation of a pathname to a restricted directory ('path traversal') in Azure Logic Apps allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure Logic Apps\n🔓 漏洞类型：Path Traversal, CWE-285 (CWE-22, CWE-285)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-2c8m-q484-jv7m",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-26.9.1-acl-bypass-via-index-and-timeseries",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-70200",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-engine",
+          "vendor": "Microsoft",
+          "product": "Azure Logic Apps",
           "versions": [
             {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.9.1"
-            },
-            {
-              "version": "26.9.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-93593",
-      "publishedDate": "2026-09-18T13:20:06.052Z",
-      "lastModifiedDate": "2026-09-18T13:20:06.052Z",
-      "description": "ArcadeDB before 26.9.1 fails to enforce security-group types ACL entries for TimeSeries types because the ACL resolver builds permissions from bucket IDs, but TimeSeries types do not own normal record buckets. An authenticated low-privilege user can read or insert TimeSeries samples despite explicit deny rules by exploiting the missing type-name-based access check that causes permission lookups to fail open.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-wjhv-79gv-2pqg",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-26.9.1-timeseries-acl-bypass-via-type-permission",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-server",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.9.1"
-            },
-            {
-              "version": "26.9.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incorrect Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-93597",
-      "publishedDate": "2026-09-18T13:20:08.858Z",
-      "lastModifiedDate": "2026-09-18T13:20:08.858Z",
-      "description": "ArcadeDB versions before 26.9.1 fail to validate IPv6 transition addresses in the SSRF guard used by IMPORT DATABASE and server commands. Authenticated attackers can supply URLs resolving to NAT64, 6to4, or Teredo addresses embedding RFC 1918 or loopback IPv4 payloads to reach internal services and cloud metadata endpoints.",
-      "severity": 7.7,
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-67m7-7w7g-mpmh",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-26.9.1-ssrf-via-ipv6-transition-addresses",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-engine",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.9.1"
-            },
-            {
-              "version": "26.9.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-93591",
-      "publishedDate": "2026-09-18T13:20:04.684Z",
-      "lastModifiedDate": "2026-09-18T13:20:04.684Z",
-      "description": "SiYuan versions before 3.8.3 contain an SQL injection vulnerability in the graph.go query2Stmt function where tag values are concatenated raw into SQL string literals without escaping single quotes. A publish-mode reader or anonymous visitor can inject SQL via inline HTML span tags in the getGraph endpoint to execute arbitrary queries on the read-write database and exfiltrate private data across notebooks.",
-      "severity": 7.6,
-      "fix_suggestion": "📦 受影响组件：siyuan-note siyuan\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-5rwv-4j4c-f954",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/siyuan-before-3.8.3-sql-injection-via-unescaped-tag-in-graph-go",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "siyuan-note",
-          "product": "siyuan",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:golang/github.com/siyuan-note/siyuan/kernel",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.8.3"
-            },
-            {
-              "version": "3.8.3",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
-      ]
-    },
-    {
-      "id": "CVE-2026-93599",
-      "publishedDate": "2026-09-18T13:20:10.258Z",
-      "lastModifiedDate": "2026-09-18T13:20:10.258Z",
-      "description": "rustls-webpki through 0.103.12 (and 0.104.0-alpha releases before 0.104.0-alpha.7) contains a reachable panic in bit_string_flags() in src/der.rs. The input guard fails to reject a named-bit BIT STRING whose content is exactly [0x00] (zero padding bits and no data bytes), so raw_bits.len() - 1 underflows on the empty slice and the subsequent index operation panics (subtract-with-overflow in debug, index-out-of-bounds in release). The condition is reachable through the public API BorrowedCertRevocationList::from_der() when a CRL contains an issuingDistributionPoint extension with such an onlySomeReasons value. Exploitation requires an application that explicitly opts in to CRL revocation checking by passing RevocationOptions to verify_for_usage() and that parses CRL bytes obtained from a source the attacker can influence; the default rustls configuration, which does not use RevocationOptions, is unaffected. A crafted CRL causes a denial of service via the panic. Fixed in 0.103.13 and 0.104.0-alpha.7.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：rustls webpki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/rustls/webpki/security/advisories/GHSA-82j2-j2ch-gfr8",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/rustls-webpki-before-0.103.13-panic-via-empty-bit-string",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "rustls",
-          "product": "webpki",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/rustls-webpki",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.103.13"
-            },
-            {
-              "version": "0.104.0-alpha.1",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.104.0-alpha.7"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Integer Underflow (Wrap or Wraparound)"
-      ]
-    },
-    {
-      "id": "CVE-2026-93592",
-      "publishedDate": "2026-09-18T13:20:05.365Z",
-      "lastModifiedDate": "2026-09-18T13:20:05.365Z",
-      "description": "vLLM versions before 0.28.0 fail to validate the lower bound of token IDs in the /v1/embeddings and /pooling endpoints, allowing unauthenticated attackers to crash the engine by submitting negative token IDs. A single request with a negative token ID triggers a CUDA device-side assertion that poisons the GPU context, causing all subsequent requests to fail until the process restarts.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：vllm-project vllm\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vllm-project/vllm/security/advisories/GHSA-25q3-v2hm-8vpf",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/vllm-before-0.28.0-denial-of-service-via-negative-token-id",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vllm-project",
-          "product": "vllm",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:pypi/vllm",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.28.0"
-            },
-            {
-              "version": "0.28.0",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Validation of Array Index"
-      ]
-    },
-    {
-      "id": "CVE-2023-5778",
-      "publishedDate": "2026-09-18T13:19:47.850Z",
-      "lastModifiedDate": "2026-09-18T13:19:47.850Z",
-      "description": "Improper handling of length parameter inconsistency vulnerability in ABB Freelance Controller DCP, ABB Freelance Controller AC700, ABB Freelance Controller AC800, and ABB Freelance Controller AC900.\n\nThis issue affects Freelance Controller DCP: through 2013, 2013 SP1, 2016, 2016 SP1, 2019, and 2019 SP1; Freelance Controller AC700: through 2013, 2013 SP1, 2016, 2016 SP1, 2019, and 2019 SP1; Freelance Controller AC800: through 2013, 2013 SP1, 2016, 2016 SP1, 2019, and 2019 SP1; Freelance Controller AC900: through 2013, 2013 SP1, 2016, 2016 SP1, 2019, and 2019 SP1.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：ABB Freelance Controller DCP\n🔓 漏洞类型：CWE-130 (CWE-130)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://search.abb.com/library/Download.aspx?DocumentID=7PAA010706&LanguageCode=en&DocumentPartId=&Action=Launch",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ABB",
-          "product": "Freelance Controller DCP",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "2013",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2013 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2019 SP1 FP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "ABB",
-          "product": "Freelance Controller AC700",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "2013",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2013 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2019 SP1 FP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "ABB",
-          "product": "Freelance Controller AC800",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "2013",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2013 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2019 SP1 FP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "ABB",
-          "product": "Freelance Controller AC900",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThanOrEqual": "2013",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2013 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2016 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019",
-              "versionType": "custom"
-            },
-            {
-              "status": "affected",
-              "version": "2019 SP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2019 SP1 FP1",
-              "versionType": "custom"
-            },
-            {
-              "status": "unaffected",
-              "version": "2024",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-130 Improper handling of length parameter inconsistency"
-      ],
-      "cwe_ids": [
-        "CWE-130"
-      ]
-    },
-    {
-      "id": "CVE-2026-93563",
-      "publishedDate": "2026-09-18T10:58:35.205Z",
-      "lastModifiedDate": "2026-09-18T13:16:50.554Z",
-      "description": "Unbounded multi-line response accumulation in SmtpResponseDecoder leads to memory-exhaustion DoS",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat build of Apache Camel for Spring Boot 4\n🔓 漏洞类型：CWE-1035 (CWE-1035)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-93563",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2536976",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Apache Camel for Spring Boot 4",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-smtp",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:camel_spring_boot:4"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Fuse 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-smtp",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_fuse:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk11-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk17-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk8-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "netty-codec-smtp",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Single Sign-On 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-smtp",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:red_hat_single_sign_on:7"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1035"
-      ],
-      "cwe_ids": [
-        "CWE-1035"
-      ]
-    },
-    {
-      "id": "CVE-2026-93575",
-      "publishedDate": "2026-09-18T10:53:48.089Z",
-      "lastModifiedDate": "2026-09-18T13:21:47.012Z",
-      "description": "### Summary\r\nNetty's fix for CVE-2026-44248 is incomplete. The decoder checks if the MQTT packet's `Remaining Length` exceeds `maxBytesInMessage`, but fails to validate the `Properties Length` against the `Remaining Length`. An attacker can bypass the size limit by sending a small `Remaining Length` but an enormous `Properties Length`. This forces Netty to buffer and parse millions of properties, allowing an unauthenticated remote attacker to trigger excessive memory and CPU consumption, leading to OutOfMemoryError.\r\n\r\n### Details\r\nIn `io.netty.handler.codec.mqtt.MqttDecoder`, the `decodeProperties()` helper method reads `totalPropertiesLength` and attempts to parse that many bytes. If the buffer lacks the full length, a `Signal` is thrown. The `catch` block inside `decode()` only enforces `maxBytesInMessage` against `bytesRemainingBeforeVariableHeader` (the packet's `Remaining Length`).\r\n\r\nBy sending a `CONNECT` packet with a small `Remaining Length` but a huge `Properties Length`, the size check passes. `ReplayingDecoder` then buffers data from the network until the huge `Properties Length` is reached, parsing millions of `UserProperty` objects and exhausting CPU and memory.\r\n\r\n#",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat AMQ Broker 7\n🔓 漏洞类型：CWE-1035 (CWE-1035)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-93575",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2536967",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat AMQ Broker 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-mqtt",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:amq_broker:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Apache Camel for Spring Boot 4",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-mqtt",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:camel_spring_boot:4"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Fuse 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-mqtt",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_fuse:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk11-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk17-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk8-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "netty-codec-mqtt",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Single Sign-On 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-mqtt",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:red_hat_single_sign_on:7"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1035"
-      ],
-      "cwe_ids": [
-        "CWE-1035"
-      ]
-    },
-    {
-      "id": "CVE-2026-93604",
-      "publishedDate": "2026-09-18T13:20:13.637Z",
-      "lastModifiedDate": "2026-09-18T13:20:13.637Z",
-      "description": "vm2 through 3.12.0 exposes Node.js's crypto.setFips() function to untrusted guest code when an embedder explicitly allowlists the crypto builtin for a NodeVM (require.builtin: ['crypto']). The builtin sanitizer (sanitizeCryptoModule in lib/builtin.js) replaces crypto.setEngine but leaves crypto.setFips callable, and the readonly wrapper used to expose the host module does not localize side effects of forwarded host functions. Guest code can therefore call crypto.setFips() to change the FIPS mode of the entire host process; the modified mode is subsequently observed by trusted host code (crypto.getFips() changed from 0 to 1 in the reported test), crossing the NodeVM isolation boundary. Fixed in vm2 3.12.1.",
-      "severity": 7.2,
-      "fix_suggestion": "📦 受影响组件：patriksimek vm2\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/patriksimek/vm2/security/advisories/GHSA-x3v6-43hc-82mc",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/vm2-3.11.8-sandbox-escape-via-crypto-setfips",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "patriksimek",
-          "product": "vm2",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/vm2",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "3.12.1"
-            },
-            {
-              "version": "3.12.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Access Control"
-      ]
-    },
-    {
-      "id": "CVE-2026-93595",
-      "publishedDate": "2026-09-18T13:20:07.472Z",
-      "lastModifiedDate": "2026-09-18T13:20:07.472Z",
-      "description": "ArcadeDB before 26.9.1 contains an access control bypass vulnerability in the query_database tool exposed through the AI chat endpoints. The tool executes queries without binding the authenticated principal to DatabaseContext, causing per-type and per-bucket ACL checks to silently no-op and allowing authenticated users to read data they are explicitly denied at the per-type level. Attackers can prompt the AI assistant to execute queries against restricted types or buckets to retrieve sensitive data that would be rejected through normal query endpoints.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-chrr-vr3p-crcc",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-26.9.1-acl-bypass-via-query-database-tool",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-server",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.9.1"
-            },
-            {
-              "version": "26.9.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-93561",
-      "publishedDate": "2026-09-18T10:02:36.581Z",
-      "lastModifiedDate": "2026-09-18T13:18:55.472Z",
-      "description": "Memcache binary codec signed/unsigned type mismatch causes frame desynchronization and response smuggling",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat build of Apache Camel for Spring Boot 4\n🔓 漏洞类型：CWE-1035 (CWE-1035)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-93561",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2536949",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Apache Camel for Spring Boot 4",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-memcache",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:camel_spring_boot:4"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Fuse 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-memcache",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_fuse:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk11-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk17-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "jboss-eap-7/eap74-els-openjdk8-openshift-rhel8",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat JBoss Enterprise Application Platform 7",
-          "collectionURL": "https://access.redhat.com/jbossnetwork/restricted/listSoftware.html",
-          "packageName": "netty-codec-memcache",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:jboss_enterprise_application_platform:7"
-          ]
-        },
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat Single Sign-On 7",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-codec-memcache",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:red_hat_single_sign_on:7"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1035"
-      ],
-      "cwe_ids": [
-        "CWE-1035"
-      ]
-    },
-    {
-      "id": "CVE-2026-93504",
-      "publishedDate": "2026-09-18T13:15:10.132Z",
-      "lastModifiedDate": "2026-09-18T13:15:10.132Z",
-      "description": "A vulnerability has been found in SveltyCMS 0.0.6. This affects an unknown part of the file src/routes/api/[...path]/+server.ts of the component User Attribute Update Endpoint. Such manipulation leads to improper access controls. It is possible to launch the attack remotely. The name of the patch is 05b4f9efeb79e9d72a693232334d7529687f896f. It is advisable to implement a patch to correct this issue.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：n/a SveltyCMS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/407421",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/407421/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-93504",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/942849",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SveltyCMS/SveltyCMS/commit/05b4f9efeb79e9d72a693232334d7529687f896f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/SveltyCMS/SveltyCMS/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "n/a",
-          "product": "SveltyCMS",
-          "versions": [
-            {
-              "version": "0.0.6",
-              "status": "affected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sveltycms:sveltycms:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "User Attribute Update Endpoint"
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Access Controls",
-        "Incorrect Privilege Assignment"
-      ]
-    },
-    {
-      "id": "CVE-2026-93578",
-      "publishedDate": "2026-09-18T10:53:59.267Z",
-      "lastModifiedDate": "2026-09-18T13:22:21.444Z",
-      "description": "Missing Extended Key Usage (EKU) check in OCSP Client allows certificate revocation bypass",
-      "severity": 5.9,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat build of Apache Camel for Spring Boot 4\n🔓 漏洞类型：CWE-1035 (CWE-1035)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-93578",
-          "type": "reference"
-        },
-        {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2536969",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Red Hat",
-          "product": "Red Hat build of Apache Camel for Spring Boot 4",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "netty-handler-ssl-ocsp",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:camel_spring_boot:4"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1035"
-      ],
-      "cwe_ids": [
-        "CWE-1035"
-      ]
-    },
-    {
-      "id": "CVE-2026-16750",
-      "publishedDate": "2026-09-17T21:28:48.521Z",
-      "lastModifiedDate": "2026-09-18T13:18:49.931Z",
-      "description": "The Motors – Car Dealership & Classified Listings Plugin plugin for WordPress is vulnerable to unauthorized access of data due to missing authorization checks in mvl_ajax_dealer_load_cars() function in all versions up to, and including, 1.4.120. This makes it possible for unauthenticated attackers to retrieve draft, pending, private, and future car listings belonging to arbitrary users.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：stylemix Motors – Car Dealership & Classified Listings Plugin\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/38d01b12-97ac-412b-b9df-c27118ce8f50?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset/3684170/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "stylemix",
-          "product": "Motors – Car Dealership & Classified Listings Plugin",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "1.4.120",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ]
-    },
-    {
-      "id": "CVE-2026-93602",
-      "publishedDate": "2026-09-18T13:20:12.259Z",
-      "lastModifiedDate": "2026-09-18T13:20:12.259Z",
-      "description": "rustls-webpki versions before 0.103.10 and 0.104.0-alpha.5 contain faulty CRL authority-matching logic that compares only the first distributionPoint against each CRL's IssuingDistributionPoint, ignoring additional distributionPoints. Attackers with a compromised trusted issuing authority can present revoked certificates that pass revocation checks under UnknownStatusPolicy::Allow, or cause incorrect errors under the default deny policy.",
-      "severity": 4.4,
-      "fix_suggestion": "📦 受影响组件：rustls webpki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/rustls/webpki/security/advisories/GHSA-pwjx-qhcg-rvj4",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/rustls-webpki-before-0.103.10-crl-revocation-check-bypass",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "rustls",
-          "product": "webpki",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/rustls-webpki",
-          "versions": [
-            {
-              "version": "0.102.0-alpha.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.103.10"
-            },
-            {
-              "version": "0.104.0-alpha.1",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.104.0-alpha.5"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Check for Certificate Revocation"
-      ]
-    },
-    {
-      "id": "CVE-2026-93596",
-      "publishedDate": "2026-09-18T13:20:08.169Z",
-      "lastModifiedDate": "2026-09-18T13:20:08.169Z",
-      "description": "ArcadeDB before 26.9.1 (com.arcadedb:arcadedb-engine <= 26.8.1) fails to bind the authenticated principal onto the DatabaseAsyncTransaction async worker threads used by the parallel edge-connect phase of POST /api/v1/batch/{database}. Because those workers have no current user, LocalDatabase.checkPermissionsOnFile returns early and allows the write, bypassing per-type CREATE_RECORD/UPDATE_RECORD ACL enforcement. In deployments that rely on per-type or per-group ACLs, an authenticated low-privilege user holding CREATE_RECORD on an edge type E but with CREATE_RECORD/UPDATE_RECORD revoked on a vertex type V can submit a graph edge-load batch request (with parallelFlush at its default value of true) and durably append edges to protected vertices of type V by writing records into V's <V>_out_edges/<V>_in_edges buckets, resulting in unauthorized modification of graph adjacency. Setting parallelFlush=false causes the request to be correctly rejected. This is an incomplete fix of GHSA-c23x-pqcj-7hfm, which bound the principal only on the HTTP handler thread.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-27vw-j8qc-5h7x",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-26.9.1-authorization-bypass-via-batch-edge-connect",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-engine",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.9.1"
-            },
-            {
-              "version": "26.9.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-93590",
-      "publishedDate": "2026-09-18T13:20:03.990Z",
-      "lastModifiedDate": "2026-09-18T13:20:03.990Z",
-      "description": "ImageMagick before 7.1.2-31 contains a policy bypass vulnerability in the UHDR encoder that fails to perform policy checks during buffer allocation for image pixels. Attackers can bypass resource policies by processing specially crafted UHDR images, potentially causing denial of service through excessive memory allocation.",
-      "severity": 3.7,
-      "fix_suggestion": "📦 受影响组件：ImageMagick ImageMagick\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-7hjx-392p-f8cm",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/imagemagick-before-7.1.2-31-policy-bypass-in-uhdr-encoder",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "7.1.2-31"
-            },
-            {
-              "version": "7.1.2-31",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Uncontrolled Resource Consumption"
-      ]
-    },
-    {
-      "id": "CVE-2026-93589",
-      "publishedDate": "2026-09-18T13:20:03.317Z",
-      "lastModifiedDate": "2026-09-18T13:20:03.317Z",
-      "description": "ImageMagick before 7.1.2-31 and 6.9.13-56 contains a division-by-zero flaw in the FLIF encoder. An incorrect value for ticks per second in the image being encoded causes a divide-by-zero and crashes the encoder, resulting in a denial of service. The issue is fixed in 7.1.2-31 and 6.9.13-56.",
-      "severity": 3.7,
-      "fix_suggestion": "📦 受影响组件：ImageMagick ImageMagick\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-4gg2-hfgh-6f5c",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/imagemagick-before-7.1.2-31-division-by-zero-in-flif-encoder",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "7.1.2-31"
-            },
-            {
-              "version": "7.1.2-31",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "6.9.13-56"
-            },
-            {
-              "version": "6.9.13-56",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Divide By Zero"
-      ]
-    },
-    {
-      "id": "CVE-2026-93587",
-      "publishedDate": "2026-09-18T13:20:01.939Z",
-      "lastModifiedDate": "2026-09-18T13:20:01.939Z",
-      "description": "ImageMagick before 7.1.2-31 and before 6.9.13-56 contains a policy bypass in the PCD (and, per the upstream advisory, CUBE and HALD) coder: when a specific command line option is supplied, the decoder does not check a configured resource limit, which can result in extra memory allocation. A local user able to pass command line options to ImageMagick can therefore exceed the intended memory policy limit, causing a limited availability impact. The issue is fixed in 7.1.2-31 and 6.9.13-56.",
-      "severity": 3.3,
-      "fix_suggestion": "📦 受影响组件：ImageMagick ImageMagick\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-89wq-f8f6-2j2v",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/imagemagick-before-7.1.2-31-policy-bypass-via-pcd-decoder",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "7.1.2-31"
-            },
-            {
-              "version": "7.1.2-31",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "6.9.13-56"
-            },
-            {
-              "version": "6.9.13-56",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Uncontrolled Resource Consumption"
-      ]
-    },
-    {
-      "id": "CVE-2026-93588",
-      "publishedDate": "2026-09-18T13:20:02.617Z",
-      "lastModifiedDate": "2026-09-18T13:20:02.617Z",
-      "description": "ImageMagick before 7.1.2-31 and before 6.9.13-56 contains a NULL pointer dereference in the PNM coder. When the coder reaches a memory (resource) limit at a specific point during processing, the failed allocation is not handled and a NULL pointer is dereferenced, which can lead to a denial of service (application crash) when processing a specially crafted or sufficiently large PNM image.",
-      "severity": 3.1,
-      "fix_suggestion": "📦 受影响组件：ImageMagick ImageMagick\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-92rw-c5mw-27v4",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/imagemagick-before-7.1.2-31-null-pointer-dereference-via-pnm",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "7.1.2-31"
-            },
-            {
-              "version": "7.1.2-31",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "6.9.13-56"
-            },
-            {
-              "version": "6.9.13-56",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "NULL Pointer Dereference"
-      ]
-    },
-    {
-      "id": "CVE-2026-93586",
-      "publishedDate": "2026-09-18T13:20:01.255Z",
-      "lastModifiedDate": "2026-09-18T13:20:01.255Z",
-      "description": "ImageMagick before 7.1.2-31 and before 6.9.13-56 contains a use-after-free vulnerability in the ImagesToBlob method, caused by a pointer that is not updated correctly. Exploitation may result in a limited availability impact (e.g., a crash of the affected process). The issue is fixed in versions 7.1.2-31 and 6.9.13-56.",
-      "severity": 2.9,
-      "fix_suggestion": "📦 受影响组件：ImageMagick ImageMagick\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ImageMagick/ImageMagick/security/advisories/GHSA-3rjr-534c-8v67",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/imagemagick-before-7.1.2-31-use-after-free-via-imagestoblob",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "7.1.2-31"
-            },
-            {
-              "version": "7.1.2-31",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "ImageMagick",
-          "product": "ImageMagick",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "6.9.13-56"
-            },
-            {
-              "version": "6.9.13-56",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Use After Free"
-      ]
-    },
-    {
-      "id": "CVE-2026-93601",
-      "publishedDate": "2026-09-18T13:20:11.571Z",
-      "lastModifiedDate": "2026-09-18T13:20:11.571Z",
-      "description": "rustls-webpki (the Rust webpki fork used by rustls) versions >= 0.101.0 and prior to 0.103.12 and 0.104.0-alpha.6 incorrectly accepted permitted-subtree DNS name constraints for certificates asserting a wildcard name. For example, a name constraint of accept.example.com was treated as satisfied by a certificate for *.example.com, which could feasibly assert reject.example.com — a name outside the permitted subtree. Because name constraints are restrictions applied to otherwise properly issued certificates, the issue is only reachable after signature verification succeeds and requires a misissued wildcard certificate to exploit.",
-      "severity": 2.2,
-      "fix_suggestion": "📦 受影响组件：rustls webpki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/rustls/webpki/security/advisories/GHSA-xgp8-3hg3-c2mh",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/rustls-webpki-0.101.0-before-0.103.12-name-constraint-bypass",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "rustls",
-          "product": "webpki",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/rustls-webpki",
-          "versions": [
-            {
-              "version": "0.101.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.103.12"
-            },
-            {
-              "version": "0.104.0-alpha.1",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.104.0-alpha.6"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Certificate Validation"
-      ]
-    },
-    {
-      "id": "CVE-2026-93600",
-      "publishedDate": "2026-09-18T13:20:10.899Z",
-      "lastModifiedDate": "2026-09-18T13:20:10.899Z",
-      "description": "rustls-webpki (rustls/webpki) versions 0.101.0 through 0.103.11 and 0.104.0-alpha releases before 0.104.0-alpha.6 ignore X.509 name constraints that apply to URI names, causing such constraints to be accepted rather than enforced. Because name constraints are restrictions on otherwise properly issued certificates, the flaw is only reachable after successful signature verification and requires a misissued certificate to exploit; the library also provides no API for asserting URI names, and URI name constraints are otherwise unimplemented. Versions 0.103.12 and 0.104.0-alpha.6 reject URI name constraints unconditionally.",
-      "severity": 2.2,
-      "fix_suggestion": "📦 受影响组件：rustls webpki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/rustls/webpki/security/advisories/GHSA-965h-392x-2mh5",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/rustls-webpki-name-constraints-uri-validation-bypass",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "rustls",
-          "product": "webpki",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/rustls-webpki",
-          "versions": [
-            {
-              "version": "0.101.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.103.12"
-            },
-            {
-              "version": "0.104.0-alpha.1",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.104.0-alpha.6"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Certificate Validation"
-      ]
-    },
-    {
-      "id": "CVE-2026-93598",
-      "publishedDate": "2026-09-18T13:20:09.571Z",
-      "lastModifiedDate": "2026-09-18T13:20:09.571Z",
-      "description": "ArcadeDB (Maven artifact com.arcadedb:arcadedb-engine) through 26.8.1 contains an incomplete deny-list in the polyglot script sandbox: com.arcadedb.query.polyglot.HostClassLookupFilter.DENIED lists java.util.ResourceBundle as a bare class name, which is matched by exact equality and therefore does not cover its subclasses, while ScriptTriggerExecutor.ALLOWED_PACKAGES permits java.util.*. A user with the UPDATE_SCHEMA privilege (sufficient to create or alter a JavaScript trigger; no server-admin rights required) can reference java.util.PropertyResourceBundle or java.util.ListResourceBundle and invoke the inherited static ResourceBundle.getBundle(String) to read .properties resources from the application classpath, which the sandbox (IOAccess.NONE, with java.io.**, java.nio.** and java.net.** denied) is intended to make unreachable. This can disclose packaged application configuration such as database credentials and API keys; the advisory states the issue does not provide arbitrary host filesystem read or remote code execution. Fixed in 26.9.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ArcadeData arcadedb\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ArcadeData/arcadedb/security/advisories/GHSA-j57p-qmrh-v7xv",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/arcadedb-before-26.9.1-classpath-credential-disclosure-via-resourcebundle",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ArcadeData",
-          "product": "arcadedb",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:maven/com.arcadedb/arcadedb-engine",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "26.9.1"
-            },
-            {
-              "version": "26.9.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Incomplete List of Disallowed Inputs"
-      ]
-    },
-    {
-      "id": "CVE-2026-53555",
-      "publishedDate": "2026-09-17T21:40:48.271Z",
-      "lastModifiedDate": "2026-09-18T13:14:53.154Z",
-      "description": "SQLBot is an intelligent Text-to-SQL system based on large language models and RAG. Prior to 1.9.0, an authenticated uploader can submit an image/svg+xml assistant UI logo through PATCH /api/v1/system/assistant/ui, and SQLBot stores the SVG without sanitizing or validating embedded active content. SQLBot later serves the file inline from the same application origin through GET /api/v1/system/assistant/picture/{filename}. When another user loads that generated resource, JavaScript embedded in the SVG executes in the SQLBot web application context, resulting in stored cross-site scripting with access to data and actions available to the victim's session. This issue is fixed in version 1.9.0.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：dataease SQLBot\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/dataease/SQLBot/security/advisories/GHSA-v23m-5pvq-xcgx",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dataease/SQLBot/pull/1160",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dataease/SQLBot/commit/835eefcb39b595248ea006f3cfce445d2f49167e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dataease/SQLBot/releases/tag/v1.9.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "dataease",
-          "product": "SQLBot",
-          "versions": [
-            {
-              "version": "< 1.9.0",
+              "version": "-",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')",
+        "CWE-285: Improper Authorization"
       ],
       "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
+        "CWE-22",
+        "CWE-285"
+      ]
     },
     {
-      "id": "CVE-2026-53554",
-      "publishedDate": "2026-09-17T21:38:37.353Z",
-      "lastModifiedDate": "2026-09-18T13:16:54.601Z",
-      "description": "SQLBot is an intelligent Text-to-SQL system based on large language models and RAG. Prior to 1.9.0, the POST /api/v1/datasource/parseExcel endpoint in backend/apps/datasource/api/datasource.py uses attacker-controlled multipart filename data when selecting where uploaded content is stored, writes the content before spreadsheet parsing and validation finish, and can transform a double-extension filename into a Python source file. An attacker able to submit a crafted multipart upload can use these behaviors to place attacker-controlled content in /opt/sqlbot/app/alembic/versions/ even when a spreadsheet parsing failure after the file write causes the endpoint to return an error. The planted file remains on disk, and subsequent SQLBot startup or migration processing causes Alembic to import the module and execute its module-level statements in the SQLBot application runtime. This issue is fixed in version 1.9.0.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：dataease SQLBot\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-83944",
+      "publishedDate": "2026-09-17T22:55:56.302Z",
+      "lastModifiedDate": "2026-09-18T13:49:52.553Z",
+      "description": "Improper access control in Azure Logic Apps allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure Logic Apps\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/dataease/SQLBot/security/advisories/GHSA-wxv4-pw5w-wx79",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dataease/SQLBot/commit/4bfd0f49e8cd3df8540dd9d51d40d0e056eeeec4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dataease/SQLBot/commit/92c5aea70b2eba9c1f429017639017041556843b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/dataease/SQLBot/releases/tag/v1.9.0",
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-83944",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "dataease",
-          "product": "SQLBot",
+          "vendor": "Microsoft",
+          "product": "Azure Logic Apps",
           "versions": [
             {
-              "version": "< 1.9.0",
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284: Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-69399",
+      "publishedDate": "2026-09-17T22:55:54.666Z",
+      "lastModifiedDate": "2026-09-18T13:49:50.963Z",
+      "description": "Azure Arc Elevation of Privilege Vulnerability",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure ARC\n🔓 漏洞类型：CWE-441 (CWE-441)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69399",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure ARC",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-441 Unintended Proxy or Intermediary"
+      ],
+      "cwe_ids": [
+        "CWE-441"
+      ]
+    },
+    {
+      "id": "CVE-2026-69865",
+      "publishedDate": "2026-09-17T22:55:53.514Z",
+      "lastModifiedDate": "2026-09-18T13:49:49.965Z",
+      "description": "Authorization bypass through user-controlled key in Microsoft Container Registry allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 10,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure Container Registry\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69865",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure Container Registry",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-85885",
+      "publishedDate": "2026-09-17T22:55:55.696Z",
+      "lastModifiedDate": "2026-09-18T13:49:51.991Z",
+      "description": "Improper neutralization of special elements used in a command ('command injection') in M365 Copilot allows an authorized attacker to elevate privileges over a network.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft 365 Copilot\n🔓 漏洞类型：Command Injection (CWE-77)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-85885",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft 365 Copilot",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-77"
+      ]
+    },
+    {
+      "id": "CVE-2026-87701",
+      "publishedDate": "2026-09-17T22:55:57.445Z",
+      "lastModifiedDate": "2026-09-18T13:49:53.045Z",
+      "description": "Improper neutralization of special elements in output used by a downstream component ('injection') in Azure Cosmos DB allows an authorized attacker to elevate privileges over a network.",
+      "severity": 9.6,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure Cosmos DB\n🔓 漏洞类型：CWE-74 (CWE-74)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-87701",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure Cosmos DB",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-74"
+      ]
+    },
+    {
+      "id": "CVE-2026-70009",
+      "publishedDate": "2026-09-17T22:55:53.056Z",
+      "lastModifiedDate": "2026-09-18T13:49:49.360Z",
+      "description": "Improper limitation of a pathname to a restricted directory ('path traversal') in Azure Arc allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 9.3,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure ARC\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-70009",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure ARC",
+          "versions": [
+            {
+              "version": "-",
               "status": "affected"
             }
           ]
@@ -1740,8 +269,456 @@
       ],
       "cwe_ids": [
         "CWE-22"
+      ]
+    },
+    {
+      "id": "CVE-2026-77903",
+      "publishedDate": "2026-09-17T22:55:54.051Z",
+      "lastModifiedDate": "2026-09-18T13:49:50.428Z",
+      "description": "Authentication bypass by spoofing in Microsoft Dataverse allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 9,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Dataverse\n🔓 漏洞类型：CWE-290 (CWE-290)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-77903",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "HIGH"
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Dataverse",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-290: Authentication Bypass by Spoofing"
+      ],
+      "cwe_ids": [
+        "CWE-290"
+      ]
+    },
+    {
+      "id": "CVE-2026-69486",
+      "publishedDate": "2026-09-15T22:39:14.875Z",
+      "lastModifiedDate": "2026-09-18T13:53:36.769Z",
+      "description": "Heap-based buffer overflow in Microsoft Edge (Chromium-based) allows an unauthorized attacker to execute code over a network.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-69486",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "153.0.4234.32",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122: Heap-based Buffer Overflow"
+      ],
+      "cwe_ids": [
+        "CWE-122"
+      ]
+    },
+    {
+      "id": "CVE-2026-68791",
+      "publishedDate": "2026-09-17T22:55:55.200Z",
+      "lastModifiedDate": "2026-09-18T13:49:51.479Z",
+      "description": "Incorrect authorization in Azure Machine Learning allows an unauthorized attacker to disclose information over a network.",
+      "severity": 8.6,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure Machine Learning\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-68791",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure Machine Learning",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-85921",
+      "publishedDate": "2026-09-14T17:19:07.991Z",
+      "lastModifiedDate": "2026-09-18T13:53:36.145Z",
+      "description": "Double free in Windows Secure Kernel Mode allows an authorized attacker to elevate privileges locally.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：Microsoft Windows 11 version 26H1\n🔓 漏洞类型：CWE-415 (CWE-415)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-85921",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Windows 11 version 26H1",
+          "platforms": [
+            "ARM64-based Systems",
+            "x64-based Systems"
+          ],
+          "versions": [
+            {
+              "version": "10.0.28000.0",
+              "lessThan": "10.0.28000.2956",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-415: Double Free"
+      ],
+      "cwe_ids": [
+        "CWE-415"
+      ]
+    },
+    {
+      "id": "CVE-2026-85892",
+      "publishedDate": "2026-09-14T17:29:23.390Z",
+      "lastModifiedDate": "2026-09-18T13:49:48.247Z",
+      "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Microsoft Edge (Chromium-based) allows an authorized attacker to elevate privileges locally.",
+      "severity": 7.8,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-85892",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "152.0.4191.66",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
+      ],
+      "cwe_ids": [
+        "CWE-362"
+      ]
+    },
+    {
+      "id": "CVE-2026-85917",
+      "publishedDate": "2026-09-17T22:55:59.128Z",
+      "lastModifiedDate": "2026-09-18T13:49:54.810Z",
+      "description": "Server-side request forgery (ssrf) in Azure AI Foundry allows an unauthorized attacker to elevate privileges over a network.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Microsoft Azure AI Foundry\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-85917",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Azure AI Foundry",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-918"
+      ]
+    },
+    {
+      "id": "CVE-2026-78501",
+      "publishedDate": "2026-09-17T22:55:56.907Z",
+      "lastModifiedDate": "2026-09-18T13:53:37.230Z",
+      "description": "Improper neutralization of special elements used in a command ('command injection') in Microsoft 365 Copilot's Business Chat allows an unauthorized attacker to disclose information over a network.",
+      "severity": 7.4,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft 365 Copilot's Business Chat\n🔓 漏洞类型：Command Injection, CWE-923 (CWE-77, CWE-923)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-78501",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft 365 Copilot's Business Chat",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')",
+        "CWE-923: Improper Restriction of Communication Channel to Intended Endpoints"
+      ],
+      "cwe_ids": [
+        "CWE-77",
+        "CWE-923"
+      ]
+    },
+    {
+      "id": "CVE-2026-62282",
+      "publishedDate": "2026-09-18T13:52:53.996Z",
+      "lastModifiedDate": "2026-09-18T13:52:53.996Z",
+      "description": "OpenCVE is a vulnerability intelligence platform. Prior to 3.0.0, OpenCVE notification testing for Webhook and Slack integrations does not sufficiently validate user-supplied HTTP or HTTPS destinations. An authenticated user with permission to configure notification channels can trigger requests to hosts reachable from the OpenCVE server, including internal network resources, localhost interfaces, link-local addresses, and cloud metadata services, and retrieve information from reachable HTTP services. This issue is fixed in version 3.0.0.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：opencve opencve\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/opencve/opencve/security/advisories/GHSA-ch3g-4xvr-674q",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/opencve/opencve/issues/743",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/opencve/opencve/pull/747",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/opencve/opencve/commit/0af7f894debc95c67fa53e7ba5a6cdecb10c34f0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/opencve/opencve/releases/tag/v3.0.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "opencve",
+          "product": "opencve",
+          "versions": [
+            {
+              "version": "< 3.0.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-918"
+      ]
+    },
+    {
+      "id": "CVE-2026-55946",
+      "publishedDate": "2026-09-17T22:55:52.438Z",
+      "lastModifiedDate": "2026-09-18T13:49:48.740Z",
+      "description": "Improper neutralization of special elements used in a command ('command injection') in Microsoft Copilot allows an unauthorized attacker to disclose information over a network.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Copilot\n🔓 漏洞类型：Command Injection (CWE-77)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-55946",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Copilot",
+          "versions": [
+            {
+              "version": "-",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-77"
+      ]
+    },
+    {
+      "id": "CVE-2026-77490",
+      "publishedDate": "2026-09-11T19:37:00.724Z",
+      "lastModifiedDate": "2026-09-18T13:49:47.692Z",
+      "description": "Improper neutralization of input during web page generation ('cross-site scripting') in Microsoft Edge (Chromium-based) allows an unauthorized attacker to perform spoofing over a network.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Edge (Chromium-based)\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-77490",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Microsoft",
+          "product": "Microsoft Edge (Chromium-based)",
+          "versions": [
+            {
+              "version": "1.0.0.0",
+              "lessThan": "151.0.4129.107",
+              "versionType": "custom",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-92025",
+      "publishedDate": "2026-09-15T12:33:45.712Z",
+      "lastModifiedDate": "2026-09-18T13:51:14.737Z",
+      "description": "Use-after-free in the DOM: Navigation component. This vulnerability was fixed in Firefox 156, Firefox ESR 115.41, Firefox ESR 140.16, Firefox ESR 153.3, Thunderbird 156, Thunderbird 140.16, and Thunderbird 153.3.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Mozilla Firefox\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2068361",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-90/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-91/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-92/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-93/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-94/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-95/",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.mozilla.org/security/advisories/mfsa2026-96/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Firefox",
+          "vendor": "Mozilla",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "115.41",
+              "lessThanOrEqual": "115.*",
+              "versionType": "rpm"
+            },
+            {
+              "status": "unaffected",
+              "version": "140.16",
+              "lessThanOrEqual": "140.*",
+              "versionType": "rpm"
+            },
+            {
+              "status": "unaffected",
+              "version": "153.3",
+              "lessThanOrEqual": "153.*",
+              "versionType": "rpm"
+            },
+            {
+              "status": "unaffected",
+              "version": "156",
+              "lessThanOrEqual": "*",
+              "versionType": "rpm"
+            }
+          ]
+        },
+        {
+          "product": "Thunderbird",
+          "vendor": "Mozilla",
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "140.16",
+              "lessThanOrEqual": "140.*",
+              "versionType": "rpm"
+            },
+            {
+              "status": "unaffected",
+              "version": "153.3",
+              "lessThanOrEqual": "153.*",
+              "versionType": "rpm"
+            },
+            {
+              "status": "unaffected",
+              "version": "156",
+              "lessThanOrEqual": "*",
+              "versionType": "rpm"
+            }
+          ]
+        }
+      ],
+      "problemType": []
     }
   ]
 }
