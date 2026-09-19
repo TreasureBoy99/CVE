@@ -3,34 +3,34 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 1,
-    "last_updated": "2026-09-19T18:39:59.480688",
+    "last_updated": "2026-09-19T21:00:42.592965",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 0,
+      "medium": 1,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-78030",
-      "publishedDate": "2026-09-19T10:45:10.164Z",
-      "lastModifiedDate": "2026-09-19T18:07:55.310Z",
-      "description": "DBI versions before 1.653 for Perl load arbitrary modules via unvalidated dbm_type and dbm_mldbm attributes in DBD::DBM.\n\nDBD::DBM passes the dbm_type and dbm_mldbm connect attributes to require without checking that the value names a module. require treats a path-shaped string as a literal filename and does not consult @INC, so the attribute chooses the file that Perl loads and runs.\n\nThe MLDBM::Serializer:: prefix that DBD::DBM prepends to dbm_mldbm is not a boundary: only the :: separators are rewritten to /, so a value containing / traverses out of the serializer directory. The value is also assigned to $MLDBM::Serializer, which MLDBM requires the same way when it ties the table.\n\nA caller that lets an untrusted party influence either attribute, for example through a DSN fragment or a parameter that selects a storage backend, runs the file-scope code of whatever module the value names.\n\nFor example,\n\n    my $dsn = \"dbi:DBM:f_dir=/var/db;dbm_type=../../Untrusted.pm\"\n    my $dbh = DBI->connect( $dsn );\n\nNote that DBD::Gofer forwards connect attributes to the server side, and DBI::ProxyServer checks only that a DSN starts with a driver prefix.",
-      "severity": "N/A",
-      "fix_suggestion": "🔓 漏洞类型：CWE-470 (CWE-470)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-82560",
+      "publishedDate": "2026-09-19T15:15:52.620Z",
+      "lastModifiedDate": "2026-09-19T20:07:17.026Z",
+      "description": "Pod::Text versions before 6.1.1 for Perl allow CPU and memory exhaustion formatting a POD document whose =over nesting drives the margin to the output width.\n\nEach =over adds its indent to the margin, which wrap() subtracts from the output width to get the space available for text. When that space reaches zero, the line-splitting substitution matches the empty string, and the loop consumes no input while appending the margin padding on every pass.\n\nFormatting an attacker-supplied POD document never returns, and the output grows until memory is exhausted.",
+      "severity": "5.5",
+      "fix_suggestion": "🔓 漏洞类型：Infinite Loop / Unreachable Exit (CWE-835)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://metacpan.org/release/HMBRAND/DBI-1.653/changes",
+          "url": "https://metacpan.org/release/RRA/podlators-v6.1.0/source/lib/Pod/Text.pm#L245-261",
           "type": "reference"
         },
         {
-          "url": "https://github.com/perl5-dbi/dbi/commit/315c6ce703b8b3cbe9188062d9ec80730293554a.patch",
+          "url": "https://github.com/rra/podlators/commit/70510174f69eb54aa6d617bde4e1402cd9b7c61f.patch",
           "type": "reference"
         },
         {
-          "url": "https://github.com/perl5-dbi/dbi/security/advisories/GHSA-wqmw-wqwx-3fr7",
+          "url": "https://metacpan.org/release/RRA/podlators-v6.1.1/changes",
           "type": "reference"
         }
       ],
@@ -39,28 +39,72 @@
           "collectionURL": "https://cpan.org/modules",
           "defaultStatus": "unaffected",
           "modules": [
-            "DBI"
+            "Pod::Text"
           ],
-          "packageName": "DBI",
-          "packageURL": "pkg:cpan/DBI",
+          "packageName": "podlators",
+          "packageURL": "pkg:cpan/podlators",
           "programFiles": [
-            "lib/DBD/DBM.pm"
+            "lib/Pod/Text.pm",
+            "lib/Pod/Text/Color.pm",
+            "lib/Pod/Text/Overstrike.pm",
+            "lib/Pod/Text/Termcap.pm"
           ],
           "programRoutines": [
             {
-              "name": "DBD::DBM::Table::init_table_meta"
+              "name": "Pod::Text::wrap"
             },
             {
-              "name": "DBD::DBM::Table::open_data"
+              "name": "Pod::Text::Color::wrap"
             },
             {
-              "name": "DBD::DBM::db::get_dbm_versions"
+              "name": "Pod::Text::Overstrike::wrap"
+            },
+            {
+              "name": "Pod::Text::Termcap::wrap"
             }
           ],
-          "repo": "https://github.com/perl5-dbi/dbi",
+          "repo": "https://github.com/rra/podlators",
           "versions": [
             {
-              "lessThan": "1.653",
+              "lessThan": "6.1.1",
+              "status": "affected",
+              "version": "0",
+              "versionType": "custom"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://cpan.org/modules",
+          "defaultStatus": "unaffected",
+          "modules": [
+            "Pod::Text"
+          ],
+          "packageName": "perl",
+          "packageURL": "pkg:cpan/perl",
+          "programFiles": [
+            "cpan/podlators/lib/Pod/Text.pm",
+            "cpan/podlators/lib/Pod/Text/Color.pm",
+            "cpan/podlators/lib/Pod/Text/Overstrike.pm",
+            "cpan/podlators/lib/Pod/Text/Termcap.pm"
+          ],
+          "programRoutines": [
+            {
+              "name": "Pod::Text::wrap"
+            },
+            {
+              "name": "Pod::Text::Color::wrap"
+            },
+            {
+              "name": "Pod::Text::Overstrike::wrap"
+            },
+            {
+              "name": "Pod::Text::Termcap::wrap"
+            }
+          ],
+          "repo": "https://github.com/Perl/perl5",
+          "versions": [
+            {
+              "lessThanOrEqual": "5.45.2",
               "status": "affected",
               "version": "0",
               "versionType": "custom"
@@ -69,11 +113,12 @@
         }
       ],
       "problemType": [
-        "CWE-470 Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+        "CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')"
       ],
       "cwe_ids": [
-        "CWE-470"
-      ]
+        "CWE-835"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
