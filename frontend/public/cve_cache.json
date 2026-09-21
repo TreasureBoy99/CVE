@@ -2,230 +2,64 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 5,
-    "last_updated": "2026-09-21T18:58:33.804666",
+    "total_count": 1,
+    "last_updated": "2026-09-21T22:31:03.132248",
     "severity_distribution": {
       "critical": 0,
       "high": 1,
-      "medium": 3,
-      "low": 1,
+      "medium": 0,
+      "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-63334",
-      "publishedDate": "2026-09-21T16:22:59.708Z",
-      "lastModifiedDate": "2026-09-21T18:56:03.135Z",
-      "description": "draw.io is a configurable diagramming and whiteboarding application. Prior to version 30.2.7, deployments with ENABLE_DRAWIO_PROXY=1 are vulnerable to server-side request forgery because src/main/java/com/mxgraph/online/Utils.java performs the private-address check in Utils.sanitizeUrl() using one DNS resolution, while src/main/java/com/mxgraph/online/ProxyServlet.java later calls URL.openConnection() and performs a second resolution. An attacker-controlled hostname can resolve to a public address during validation and then to a private, link-local, or cloud metadata address when the connection is opened. Successful exploitation can return cloud instance metadata or responses from internal HTTP services through the proxy. This issue is fixed in version 30.2.7.",
-      "severity": 6.8,
-      "fix_suggestion": "📦 受影响组件：jgraph drawio\n🔓 漏洞类型：Server-Side Request Forgery (SSRF), CWE-367 (CWE-918, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-94425",
+      "publishedDate": "2026-09-21T22:15:07.442Z",
+      "lastModifiedDate": "2026-09-21T22:15:07.442Z",
+      "description": "A vulnerability was found in Moore Threads MTT S80 Driver Package 340.150. The affected element is the function sub_140006F0C in the library mtdispkm64.sys of the component IOCTL Handler. The manipulation results in improper privilege management. Attacking locally is a requirement. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Moore Threads MTT S80 Driver Package\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/jgraph/drawio/security/advisories/GHSA-3v4h-8r2c-m8c5",
+          "url": "https://vuldb.com/vuln/408151",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jgraph/drawio/commit/650fbd742814f6502f78248dc2d8e2aaa5e42b5e",
+          "url": "https://vuldb.com/vuln/408151/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/jgraph/drawio/releases/tag/v30.2.7",
+          "url": "https://vuldb.com/cve/CVE-2026-94425",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/894809",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "jgraph",
-          "product": "drawio",
+          "vendor": "Moore Threads",
+          "product": "MTT S80 Driver Package",
           "versions": [
             {
-              "version": "< 30.2.7",
+              "version": "340.150",
               "status": "affected"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:moore_threads:mtt_s80_driver_package:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "IOCTL Handler"
           ]
         }
       ],
       "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)",
-        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
-      ],
-      "cwe_ids": [
-        "CWE-918",
-        "CWE-367"
+        "Improper Privilege Management",
+        "Incorrect Privilege Assignment"
       ]
-    },
-    {
-      "id": "CVE-2026-91166",
-      "publishedDate": "2026-09-21T18:53:56.224Z",
-      "lastModifiedDate": "2026-09-21T18:53:56.224Z",
-      "description": "Warpgate is an open source SSH, HTTPS and MySQL bastion host for Linux. From 0.25.0 until 0.27.6, the browser SSH path in warpgate-web-ssh/src/manager.rs handles RCEvent::HostKeyUnknown without the presenting hop identity and instead passes ssh_options.host and ssh_options.port for the final target to KnownHosts::trust. In Prompt and AutoAccept modes, a jump host key can therefore be stored for the target address. A machine later presenting the jump host key at the target address can be accepted as the target, allowing interception of user traffic and a newly issued certificate when certificate authentication is used. The native SSH path is unaffected because it tracks each hop separately. This issue is fixed in version 0.27.6.",
-      "severity": 5.7,
-      "fix_suggestion": "📦 受影响组件：warp-tech warpgate\n🔓 漏洞类型：CWE-297, CWE-923 (CWE-297, CWE-923)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/warp-tech/warpgate/security/advisories/GHSA-w9jj-vpw3-5r8f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/warp-tech/warpgate/commit/fb66ff74f979c22054f4d348cc0d9065cc67e5d3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/warp-tech/warpgate/releases/tag/v0.27.6",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "warp-tech",
-          "product": "warpgate",
-          "versions": [
-            {
-              "version": ">= 0.25.0, < 0.27.6",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-297: Improper Validation of Certificate with Host Mismatch",
-        "CWE-923: Improper Restriction of Communication Channel to Intended Endpoints"
-      ],
-      "cwe_ids": [
-        "CWE-297",
-        "CWE-923"
-      ]
-    },
-    {
-      "id": "CVE-2026-91165",
-      "publishedDate": "2026-09-21T18:53:03.854Z",
-      "lastModifiedDate": "2026-09-21T18:53:03.854Z",
-      "description": "Warpgate is an open source SSH, HTTPS and MySQL bastion host for Linux. Prior to 0.27.6, the response_mode=form_post SSO return path in warpgate-protocol-http/src/api/sso_provider_list.rs uses serde_json::to_string inside ReturnToSsoPostResponse without neutralizing a script-closing sequence. The vulnerable value can enter the script block through the attacker-controlled next redirect parameter stored by warpgate-protocol-http/src/api/sso_provider_detail.rs or through IdP-derived error messages that make_redirect_url concatenates without URL encoding. The IdP-derived path is reachable when the attacker controls a configured identity provider, or when the attacker controls the email or username claim on an attacker-controlled account and the configured identity provider permits the required unvalidated claim format. A victim must complete the form_post SSO flow for the injected markup to be rendered. The Warpgate Content-Security-Policy blocks injected JavaScript and event handlers, so the demonstrated impact is content spoofing, a false login form, or a meta refresh rather than script execution. This issue is fixed in version 0.27.6.",
-      "severity": 2.4,
-      "fix_suggestion": "📦 受影响组件：warp-tech warpgate\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/warp-tech/warpgate/security/advisories/GHSA-vvpj-p7j8-4rv4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/warp-tech/warpgate/commit/e94425a08f501383a67316673749dcbd637c6ce3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/warp-tech/warpgate/releases/tag/v0.27.6",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "warp-tech",
-          "product": "warpgate",
-          "versions": [
-            {
-              "version": "< 0.27.6",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-91167",
-      "publishedDate": "2026-09-21T18:54:38.214Z",
-      "lastModifiedDate": "2026-09-21T18:54:38.214Z",
-      "description": "Warpgate is an open source SSH, HTTPS and MySQL bastion host for Linux. Prior to 0.28.4, PUT /@warpgate/admin/api/users/:id/roles/:role_id reaches api_update_user_role in warpgate-admin/src/api/users.rs through AdminContext but does not require AdminPermission::AccessRolesAssign. A limited administrator with any permission can update expires_at on an existing UserRoleAssignment and clear revoked_at, extending an expiring grant or reinstating a revoked grant. The endpoint cannot create a role assignment that never existed because it returns not found without a matching user and role pair. This issue is fixed in version 0.28.4.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：warp-tech warpgate\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/warp-tech/warpgate/security/advisories/GHSA-fjgc-484v-j6mf",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/warp-tech/warpgate/commit/c020900a9d85989e4280bd03184976bc33e2e61d",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/warp-tech/warpgate/releases/tag/v0.28.4",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "warp-tech",
-          "product": "warpgate",
-          "versions": [
-            {
-              "version": "< 0.28.4",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-862: Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-61674",
-      "publishedDate": "2026-09-21T16:10:15.276Z",
-      "lastModifiedDate": "2026-09-21T18:52:25.840Z",
-      "description": "Fluent Bit is a fast and lightweight logs, metrics, and traces processor for Linux, BSD, macOS, and Windows. From 0.11.0 until 5.0.8, plugins/out_forward/forward.c secure_forward_pong copies the server-controlled PONG[2] reason into the 32-byte stack buffer msg with memcpy without checking its MessagePack type or length. An attacker who controls or can impersonate an out_forward Secure Forward destination configured with Shared_Key or Empty_Shared_Key can send an oversized reason during the first handshake and overwrite stack control data. Protected builds reliably terminate, while builds without a stack canary or with a disclosure can allow remote code execution as the Fluent Bit process user. When the opt-in --supervisor mode is used, fork-only respawns preserve the canary and address layout, allowing repeated crash-or-survive probes to support code execution on a hardened build; ordinary exec-based or service-manager restarts do not preserve that state. This issue is fixed in version 5.0.8.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：fluent fluent-bit\n🔓 漏洞类型：CWE-121, CWE-787, Type Confusion (CWE-121, CWE-787, CWE-843)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/fluent/fluent-bit/security/advisories/GHSA-jrp8-r9hx-gf73",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/fluent/fluent-bit/pull/11945",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/fluent/fluent-bit/commit/45486556be9d023e194665e243f156b228e195e0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/fluent/fluent-bit/releases/tag/v5.0.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "fluent",
-          "product": "fluent-bit",
-          "versions": [
-            {
-              "version": ">= 0.11.0, < 5.0.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-121: Stack-based Buffer Overflow",
-        "CWE-787: Out-of-bounds Write",
-        "CWE-843: Access of Resource Using Incompatible Type ('Type Confusion')"
-      ],
-      "cwe_ids": [
-        "CWE-121",
-        "CWE-787",
-        "CWE-843"
-      ],
-      "cvss_severity": "MEDIUM"
     }
   ]
 }
