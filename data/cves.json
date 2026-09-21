@@ -2,629 +2,230 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 7,
-    "last_updated": "2026-09-21T15:39:34.909647",
+    "total_count": 5,
+    "last_updated": "2026-09-21T18:58:33.804666",
     "severity_distribution": {
       "critical": 0,
       "high": 1,
-      "medium": 0,
-      "low": 0,
-      "none": 6
+      "medium": 3,
+      "low": 1,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-75158",
-      "publishedDate": "2026-09-21T14:32:47.818Z",
-      "lastModifiedDate": "2026-09-21T15:26:48.122Z",
-      "description": "Apache Airflow's `/assets/events` API returned asset events for every Dag in the deployment, with no filter restricting them to the Dags the caller is authorized to read. Any authenticated user holding asset-read access could therefore enumerate asset events — including the source Dag ID, task ID, run ID and event timestamps — for Dags they have no permission to see. Because the filter was also absent from the count query, `total_entries` and pagination disclosed the existence of hidden Dags even without inspecting individual rows. Deployments are affected whenever per-Dag access control is used to separate teams or tenants; no special configuration is required. Upgrade to apache-airflow 3.3.2 or later.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Airflow\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-63334",
+      "publishedDate": "2026-09-21T16:22:59.708Z",
+      "lastModifiedDate": "2026-09-21T18:56:03.135Z",
+      "description": "draw.io is a configurable diagramming and whiteboarding application. Prior to version 30.2.7, deployments with ENABLE_DRAWIO_PROXY=1 are vulnerable to server-side request forgery because src/main/java/com/mxgraph/online/Utils.java performs the private-address check in Utils.sanitizeUrl() using one DNS resolution, while src/main/java/com/mxgraph/online/ProxyServlet.java later calls URL.openConnection() and performs a second resolution. An attacker-controlled hostname can resolve to a public address during validation and then to a private, link-local, or cloud metadata address when the connection is opened. Successful exploitation can return cloud instance metadata or responses from internal HTTP services through the proxy. This issue is fixed in version 30.2.7.",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：jgraph drawio\n🔓 漏洞类型：Server-Side Request Forgery (SSRF), CWE-367 (CWE-918, CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/apache/airflow/pull/71741",
+          "url": "https://github.com/jgraph/drawio/security/advisories/GHSA-3v4h-8r2c-m8c5",
           "type": "reference"
         },
         {
-          "url": "https://lists.apache.org/thread/rx5lg86l0qkjl2s7dtmpqxjq0xplr4fy",
+          "url": "https://github.com/jgraph/drawio/commit/650fbd742814f6502f78248dc2d8e2aaa5e42b5e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/jgraph/drawio/releases/tag/v30.2.7",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache Airflow",
-          "packageURL": "pkg:pypi/apache-airflow",
+          "vendor": "jgraph",
+          "product": "drawio",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "3.3.2",
-              "versionType": "semver"
+              "version": "< 30.2.7",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://pypi.python.org",
-          "packageName": "apache-airflow"
+          ]
         }
       ],
       "problemType": [
-        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+        "CWE-918: Server-Side Request Forgery (SSRF)",
+        "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
       ],
       "cwe_ids": [
-        "CWE-200"
+        "CWE-918",
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-91166",
+      "publishedDate": "2026-09-21T18:53:56.224Z",
+      "lastModifiedDate": "2026-09-21T18:53:56.224Z",
+      "description": "Warpgate is an open source SSH, HTTPS and MySQL bastion host for Linux. From 0.25.0 until 0.27.6, the browser SSH path in warpgate-web-ssh/src/manager.rs handles RCEvent::HostKeyUnknown without the presenting hop identity and instead passes ssh_options.host and ssh_options.port for the final target to KnownHosts::trust. In Prompt and AutoAccept modes, a jump host key can therefore be stored for the target address. A machine later presenting the jump host key at the target address can be accepted as the target, allowing interception of user traffic and a newly issued certificate when certificate authentication is used. The native SSH path is unaffected because it tracks each hop separately. This issue is fixed in version 0.27.6.",
+      "severity": 5.7,
+      "fix_suggestion": "📦 受影响组件：warp-tech warpgate\n🔓 漏洞类型：CWE-297, CWE-923 (CWE-297, CWE-923)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/warp-tech/warpgate/security/advisories/GHSA-w9jj-vpw3-5r8f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/warp-tech/warpgate/commit/fb66ff74f979c22054f4d348cc0d9065cc67e5d3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/warp-tech/warpgate/releases/tag/v0.27.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "warp-tech",
+          "product": "warpgate",
+          "versions": [
+            {
+              "version": ">= 0.25.0, < 0.27.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-297: Improper Validation of Certificate with Host Mismatch",
+        "CWE-923: Improper Restriction of Communication Channel to Intended Endpoints"
+      ],
+      "cwe_ids": [
+        "CWE-297",
+        "CWE-923"
+      ]
+    },
+    {
+      "id": "CVE-2026-91165",
+      "publishedDate": "2026-09-21T18:53:03.854Z",
+      "lastModifiedDate": "2026-09-21T18:53:03.854Z",
+      "description": "Warpgate is an open source SSH, HTTPS and MySQL bastion host for Linux. Prior to 0.27.6, the response_mode=form_post SSO return path in warpgate-protocol-http/src/api/sso_provider_list.rs uses serde_json::to_string inside ReturnToSsoPostResponse without neutralizing a script-closing sequence. The vulnerable value can enter the script block through the attacker-controlled next redirect parameter stored by warpgate-protocol-http/src/api/sso_provider_detail.rs or through IdP-derived error messages that make_redirect_url concatenates without URL encoding. The IdP-derived path is reachable when the attacker controls a configured identity provider, or when the attacker controls the email or username claim on an attacker-controlled account and the configured identity provider permits the required unvalidated claim format. A victim must complete the form_post SSO flow for the injected markup to be rendered. The Warpgate Content-Security-Policy blocks injected JavaScript and event handlers, so the demonstrated impact is content spoofing, a false login form, or a meta refresh rather than script execution. This issue is fixed in version 0.27.6.",
+      "severity": 2.4,
+      "fix_suggestion": "📦 受影响组件：warp-tech warpgate\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/warp-tech/warpgate/security/advisories/GHSA-vvpj-p7j8-4rv4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/warp-tech/warpgate/commit/e94425a08f501383a67316673749dcbd637c6ce3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/warp-tech/warpgate/releases/tag/v0.27.6",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "warp-tech",
+          "product": "warpgate",
+          "versions": [
+            {
+              "version": "< 0.27.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-91167",
+      "publishedDate": "2026-09-21T18:54:38.214Z",
+      "lastModifiedDate": "2026-09-21T18:54:38.214Z",
+      "description": "Warpgate is an open source SSH, HTTPS and MySQL bastion host for Linux. Prior to 0.28.4, PUT /@warpgate/admin/api/users/:id/roles/:role_id reaches api_update_user_role in warpgate-admin/src/api/users.rs through AdminContext but does not require AdminPermission::AccessRolesAssign. A limited administrator with any permission can update expires_at on an existing UserRoleAssignment and clear revoked_at, extending an expiring grant or reinstating a revoked grant. The endpoint cannot create a role assignment that never existed because it returns not found without a matching user and role pair. This issue is fixed in version 0.28.4.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：warp-tech warpgate\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/warp-tech/warpgate/security/advisories/GHSA-fjgc-484v-j6mf",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/warp-tech/warpgate/commit/c020900a9d85989e4280bd03184976bc33e2e61d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/warp-tech/warpgate/releases/tag/v0.28.4",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "warp-tech",
+          "product": "warpgate",
+          "versions": [
+            {
+              "version": "< 0.28.4",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862: Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2026-65654",
-      "publishedDate": "2026-09-21T11:38:23.307Z",
-      "lastModifiedDate": "2026-09-21T15:26:44.632Z",
-      "description": "github.com/temporalio/ringpop-go enforces configured LabelOptions limits when an application changes the local node's labels, but affected versions do not apply those limits to label maps received in SWIM membership changes. A network peer that can reach a live Ringpop TChannel listener can repeatedly submit changes for distinct member addresses containing label keys, values, or counts that exceed the receiver's configured limits. Accepted labels are retained in the member list and disseminated to peers, allowing memory and gossip-bandwidth consumption to exceed configured bounds and potentially making the hosting process unavailable. The fix validates peer-supplied label maps before they are retained or disseminated. Availability only; no confidentiality or integrity impact was identified.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/ringpop-go\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-61674",
+      "publishedDate": "2026-09-21T16:10:15.276Z",
+      "lastModifiedDate": "2026-09-21T18:52:25.840Z",
+      "description": "Fluent Bit is a fast and lightweight logs, metrics, and traces processor for Linux, BSD, macOS, and Windows. From 0.11.0 until 5.0.8, plugins/out_forward/forward.c secure_forward_pong copies the server-controlled PONG[2] reason into the 32-byte stack buffer msg with memcpy without checking its MessagePack type or length. An attacker who controls or can impersonate an out_forward Secure Forward destination configured with Shared_Key or Empty_Shared_Key can send an oversized reason during the first handshake and overwrite stack control data. Protected builds reliably terminate, while builds without a stack canary or with a disclosure can allow remote code execution as the Fluent Bit process user. When the opt-in --supervisor mode is used, fork-only respawns preserve the canary and address layout, allowing repeated crash-or-survive probes to support code execution on a hardened build; ordinary exec-based or service-manager restarts do not preserve that state. This issue is fixed in version 5.0.8.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：fluent fluent-bit\n🔓 漏洞类型：CWE-121, CWE-787, Type Confusion (CWE-121, CWE-787, CWE-843)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/temporalio/ringpop-go/commit/d0de5fe1333074d5c41a88e9053592e39f495bb2",
+          "url": "https://github.com/fluent/fluent-bit/security/advisories/GHSA-jrp8-r9hx-gf73",
           "type": "reference"
         },
         {
-          "url": "https://github.com/temporalio/ringpop-go/blob/b97329e994f792f70427a7533a3e7a98976eb262/swim/labels.go#L11-L61",
+          "url": "https://github.com/fluent/fluent-bit/pull/11945",
           "type": "reference"
         },
         {
-          "url": "https://github.com/temporalio/ringpop-go/blob/b97329e994f792f70427a7533a3e7a98976eb262/swim/memberlist.go#L521-L612",
+          "url": "https://github.com/fluent/fluent-bit/commit/45486556be9d023e194665e243f156b228e195e0",
           "type": "reference"
         },
         {
-          "url": "https://github.com/temporalio/ringpop-go/pull/22",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/ringpop-go/commit/c317effcdc8bc09ed1c11f00994782bda9685d4b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/ringpop-go/tree/v0.1.0",
+          "url": "https://github.com/fluent/fluent-bit/releases/tag/v5.0.8",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "temporalio/ringpop-go",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "github.com/temporalio/ringpop-go",
-          "repo": "https://github.com/temporalio/ringpop-go",
-          "modules": [
-            "Labels",
-            "SWIM membership"
-          ],
-          "programFiles": [
-            "swim/labels.go",
-            "swim/member.go",
-            "swim/memberlist.go"
-          ],
+          "vendor": "fluent",
+          "product": "fluent-bit",
           "versions": [
             {
-              "status": "affected",
-              "version": "0.0.0-20160824133849-d0de5fe13330",
-              "lessThan": "0.0.0-20260724173031-c317effcdc8b",
-              "versionType": "semver"
+              "version": ">= 0.11.0, < 5.0.8",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-770: Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2026-65653",
-      "publishedDate": "2026-09-21T11:36:47.095Z",
-      "lastModifiedDate": "2026-09-21T15:28:21.825Z",
-      "description": "github.com/temporalio/tchannel-go did not reject TChannel call fragments containing checksum metadata but no length-prefixed argument chunks. The fragment reader left its chunk slice empty and then unconditionally selected the first element. A network peer can supply such a malformed call fragment, including as a direct initial call request after completing the standard initialization handshake. On that inbound path, the resulting unrecovered Go slice-bounds panic occurs on a library-created dispatch goroutine and terminates the hosting process. This allows remote denial of service against applications that expose the listener to untrusted peers. The impact is limited to availability; no confidentiality or integrity impact was identified.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/tchannel-go\n🔓 漏洞类型：CWE-129 (CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/temporalio/tchannel-go/commit/8d8ca17342b3620d3a6d5c1a825145595e7588ff",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/blob/8706a1ab5f617efd79dace7ab2d1d80cc1881df0/fragmenting_reader.go#L256-L308",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/commit/1dcfa67262ecd56a24f12940f4082549190cb5d1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/pull/14",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/commit/0cb017f6870a8420695abeb9a4560d39dadc4e2e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/tree/v1.22.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "temporalio/tchannel-go",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "github.com/temporalio/tchannel-go",
-          "repo": "https://github.com/temporalio/tchannel-go",
-          "modules": [
-            "Fragmentation",
-            "Frame parser"
-          ],
-          "programFiles": [
-            "fragmenting_reader.go",
-            "inbound.go",
-            "outbound.go"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0.0-20150531204735-8d8ca17342b3",
-              "lessThan": "1.22.1-0.20260720194454-0cb017f6870a",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-129: Improper Validation of Array Index"
-      ],
-      "cwe_ids": [
-        "CWE-129"
-      ]
-    },
-    {
-      "id": "CVE-2026-65652",
-      "publishedDate": "2026-09-21T11:35:40.896Z",
-      "lastModifiedDate": "2026-09-21T15:30:00.325Z",
-      "description": "github.com/temporalio/tchannel-go did not validate the one-byte checksum-type field in inbound TChannel call frames. A network peer that can reach a listener can complete the standard initialization handshake and send a call request with an unsupported checksum type. The parser uses that value as an index into a four-entry checksum pool, causing an unrecovered Go panic on the connection read goroutine and terminating the hosting process. This allows remote denial of service against applications that expose the listener to untrusted peers. The impact is limited to availability; no confidentiality or integrity impact was identified.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/tchannel-go\n🔓 漏洞类型：CWE-129 (CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/temporalio/tchannel-go/commit/a6904155f628b9e602b7bc88ef489004a786f7f4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/blob/8706a1ab5f617efd79dace7ab2d1d80cc1881df0/reqres.go#L280-L295",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/blob/8706a1ab5f617efd79dace7ab2d1d80cc1881df0/checksum.go#L29-L93",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/pull/14",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/commit/0cb017f6870a8420695abeb9a4560d39dadc4e2e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/tchannel-go/tree/v1.22.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "temporalio/tchannel-go",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "github.com/temporalio/tchannel-go",
-          "repo": "https://github.com/temporalio/tchannel-go",
-          "modules": [
-            "Checksum",
-            "Frame parser"
-          ],
-          "programFiles": [
-            "checksum.go",
-            "reqres.go",
-            "inbound.go"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0.0-20160105034737-a6904155f628",
-              "lessThan": "1.22.1-0.20260720194454-0cb017f6870a",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-129: Improper Validation of Array Index"
-      ],
-      "cwe_ids": [
-        "CWE-129"
-      ]
-    },
-    {
-      "id": "CVE-2026-65651",
-      "publishedDate": "2026-09-21T11:34:05.930Z",
-      "lastModifiedDate": "2026-09-21T15:31:05.352Z",
-      "description": "temporalio/sqlparser accepts SQL containing deeply nested unary expressions and can return a correspondingly deep abstract syntax tree without enforcing an applicable nesting limit. The library's String and Walk operations recursively traverse that tree. An application that parses attacker-controlled SQL and later formats or walks the returned tree can encounter a runtime-fatal Go stack overflow that terminates the process; Go panic recovery cannot contain this condition. Temporal Server passes caller-controlled query input through the affected parser in archival, visibility, and worker-query paths. In affected validation paths, the Server recursively formats an invalid expression while constructing an error. In a supported authenticated deployment, a caller with namespace read permission can terminate the receiving Frontend or Matching process. The dynamically confirmed ListWorkers route additionally requires at least one retained worker heartbeat. Repeated requests can sustain a denial of service. The issue affects availability only; no confidentiality or integrity impact was identified.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/sqlparser\n🔓 漏洞类型：CWE-674 (CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/temporalio/sqlparser/commit/1aae9baceee8e48525da8f56b07bf6a5ca7eb147",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/sqlparser/pull/6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/sqlparser/commit/0466b6b405accfaa781e4bef417933efc18bcaef",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/sqlparser/tree/v0.1.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/sqlparser/pull/7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/pull/11202",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/blob/v0.10.0/common/archiver/filestore/queryParser.go#L77-L132",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/releases/tag/v1.30.7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/releases/tag/v1.31.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "temporalio/sqlparser",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "github.com/temporalio/sqlparser",
-          "repo": "https://github.com/temporalio/sqlparser",
-          "modules": [
-            "AST",
-            "Parser"
-          ],
-          "programFiles": [
-            "ast.go",
-            "sql.y"
-          ],
-          "programRoutines": [
-            {
-              "name": "Parse"
-            },
-            {
-              "name": "ParseStrictDDL"
-            },
-            {
-              "name": "ParseNext"
-            },
-            {
-              "name": "String"
-            },
-            {
-              "name": "Walk"
-            },
-            {
-              "name": "UnaryExpr.Format"
-            }
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0.0-20141206041240-1aae9baceee8",
-              "lessThan": "0.0.0-20260721183058-0466b6b405ac",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "Temporal Server",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "go.temporal.io/server",
-          "repo": "https://github.com/temporalio/temporal",
-          "modules": [
-            "Archival",
-            "Frontend",
-            "Matching",
-            "Visibility"
-          ],
-          "programFiles": [
-            "common/archiver/filestore/queryParser.go",
-            "common/persistence/visibility/store/query/converter.go",
-            "common/persistence/visibility/store/sql/query_converter.go",
-            "service/matching/workers/worker_query_engine.go"
-          ],
-          "programRoutines": [
-            {
-              "name": "queryParser.convertComparisonExpr"
-            },
-            {
-              "name": "QueryConverter.convertComparisonExpr"
-            },
-            {
-              "name": "comparisonExprConverter.Convert"
-            },
-            {
-              "name": "workerQueryEngine.evaluateComparison"
-            }
-          ],
-          "versions": [
-            {
-              "status": "unknown",
-              "version": "0.0.0",
-              "lessThan": "0.10.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "0.10.0",
-              "lessThanOrEqual": "1.29.7",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.30.0",
-              "lessThan": "1.30.7",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.31.0",
-              "lessThan": "1.31.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:2.3:a:temporal:temporal:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-674: Uncontrolled Recursion"
+        "CWE-121: Stack-based Buffer Overflow",
+        "CWE-787: Out-of-bounds Write",
+        "CWE-843: Access of Resource Using Incompatible Type ('Type Confusion')"
       ],
       "cwe_ids": [
-        "CWE-674"
-      ]
-    },
-    {
-      "id": "CVE-2026-16651",
-      "publishedDate": "2026-09-21T11:32:44.699Z",
-      "lastModifiedDate": "2026-09-21T15:32:34.656Z",
-      "description": "temporalio/sqlparser can panic when Parse, ParseStrictDDL, or ParseNext processes a MySQL version comment whose contents are empty or consist only of one to five decimal digits. ExtractMysqlComment does not check the -1 result returned by strings.IndexFunc before using it as a slice boundary. The resulting Go runtime panic propagates unless the caller recovers it on the parsing goroutine, so applications that parse attacker-controlled SQL can terminate. Temporal Server exposes the affected parser through ListWorkers. When that API is enabled, an authenticated caller with namespace read permission can submit a malformed query that terminates the receiving Matching process. Repeated requests can sustain a denial of service. The issue affects availability only; no confidentiality or integrity impact was identified.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/sqlparser\n🔓 漏洞类型：CWE-129 (CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/temporalio/sqlparser/pull/5",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/sqlparser/commit/74181ffcbaaf0c52faa925f4cf27ed6c0c2be86f",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/sqlparser/tree/v0.1.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/pull/11190",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/pull/11090",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/releases/tag/v1.30.7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/releases/tag/v1.31.3",
-          "type": "reference"
-        }
+        "CWE-121",
+        "CWE-787",
+        "CWE-843"
       ],
-      "affected": [
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "temporalio/sqlparser",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "github.com/temporalio/sqlparser",
-          "repo": "https://github.com/temporalio/sqlparser",
-          "modules": [
-            "Parser"
-          ],
-          "programFiles": [
-            "comments.go",
-            "token.go"
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0.0.0-20180604150908-b055e9c9b4fa",
-              "lessThan": "0.0.0-20260721183040-74181ffcbaaf",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected",
-          "programRoutines": [
-            {
-              "name": "ExtractMysqlComment"
-            },
-            {
-              "name": "Tokenizer.scanMySQLSpecificComment"
-            },
-            {
-              "name": "Parse"
-            },
-            {
-              "name": "ParseStrictDDL"
-            },
-            {
-              "name": "ParseNext"
-            }
-          ]
-        },
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "Temporal Server",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "go.temporal.io/server",
-          "repo": "https://github.com/temporalio/temporal",
-          "modules": [
-            "Matching"
-          ],
-          "programFiles": [
-            "service/matching/handler.go",
-            "service/matching/workers/worker_query_engine.go"
-          ],
-          "programRoutines": [
-            {
-              "name": "Handler.ListWorkers"
-            },
-            {
-              "name": "getWhereCause"
-            }
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.29.0",
-              "lessThanOrEqual": "1.29.7",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.30.0",
-              "lessThan": "1.30.7",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.31.0",
-              "lessThan": "1.31.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:2.3:a:temporal:temporal:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-129: Improper Validation of Array Index"
-      ],
-      "cwe_ids": [
-        "CWE-129"
-      ]
-    },
-    {
-      "id": "CVE-2026-16652",
-      "publishedDate": "2026-09-21T11:23:47.298Z",
-      "lastModifiedDate": "2026-09-21T15:33:15.387Z",
-      "description": "Temporal Server did not bound the work performed while searching for a Schedule's next action time. An authenticated caller with namespace write permission could create or update a Schedule that combines a fine-grained cadence with an exclusion calendar that rejects every candidate time, causing the server to evaluate excluded candidates without a per-search work budget. This can consume excessive CPU in Frontend and Schedule worker components. A persisted specification can also cause its backing Schedule Workflow to repeatedly fail and retry, allowing CPU consumption to continue without additional requests until the Schedule is deleted or its backing Workflow is terminated. Repeated or parallel exploitation can deny service. The issue affects availability only; it does not expose or modify Workflow data.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. Temporal Server\n🔓 漏洞类型：CWE-606 (CWE-606)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/temporalio/temporal/pull/11014",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/commit/c10c730e53ae394fffaefe44ba3722150fe40720",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/releases/tag/v1.30.7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/temporalio/temporal/releases/tag/v1.31.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Temporal Technologies, Inc.",
-          "product": "Temporal Server",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "go.temporal.io/server",
-          "repo": "https://github.com/temporalio/temporal",
-          "modules": [
-            "Schedules"
-          ],
-          "programFiles": [
-            "service/worker/scheduler/spec.go"
-          ],
-          "programRoutines": [
-            {
-              "name": "CompiledSpec.GetNextTime"
-            }
-          ],
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.17.0",
-              "lessThanOrEqual": "1.29.7",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.30.0",
-              "lessThan": "1.30.7",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.31.0",
-              "lessThan": "1.31.3",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected",
-          "cpes": [
-            "cpe:2.3:a:temporal:temporal:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-606: Unchecked Input for Loop Condition"
-      ],
-      "cwe_ids": [
-        "CWE-606"
-      ]
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
