@@ -2,332 +2,628 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-09-21T13:53:37.803830",
+    "total_count": 7,
+    "last_updated": "2026-09-21T15:39:34.909647",
     "severity_distribution": {
       "critical": 0,
       "high": 1,
-      "medium": 3,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 6
     }
   },
   "cves": [
     {
-      "id": "CVE-2025-71421",
-      "publishedDate": "2026-09-21T13:43:35.237Z",
-      "lastModifiedDate": "2026-09-21T13:43:35.237Z",
-      "description": "UVdesk core-framework before 1.1.7 contains an improper privilege management vulnerability in the editAgent endpoint that allows agents with agent-management privilege to escalate their own role to administrator. Attackers can submit their own account identifier with a role parameter set to ROLE_ADMIN to gain full administrative control over agents, tickets, and mail configuration.",
-      "severity": 7.2,
-      "fix_suggestion": "📦 受影响组件：uvdesk core-framework\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-75158",
+      "publishedDate": "2026-09-21T14:32:47.818Z",
+      "lastModifiedDate": "2026-09-21T15:26:48.122Z",
+      "description": "Apache Airflow's `/assets/events` API returned asset events for every Dag in the deployment, with no filter restricting them to the Dags the caller is authorized to read. Any authenticated user holding asset-read access could therefore enumerate asset events — including the source Dag ID, task ID, run ID and event timestamps — for Dags they have no permission to see. Because the filter was also absent from the count query, `total_entries` and pagination disclosed the existence of hidden Dags even without inspecting individual rows. Deployments are affected whenever per-Dag access control is used to separate teams or tenants; no special configuration is required. Upgrade to apache-airflow 3.3.2 or later.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Airflow\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/uvdesk/core-framework/commit/b8bcdc503659f9d5c5cd73627cfc5d45508b9a55",
+          "url": "https://github.com/apache/airflow/pull/71741",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/blob/v1.1.6/Controller/Account.php#L278-L282",
-          "type": "reference"
-        },
-        {
-          "url": "https://hackmd.io/@leediay/B1Cz5voFGg",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/uvdesk/core-framework/releases/tag/v1.1.7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/uvdesk/community-skeleton/releases/tag/v1.1.8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/uvdesk/core-framework",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/uvdesk-core-framework-before-1.1.7-privilege-escalation-via-editagent",
+          "url": "https://lists.apache.org/thread/rx5lg86l0qkjl2s7dtmpqxjq0xplr4fy",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "uvdesk",
-          "product": "core-framework",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/uvdesk/core-framework",
+          "vendor": "Apache Software Foundation",
+          "product": "Apache Airflow",
+          "packageURL": "pkg:pypi/apache-airflow",
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.1.7"
-            },
-            {
-              "version": "1.1.7",
-              "status": "unaffected",
+              "version": "0",
+              "lessThan": "3.3.2",
               "versionType": "semver"
             }
-          ]
-        },
-        {
-          "vendor": "uvdesk",
-          "product": "community-skeleton",
+          ],
           "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/uvdesk/community-skeleton",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.1.8"
-            },
-            {
-              "version": "1.1.8",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
+          "collectionURL": "https://pypi.python.org",
+          "packageName": "apache-airflow"
         }
       ],
       "problemType": [
-        "Improper Privilege Management"
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor"
+      ],
+      "cwe_ids": [
+        "CWE-200"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-65654",
+      "publishedDate": "2026-09-21T11:38:23.307Z",
+      "lastModifiedDate": "2026-09-21T15:26:44.632Z",
+      "description": "github.com/temporalio/ringpop-go enforces configured LabelOptions limits when an application changes the local node's labels, but affected versions do not apply those limits to label maps received in SWIM membership changes. A network peer that can reach a live Ringpop TChannel listener can repeatedly submit changes for distinct member addresses containing label keys, values, or counts that exceed the receiver's configured limits. Accepted labels are retained in the member list and disseminated to peers, allowing memory and gossip-bandwidth consumption to exceed configured bounds and potentially making the hosting process unavailable. The fix validates peer-supplied label maps before they are retained or disseminated. Availability only; no confidentiality or integrity impact was identified.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/ringpop-go\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/temporalio/ringpop-go/commit/d0de5fe1333074d5c41a88e9053592e39f495bb2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/ringpop-go/blob/b97329e994f792f70427a7533a3e7a98976eb262/swim/labels.go#L11-L61",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/ringpop-go/blob/b97329e994f792f70427a7533a3e7a98976eb262/swim/memberlist.go#L521-L612",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/ringpop-go/pull/22",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/ringpop-go/commit/c317effcdc8bc09ed1c11f00994782bda9685d4b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/ringpop-go/tree/v0.1.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "temporalio/ringpop-go",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "github.com/temporalio/ringpop-go",
+          "repo": "https://github.com/temporalio/ringpop-go",
+          "modules": [
+            "Labels",
+            "SWIM membership"
+          ],
+          "programFiles": [
+            "swim/labels.go",
+            "swim/member.go",
+            "swim/memberlist.go"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0.0.0-20160824133849-d0de5fe13330",
+              "lessThan": "0.0.0-20260724173031-c317effcdc8b",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
       ]
     },
     {
-      "id": "CVE-2026-94387",
-      "publishedDate": "2026-09-21T13:43:36.234Z",
-      "lastModifiedDate": "2026-09-21T13:43:36.234Z",
-      "description": "Aureus ERP before 1.6.0 contains a stored cross-site scripting vulnerability in the Chatter field-change log where old_value and new_value entries are rendered without proper escaping. Any user permitted to edit tracked text fields can inject malicious markup that executes when other users, including administrators, view the record's Chatter panel.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：aureuserp aureuserp\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-65653",
+      "publishedDate": "2026-09-21T11:36:47.095Z",
+      "lastModifiedDate": "2026-09-21T15:28:21.825Z",
+      "description": "github.com/temporalio/tchannel-go did not reject TChannel call fragments containing checksum metadata but no length-prefixed argument chunks. The fragment reader left its chunk slice empty and then unconditionally selected the first element. A network peer can supply such a malformed call fragment, including as a direct initial call request after completing the standard initialization handshake. On that inbound path, the resulting unrecovered Go slice-bounds panic occurs on a library-created dispatch goroutine and terminates the hosting process. This allows remote denial of service against applications that expose the listener to untrusted peers. The impact is limited to availability; no confidentiality or integrity impact was identified.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/tchannel-go\n🔓 漏洞类型：CWE-129 (CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/aureuserp/aureuserp/commit/57cf5cf4c98d82a0ad89003402f27823fbe1e27c",
+          "url": "https://github.com/temporalio/tchannel-go/commit/8d8ca17342b3620d3a6d5c1a825145595e7588ff",
           "type": "reference"
         },
         {
-          "url": "https://github.com/aureuserp/aureuserp/pull/1465",
+          "url": "https://github.com/temporalio/tchannel-go/blob/8706a1ab5f617efd79dace7ab2d1d80cc1881df0/fragmenting_reader.go#L256-L308",
           "type": "reference"
         },
         {
-          "url": "https://github.com/aureuserp/aureuserp/blob/v1.5.0/plugins/webkul/chatter/resources/views/filament/infolists/components/messages/content-text-entry.blade.php#L165",
+          "url": "https://github.com/temporalio/tchannel-go/commit/1dcfa67262ecd56a24f12940f4082549190cb5d1",
           "type": "reference"
         },
         {
-          "url": "https://github.com/aureuserp/aureuserp/blob/v1.5.0/plugins/webkul/chatter/resources/views/filament/infolists/components/messages/content-text-entry.blade.php#L182",
+          "url": "https://github.com/temporalio/tchannel-go/pull/14",
           "type": "reference"
         },
         {
-          "url": "https://hackmd.io/@leediay/stored-xss-aureuserp-chatter",
+          "url": "https://github.com/temporalio/tchannel-go/commit/0cb017f6870a8420695abeb9a4560d39dadc4e2e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/aureuserp/aureuserp/releases/tag/v1.6.0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/aureuserp/aureuserp",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/aureus-erp-before-1.6.0-stored-xss-via-chatter-field-change-log",
+          "url": "https://github.com/temporalio/tchannel-go/tree/v1.22.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "aureuserp",
-          "product": "aureuserp",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/aureuserp/aureuserp",
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "temporalio/tchannel-go",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "github.com/temporalio/tchannel-go",
+          "repo": "https://github.com/temporalio/tchannel-go",
+          "modules": [
+            "Fragmentation",
+            "Frame parser"
+          ],
+          "programFiles": [
+            "fragmenting_reader.go",
+            "inbound.go",
+            "outbound.go"
+          ],
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.6.0"
-            },
-            {
-              "version": "1.6.0",
-              "status": "unaffected",
+              "version": "0.0.0-20150531204735-8d8ca17342b3",
+              "lessThan": "1.22.1-0.20260720194454-0cb017f6870a",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-129: Improper Validation of Array Index"
+      ],
+      "cwe_ids": [
+        "CWE-129"
       ]
     },
     {
-      "id": "CVE-2025-71419",
-      "publishedDate": "2026-09-21T13:43:33.353Z",
-      "lastModifiedDate": "2026-09-21T13:43:33.353Z",
-      "description": "UVdesk core-framework before 1.1.7 contains a stored cross-site scripting vulnerability in the SwiftMailer configuration identifier parameter of the createMailerConfiguration action. Attackers with ROLE_AGENT can inject malicious script into the identifier field, which is persisted and executed when other members access the configuration update page.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：uvdesk core-framework\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-65652",
+      "publishedDate": "2026-09-21T11:35:40.896Z",
+      "lastModifiedDate": "2026-09-21T15:30:00.325Z",
+      "description": "github.com/temporalio/tchannel-go did not validate the one-byte checksum-type field in inbound TChannel call frames. A network peer that can reach a listener can complete the standard initialization handshake and send a call request with an unsupported checksum type. The parser uses that value as an index into a four-entry checksum pool, causing an unrecovered Go panic on the connection read goroutine and terminating the hosting process. This allows remote denial of service against applications that expose the listener to untrusted peers. The impact is limited to availability; no confidentiality or integrity impact was identified.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/tchannel-go\n🔓 漏洞类型：CWE-129 (CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/uvdesk/core-framework/commit/e5e92d1f5bdb24d1b96751213fb427035736371f",
+          "url": "https://github.com/temporalio/tchannel-go/commit/a6904155f628b9e602b7bc88ef489004a786f7f4",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/blob/v1.1.6/Resources/views/SwiftMailer/manageConfigurations.html.twig#L324",
+          "url": "https://github.com/temporalio/tchannel-go/blob/8706a1ab5f617efd79dace7ab2d1d80cc1881df0/reqres.go#L280-L295",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/blob/v1.1.6/Controller/SwiftMailer.php#L38-L46",
+          "url": "https://github.com/temporalio/tchannel-go/blob/8706a1ab5f617efd79dace7ab2d1d80cc1881df0/checksum.go#L29-L93",
           "type": "reference"
         },
         {
-          "url": "https://hackmd.io/@leediay/B1Cz5voFGg",
+          "url": "https://github.com/temporalio/tchannel-go/pull/14",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/releases/tag/v1.1.7",
+          "url": "https://github.com/temporalio/tchannel-go/commit/0cb017f6870a8420695abeb9a4560d39dadc4e2e",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/community-skeleton/releases/tag/v1.1.8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/uvdesk/core-framework",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/uvdesk-core-framework-before-1.1.7-stored-xss-via-swiftmailer",
+          "url": "https://github.com/temporalio/tchannel-go/tree/v1.22.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "uvdesk",
-          "product": "core-framework",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/uvdesk/core-framework",
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "temporalio/tchannel-go",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "github.com/temporalio/tchannel-go",
+          "repo": "https://github.com/temporalio/tchannel-go",
+          "modules": [
+            "Checksum",
+            "Frame parser"
+          ],
+          "programFiles": [
+            "checksum.go",
+            "reqres.go",
+            "inbound.go"
+          ],
           "versions": [
             {
-              "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.1.7"
-            },
-            {
-              "version": "1.1.7",
-              "status": "unaffected",
+              "version": "0.0.0-20160105034737-a6904155f628",
+              "lessThan": "1.22.1-0.20260720194454-0cb017f6870a",
               "versionType": "semver"
             }
-          ]
-        },
-        {
-          "vendor": "uvdesk",
-          "product": "community-skeleton",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/uvdesk/community-skeleton",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.1.8"
-            },
-            {
-              "version": "1.1.8",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-129: Improper Validation of Array Index"
+      ],
+      "cwe_ids": [
+        "CWE-129"
       ]
     },
     {
-      "id": "CVE-2025-71420",
-      "publishedDate": "2026-09-21T13:43:34.312Z",
-      "lastModifiedDate": "2026-09-21T13:43:34.312Z",
-      "description": "UVdesk core-framework before 1.1.7 contains an authorization bypass vulnerability in the saved reply endpoint that allows authenticated agents to access replies restricted to other support groups. Attackers with ROLE_AGENT can enumerate saved reply identifiers and read content reserved for groups and teams they do not belong to.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：uvdesk core-framework\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-65651",
+      "publishedDate": "2026-09-21T11:34:05.930Z",
+      "lastModifiedDate": "2026-09-21T15:31:05.352Z",
+      "description": "temporalio/sqlparser accepts SQL containing deeply nested unary expressions and can return a correspondingly deep abstract syntax tree without enforcing an applicable nesting limit. The library's String and Walk operations recursively traverse that tree. An application that parses attacker-controlled SQL and later formats or walks the returned tree can encounter a runtime-fatal Go stack overflow that terminates the process; Go panic recovery cannot contain this condition. Temporal Server passes caller-controlled query input through the affected parser in archival, visibility, and worker-query paths. In affected validation paths, the Server recursively formats an invalid expression while constructing an error. In a supported authenticated deployment, a caller with namespace read permission can terminate the receiving Frontend or Matching process. The dynamically confirmed ListWorkers route additionally requires at least one retained worker heartbeat. Repeated requests can sustain a denial of service. The issue affects availability only; no confidentiality or integrity impact was identified.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/sqlparser\n🔓 漏洞类型：CWE-674 (CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/uvdesk/core-framework/commit/de0422869708eb17a54bf6a98166abb80c0d483d",
+          "url": "https://github.com/temporalio/sqlparser/commit/1aae9baceee8e48525da8f56b07bf6a5ca7eb147",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/blob/v1.1.6/Services/TicketService.php#L1752-L1759",
+          "url": "https://github.com/temporalio/sqlparser/pull/6",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/blob/v1.1.6/Controller/TicketXHR.php#L838-L850",
+          "url": "https://github.com/temporalio/sqlparser/commit/0466b6b405accfaa781e4bef417933efc18bcaef",
           "type": "reference"
         },
         {
-          "url": "https://hackmd.io/@leediay/B1Cz5voFGg",
+          "url": "https://github.com/temporalio/sqlparser/tree/v0.1.0",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework/releases/tag/v1.1.7",
+          "url": "https://github.com/temporalio/sqlparser/pull/7",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/community-skeleton/releases/tag/v1.1.8",
+          "url": "https://github.com/temporalio/temporal/pull/11202",
           "type": "reference"
         },
         {
-          "url": "https://github.com/uvdesk/core-framework",
+          "url": "https://github.com/temporalio/temporal/blob/v0.10.0/common/archiver/filestore/queryParser.go#L77-L132",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/uvdesk-core-framework-before-1.1.7-authorization-bypass-via-saved-reply",
+          "url": "https://github.com/temporalio/temporal/releases/tag/v1.30.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/releases/tag/v1.31.3",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "uvdesk",
-          "product": "core-framework",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/uvdesk/core-framework",
-          "versions": [
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "temporalio/sqlparser",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "github.com/temporalio/sqlparser",
+          "repo": "https://github.com/temporalio/sqlparser",
+          "modules": [
+            "AST",
+            "Parser"
+          ],
+          "programFiles": [
+            "ast.go",
+            "sql.y"
+          ],
+          "programRoutines": [
             {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.1.7"
+              "name": "Parse"
             },
             {
-              "version": "1.1.7",
-              "status": "unaffected",
+              "name": "ParseStrictDDL"
+            },
+            {
+              "name": "ParseNext"
+            },
+            {
+              "name": "String"
+            },
+            {
+              "name": "Walk"
+            },
+            {
+              "name": "UnaryExpr.Format"
+            }
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0.0.0-20141206041240-1aae9baceee8",
+              "lessThan": "0.0.0-20260721183058-0466b6b405ac",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         },
         {
-          "vendor": "uvdesk",
-          "product": "community-skeleton",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:composer/uvdesk/community-skeleton",
-          "versions": [
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "Temporal Server",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "go.temporal.io/server",
+          "repo": "https://github.com/temporalio/temporal",
+          "modules": [
+            "Archival",
+            "Frontend",
+            "Matching",
+            "Visibility"
+          ],
+          "programFiles": [
+            "common/archiver/filestore/queryParser.go",
+            "common/persistence/visibility/store/query/converter.go",
+            "common/persistence/visibility/store/sql/query_converter.go",
+            "service/matching/workers/worker_query_engine.go"
+          ],
+          "programRoutines": [
             {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "1.1.8"
+              "name": "queryParser.convertComparisonExpr"
             },
             {
-              "version": "1.1.8",
-              "status": "unaffected",
+              "name": "QueryConverter.convertComparisonExpr"
+            },
+            {
+              "name": "comparisonExprConverter.Convert"
+            },
+            {
+              "name": "workerQueryEngine.evaluateComparison"
+            }
+          ],
+          "versions": [
+            {
+              "status": "unknown",
+              "version": "0.0.0",
+              "lessThan": "0.10.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "0.10.0",
+              "lessThanOrEqual": "1.29.7",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "1.30.0",
+              "lessThan": "1.30.7",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "1.31.0",
+              "lessThan": "1.31.3",
               "versionType": "semver"
             }
+          ],
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:2.3:a:temporal:temporal:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "Authorization Bypass Through User-Controlled Key"
+        "CWE-674: Uncontrolled Recursion"
+      ],
+      "cwe_ids": [
+        "CWE-674"
+      ]
+    },
+    {
+      "id": "CVE-2026-16651",
+      "publishedDate": "2026-09-21T11:32:44.699Z",
+      "lastModifiedDate": "2026-09-21T15:32:34.656Z",
+      "description": "temporalio/sqlparser can panic when Parse, ParseStrictDDL, or ParseNext processes a MySQL version comment whose contents are empty or consist only of one to five decimal digits. ExtractMysqlComment does not check the -1 result returned by strings.IndexFunc before using it as a slice boundary. The resulting Go runtime panic propagates unless the caller recovers it on the parsing goroutine, so applications that parse attacker-controlled SQL can terminate. Temporal Server exposes the affected parser through ListWorkers. When that API is enabled, an authenticated caller with namespace read permission can submit a malformed query that terminates the receiving Matching process. Repeated requests can sustain a denial of service. The issue affects availability only; no confidentiality or integrity impact was identified.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. temporalio/sqlparser\n🔓 漏洞类型：CWE-129 (CWE-129)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/temporalio/sqlparser/pull/5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/sqlparser/commit/74181ffcbaaf0c52faa925f4cf27ed6c0c2be86f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/sqlparser/tree/v0.1.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/pull/11190",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/pull/11090",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/releases/tag/v1.30.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/releases/tag/v1.31.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "temporalio/sqlparser",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "github.com/temporalio/sqlparser",
+          "repo": "https://github.com/temporalio/sqlparser",
+          "modules": [
+            "Parser"
+          ],
+          "programFiles": [
+            "comments.go",
+            "token.go"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0.0.0-20180604150908-b055e9c9b4fa",
+              "lessThan": "0.0.0-20260721183040-74181ffcbaaf",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "programRoutines": [
+            {
+              "name": "ExtractMysqlComment"
+            },
+            {
+              "name": "Tokenizer.scanMySQLSpecificComment"
+            },
+            {
+              "name": "Parse"
+            },
+            {
+              "name": "ParseStrictDDL"
+            },
+            {
+              "name": "ParseNext"
+            }
+          ]
+        },
+        {
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "Temporal Server",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "go.temporal.io/server",
+          "repo": "https://github.com/temporalio/temporal",
+          "modules": [
+            "Matching"
+          ],
+          "programFiles": [
+            "service/matching/handler.go",
+            "service/matching/workers/worker_query_engine.go"
+          ],
+          "programRoutines": [
+            {
+              "name": "Handler.ListWorkers"
+            },
+            {
+              "name": "getWhereCause"
+            }
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.29.0",
+              "lessThanOrEqual": "1.29.7",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "1.30.0",
+              "lessThan": "1.30.7",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "1.31.0",
+              "lessThan": "1.31.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:2.3:a:temporal:temporal:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-129: Improper Validation of Array Index"
+      ],
+      "cwe_ids": [
+        "CWE-129"
+      ]
+    },
+    {
+      "id": "CVE-2026-16652",
+      "publishedDate": "2026-09-21T11:23:47.298Z",
+      "lastModifiedDate": "2026-09-21T15:33:15.387Z",
+      "description": "Temporal Server did not bound the work performed while searching for a Schedule's next action time. An authenticated caller with namespace write permission could create or update a Schedule that combines a fine-grained cadence with an exclusion calendar that rejects every candidate time, causing the server to evaluate excluded candidates without a per-search work budget. This can consume excessive CPU in Frontend and Schedule worker components. A persisted specification can also cause its backing Schedule Workflow to repeatedly fail and retry, allowing CPU consumption to continue without additional requests until the Schedule is deleted or its backing Workflow is terminated. Repeated or parallel exploitation can deny service. The issue affects availability only; it does not expose or modify Workflow data.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Temporal Technologies, Inc. Temporal Server\n🔓 漏洞类型：CWE-606 (CWE-606)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/temporalio/temporal/pull/11014",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/commit/c10c730e53ae394fffaefe44ba3722150fe40720",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/releases/tag/v1.30.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/temporalio/temporal/releases/tag/v1.31.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Temporal Technologies, Inc.",
+          "product": "Temporal Server",
+          "collectionURL": "https://pkg.go.dev",
+          "packageName": "go.temporal.io/server",
+          "repo": "https://github.com/temporalio/temporal",
+          "modules": [
+            "Schedules"
+          ],
+          "programFiles": [
+            "service/worker/scheduler/spec.go"
+          ],
+          "programRoutines": [
+            {
+              "name": "CompiledSpec.GetNextTime"
+            }
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.17.0",
+              "lessThanOrEqual": "1.29.7",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "1.30.0",
+              "lessThan": "1.30.7",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "1.31.0",
+              "lessThan": "1.31.3",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:2.3:a:temporal:temporal:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-606: Unchecked Input for Loop Condition"
+      ],
+      "cwe_ids": [
+        "CWE-606"
       ]
     }
   ]
