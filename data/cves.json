@@ -2,729 +2,346 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 12,
-    "last_updated": "2026-09-22T19:07:23.497740",
+    "total_count": 9,
+    "last_updated": "2026-09-22T22:03:52.869527",
     "severity_distribution": {
-      "critical": 2,
-      "high": 2,
+      "critical": 0,
+      "high": 4,
       "medium": 4,
       "low": 0,
-      "none": 4
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-57149",
-      "publishedDate": "2026-09-22T19:02:03.791Z",
-      "lastModifiedDate": "2026-09-22T19:02:03.791Z",
-      "description": "plone.app.portlets.portlets provides a Plone-specific user interface for plone.portlets, as well as a standard set of portlets that ship with Plone. Starting in version 5.0.0 and prior to versions 5.0.8, 6.0.4, and 7.0.2, the Classic portlet (plone.app.portlets.portlets.classic) used its user-supplied template/macro fields to build a TALES path expression that was then evaluated by the TAL path() helper. Because the value was interpreted as a full TALES expression, a user able to add or edit a Classic portlet could supply a crafted value that escapes simple path traversal and is evaluated as arbitrary code. This is exploitable by any authenticated user who can configure a Classic portlet - which, with the default role map, includes regular users on their personal dashboard. The result is code execution in the context of the Plone process, i.e. a privilege escalation across the trust boundary between an authenticated web user and the server-side process. The problem has been patched in `plone.app.portlets` 5.0.8, 6.0.4, and 7.0.2. Some workarounds are available.  Restrict who can manage portlets: remove the `plone.app.portlets.ManageOwnPortlets` permission from untrusted roles, and limit Manage portlets to trusted administrators (usually this is already restricted to the Manager and Site Administrator roles).  Where the Classic portlet is not needed, unregister it so it cannot be added. This would need to be done by editing a `portlets.xml` in your own code. One may also effectively disable showing the classic portlet by customising its template. In the Zope Management Interface go to the `portal_view_customizations` tool, locate the `classic.pt` template and click it. Click the Customize button.  Remove all text and replace it with `<div>The classic portlet was disabled.</div>`. (This is not a recommended way of customizing a template, but in this case it is quite effective.)",
-      "severity": 9.9,
-      "fix_suggestion": "📦 受影响组件：plone plone.app.portlets\n🔓 漏洞类型：CWE-95 (CWE-95)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-18095",
+      "publishedDate": "2026-09-22T21:45:51.190Z",
+      "lastModifiedDate": "2026-09-22T21:45:51.190Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote authenticated attacker to execute arbitrary code due to a buffer overflow.",
+      "severity": 8.5,
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/plone/plone.app.portlets/security/advisories/GHSA-rr49-f9g6-c9r5",
+          "url": "https://www.ibm.com/support/pages/node/7288641",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "plone",
-          "product": "plone.app.portlets",
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
           "versions": [
             {
-              "version": ">= 7.0.0, < 7.0.2",
-              "status": "affected"
-            },
-            {
-              "version": ">= 6.0.0, < 6.0.4",
-              "status": "affected"
-            },
-            {
-              "version": ">= 5.0.0, < 5.0.8",
-              "status": "affected"
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"
+        "CWE-787 Out-of-bounds Write"
       ],
       "cwe_ids": [
-        "CWE-95"
+        "CWE-787"
       ]
     },
     {
-      "id": "CVE-2026-77254",
-      "publishedDate": "2026-09-22T18:11:44.666Z",
-      "lastModifiedDate": "2026-09-22T19:04:36.353Z",
-      "description": "MCP Atlassian is a Model Context Protocol (MCP) server for Atlassian products (Confluence and Jira). Prior to 0.22.0, requests to the HTTP MCP endpoint without a per-user identity are allowed to reach tool handlers, which then use globally configured Jira or Confluence credentials. A network caller can perform operations with the operator account's permissions unless the deployment has an independent authentication boundary. The advisory traces the vulnerable input and processing flow through streamable-http, UserTokenMiddleware, _get_fetcher, and global credentials, which identify the affected entry points, controls, and code paths. This issue is fixed in version 0.22.0.",
-      "severity": 9.1,
-      "fix_suggestion": "📦 受影响组件：sooperset mcp-atlassian\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-18131",
+      "publishedDate": "2026-09-22T21:47:32.871Z",
+      "lastModifiedDate": "2026-09-22T21:47:32.871Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to execute arbitrary JavaScript in an authenticated user's browser due to improper neutralization of HTML input.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/sooperset/mcp-atlassian/security/advisories/GHSA-vc8m-84rp-53hx",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/pull/1448",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/commit/b041733473f95119dd539542a43c280737a8e460",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/releases/tag/v0.22.0",
+          "url": "https://www.ibm.com/support/pages/node/7288641",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "sooperset",
-          "product": "mcp-atlassian",
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
           "versions": [
             {
-              "version": "< 0.22.0",
-              "status": "affected"
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-306: Missing Authentication for Critical Function"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
       ],
       "cwe_ids": [
-        "CWE-306"
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-77243",
-      "publishedDate": "2026-09-22T17:57:26.122Z",
-      "lastModifiedDate": "2026-09-22T19:02:45.226Z",
-      "description": "MCP Atlassian is a Model Context Protocol (MCP) server for Atlassian products (Confluence and Jira). Prior to 0.22.0, ENABLED_TOOLS and TOOLSETS are applied when tools are listed but are not rechecked when a tools/call request is dispatched. A client that knows a hidden tool name can directly invoke excluded read, write, or delete tools despite the operator's configured least-privilege restrictions. The advisory traces the vulnerable input and processing flow through ENABLED_TOOLS, TOOLSETS, tools/list, tools/call, and _call_tool_mcp, which identify the affected entry points, controls, and code paths. This issue is fixed in version 0.22.0.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：sooperset mcp-atlassian\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-18074",
+      "publishedDate": "2026-09-22T21:45:23.401Z",
+      "lastModifiedDate": "2026-09-22T21:45:23.401Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to perform unauthorized actions due to improper authentication and missing authorization.",
+      "severity": 8.2,
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/sooperset/mcp-atlassian/security/advisories/GHSA-3r68-hf9h-887v",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/pull/1448",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/commit/b041733473f95119dd539542a43c280737a8e460",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/releases/tag/v0.22.0",
+          "url": "https://www.ibm.com/support/pages/node/7288641",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "sooperset",
-          "product": "mcp-atlassian",
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
           "versions": [
             {
-              "version": "< 0.22.0",
-              "status": "affected"
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-862: Missing Authorization"
+        "CWE-287 Improper Authentication"
+      ],
+      "cwe_ids": [
+        "CWE-287"
+      ]
+    },
+    {
+      "id": "CVE-2026-18123",
+      "publishedDate": "2026-09-22T21:46:43.220Z",
+      "lastModifiedDate": "2026-09-22T21:46:43.220Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to cause a denial of service due to the improper use of reflection with externally controlled input.",
+      "severity": 7.6,
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：CWE-470 (CWE-470)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7288641",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-470 Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+      ],
+      "cwe_ids": [
+        "CWE-470"
+      ]
+    },
+    {
+      "id": "CVE-2026-18132",
+      "publishedDate": "2026-09-22T21:48:01.266Z",
+      "lastModifiedDate": "2026-09-22T21:48:01.266Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote authenticated attacker to perform unauthorized payment mutation actions due to missing authorization.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7288641",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
       ],
       "cwe_ids": [
         "CWE-862"
       ]
     },
     {
-      "id": "CVE-2026-84395",
-      "publishedDate": "2026-09-22T18:58:12.860Z",
-      "lastModifiedDate": "2026-09-22T18:58:12.860Z",
-      "description": "Premiere Pro [NEEDS REVIEW: environment mismatch — product 'Premiere Pro' is only known to appear in the 'Bucket A' bucket but environment_type 'Desktop' is in the 'Bucket A' bucket. This changes the exploitation clause and/or ATO eligibility — verify before publishing.] is affected by a Server-Side Request Forgery (SSRF) vulnerability that could result in privilege escalation. Exploitation of this issue does not require user interaction. Scope is changed.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：Adobe Premiere\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://helpx.adobe.com/security/products/premiere_pro/apsb26-157.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Premiere",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "26.3.2",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "26.5",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "defaultStatus": "unaffected",
-          "product": "Premiere",
-          "vendor": "Adobe",
-          "versions": [
-            {
-              "lessThanOrEqual": "25.6.5",
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver"
-            },
-            {
-              "status": "unaffected",
-              "version": "25.6.6",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF) (CWE-918)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ]
-    },
-    {
-      "id": "CVE-2026-77399",
-      "publishedDate": "2026-09-22T18:58:56.647Z",
-      "lastModifiedDate": "2026-09-22T18:58:56.647Z",
-      "description": "icalendar is an RFC 5545 compatible parser and generator of iCalendar files for Python. From 6.1.0 until 7.2.2, vInt.from_ical accepts an attacker-controlled VALARM REPEAT value and applications that request alarm times can eagerly expand it without an application-level limit. Alarms.times and Alarms.active reach the unbounded expansion in versions starting with 6.1.0, while Alarm.triggers adds a second affected path starting with 7.0.0. Parsing alone does not trigger the issue, but accessing these properties can consume excessive CPU time and heap memory and terminate or stall a service. This issue is fixed in version 7.2.2.",
+      "id": "CVE-2026-18124",
+      "publishedDate": "2026-09-22T21:47:08.403Z",
+      "lastModifiedDate": "2026-09-22T21:47:08.403Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a local attacker to obtain sensitive information due to insufficiently protected credentials.",
       "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：collective icalendar\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-834 (CWE-400, CWE-834)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：CWE-522 (CWE-522)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/collective/icalendar/security/advisories/GHSA-qjcq-q7h7-r74v",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/collective/icalendar/pull/1571",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/collective/icalendar/commit/157f85137c65565a308bbcf4fdcc7d8ebce01267",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/collective/icalendar/commit/cddd37226adbc52cca52a399f61d38a378221219",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/collective/icalendar/releases/tag/v7.2.2",
+          "url": "https://www.ibm.com/support/pages/node/7288641",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "collective",
-          "product": "icalendar",
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
           "versions": [
             {
-              "version": ">= 6.1.0, < 7.2.2",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-834: Excessive Iteration"
-      ],
-      "cwe_ids": [
-        "CWE-400",
-        "CWE-834"
-      ]
-    },
-    {
-      "id": "CVE-2026-95660",
-      "publishedDate": "2026-09-22T18:00:11.243Z",
-      "lastModifiedDate": "2026-09-22T19:05:35.649Z",
-      "description": "A security flaw has been discovered in Moonshot AI Kimi Code up to 0.31.0. The affected element is an unknown function of the file agent-core-v2/src/agent/mcp/config-loader.ts of the component MCP Configuration Loader. The manipulation results in os command injection. The attack may be launched remotely. The exploit has been released to the public and may be used for attacks. Upgrading to version 0.31.1 is sufficient to fix this issue. It is recommended to upgrade the affected component. Beyond the trust prompt, the fix resolves fd/stty binaries to absolute paths specifically \"so untrusted workspaces cannot plant bare-name executables before confirmation,\" fixing a secondary $PATH path-planting vector alongside the primary untrusted-.mcp.json auto-spawn.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：Moonshot AI Kimi Code\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/408415",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/408415/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-95660",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/897071",
-          "type": "reference"
-        },
-        {
-          "url": "https://docs.google.com/document/d/1GPDw0UzUkgfXRkWEDqCIanKDq3Tpvllyf08O-0eLyoQ/edit?usp=sharing",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/MoonshotAI/kimi-code/releases/tag/%40moonshot-ai%2Fkimi-code%400.31.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Moonshot AI",
-          "product": "Kimi Code",
-          "versions": [
-            {
-              "version": "0.1",
-              "status": "affected"
-            },
-            {
-              "version": "0.2",
-              "status": "affected"
-            },
-            {
-              "version": "0.3",
-              "status": "affected"
-            },
-            {
-              "version": "0.4",
-              "status": "affected"
-            },
-            {
-              "version": "0.5",
-              "status": "affected"
-            },
-            {
-              "version": "0.6",
-              "status": "affected"
-            },
-            {
-              "version": "0.7",
-              "status": "affected"
-            },
-            {
-              "version": "0.8",
-              "status": "affected"
-            },
-            {
-              "version": "0.9",
-              "status": "affected"
-            },
-            {
-              "version": "0.10",
-              "status": "affected"
-            },
-            {
-              "version": "0.11",
-              "status": "affected"
-            },
-            {
-              "version": "0.12",
-              "status": "affected"
-            },
-            {
-              "version": "0.13",
-              "status": "affected"
-            },
-            {
-              "version": "0.14",
-              "status": "affected"
-            },
-            {
-              "version": "0.15",
-              "status": "affected"
-            },
-            {
-              "version": "0.16",
-              "status": "affected"
-            },
-            {
-              "version": "0.17",
-              "status": "affected"
-            },
-            {
-              "version": "0.18",
-              "status": "affected"
-            },
-            {
-              "version": "0.19",
-              "status": "affected"
-            },
-            {
-              "version": "0.20",
-              "status": "affected"
-            },
-            {
-              "version": "0.21",
-              "status": "affected"
-            },
-            {
-              "version": "0.22",
-              "status": "affected"
-            },
-            {
-              "version": "0.23",
-              "status": "affected"
-            },
-            {
-              "version": "0.24",
-              "status": "affected"
-            },
-            {
-              "version": "0.25",
-              "status": "affected"
-            },
-            {
-              "version": "0.26",
-              "status": "affected"
-            },
-            {
-              "version": "0.27",
-              "status": "affected"
-            },
-            {
-              "version": "0.28",
-              "status": "affected"
-            },
-            {
-              "version": "0.29",
-              "status": "affected"
-            },
-            {
-              "version": "0.30",
-              "status": "affected"
-            },
-            {
-              "version": "0.31.0",
-              "status": "affected"
-            },
-            {
-              "version": "0.31.1",
-              "status": "unaffected"
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:moonshot_ai:kimi_code:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "MCP Configuration Loader"
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "OS Command Injection",
-        "Command Injection"
+        "CWE-522 Insufficiently Protected Credentials"
+      ],
+      "cwe_ids": [
+        "CWE-522"
       ]
     },
     {
-      "id": "CVE-2026-91129",
-      "publishedDate": "2026-09-22T19:05:15.559Z",
-      "lastModifiedDate": "2026-09-22T19:05:15.559Z",
-      "description": "Home Assistant is open source home automation software focused on local control and privacy. Prior to 2026.2.3, the IPP integration automatically processed unauthenticated _ipp._tcp.local mDNS announcements in homeassistant/components/ipp/config_flow.py, where async_step_zeroconf passed attacker-controlled host, port, and base_path values to validate_input for printer metadata retrieval. Because the shared HTTP client followed attacker-controlled cross-origin redirects without blocking loopback targets, a local-network attacker could redirect the request to 127.0.0.1 or another internal service without user interaction or prior IPP configuration. This issue is fixed in version 2026.2.3.",
+      "id": "CVE-2026-18114",
+      "publishedDate": "2026-09-22T21:46:17.767Z",
+      "lastModifiedDate": "2026-09-22T21:46:17.767Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote attacker to read arbitrary files due to improper path canonicalization.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.ibm.com/support/pages/node/7288641",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ],
+      "cwe_ids": [
+        "CWE-22"
+      ]
+    },
+    {
+      "id": "CVE-2026-18133",
+      "publishedDate": "2026-09-22T21:50:02.823Z",
+      "lastModifiedDate": "2026-09-22T21:50:02.823Z",
+      "description": "IBM Financial Transaction Manager (FTM) for RedHat OpenShift could allow a remote authenticated attacker to modify server files due to path traversal.",
       "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：home-assistant core\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：IBM Financial Transaction Manager (FTM) for RedHat OpenShift\n🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/home-assistant/core/security/advisories/GHSA-4ghv-53cq-7wp3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/core/pull/162941",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/core/commit/0f3c7ca2772b605c0f3c09c88f35e527ea6ea560",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/core/commit/815c708d19aa0c7f59f9ee318b613a5e481a42b3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/core/releases/tag/2026.2.3",
+          "url": "https://www.ibm.com/support/pages/node/7288641",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "home-assistant",
-          "product": "core",
+          "vendor": "IBM",
+          "product": "Financial Transaction Manager (FTM) for RedHat OpenShift",
           "versions": [
             {
-              "version": "< 2026.2.3",
-              "status": "affected"
+              "status": "affected",
+              "version": "4.0.6.0",
+              "lessThanOrEqual": "4.0.6.0.0.6.0 Refresh (Operator 4.4.6+20260807.081800)4.0.7.04.0.8.04.0.9.04.0.10.0 Interim Fix 064",
+              "versionType": "semver"
             }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ]
-    },
-    {
-      "id": "CVE-2026-63386",
-      "publishedDate": "2026-09-22T19:00:19.734Z",
-      "lastModifiedDate": "2026-09-22T19:00:19.734Z",
-      "description": "js-toml is a TOML parser for JavaScript. Prior to 1.1.3, load() does not bound nesting or dotted-key depth in the recursive parser at src/load/parser.ts or the interpreter at src/load/interpreter.ts, so deeply nested arrays, deeply nested inline tables, or long dotted keys can exhaust the V8 call stack and throw a raw RangeError instead of the documented SyntaxParseError. Applications that parse attacker-controlled TOML and handle only SyntaxParseError can rethrow the unexpected exception, which can terminate a worker or process and cause denial of service. The exception is synchronous and catchable by consumers that handle all exceptions, and the issue does not affect confidentiality or integrity. This issue is fixed in version 1.1.3.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：sunnyadn js-toml\n🔓 漏洞类型：CWE-674 (CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/sunnyadn/js-toml/security/advisories/GHSA-3g82-77xr-68x5",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sunnyadn/js-toml/commit/4e10acf1f99ff3cb443c58b8f0a57664e41e87c6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sunnyadn/js-toml/releases/tag/v1.1.3",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "sunnyadn",
-          "product": "js-toml",
-          "versions": [
-            {
-              "version": "< 1.1.3",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-674: Uncontrolled Recursion"
-      ],
-      "cwe_ids": [
-        "CWE-674"
-      ]
-    },
-    {
-      "id": "CVE-2026-91130",
-      "publishedDate": "2026-09-22T19:02:38.916Z",
-      "lastModifiedDate": "2026-09-22T19:02:38.916Z",
-      "description": "Home Assistant is open source home automation software focused on local control and privacy. Prior to 2026.7.0, the Statistics Graph card in src/components/chart/statistics-chart.ts passed entity names through getStatisticLabel and computeStateName and interpolated param.seriesName into ECharts tooltip HTML without escaping. An authenticated user or an integration that supplies a malicious default entity name could cause script-related HTML to execute when a viewer hovered over a data point. Mean, State, Sum, and Change fields in the default Line chart configuration were affected, while Bar charts were not. This issue is fixed in version 2026.7.0.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：home-assistant core\n🔓 漏洞类型：CWE-80 (CWE-80)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/home-assistant/core/security/advisories/GHSA-wx4m-69m9-gx3m",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/frontend/pull/52235",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/frontend/commit/b8c201b6d34414d30c622797366570185c219614",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/home-assistant/core/releases/tag/2026.7.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "home-assistant",
-          "product": "core",
-          "versions": [
-            {
-              "version": "< 2026.7.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-80: Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)"
-      ],
-      "cwe_ids": [
-        "CWE-80"
-      ]
-    },
-    {
-      "id": "CVE-2026-77247",
-      "publishedDate": "2026-09-22T18:34:32.251Z",
-      "lastModifiedDate": "2026-09-22T19:02:33.359Z",
-      "description": "MCP Atlassian is a Model Context Protocol (MCP) server for Atlassian products (Confluence and Jira). Prior to 0.22.0, Jira and Confluence upload tools interpret caller-controlled path arguments on the MCP server and open those files before sending them as attachments. In remote or multi-user deployments, a permitted client can disclose host files without shell or direct filesystem access. The advisory traces the vulnerable input and processing flow through AttachmentsMixin.upload_attachment, AttachmentsMixin.upload_attachments, file_path, file_paths, and jira update_issue, which identify the affected entry points, controls, and code paths. This issue is fixed in version 0.22.0.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：sooperset mcp-atlassian\n🔓 漏洞类型：CWE-73 (CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/security/advisories/GHSA-f6pj-qv47-g96w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/pull/1448",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/commit/b041733473f95119dd539542a43c280737a8e460",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sooperset/mcp-atlassian/releases/tag/v0.22.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "sooperset",
-          "product": "mcp-atlassian",
-          "versions": [
-            {
-              "version": "< 0.22.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-73: External Control of File Name or Path"
-      ],
-      "cwe_ids": [
-        "CWE-73"
-      ]
-    },
-    {
-      "id": "CVE-2026-11388",
-      "publishedDate": "2026-09-22T17:50:15.591Z",
-      "lastModifiedDate": "2026-09-22T18:59:02.971Z",
-      "description": "Double Free vulnerability in RTI Connext Professional (Core Libraries) allows File Manipulation. This issue affects Connext Professional: from 7.4.0 before 7.7.0.1, from 7.1.0 before 7.3.1.6.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：RTI Connext Professional\n🔓 漏洞类型：CWE-415 (CWE-415)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.rti.com/vulnerabilities/#cve-2026-11388",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "modules": [
-            "Core Libraries"
           ],
-          "product": "Connext Professional",
-          "packageName": "connext_professional",
-          "packageURL": "pkg:generic/connext_professional",
-          "vendor": "RTI",
-          "versions": [
-            {
-              "lessThan": "7.7.0.1",
-              "status": "affected",
-              "version": "7.4.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "7.3.1.6",
-              "status": "affected",
-              "version": "7.1.0",
-              "versionType": "custom"
-            }
+          "cpes": [
+            "cpe:2.3:a:ibm:financial_transaction_manager_ftmfor_redhat_openshift:4.0.6.0:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-415 Double Free"
+        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
       ],
       "cwe_ids": [
-        "CWE-415"
+        "CWE-22"
       ]
     },
     {
-      "id": "CVE-2026-7866",
-      "publishedDate": "2026-09-22T17:50:13.857Z",
-      "lastModifiedDate": "2026-09-22T19:05:51.079Z",
-      "description": "Stack-based Buffer Overflow vulnerability in RTI Connext Professional (Core Libraries) allows Overflow Buffers. This issue affects Connext Professional: from 7.4.0 before 7.7.0.1, from 7.0.0 before 7.3.1.6, from 6.1.0 before 6.1.*, from 6.0.0 before 6.0.*, from 5.3.0 before 5.3.*, from 5.2.0 before 5.2.*, from 4.3x before 5.1.*.",
+      "id": "CVE-2026-19202",
+      "publishedDate": "2026-09-22T21:48:26.539Z",
+      "lastModifiedDate": "2026-09-22T21:48:26.539Z",
+      "description": "A caching flaw in the toolbox-core package of the mcp-toolbox-sdk-python SDK causes the same Google ID token to be cached and reused across different audiences. If an application uses the SDK to authenticate to two or more different audiences within the same process, the module-level token cache fails to key its cached tokens by the requested audience. Consequently, a valid, unexpired token minted for a sensitive service (Service A) can be retrieved from the cache and sent to a secondary service (Service B). An attacker who operates, compromises, or monitors traffic to Service B can capture this token and replay it to impersonate the victim application against Service A.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：RTI Connext Professional\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Google mcp-toolbox-sdk-python\n🔓 漏洞类型：CWE-524 (CWE-524)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.rti.com/vulnerabilities/#cve-2026-7866",
+          "url": "https://github.com/googleapis/mcp-toolbox-sdk-python/pull/675",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unaffected",
-          "modules": [
-            "Core Libraries"
-          ],
-          "product": "Connext Professional",
-          "packageName": "connext_professional",
-          "packageURL": "pkg:generic/connext_professional",
-          "vendor": "RTI",
+          "vendor": "Google",
+          "product": "mcp-toolbox-sdk-python",
           "versions": [
             {
-              "lessThan": "7.7.0.1",
               "status": "affected",
-              "version": "7.4.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "7.3.1.6",
-              "status": "affected",
-              "version": "7.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "6.1.*",
-              "status": "affected",
-              "version": "6.1.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "6.0.*",
-              "status": "affected",
-              "version": "6.0.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "5.3.*",
-              "status": "affected",
-              "version": "5.3.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "5.2.*",
-              "status": "affected",
-              "version": "5.2.0",
-              "versionType": "custom"
-            },
-            {
-              "lessThan": "5.1.*",
-              "status": "affected",
-              "version": "4.3x",
+              "version": "0",
+              "lessThanOrEqual": "1.1.0",
               "versionType": "custom"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-121 Stack-based Buffer Overflow"
+        "CWE-524: Use of a Shared Cache with Insufficient Key Granularity"
       ],
       "cwe_ids": [
-        "CWE-121"
+        "CWE-524"
       ]
     }
   ]
