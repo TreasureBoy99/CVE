@@ -2,175 +2,158 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 7,
-    "last_updated": "2026-09-27T17:00:28.070899",
+    "total_count": 3,
+    "last_updated": "2026-09-27T20:02:05.740459",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 3,
+      "medium": 0,
       "low": 0,
-      "none": 4
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-101050",
-      "publishedDate": "2026-09-27T16:28:28.766Z",
-      "lastModifiedDate": "2026-09-27T16:33:43.037Z",
-      "description": "Heym before 0.0.53 fails to verify the X-Telegram-Bot-Api-Secret-Token header on Telegram webhook endpoints when credential_id is absent or secret_token is empty. Remote unauthenticated attackers can post forged Telegram updates to trigger workflows with the owner's configured credentials and execute actions on attacker-supplied input.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：heymrun heym\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/heymrun/heym/security/advisories/GHSA-pm6h-x3h5-j38h",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/heymrun/heym/commit/341d1012367cd74f85c617e1c98dd49e3fcb5e83",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/heym-before-0.0.53-authentication-bypass-via-telegram-webhook",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "heymrun",
-          "product": "heym",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.0.53"
-            },
-            {
-              "version": "0.0.53",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authentication"
-      ]
-    },
-    {
-      "id": "CVE-2026-101049",
-      "publishedDate": "2026-09-27T16:28:28.128Z",
-      "lastModifiedDate": "2026-09-27T16:33:42.372Z",
-      "description": "Heym before 0.0.53 fails to verify Slack request signatures when trigger nodes lack credential IDs or have empty signing secrets. Remote unauthenticated attackers can send forged Slack events to known webhook URLs to trigger workflows with the owner's credentials.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：heymrun heym\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/heymrun/heym/security/advisories/GHSA-pm6h-x3h5-j38h",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/heymrun/heym/commit/341d1012367cd74f85c617e1c98dd49e3fcb5e83",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/heym-before-0.0.53-slack-webhook-signature-verification-bypass",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "heymrun",
-          "product": "heym",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "0.0.53"
-            },
-            {
-              "version": "0.0.53",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authentication"
-      ]
-    },
-    {
-      "id": "CVE-2026-101042",
-      "publishedDate": "2026-09-27T16:28:27.452Z",
-      "lastModifiedDate": "2026-09-27T16:33:41.746Z",
-      "description": "Parse Server is an open-source backend server. In versions >= 9.0.0 < 9.10.1-alpha.10 and >= 8.0.2 < 8.6.91, the code-based authentication adapters (GitHub, Google Play Games, Instagram, LINE, LinkedIn, Microsoft, QQ, Spotify, WeChat, Weibo) verify the client's authorization code with the external provider on signup and on provider linking, but not when authentication data is supplied together with a username and password on the login endpoint. As a result, a low-privileged authenticated user can attach an arbitrary, unverified provider identity to their own account without the provider ever being contacted, spoofing an external identity toward application logic that trusts the linked provider ID. An attacker can also pre-hijack accounts: by claiming the provider ID of a victim who has not yet linked that provider, the victim's later legitimate sign-in with that provider resolves to the attacker's account. Only deployments configuring one of the affected code-based auth adapters are impacted. Versions 9.10.1-alpha.10 and 8.6.91 fix the issue by running the adapter's credential verification on the login and challenge endpoints and rejecting a provider identity already linked to another user. As a workaround, disable the affected code-based auth adapters.",
-      "severity": 6.4,
-      "fix_suggestion": "📦 受影响组件：parse-community parse-server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-mr43-w6c2-mvjq",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/parse-server-9.0.0-authentication-bypass-via-unverified-provider-identity",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "parse-community",
-          "product": "parse-server",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/parse-server",
-          "versions": [
-            {
-              "version": "9.0.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "9.10.1-alpha.10"
-            },
-            {
-              "version": "9.10.1-alpha.10",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "parse-community",
-          "product": "parse-server",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:npm/parse-server",
-          "versions": [
-            {
-              "version": "8.0.2",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "8.6.91"
-            },
-            {
-              "version": "8.6.91",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Authentication"
-      ]
-    },
-    {
-      "id": "CVE-2026-88778",
-      "publishedDate": "2026-09-27T16:43:16.503Z",
-      "lastModifiedDate": "2026-09-27T16:43:16.503Z",
-      "description": "Predictable exact value from previous values vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23.",
+      "id": "CVE-2026-96279",
+      "publishedDate": "2026-09-27T19:49:17.239Z",
+      "lastModifiedDate": "2026-09-27T19:54:11.500Z",
+      "description": "A malicious OCI registry can hardlink arbitrary host files into the extraction directory when a user installs or updates a Flatpak application from an OCI remote, allowing disclosure of arbitrary host file contents. For system-wide installs running as root, this includes sensitive files such as /etc/shadow.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Citrix NetScaler ADC\n🔓 漏洞类型：CWE-342 (CWE-342)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-96279",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2539417",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/flatpak/flatpak/security/advisories/GHSA-9rww-v4mm-x4jg",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "flatpak",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "flatpak",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "flatpak",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "flatpak",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Link Resolution Before File Access ('Link Following')"
+      ]
+    },
+    {
+      "id": "CVE-2026-88772",
+      "publishedDate": "2026-09-27T16:09:56.033Z",
+      "lastModifiedDate": "2026-09-27T19:56:14.190Z",
+      "description": "Vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading to Remote Code Execution or Denial of Service",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Citrix NetScaler ADC\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX697096&articleTitle=Citrix_NetScaler_ADC_and_Citrix_NetScaler_Gateway_Security_Bulletin_for_CVE_2026_88771_CVE_2026_88772_CVE_2026_88773_CVE_2026_88774_CVE_2026_88775_CVE_2026_88776_CVE_2026_88777_and_CVE_2026_88778",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Citrix NetScaler",
+          "product": "ADC",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "14.1-73.37",
+              "versionType": "patch"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "13.1-64.23",
+              "versionType": "patch"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "14.1-73.37 FIPS",
+              "versionType": "patch"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "13.1.37.279 FIPS and NDcPP",
+              "versionType": "patch"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "Citrix NetScaler",
+          "product": "Gateway",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "14.1-73.37",
+              "versionType": "patch"
+            },
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "13.1-64.23",
+              "versionType": "patch"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-88771",
+      "publishedDate": "2026-09-27T16:02:07.001Z",
+      "lastModifiedDate": "2026-09-27T19:57:15.713Z",
+      "description": "Improper input validation vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading to an unauthenticated attacker to execute arbitrary commands.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Citrix NetScaler ADC\n🔓 漏洞类型：CWE-20 (CWE-20)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
           "url": "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX697096",
@@ -186,25 +169,25 @@
               "status": "affected",
               "version": "0",
               "lessThan": "14.1-73.37",
-              "versionType": "Patch"
+              "versionType": "patch"
             },
             {
               "status": "affected",
               "version": "0",
               "lessThan": "13.1-64.23",
-              "versionType": "Patch"
+              "versionType": "patch"
             },
             {
               "status": "affected",
               "version": "0",
               "lessThan": "14.1-73.37 FIPS",
-              "versionType": "Patch"
+              "versionType": "patch"
             },
             {
               "status": "affected",
               "version": "0",
               "lessThan": "13.1.37.279 FIPS and NDcPP",
-              "versionType": "Patch"
+              "versionType": "patch"
             }
           ],
           "defaultStatus": "unaffected"
@@ -217,225 +200,24 @@
               "status": "affected",
               "version": "0",
               "lessThan": "14.1-73.37",
-              "versionType": "Patch"
+              "versionType": "patch"
             },
             {
               "status": "affected",
               "version": "0",
               "lessThan": "13.1-64.23",
-              "versionType": "Patch"
+              "versionType": "patch"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-342 Predictable exact value from previous values"
+        "CWE-20 Improper input validation"
       ],
       "cwe_ids": [
-        "CWE-342"
+        "CWE-20"
       ]
-    },
-    {
-      "id": "CVE-2026-88777",
-      "publishedDate": "2026-09-27T16:37:44.345Z",
-      "lastModifiedDate": "2026-09-27T16:37:44.345Z",
-      "description": "Memory overflow vulnerability vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23  leading to unpredictable or erroneous behavior or Denial of Service",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Citrix NetScaler ADC\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX697096&articleTitle=Citrix_NetScaler_ADC_and_Citrix_NetScaler_Gateway_Security_Bulletin_for_CVE_2026_88771_CVE_2026_88772_CVE_2026_88773_CVE_2026_88774_CVE_2026_88775_CVE_2026_88776_CVE_2026_88777_and_CVE_2026_88778",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Citrix NetScaler",
-          "product": "ADC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1-64.23",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37 FIPS",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1.37.279 FIPS and NDcPP",
-              "versionType": "patch"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Citrix NetScaler",
-          "product": "Gateway",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1-64.23",
-              "versionType": "patch"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-88776",
-      "publishedDate": "2026-09-27T16:36:40.034Z",
-      "lastModifiedDate": "2026-09-27T16:36:40.034Z",
-      "description": "Memory overflow vulnerability vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23  leading to unpredictable or erroneous behavior or Denial of Service",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Citrix NetScaler ADC\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX697096",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Citrix NetScaler",
-          "product": "ADC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1-64.23",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37 FIPS",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1.37.279 FIPS and NDcPP",
-              "versionType": "patch"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Citrix NetScaler",
-          "product": "Gateway",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1-64.23",
-              "versionType": "patch"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": []
-    },
-    {
-      "id": "CVE-2026-88775",
-      "publishedDate": "2026-09-27T16:21:12.160Z",
-      "lastModifiedDate": "2026-09-27T16:38:24.106Z",
-      "description": "Memory overflow vulnerability in Citrix NetScaler ADC and Citrix NetScaler Gateway.\n\nThis issue affects ADC: before 14.1-73.37, before 13.1-64.23, before 14.1-73.37 FIPS, and before 13.1.37.279 FIPS and NDcPP; Gateway: before 14.1-73.37 and before 13.1-64.23 leading Memory overflow vulnerability leading to unpredictable or erroneous behavior or Denial of Service",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Citrix NetScaler ADC\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX697096&articleTitle=Citrix_NetScaler_ADC_and_Citrix_NetScaler_Gateway_Security_Bulletin_for_CVE_2026_88771_CVE_2026_88772_CVE_2026_88773_CVE_2026_88774_CVE_2026_88775_CVE_2026_88776_CVE_2026_88777_and_CVE_2026_88778",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Citrix NetScaler",
-          "product": "ADC",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1-64.23",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37 FIPS",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1.37.279 FIPS and NDcPP",
-              "versionType": "patch"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Citrix NetScaler",
-          "product": "Gateway",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "14.1-73.37",
-              "versionType": "patch"
-            },
-            {
-              "status": "affected",
-              "version": "0",
-              "lessThan": "13.1-64.23",
-              "versionType": "patch"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": []
     }
   ]
 }
