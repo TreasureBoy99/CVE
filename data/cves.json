@@ -2,529 +2,154 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 16,
-    "last_updated": "2026-10-02T15:39:03.483746",
+    "total_count": 4,
+    "last_updated": "2026-10-02T20:01:23.870736",
     "severity_distribution": {
       "critical": 0,
-      "high": 5,
-      "medium": 6,
-      "low": 0,
-      "none": 5
+      "high": 1,
+      "medium": 2,
+      "low": 1,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-104467",
-      "publishedDate": "2026-10-02T11:38:33.480Z",
-      "lastModifiedDate": "2026-10-02T15:15:54.625Z",
-      "description": "YesWiki before 4.6.7 contains an authorization bypass vulnerability in ApiService::isAuthorized() that allows unauthenticated attackers to call admin-only API routes when public API mode is enabled. Attackers can send requests to endpoints like api/ci/update_config and api/archives to overwrite configuration and list, download, or delete backup archives.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：YesWiki yeswiki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-93367",
+      "publishedDate": "2026-10-02T03:38:46.638Z",
+      "lastModifiedDate": "2026-10-02T19:53:20.915Z",
+      "description": "The Visitors Traffic Real Time Statistics Pro plugin for WordPress is vulnerable to unauthenticated stored Cross-Site Scripting in all versions up to, and including, 11.22 via the page_title parameter of the ahcpro_track_visitor AJAX action. The action is registered for logged-out callers (wp_ajax_nopriv_ahcpro_track_visitor) and stores $_POST['page_title'] with NO sanitization, keeping it raw in the ahc_title_traffic.til_page_title column. When an administrator opens the plugin's dashboard, the 'Traffic by Title' DataTable renders that stored value as innerHTML without output escaping, executing arbitrary JavaScript. This makes it possible for unauthenticated attackers to inject web scripts that run in an administrator's session.",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：wp-buy Visitor Traffic Real Time Statistics pro\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/YesWiki/yeswiki/security/advisories/GHSA-v527-6r4j-j2w2",
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/a72261e5-7376-4a34-9264-27bd4f27e938?source=cve",
           "type": "reference"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/yeswiki-before-4.6.7-authorization-bypass-via-public-api-mode",
+          "url": "https://www.wp-buy.com/product/visitors-traffic-real-time-statistics-pro/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "YesWiki",
-          "product": "yeswiki",
-          "defaultStatus": "unaffected",
+          "vendor": "wp-buy",
+          "product": "Visitor Traffic Real Time Statistics pro",
           "versions": [
             {
               "version": "0",
               "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.6.7"
-            },
-            {
-              "version": "4.6.7",
-              "status": "unaffected",
+              "lessThanOrEqual": "11.22",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Missing Authorization"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-104430",
-      "publishedDate": "2026-10-02T11:38:09.916Z",
-      "lastModifiedDate": "2026-10-02T15:17:44.203Z",
-      "description": "Zebra zebrad 4.5.0 and zebra-script 7.0.0 count P2SH redeem script signature operations in legacy mode rather than zcashd's accurate P2SH mode, overcounting CHECKMULTISIG preceded by OP_1 through OP_16 as 20 sigops and causing a consensus divergence. Remote attackers can broadcast P2SH spends using low-threshold multisig redeem scripts so that a block zcashd accepts exceeds Zebra's inflated MAX_BLOCK_SIGOPS count, causing Zebra nodes to reject it and stall off the chain.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：ZcashFoundation zebra\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-2prc-cj5x-4443",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/zebra-4.5.0-consensus-split-via-p2sh-sigop-overcount",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ZcashFoundation",
-          "product": "zebra",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/zebrad",
-          "versions": [
-            {
-              "version": "4.5.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.5.1"
-            },
-            {
-              "version": "4.5.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "ZcashFoundation",
-          "product": "zebra",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/zebra-script",
-          "versions": [
-            {
-              "version": "7.0.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "7.0.1"
-            },
-            {
-              "version": "7.0.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Function Call with Incorrectly Specified Arguments"
-      ]
-    },
-    {
-      "id": "CVE-2026-104470",
-      "publishedDate": "2026-10-02T11:38:35.372Z",
-      "lastModifiedDate": "2026-10-02T15:20:22.419Z",
-      "description": "YesWiki before 4.6.7 contains a server-side request forgery vulnerability in the Bazar valeur action that allows page editors to make the server fetch arbitrary URLs. Attackers can supply loopback or internal URLs in the url parameter to probe internal services and inject unescaped remote HTML that executes scripts in viewers' browsers.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：YesWiki yeswiki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/YesWiki/yeswiki/security/advisories/GHSA-6rvf-7pwm-6j44",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/yeswiki-before-4.6.7-ssrf-and-xss-via-bazar-valeur-action",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "YesWiki",
-          "product": "yeswiki",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.6.7"
-            },
-            {
-              "version": "4.6.7",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-104435",
-      "publishedDate": "2026-10-02T11:38:12.487Z",
-      "lastModifiedDate": "2026-10-02T15:16:42.729Z",
-      "description": "Zebra zebrad 4.4.0 and zebra-script 6.0.0 fail to enforce a ZIP-244 consensus rule, accepting V5 transparent inputs signed with SIGHASH_SINGLE that lack a corresponding output. Attackers can broadcast crafted V5 transactions with more inputs than outputs that Zebra accepts but zcashd rejects, causing a network consensus split.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：ZcashFoundation zebra\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-pvmv-cwg8-v6c8",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/zebra-4.4.0-consensus-divergence-via-v5-sighash-single-without-output",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ZcashFoundation",
-          "product": "zebra",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/zebrad",
-          "versions": [
-            {
-              "version": "4.4.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.4.1"
-            },
-            {
-              "version": "4.4.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "vendor": "ZcashFoundation",
-          "product": "zebra",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/zebra-script",
-          "versions": [
-            {
-              "version": "6.0.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "6.0.1"
-            },
-            {
-              "version": "6.0.1",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Verification of Cryptographic Signature"
-      ]
-    },
-    {
-      "id": "CVE-2026-104613",
-      "publishedDate": "2026-10-02T13:15:07.530Z",
-      "lastModifiedDate": "2026-10-02T15:14:45.220Z",
-      "description": "A vulnerability was determined in CodeAstro Simple Pharmacy Management System 1.0. This vulnerability affects unknown code of the file /SimplePharmacy-PHP/product/view.php. This manipulation of the argument ID causes sql injection. The attack can be initiated remotely. The exploit has been publicly disclosed and may be utilized.",
+      "id": "CVE-2026-104054",
+      "publishedDate": "2026-10-02T02:00:11.876Z",
+      "lastModifiedDate": "2026-10-02T19:52:48.259Z",
+      "description": "A security flaw has been discovered in calcom cal.diy up to 6.2.0. This affects the function doesUserIdHaveAccessToBooking of the file BookingAccessService.ts of the component PBAC Permission Engine. Performing a manipulation results in missing authorization. The attack can be initiated remotely. The exploit has been released to the public and may be used for attacks. The pull request to fix this issue awaits acceptance.",
       "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：CodeAstro Simple Pharmacy Management System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：calcom cal.diy\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/412922",
+          "url": "https://vuldb.com/vuln/412762",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/412922/cti",
+          "url": "https://vuldb.com/vuln/412762/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-104613",
+          "url": "https://vuldb.com/cve/CVE-2026-104054",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/963459",
+          "url": "https://vuldb.com/submit/959492",
           "type": "reference"
         },
         {
-          "url": "https://github.com/yihaofuweng/cve/issues/72",
+          "url": "https://github.com/calcom/cal.diy/issues/29802",
           "type": "poc"
         },
         {
-          "url": "https://codeastro.com/",
+          "url": "https://github.com/calcom/cal.diy/pull/30253",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/calcom/cal.diy/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "CodeAstro",
-          "product": "Simple Pharmacy Management System",
+          "vendor": "calcom",
+          "product": "cal.diy",
           "versions": [
             {
-              "version": "1.0",
+              "version": "6.0",
+              "status": "affected"
+            },
+            {
+              "version": "6.1",
+              "status": "affected"
+            },
+            {
+              "version": "6.2.0",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:codeastro:simple_pharmacy_management_system:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "SQL Injection",
-        "Injection"
-      ]
-    },
-    {
-      "id": "CVE-2026-104426",
-      "publishedDate": "2026-10-02T11:38:07.187Z",
-      "lastModifiedDate": "2026-10-02T15:18:42.536Z",
-      "description": "Zebra before 6.1.0 contains an inefficient algorithmic complexity vulnerability in remaining_transaction_value that clones the entire block-level spent-UTXO map per transaction during contextual verification. Attackers can mine or seed the mempool with roughly 26,000 minimal single-input transactions in one block, stalling every validating node for over 52 seconds.",
-      "severity": 5.9,
-      "fix_suggestion": "📦 受影响组件：ZcashFoundation zebra\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-4g24-549m-hp75",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/zebra-before-6.1.0-quadratic-complexity-dos-via-block-transparent-value-check",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ZcashFoundation",
-          "product": "zebra",
-          "defaultStatus": "unaffected",
-          "packageURL": "pkg:cargo/zebrad",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "6.1.0"
-            },
-            {
-              "version": "6.1.0",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Inefficient Algorithmic Complexity"
-      ]
-    },
-    {
-      "id": "CVE-2026-104442",
-      "publishedDate": "2026-10-02T11:38:17.070Z",
-      "lastModifiedDate": "2026-10-02T15:22:22.772Z",
-      "description": "YesWiki before 4.6.7 contains an unauthenticated server-side request forgery vulnerability that allows remote attackers to make the server fetch arbitrary URLs by supplying a syndication action through the render handler's content parameter. Attackers can target internal hosts and ports, read back fetched feed content in the rendered page, and cause feed enclosures to be downloaded into the files directory.",
-      "severity": 5.8,
-      "fix_suggestion": "📦 受影响组件：YesWiki yeswiki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/YesWiki/yeswiki/security/advisories/GHSA-jwh5-j4f4-c6xp",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/yeswiki-before-4.6.7-unauthenticated-ssrf-via-syndication-action",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "YesWiki",
-          "product": "yeswiki",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.6.7"
-            },
-            {
-              "version": "4.6.7",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Server-Side Request Forgery (SSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-104438",
-      "publishedDate": "2026-10-02T11:38:14.506Z",
-      "lastModifiedDate": "2026-10-02T15:27:01.134Z",
-      "description": "YesWiki before 4.6.7 contains a missing authorization vulnerability in the listpagestag and includepages actions of the tags tool, which enumerate pages without applying read-ACL filtering. Unauthenticated or unprivileged attackers can embed these actions with a chosen tag or page name to disclose the names and body-derived titles of ACL-restricted pages.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：YesWiki yeswiki\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/YesWiki/yeswiki/security/advisories/GHSA-hx4v-hjvg-9p6w",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/yeswiki-before-4.6.7-information-disclosure-via-listpagestag-and-includepages-actions",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "YesWiki",
-          "product": "yeswiki",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "4.6.7"
-            },
-            {
-              "version": "4.6.7",
-              "status": "unaffected",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-94484",
-      "publishedDate": "2026-10-02T15:26:48.417Z",
-      "lastModifiedDate": "2026-10-02T15:26:48.417Z",
-      "description": "Next.js is a React framework for building full-stack web applications. From 15.0.0 until 15.5.27 and 16.3.8, applications with a root-level catch-all page and statically generated or Incremental Static Regeneration routes can use a shared response cache key that is insufficiently scoped to the source route. A single unauthenticated crafted request can poison that cache, causing cross-user content substitution or persistent denial of service until the poisoned entry is revalidated or replaced. This issue is fixed in versions 15.5.27 and 16.3.8.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：vercel next.js\n🔓 漏洞类型：CWE-524 (CWE-524)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-mcj8-r9mp-w47p",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/52c94abdd2ea5f416f5e8353ea8a2edd3fe311b8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/719e4c67d6e92df60246f95e1d96e2dd60789a52",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v15.5.27",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v16.3.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vercel",
-          "product": "next.js",
-          "versions": [
-            {
-              "version": ">= 15.0.0, < 15.5.27",
-              "status": "affected"
-            },
-            {
-              "version": ">= 16.0.0, < 16.3.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-524: Use of Cache Containing Sensitive Information"
-      ],
-      "cwe_ids": [
-        "CWE-524"
-      ]
-    },
-    {
-      "id": "CVE-2026-94485",
-      "publishedDate": "2026-10-02T15:23:29.239Z",
-      "lastModifiedDate": "2026-10-02T15:23:29.239Z",
-      "description": "Next.js is a React framework for building full-stack web applications. From 16.0.0 until 16.3.8, the `next dev` development server exposes a Model Context Protocol endpoint without reliably restricting cross-site requests. A malicious website visited by a developer can reach the endpoint and read the project's disk location, source code snippets from error reports, route inventory, and development logs. Production deployments do not serve this endpoint. This issue is fixed in version 16.3.8.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：vercel next.js\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-f87g-xv8r-7p7x",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/2d9f50a409312696145b82b3157aadb6b1fef476",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v16.3.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vercel",
-          "product": "next.js",
-          "versions": [
-            {
-              "version": ">= 16.0.0, < 16.3.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-346: Origin Validation Error"
-      ],
-      "cwe_ids": [
-        "CWE-346"
-      ]
-    },
-    {
-      "id": "CVE-2026-104901",
-      "publishedDate": "2026-10-02T15:21:53.492Z",
-      "lastModifiedDate": "2026-10-02T15:21:53.492Z",
-      "description": "MISP contains a cross-site scripting (XSS) vulnerability in the ID Translator feature. When a user views the ID Translator page, the application queries linked (remote) MISP servers for corresponding event identifiers. The event ID returned by the remote server was rendered in the HTML output without proper output encoding.\n\nA malicious or compromised linked server could return a crafted event ID containing arbitrary HTML or JavaScript markup. This markup would be rendered in the browser of any user in the host organization who views the ID Translator page, enabling session hijacking, credential theft, or other client-side attacks.\n\nPreconditions:\n\n- The victim must be an authenticated user of the host MISP instance.\n\n- A linked server must be configured on the host instance.\n\n- The victim must navigate to the ID Translator page for a given event.\n\nAffected versions: <2.5.48.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：MISP MISP\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MISP/MISP/commit/bd5e80c84",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "cpes": [
-            "cpe:2.3:a:misp:misp:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:calcom:cal.diy:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "ServersController (idTranslator)",
-            "View/Servers/id_translator.ctp",
-            "View/Themed/Overmind/Servers/id_translator.ctp"
-          ],
-          "product": "MISP",
-          "programFiles": [
-            "app/Controller/ServersController.php",
-            "app/View/Servers/id_translator.ctp",
-            "app/View/Themed/Overmind/Servers/id_translator.ctp"
-          ],
-          "repo": "https://github.com/MISP/MISP",
-          "vendor": "MISP",
+            "PBAC Permission Engine"
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authorization",
+        "Incorrect Authorization"
+      ]
+    },
+    {
+      "id": "CVE-2026-84925",
+      "publishedDate": "2026-10-02T05:30:15.238Z",
+      "lastModifiedDate": "2026-10-02T19:53:46.736Z",
+      "description": "The Avada | Website Builder For WordPress & WooCommerce theme for WordPress is vulnerable to Reflected Cross-Site Scripting via the 'lang' parameter in all versions up to, and including, 7.16.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link. The injected value is propagated through Fusion_Multilingual::set_active_language() and concatenated into a URL by Fusion_Settings::get_setting_link() without applying urlencode(), esc_url(), or esc_attr() before being echoed raw into a double-quoted href attribute in the post editor metabox.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：ThemeFusion Avada | Website Builder For WordPress & WooCommerce\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/4c3936aa-58d6-4ac0-a077-2faaed48828f?source=cve",
+          "type": "reference"
+        },
+        {
+          "url": "https://classic.avada.com/documentation/avada-changelog/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ThemeFusion",
+          "product": "Avada | Website Builder For WordPress & WooCommerce",
           "versions": [
             {
-              "lessThan": "2.5.48",
-              "status": "affected",
               "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "7.16.1",
               "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
@@ -532,132 +157,45 @@
       ],
       "cwe_ids": [
         "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-94483",
-      "publishedDate": "2026-10-02T15:18:38.684Z",
-      "lastModifiedDate": "2026-10-02T15:18:38.684Z",
-      "description": "Next.js is a React framework for building full-stack web applications. From 16.0.0 until 16.3.8, Image Optimization can follow attacker-controlled DNS resolution for a remote URL that matches images.remotePatterns, allowing the optimized image fetch to reach private IP addresses after the URL passes the allow-list check. Applications without images.remotePatterns are not affected. Administrators unable to upgrade should audit allow-listed hosts and avoid entries whose DNS records are not trusted. This issue is fixed in version 16.3.8.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：vercel next.js\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-cjq9-62q9-8jv4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/e002ad68bd676bb0ed0c87bb22e3590304763e0b",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v16.3.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vercel",
-          "product": "next.js",
-          "versions": [
-            {
-              "version": ">= 16.0.0, < 16.3.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-94543",
-      "publishedDate": "2026-10-02T15:16:49.658Z",
-      "lastModifiedDate": "2026-10-02T15:16:49.658Z",
-      "description": "Next.js is a React framework for building full-stack web applications. From 15.0.0 until 15.5.27 and 16.3.8, self-hosted applications using the Pages Router with statically generated or Incremental Static Regeneration pages can key a response cache entry without sufficiently binding it to the source route. A request can replace one page's cache entry with content from a different route, causing the affected page to serve incorrect content to every visitor until revalidation. Applications deployed on Vercel are not affected. This issue is fixed in versions 15.5.27 and 16.3.8.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：vercel next.js\n🔓 漏洞类型：CWE-524 (CWE-524)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-4jqv-mc3x-m676",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/52c94abdd2ea5f416f5e8353ea8a2edd3fe311b8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/719e4c67d6e92df60246f95e1d96e2dd60789a52",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v15.5.27",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v16.3.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vercel",
-          "product": "next.js",
-          "versions": [
-            {
-              "version": ">= 15.0.0, < 15.5.27",
-              "status": "affected"
-            },
-            {
-              "version": ">= 16.0.0, < 16.3.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-524: Use of Cache Containing Sensitive Information"
-      ],
-      "cwe_ids": [
-        "CWE-524"
       ]
     },
     {
-      "id": "CVE-2026-104900",
-      "publishedDate": "2026-10-02T15:16:27.485Z",
-      "lastModifiedDate": "2026-10-02T15:16:27.485Z",
-      "description": "MISP contains a stored cross-site scripting (XSS) vulnerability in the index table rendering of the remote event preview. The count field template escaped the associated link URL but rendered the field value without HTML encoding. An attacker with the ability to create or modify events on a linked (remote) MISP server could craft an event identifier containing HTML or JavaScript markup. When a user on the local MISP instance views the remote event preview index, the unescaped value is rendered directly in the browser, allowing arbitrary script execution in the victim's session.\n\nPreconditions:\n\n- A linked/remote MISP server is configured and connected to the local instance.\n\n- The attacker has sufficient access on the linked server to create or modify an event with a crafted identifier.\n\n- A victim user on the local instance views the remote event preview index page.\n\nImpact:\n\n- Execution of arbitrary JavaScript in the context of the MISP web application.\n\n- Potential session hijacking, data exfiltration, or unauthorized actions performed on behalf of the authenticated user.\n\nAffected versions: <2.5.48.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：MISP MISP\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-104994",
+      "publishedDate": "2026-10-02T19:52:36.831Z",
+      "lastModifiedDate": "2026-10-02T19:52:36.831Z",
+      "description": "Trivy before 0.71.0 allows directory traversal in Terraform filesystem functions when they try to access pathnames above the scan root. The risk occurs when using misconf scanning on untrusted input (e.g., upon a third-party pull request that contains a Terraform configuration), if sensitive data can be found at those unintended pathnames, and an adversary can then view a sensitive data value within scan output.",
+      "severity": 2.5,
+      "fix_suggestion": "📦 受影响组件：aquasec Trivy\n🔓 漏洞类型：CWE-24 (CWE-24)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/MISP/MISP/commit/2a2981a27",
+          "url": "https://github.com/aquasecurity/trivy/security/advisories/GHSA-87hp-4m93-274g",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aquasecurity/trivy/commit/9d91b888cf63023e9c09b64259a4c1cea8dfe993",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aquasecurity/trivy/blob/main/CHANGELOG.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aquasecurity/trivy/pull/10664",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "cpes": [
-            "cpe:2.3:a:misp:misp:*:*:*:*:*:*:*:*"
-          ],
+          "defaultStatus": "unaffected",
           "modules": [
-            "Remote Event Preview Index Table (count field)"
+            "Terraform configuration parsing and filesystem functions"
           ],
-          "product": "MISP",
-          "programFiles": [
-            "app/View/Elements/genericElements/IndexTable/Fields/count.ctp"
-          ],
-          "repo": "https://github.com/MISP/MISP",
-          "vendor": "MISP",
+          "product": "Trivy",
+          "repo": "https://github.com/aquasecurity/trivy",
+          "vendor": "aquasec",
           "versions": [
             {
-              "lessThan": "2.5.48",
+              "lessThan": "0.71.0",
               "status": "affected",
               "version": "0",
               "versionType": "semver"
@@ -666,91 +204,10 @@
         }
       ],
       "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-24 Path Traversal: '../filedir'"
       ],
       "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-94544",
-      "publishedDate": "2026-10-02T15:14:43.506Z",
-      "lastModifiedDate": "2026-10-02T15:14:43.506Z",
-      "description": "Next.js is a React framework for building full-stack web applications. From 16.3.0 until 16.3.8, pending use cache fills for the same key are shared without separating Draft Mode requests from regular requests. An overlapping regular request can receive unauthenticated unpublished content from an editor's Draft Mode fill, while an overlapping Draft Mode request can receive published content from a regular fill. When the regular request prerenders a page, the draft-dependent content can persist in the generated page and be served to later visitors until revalidation. Sites are affected when Cache Components or experimental.useCache is enabled and cached functions return draft-dependent content. This issue is fixed in version 16.3.8.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：vercel next.js\n🔓 漏洞类型：CWE-524 (CWE-524)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-3w37-wq28-93x7",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/bd9214f9a32854a011bf5fe58e481dffe1bbf598",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v16.3.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vercel",
-          "product": "next.js",
-          "versions": [
-            {
-              "version": ">= 16.3.0, < 16.3.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-524: Use of Cache Containing Sensitive Information"
-      ],
-      "cwe_ids": [
-        "CWE-524"
-      ]
-    },
-    {
-      "id": "CVE-2026-94486",
-      "publishedDate": "2026-10-02T15:12:31.134Z",
-      "lastModifiedDate": "2026-10-02T15:12:31.134Z",
-      "description": "Next.js is a React framework for building full-stack web applications. From 16.0.0 until 16.3.8, the next dev development server exposes a Model Context Protocol endpoint without reliably restricting cross-site requests. A malicious website visited by a developer can reach the endpoint and read the project's disk location, source code snippets from error reports, route inventory, and development logs. Production deployments do not serve this endpoint. This issue is fixed in version 16.3.8.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：vercel next.js\n🔓 漏洞类型：CWE-346 (CWE-346)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/vercel/next.js/security/advisories/GHSA-39w2-rjm5-chcv",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/commit/2d9f50a409312696145b82b3157aadb6b1fef476",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/vercel/next.js/releases/tag/v16.3.8",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "vercel",
-          "product": "next.js",
-          "versions": [
-            {
-              "version": ">= 16.0.0, < 16.3.8",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-346: Origin Validation Error"
-      ],
-      "cwe_ids": [
-        "CWE-346"
+        "CWE-24"
       ]
     }
   ]
