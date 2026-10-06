@@ -2,62 +2,491 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-10-06T07:58:50.637021",
+    "total_count": 22,
+    "last_updated": "2026-10-06T14:55:52.784088",
     "severity_distribution": {
-      "critical": 0,
-      "high": 1,
-      "medium": 1,
-      "low": 0,
-      "none": 1
+      "critical": 2,
+      "high": 3,
+      "medium": 12,
+      "low": 2,
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-105807",
-      "publishedDate": "2026-10-06T07:30:14.194Z",
-      "lastModifiedDate": "2026-10-06T07:30:14.194Z",
-      "description": "A vulnerability was found in SourceCodester Simple Student Information System 1.0. This affects an unknown part of the file searchquery.php. Performing a manipulation results in sql injection. The attack can be initiated remotely.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Simple Student Information System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-67269",
+      "publishedDate": "2026-10-06T14:47:17.367Z",
+      "lastModifiedDate": "2026-10-06T14:47:17.367Z",
+      "description": "Dell Container Storage Modules (CSM) Operator, versions prior to 1.18.0 contains an Improper Privilege Management vulnerability in the ContainerStorageModule Custom Resource reconciler. A low privileged remote attacker could potentially exploit this vulnerability, leading to escalation of privileges and gaining root-level access on cluster nodes.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：Dell Container Storage Modules (CSM)\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/413812",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/413812/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-105807",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/992606",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/lshhhhh318/cve/issues/1",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
+          "url": "https://www.dell.com/support/kbdoc/en-us/000515771/dsa-2026-448-security-update-for-dell-container-storage-modules-multiple-vulnerabilities?msockid=3021cac2195069ed3194ddad186a68f9",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "SourceCodester",
-          "product": "Simple Student Information System",
+          "vendor": "Dell",
+          "product": "Container Storage Modules (CSM)",
           "versions": [
             {
-              "version": "1.0",
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.18.0 or later",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-269: Improper Privilege Management"
+      ],
+      "cwe_ids": [
+        "CWE-269"
+      ]
+    },
+    {
+      "id": "CVE-2026-105697",
+      "publishedDate": "2026-10-05T20:16:58.291Z",
+      "lastModifiedDate": "2026-10-06T14:49:22.922Z",
+      "description": "Langflow is a tool for building and deploying AI-powered agents and workflows. Before Langflow 1.10.3, the MCP stdio transport launched whatever command / args a user put in an MCP server configuration, with no allowlist and (before 1.10.3) wrapped in bash -c \"exec {command} ...\". Any user able to reach the MCP server settings (\"Settings → MCP Servers → Add MCP Server\", POST/PATCH /api/v2/mcp/servers/{server_name}) or to build a flow with the MCP Tools component could add a \"server\" whose command is an arbitrary OS command (touch, rm -rf, a reverse shell, ...). The command runs on the Langflow host as the Langflow process user as soon as Langflow tries to connect to the server (listing servers, loading tools, running the flow) — even when the UI then reports that the stdio server failed to start. With the default LANGFLOW_AUTO_LOGIN=true, GET /api/v1/auto_login hands out a token without credentials, so on an exposed instance running the default configuration this is reachable without an account. AUTO_LOGIN is documented as a development-only setting; with it disabled, any authenticated (non-admin) user can exploit it. This issue is fixed in Langflow 1.10.3, langflow-base 0.10.3, and lfx 1.10.3.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：langflow-ai langflow\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/langflow-ai/langflow/security/advisories/GHSA-w794-rj3p-xv45",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langflow-ai/langflow/pull/12290",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langflow-ai/langflow/pull/14036",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langflow-ai/langflow/commit/eba285edf1dd4a33bf23a9cb8113c991fcdf3d1d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langflow-ai/langflow/commit/efbc4a16e639409d938a4883463d27ef0bc637a0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langflow-ai/langflow/releases/tag/v1.10.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "langflow-ai",
+          "product": "langflow",
+          "versions": [
+            {
+              "version": ">= 1.1.2, < 1.10.3",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "langflow-ai",
+          "product": "langflow-base",
+          "versions": [
+            {
+              "version": ">= 0.1.2, < 0.10.3",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "langflow-ai",
+          "product": "lfx",
+          "versions": [
+            {
+              "version": "< 1.10.3",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ]
+    },
+    {
+      "id": "CVE-2026-105798",
+      "publishedDate": "2026-10-06T14:25:39.441Z",
+      "lastModifiedDate": "2026-10-06T14:47:27.747Z",
+      "description": "SimpleChat is a secure AI conversation application with personal and group workspaces for document-grounded interactions. Prior to 0.261.029, POST /api/group_documents/upload stores an attacker-controlled group document filename that group_workspaces.html later interpolates into inline Share event handlers. The escapeGroupHtml function leaves apostrophes unchanged, while escapeHtml produces an HTML entity that the browser decodes before JavaScript evaluation, so either path permits the filename to terminate the handler string. An authenticated group Owner, Admin, or DocumentManager can persist script that executes in the SimpleChat origin when another group member clicks Share, allowing access to victim-visible data and actions with the victim session. This issue is fixed in version 0.261.029.",
+      "severity": 8.7,
+      "fix_suggestion": "📦 受影响组件：microsoft simplechat\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/microsoft/simplechat/security/advisories/GHSA-qwcw-r653-j8c6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/microsoft/simplechat/commit/537a259eb048b8f6d1c94193fa0c9683ab0bace9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "microsoft",
+          "product": "simplechat",
+          "versions": [
+            {
+              "version": "< 0.261.029",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-105783",
+      "publishedDate": "2026-10-05T23:10:26.012Z",
+      "lastModifiedDate": "2026-10-06T14:47:45.876Z",
+      "description": "Joplin is an open source note-taking and to-do application that organises notes and lists into notebooks. Prior to 3.7.13, when Joplin Desktop is running with the opt-in Web Clipper server enabled, the server in packages/lib/ClipperServer.ts sends Access-Control-Allow-Origin: * and allows an arbitrary website to call POST /auth and GET /auth/check because the pairing endpoints do not reject HTTP or HTTPS origins. The desktop confirmation dialog does not identify the requesting origin, so a victim who approves the generic prompt authorizes the attacking page, which then receives the permanent API token. The token provides ongoing read and write access to notes, folders, tags, resources, and master keys. This issue is fixed in version 3.7.13.",
+      "severity": 8,
+      "fix_suggestion": "📦 受影响组件：laurent22 joplin\n🔓 漏洞类型：CWE-346, Cross-Site Request Forgery (CSRF) (CWE-346, CWE-352)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/laurent22/joplin/security/advisories/GHSA-9728-v7ww-mxjv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/laurent22/joplin/pull/16276",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/laurent22/joplin/commit/27ae5c0d404ee47ad24862cce917dda6eb2930b7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/laurent22/joplin/releases/tag/v3.7.13",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "laurent22",
+          "product": "joplin",
+          "versions": [
+            {
+              "version": "< 3.7.13",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-346: Origin Validation Error",
+        "CWE-352: Cross-Site Request Forgery (CSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-346",
+        "CWE-352"
+      ]
+    },
+    {
+      "id": "CVE-2026-105761",
+      "publishedDate": "2026-10-05T23:03:44.949Z",
+      "lastModifiedDate": "2026-10-06T14:47:53.059Z",
+      "description": "Dify is an open-source LLM app development platform. Prior to 1.16.0, the PUT /console/api/apps/&lt;app_id&gt;/server endpoint in api/controllers/console/app/mcp_server.py used AppMCPServerController.put() to retrieve an AppMCPServer by the client-supplied server ID without verifying that the server belonged to the requested application and tenant. An authenticated workspace member could therefore change another application's MCP server status and parameters, potentially redirecting data or disabling the service. This issue is fixed in version 1.16.0.",
+      "severity": 7.1,
+      "fix_suggestion": "📦 受影响组件：langgenius dify\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/langgenius/dify/security/advisories/GHSA-ccrj-frp2-c945",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langgenius/dify/pull/38177",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langgenius/dify/commit/62cb5b586504b730731e28e743c038b72950058e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langgenius/dify/releases/tag/1.16.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "langgenius",
+          "product": "dify",
+          "versions": [
+            {
+              "version": "< 1.16.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-92821",
+      "publishedDate": "2026-10-06T00:12:23.782Z",
+      "lastModifiedDate": "2026-10-06T14:47:24.791Z",
+      "description": "A flaw was found in SSSD. When configured to evaluate password expiration warnings before restrictive access rules in LDAP (Lightweight Directory Access Protocol) environments, an expired-password warning terminates rule evaluation early and treats the access request as successful. A remote authenticated user with an expired password using an alternative authentication method, such as SSH public key authentication, can exploit this flaw to bypass access control restrictions and gain unauthorized access to protected systems.",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-92821",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2479031",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "openshift/ose-rhel-coreos-8",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "openshift/ose-rhel-coreos-9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Return of Wrong Status Code"
+      ]
+    },
+    {
+      "id": "CVE-2026-105745",
+      "publishedDate": "2026-10-05T21:29:23.561Z",
+      "lastModifiedDate": "2026-10-06T14:48:57.716Z",
+      "description": "Docling simplifies document processing by parsing diverse formats and providing integrations with the generative AI ecosystem. From 2.27.0 until 2.131.0, Docling plugin factories in docling/models/factories/base_factory.py call load_setuptools_entrypoints() before applying the allow_external_plugins setting, so every module registered in the Docling entry-point group is imported even when external plugins are disabled. An installed third-party or compromised package can therefore execute import-time code when Docling starts, while the subsequent namespace filter misleadingly reports that the plugin was not loaded. This issue is fixed in 2.131.0.",
+      "severity": 6.7,
+      "fix_suggestion": "📦 受影响组件：docling-project docling\n🔓 漏洞类型：CWE-696, CWE-829 (CWE-696, CWE-829)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/docling-project/docling/security/advisories/GHSA-9jxx-vjrv-h2rq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/docling-project/docling/pull/4413",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/docling-project/docling/commit/0f443b3786e98688a2da3b7c8f56fe5e46af876c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/docling-project/docling/releases/tag/v2.131.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "docling-project",
+          "product": "docling",
+          "versions": [
+            {
+              "version": ">= 2.27.0, < 2.131.0",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "docling-project",
+          "product": "docling-slim",
+          "versions": [
+            {
+              "version": ">= 2.27.0, < 2.131.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-696: Incorrect Behavior Order",
+        "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      ],
+      "cwe_ids": [
+        "CWE-696",
+        "CWE-829"
+      ]
+    },
+    {
+      "id": "CVE-2026-105756",
+      "publishedDate": "2026-10-05T22:49:59.642Z",
+      "lastModifiedDate": "2026-10-06T14:42:13.116Z",
+      "description": "vLLM is an inference and serving engine for large language models. Prior to 0.30.0, OpenAI-compatible request models accept a non-empty cache_salt value without enforcing the character and length restrictions required by the IPCCacheServerKey consumer in LMCache-MP. On deployments using the LMCache-MP connector, a salt that contains a forbidden character or exceeds the permitted length can raise an uncaught ValueError during scheduler cache lookup, causing EngineCore to terminate and denying service to all concurrent users. This issue is fixed in version 0.30.0.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：vllm-project vllm\n🔓 漏洞类型：CWE-20, CWE-248 (CWE-20, CWE-248)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vllm-project/vllm/security/advisories/GHSA-2823-qmq8-rwvj",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/pull/51444",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/commit/e962733e08d10f7ca65dac4df99e116460b8b174",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/releases/tag/v0.30.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vllm-project",
+          "product": "vllm",
+          "versions": [
+            {
+              "version": "< 0.30.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-248: Uncaught Exception"
+      ],
+      "cwe_ids": [
+        "CWE-20",
+        "CWE-248"
+      ],
+      "ghsa_id": "GHSA-2823-qmq8-rwvj"
+    },
+    {
+      "id": "CVE-2026-105921",
+      "publishedDate": "2026-10-06T14:15:14.896Z",
+      "lastModifiedDate": "2026-10-06T14:50:14.844Z",
+      "description": "A vulnerability was identified in Kusalkasilva Learning-Management-System up to ffeb873f8803f1e9664384ff75000c7da45466d2. This affects an unknown function of the file search_class.php. Such manipulation of the argument school_year leads to sql injection. The attack may be launched remotely. The exploit is publicly available and might be used. This product operates on a rolling release basis, ensuring continuous delivery. Consequently, there are no version details for either affected or updated releases. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：Kusalkasilva Learning-Management-System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/413895",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/413895/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-105921",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/992659",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/KusalkaSilva/Learning-Management-System/issues/4",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/KusalkaSilva/Learning-Management-System/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Kusalkasilva",
+          "product": "Learning-Management-System",
+          "versions": [
+            {
+              "version": "ffeb873f8803f1e9664384ff75000c7da45466d2",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:sourcecodester:simple_student_information_system:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:kusalkasilva:learning-management-system:*:*:*:*:*:*:*:*"
           ]
         }
       ],
@@ -67,93 +496,834 @@
       ]
     },
     {
-      "id": "CVE-2026-105305",
-      "publishedDate": "2026-10-06T07:33:32.777Z",
-      "lastModifiedDate": "2026-10-06T07:33:32.777Z",
-      "description": "A flaw was found in the OIDC implementation of Keycloak, specifically within the Device Authorization Grant flow. This component allows devices with limited input capabilities to obtain security tokens. The issue occurs because the flow fails to check the minimum authentication level required by a client configuration. This allows an attacker who has stolen a user's password to bypass mandatory multi-factor authentication and gain unauthorized access to the Keycloak Admin REST API.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Build of Keycloak\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-104043",
+      "publishedDate": "2026-10-06T01:02:13.343Z",
+      "lastModifiedDate": "2026-10-06T14:47:15.805Z",
+      "description": "A flaw was found in SSSD. A local attacker with access to the Name Service Switch (NSS) responder UNIX socket can trigger an integer underflow by sending a specially crafted request with an undersized packet header. This issue causes an out-of-bounds memory read during packet parsing, crashing the responder process and resulting in a Denial of Service (DoS).",
+      "severity": 5.5,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-105305",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-104043",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2545801",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2478852",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "Red Hat",
-          "product": "Red Hat Build of Keycloak",
+          "product": "Red Hat Enterprise Linux 10",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak-services",
+          "packageName": "sssd",
           "defaultStatus": "affected",
           "cpes": [
-            "cpe:/a:redhat:build_keycloak:"
+            "cpe:/o:redhat:enterprise_linux:10"
           ]
         },
         {
           "vendor": "Red Hat",
-          "product": "Red Hat Build of Keycloak",
+          "product": "Red Hat Enterprise Linux 6",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "rhbk/keycloak-rhel9",
-          "defaultStatus": "affected",
+          "packageName": "sssd",
+          "defaultStatus": "unknown",
           "cpes": [
-            "cpe:/a:redhat:build_keycloak:"
+            "cpe:/o:redhat:enterprise_linux:6"
           ]
         },
         {
           "vendor": "Red Hat",
-          "product": "Red Hat Single Sign-On 7",
+          "product": "Red Hat Enterprise Linux 7",
           "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "keycloak-services",
-          "defaultStatus": "unaffected",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
           "cpes": [
-            "cpe:/a:redhat:red_hat_single_sign_on:7"
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "openshift/ose-rhel-coreos-8",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "openshift/ose-rhel-coreos-9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
           ]
         }
       ],
       "problemType": [
-        "Improper Authentication"
+        "Out-of-bounds Read"
       ]
     },
     {
-      "id": "CVE-2026-85153",
-      "publishedDate": "2026-10-06T07:11:39.794Z",
-      "lastModifiedDate": "2026-10-06T07:11:39.794Z",
-      "description": "This vulnerability exists in the Schmooze app due to the use of hardcoded credentials and cryptographic keys in the client application. An unauthenticated remote attacker could exploit this vulnerability by decompiling the distributed application package and extracting the embedded credentials and cryptographic keys.\n\n\nSuccessful exploitation of this vulnerability could allow the attacker to gain unauthorized access to backend and cloud resources and forge client requests on the targeted system.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Schmooze Schmooze dating mobile Application\n🔓 漏洞类型：CWE-321 (CWE-321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-105789",
+      "publishedDate": "2026-10-06T14:07:25.605Z",
+      "lastModifiedDate": "2026-10-06T14:47:07.288Z",
+      "description": "Microsoft UFO is an open-source framework for intelligent automation across devices and platforms. Prior to 3.0.9, the execute_command tool in ufo/client/mcp/http_servers/linux_mcp_server.py treats sort and uniq as read-only commands while the free-form command parameter can select their file-output forms. An authenticated caller can use sort -o or the optional second uniq operand to create or overwrite files writable by the UFO server process without shell metacharacters, because the allowed binary opens the destination itself and the argument policy does not reject the operation. This can corrupt configuration or other writable data and disrupt the service, but the demonstrated primitive does not directly disclose files or establish arbitrary code execution. This issue is fixed in version 3.0.9.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：microsoft UFO\n🔓 漏洞类型：Argument Injection, CWE-184 (CWE-88, CWE-184)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES01&VLCODE=CIVN-2026-0489",
+          "url": "https://github.com/microsoft/UFO/security/advisories/GHSA-85w2-wggf-rw49",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/microsoft/UFO/pull/349",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/microsoft/UFO/commit/4f793622794f5d47810d54bed431c61f6a781dd6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/microsoft/UFO/releases/tag/v3.0.9",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Schmooze",
-          "product": "Schmooze dating mobile Application",
+          "vendor": "microsoft",
+          "product": "UFO",
           "versions": [
             {
-              "status": "affected",
-              "version": "Android versions 5.2.7 (build 452) and prior"
-            },
-            {
-              "status": "affected",
-              "version": "iOS versions 5.2.1 and prior"
+              "version": "< 3.0.9",
+              "status": "affected"
             }
-          ],
-          "defaultStatus": "unaffected"
+          ]
         }
       ],
       "problemType": [
-        "CWE-321 Use of hard-coded cryptographic key"
+        "CWE-88: Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')",
+        "CWE-184: Incomplete List of Disallowed Inputs"
       ],
       "cwe_ids": [
-        "CWE-321"
+        "CWE-88",
+        "CWE-184"
+      ]
+    },
+    {
+      "id": "CVE-2026-71297",
+      "publishedDate": "2026-10-05T19:55:49.523Z",
+      "lastModifiedDate": "2026-10-06T14:49:48.215Z",
+      "description": "A flaw was found in the maestro gRPC broker. This vulnerability allows a remote attacker, with a valid client certificate, to bypass authentication. This bypass enables the attacker to subscribe to other consumers' event streams, leading to unauthorized information disclosure, or to publish forged agent status, which can compromise data integrity.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：Red Hat Multicluster Engine for Kubernetes\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-71297",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2511518",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Multicluster Engine for Kubernetes",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "multicluster-engine/cloudevents-conductor-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:multicluster_engine"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Multicluster Engine for Kubernetes",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "multicluster-engine/maestro-rhel9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:multicluster_engine"
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-105692",
+      "publishedDate": "2026-10-05T19:55:36.410Z",
+      "lastModifiedDate": "2026-10-06T14:50:12.248Z",
+      "description": "Penpot is an open-source design and prototyping platform. Prior to 2.18.0, the delete-share-link RPC retrieves a caller-selected share-link ID and verifies only that the caller can edit the parent file. It does not verify that the caller created the share link or has owner or administrator authority, allowing any file editor who knows a share-link UUID to delete links created by other users and revoke external reviewers' access. This issue is fixed in version 2.18.0.",
+      "severity": 5.4,
+      "fix_suggestion": "📦 受影响组件：penpot penpot\n🔓 漏洞类型：CWE-284, CWE-639 (CWE-284, CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/penpot/penpot/security/advisories/GHSA-8257-pm4f-cfhq",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/penpot/penpot/pull/11290",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/penpot/penpot/commit/209aea83658f209c4189b531eeda0f3a638a0294",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/penpot/penpot/releases/tag/2.18.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "penpot",
+          "product": "penpot",
+          "versions": [
+            {
+              "version": "< 2.18.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-284: Improper Access Control",
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-284",
+        "CWE-639"
+      ]
+    },
+    {
+      "id": "CVE-2026-105760",
+      "publishedDate": "2026-10-05T23:01:54.972Z",
+      "lastModifiedDate": "2026-10-06T14:39:17.058Z",
+      "description": "vLLM is an inference and serving engine for large language models. Prior to 0.30.0, a caller can use the request-level media_io_kwargs field to select the GLMGA video backend and supply large values for the fps and max_frames options without a strict work ceiling. GLMGA constructs and deduplicates an attacker-sized pre-decode frame-index list, allowing a compact request and tiny valid video to consume disproportionate CPU time and memory in the shared media-loading executor. This issue is fixed in version 0.30.0.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：vllm-project vllm\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vllm-project/vllm/security/advisories/GHSA-58v5-2m8f-94pr",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/pull/54935",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/commit/8b6de0eb9a09ef53f20cf06bd4d17ee264b9c2a7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/releases/tag/v0.30.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vllm-project",
+          "product": "vllm",
+          "versions": [
+            {
+              "version": ">= 0.23.0rc2, < 0.30.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "ghsa_id": "GHSA-58v5-2m8f-94pr"
+    },
+    {
+      "id": "CVE-2026-104034",
+      "publishedDate": "2026-10-06T00:12:17.976Z",
+      "lastModifiedDate": "2026-10-06T14:47:36.489Z",
+      "description": "A flaw was found in SSSD. A use-after-free vulnerability exists in the Kerberos Credential Manager (KCM) responder during Kerberos ticket-granting ticket (TGT) renewal, where a deferred callback accesses memory that has already been released. An authenticated local user with a renewable Kerberos ticket can trigger this issue on systems configured with KCM renewal, causing the KCM responder service to crash and resulting in a Denial of Service (DoS).",
+      "severity": 4.7,
+      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Enterprise Linux 10\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-104034",
+          "type": "reference"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2479178",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 10",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:10"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 6",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "unknown",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:6"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 7",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:7"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 8",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:8"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat Enterprise Linux 9",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "sssd",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/o:redhat:enterprise_linux:9"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "openshift/ose-rhel-coreos-8",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        },
+        {
+          "vendor": "Red Hat",
+          "product": "Red Hat OpenShift Container Platform 4",
+          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
+          "packageName": "openshift/ose-rhel-coreos-9",
+          "defaultStatus": "affected",
+          "cpes": [
+            "cpe:/a:redhat:openshift:4"
+          ]
+        }
+      ],
+      "problemType": [
+        "Expired Pointer Dereference"
+      ]
+    },
+    {
+      "id": "CVE-2026-105922",
+      "publishedDate": "2026-10-06T14:45:15.075Z",
+      "lastModifiedDate": "2026-10-06T14:45:15.075Z",
+      "description": "A security flaw has been discovered in vllm-project vLLM up to 0.31.0. This impacts the function get_token_bin_counts_and_mask of the file vllm/model_executor/layers/utils.py of the component Penalty Handler. Performing a manipulation results in denial of service. Remote exploitation of the attack is possible. The exploit has been released to the public and may be used for attacks. The project was informed of the problem early through an issue report but has not responded yet.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：vllm-project vLLM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/413896",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/413896/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-105922",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/992707",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/issues/57719",
+          "type": "reference"
+        },
+        {
+          "url": "https://gist.github.com/Yunzez/5c70a3bb328eaf6d646b9d31e879dc4a#file-repro_prompt_embeds_penalties_engine_crash-py",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vllm-project",
+          "product": "vLLM",
+          "versions": [
+            {
+              "version": "0.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.4",
+              "status": "affected"
+            },
+            {
+              "version": "0.5",
+              "status": "affected"
+            },
+            {
+              "version": "0.6",
+              "status": "affected"
+            },
+            {
+              "version": "0.7",
+              "status": "affected"
+            },
+            {
+              "version": "0.8",
+              "status": "affected"
+            },
+            {
+              "version": "0.9",
+              "status": "affected"
+            },
+            {
+              "version": "0.10",
+              "status": "affected"
+            },
+            {
+              "version": "0.11",
+              "status": "affected"
+            },
+            {
+              "version": "0.12",
+              "status": "affected"
+            },
+            {
+              "version": "0.13",
+              "status": "affected"
+            },
+            {
+              "version": "0.14",
+              "status": "affected"
+            },
+            {
+              "version": "0.15",
+              "status": "affected"
+            },
+            {
+              "version": "0.16",
+              "status": "affected"
+            },
+            {
+              "version": "0.17",
+              "status": "affected"
+            },
+            {
+              "version": "0.18",
+              "status": "affected"
+            },
+            {
+              "version": "0.19",
+              "status": "affected"
+            },
+            {
+              "version": "0.20",
+              "status": "affected"
+            },
+            {
+              "version": "0.21",
+              "status": "affected"
+            },
+            {
+              "version": "0.22",
+              "status": "affected"
+            },
+            {
+              "version": "0.23",
+              "status": "affected"
+            },
+            {
+              "version": "0.24",
+              "status": "affected"
+            },
+            {
+              "version": "0.25",
+              "status": "affected"
+            },
+            {
+              "version": "0.26",
+              "status": "affected"
+            },
+            {
+              "version": "0.27",
+              "status": "affected"
+            },
+            {
+              "version": "0.28",
+              "status": "affected"
+            },
+            {
+              "version": "0.29",
+              "status": "affected"
+            },
+            {
+              "version": "0.30",
+              "status": "affected"
+            },
+            {
+              "version": "0.31.0",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:vllm-project:vllm:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "Penalty Handler"
+          ]
+        }
+      ],
+      "problemType": [
+        "Denial of Service"
+      ]
+    },
+    {
+      "id": "CVE-2026-105747",
+      "publishedDate": "2026-10-05T21:32:34.438Z",
+      "lastModifiedDate": "2026-10-06T14:48:33.056Z",
+      "description": "Docling simplifies document processing by parsing diverse formats and providing integrations with the generative AI ecosystem. From 2.45.0 until 2.131.0, METS-GBS format detection in docling/datamodel/document.py and the backend in docling/backend/mets_gbs_backend.py call tarfile.TarFile.getmembers() before enforcing the max_member_count limit, causing the full archive member list to be allocated before the limit can stop processing. A small gzip-compressed tar archive with a very large number of empty members can therefore consume memory proportional to the declared member count, including during format detection before the allowed_formats restriction is applied. This issue is a residual weakness in the member-count protection added for CVE-2026-44018. This issue is fixed in 2.131.0.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：docling-project docling\n🔓 漏洞类型：CWE-409, CWE-770 (CWE-409, CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/docling-project/docling/security/advisories/GHSA-3cr3-8m4c-fpxw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/docling-project/docling/pull/4412",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/docling-project/docling/commit/ebae65cd71c37c88b36185b406a449b92d8f7ffa",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/docling-project/docling/releases/tag/v2.131.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "docling-project",
+          "product": "docling",
+          "versions": [
+            {
+              "version": ">= 2.45.0, < 2.131.0",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "docling-project",
+          "product": "docling-slim",
+          "versions": [
+            {
+              "version": ">= 2.45.0, < 2.131.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-409: Improper Handling of Highly Compressed Data (Data Amplification)",
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-409",
+        "CWE-770"
+      ],
+      "ghsa_id": "GHSA-3cr3-8m4c-fpxw"
+    },
+    {
+      "id": "CVE-2026-105800",
+      "publishedDate": "2026-10-06T14:48:05.267Z",
+      "lastModifiedDate": "2026-10-06T14:48:05.267Z",
+      "description": "i18next-http-backend is a backend layer for i18next that loads translation resources in Node.js, browsers, and Deno. Prior to 4.0.2, attacker-controlled language or namespace values interpolated into a custom loadPath or addPath that begins directly with {{lng}} or {{ns}} can make colon-based input become an absolute URL or, in browsers, make a double-slash namespace become a protocol-relative URL. The resulting request can leave the intended origin and cause URL injection or server-side request forgery. The default /locales/{{lng}}/{{ns}}.json template and templates with a leading path or origin are not affected because the placeholder does not occupy the URL's structural beginning. This issue is fixed in version 4.0.2.",
+      "severity": 3.7,
+      "fix_suggestion": "📦 受影响组件：i18next i18next-http-backend\n🔓 漏洞类型：CWE-74, Server-Side Request Forgery (SSRF) (CWE-74, CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/i18next/i18next-http-backend/security/advisories/GHSA-xvq9-wjp8-hwqf",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/i18next/i18next-http-backend/commit/07e028862b25d0b9251bf3cafb92be2d35285f85",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/i18next/i18next-http-backend/releases/tag/v4.0.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "i18next",
+          "product": "i18next-http-backend",
+          "versions": [
+            {
+              "version": "< 4.0.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')",
+        "CWE-918: Server-Side Request Forgery (SSRF)"
+      ],
+      "cwe_ids": [
+        "CWE-74",
+        "CWE-918"
+      ]
+    },
+    {
+      "id": "CVE-2026-105752",
+      "publishedDate": "2026-10-05T22:32:59.299Z",
+      "lastModifiedDate": "2026-10-06T14:48:10.692Z",
+      "description": "vLLM is an inference and serving engine for large language models. Prior to 0.30.0, Harmony tool continuations submitted through \"POST /v1/responses\" requests rebuild the next-turn engine input without preserving the cache_salt value, placing the continuation prefix in the global unsalted cache namespace even when the caller enabled salting. On deployments with prefix caching enabled, which is the default, an authenticated tenant who can reconstruct a victim's low-entropy post-tool history can submit the same continuation and use the cached_tokens_per_turn count to determine whether the prefix was previously processed, defeating the intended tenant isolation of salted prefix caching. This issue is fixed in version 0.30.0.",
+      "severity": 3.1,
+      "fix_suggestion": "📦 受影响组件：vllm-project vllm\n🔓 漏洞类型：Exposure of Sensitive Information, CWE-524 (CWE-200, CWE-524)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/vllm-project/vllm/security/advisories/GHSA-935w-9g4m-p28p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/pull/50195",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/pull/51818",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/commit/6a2a2bb02b563b83f946012959fd3927984d072a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/vllm-project/vllm/releases/tag/v0.30.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "vllm-project",
+          "product": "vllm",
+          "versions": [
+            {
+              "version": "< 0.30.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-200: Exposure of Sensitive Information to an Unauthorized Actor",
+        "CWE-524: Use of Cache Containing Sensitive Information"
+      ],
+      "cwe_ids": [
+        "CWE-200",
+        "CWE-524"
+      ],
+      "ghsa_id": "GHSA-935w-9g4m-p28p"
+    },
+    {
+      "id": "CVE-2026-105799",
+      "publishedDate": "2026-10-06T14:45:38.154Z",
+      "lastModifiedDate": "2026-10-06T14:45:38.154Z",
+      "description": "LangChain is a framework for building LLM-powered applications. Prior to 1.1.1, @langchain/redis does not escape attacker-controlled values in structured RediSearch TAG filters and structured RediSearch TEXT filters, allowing injected RediSearch syntax to alter or broaden the generated search query. When an application uses an attacker-influenceable filter as a tenant or document-access boundary, the modified query can expose indexed documents outside the attacker's intended scope. This issue is fixed in version 1.1.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：langchain-ai langchainjs\n🔓 漏洞类型：CWE-943 (CWE-943)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/langchain-ai/langchainjs/security/advisories/GHSA-5x6v-p487-7qh2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langchain-ai/langchainjs/pull/10701",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langchain-ai/langchainjs/commit/880e3969ea643a2147777a4d5e8bd606a697edf7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/langchain-ai/langchainjs/releases/tag/@langchain/redis@1.1.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "langchain-ai",
+          "product": "langchainjs",
+          "versions": [
+            {
+              "version": "< 1.1.1",
+              "status": "affected"
+            }
+          ]
+        },
+        {
+          "vendor": "@langchain",
+          "product": "redis",
+          "versions": [
+            {
+              "version": "< 1.1.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-943: Improper Neutralization of Special Elements in Data Query Logic"
+      ],
+      "cwe_ids": [
+        "CWE-943"
+      ]
+    },
+    {
+      "id": "CVE-2026-104852",
+      "publishedDate": "2026-10-05T22:56:43.779Z",
+      "lastModifiedDate": "2026-10-06T14:48:02.114Z",
+      "description": "GraphQL Tools provides utilities for building, stitching, and mocking GraphQL schemas. Prior to 12.0.1, the GraphQL Tools utils package's mergeDeep function follows inherited properties while recursively merging source objects and does not exclude __proto__, constructor, or prototype keys. An unauthenticated GraphQL client can alias fields to those names so responses from two subgraphs collide during ordinary supergraph result merging, causing mergeDeep to traverse Object and Function prototypes and overwrite Function.prototype.call with a subgraph-supplied value. This breaks subsequent requests in the process until restart. This issue is fixed in version 12.0.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：ardatan graphql-tools\n🔓 漏洞类型：CWE-1321 (CWE-1321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/ardatan/graphql-tools/security/advisories/GHSA-7mx3-vvmw-hjmv",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ardatan/graphql-tools/pull/8423",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/graphql-hive/gateway/pull/2600",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ardatan/graphql-tools/commit/0b9529f1988fd36186a7c106a6efe0356f1b7f2e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/ardatan/graphql-tools/releases/tag/@graphql-tools/utils@12.0.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "ardatan",
+          "product": "graphql-tools",
+          "versions": [
+            {
+              "version": "< 12.0.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-1321: Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
+      ],
+      "cwe_ids": [
+        "CWE-1321"
+      ],
+      "ghsa_id": "GHSA-7mx3-vvmw-hjmv"
+    },
+    {
+      "id": "CVE-2026-78860",
+      "publishedDate": "2026-10-05T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-06T14:48:15.557Z",
+      "description": "An issue in Mercusys AC12 V2 allows a local attacker to execute arbitrary code via the storage of information in plaintext",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "http://mercusys.com",
+          "type": "reference"
+        },
+        {
+          "url": "https://threadpoolx.gitbook.io/docs/cve/mercusys-ac12-v2-security-advisory/missing-firmware-encryption-and-secure-boot-mechanisms",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
       ]
     }
   ]
