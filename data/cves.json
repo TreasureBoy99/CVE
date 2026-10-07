@@ -2,158 +2,159 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-10-07T02:41:11.665212",
+    "total_count": 3,
+    "last_updated": "2026-10-07T09:16:59.004324",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
+      "high": 2,
       "medium": 0,
       "low": 0,
-      "none": 3
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-106471",
-      "publishedDate": "2026-10-07T01:49:11.112Z",
-      "lastModifiedDate": "2026-10-07T01:49:11.112Z",
-      "description": "A flaw was found in Candlepin. The central authorization filter incorrectly grants access when any one of multiple @Verify-annotated parameters is accessible, instead of requiring access to every verified entity. A low-privilege authenticated attacker who can access the first referenced object can bypass authorization checks on subsequent objects. When target resource identifiers are known, this can enable unauthorized disclosure of consumer information and unauthorized modification of entitlements and related subscription resources, including across organizations.",
-      "severity": 8.1,
-      "fix_suggestion": "📦 受影响组件：Red Hat Red Hat Satellite 6\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-15894",
+      "publishedDate": "2026-10-07T08:55:25.103Z",
+      "lastModifiedDate": "2026-10-07T08:55:25.103Z",
+      "description": "The Bluetooth Mesh On-Demand Private Proxy solicitation handler in subsys/bluetooth/mesh/solicitation.c copies a received Solicitation PDU into a fixed 17-byte stack buffer without bounding the source length. In sol_pdu_decrypt(), out is allocated as NET_BUF_SIMPLE(17) and then filled with net_buf_simple_add_mem(out, in->data, in->len); net_buf_simple_add() guards its tailroom only with __ASSERT_NO_MSG, which is compiled out in production builds, so when in->len > 17 the underlying memcpy writes attacker-controlled bytes past the 17-byte stack buffer. The copy occurs before any decryption or authentication, so no key material is required to trigger it.\n\nThe oversized length arises because the mesh scan callback in subsys/bluetooth/mesh/adv.c calls net_buf_simple_restore() before dispatching to bt_mesh_sol_recv(), leaving buf->len covering the entire remaining advertising payload rather than just the Solicitation Service Data. After the parser locates the Service Data AD and consumes the Identification Type byte, the remaining buf->len is the 17-octet Network PDU plus any trailing advertising bytes, and prior to this fix there was no maximum-length check (only a minimum). An attacker can therefore append extra AD structures or padding after the Solicitation Service Data to make buf->len exceed 17.\n\nbt_mesh_scan_cb() is registered directly as the BLE scan callback, so buf is raw, unauthenticated advertising data received over the air. Any device in radio range can send a non-connectable advertisement carrying a crafted mesh Proxy Solicitation to a node that has CONFIG_BT_MESH_OD_PRIV_PROXY_SRV enabled and is currently eligible to be solicited (GATT proxy disabled, On-Demand Private Proxy enabled), with no pairing, bonding, or provisioning. The result is an attacker-controlled stack overwrite — plausibly leading to remote code execution and at minimum a reliable remote denial of service. The fix trims buf->len to the spec-fixed 17 octets (dropping the PDU if fewer remain) before decryption.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-106471",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/4416ad13677259d180f35ce44338578694e48184",
           "type": "reference"
         },
         {
-          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2547044",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-x37p-38wq-cgwj",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Red Hat",
-          "product": "Red Hat Satellite 6",
-          "collectionURL": "https://access.redhat.com/downloads/content/package-browser/",
-          "packageName": "candlepin",
-          "defaultStatus": "affected",
-          "cpes": [
-            "cpe:/a:redhat:satellite:6"
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/bluetooth/mesh/adv.c",
+            "subsys/bluetooth/mesh/solicitation.c"
+          ],
+          "programRoutines": [
+            {
+              "name": "bt_mesh_scan_cb"
+            },
+            {
+              "name": "bt_mesh_sol_recv"
+            },
+            {
+              "name": "sol_pdu_decrypt"
+            }
+          ],
+          "versions": [
+            {
+              "version": "3.4.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.4.2"
+            }
           ]
         }
       ],
       "problemType": [
-        "Incorrect Authorization"
+        "memory-safety",
+        "memory-safety"
       ]
     },
     {
-      "id": "CVE-2026-19396",
-      "publishedDate": "2026-10-07T02:07:33.205Z",
-      "lastModifiedDate": "2026-10-07T02:07:33.205Z",
-      "description": "A predictable seed in the pseudo-random number generator (PRNG) in the IFTTT pairing token generation of the ASUS RT-BE57 router allows an unauthenticated nearby user to derive the pairing token and read or modify router settings via observed values from an administrator-initiated IFTTT pairing session.Refer to the ' Security Update for ASUS Router Firmware  ' section on the ASUS Security Advisory for more information.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ASUS Router\n🔓 漏洞类型：CWE-337 (CWE-337)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19186",
+      "publishedDate": "2026-10-07T08:55:22.784Z",
+      "lastModifiedDate": "2026-10-07T08:55:22.784Z",
+      "description": "ieee802154_decipher_data_frame() in subsys/net/l2/ieee802154/ieee802154_frame.c computed payload_len = net_pkt_get_len(pkt) - ll_hdr_len - authtag_len without first checking that the received frame is at least ll_hdr_len + authtag_len bytes long. All three variables are uint8_t, so a frame whose payload is shorter than the configured authentication tag makes the subtraction wrap around to a large value (up to 255).\n\nThe wrapped length is passed unchanged to ieee802154_decrypt_auth() and on to the CCM operation as cipher_pkt.in_len/out_buf_max, with apkt->tag pointing at frame + ll_hdr_len + payload_len. Because the receive buffer is allocated to the exact length of the frame received from the radio driver, the crypto layer then reads several hundred bytes past the end of the packet buffer and writes the same number of decrypted bytes back over it in place. The frame's authentication tag is only verified after this processing has taken place, so no key material, association or prior authentication is needed — a single crafted short frame from any device in radio range is sufficient. Frame validation in ieee802154_validate_frame() does not prevent it: a data frame is accepted with a one-byte payload.\n\nThe result is an out-of-bounds read and an out-of-bounds write of up to roughly 240 bytes into the adjacent network-buffer pool, corrupting other packets or allocator metadata and typically faulting the target. The out-of-bounds content is not attacker-chosen (it is ciphertext XOR keystream over out-of-bounds memory) and the frame is dropped when tag verification fails, so the primary impact is memory corruption and denial of service rather than information disclosure.\n\nExposure is limited to configurations that enable the experimental CONFIG_NET_L2_IEEE802154_SECURITY option, select a crypto device via CONFIG_NET_L2_IEEE802154_SECURITY_CRYPTO_DEV_NAME, and have established a security session with a level other than IEEE802154_SECURITY_LEVEL_NONE; with security disabled or at level NONE the tag length is zero and no underflow occurs. The fix rejects frames shorter than ll_hdr_len + authtag_len before the subtraction, and adds the matching guard on the transmit side in ieee802154_create_data_frame().",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.asus.com/security-advisory",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/6d721de13a6026808f75578ecfee95a3592d5264",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-6x64-rwq6-j8x3",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ASUS",
-          "product": "Router",
-          "versions": [
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/net/l2/ieee802154/ieee802154_frame.c"
+          ],
+          "programRoutines": [
             {
-              "status": "affected",
-              "version": "3.0.0.6_102 series",
-              "versionType": "custom"
+              "name": "ieee802154_decipher_data_frame"
             }
           ],
-          "defaultStatus": "unaffected"
+          "versions": [
+            {
+              "version": "3.2.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "4.4.2"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-337: Predictable Seed in Pseudo-Random Number Generator (PRNG)"
-      ],
-      "cwe_ids": [
-        "CWE-337"
+        "integer-overflow",
+        "integer-overflow"
       ]
     },
     {
-      "id": "CVE-2026-19386",
-      "publishedDate": "2026-10-07T02:05:31.759Z",
-      "lastModifiedDate": "2026-10-07T02:05:31.759Z",
-      "description": "A stack-based buffer overflow in the ASUS router modules allows an authenticated nearby user to execute arbitrary code via a crafted configuration file upload that exceeds the expected buffer size.Refer to the ' Security Update for ASUS Router Firmware  ' section on the ASUS Security Advisory for more information.",
+      "id": "CVE-2026-103416",
+      "publishedDate": "2026-10-07T08:55:12.097Z",
+      "lastModifiedDate": "2026-10-07T08:55:12.097Z",
+      "description": "Out-of-bounds write via the TLS 1.3 handshake message cache in NetX Duo in Eclipse ThreadX NetX Duo 6.5.1.202602 allows a handshake message larger than the cache writes past it and on into the rest of the session control block, which holds pointers. A malicious or compromised server can make a TLS 1.3 client produce such a message before certificate authentication completes, so no server certificate is needed to reach it.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ASUS Router\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Eclipse Foundation Eclipse ThreadX - NetX Duo\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.asus.com/security-advisory",
+          "url": "https://gitlab.eclipse.org/security/cve-assignment/-/work_items/356",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/eclipse-threadx/netxduo/security/advisories/GHSA-4x76-j955-qhq2",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "ASUS",
-          "product": "Router",
+          "vendor": "Eclipse Foundation",
+          "product": "Eclipse ThreadX - NetX Duo",
           "versions": [
             {
               "status": "affected",
-              "version": "3.0.0.6.102 series",
-              "versionType": "custom"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-121: Stack-based Buffer Overflow"
-      ],
-      "cwe_ids": [
-        "CWE-121"
-      ]
-    },
-    {
-      "id": "CVE-2026-16528",
-      "publishedDate": "2026-10-07T02:02:43.107Z",
-      "lastModifiedDate": "2026-10-07T02:02:43.107Z",
-      "description": "Insertion of Sensitive Information into Log File in certain ASUS router models allows a remote authenticated attacker to obtain DDNS credentials from the system log, potentially enabling modification of DNS settings.Refer to the ' Security Update for ASUS Router Firmware  ' section on the ASUS Security Advisory for more information.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：ASUS Router\n🔓 漏洞类型：CWE-532 (CWE-532)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.asus.com/security-advisory",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ASUS",
-          "product": "Router",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "3.0.0.4.386 series",
+              "version": "0",
+              "lessThanOrEqual": "6.5.1.202602",
               "versionType": "custom"
             },
             {
-              "status": "affected",
-              "version": "3.0.0.4.388 series"
-            },
-            {
-              "status": "affected",
-              "version": "3.0.0.6.102 series"
+              "status": "unaffected",
+              "version": "6.5.2.202603"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-532: Insertion of Sensitive Information into Log File"
+        "CWE-787 Out-of-bounds write"
       ],
       "cwe_ids": [
-        "CWE-532"
+        "CWE-787"
       ]
     }
   ]
