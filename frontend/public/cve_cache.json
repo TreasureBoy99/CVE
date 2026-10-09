@@ -2,15 +2,174 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-10-09T16:05:16.088694",
+    "total_count": 3,
+    "last_updated": "2026-10-09T18:58:15.814455",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 1,
+      "medium": 1,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-107384",
+      "publishedDate": "2026-10-08T18:32:30.156Z",
+      "lastModifiedDate": "2026-10-09T18:36:29.260Z",
+      "description": "MariaDB Connector/Node.js is used to connect applications developed on Node.js to MariaDB and MySQL databases. From 3.2.0 until 3.2.5, 3.3.4, 3.4.7, and 3.5.4, applications that enable permitSetMultiParamEntries can pass objects whose keys are expanded into a SQL SET clause without being processed by escapeId. An attacker-controlled key containing a backtick can close the quoted identifier and cause the remainder of the key to be interpreted as SQL. This can update columns the application did not intend to expose and can append arbitrary SQL with the database user's privileges. The option is disabled by default, and serialized-object handling used when it is disabled is not affected. This issue is fixed in versions 3.2.5, 3.3.4, 3.4.7, and 3.5.4.",
+      "severity": 8.1,
+      "fix_suggestion": "📦 受影响组件：mariadb-corporation mariadb-connector-nodejs\n🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/security/advisories/GHSA-v6pj-gxxw-phfw",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/commit/144b8f4ef29539a9fb4b75d972b9dcdac4088b4e",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/commit/6743b2f4a89b074268b44c650170767f35e1fb5d",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/commit/8eb450972ff0f3826d7d45c071a42240798bc826",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/commit/b9b04ec82a60b2caf2b0c038259ca9aff5d7014a",
+          "type": "reference"
+        },
+        {
+          "url": "https://hackerone.com/reports/3889198",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/releases/tag/3.2.5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/releases/tag/3.3.4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/releases/tag/3.4.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-nodejs/releases/tag/3.5.4",
+          "type": "reference"
+        },
+        {
+          "url": "https://jira.mariadb.org/browse/CONJS-369",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "mariadb-corporation",
+          "product": "mariadb-connector-nodejs",
+          "versions": [
+            {
+              "version": ">= 3.2.0, < 3.2.5",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.3.0, < 3.3.4",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.4.0, < 3.4.7",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.5.0-rc.0, < 3.5.4",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-89"
+      ],
+      "ghsa_id": "GHSA-v6pj-gxxw-phfw"
+    },
+    {
+      "id": "CVE-2026-107841",
+      "publishedDate": "2026-10-09T18:11:07.226Z",
+      "lastModifiedDate": "2026-10-09T18:41:50.092Z",
+      "description": "pacioli provides least-privilege governance and a governed agent broker for ERPNext. From version 0.9.6 until version 0.10.0, the pacioli-guard document-layer consent gate allows nested cancellation operations to ride any consent established by an enclosing governed act without checking whether the marker authorizes cancellation. A credential with API Key Scope.require_consent can submit a caller-controlled Sales Invoice or other supported document under a valid human-minted submit marker and reach Document.cancel() for a different pre-existing submitted document, bypassing the marker's document and act binding, single-use spend, and denial audit. The unauthorized cancellation can reverse the target document's ledger effect; principals without a consent-gated grant are not affected. This issue is fixed in version 0.10.0.",
+      "severity": 5.7,
+      "fix_suggestion": "📦 受影响组件：john-broadway pacioli\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/john-broadway/pacioli/security/advisories/GHSA-3hj7-6vmj-h8v4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/john-broadway/pacioli/commit/f3c7219f5dde6050bd7921e0ac55afd02771250c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/john-broadway/pacioli/releases/tag/guard-v0.10.0",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "john-broadway",
+          "product": "pacioli",
+          "versions": [
+            {
+              "version": ">= 0.9.6, < 0.10.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-78835",
+      "publishedDate": "2026-10-09T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-09T18:39:30.454Z",
+      "description": "Rocket Software Rocket Remote Desktop 18.0.8583.1 is vulnerable to Insufficiently Protected Credentials.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "http://rocket.com",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.redteam-pentesting.de/en/advisories/rt-sa-2026-001/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    }
+  ]
 }
