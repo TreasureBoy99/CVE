@@ -2,794 +2,251 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 6,
-    "last_updated": "2026-10-12T18:35:31.108086",
+    "total_count": 4,
+    "last_updated": "2026-10-12T23:25:40.557739",
     "severity_distribution": {
       "critical": 0,
-      "high": 2,
-      "medium": 3,
+      "high": 0,
+      "medium": 4,
       "low": 0,
-      "none": 1
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-107226",
-      "publishedDate": "2026-10-12T18:34:18.996Z",
-      "lastModifiedDate": "2026-10-12T18:34:18.996Z",
-      "description": "The AsyncHttpClient (AHC) library allows Java applications to easily execute HTTP requests and asynchronously process HTTP responses. From 2.1.0 until 3.0.14, the default ThreadSafeCookieStore does not retain whether a Set-Cookie response used a secure transport. It accepts Secure cookies received over plaintext and permits insecure cookies to overlay or delete existing Secure cookies with matching scope. An attacker controlling a plaintext same-site response can consequently plant, replace, or remove cookie state later sent to an HTTPS origin, enabling session fixation, CSRF-token replacement, or loss of security-relevant state. This issue is fixed in version 3.0.14.",
-      "severity": 6.8,
-      "fix_suggestion": "📦 受影响组件：AsyncHttpClient async-http-client\n🔓 漏洞类型：CWE-384, CWE-693 (CWE-384, CWE-693)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19938",
+      "publishedDate": "2026-10-12T23:19:55.449Z",
+      "lastModifiedDate": "2026-10-12T23:19:55.449Z",
+      "description": "The Bluetooth host's ATT transmit path releases a buffer it does not own when signing fails. chan_send() in subsys/bluetooth/host/att.c documents (and every other error exit implements) the contract that on failure the caller retains ownership of the net_buf; the BT_ATT_OP_SIGNED_WRITE_CMD branch instead called net_buf_unref(buf) when bt_smp_sign() returned an error and then returned that error to the caller. The callers act on the contract: process_queue() re-queues the buffer with k_queue_prepend(), bt_att_chan_send_rsp() puts it back on chan->tx_queue, bt_att_chan_req_send() restores it into the request, and att_req_retry() unreferences it — so the already-freed buffer was re-queued, later dereferenced, and eventually freed again.\n\nAn ATT Signed Write Command is produced when an application calls bt_gatt_write_without_response_cb() with sign set on an unencrypted connection. bt_smp_sign() fails whenever no local CSRK exists for the peer (-ENOENT), and whether one exists is negotiated with the peer: smp_distribute_keys() stores a local CSRK only when the peer's pairing key-distribution field requests the signing key and bonding was agreed. A peer can therefore pair without accepting the CSRK, pair with No Bonding, remain unpaired, or keep the link unencrypted, and the victim's next signed write takes the failing path. Because struct net_buf's node field is simultaneously the linkage word for the ATT TX FIFO, for the deferred-destroy list used by the att_pool destroy callback att_tx_destroy(), and for the pool free list, the mishandled buffer corrupts these lists and can be re-issued by bt_att_create_pdu() to a new PDU while the ATT TX path still holds it.\n\nThe same branch also saved the net_buf_simple_state only after signing, so a buffer restored after a bt_l2cap_send_pdu() failure kept its 12-octet signature; a subsequent retry re-signed it and appended a second signature with net_buf_add(buf, 12) to a buffer that bt_att_create_pdu() sized for exactly one, writing past the end of the pooled buffer in builds where the net_buf tailroom assertion is compiled out.\n\nImpact is host-side memory corruption in the Bluetooth stack: list corruption, a pooled ATT buffer with two owners (wrong PDU contents transmitted, or a double free when the queues are drained at disconnect), and a bounded out-of-bounds write on the retry path — typically observed as a crash or assertion failure. Exposure requires the deprecated CONFIG_BT_SIGNING to be enabled and an application that actually issues signed writes; in that configuration the triggering condition is under the remote peer's control.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/AsyncHttpClient/async-http-client/security/advisories/GHSA-p2jm-6hj6-9rjg",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/ba8627d91c8ce15c26224cbc7f7f92bb66f56b03",
           "type": "reference"
         },
         {
-          "url": "https://github.com/AsyncHttpClient/async-http-client/commit/6ec7ee45034d154f502852a962d2891746fb82c1",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/AsyncHttpClient/async-http-client/releases/tag/async-http-client-project-3.0.14",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-p3r4-qw98-j59m",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "AsyncHttpClient",
-          "product": "async-http-client",
-          "versions": [
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/bluetooth/host/att.c"
+          ],
+          "programRoutines": [
             {
-              "version": ">= 2.1.0, <= 2.16.1",
-              "status": "affected"
+              "name": "bt_att_send"
             },
             {
-              "version": ">= 3.0.0, < 3.0.14",
-              "status": "affected"
+              "name": "chan_send"
+            },
+            {
+              "name": "process_queue"
             }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-384: Session Fixation",
-        "CWE-693: Protection Mechanism Failure"
-      ],
-      "cwe_ids": [
-        "CWE-384",
-        "CWE-693"
-      ],
-      "ghsa_id": "GHSA-p2jm-6hj6-9rjg"
-    },
-    {
-      "id": "CVE-2026-108920",
-      "publishedDate": "2026-10-12T18:30:15.514Z",
-      "lastModifiedDate": "2026-10-12T18:30:15.514Z",
-      "description": "A security vulnerability has been detected in SourceCodester Drug Recommendation System 1.0. This affects an unknown function of the file Admin/user_record.php of the component Admin Record Tables. Such manipulation of the argument name/email leads to cross site scripting. The attack can be launched remotely. The exploit has been disclosed publicly and may be used.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Drug Recommendation System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/416733",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/416733/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-108920",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/970938",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "SourceCodester",
-          "product": "Drug Recommendation System",
+          ],
           "versions": [
             {
-              "version": "1.0",
-              "status": "affected"
+              "version": "2.3.0",
+              "status": "affected",
+              "lessThan": "4.5.0",
+              "versionType": "semver"
             }
-          ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:drug_recommendation_system:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Admin Record Tables"
           ]
         }
       ],
       "problemType": [
-        "Cross Site Scripting",
-        "Code Injection"
+        "use-after-free"
       ]
     },
     {
-      "id": "CVE-2026-108919",
-      "publishedDate": "2026-10-12T18:15:14.415Z",
-      "lastModifiedDate": "2026-10-12T18:15:14.415Z",
-      "description": "A weakness has been identified in SourceCodester Drug Recommendation System 1.0. The impacted element is an unknown function of the file Auth/add_student.php of the component Student Registration. This manipulation of the argument txtname/txtpassword/txtemail/txtphone/txtprevious_school causes cross site scripting. The attack can be initiated remotely. The exploit has been made available to the public and could be used for attacks.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：SourceCodester Drug Recommendation System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19937",
+      "publishedDate": "2026-10-12T23:19:54.254Z",
+      "lastModifiedDate": "2026-10-12T23:19:54.254Z",
+      "description": "The Bluetooth Mesh Access layer delayable-message machinery in subsys/bluetooth/mesh/delayable_msg.c manages a static pool of CONFIG_BT_MESH_ACCESS_DELAYABLE_MSG_COUNT message contexts (default 4) threaded onto a free_ctx or busy_ctx list. release_delayable_msg_ctx() returned a context to free_ctx only when sys_slist_find_and_remove() found it on busy_ctx. The chunk-exhaustion error path in bt_mesh_delayable_msg_manage() releases a context that was already popped off free_ctx but not yet inserted on busy_ctx, so the context was appended to neither list and was permanently lost from the pool. Because bt_mesh_delayable_msg_init() runs only once from bt_mesh_init(), and node reset/suspend only drain busy_ctx, the loss survives unprovision, re-provision and suspend/resume — it is cleared only by a reboot.\n\nThe error path is reached when the chunk pool (CONFIG_BT_MESH_ACCESS_DELAYABLE_MSG_CHUNK_COUNT, default 40 chunks) is short of the chunks a new delayed message needs and the oldest pending message cannot be flushed because bt_mesh_access_send() returns -EBUSY or -ENOBUFS (all segmented-TX contexts busy, or advertising/segment buffers exhausted). A peer that is provisioned into the mesh network — holding a valid NetKey plus an AppKey or DevKey bound to a server model — can drive both conditions by flooding the victim with requests that elicit segmented responses while withholding the Segment Acknowledgment, which keeps the transmit contexts occupied while queued responses hold the chunk pool. Each further request that arrives in that window leaks one context.\n\nOnce the pool is drained, bt_mesh_delayable_msg_manage() returns -ENOMEM for every subsequent send and bt_mesh_model_send() propagates that error with no fallback to an immediate transmit. Since CONFIG_BT_MESH_ACCESS_DELAYABLE_MSG and CONFIG_BT_MESH_ACCESS_DELAYABLE_MSG_CTX_ENABLED are both enabled by default, ctx->rnd_delay is set for every received access message, so all replies from Configuration Server, Health Server and application server models are silently dropped. The node keeps receiving and processing traffic but never answers, a persistent denial of service until the device is restarted. There is no memory corruption, information disclosure or integrity impact; releases before the fix compute the chunk count from the transmit buffer capacity rather than its payload length, making chunk-pool starvation — and therefore the leak — considerably easier to provoke.",
+      "severity": 5.7,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/416732",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/097001f187ba2764e9ef1cc7113b8da525bf741c",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/416732/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-108919",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/970936",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.sourcecodester.com/",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-5rrx-xww6-5xrh",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "SourceCodester",
-          "product": "Drug Recommendation System",
-          "versions": [
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
+          "defaultStatus": "unaffected",
+          "programFiles": [
+            "subsys/bluetooth/mesh/delayable_msg.c"
+          ],
+          "programRoutines": [
             {
-              "version": "1.0",
-              "status": "affected"
+              "name": "bt_mesh_delayable_msg_manage"
+            },
+            {
+              "name": "release_delayable_msg_ctx"
             }
           ],
-          "cpes": [
-            "cpe:2.3:a:sourcecodester:drug_recommendation_system:*:*:*:*:*:*:*:*"
-          ],
-          "modules": [
-            "Student Registration"
+          "versions": [
+            {
+              "version": "3.6.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThanOrEqual": "4.4.2"
+            }
           ]
         }
       ],
       "problemType": [
-        "Cross Site Scripting",
-        "Code Injection"
+        "dos"
       ]
     },
     {
-      "id": "CVE-2026-104102",
-      "publishedDate": "2026-10-12T18:32:00.821Z",
-      "lastModifiedDate": "2026-10-12T18:32:00.821Z",
-      "description": "copyparty is a portable file server. Prior to 1.20.19, FTP upload path handling does not confine destinations to configured copyparty volumes. When FTP or FTPS is explicitly enabled, a low-privileged authenticated user can submit traversal paths during upload to create a new file outside configured volumes wherever the copyparty process has write permission. The attacker cannot read or overwrite files, the output name receives a randomized suffix, and copyparty does not execute the file; however, unrelated software on the same host could process the newly created file. This issue is fixed in version 1.20.19.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：9001 copyparty\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-108939",
+      "publishedDate": "2026-10-12T23:15:21.617Z",
+      "lastModifiedDate": "2026-10-12T23:15:21.617Z",
+      "description": "A vulnerability has been found in EricLBuehler mistral.rs up to 0.9.3. Impacted is the function is_global_ip of the file mistralrs-server-core/src/media_source.rs. Such manipulation of the argument ip leads to server-side request forgery. The attack can be launched remotely. The exploit has been disclosed to the public and may be used. Upgrading to version 0.9.4 is recommended to address this issue. The name of the patch is cfb8c6a0c42361dc4579a9110b54d339c255b9fd. The affected component should be upgraded.",
+      "severity": 5.3,
+      "fix_suggestion": "📦 受影响组件：EricLBuehler mistral.rs\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/9001/copyparty/security/advisories/GHSA-phv8-wgjp-g4p9",
+          "url": "https://vuldb.com/vuln/416763",
           "type": "reference"
         },
         {
-          "url": "https://github.com/9001/copyparty/security/advisories/GHSA-phv8-wgjp-g4p9",
+          "url": "https://vuldb.com/vuln/416763/cti",
           "type": "reference"
         },
         {
-          "url": "https://github.com/9001/copyparty/commit/b331bb1c8c8cc306b91e4d94221969335a7a3e86",
+          "url": "https://vuldb.com/cve/CVE-2026-108939",
           "type": "reference"
         },
         {
-          "url": "https://github.com/9001/copyparty/releases/tag/v1.20.19",
+          "url": "https://vuldb.com/submit/997600",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/EricLBuehler/mistral.rs/commit/cfb8c6a0c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/EricLBuehler/mistral.rs/pull/2446",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/EricLBuehler/mistral.rs/commit/cfb8c6a0c42361dc4579a9110b54d339c255b9fd",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/EricLBuehler/mistral.rs/releases/tag/v0.9.4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/EricLBuehler/mistral.rs/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "9001",
-          "product": "copyparty",
+          "vendor": "EricLBuehler",
+          "product": "mistral.rs",
           "versions": [
             {
-              "version": "< 1.20.19",
+              "version": "0.9.0",
               "status": "affected"
+            },
+            {
+              "version": "0.9.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.9.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.9.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.9.4",
+              "status": "unaffected"
             }
+          ],
+          "cpes": [
+            "cpe:2.3:a:ericlbuehler:mistral.rs:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
+        "Server-Side Request Forgery"
+      ]
     },
     {
-      "id": "CVE-2026-103061",
-      "publishedDate": "2026-10-12T18:23:41.507Z",
-      "lastModifiedDate": "2026-10-12T18:23:41.507Z",
-      "description": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') vulnerability in gleam-lang gleam allows a malicious package publisher to delete a directory outside the project's build directory when a developer builds a project.\n\nA Hex package release's metadata carries an app field with the release's OTP application name. Gleam reads this field from the hex.pm release API when it downloads dependencies and uses it as the package's build directory name without validating it (hex_manifest_package in compiler-cli/src/dependencies.rs, ProjectPaths::build_directory_for_package). When a dependency fails to compile, Gleam deletes that directory with remove_dir_all. hex.pm didn't restrict the field to a directory name before 2026-10-12, so a publisher could set it to a value such as ../../../../target or an absolute path. When a project depends on such a release directly or transitively and the release fails to compile, gleam build, gleam check, gleam run, gleam test or gleam export deletes the directory the name resolves to. For a pure Gleam package no publisher code runs.\n\nThis issue affects gleam: from 0.32.4 before 1.19.2.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Gleam Gleam\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-19936",
+      "publishedDate": "2026-10-12T23:19:53.113Z",
+      "lastModifiedDate": "2026-10-12T23:19:53.113Z",
+      "description": "The Bluetooth Mesh Access-layer delayable message queue in subsys/bluetooth/mesh/delayable_msg.c shares three intrusive lists (busy_ctx, free_ctx, free_chunks) and one k_work_delayable between two cooperative threads with no synchronization: bt_mesh_delayable_msg_manage() runs on the Bluetooth host RX thread, while delayable_msg_handler() runs on the system workqueue. Both block while the lists are in an intermediate state — the enqueuer in bt_rand(), both in bt_mesh_access_send() — which lets the other context observe torn state. delayable_msg_handler() used the result of sys_slist_get() on busy_ctx without a NULL check, and allocate_delayable_msg_ctx() tested sys_slist_is_empty() and then assumed a separate sys_slist_get() would succeed.\n\nBecause CONFIG_BT_MESH_ACCESS_DELAYABLE_MSG and CONFIG_BT_MESH_ACCESS_DELAYABLE_MSG_CTX_ENABLED default to y, every model response to a received mesh message is parked on this queue, so the enqueuer runs as a direct consequence of inbound traffic. A peer that can get access-layer messages accepted by a model (it must hold the NetKey and a bound AppKey, so a legitimate or compromised network member) controls the arrival rate, the size of the elicited responses and the destination address, and thereby controls occupancy of the 4-entry context pool and the 40-entry chunk pool. Exhausting the chunk pool forces bt_mesh_delayable_msg_manage() down the purge path, which sends and releases the only queued message and leaves busy_ctx empty while the delayable work item is still armed; if the enqueuer then yields, the handler runs against the empty list.\n\nThe result is a read-modify-write through a NULL-based pointer (pending_msg->fired_time += 10) at a fixed low address on the system workqueue thread. On typical targets that faults, aborting the system workqueue thread — which stops all workqueue-driven functionality, including the mesh timing machinery — or resetting the node, so the impact is loss of availability of the affected node. The write value and address are fixed and no attacker-controlled length or index is involved, so this is not exploitable for memory corruption or code execution. The same unsynchronized window also allowed one message context to be selected and released by two contexts at once, producing duplicated transmissions, duplicated send-completion callbacks and crossed chunk ownership.\n\nThe fix serializes every list mutation with a k_spinlock that is never held across a blocking call, makes push_msg_from_delayable_msgs() detach the queue head atomically so a message being sent is on no list, removes the unchecked sys_slist_get() from delayable_msg_handler(), and drops any message that reaches the front of the queue while the stack is suspended or reset.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/gleam-lang/gleam/security/advisories/GHSA-jhcr-c7qm-8589",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/0a6da68955f454edc41e4b916e05c3b974209fe4",
           "type": "reference"
         },
         {
-          "url": "https://cna.erlef.org/cves/CVE-2026-103061.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-103061",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gleam-lang/gleam/commit/d13f27ee80aae7a521d2e9433c4deaf53f892574",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gleam-lang/gleam/commit/d15c981fac6e533d70ac8ee89a6ef4dbf139adc3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gleam-lang/gleam/commit/54bbb2b98af1505b6eed93c45b1936fc76412e5c",
+          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-4p55-7h77-fhgr",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "cpes": [
-            "cpe:2.3:a:gleam-lang:gleam:*:*:*:*:*:*:*:*"
-          ],
+          "vendor": "zephyrproject",
+          "product": "zephyr",
+          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
+          "packageName": "zephyr",
           "defaultStatus": "unaffected",
-          "modules": [
-            "gleam_cli::dependencies",
-            "gleam_core::manifest",
-            "gleam_core::paths",
-            "gleam_core::build::project_compiler",
-            "gleam_cli::fs"
-          ],
-          "packageName": "gleam",
-          "packageURL": "pkg:software-id/gleam.run/gleam",
-          "product": "Gleam",
           "programFiles": [
-            "compiler-cli/src/dependencies.rs",
-            "compiler-core/src/manifest.rs",
-            "compiler-core/src/paths.rs",
-            "compiler-core/src/build/project_compiler.rs",
-            "compiler-cli/src/fs.rs"
+            "subsys/bluetooth/mesh/delayable_msg.c"
           ],
           "programRoutines": [
             {
-              "name": "gleam_cli::dependencies::hex_manifest_package"
+              "name": "allocate_delayable_msg_ctx"
             },
             {
-              "name": "gleam_core::manifest::ManifestPackage::application_name"
+              "name": "bt_mesh_delayable_msg_manage"
             },
             {
-              "name": "gleam_core::paths::ProjectPaths::build_directory_for_package"
+              "name": "delayable_msg_handler"
             },
             {
-              "name": "gleam_core::build::project_compiler::ProjectCompiler::load_cache_or_compile_package"
-            },
-            {
-              "name": "gleam_cli::fs::delete_directory"
+              "name": "push_msg_from_delayable_msgs"
             }
           ],
-          "vendor": "Gleam",
           "versions": [
             {
-              "lessThan": "1.19.2",
+              "version": "3.6.0",
               "status": "affected",
-              "version": "0.32.4",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://ghcr.io",
-          "cpes": [
-            "cpe:2.3:a:gleam-lang:gleam:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "gleam_cli::dependencies",
-            "gleam_core::manifest",
-            "gleam_core::paths",
-            "gleam_core::build::project_compiler",
-            "gleam_cli::fs"
-          ],
-          "packageName": "gleam-lang/gleam",
-          "packageURL": "pkg:oci/gleam?repository_url=ghcr.io%2Fgleam-lang",
-          "product": "Gleam",
-          "programFiles": [
-            "compiler-cli/src/dependencies.rs",
-            "compiler-core/src/manifest.rs",
-            "compiler-core/src/paths.rs",
-            "compiler-core/src/build/project_compiler.rs",
-            "compiler-cli/src/fs.rs"
-          ],
-          "programRoutines": [
-            {
-              "name": "gleam_cli::dependencies::hex_manifest_package"
-            },
-            {
-              "name": "gleam_core::manifest::ManifestPackage::application_name"
-            },
-            {
-              "name": "gleam_core::paths::ProjectPaths::build_directory_for_package"
-            },
-            {
-              "name": "gleam_core::build::project_compiler::ProjectCompiler::load_cache_or_compile_package"
-            },
-            {
-              "name": "gleam_cli::fs::delete_directory"
-            }
-          ],
-          "vendor": "Gleam",
-          "versions": [
-            {
-              "lessThan": "v1.19.2-elixir",
-              "status": "affected",
-              "version": "v0.32.4-elixir",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-erlang",
-              "status": "affected",
-              "version": "v0.32.4-erlang",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-node",
-              "status": "affected",
-              "version": "v0.32.4-node",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-node-slim",
-              "status": "affected",
-              "version": "v0.32.4-node-slim",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-elixir-slim",
-              "status": "affected",
-              "version": "v0.32.4-elixir-slim",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-erlang-slim",
-              "status": "affected",
-              "version": "v0.32.4-erlang-slim",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-erlang-alpine",
-              "status": "affected",
-              "version": "v0.32.4-erlang-alpine",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-elixir-alpine",
-              "status": "affected",
-              "version": "v0.32.4-elixir-alpine",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-node-alpine",
-              "status": "affected",
-              "version": "v0.32.4-node-alpine",
-              "versionType": "other"
-            },
-            {
-              "lessThan": "v1.19.2-scratch",
-              "status": "affected",
-              "version": "v0.32.4-scratch",
-              "versionType": "other"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:gleam-lang:gleam:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "gleam_cli::dependencies",
-            "gleam_core::manifest",
-            "gleam_core::paths",
-            "gleam_core::build::project_compiler",
-            "gleam_cli::fs"
-          ],
-          "packageName": "gleam-lang/gleam",
-          "packageURL": "pkg:github/gleam-lang/gleam",
-          "product": "Gleam",
-          "programFiles": [
-            "compiler-cli/src/dependencies.rs",
-            "compiler-core/src/manifest.rs",
-            "compiler-core/src/paths.rs",
-            "compiler-core/src/build/project_compiler.rs",
-            "compiler-cli/src/fs.rs"
-          ],
-          "programRoutines": [
-            {
-              "name": "gleam_cli::dependencies::hex_manifest_package"
-            },
-            {
-              "name": "gleam_core::manifest::ManifestPackage::application_name"
-            },
-            {
-              "name": "gleam_core::paths::ProjectPaths::build_directory_for_package"
-            },
-            {
-              "name": "gleam_core::build::project_compiler::ProjectCompiler::load_cache_or_compile_package"
-            },
-            {
-              "name": "gleam_cli::fs::delete_directory"
-            }
-          ],
-          "repo": "https://github.com/gleam-lang/gleam",
-          "vendor": "Gleam",
-          "versions": [
-            {
-              "changes": [
-                {
-                  "at": "d15c981fac6e533d70ac8ee89a6ef4dbf139adc3",
-                  "status": "unaffected"
-                },
-                {
-                  "at": "54bbb2b98af1505b6eed93c45b1936fc76412e5c",
-                  "status": "unaffected"
-                }
-              ],
-              "lessThan": "*",
-              "status": "affected",
-              "version": "d13f27ee80aae7a521d2e9433c4deaf53f892574",
-              "versionType": "git"
+              "versionType": "semver",
+              "lessThanOrEqual": "4.4.2"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-22 Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-105274",
-      "publishedDate": "2026-10-12T16:43:58.730Z",
-      "lastModifiedDate": "2026-10-12T18:16:57.155Z",
-      "description": "Improper Handling of Highly Compressed Data (Data Amplification) vulnerability in hexpm hex_core allows an untrusted repository mirror, or a server answering hex_core's API requests, to exhaust the memory of the Erlang VM running hex_core. The same code is vendored in Hex (mix_hex_repo, mix_hex_api) and rebar3 (r3_hex_repo, r3_hex_api).\n\nhex_repo:get_names/1, hex_repo:get_versions/1, hex_repo:get_package/2 and hex_repo:get_policy/2 decompress the registry response with zlib:gunzip/1 and decode the signed envelope before verifying its signature. A mirror doesn't have the repository's private key, but it chooses the compressed bytes, so a small response decompresses into an envelope of any size before the signature check rejects it.\n\nhex_api decodes responses with the application/vnd.hex+erlang content type through hex_safe_binary_to_term:safe_binary_to_term/1, which calls binary_to_term(Binary, [safe]). The safe option prevents atom creation, but it accepts compressed terms and doesn't limit the size of the decoded term, and the check that rejects functions and ports runs after the term has been built. The fix for CVE-2026-21619 added the safe option and that check without bounding the decoded size.\n\nThis issue affects rebar3: from 3.9.1 before 3.27.3; hex: from 2.1.0 before 2.5.2; hex_core: from 0.1.0 before 0.20.0.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：erlang rebar3\n🔓 漏洞类型：CWE-409 (CWE-409)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/hexpm/hex_core/security/advisories/GHSA-7c4r-cgf9-9jmq",
-          "type": "reference"
-        },
-        {
-          "url": "https://cna.erlef.org/cves/CVE-2026-105274.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-105274",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/erlang/rebar3/commit/209c02ec57c2cc3207ee0174c3af3675b8dc8f79",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/erlang/rebar3/commit/360838a22f5b3a88c0358207f2923059bcbb3afb",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hexpm/hex_core/commit/fbb6d9de472e5edb8d6fb6b32a91cb266137892e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hexpm/hex_core/commit/ebe25d110717f6a3addba5232cd4a7dc1c76b628",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hexpm/hex/commit/671f695ac548ed01f5828c2a739ecaa942b21007",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/hexpm/hex/commit/d8b60eee97abb119d525306f048969a217d793a5",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "cpes": [
-            "cpe:2.3:a:erlang:rebar3:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "r3_hex_repo",
-            "r3_hex_api"
-          ],
-          "packageName": "rebar3",
-          "packageURL": "pkg:otp/rebar3?repository_url=https:%2F%2Fgithub.com%2Ferlang%2Frebar3&vcs_url=repository_url=git%2Bhttps:%2F%2Fgithub.com%2Ferlang%2Frebar3.git",
-          "product": "rebar3",
-          "programFiles": [
-            "apps/rebar/src/vendored/r3_hex_repo.erl",
-            "apps/rebar/src/vendored/r3_hex_api.erl"
-          ],
-          "programRoutines": [
-            {
-              "name": "r3_hex_repo:get_names/1"
-            },
-            {
-              "name": "r3_hex_repo:get_versions/1"
-            },
-            {
-              "name": "r3_hex_repo:get_package/2"
-            },
-            {
-              "name": "r3_hex_api:request/4"
-            }
-          ],
-          "repo": "https://github.com/erlang/rebar3",
-          "vendor": "erlang",
-          "versions": [
-            {
-              "lessThan": "3.27.3",
-              "status": "affected",
-              "version": "3.9.1",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:erlang:rebar3:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "r3_hex_repo",
-            "r3_hex_api"
-          ],
-          "packageName": "erlang/rebar3",
-          "packageURL": "pkg:github/erlang/rebar3",
-          "product": "rebar3",
-          "programFiles": [
-            "apps/rebar/src/vendored/r3_hex_repo.erl",
-            "apps/rebar/src/vendored/r3_hex_api.erl"
-          ],
-          "programRoutines": [
-            {
-              "name": "r3_hex_repo:get_names/1"
-            },
-            {
-              "name": "r3_hex_repo:get_versions/1"
-            },
-            {
-              "name": "r3_hex_repo:get_package/2"
-            },
-            {
-              "name": "r3_hex_api:request/4"
-            }
-          ],
-          "repo": "https://github.com/erlang/rebar3",
-          "vendor": "erlang",
-          "versions": [
-            {
-              "lessThan": "360838a22f5b3a88c0358207f2923059bcbb3afb",
-              "status": "affected",
-              "version": "209c02ec57c2cc3207ee0174c3af3675b8dc8f79",
-              "versionType": "git"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://repo.hex.pm",
-          "cpes": [
-            "cpe:2.3:a:hexpm:hex_core:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "hex_repo",
-            "hex_api",
-            "hex_safe_binary_to_term"
-          ],
-          "packageName": "hex_core",
-          "packageURL": "pkg:hex/hex_core",
-          "product": "hex_core",
-          "programFiles": [
-            "src/hex_repo.erl",
-            "src/hex_api.erl",
-            "src/hex_safe_binary_to_term.erl"
-          ],
-          "programRoutines": [
-            {
-              "name": "hex_repo:get_names/1"
-            },
-            {
-              "name": "hex_repo:get_versions/1"
-            },
-            {
-              "name": "hex_repo:get_package/2"
-            },
-            {
-              "name": "hex_repo:get_policy/2"
-            },
-            {
-              "name": "hex_api:request/4"
-            },
-            {
-              "name": "hex_safe_binary_to_term:safe_binary_to_term/1"
-            }
-          ],
-          "repo": "https://github.com/hexpm/hex_core",
-          "vendor": "hexpm",
-          "versions": [
-            {
-              "lessThan": "0.20.0",
-              "status": "affected",
-              "version": "0.1.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:hexpm:hex_core:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "hex_repo",
-            "hex_api",
-            "hex_safe_binary_to_term"
-          ],
-          "packageName": "hexpm/hex_core",
-          "packageURL": "pkg:github/hexpm/hex_core",
-          "product": "hex_core",
-          "programFiles": [
-            "src/hex_repo.erl",
-            "src/hex_api.erl",
-            "src/hex_safe_binary_to_term.erl"
-          ],
-          "programRoutines": [
-            {
-              "name": "hex_repo:get_names/1"
-            },
-            {
-              "name": "hex_repo:get_versions/1"
-            },
-            {
-              "name": "hex_repo:get_package/2"
-            },
-            {
-              "name": "hex_repo:get_policy/2"
-            },
-            {
-              "name": "hex_api:request/4"
-            },
-            {
-              "name": "hex_safe_binary_to_term:safe_binary_to_term/1"
-            }
-          ],
-          "repo": "https://github.com/hexpm/hex_core",
-          "vendor": "hexpm",
-          "versions": [
-            {
-              "lessThan": "ebe25d110717f6a3addba5232cd4a7dc1c76b628",
-              "status": "affected",
-              "version": "fbb6d9de472e5edb8d6fb6b32a91cb266137892e",
-              "versionType": "git"
-            }
-          ]
-        },
-        {
-          "cpes": [
-            "cpe:2.3:a:hexpm:hex:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "mix_hex_repo",
-            "mix_hex_api"
-          ],
-          "packageName": "hex",
-          "packageURL": "pkg:otp/hex?repository_url=https:%2F%2Fgithub.com%2Fhexpm%2Fhex&vcs_url=repository_url=git%2Bhttps:%2F%2Fgithub.com%2Fhexpm%2Fhex.git",
-          "product": "hex",
-          "programFiles": [
-            "src/mix_hex_repo.erl",
-            "src/mix_hex_api.erl"
-          ],
-          "programRoutines": [
-            {
-              "name": "mix_hex_repo:get_names/1"
-            },
-            {
-              "name": "mix_hex_repo:get_versions/1"
-            },
-            {
-              "name": "mix_hex_repo:get_package/2"
-            },
-            {
-              "name": "mix_hex_repo:get_policy/2"
-            },
-            {
-              "name": "mix_hex_api:request/4"
-            }
-          ],
-          "repo": "https://github.com/hexpm/hex",
-          "vendor": "hexpm",
-          "versions": [
-            {
-              "lessThan": "2.5.2",
-              "status": "affected",
-              "version": "2.1.0",
-              "versionType": "semver"
-            }
-          ]
-        },
-        {
-          "collectionURL": "https://github.com",
-          "cpes": [
-            "cpe:2.3:a:hexpm:hex:*:*:*:*:*:*:*:*"
-          ],
-          "defaultStatus": "unaffected",
-          "modules": [
-            "mix_hex_repo",
-            "mix_hex_api"
-          ],
-          "packageName": "hexpm/hex",
-          "packageURL": "pkg:github/hexpm/hex",
-          "product": "hex",
-          "programFiles": [
-            "src/mix_hex_repo.erl",
-            "src/mix_hex_api.erl"
-          ],
-          "programRoutines": [
-            {
-              "name": "mix_hex_repo:get_names/1"
-            },
-            {
-              "name": "mix_hex_repo:get_versions/1"
-            },
-            {
-              "name": "mix_hex_repo:get_package/2"
-            },
-            {
-              "name": "mix_hex_repo:get_policy/2"
-            },
-            {
-              "name": "mix_hex_api:request/4"
-            }
-          ],
-          "repo": "https://github.com/hexpm/hex",
-          "vendor": "hexpm",
-          "versions": [
-            {
-              "lessThan": "d8b60eee97abb119d525306f048969a217d793a5",
-              "status": "affected",
-              "version": "671f695ac548ed01f5828c2a739ecaa942b21007",
-              "versionType": "git"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-409 Improper Handling of Highly Compressed Data (Data Amplification)"
-      ],
-      "cwe_ids": [
-        "CWE-409"
+        "race"
       ]
     }
   ]
