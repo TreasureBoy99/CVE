@@ -2,15 +2,284 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-10-18T09:42:13.906571",
+    "total_count": 5,
+    "last_updated": "2026-10-18T13:35:02.041438",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 2,
+      "medium": 2,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-73800",
+      "publishedDate": "2026-10-14T14:37:49.783Z",
+      "lastModifiedDate": "2026-10-18T13:33:34.382Z",
+      "description": "Gitea resolves local reusable workflow files from a fork's head commit when a trusted base-branch workflow runs for a pull_request_target event. A fork author can modify a referenced reusable workflow so attacker-controlled code executes with the repository and organization secrets available to that event. Exploitation requires a base workflow that calls a local reusable workflow, and bypasses the intended separation between trusted base code and untrusted fork code.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Gitea Gitea\n🔓 漏洞类型：Code Injection, CWE-829 (CWE-94, CWE-829)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-gitea/gitea/security/advisories/GHSA-r9ch-mqjm-g67v",
+          "type": "reference"
+        },
+        {
+          "url": "https://blog.gitea.com/release-of-1.27.2/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/38886",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/38897",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/releases/tag/v1.27.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Gitea",
+          "product": "Gitea",
+          "packageName": "gitea/gitea",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "1.19.0",
+              "status": "affected",
+              "lessThan": "1.27.2",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
+        "CWE-829: Inclusion of Functionality from Untrusted Control Sphere"
+      ],
+      "cwe_ids": [
+        "CWE-94",
+        "CWE-829"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-73539",
+      "publishedDate": "2026-10-14T14:37:44.243Z",
+      "lastModifiedDate": "2026-10-18T13:32:51.154Z",
+      "description": "Gitea substitutes a URL derived from the markup Context field into external renderer command templates without escaping the reference path before shell-style argument splitting. A crafted Context can inject additional renderer arguments, including options that load executable filter files. On deployments using a susceptible external renderer such as pandoc, a user who can place a filter file at an accessible path can cause it to execute as the Gitea service account; the public repository markup endpoint itself can be reachable without authentication.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Gitea Gitea\n🔓 漏洞类型：Argument Injection (CWE-88)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-gitea/gitea/security/advisories/GHSA-579w-82gf-89m2",
+          "type": "reference"
+        },
+        {
+          "url": "https://blog.gitea.com/release-of-1.27.2/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/38885",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/38898",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/releases/tag/v1.27.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Gitea",
+          "product": "Gitea",
+          "packageName": "gitea",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.27.1",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-88: Improper Neutralization of Argument Delimiters in a Command ('Argument Injection')"
+      ],
+      "cwe_ids": [
+        "CWE-88"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-73535",
+      "publishedDate": "2026-10-14T14:37:39.073Z",
+      "lastModifiedDate": "2026-10-18T13:32:08.609Z",
+      "description": "Gitea's OpenID connect handler accepts a user's password without enforcing enrolled TOTP or WebAuthn verification before completing sign-in and linking an OpenID identifier. When OpenID sign-in is enabled, an attacker who knows the victim's password can obtain a session and link an attacker-controlled identifier. The attacker can then sign in through that identifier without the victim's password or second factor, and a password change does not remove the link.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Gitea Gitea\n🔓 漏洞类型：CWE-304, CWE-696 (CWE-304, CWE-696)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-gitea/gitea/security/advisories/GHSA-8xjr-x7rg-hp5h",
+          "type": "reference"
+        },
+        {
+          "url": "https://blog.gitea.com/release-of-1.27.2/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/38805",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/38810",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/releases/tag/v1.27.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Gitea",
+          "product": "Gitea",
+          "packageName": "gitea.dev",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.27.1",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-304: Missing Critical Step in Authentication",
+        "CWE-696: Incorrect Behavior Order"
+      ],
+      "cwe_ids": [
+        "CWE-304",
+        "CWE-696"
+      ]
+    },
+    {
+      "id": "CVE-2026-70396",
+      "publishedDate": "2026-10-14T14:36:36.550Z",
+      "lastModifiedDate": "2026-10-18T13:31:06.460Z",
+      "description": "Gitea's organization repository-creation API requires write:organization but omits the write:repository token scope enforced by other repository-creation routes. A personal access token or OAuth application token without repository-write scope can therefore create organization-owned repositories if the authorizing user has permission to do so. This bypasses the token's delegated scope boundary while remaining subject to the user's organization permissions.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Gitea Gitea\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-gitea/gitea/security/advisories/GHSA-hxhc-246f-rvqc",
+          "type": "reference"
+        },
+        {
+          "url": "https://blog.gitea.com/release-of-1.27.3/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/39007",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/39014",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/releases/tag/v1.27.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Gitea",
+          "product": "Gitea",
+          "packageName": "code.gitea.io/gitea",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "lessThanOrEqual": "1.27.2",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863: Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ],
+      "cvss_severity": "HIGH"
+    },
+    {
+      "id": "CVE-2026-60021",
+      "publishedDate": "2026-10-14T14:28:46.424Z",
+      "lastModifiedDate": "2026-10-18T13:31:27.676Z",
+      "description": "Gitea's initial GitLab migration version probe uses an HTTP client without a timeout and does not attach the migration task's cancellation context. An authenticated user who can start migrations can target an attacker-controlled server that keeps the response open indefinitely. The request continues after task cancellation and can exhaust the migration worker pool, preventing other migrations from progressing.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Gitea Gitea\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/go-gitea/gitea/security/advisories/GHSA-5952-x23q-p23f",
+          "type": "reference"
+        },
+        {
+          "url": "https://blog.gitea.com/release-of-1.27.3/",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/39023",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/pull/39035",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/go-gitea/gitea/releases/tag/v1.27.3",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Gitea",
+          "product": "Gitea",
+          "packageName": "code.gitea.io/gitea",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "1.16.0",
+              "status": "affected",
+              "lessThan": "1.27.3",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption"
+      ],
+      "cwe_ids": [
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
+    }
+  ]
 }
