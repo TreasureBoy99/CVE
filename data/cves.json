@@ -3,10 +3,10 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 4,
-    "last_updated": "2026-10-21T06:35:37.442169",
+    "last_updated": "2026-10-21T12:19:27.849204",
     "severity_distribution": {
-      "critical": 1,
-      "high": 0,
+      "critical": 0,
+      "high": 1,
       "medium": 1,
       "low": 0,
       "none": 2
@@ -14,198 +14,158 @@
   },
   "cves": [
     {
-      "id": "CVE-2026-71195",
-      "publishedDate": "2026-10-21T05:31:56.019Z",
-      "lastModifiedDate": "2026-10-21T06:15:43.822Z",
-      "description": "In OpenStack Manila before 23.0.1, multiple Manila API operations on public shares do not verify that the caller owns the share. The API controllers authorize operations against the caller's own project context, then load a foreign public share without re-authorizing against the share's actual owner. This affects the following operations: allow_access: grant data-plane read/write access to another tenant's share; deny_access: revoke the owner's existing access rules; update_access: escalate access level (e.g., ro to rw); create_share_backup: exfiltrate share data via a backup created under the attacker's project; soft_delete: move a foreign share to the recycle bin; restore: interfere with the owner's deletion workflow; export location metadata: create, update, and delete metadata on foreign export locations; access rule listing: disclose IPs, usernames, and CephFS keys. Any authenticated project member can exploit these operations on any public share. The share UUID is visible since the share is public.",
-      "severity": 9.9,
-      "fix_suggestion": "📦 受影响组件：OpenStack Manila\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-81755",
+      "publishedDate": "2026-10-21T11:58:26.104Z",
+      "lastModifiedDate": "2026-10-21T11:58:26.104Z",
+      "description": "Uncontrolled resource consumption in the streaming RPC component of Apache bRPC (version < 1.18.0) allows a remote attacker to exhaust server memory and cause denial of service by sending a single RPC request that declares an excessive number of streams.\n\nRoot Cause:\nIn the streaming RPC feature, a client can declare multiple streams in one RPC request by putting extra stream identifiers into the repeated field `stream_settings.extra_stream_ids` of the RPC meta. On the server side, `StreamAccept` creates one response stream for every stream identifier declared by the request, without limiting the number of streams accepted in a single RPC. The request body size is only bounded by `max_body_size` (default 64MB), which is enough to carry millions of stream identifiers. Each accepted stream allocates its own bthread execution queue and associated resources, so a single crafted request can make the server create a huge number of streams and exhaust memory, leading to denial of service.\n\nAffected Scenarios:\nUse a bRPC server that serves streaming RPC and calls `StreamAccept` to accept streams from untrusted clients.\n\nHow to Fix: \n(Choose one of the following options) \n1. Upgrade bRPC to the 1.18.0 version.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3493 \n\n\nNote:\nThe fix adds a new gflag `stream_max_streams_per_request` with a default value of 64. Requests declaring more streams than the limit are rejected before any response stream is created. Applications that legitimately need to accept more than 64 streams in one RPC must raise this flag; otherwise such requests will fail after applying the fix.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://launchpad.net/bugs/2161412",
-          "type": "reference"
-        },
-        {
-          "url": "https://openwall.com/lists/oss-security/2026/10/20/18",
-          "type": "reference"
-        },
-        {
-          "url": "https://security.openstack.org/ossa/OSSA-2026-046.html",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "product": "Manila",
-          "repo": "https://opendev.org/openstack/manila",
-          "vendor": "OpenStack",
-          "versions": [
-            {
-              "lessThan": "20.0.3",
-              "status": "affected",
-              "version": "1.0.0",
-              "versionType": "semver"
-            },
-            {
-              "lessThan": "21.0.3",
-              "status": "affected",
-              "version": "21.0.0",
-              "versionType": "semver"
-            },
-            {
-              "lessThan": "22.0.2",
-              "status": "affected",
-              "version": "22.0.0",
-              "versionType": "semver"
-            },
-            {
-              "lessThan": "23.0.1",
-              "status": "affected",
-              "version": "23.0.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-863 Incorrect Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-863"
-      ]
-    },
-    {
-      "id": "CVE-2026-93856",
-      "publishedDate": "2026-10-21T05:36:39.501Z",
-      "lastModifiedDate": "2026-10-21T06:16:23.459Z",
-      "description": "In OpenStack Cinder through 29.0.0, cross-project information disclosure can occur in the Messages API. A non-admin user with the project-scoped 'member' or 'reader' role making the Block Storage API v3.3 \"List messages\" call finds the non-expired user messages for other projects included in the response, resulting in the leakage of UUIDs of resources owned by other projects, in addition to the user message about the other projects' resources (which, by design, are sanitized generic messages). All Cinder deployments are affected.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：OpenStack Cinder\n🔓 漏洞类型：CWE-669 (CWE-669)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://bugs.launchpad.net/cinder/+bug/2160671",
-          "type": "reference"
-        },
-        {
-          "url": "https://security.openstack.org/ossa/OSSA-2026-045.html",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.openwall.com/lists/oss-security/2026/10/20/17",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "defaultStatus": "unaffected",
-          "modules": [
-            "Block Storage API version 3.3"
-          ],
-          "product": "Cinder",
-          "repo": "https://opendev.org/openstack/cinder",
-          "vendor": "OpenStack",
-          "versions": [
-            {
-              "lessThan": "26.3.1",
-              "status": "affected",
-              "version": "9.0.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "27.0.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "28.0.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "29.0.0",
-              "versionType": "semver"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-669 Incorrect Resource Transfer Between Spheres"
-      ],
-      "cwe_ids": [
-        "CWE-669"
-      ]
-    },
-    {
-      "id": "CVE-2026-101296",
-      "publishedDate": "2026-10-20T13:45:39.959Z",
-      "lastModifiedDate": "2026-10-21T06:31:55.233Z",
-      "description": "A missing critical step in authentication vulnerability in Apache Tomcat when the JNDI realm was configured with with a non GSSAPI SASL authentication mechanism allowed attackers to authenticate without providing the correct password.\n\n\n\nThis issue affects Apache Tomcat: from 11.0.0-M1 through 11.0.26, from 10.1.0-M1 through 10.1.60, from 9.0.0.M1 through 9.0.122.\n\n\n\nThe following versions were EOL at the time the CVE was created but are known to be affected: from 8.5.0 through 8.5.100, from 7.0.0 through 7.0.109. Other unsupported versions may also be affected.\n\n\n\nUsers are recommended to upgrade to version 11.0.27, 10.1.61 or 9.0.123, which fix the issue.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Tomcat\n🔓 漏洞类型：CWE-304 (CWE-304)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://lists.apache.org/thread.html/bl52b9go9ckoov8x4v3dt6rkm573cygd",
+          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
           "type": "reference"
         }
       ],
       "affected": [
         {
           "vendor": "Apache Software Foundation",
-          "product": "Apache Tomcat",
+          "product": "Apache bRPC",
+          "packageURL": "pkg:github/apache/brpc",
           "versions": [
             {
               "status": "affected",
-              "version": "11.0.0-M1",
-              "lessThanOrEqual": "11.0.26",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "10.1.0-M1",
-              "lessThanOrEqual": "10.1.60",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "9.0.0.M1",
-              "lessThanOrEqual": "9.0.122",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "8.5.0",
-              "lessThanOrEqual": "8.5.100",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "7.0.0",
-              "lessThanOrEqual": "7.0.109",
+              "version": "0",
+              "lessThan": "1.18.0",
               "versionType": "semver"
             }
           ],
-          "defaultStatus": "unaffected"
+          "defaultStatus": "unaffected",
+          "collectionURL": "https://github.com",
+          "packageName": "apache/brpc"
         }
       ],
       "problemType": [
-        "CWE-304 Missing critical step in authentication"
+        "CWE-400 Uncontrolled Resource Consumption"
       ],
       "cwe_ids": [
-        "CWE-304"
+        "CWE-400"
+      ],
+      "cvss_severity": "MEDIUM"
+    },
+    {
+      "id": "CVE-2026-80463",
+      "publishedDate": "2026-10-21T11:57:30.211Z",
+      "lastModifiedDate": "2026-10-21T11:57:30.211Z",
+      "description": "Unbounded memory accumulation in the stream message reassembly path of Apache bRPC (version < 1.18.0) on all platforms allows remote attackers to exhaust the memory of a server (denial of service) by sending an endless sequence of continuation data frames.\n\nRoot Cause:\nThe streaming RPC protocol bounds every single data frame by max_body_size, but a fragmented stream message accumulates continuation frames into one buffer (_pending_buf) without any limit on the accumulated size. A malicious peer that can open a stream can therefore keep sending continuation frames to make the receiver accumulate an arbitrarily large in-memory message. Since the default flow-control settings (socket_max_streams_unconsumed_bytes=0) do not throttle the sending rate, the receiver's memory grows until the process runs out of memory and crashes or becomes unavailable.\n\nAffected Scenarios:\nServices that accept streams from untrusted clients (for example using brpc::StreamAccept or brpc::StreamCreate with the built-in streaming protocol) are affected.\n\n\nHow to Fix:\n(Choose one of the following options)\n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3489 \n\n\nNote:\nThe fix limits the accumulated payload of a fragmented stream message to max_body_size (default 64MB). When the accumulated payload exceeds the limit, the pending fragments are released and the stream is closed with error EMSGSIZE. After applying the fix, legitimate fragmented stream messages larger than max_body_size will be rejected; you can adjust the gflag max_body_size to change the limit.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apache Software Foundation",
+          "product": "Apache bRPC",
+          "packageURL": "pkg:github/apache/brpc",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.18.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "collectionURL": "https://github.com",
+          "packageName": "apache/brpc"
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
       ]
     },
     {
-      "id": "CVE-2026-16487",
-      "publishedDate": "2026-10-19T05:27:30.898Z",
-      "lastModifiedDate": "2026-10-21T06:20:13.903Z",
-      "description": "",
+      "id": "CVE-2026-79704",
+      "publishedDate": "2026-10-21T11:56:20.309Z",
+      "lastModifiedDate": "2026-10-21T11:56:20.309Z",
+      "description": "An out-of-bounds read vulnerability exists in the streaming RPC client of Apache bRPC (versions 1.11.0 through  1.17.0) on all platforms. A client that creates multiple streams in a single RPC expects the server response to carry exactly one extra_stream_id for every additional stream. The response handling path indexed the returned identifiers using the locally created stream count without first validating the size of the returned list, so a malicious or compromised server (or an on-path attacker) can trigger an out-of-bounds read in the client by returning a malformed StreamSettings response with fewer extra_stream_ids than expected. This may crash the client process (denial of service) or leak unintended memory contents into subsequent stream handling; surplus identifiers have no valid client-stream mapping and are processed inconsistently.\n\nRoot Cause:\nSince bRPC 1.11.0, a client can create multiple streams in one RPC via batch StreamCreate. The expected behavior is that the server response must return exactly (N-1) extra_stream_ids, where N is the number of locally created streams. In Controller::HandleStreamConnection, the response path reads extra_stream_ids[i-1] for each additional local stream without first comparing the returned list size with (N-1). If the server returns fewer identifiers, the read runs past the end of the returned list (out-of-bounds read); if it returns more, the surplus identifiers have no corresponding client-side stream.\n\nAffected Scenarios:\nA bRPC client using multi-stream RPC (creating more than one stream in a single RPC) that connects to an untrusted, malicious, or compromised server or to a server reached through an untrusted network path. The server sends a malformed StreamSettings response to trigger the issue.\n\n\nHow to Fix: \n(Choose one of the following options) \n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3485 \n\n\nNote:\nThe fix makes the client reject responses whose extra_stream_ids count does not exactly match the number of additional client streams. Such mismatched responses now fail the RPC with ERESPONSE and go through the existing stream cleanup path, instead of being partially processed.",
       "severity": "N/A",
-      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [],
-      "affected": [],
-      "problemType": []
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apache Software Foundation",
+          "product": "Apache bRPC",
+          "packageURL": "pkg:github/apache/brpc",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.11.0",
+              "lessThan": "1.18.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "collectionURL": "https://github.com",
+          "packageName": "apache/brpc"
+        }
+      ],
+      "problemType": [
+        "CWE-125 Out-of-bounds Read"
+      ],
+      "cwe_ids": [
+        "CWE-125"
+      ]
+    },
+    {
+      "id": "CVE-2026-78334",
+      "publishedDate": "2026-10-21T11:54:24.478Z",
+      "lastModifiedDate": "2026-10-21T11:54:24.478Z",
+      "description": "Missing authentication in the streaming RPC path of Apache bRPC (version < 1.18.0) on all platforms allows a remote attacker to bypass server authentication and inject or deliver streaming frames, when a server is configured with an Authenticator.\n\nRoot Cause:\nWhen authentication is configured, streaming RPC frames are consumed directly by the streaming parser (ParseStreamingMessage) and never pass through InputMessenger's authentication hook, so an unauthenticated peer can exchange frames without being authenticated. In addition, a server-accepted stream is bound lazily to the first frame that happens to carry its id, so a stream could accept a frame carrying its id from a socket other than the socket that created the stream.\n\nAffected Scenarios:\nA bRPC server configured with authentication that serves streaming RPC from an untrusted network, or a deployment where a foreign connection can impersonate a stream by id, can be made to accept unauthorized streaming frames.\n\nHow to Fix:\nUpgrade bRPC to 1.18.0, which fixes this issue, or apply the patch in PR https://github.com/apache/brpc/pull/3481. \n\nNote:\nThe fix rejects streaming frames on server sockets when configured authentication has not completed, and keeps server-accepted streams bound to the socket of their creating RPC and rejects frames arriving from another socket. Authenticated streaming RPC behavior and the wire format are unchanged; only unauthenticated or foreign-socket frames are now rejected.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apache Software Foundation",
+          "product": "Apache bRPC",
+          "packageURL": "pkg:github/apache/brpc",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.18.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "collectionURL": "https://github.com",
+          "packageName": "apache/brpc"
+        }
+      ],
+      "problemType": [
+        "CWE-306 Missing Authentication for Critical Function"
+      ],
+      "cwe_ids": [
+        "CWE-306"
+      ],
+      "cvss_severity": "HIGH"
     }
   ]
 }
