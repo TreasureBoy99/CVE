@@ -2,1166 +2,210 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 16,
-    "last_updated": "2026-10-21T01:42:35.755496",
+    "total_count": 4,
+    "last_updated": "2026-10-21T06:35:37.442169",
     "severity_distribution": {
       "critical": 1,
-      "high": 2,
-      "medium": 12,
+      "high": 0,
+      "medium": 1,
       "low": 0,
-      "none": 1
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-113744",
-      "publishedDate": "2026-10-21T01:30:24.075Z",
-      "lastModifiedDate": "2026-10-21T01:30:24.075Z",
-      "description": "A security vulnerability has been detected in Tenda AC19 16.03.10.07. The impacted element is the function formSetFirewallCfg of the file /goform/SetFirewallCfg of the component httpd Web Management Service. Such manipulation of the argument firewallEn leads to stack-based buffer overflow. The attack may be launched remotely. The exploit has been disclosed publicly and may be used.",
-      "severity": 10,
-      "fix_suggestion": "📦 受影响组件：Tenda AC19\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-71195",
+      "publishedDate": "2026-10-21T05:31:56.019Z",
+      "lastModifiedDate": "2026-10-21T06:15:43.822Z",
+      "description": "In OpenStack Manila before 23.0.1, multiple Manila API operations on public shares do not verify that the caller owns the share. The API controllers authorize operations against the caller's own project context, then load a foreign public share without re-authorizing against the share's actual owner. This affects the following operations: allow_access: grant data-plane read/write access to another tenant's share; deny_access: revoke the owner's existing access rules; update_access: escalate access level (e.g., ro to rw); create_share_backup: exfiltrate share data via a backup created under the attacker's project; soft_delete: move a foreign share to the recycle bin; restore: interfere with the owner's deletion workflow; export location metadata: create, update, and delete metadata on foreign export locations; access rule listing: disclose IPs, usernames, and CephFS keys. Any authenticated project member can exploit these operations on any public share. The share UUID is visible since the share is public.",
+      "severity": 9.9,
+      "fix_suggestion": "📦 受影响组件：OpenStack Manila\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/422925",
+          "url": "https://launchpad.net/bugs/2161412",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/422925/cti",
+          "url": "https://openwall.com/lists/oss-security/2026/10/20/18",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-113744",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/1018542",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/henrythekingofuk/TendaCVE",
-          "type": "poc"
-        },
-        {
-          "url": "https://www.tenda.com.cn/",
+          "url": "https://security.openstack.org/ossa/OSSA-2026-046.html",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Tenda",
-          "product": "AC19",
+          "defaultStatus": "unaffected",
+          "product": "Manila",
+          "repo": "https://opendev.org/openstack/manila",
+          "vendor": "OpenStack",
           "versions": [
             {
-              "version": "16.03.10.07",
-              "status": "affected"
+              "lessThan": "20.0.3",
+              "status": "affected",
+              "version": "1.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "21.0.3",
+              "status": "affected",
+              "version": "21.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "22.0.2",
+              "status": "affected",
+              "version": "22.0.0",
+              "versionType": "semver"
+            },
+            {
+              "lessThan": "23.0.1",
+              "status": "affected",
+              "version": "23.0.0",
+              "versionType": "semver"
             }
-          ],
-          "cpes": [
-            "cpe:2.3:h:tenda:ac19:*:*:*:*:*:*:*:*"
-          ],
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-863 Incorrect Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-863"
+      ]
+    },
+    {
+      "id": "CVE-2026-93856",
+      "publishedDate": "2026-10-21T05:36:39.501Z",
+      "lastModifiedDate": "2026-10-21T06:16:23.459Z",
+      "description": "In OpenStack Cinder through 29.0.0, cross-project information disclosure can occur in the Messages API. A non-admin user with the project-scoped 'member' or 'reader' role making the Block Storage API v3.3 \"List messages\" call finds the non-expired user messages for other projects included in the response, resulting in the leakage of UUIDs of resources owned by other projects, in addition to the user message about the other projects' resources (which, by design, are sanitized generic messages). All Cinder deployments are affected.",
+      "severity": 4.3,
+      "fix_suggestion": "📦 受影响组件：OpenStack Cinder\n🔓 漏洞类型：CWE-669 (CWE-669)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://bugs.launchpad.net/cinder/+bug/2160671",
+          "type": "reference"
+        },
+        {
+          "url": "https://security.openstack.org/ossa/OSSA-2026-045.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/10/20/17",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "defaultStatus": "unaffected",
           "modules": [
-            "httpd Web Management Service"
+            "Block Storage API version 3.3"
+          ],
+          "product": "Cinder",
+          "repo": "https://opendev.org/openstack/cinder",
+          "vendor": "OpenStack",
+          "versions": [
+            {
+              "lessThan": "26.3.1",
+              "status": "affected",
+              "version": "9.0.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "27.0.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "28.0.0",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "29.0.0",
+              "versionType": "semver"
+            }
           ]
         }
       ],
       "problemType": [
-        "Stack-based Buffer Overflow",
-        "Memory Corruption"
-      ]
-    },
-    {
-      "id": "CVE-2026-82814",
-      "publishedDate": "2026-10-21T01:30:35.849Z",
-      "lastModifiedDate": "2026-10-21T01:30:35.849Z",
-      "description": "The Duplicator and Duplicator Pro plugins for WordPress are vulnerable to PHP Object Injection in all versions up to, and including, 1.5.17 and 4.6.10, respectively, via deserialization of untrusted database content in DUPX_UpdateEngine::unserializeTest() during migration. This allows unauthenticated attackers to store a serialized object in public site content before an administrator builds a package and later performs a migration or import that runs database search-and-replace. Duplicator Free bundles a Requests 1.7 POP chain that permits attacker-selected callbacks, resulting in direct operating-system command execution. Duplicator Pro bundles an IndexList destructor gadget that permits deletion of an attacker-selected existing file when its containing directory is writable by the installer PHP process; deletion of wp-config.php can expose the setup wizard and lead to site takeover and code execution if the attacker reaches it first and supplies a reachable database they control. The package must be created after the carrier is stored, and a later administrator migration action is required.",
-      "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：smub Duplicator – Backups & Migration Plugin – Cloud Backups, Scheduled Backups, & More\n🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.wordfence.com/threat-intel/vulnerabilities/id/767fb03a-58a3-464b-98b2-5378cfec09ae?source=cve",
-          "type": "reference"
-        },
-        {
-          "url": "https://plugins.trac.wordpress.org/changeset/3687092/duplicator",
-          "type": "reference"
-        },
-        {
-          "url": "https://duplicator.com/knowledge-base/changelog/#v5-0-0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "smub",
-          "product": "Duplicator – Backups & Migration Plugin – Cloud Backups, Scheduled Backups, & More",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "1.5.17",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        },
-        {
-          "vendor": "Duplicator",
-          "product": "Duplicator Pro",
-          "versions": [
-            {
-              "version": "0",
-              "status": "affected",
-              "lessThanOrEqual": "4.6.10",
-              "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-502 Deserialization of Untrusted Data"
+        "CWE-669 Incorrect Resource Transfer Between Spheres"
       ],
       "cwe_ids": [
-        "CWE-502"
+        "CWE-669"
       ]
     },
     {
-      "id": "CVE-2026-111160",
-      "publishedDate": "2026-10-15T18:57:48.390Z",
-      "lastModifiedDate": "2026-10-21T01:24:32.515Z",
-      "description": "LightLLM through 1.2.0 contains a denial of service vulnerability that allows unauthenticated attackers to crash the inference worker by supplying the internal pd_kv_trans_params field to the /generate endpoint. Attackers can send a single request whose parameters cause pickle.loads to fail in InferSamplingParams, killing the inference thread while /health stays up and all later requests hang until restart.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：ModelTC LightLLM\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ModelTC/LightLLM/issues/1629",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/ModelTC/lightllm/blob/v1.2.0/lightllm/server/api_lightllm.py#L37-L43",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ModelTC/lightllm/blob/v1.2.0/lightllm/server/core/objs/sampling_params.py#L356-L357",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ModelTC/lightllm/blob/v1.2.0/lightllm/server/router/model_infer/infer_batch.py#L484-L485",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ModelTC/LightLLM",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/lightllm-through-1.2.0-unauthenticated-dos-via-pd-kv-trans-params-deserialization",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ModelTC",
-          "product": "LightLLM",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "1.2.0",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "packageURL": "pkg:github/ModelTC/lightllm",
-          "repo": "https://github.com/ModelTC/lightllm"
-        }
-      ],
-      "problemType": [
-        "Deserialization of Untrusted Data"
-      ]
-    },
-    {
-      "id": "CVE-2026-111170",
-      "publishedDate": "2026-10-15T18:57:55.295Z",
-      "lastModifiedDate": "2026-10-21T01:30:43.369Z",
-      "description": "kedro-datasets from 9.3.0 through 9.6.0 contains a path traversal vulnerability in MatplotlibDataset.save() that allows attackers to write files outside the dataset directory by supplying absolute plot names. Because validate_sub_path() strips leading slashes while pathlib's join discards the base path, attackers can create or overwrite files anywhere the process can write.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：kedro-org kedro-datasets\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/kedro-org/kedro-plugins/pull/1544",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/kedro-org/kedro-plugins/blob/611ce7a20dcb0be655190afb9064468fa278b08c/kedro-datasets/kedro_datasets/matplotlib/matplotlib_dataset.py#L198-L201",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/kedro-org/kedro-plugins/blob/611ce7a20dcb0be655190afb9064468fa278b08c/kedro-datasets/kedro_datasets/_utils/security.py#L22",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/kedro-org/kedro-plugins/security/advisories/GHSA-cjg8-h5qc-hrjv",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/kedro-org/kedro-plugins",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/kedro-datasets-9.3.0-through-9.6.0-path-traversal-via-matplotlibdataset-plot-name",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "kedro-org",
-          "product": "kedro-datasets",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "9.3.0",
-              "lessThanOrEqual": "9.6.0",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "packageURL": "pkg:pypi/kedro-datasets",
-          "collectionURL": "https://pypi.org",
-          "repo": "https://github.com/kedro-org/kedro-plugins"
-        }
-      ],
-      "problemType": [
-        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ]
-    },
-    {
-      "id": "CVE-2026-113743",
-      "publishedDate": "2026-10-21T01:15:29.254Z",
-      "lastModifiedDate": "2026-10-21T01:15:29.254Z",
-      "description": "A weakness has been identified in Tenstorrent tt-metal up to 0.80.0. The affected element is the function load_hf_state_dict_filtered of the file models/tt_transformers/tt/load_checkpoints.py. This manipulation of the argument weight_map causes path traversal. The attack may be initiated remotely. The exploit has been made available to the public and could be used for attacks. Upgrading to version 0.81.0-dev20261016 is sufficient to fix this issue. Patch name: 4851ccf347f6903c3d819eed60705600386e52c3. It is suggested to upgrade the affected component.",
-      "severity": 6.3,
-      "fix_suggestion": "📦 受影响组件：Tenstorrent tt-metal\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://vuldb.com/vuln/422924",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/vuln/422924/cti",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/cve/CVE-2026-113743",
-          "type": "reference"
-        },
-        {
-          "url": "https://vuldb.com/submit/1018296",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/tenstorrent/tt-metal/issues/59616",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/tenstorrent/tt-metal/pull/60634",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/3em0/cve_repo/blob/main/2026/Path_Traversal_in_tt-metal_tt_transformers_load_checkpoints.md",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/tenstorrent/tt-metal/commit/4851ccf347f6903c3d819eed60705600386e52c3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/tenstorrent/tt-metal/releases/tag/v0.81.0-dev20261016",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/tenstorrent/tt-metal/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Tenstorrent",
-          "product": "tt-metal",
-          "versions": [
-            {
-              "version": "0.1",
-              "status": "affected"
-            },
-            {
-              "version": "0.2",
-              "status": "affected"
-            },
-            {
-              "version": "0.3",
-              "status": "affected"
-            },
-            {
-              "version": "0.4",
-              "status": "affected"
-            },
-            {
-              "version": "0.5",
-              "status": "affected"
-            },
-            {
-              "version": "0.6",
-              "status": "affected"
-            },
-            {
-              "version": "0.7",
-              "status": "affected"
-            },
-            {
-              "version": "0.8",
-              "status": "affected"
-            },
-            {
-              "version": "0.9",
-              "status": "affected"
-            },
-            {
-              "version": "0.10",
-              "status": "affected"
-            },
-            {
-              "version": "0.11",
-              "status": "affected"
-            },
-            {
-              "version": "0.12",
-              "status": "affected"
-            },
-            {
-              "version": "0.13",
-              "status": "affected"
-            },
-            {
-              "version": "0.14",
-              "status": "affected"
-            },
-            {
-              "version": "0.15",
-              "status": "affected"
-            },
-            {
-              "version": "0.16",
-              "status": "affected"
-            },
-            {
-              "version": "0.17",
-              "status": "affected"
-            },
-            {
-              "version": "0.18",
-              "status": "affected"
-            },
-            {
-              "version": "0.19",
-              "status": "affected"
-            },
-            {
-              "version": "0.20",
-              "status": "affected"
-            },
-            {
-              "version": "0.21",
-              "status": "affected"
-            },
-            {
-              "version": "0.22",
-              "status": "affected"
-            },
-            {
-              "version": "0.23",
-              "status": "affected"
-            },
-            {
-              "version": "0.24",
-              "status": "affected"
-            },
-            {
-              "version": "0.25",
-              "status": "affected"
-            },
-            {
-              "version": "0.26",
-              "status": "affected"
-            },
-            {
-              "version": "0.27",
-              "status": "affected"
-            },
-            {
-              "version": "0.28",
-              "status": "affected"
-            },
-            {
-              "version": "0.29",
-              "status": "affected"
-            },
-            {
-              "version": "0.30",
-              "status": "affected"
-            },
-            {
-              "version": "0.31",
-              "status": "affected"
-            },
-            {
-              "version": "0.32",
-              "status": "affected"
-            },
-            {
-              "version": "0.33",
-              "status": "affected"
-            },
-            {
-              "version": "0.34",
-              "status": "affected"
-            },
-            {
-              "version": "0.35",
-              "status": "affected"
-            },
-            {
-              "version": "0.36",
-              "status": "affected"
-            },
-            {
-              "version": "0.37",
-              "status": "affected"
-            },
-            {
-              "version": "0.38",
-              "status": "affected"
-            },
-            {
-              "version": "0.39",
-              "status": "affected"
-            },
-            {
-              "version": "0.40",
-              "status": "affected"
-            },
-            {
-              "version": "0.41",
-              "status": "affected"
-            },
-            {
-              "version": "0.42",
-              "status": "affected"
-            },
-            {
-              "version": "0.43",
-              "status": "affected"
-            },
-            {
-              "version": "0.44",
-              "status": "affected"
-            },
-            {
-              "version": "0.45",
-              "status": "affected"
-            },
-            {
-              "version": "0.46",
-              "status": "affected"
-            },
-            {
-              "version": "0.47",
-              "status": "affected"
-            },
-            {
-              "version": "0.48",
-              "status": "affected"
-            },
-            {
-              "version": "0.49",
-              "status": "affected"
-            },
-            {
-              "version": "0.50",
-              "status": "affected"
-            },
-            {
-              "version": "0.51",
-              "status": "affected"
-            },
-            {
-              "version": "0.52",
-              "status": "affected"
-            },
-            {
-              "version": "0.53",
-              "status": "affected"
-            },
-            {
-              "version": "0.54",
-              "status": "affected"
-            },
-            {
-              "version": "0.55",
-              "status": "affected"
-            },
-            {
-              "version": "0.56",
-              "status": "affected"
-            },
-            {
-              "version": "0.57",
-              "status": "affected"
-            },
-            {
-              "version": "0.58",
-              "status": "affected"
-            },
-            {
-              "version": "0.59",
-              "status": "affected"
-            },
-            {
-              "version": "0.60",
-              "status": "affected"
-            },
-            {
-              "version": "0.61",
-              "status": "affected"
-            },
-            {
-              "version": "0.62",
-              "status": "affected"
-            },
-            {
-              "version": "0.63",
-              "status": "affected"
-            },
-            {
-              "version": "0.64",
-              "status": "affected"
-            },
-            {
-              "version": "0.65",
-              "status": "affected"
-            },
-            {
-              "version": "0.66",
-              "status": "affected"
-            },
-            {
-              "version": "0.67",
-              "status": "affected"
-            },
-            {
-              "version": "0.68",
-              "status": "affected"
-            },
-            {
-              "version": "0.69",
-              "status": "affected"
-            },
-            {
-              "version": "0.70",
-              "status": "affected"
-            },
-            {
-              "version": "0.71",
-              "status": "affected"
-            },
-            {
-              "version": "0.72",
-              "status": "affected"
-            },
-            {
-              "version": "0.73",
-              "status": "affected"
-            },
-            {
-              "version": "0.74",
-              "status": "affected"
-            },
-            {
-              "version": "0.75",
-              "status": "affected"
-            },
-            {
-              "version": "0.76",
-              "status": "affected"
-            },
-            {
-              "version": "0.77",
-              "status": "affected"
-            },
-            {
-              "version": "0.78",
-              "status": "affected"
-            },
-            {
-              "version": "0.79",
-              "status": "affected"
-            },
-            {
-              "version": "0.80.0",
-              "status": "affected"
-            },
-            {
-              "version": "0.81.0-dev20261016",
-              "status": "unaffected"
-            }
-          ],
-          "cpes": [
-            "cpe:2.3:a:tenstorrent:tt-metal:*:*:*:*:*:*:*:*"
-          ]
-        }
-      ],
-      "problemType": [
-        "Path Traversal"
-      ]
-    },
-    {
-      "id": "CVE-2026-111270",
-      "publishedDate": "2026-10-15T21:43:17.665Z",
-      "lastModifiedDate": "2026-10-21T01:33:42.918Z",
-      "description": "libmodplug through 0.8.9.1 contains a heap-based out-of-bounds write in CSoundFile::ReadDSM() in src/load_dsm.cpp because nPat is never checked against MAX_PATTERNS. Attackers can supply a crafted DSM file with over 240 PATT chunks or a wrapping patt_len value to corrupt heap memory and crash the consuming process.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：Konstanty Bialkowski libmodplug\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/libmodplug-dsm-pattern-oob-write",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Konstanty/libmodplug/blob/d1b97ed0020bc620a059d3675d1854b40bd2608d/src/load_dsm.cpp#L130-L139",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Konstanty/libmodplug",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/libmodplug-through-0.8.9.1-heap-out-of-bounds-write-via-csoundfile-readdsm",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Konstanty Bialkowski",
-          "product": "libmodplug",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "0.8.9.1",
-              "status": "affected",
-              "versionType": "custom"
-            }
-          ],
-          "packageURL": "pkg:github/Konstanty/libmodplug",
-          "repo": "https://github.com/Konstanty/libmodplug"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Write"
-      ]
-    },
-    {
-      "id": "CVE-2026-111155",
-      "publishedDate": "2026-10-15T18:57:43.192Z",
-      "lastModifiedDate": "2026-10-21T01:23:29.143Z",
-      "description": "libTiMidity through 0.2.8 contains a heap out-of-bounds read vulnerability in the SoundFont loader in src/sndfont.c that uses unvalidated sampleId and instrument generator values as table indices. Attackers can supply a crafted .sf2 file loaded through mid_set_soundfont() to read heap memory out of bounds and crash the application.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：sezero libtimidity\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/libtimidity-soundfont-generator-oper-oob-write",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/sezero/libtimidity/blob/a52adf6aee2635e2a16797213a089c2180e67757/src/sndfont.c#L578-L590",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sezero/libtimidity",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/libtimidity-through-0.2.8-out-of-bounds-read-via-soundfont-loader-sndfont-c",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "sezero",
-          "product": "libtimidity",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0.2.8",
-              "lessThanOrEqual": "0.2.8",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "collectionURL": "https://github.com/sezero/libtimidity",
-          "repo": "https://github.com/sezero/libtimidity"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111145",
-      "publishedDate": "2026-10-15T18:57:36.084Z",
-      "lastModifiedDate": "2026-10-21T01:20:26.553Z",
-      "description": "ytnef through 2.1.2 contains a heap out-of-bounds read vulnerability in DecompressRTF() in lib/ytnef.c that never validates uncompressedSize for uncompressed RTF streams. Attackers can supply a crafted winmail.dat TNEF attachment with a malicious PT_BINARY MAPI property to crash ytnefprint or libytnef callers and leak adjacent heap memory.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：Yeraze ytnef\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/ytnef-decompressrtf-oob-read",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/Yeraze/ytnef/issues/112",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Yeraze/ytnef/blob/d9f089144414d3b0912c29ab96f8f1c591d00319/lib/ytnef.c#L1554-L1563",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Yeraze/ytnef",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/ytnef-through-2.1.2-heap-out-of-bounds-read-via-decompressrtf",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Yeraze",
-          "product": "ytnef",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "2.1.2",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "collectionURL": "https://github.com/Yeraze/ytnef",
-          "packageURL": "pkg:github/Yeraze/ytnef",
-          "repo": "https://github.com/Yeraze/ytnef"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111140",
-      "publishedDate": "2026-10-15T18:57:32.622Z",
-      "lastModifiedDate": "2026-10-21T01:19:40.902Z",
-      "description": "libregf through 20260526 contains a heap out-of-bounds read in libregf_value_item_read_value_data() because it bounds value data size without subtracting the 4-byte old-format cell offset. Attackers can supply a crafted version 1.0/1.1 REGF hive with a value data cell ending its hive bin to leak adjacent heap bytes or crash parsers like regfexport and plaso.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：libyal libregf\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/libregf-value-data-offset-oob-read",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/libyal/libregf/blob/1a4bd856484263caa4a5e0d6ba377c3dc69150c7/libregf/libregf_value_item.c#L789-L935",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/libyal/libregf",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/libregf-through-20260526-heap-out-of-bounds-read-via-libregf-value-item-read-value-data",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "libyal",
-          "product": "libregf",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "20260526",
-              "status": "affected",
-              "versionType": "custom"
-            }
-          ],
-          "collectionURL": "https://github.com/libyal/libregf",
-          "repo": "https://github.com/libyal/libregf"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111135",
-      "publishedDate": "2026-10-15T18:57:29.171Z",
-      "lastModifiedDate": "2026-10-21T01:18:16.050Z",
-      "description": "libfwsi through 20260522 contains a heap out-of-bounds read vulnerability in libfwsi_mtp_volume_values_read_data() that allows attackers to read past buffer bounds via crafted MTP volume shell items. Attackers can embed a 10 to 53 byte shell item with item data size of 44 or more in a .lnk file, jump list or shell bag to crash consuming processes.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：libyal libfwsi\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/libfwsi-mtp-values-oob-read",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/libyal/libfwsi/blob/2f2aba25b888f37314a39d8c3e71c0e3ced56e59/libfwsi/libfwsi_mtp_volume_values.c#L248-L273",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/libyal/libfwsi",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/libfwsi-through-20260522-heap-out-of-bounds-read-via-libfwsi-mtp-volume-values-read-data",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "libyal",
-          "product": "libfwsi",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "20260522",
-              "status": "affected",
-              "versionType": "custom"
-            }
-          ],
-          "packageURL": "pkg:github/libyal/libfwsi",
-          "collectionURL": "https://github.com",
-          "repo": "https://github.com/libyal/libfwsi"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111130",
-      "publishedDate": "2026-10-15T18:57:25.805Z",
-      "lastModifiedDate": "2026-10-21T01:16:55.790Z",
-      "description": "OpenSlide through 4.0.1 contains a heap out-of-bounds read vulnerability in the MIRAX reader that allows attackers to read past the slide_positions array via crafted Slidedat.ini values. Attackers can supply a MIRAX slide whose CameraImageDivisionsPerSide does not evenly divide the image counts, crashing applications that open it and corrupting tile geometry.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：OpenSlide openslide\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/openslide-mirax-slide-position-index-oob-read",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/openslide/openslide/blob/fe79a9713bef2bfd64bbfefd15704060764b1274/src/openslide-vendor-mirax.c#L611-L635",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/openslide/openslide/blob/fe79a9713bef2bfd64bbfefd15704060764b1274/src/openslide-vendor-mirax.c#L1033-L1034",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/openslide/openslide",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/openslide-through-4.0.1-heap-out-of-bounds-read-via-mirax-get-tile-position",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "OpenSlide",
-          "product": "openslide",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "4.0.1",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "packageURL": "pkg:github/openslide/openslide",
-          "collectionURL": "https://github.com",
-          "repo": "https://github.com/openslide/openslide"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111125",
-      "publishedDate": "2026-10-15T18:57:22.035Z",
-      "lastModifiedDate": "2026-10-21T01:15:29.785Z",
-      "description": "CFITSIO through 4.7.0 contains a heap-based out-of-bounds read vulnerability in the HCOMPRESS tile decoder that allows attackers to read past the compressed tile buffer via input_nnybble in fits_hdecompress.c. Attackers can supply a crafted FITS file with ZCMPTYPE HCOMPRESS_1 declaring oversized tile geometry to crash applications calling fits_read_pix or disclose limited heap memory.",
-      "severity": 6.1,
-      "fix_suggestion": "📦 受影响组件：HEASARC cfitsio\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/cfitsio-zdither0-dither-seed-oob-read",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/HEASARC/cfitsio/blob/d6d27653740864a0483e74cff23c53e34e1dceee/fits_hdecompress.c#L2575-L2633",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HEASARC/cfitsio/blob/d6d27653740864a0483e74cff23c53e34e1dceee/imcompress.c#L6310-L6316",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/HEASARC/cfitsio",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/cfitsio-through-4.7.0-heap-out-of-bounds-read-via-hcompress-input-nnybble",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "HEASARC",
-          "product": "cfitsio",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "4.7.0",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "collectionURL": "https://github.com",
-          "repo": "https://github.com/HEASARC/cfitsio"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111165",
-      "publishedDate": "2026-10-15T18:57:51.926Z",
-      "lastModifiedDate": "2026-10-21T01:27:50.397Z",
-      "description": "libmikmod through 3.3.15 contains a global out-of-bounds read vulnerability in the MultiTracker loader MTM_Load() because the module channel count is never clamped. Attackers can supply a crafted .mtm file with a channel count above 32 to read past the static pat array, corrupting track indices and crashing the loading application.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：sezero libmikmod\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/libmikmod-mtm-imf-loader-oob-read",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sezero/mikmod/blob/6e658155f7e6b394a288dac796ba572634553fad/libmikmod/loaders/load_mtm.c#L257-L261",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/sezero/mikmod",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/libmikmod-through-3.3.15-out-of-bounds-read-in-mtm-load-via-channel-count",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "sezero",
-          "product": "libmikmod",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "3.3.15",
-              "status": "affected",
-              "versionType": "semver"
-            }
-          ],
-          "collectionURL": "https://github.com",
-          "packageURL": "pkg:github/sezero/mikmod",
-          "repo": "https://github.com/sezero/mikmod"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111150",
-      "publishedDate": "2026-10-15T18:57:39.493Z",
-      "lastModifiedDate": "2026-10-21T01:22:43.222Z",
-      "description": "ValleyBell libvgm through commit a6eed945 contains a heap out-of-bounds read vulnerability in the PCM data-block decompressor caused by an unbounded compression-table index. Attackers can supply a crafted .vgm file with a small type 0x7F table and wider compressed values, causing DecompressDataBlk to over-read heap memory and crash consumers.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：ValleyBell libvgm\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/libvgm-pcm-compression-table-oob-read",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/ValleyBell/libvgm/blob/a6eed945ecf4e5a25cf82004779c6f7e4fd5c319/player/dblk_compr.c#L727-L751",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ValleyBell/libvgm/blob/a6eed945ecf4e5a25cf82004779c6f7e4fd5c319/player/dblk_compr.c#L183-L190",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ValleyBell/libvgm",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/valleybell-libvgm-through-commit-a6eed945-heap-out-of-bounds-read-via-decompressdatablk",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ValleyBell",
-          "product": "libvgm",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "a6eed945ecf4e5a25cf82004779c6f7e4fd5c319",
-              "status": "affected",
-              "versionType": "git"
-            }
-          ],
-          "collectionURL": "https://github.com",
-          "repo": "https://github.com/ValleyBell/libvgm"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-110876",
-      "publishedDate": "2026-10-15T18:57:18.619Z",
-      "lastModifiedDate": "2026-10-21T01:14:06.812Z",
-      "description": "AdPlug through 2.4 contains an out-of-bounds read vulnerability in src/xsm.cpp that allows attackers to read before note_table by supplying a negative note index. Attackers can craft an XSM file with the ofTAZ! signature and a song byte of 0x80 or higher, causing a global-buffer-overflow read during playback that may crash affected applications.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：adplug adplug\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@haind-pwn/adplug-ksm-note-loop-databuf-oob-write",
-          "type": "poc"
-        },
-        {
-          "url": "https://github.com/adplug/adplug/blob/e491e382479ed2246f124c96c70d94561dce59b9/src/xsm.cpp#L86-L134",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/adplug/adplug",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/adplug-through-2.4-out-of-bounds-read-via-cxsmplayer-play-note-in-xsm-files",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "adplug",
-          "product": "adplug",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "2.4",
-              "status": "affected",
-              "versionType": "custom"
-            }
-          ],
-          "collectionURL": "https://github.com",
-          "packageURL": "pkg:github/adplug/adplug",
-          "repo": "https://github.com/adplug/adplug"
-        }
-      ],
-      "problemType": [
-        "Out-of-bounds Read"
-      ]
-    },
-    {
-      "id": "CVE-2026-111943",
-      "publishedDate": "2026-10-21T00:52:18.359Z",
-      "lastModifiedDate": "2026-10-21T01:24:20.498Z",
-      "description": "On most platforms, Go uses the given system root certificates. However, in some narrower cases, the system trust stores may not be updated without further action. To defend against the narrower set of cases that may remain affected, a denylist was added in crypto/x509 to return an error when calling Verify with any of the known intermediate certificates that are no longer considered to be trustworthy.",
+      "id": "CVE-2026-101296",
+      "publishedDate": "2026-10-20T13:45:39.959Z",
+      "lastModifiedDate": "2026-10-21T06:31:55.233Z",
+      "description": "A missing critical step in authentication vulnerability in Apache Tomcat when the JNDI realm was configured with with a non GSSAPI SASL authentication mechanism allowed attackers to authenticate without providing the correct password.\n\n\n\nThis issue affects Apache Tomcat: from 11.0.0-M1 through 11.0.26, from 10.1.0-M1 through 10.1.60, from 9.0.0.M1 through 9.0.122.\n\n\n\nThe following versions were EOL at the time the CVE was created but are known to be affected: from 8.5.0 through 8.5.100, from 7.0.0 through 7.0.109. Other unsupported versions may also be affected.\n\n\n\nUsers are recommended to upgrade to version 11.0.27, 10.1.61 or 9.0.123, which fix the issue.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Go standard library crypto/x509\n🔓 漏洞类型：CWE-299 (CWE-299)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Tomcat\n🔓 漏洞类型：CWE-304 (CWE-304)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://go.dev/cl/851047",
-          "type": "reference"
-        },
-        {
-          "url": "https://go.dev/issue/82345",
-          "type": "reference"
-        },
-        {
-          "url": "https://groups.google.com/g/golang-announce/c/66pojueaQek",
-          "type": "reference"
-        },
-        {
-          "url": "https://pkg.go.dev/vuln/GO-2026-6809",
+          "url": "https://lists.apache.org/thread.html/bl52b9go9ckoov8x4v3dt6rkm573cygd",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Go standard library",
-          "product": "crypto/x509",
-          "collectionURL": "https://pkg.go.dev",
-          "packageName": "crypto/x509",
+          "vendor": "Apache Software Foundation",
+          "product": "Apache Tomcat",
           "versions": [
             {
-              "version": "0",
-              "lessThan": "1.26.10",
               "status": "affected",
+              "version": "11.0.0-M1",
+              "lessThanOrEqual": "11.0.26",
               "versionType": "semver"
             },
             {
-              "version": "1.27.0-0",
-              "lessThan": "1.27.3",
               "status": "affected",
+              "version": "10.1.0-M1",
+              "lessThanOrEqual": "10.1.60",
               "versionType": "semver"
-            }
-          ],
-          "programRoutines": [
+            },
             {
-              "name": "Certificate.Verify"
+              "status": "affected",
+              "version": "9.0.0.M1",
+              "lessThanOrEqual": "9.0.122",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.5.0",
+              "lessThanOrEqual": "8.5.100",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThanOrEqual": "7.0.109",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-299: Improper Check for Certificate Revocation"
+        "CWE-304 Missing critical step in authentication"
       ],
       "cwe_ids": [
-        "CWE-299"
+        "CWE-304"
       ]
+    },
+    {
+      "id": "CVE-2026-16487",
+      "publishedDate": "2026-10-19T05:27:30.898Z",
+      "lastModifiedDate": "2026-10-21T06:20:13.903Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
     }
   ]
 }
