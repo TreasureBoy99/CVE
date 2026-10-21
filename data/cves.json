@@ -2,705 +2,231 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 16,
-    "last_updated": "2026-10-21T17:22:42.320778",
+    "total_count": 5,
+    "last_updated": "2026-10-21T20:44:04.239680",
     "severity_distribution": {
       "critical": 0,
-      "high": 8,
-      "medium": 0,
-      "low": 1,
-      "none": 7
+      "high": 1,
+      "medium": 1,
+      "low": 0,
+      "none": 3
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-89035",
-      "publishedDate": "2026-10-21T17:16:40.843Z",
-      "lastModifiedDate": "2026-10-21T17:16:40.843Z",
-      "description": "MikroTik RouterOS through 7.24.5 contains a session token replay vulnerability in the WebFig interface that allows attackers to bypass authentication by replaying captured session tokens across new ECDH sessions. The makeSessionKey function in libucrypto.so generates tokens using fixed salts without incorporating channel-specific or session-specific input, and the user service validates tokens against the login store without verifying channel context, enabling stolen tokens to grant persistent administrative access until the token store is explicitly cleared. This vulnerability extends the impact of CVE-2025-61481, which identified the underlying transport-layer exposure without a corresponding fix.",
-      "severity": 7.4,
-      "fix_suggestion": "📦 受影响组件：MikroTik RouterOS\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-114144",
+      "publishedDate": "2026-10-21T20:32:54.019Z",
+      "lastModifiedDate": "2026-10-21T20:32:54.019Z",
+      "description": "toml-node is a TOML parser for Node.js and the browser. Prior to 5.0.1, toml.parse() passes unbounded hexadecimal, octal, binary, and decimal digit sequences from lib/parser.js to BigInt() before reduceInteger() in lib/compiler.js checks whether the resulting value fits the TOML 64-bit integer range. Converting a sufficiently long integer string consumes super-linear CPU time and synchronously blocks the Node.js event loop, allowing one attacker-supplied TOML document to deny service to concurrent work in the process. The later range check cannot prevent the conversion cost because it executes after BigInt(). This issue is fixed in version 5.0.1.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：BinaryMuse toml-node\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-770 (CWE-400, CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.vulncheck.com/advisories/mikrotik-routeros-webfig-session-token-replay-authentication-bypass",
+          "url": "https://github.com/BinaryMuse/toml-node/security/advisories/GHSA-9qmh-m7c6-f92p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/BinaryMuse/toml-node/commit/9d52e384f6030932174d1afb0d910154dd62dead",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/BinaryMuse/toml-node/releases/tag/v5.0.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "defaultStatus": "unknown",
-          "vendor": "MikroTik",
-          "product": "RouterOS",
+          "vendor": "BinaryMuse",
+          "product": "toml-node",
           "versions": [
             {
-              "status": "affected",
-              "version": "0",
-              "versionType": "semver",
-              "lessThanOrEqual": "7.23.6"
-            },
-            {
-              "status": "affected",
-              "version": "7.24.0",
-              "versionType": "semver",
-              "lessThanOrEqual": "7.24.5"
+              "version": "< 5.0.1",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Insufficient Session Expiration"
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-770: Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-400",
+        "CWE-770"
       ]
     },
     {
-      "id": "CVE-2026-114262",
-      "publishedDate": "2026-10-21T17:15:14.707Z",
-      "lastModifiedDate": "2026-10-21T17:15:14.707Z",
-      "description": "A vulnerability was determined in file-management-system dc9ce1bf27f94b23d906cb1e86ce374dc94ca5df. Impacted is the function store of the file app/Http/Controllers/FileController.php. This manipulation of the argument File causes unrestricted upload. The attack may be initiated remotely. The exploit has been publicly disclosed and may be utilized. This product uses a rolling release model to deliver continuous updates. As a result, specific version information for affected or updated releases is not available. The project was informed of the problem early through an issue report but has not responded yet.",
-      "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：n/a file-management-system\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-114378",
+      "publishedDate": "2026-10-21T20:30:18.507Z",
+      "lastModifiedDate": "2026-10-21T20:30:18.507Z",
+      "description": "A vulnerability was detected in itsourcecode Online Cake Ordering System 1.0. This affects an unknown part of the file /deleteproduct.php. The manipulation of the argument ID results in sql injection. The attack may be launched remotely. The exploit is now public and may be used.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：itsourcecode Online Cake Ordering System\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/424694",
+          "url": "https://vuldb.com/vuln/424735",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/424694/cti",
+          "url": "https://vuldb.com/vuln/424735/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-114262",
+          "url": "https://vuldb.com/cve/CVE-2026-114378",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/1018614",
+          "url": "https://vuldb.com/submit/1019507",
           "type": "reference"
         },
         {
-          "url": "https://github.com/MomoTommy/file-management-system/issues/2",
+          "url": "https://github.com/li986389855-byte/submit/issues/1",
           "type": "poc"
+        },
+        {
+          "url": "https://itsourcecode.com/",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "n/a",
-          "product": "file-management-system",
+          "vendor": "itsourcecode",
+          "product": "Online Cake Ordering System",
           "versions": [
             {
-              "version": "dc9ce1bf27f94b23d906cb1e86ce374dc94ca5df",
+              "version": "1.0",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:file-management-system:file-management-system:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:itsourcecode:online_cake_ordering_system:*:*:*:*:*:*:*:*"
           ]
         }
       ],
       "problemType": [
-        "Unrestricted Upload",
-        "Improper Access Controls"
+        "SQL Injection",
+        "Injection"
       ]
     },
     {
-      "id": "CVE-2026-114124",
-      "publishedDate": "2026-10-21T17:03:26.765Z",
-      "lastModifiedDate": "2026-10-21T17:03:26.765Z",
-      "description": "Electron is a framework for writing cross-platform desktop applications using JavaScript, HTML and CSS. Prior to versions 42.11.6, 43.7.3, 44.4.3, and 45.0.0-alpha.9, frame data received from the GPU process for macOS offscreen rendering was not fully validated by the main process. An attacker who had separately gained code execution in the GPU process could provide inconsistent frame geometry and cause the main process to read out-of-bounds memory while producing paint event images, disclosing memory or crashing the application. This issue is fixed in versions 42.11.6, 43.7.3, 44.4.3, and 45.0.0-alpha.9.",
-      "severity": 3.9,
-      "fix_suggestion": "📦 受影响组件：electron electron\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-114143",
+      "publishedDate": "2026-10-21T20:31:01.539Z",
+      "lastModifiedDate": "2026-10-21T20:31:01.539Z",
+      "description": "toml-node is a TOML parser for Node.js and the browser. Prior to 5.0.1, toml.parse() repeatedly slices and rejoins every path prefix in lib/compiler.js while processing long dotted keys, table headers, array-of-tables headers, and inline-table keys in assign(), deepRef(), and setNestedKey(). The resulting quadratic work can block the Node.js event loop for several seconds, and sufficiently long paths can terminate the process through memory exhaustion. The maxDepth option does not limit key-segment count and therefore does not mitigate this path. This issue is fixed in version 5.0.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：BinaryMuse toml-node\n🔓 漏洞类型：CWE-407 (CWE-407)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/electron/electron/security/advisories/GHSA-h3v5-h239-pg29",
+          "url": "https://github.com/BinaryMuse/toml-node/security/advisories/GHSA-9j65-hcg3-gc64",
           "type": "reference"
         },
         {
-          "url": "https://github.com/electron/electron/pull/54033",
+          "url": "https://github.com/BinaryMuse/toml-node/commit/609c873fffea0a27ebe5b4dd098eed2b3daf3606",
           "type": "reference"
         },
         {
-          "url": "https://github.com/electron/electron/pull/54036",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/pull/54037",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/pull/54038",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/pull/54047",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/commit/24d8dbc661c6a109476ae59e9a2740b35d005cf4",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/commit/64ae597deda8956037387b439e6361f0fe936c86",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/commit/8d48be150c3fd53b0d02854124bdb7858598799c",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/commit/d496507ffa1693edaa704a4be130fbcb8ecb4ada",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/commit/d7f87070a8d738e561245d1ade4d6fbb082db80a",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/releases/tag/v42.11.6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/releases/tag/v43.7.3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/releases/tag/v44.4.3",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/electron/electron/releases/tag/v45.0.0-alpha.9",
+          "url": "https://github.com/BinaryMuse/toml-node/releases/tag/v5.0.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "electron",
-          "product": "electron",
+          "vendor": "BinaryMuse",
+          "product": "toml-node",
           "versions": [
             {
-              "version": "< 42.11.6",
-              "status": "affected"
-            },
-            {
-              "version": ">= 43.0.0-alpha.1, < 43.7.3",
-              "status": "affected"
-            },
-            {
-              "version": ">= 44.0.0-alpha.1, < 44.4.3",
-              "status": "affected"
-            },
-            {
-              "version": ">= 45.0.0-alpha.1, < 45.0.0-alpha.9",
+              "version": "< 5.0.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-125: Out-of-bounds Read"
+        "CWE-407: Inefficient Algorithmic Complexity"
       ],
       "cwe_ids": [
-        "CWE-125"
+        "CWE-407"
       ]
     },
     {
-      "id": "CVE-2026-92202",
-      "publishedDate": "2026-10-21T17:18:40.948Z",
-      "lastModifiedDate": "2026-10-21T17:18:40.948Z",
-      "description": "Luxion KeyShot BIP File Parsing Uncontrolled Search Path Element Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Luxion KeyShot. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.\n\nThe specific flaw exists within the parsing of BIP files. The issue results from loading a library from an unsecured location. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-29268.",
+      "id": "CVE-2026-114142",
+      "publishedDate": "2026-10-21T20:28:36.615Z",
+      "lastModifiedDate": "2026-10-21T20:28:36.615Z",
+      "description": "toml-node is a TOML parser for Node.js and the browser. Prior to 5.0.1, toml.parse() can write attacker-controlled properties to Object.prototype because quoteDottedString() in lib/compiler.js produces the same bookkeeping string for distinct quoted key paths, allowing addTableArray() to clear another key's guard. The assign() path then descends through an unowned Date value without applying the owned-container check and can reach the prototype chain. Objects created elsewhere in the process can inherit the injected property. This issue is fixed in version 5.0.1.",
       "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Luxion KeyShot\n🔓 漏洞类型：CWE-427 (CWE-427)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：BinaryMuse toml-node\n🔓 漏洞类型：CWE-1321 (CWE-1321)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-748/",
+          "url": "https://github.com/BinaryMuse/toml-node/security/advisories/GHSA-h895-cgqg-jf52",
           "type": "reference"
         },
         {
-          "url": "https://download.keyshot.com/cert/ksa-302860/ksa-302860.pdf?version=1.0",
+          "url": "https://github.com/BinaryMuse/toml-node/commit/609c873fffea0a27ebe5b4dd098eed2b3daf3606",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/BinaryMuse/toml-node/releases/tag/v5.0.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Luxion",
-          "product": "KeyShot",
+          "vendor": "BinaryMuse",
+          "product": "toml-node",
           "versions": [
             {
-              "version": "2026.1.0",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-427: Uncontrolled Search Path Element"
-      ],
-      "cwe_ids": [
-        "CWE-427"
-      ]
-    },
-    {
-      "id": "CVE-2026-92183",
-      "publishedDate": "2026-10-21T17:18:13.162Z",
-      "lastModifiedDate": "2026-10-21T17:18:13.162Z",
-      "description": "GIMP APNG File Parsing Stack-based Buffer Overflow Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of GIMP. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.\n\nThe specific flaw exists within the parsing of APNG files. The issue results from the lack of proper validation of the length of user-supplied data prior to copying it to a stack-based buffer. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-29400.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：GIMP GIMP\n🔓 漏洞类型：CWE-121 (CWE-121)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-713/",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.gnome.org/GNOME/gimp/-/commit/175e28961a4679be8762a2d4d5a297faa82aebd9",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "GIMP",
-          "product": "GIMP",
-          "versions": [
-            {
-              "version": "3.2.2",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-121: Stack-based Buffer Overflow"
-      ],
-      "cwe_ids": [
-        "CWE-121"
-      ]
-    },
-    {
-      "id": "CVE-2026-92207",
-      "publishedDate": "2026-10-21T17:17:42.063Z",
-      "lastModifiedDate": "2026-10-21T17:17:42.063Z",
-      "description": "MindsDB OpenBBtable Code Injection Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of MindsDB. Authentication is required to exploit this vulnerability.\n\nThe specific flaw exists within the OpenBBtable class. The issue results from the lack of proper validation of a user-supplied string before using it to execute Python code. An attacker can leverage this vulnerability to execute code in the context of the service account. Was ZDI-CAN-28388.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：MindsDB MindsDB\n🔓 漏洞类型：Code Injection (CWE-94)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-707/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "MindsDB",
-          "product": "MindsDB",
-          "versions": [
-            {
-              "version": "25.10.1",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')"
-      ],
-      "cwe_ids": [
-        "CWE-94"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-92206",
-      "publishedDate": "2026-10-21T17:17:33.262Z",
-      "lastModifiedDate": "2026-10-21T17:17:33.262Z",
-      "description": "CrewAI crewAI Framework Agent Loading Unsafe Reflection Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of CrewAI crewAI. User interaction is required to exploit this vulnerability in that the target must load a malicious agent configuration from the repository.\n\nThe specific flaw exists within the load_agent_from_repository function. The process does not properly restrict a user-supplied argument before using it to import a module. An attacker can leverage this vulnerability to execute code in the context of the service account. Was ZDI-CAN-28387.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：CrewAI CrewAI\n🔓 漏洞类型：CWE-470 (CWE-470)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-706/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "CrewAI",
-          "product": "CrewAI",
-          "versions": [
-            {
-              "version": "Latest (as of 2025-10-09)",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
-      ],
-      "cwe_ids": [
-        "CWE-470"
-      ]
-    },
-    {
-      "id": "CVE-2026-92205",
-      "publishedDate": "2026-10-21T17:17:22.583Z",
-      "lastModifiedDate": "2026-10-21T17:17:22.583Z",
-      "description": "BusyBox libarchive Symlink Directory Traversal Arbitrary File Creation Vulnerability. This vulnerability allows remote attackers to create arbitrary files on affected installations of BusyBox. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.\n\nThe specific flaw exists within the libarchive component. The issue results from the lack of proper validation of a user-supplied path prior to using it in file operations. An attacker can leverage this vulnerability to create files in the context of the current user. Was ZDI-CAN-27556.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：BusyBox BusyBox\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-705/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "BusyBox",
-          "product": "BusyBox",
-          "versions": [
-            {
-              "version": "1.37.0",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
-      ],
-      "cwe_ids": [
-        "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-92204",
-      "publishedDate": "2026-10-21T17:17:14.805Z",
-      "lastModifiedDate": "2026-10-21T17:17:14.805Z",
-      "description": "Airbyte OneDrive Connector _get_shared_drive_object Server-Side Request Forgery Information Disclosure Vulnerability. This vulnerability allows remote attackers to initiate arbitrary server-side requests on affected installations of Airbyte. Authentication is required to exploit this vulnerability.\n\nThe specific flaw exists within the _get_shared_drive_object method. The issue results from the lack of proper validation of a URI prior to accessing resources. An attacker can leverage this vulnerability to disclose information in the context of the service account. Was ZDI-CAN-28216.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Airbyte Airbyte\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-704/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Airbyte",
-          "product": "Airbyte",
-          "versions": [
-            {
-              "version": "1.8",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-92203",
-      "publishedDate": "2026-10-21T17:17:06.504Z",
-      "lastModifiedDate": "2026-10-21T17:17:06.504Z",
-      "description": "Airbyte SharePoint Connector _get_shared_drive_object Server-Side Request Forgery Information Disclosure Vulnerability. This vulnerability allows remote attackers to initiate arbitrary server-side requests on affected installations of Airbyte. Authentication is required to exploit this vulnerability.\n\nThe specific flaw exists within the implementation of the _get_shared_drive_object method. The issue results from the lack of proper validation of a URI prior to accessing resources. An attacker can leverage this vulnerability to disclose information in the context of the service account. Was ZDI-CAN-28215.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Airbyte Airbyte\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-703/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Airbyte",
-          "product": "Airbyte",
-          "versions": [
-            {
-              "version": "1.8",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-92210",
-      "publishedDate": "2026-10-21T17:16:22.236Z",
-      "lastModifiedDate": "2026-10-21T17:16:22.236Z",
-      "description": "NoMachine nxhtd Server-Side Request Forgery Information Disclosure Vulnerability. This vulnerability allows remote attackers to initiate arbitrary server-side requests on affected installations of NoMachine. Authentication is not required to exploit this vulnerability.\n\nThe specific flaw exists within the web service, which listens on UDP port 4443 by default. The issue results from the lack of proper validation of a URI prior to accessing resources. An attacker can leverage this vulnerability to initiate requests in the context of the service account. Was ZDI-CAN-31619.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：NoMachine NoMachine\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-712/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NoMachine",
-          "product": "NoMachine",
-          "versions": [
-            {
-              "version": "nomachine_9.8.2_1_amd64.deb",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-92209",
-      "publishedDate": "2026-10-21T17:16:13.249Z",
-      "lastModifiedDate": "2026-10-21T17:16:13.249Z",
-      "description": "NoMachine Redis Improper Authentication Local Privilege Escalation Vulnerability. This vulnerability allows local attackers to escalate privileges on affected installations of NoMachine. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability.\n\nThe specific flaw exists within the authentication mechanism controlling access to the Redis database. The issue results from using insufficient entropy in the generation of credentials. An attacker can leverage this vulnerability to escalate privileges and execute arbitrary code in the context of the service account. Was ZDI-CAN-30984.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：NoMachine NoMachine\n🔓 漏洞类型：CWE-331 (CWE-331)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-711/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NoMachine",
-          "product": "NoMachine",
-          "versions": [
-            {
-              "version": "9.7.3",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-331: Insufficient Entropy"
-      ],
-      "cwe_ids": [
-        "CWE-331"
-      ]
-    },
-    {
-      "id": "CVE-2026-92208",
-      "publishedDate": "2026-10-21T17:16:04.507Z",
-      "lastModifiedDate": "2026-10-21T17:16:04.507Z",
-      "description": "NoMachine mDNS Heap-based Buffer Overflow Remote Code Execution Vulnerability. This vulnerability allows network-adjacent attackers to execute arbitrary code on affected installations of NoMachine. Authentication is not required to exploit this vulnerability.\n\nThe specific flaw exists within the parsing of mDNS resource records. The issue results from the lack of proper validation of the length of user-supplied data prior to copying it to a heap-based buffer. An attacker can leverage this vulnerability to execute code in the context of the service account. Was ZDI-CAN-30982.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：NoMachine NoMachine\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-710/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NoMachine",
-          "product": "NoMachine",
-          "versions": [
-            {
-              "version": "9.8.2_1",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-122: Heap-based Buffer Overflow"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-111184",
-      "publishedDate": "2026-10-21T17:15:43.200Z",
-      "lastModifiedDate": "2026-10-21T17:15:43.200Z",
-      "description": "NoMachine Named Pipe Incorrect Permission Assignment Local Privilege Escalation Vulnerability. This vulnerability allows local attackers to escalate privileges on affected installations of NoMachine. An attacker must first obtain the ability to execute low-privileged code on the target system in order to exploit this vulnerability.\n\nThe specific flaw exists within the NoMachine Device Service. The issue results from incorrect permissions on a named pipe. An attacker can leverage this vulnerability to escalate privileges and execute arbitrary code in the context of SYSTEM. Was ZDI-CAN-31213.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：NoMachine NoMachine\n🔓 漏洞类型：CWE-732 (CWE-732)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-773/",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "NoMachine",
-          "product": "NoMachine",
-          "versions": [
-            {
-              "version": "9.7.3",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-732: Incorrect Permission Assignment for Critical Resource"
-      ],
-      "cwe_ids": [
-        "CWE-732"
-      ]
-    },
-    {
-      "id": "CVE-2026-111183",
-      "publishedDate": "2026-10-21T17:15:23.195Z",
-      "lastModifiedDate": "2026-10-21T17:15:23.195Z",
-      "description": "GStreamer rtpL16depay Heap-based Buffer Overflow Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of GStreamer. Interaction with this library is required to exploit this vulnerability but attack vectors may vary depending on the implementation.\n\nThe specific flaw exists within the processing of RTP payload elements. The issue results from the lack of proper validation of the length of user-supplied data prior to copying it to a heap-based buffer. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-31143.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：GStreamer GStreamer\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.zerodayinitiative.com/advisories/ZDI-26-775/",
-          "type": "reference"
-        },
-        {
-          "url": "https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/80c184b4c5ee8ba28b2540ba58f40b8d44b61622",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "GStreamer",
-          "product": "GStreamer",
-          "versions": [
-            {
-              "version": "5903987091bb25e4f549331032cd2e3494cf8dae",
-              "status": "affected"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-122: Heap-based Buffer Overflow"
-      ],
-      "cwe_ids": [
-        "CWE-122"
-      ]
-    },
-    {
-      "id": "CVE-2026-114125",
-      "publishedDate": "2026-10-21T17:08:12.102Z",
-      "lastModifiedDate": "2026-10-21T17:08:12.102Z",
-      "description": "Storybook is a frontend workshop for building user interface components and pages in isolation. From 8.0.0 until 8.6.19, 9.1.21, 10.6.2, and 11.0.0-alpha.6, a malicious website can interact with the preview of a running Storybook development server. Insufficient iframe embedding and message-origin restrictions can allow attacker-controlled events to reach the running preview. A developer must visit the malicious website and interact with the injected interface. The attack can cause unauthorized changes to story files and, if a changed file is later executed by a local runtime, arbitrary code execution with the developer's privileges. This issue is fixed in 8.6.19, 9.1.21, 10.6.2, and 11.0.0-alpha.6.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：storybookjs storybook\n🔓 漏洞类型：Code Injection, CWE-346, CWE-1021 (CWE-94, CWE-346, CWE-1021)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/storybookjs/storybook/security/advisories/GHSA-f2ph-cmg5-wxc8",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/pull/36726",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/commit/243c06bf8f1e2f09446c44868ea100261e1374da",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/commit/3be03ec6f11f4616471cebc3fc65c13e1bf8c178",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/commit/97513d999910d071c2b36830495dab63e17d9fe0",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/commit/d9b09e332510a88689c71ecc081bbbc2d072476e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/commit/df3fed468c9b4830605f00068c4bc6b7e1e215ed",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/releases/tag/v10.6.2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/releases/tag/v11.0.0-alpha.6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/releases/tag/v8.6.19",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/storybookjs/storybook/releases/tag/v9.1.21",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "storybookjs",
-          "product": "storybook",
-          "versions": [
-            {
-              "version": ">= 8.0.0, < 8.6.19",
-              "status": "affected"
-            },
-            {
-              "version": ">= 9.0.0, < 9.1.21",
-              "status": "affected"
-            },
-            {
-              "version": ">= 10.0.0, < 10.6.2",
-              "status": "affected"
-            },
-            {
-              "version": ">= 11.0.0-alpha.0, < 11.0.0-alpha.6",
+              "version": "< 5.0.1",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-94: Improper Control of Generation of Code ('Code Injection')",
-        "CWE-346: Origin Validation Error",
-        "CWE-1021: Improper Restriction of Rendered UI Layers or Frames"
+        "CWE-1321: Improperly Controlled Modification of Object Prototype Attributes ('Prototype Pollution')"
       ],
       "cwe_ids": [
-        "CWE-94",
-        "CWE-346",
-        "CWE-1021"
+        "CWE-1321"
+      ]
+    },
+    {
+      "id": "CVE-2026-114141",
+      "publishedDate": "2026-10-21T20:25:36.396Z",
+      "lastModifiedDate": "2026-10-21T20:25:36.396Z",
+      "description": "toml-node is a TOML parser for Node.js and the browser. Prior to 5.0.1, the toml.parse() compiler's addTableArray() function in lib/compiler.js rescans the complete assignedPaths and valueAssignments bookkeeping sets for every array-of-tables header. Distinct [[name]] paths are not pruned, so a document with many such headers causes quadratic synchronous work and can block the Node.js event loop, denying service to other operations in the process. This issue is fixed in version 5.0.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：BinaryMuse toml-node\n🔓 漏洞类型：CWE-407 (CWE-407)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/BinaryMuse/toml-node/security/advisories/GHSA-4qx8-w7c3-pj3p",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/BinaryMuse/toml-node/commit/609c873fffea0a27ebe5b4dd098eed2b3daf3606",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/BinaryMuse/toml-node/releases/tag/v5.0.1",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "HIGH"
+      "affected": [
+        {
+          "vendor": "BinaryMuse",
+          "product": "toml-node",
+          "versions": [
+            {
+              "version": "< 5.0.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-407: Inefficient Algorithmic Complexity"
+      ],
+      "cwe_ids": [
+        "CWE-407"
+      ]
     }
   ]
 }
