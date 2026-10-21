@@ -2,170 +2,369 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 4,
-    "last_updated": "2026-10-21T12:19:27.849204",
+    "total_count": 8,
+    "last_updated": "2026-10-21T14:11:11.685920",
     "severity_distribution": {
       "critical": 0,
-      "high": 1,
-      "medium": 1,
-      "low": 0,
-      "none": 2
+      "high": 3,
+      "medium": 4,
+      "low": 1,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-81755",
-      "publishedDate": "2026-10-21T11:58:26.104Z",
-      "lastModifiedDate": "2026-10-21T11:58:26.104Z",
-      "description": "Uncontrolled resource consumption in the streaming RPC component of Apache bRPC (version < 1.18.0) allows a remote attacker to exhaust server memory and cause denial of service by sending a single RPC request that declares an excessive number of streams.\n\nRoot Cause:\nIn the streaming RPC feature, a client can declare multiple streams in one RPC request by putting extra stream identifiers into the repeated field `stream_settings.extra_stream_ids` of the RPC meta. On the server side, `StreamAccept` creates one response stream for every stream identifier declared by the request, without limiting the number of streams accepted in a single RPC. The request body size is only bounded by `max_body_size` (default 64MB), which is enough to carry millions of stream identifiers. Each accepted stream allocates its own bthread execution queue and associated resources, so a single crafted request can make the server create a huge number of streams and exhaust memory, leading to denial of service.\n\nAffected Scenarios:\nUse a bRPC server that serves streaming RPC and calls `StreamAccept` to accept streams from untrusted clients.\n\nHow to Fix: \n(Choose one of the following options) \n1. Upgrade bRPC to the 1.18.0 version.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3493 \n\n\nNote:\nThe fix adds a new gflag `stream_max_streams_per_request` with a default value of 64. Requests declaring more streams than the limit are rejected before any response stream is created. Applications that legitimately need to accept more than 64 streams in one RPC must raise this flag; otherwise such requests will fail after applying the fix.",
+      "id": "CVE-2026-87402",
+      "publishedDate": "2026-10-20T21:24:31.542Z",
+      "lastModifiedDate": "2026-10-21T13:59:38.334Z",
+      "description": "Vulnerability in the Applications DBA product of Oracle E-Business Suite (component: AD Utilities).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Applications DBA executes to compromise Applications DBA.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in takeover of Applications DBA. CVSS 3.1 Base Score 7.3 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:H).",
+      "severity": "7.3",
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Applications DBA\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cpuoct2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Applications DBA",
+          "versions": [
+            {
+              "version": "12.2.3",
+              "status": "affected",
+              "lessThanOrEqual": "12.2.15",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where Applications DBA executes to compromise Applications DBA.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in takeover of Applications DBA."
+      ],
+      "cvss_vector": null,
+      "cvss_severity": null,
+      "cwe_ids": [],
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
+    },
+    {
+      "id": "CVE-2026-87400",
+      "publishedDate": "2026-10-20T21:24:30.860Z",
+      "lastModifiedDate": "2026-10-21T13:56:50.332Z",
+      "description": "Vulnerability in the Oracle WebCenter Content product of Oracle Fusion Middleware (component: Content Server).   The supported version that is affected is 14.1.2.0.0. Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  Successful attacks require human interaction from a person other than the attacker and while the vulnerability is in Oracle WebCenter Content, attacks may significantly impact additional products (scope change). Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data as well as  unauthorized update, insert or delete access to some of Oracle WebCenter Content accessible data. CVSS 3.1 Base Score 6.9 (Confidentiality and Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:L/A:N).",
+      "severity": "6.9",
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle WebCenter Content\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cpuoct2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle WebCenter Content",
+          "versions": [
+            {
+              "version": "14.1.2.0.0",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle WebCenter Content.  Successful attacks require human interaction from a person other than the attacker and while the vulnerability is in Oracle WebCenter Content, attacks may significantly impact additional products (scope change). Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle WebCenter Content accessible data as well as  unauthorized update, insert or delete access to some of Oracle WebCenter Content accessible data."
+      ],
+      "cvss_vector": null,
+      "cvss_severity": null,
+      "cwe_ids": [],
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
+    },
+    {
+      "id": "CVE-2026-87407",
+      "publishedDate": "2026-10-20T21:24:32.587Z",
+      "lastModifiedDate": "2026-10-21T13:55:45.042Z",
+      "description": "Vulnerability in the Oracle Applications Framework product of Oracle E-Business Suite (component: Security).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Applications Framework.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle Applications Framework accessible data. CVSS 3.1 Base Score 6.5 (Confidentiality impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N).",
+      "severity": "6.5",
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Oracle Applications Framework\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cpuoct2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Oracle Applications Framework",
+          "versions": [
+            {
+              "version": "12.2.3",
+              "status": "affected",
+              "lessThanOrEqual": "12.2.15",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Applications Framework.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in  unauthorized access to critical data or complete access to all Oracle Applications Framework accessible data."
+      ],
+      "cvss_vector": null,
+      "cvss_severity": null,
+      "cwe_ids": [],
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
+    },
+    {
+      "id": "CVE-2026-101396",
+      "publishedDate": "2026-10-20T21:20:35.513Z",
+      "lastModifiedDate": "2026-10-21T13:54:49.520Z",
+      "description": "Vulnerability in the Siebel Apps - Marketing product of Oracle Siebel CRM (component: Marketing).  Supported versions that are affected are 17.0-26.9. Difficult to exploit vulnerability allows low privileged attacker with logon to the infrastructure where Siebel Apps - Marketing executes to compromise Siebel Apps - Marketing.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Siebel Apps - Marketing accessible data. CVSS 3.1 Base Score 4.7 (Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:N).",
+      "severity": "4.7",
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation Siebel Apps - Marketing\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cpuoct2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "Siebel Apps - Marketing",
+          "versions": [
+            {
+              "version": "17.0",
+              "status": "affected",
+              "lessThanOrEqual": "26.9",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Difficult to exploit vulnerability allows low privileged attacker with logon to the infrastructure where Siebel Apps - Marketing executes to compromise Siebel Apps - Marketing.  Successful attacks of this vulnerability can result in  unauthorized creation, deletion or modification access to critical data or all Siebel Apps - Marketing accessible data."
+      ],
+      "cvss_vector": null,
+      "cvss_severity": null,
+      "cwe_ids": [],
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
+    },
+    {
+      "id": "CVE-2026-87401",
+      "publishedDate": "2026-10-20T21:24:31.197Z",
+      "lastModifiedDate": "2026-10-21T13:57:52.117Z",
+      "description": "Vulnerability in the PeopleSoft Enterprise PeopleTools product of Oracle PeopleSoft (component: XML Publisher).  Supported versions that are affected are 8.61-8.63. Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where PeopleSoft Enterprise PeopleTools executes to compromise PeopleSoft Enterprise PeopleTools.  Successful attacks of this vulnerability can result in  unauthorized read access to a subset of PeopleSoft Enterprise PeopleTools accessible data. CVSS 3.1 Base Score 3.3 (Confidentiality impacts).  CVSS Vector: (CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N).",
+      "severity": "3.3",
+      "fix_suggestion": "📦 受影响组件：Oracle Corporation PeopleSoft Enterprise PeopleTools\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.oracle.com/security-alerts/cpuoct2026.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Oracle Corporation",
+          "product": "PeopleSoft Enterprise PeopleTools",
+          "versions": [
+            {
+              "version": "8.61",
+              "status": "affected",
+              "lessThanOrEqual": "8.63",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Easily exploitable vulnerability allows low privileged attacker with logon to the infrastructure where PeopleSoft Enterprise PeopleTools executes to compromise PeopleSoft Enterprise PeopleTools.  Successful attacks of this vulnerability can result in  unauthorized read access to a subset of PeopleSoft Enterprise PeopleTools accessible data."
+      ],
+      "cvss_vector": null,
+      "cvss_severity": null,
+      "cwe_ids": [],
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
+    },
+    {
+      "id": "CVE-2026-109619",
+      "publishedDate": "2026-10-21T13:54:43.866Z",
+      "lastModifiedDate": "2026-10-21T13:54:43.866Z",
+      "description": "PHP has various global state that temporarily points into request memory. In some scenarios, global state may not be correctly reset, or may be repopulated after being reset. The global state may then refer to request memory even after it has been freed. Subsequent requests may read or branch on this stale state before it is fully initialized. Multiple strategies can trigger this condition and produce remote code execution (RCE).",
       "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：Uncontrolled Resource Consumption (CWE-400)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：PHP Group PHP\n🔓 漏洞类型：Use After Free, Improper Handling of Exceptional Conditions, CWE-824, CWE-1325, CWE-1419 (CWE-416, CWE-755, CWE-824, CWE-1325, CWE-1419)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
+          "url": "https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache bRPC",
-          "packageURL": "pkg:github/apache/brpc",
+          "vendor": "PHP Group",
+          "product": "PHP",
+          "packageName": "php-src",
           "versions": [
             {
               "status": "affected",
-              "version": "0",
-              "lessThan": "1.18.0",
+              "version": "8.2.*",
+              "lessThan": "8.2.35",
               "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://github.com",
-          "packageName": "apache/brpc"
-        }
-      ],
-      "problemType": [
-        "CWE-400 Uncontrolled Resource Consumption"
-      ],
-      "cwe_ids": [
-        "CWE-400"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-80463",
-      "publishedDate": "2026-10-21T11:57:30.211Z",
-      "lastModifiedDate": "2026-10-21T11:57:30.211Z",
-      "description": "Unbounded memory accumulation in the stream message reassembly path of Apache bRPC (version < 1.18.0) on all platforms allows remote attackers to exhaust the memory of a server (denial of service) by sending an endless sequence of continuation data frames.\n\nRoot Cause:\nThe streaming RPC protocol bounds every single data frame by max_body_size, but a fragmented stream message accumulates continuation frames into one buffer (_pending_buf) without any limit on the accumulated size. A malicious peer that can open a stream can therefore keep sending continuation frames to make the receiver accumulate an arbitrarily large in-memory message. Since the default flow-control settings (socket_max_streams_unconsumed_bytes=0) do not throttle the sending rate, the receiver's memory grows until the process runs out of memory and crashes or becomes unavailable.\n\nAffected Scenarios:\nServices that accept streams from untrusted clients (for example using brpc::StreamAccept or brpc::StreamCreate with the built-in streaming protocol) are affected.\n\n\nHow to Fix:\n(Choose one of the following options)\n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3489 \n\n\nNote:\nThe fix limits the accumulated payload of a fragmented stream message to max_body_size (default 64MB). When the accumulated payload exceeds the limit, the pending fragments are released and the stream is closed with error EMSGSIZE. After applying the fix, legitimate fragmented stream messages larger than max_body_size will be rejected; you can adjust the gflag max_body_size to change the limit.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache bRPC",
-          "packageURL": "pkg:github/apache/brpc",
-          "versions": [
+            },
             {
               "status": "affected",
-              "version": "0",
-              "lessThan": "1.18.0",
+              "version": "8.3.*",
+              "lessThan": "8.3.36",
               "versionType": "semver"
-            }
-          ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://github.com",
-          "packageName": "apache/brpc"
-        }
-      ],
-      "problemType": [
-        "CWE-770 Allocation of Resources Without Limits or Throttling"
-      ],
-      "cwe_ids": [
-        "CWE-770"
-      ]
-    },
-    {
-      "id": "CVE-2026-79704",
-      "publishedDate": "2026-10-21T11:56:20.309Z",
-      "lastModifiedDate": "2026-10-21T11:56:20.309Z",
-      "description": "An out-of-bounds read vulnerability exists in the streaming RPC client of Apache bRPC (versions 1.11.0 through  1.17.0) on all platforms. A client that creates multiple streams in a single RPC expects the server response to carry exactly one extra_stream_id for every additional stream. The response handling path indexed the returned identifiers using the locally created stream count without first validating the size of the returned list, so a malicious or compromised server (or an on-path attacker) can trigger an out-of-bounds read in the client by returning a malformed StreamSettings response with fewer extra_stream_ids than expected. This may crash the client process (denial of service) or leak unintended memory contents into subsequent stream handling; surplus identifiers have no valid client-stream mapping and are processed inconsistently.\n\nRoot Cause:\nSince bRPC 1.11.0, a client can create multiple streams in one RPC via batch StreamCreate. The expected behavior is that the server response must return exactly (N-1) extra_stream_ids, where N is the number of locally created streams. In Controller::HandleStreamConnection, the response path reads extra_stream_ids[i-1] for each additional local stream without first comparing the returned list size with (N-1). If the server returns fewer identifiers, the read runs past the end of the returned list (out-of-bounds read); if it returns more, the surplus identifiers have no corresponding client-side stream.\n\nAffected Scenarios:\nA bRPC client using multi-stream RPC (creating more than one stream in a single RPC) that connects to an untrusted, malicious, or compromised server or to a server reached through an untrusted network path. The server sends a malformed StreamSettings response to trigger the issue.\n\n\nHow to Fix: \n(Choose one of the following options) \n1. Upgrade bRPC to version 1.18.0, which fixes this issue.\n2. Apply this patch:  https://github.com/apache/brpc/pull/3485 \n\n\nNote:\nThe fix makes the client reject responses whose extra_stream_ids count does not exactly match the number of additional client streams. Such mismatched responses now fail the RPC with ERESPONSE and go through the existing stream cleanup path, instead of being partially processed.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache bRPC",
-          "packageURL": "pkg:github/apache/brpc",
-          "versions": [
+            },
             {
               "status": "affected",
-              "version": "1.11.0",
-              "lessThan": "1.18.0",
+              "version": "8.4.*",
+              "lessThan": "8.4.27",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "8.5.*",
+              "lessThan": "8.5.12",
               "versionType": "semver"
             }
           ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://github.com",
-          "packageName": "apache/brpc"
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-125 Out-of-bounds Read"
+        "CWE-416 Use after free",
+        "CWE-755 Improper Handling of Exceptional Conditions",
+        "CWE-824 Access of uninitialized pointer",
+        "CWE-1325 Improperly controlled sequential memory allocation",
+        "CWE-1419 Incorrect Initialization of Resource"
       ],
       "cwe_ids": [
-        "CWE-125"
-      ]
+        "CWE-416",
+        "CWE-755",
+        "CWE-824",
+        "CWE-1325",
+        "CWE-1419"
+      ],
+      "cvss_severity": "MEDIUM",
+      "cvss_vector": null,
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
     },
     {
-      "id": "CVE-2026-78334",
-      "publishedDate": "2026-10-21T11:54:24.478Z",
-      "lastModifiedDate": "2026-10-21T11:54:24.478Z",
-      "description": "Missing authentication in the streaming RPC path of Apache bRPC (version < 1.18.0) on all platforms allows a remote attacker to bypass server authentication and inject or deliver streaming frames, when a server is configured with an Authenticator.\n\nRoot Cause:\nWhen authentication is configured, streaming RPC frames are consumed directly by the streaming parser (ParseStreamingMessage) and never pass through InputMessenger's authentication hook, so an unauthenticated peer can exchange frames without being authenticated. In addition, a server-accepted stream is bound lazily to the first frame that happens to carry its id, so a stream could accept a frame carrying its id from a socket other than the socket that created the stream.\n\nAffected Scenarios:\nA bRPC server configured with authentication that serves streaming RPC from an untrusted network, or a deployment where a foreign connection can impersonate a stream by id, can be made to accept unauthorized streaming frames.\n\nHow to Fix:\nUpgrade bRPC to 1.18.0, which fixes this issue, or apply the patch in PR https://github.com/apache/brpc/pull/3481. \n\nNote:\nThe fix rejects streaming frames on server sockets when configured authentication has not completed, and keeps server-accepted streams bound to the socket of their creating RPC and rejects frames arriving from another socket. Authenticated streaming RPC behavior and the wire format are unchanged; only unauthenticated or foreign-socket frames are now rejected.",
+      "id": "CVE-2026-104949",
+      "publishedDate": "2026-10-21T13:54:11.681Z",
+      "lastModifiedDate": "2026-10-21T13:54:11.681Z",
+      "description": "WarehousePG (WHPG) 6.27.1 through 6.27.6 and 7.2.1 through 7.6.0 are affected by a missing authorization vulnerability (CWE-862) in gp_add_coordinator_standby(). The function is named gp_add_master_standby() in WHPG 6, and WHPG 7 keeps that name as an alias. Unlike the other segment add and remove functions, it does not require superuser privileges. A low-privileged user who can open a utility-mode connection can use it to add a fake standby coordinator entry to gp_segment_configuration on a cluster that has no standby configured. Administrators then cannot add a real standby until a superuser removes the fake entry. User data is not exposed or modified.",
       "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache bRPC\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：EnterpriseDB WarehousePG\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://lists.apache.org/thread/2pf15ojj0vr7rtx95677kgtl1mx3gdgb",
+          "url": "https://www.enterprisedb.com/docs/security/advisories/cve2026104949/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache bRPC",
-          "packageURL": "pkg:github/apache/brpc",
+          "vendor": "EnterpriseDB",
+          "product": "WarehousePG",
+          "repo": "https://github.com/warehouse-pg/warehouse-pg",
           "versions": [
             {
+              "version": "6.27.1",
               "status": "affected",
-              "version": "0",
-              "lessThan": "1.18.0",
+              "lessThan": "6.27.7",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2.1",
+              "status": "affected",
+              "lessThan": "7.6.1",
               "versionType": "semver"
             }
           ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://github.com",
-          "packageName": "apache/brpc"
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-306 Missing Authentication for Critical Function"
+        "CWE-862 Missing Authorization"
       ],
       "cwe_ids": [
-        "CWE-306"
+        "CWE-862"
       ],
-      "cvss_severity": "HIGH"
+      "cvss_severity": "HIGH",
+      "cvss_vector": null,
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
+    },
+    {
+      "id": "CVE-2026-104948",
+      "publishedDate": "2026-10-21T13:53:54.574Z",
+      "lastModifiedDate": "2026-10-21T13:53:54.574Z",
+      "description": "WarehousePG (WHPG) 6.27.1 through 6.27.6 and 7.2.1 through 7.6.0 are affected by a missing authorization vulnerability (CWE-862) in the built-in cluster expansion functions gp_expand_lock_catalog() and gp_expand_bump_version(). Any authenticated database role can run them, and neither checks privileges. A low-privileged user can call gp_expand_lock_catalog() inside an open transaction to block all catalog changes across the cluster for every user, superusers included, until that transaction ends, which in practice requires a superuser to terminate the session. Blocked changes include DDL, temporary table creation, GRANT and CREATE ROLE. The same user can call gp_expand_bump_version() repeatedly. Each call disconnects sessions that hold temporary tables, with a FATAL error on their next catalog change, and makes every other session rebuild its segment connections.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：EnterpriseDB WarehousePG\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.enterprisedb.com/docs/security/advisories/cve2026104948/",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "EnterpriseDB",
+          "product": "WarehousePG",
+          "repo": "https://github.com/warehouse-pg/warehouse-pg",
+          "versions": [
+            {
+              "version": "6.27.1",
+              "status": "affected",
+              "lessThan": "6.27.7",
+              "versionType": "semver"
+            },
+            {
+              "version": "7.2.1",
+              "status": "affected",
+              "lessThan": "7.6.1",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-862 Missing Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-862"
+      ],
+      "cvss_severity": "HIGH",
+      "cvss_vector": null,
+      "cwe_description": null,
+      "cisa_kev": false,
+      "ghsa_id": null,
+      "exploit_available": false
     }
   ]
 }
