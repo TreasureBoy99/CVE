@@ -3,158 +3,142 @@
   "dataVersion": "5.1",
   "cveMetadata": {
     "total_count": 3,
-    "last_updated": "2026-10-23T14:10:01.762737",
+    "last_updated": "2026-10-23T17:23:32.354529",
     "severity_distribution": {
-      "critical": 1,
-      "high": 1,
-      "medium": 1,
+      "critical": 0,
+      "high": 2,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 1
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-111693",
-      "publishedDate": "2026-10-16T17:39:48.920Z",
-      "lastModifiedDate": "2026-10-23T13:57:59.704Z",
-      "description": "DataBuff ai-apm-web through 0.1.10 contains a hard-coded default credentials vulnerability that allows unauthenticated attackers to gain administrator access using the built-in admin/Databuff@123 account. Attackers can POST these credentials to /webapi/api/v1/auth/login to obtain an administrator token and access all protected /webapi routes.",
-      "severity": 9.8,
-      "fix_suggestion": "📦 受影响组件：databufflabs databuff\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-110975",
+      "publishedDate": "2026-10-23T17:10:46.396Z",
+      "lastModifiedDate": "2026-10-23T17:10:46.396Z",
+      "description": "A flaw was found in Kruize Autotune. Its REST API ships without an authentication layer, and the endpoints that return datasource configuration — the list-datasources endpoint (GET /datasources) and the datasource-metadata endpoint — serialized datasource objects using a default Gson configuration with no field-exclusion strategy. As a result, the authentication secrets stored for each configured monitoring datasource (basic-auth passwords, bearer tokens, API keys, and OAuth2 client secrets) were returned in cleartext to any client able to reach the service. An attacker with network access to Autotune could harvest these credentials and reuse them to authenticate to the backing monitoring stack.",
+      "severity": 7.4,
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://hackmd.io/@hieuPenguinnn/databuff-default-jwt-secret-auth-bypass",
+          "url": "https://access.redhat.com/security/cve/CVE-2026-110975",
           "type": "reference"
         },
         {
-          "url": "https://github.com/databufflabs/databuff/blob/v0.1.10/ai-apm-web/src/main/java/com/databuff/apm/web/admin/account/PortalUserManagementService.java#L14-L31",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2512012",
           "type": "reference"
         },
         {
-          "url": "https://github.com/databufflabs/databuff",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/databuff-ai-apm-web-through-0.1.10-hard-coded-default-admin-credentials",
+          "url": "https://github.com/kruize/autotune/pull/2038",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "databufflabs",
-          "product": "databuff",
-          "defaultStatus": "unaffected",
           "versions": [
             {
-              "version": "0",
-              "lessThanOrEqual": "0.1.10",
               "status": "affected",
-              "versionType": "custom"
+              "version": "0",
+              "lessThan": "0.11.2",
+              "versionType": "semver"
             }
           ],
-          "packageURL": "pkg:github/databufflabs/databuff",
-          "repo": "https://github.com/databufflabs/databuff"
+          "packageName": "kruize-autotune",
+          "collectionURL": "https://github.com/kruize/autotune",
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Use of Default Credentials"
+        "Plaintext Storage of a Password"
       ]
     },
     {
-      "id": "CVE-2026-115457",
-      "publishedDate": "2026-10-23T14:00:33.254Z",
-      "lastModifiedDate": "2026-10-23T14:00:33.254Z",
-      "description": "baserCMS is a website development framework. In versions 5.0.0 before 5.3.2 and 5.4.0 before 5.4.2, global shortcode expansion runs over the complete rendered page, including HTML-escaped blog comments supplied by unauthenticated visitors. A comment containing the BcBaser.getGoogleMaps shortcode can set apiBaseUrl to an attacker-controlled script URL, which is emitted as a script src and executes JavaScript on the site's origin when another visitor or administrator opens the article displaying that comment. Escaping raw HTML in comments does not prevent this stored cross-site scripting because shortcode processing happens after HTML rendering. Other registered shortcodes also expand in comments; Mail.getForm can embed a working contact form with a valid CSRF token. The flaw can compromise the authenticated browser context of an administrator who views the affected article. This issue has been patched in versions 5.3.2 and 5.4.2.",
-      "severity": 7.1,
-      "fix_suggestion": "📦 受影响组件：baserproject basercms\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-95706",
+      "publishedDate": "2026-10-22T19:06:53.378Z",
+      "lastModifiedDate": "2026-10-23T17:17:18.360Z",
+      "description": "No description provided",
+      "severity": 7.2,
+      "fix_suggestion": "📦 受影响组件：Hewlett Packard Enterprise (HPE) Unknown product\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/baserproject/basercms/security/advisories/GHSA-qhv2-3j2q-v43x",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/baserproject/basercms/commit/bec4776ab497457fac76da7ae67d2dd0ad964eec",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/baserproject/basercms/releases/tag/5.3.2",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/baserproject/basercms/releases/tag/5.4.2",
+          "url": "https://support.hpe.com/hpesc/public/docDisplay?docId=hpesbnw05162en_us&docLocale=en_US",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "baserproject",
-          "product": "basercms",
+          "defaultStatus": "affected",
+          "product": "Unknown product",
+          "vendor": "Hewlett Packard Enterprise (HPE)",
           "versions": [
             {
-              "version": ">= 5.0.0, < 5.3.2",
-              "status": "affected"
+              "lessThanOrEqual": "8.13.3.0",
+              "status": "affected",
+              "version": "8.12.0.0",
+              "versionType": "semver"
             },
             {
-              "version": ">= 5.4.0, < 5.4.2",
+              "lessThanOrEqual": "8.10.0.23",
+              "status": "affected",
+              "version": "8.10.0.0",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-115567",
+      "publishedDate": "2026-10-23T17:13:16.161Z",
+      "lastModifiedDate": "2026-10-23T17:13:16.161Z",
+      "description": "Tokio is a runtime for writing applications with Rust. In 1.54.0, a race condition between tokio::time::Interval::poll_tick (including .tick().await) and the multi-threaded runtime's time driver could drop an internal timer entry without synchronizing with the driver thread that was firing it. The race caused a use-after-free on the timer's waker and task state in safe Rust, which could produce assertion panics, task reference-count corruption, or heap memory corruption. This issue is fixed in 1.54.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：tokio-rs tokio\n🔓 漏洞类型：CWE-362 (CWE-362)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/tokio-rs/tokio/security/advisories/GHSA-5wjr-9356-4wc8",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/tokio-rs/tokio/pull/8458",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/tokio-rs/tokio/pull/8692",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/tokio-rs/tokio/commit/2b4eba7833864c04ecd2f3e5f4a97ff4f6fa28d0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/tokio-rs/tokio/commit/5ed619bbaba87357ee5103d71b75e7c84cad99c9",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/tokio-rs/tokio/releases/tag/tokio-1.54.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "tokio-rs",
+          "product": "tokio",
+          "versions": [
+            {
+              "version": "= 1.54.0",
               "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+        "CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
       ],
       "cwe_ids": [
-        "CWE-79"
-      ]
-    },
-    {
-      "id": "CVE-2026-111683",
-      "publishedDate": "2026-10-16T17:39:40.888Z",
-      "lastModifiedDate": "2026-10-23T13:59:41.560Z",
-      "description": "Allegro Ralph through 20260902.1 contains a missing authorization vulnerability that allows authenticated staff users to bypass rack model permissions because RalphPermission skips checks for views without a queryset. Attackers can call DCAssetsView and SRRacksAPIView at /api/rack/<id> and /api/server_room/<id> to read asset hostnames, serials and management IPs, and to modify, move or create racks.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：allegro ralph\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://hackmd.io/@hieuPenguinnn/ralph-dc-view-rack-api-missing-authorization",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/allegro/ralph/blob/20260902.1/src/ralph/dc_view/views/api.py#L17-L96",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/allegro/ralph/blob/20260902.1/src/ralph/lib/permissions/api.py#L194-L209",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/allegro/ralph",
-          "type": "reference"
-        },
-        {
-          "url": "https://www.vulncheck.com/advisories/allegro-ralph-through-20260902.1-missing-authorization-in-data-center-rack-api",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "allegro",
-          "product": "ralph",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "lessThanOrEqual": "20260902.1",
-              "status": "affected",
-              "versionType": "custom"
-            }
-          ],
-          "packageURL": "pkg:github/allegro/ralph",
-          "repo": "https://github.com/allegro/ralph"
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
+        "CWE-362"
       ]
     }
   ]
