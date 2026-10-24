@@ -2,172 +2,58 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-10-23T23:25:45.788162",
+    "total_count": 1,
+    "last_updated": "2026-10-24T01:47:06.132504",
     "severity_distribution": {
-      "critical": 1,
+      "critical": 0,
       "high": 0,
-      "medium": 0,
+      "medium": 1,
       "low": 0,
-      "none": 2
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-115931",
-      "publishedDate": "2026-10-23T22:02:21.717Z",
-      "lastModifiedDate": "2026-10-23T23:07:14.650Z",
-      "description": "Postiz lets a signed-in user ask the backend to run a function on one of their connected channels. The backend did not restrict which functions can be requested, so a user could call internal helper functions that were never meant to be reachable from the web interface.\n\nOne of those helpers reads a file from the server's disk. A user who connects a channel whose stored token is a file path can have the backend return the contents of any file it can read, including its environment, which holds the secret used to sign login sessions, the database address and the credentials of connected services. Another helper makes the backend process exit with a single request. Self-registration is open by default, so no existing account and no action by another user is needed.",
-      "severity": 9.9,
-      "fix_suggestion": "📦 受影响组件：GitroomHQ postiz-app\n🔓 漏洞类型：CWE-470, CWE-73 (CWE-470, CWE-73)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115929",
+      "publishedDate": "2026-10-24T00:31:30.633Z",
+      "lastModifiedDate": "2026-10-24T00:53:04.619Z",
+      "description": "MongoDB Compass relies on Electron, a third-party runtime that carries its own TLS root certificate store. This root certificate store has the recoverable eMudhra intermediate CA certificates. Issue is resolved by updating to Compass 1.53.1, which includes Electron 44.9.1.",
+      "severity": 6.8,
+      "fix_suggestion": "📦 受影响组件：MongoDB, Inc. Compass\n🔓 漏洞类型：CWE-295 (CWE-295)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/gitroomhq/postiz-app",
+          "url": "https://github.com/mongodb-js/compass/releases/tag/v1.53.1",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gitroomhq/postiz-app/releases/tag/v2.25.1",
+          "url": "https://releases.electronjs.org/release/v44.9.1",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gitroomhq/postiz-app/commit/9383f5be4d310c346e33a3748a9a7ded64c96fed",
-          "type": "reference"
-        },
-        {
-          "url": "https://gadvisory.org/advisories/PSA-2026-JNXM56",
+          "url": "https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "GitroomHQ",
-          "product": "postiz-app",
-          "packageName": "postiz-app",
-          "defaultStatus": "unaffected",
+          "vendor": "MongoDB, Inc.",
+          "product": "Compass",
           "versions": [
             {
-              "version": "2.23.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThan": "2.25.2"
-            }
-          ],
-          "repo": "https://github.com/gitroomhq/postiz-app"
-        }
-      ],
-      "problemType": [
-        "CWE-470",
-        "CWE-73"
-      ],
-      "cwe_ids": [
-        "CWE-470",
-        "CWE-73"
-      ]
-    },
-    {
-      "id": "CVE-2026-113877",
-      "publishedDate": "2026-10-23T20:07:20.677Z",
-      "lastModifiedDate": "2026-10-23T23:06:45.441Z",
-      "description": "HTTP::Headers::ActionPack versions before 0.10 for Perl allow CPU exhaustion via Accept-Language ranges matched as regular expressions.\n\n_language_match interpolates each Accept-Language range into the pattern `/^$range\\-/i` without escaping it, so regular expression syntax in the header reaches the regex engine. A 12-byte range such as `(a?|b?){26}z` backtracks for seconds, and each increment of the quantifier doubles the time. An invalid range such as `(` fails to compile.\n\nA remote attacker can exhaust CPU, or make choose_language die, in any application that passes an untrusted Accept-Language header to it.",
-      "severity": "N/A",
-      "fix_suggestion": "🔓 漏洞类型：CWE-624 (CWE-624)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://metacpan.org/release/RRWO/HTTP-Headers-ActionPack-0.10/changes",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/robrwo/perl-HTTP-Headers-ActionPack/commit/77f0deb23f3de872c2e64befd72750e0f0f4bec9.patch",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://cpan.org/modules",
-          "defaultStatus": "unaffected",
-          "modules": [
-            "HTTP::Headers::ActionPack"
-          ],
-          "packageName": "HTTP-Headers-ActionPack",
-          "packageURL": "pkg:cpan/HTTP-Headers-ActionPack",
-          "programFiles": [
-            "lib/HTTP/Headers/ActionPack/ContentNegotiation.pm"
-          ],
-          "programRoutines": [
-            {
-              "name": "HTTP::Headers::ActionPack::ContentNegotiation::_language_match"
-            },
-            {
-              "name": "HTTP::Headers::ActionPack::ContentNegotiation::choose_language"
-            }
-          ],
-          "repo": "https://github.com/robrwo/perl-HTTP-Headers-ActionPack/",
-          "versions": [
-            {
-              "lessThan": "0.10",
               "status": "affected",
               "version": "0",
+              "lessThan": "1.53.1",
               "versionType": "custom"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-624 Executable Regular Expression Error"
-      ],
-      "cwe_ids": [
-        "CWE-624"
-      ]
-    },
-    {
-      "id": "CVE-2026-111497",
-      "publishedDate": "2026-10-22T13:35:41.975Z",
-      "lastModifiedDate": "2026-10-23T23:06:44.113Z",
-      "description": "A buffer overflow vulnerability in the Brotli decoder (c/dec/decode.c) in Google Brotli versions 1.0.3 through 1.2.0 on all platforms allows a remote unauthenticated attacker to corrupt adjacent decoder state memory, disclose sensitive memory contents, cause a denial of service, or potentially execute arbitrary code using a crafted Brotli-compressed stream.\n\n\n\n\n\nUsers need to update any Brotli libraries or binaries between 1.0.3 through 1.2.0 to the latest available version: 1.0.10 or 1.1.1 or 1.2.1.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Brotli\n🔓 漏洞类型：CWE-787, CWE-252 (CWE-787, CWE-252)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://nodejs.org/en/blog/vulnerability/october-2026-security-releases#nodejs-brotli-decoder-out-of-bounds-write-permits-remote-code-execution-cve-2026-111497---high",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Google",
-          "product": "Brotli",
-          "packageName": "github.com/google/brotli",
-          "repo": "https://github.com/google/brotli",
-          "versions": [
-            {
-              "status": "affected",
-              "version": "1.0.3",
-              "lessThan": "1.0.10",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.1.0",
-              "lessThan": "1.1.1",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "1.2.0",
-              "lessThan": "1.2.1",
-              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-787 Out-of-bounds Write",
-        "CWE-252 Unchecked Return Value"
+        "CWE-295 Improper certificate validation"
       ],
       "cwe_ids": [
-        "CWE-787",
-        "CWE-252"
+        "CWE-295"
       ]
     }
   ]
