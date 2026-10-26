@@ -2,1284 +2,651 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 44,
-    "last_updated": "2026-10-26T10:33:46.097870",
+    "total_count": 54,
+    "last_updated": "2026-10-26T15:51:11.249863",
     "severity_distribution": {
-      "critical": 2,
-      "high": 16,
-      "medium": 21,
+      "critical": 3,
+      "high": 9,
+      "medium": 7,
       "low": 0,
-      "none": 5
+      "none": 35
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-83938",
-      "publishedDate": "2026-10-22T21:44:42.272Z",
-      "lastModifiedDate": "2026-10-26T10:17:06.911Z",
-      "description": "Missing authentication for critical function in Azure Kubernetes Configuration Service allows an unauthorized attacker to elevate privileges over a network.",
-      "severity": 10,
-      "fix_suggestion": "📦 受影响组件：Microsoft Azure Kubernetes Configuration Service\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115188",
+      "publishedDate": "2026-10-26T12:33:54.469Z",
+      "lastModifiedDate": "2026-10-26T15:35:53.849Z",
+      "description": "An unrestricted file upload vulnerability exists in the campaign import feature of Mautic 7. When processing an uploaded campaign archive, the application copies the bundled asset files into a publicly accessible media directory without restricting their file names or types. An authenticated user with permission to create campaign imports can exploit this through the user interface or the API (/api/campaigns/import) to place arbitrary files, including server-side scripts, in the web root. Administrator privileges are not required. On web servers that honor per-directory configuration, such as the default Apache setup of the official Mautic Docker image, this leads to remote code execution with the privileges of the web server user, including access to the Mautic configuration, application secrets, and contact data.",
+      "severity": 9.9,
+      "fix_suggestion": "🔓 漏洞类型：Unrestricted Upload of Dangerous File Type, Code Injection (CWE-434, CWE-94)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-83938",
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-mxjf-pghx-h299",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Microsoft",
-          "product": "Azure Kubernetes Configuration Service",
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
-              "version": "-",
-              "status": "affected"
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-306: Missing Authentication for Critical Function"
+        "CWE-434 Unrestricted Upload of File with Dangerous Type",
+        "CWE-94 Improper Control of Generation of Code ('Code Injection')"
       ],
       "cwe_ids": [
-        "CWE-306"
+        "CWE-434",
+        "CWE-94"
       ]
     },
     {
-      "id": "CVE-2026-97785",
-      "publishedDate": "2026-10-22T21:44:41.227Z",
-      "lastModifiedDate": "2026-10-26T10:17:38.675Z",
-      "description": "Improper authentication in AAD App Proxy allows an unauthorized attacker to elevate privileges over a network.",
-      "severity": 10,
-      "fix_suggestion": "📦 受影响组件：Microsoft Microsoft Entra application proxy\n🔓 漏洞类型：Improper Authentication (CWE-287)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-112346",
+      "publishedDate": "2026-10-26T15:34:30.749Z",
+      "lastModifiedDate": "2026-10-26T15:34:30.749Z",
+      "description": "OpenHands Software Agent SDK before 1.52.0 contains an unauthenticated remote code execution vulnerability where the DockerWorkspace and Apptainer workspace launchers bind the sandbox agent server to all network interfaces (0.0.0.0) with an empty session_api_keys list, disabling authentication by default. Attackers who can reach the published container port can send unauthenticated HTTP and WebSocket requests to execute arbitrary shell commands as root in the sandbox, access the mounted workspace, and read plaintext secrets from the secrets store.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：OpenHands OpenHands Software Agent SDK\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-97785",
+          "url": "https://github.com/OpenHands/software-agent-sdk/releases/tag/v1.52.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/OpenHands/software-agent-sdk/pull/5209",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/OpenHands/software-agent-sdk/commit/7b66584ff8899144eb4ce679c2811861342af9de",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/openhands-software-agent-sdk-unauthenticated-sandbox-agent-server-rce",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Microsoft",
-          "product": "Microsoft Entra application proxy",
+          "defaultStatus": "unaffected",
+          "vendor": "OpenHands",
+          "product": "OpenHands Software Agent SDK",
+          "packageURL": "pkg:github/OpenHands/software-agent-sdk",
+          "repo": "https://github.com/OpenHands/software-agent-sdk",
           "versions": [
             {
-              "version": "-",
-              "status": "affected"
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver",
+              "lessThan": "1.52.0"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-287: Improper Authentication"
-      ],
-      "cwe_ids": [
-        "CWE-287"
+        "Binding to an Unrestricted IP Address"
       ]
     },
     {
-      "id": "CVE-2026-111841",
-      "publishedDate": "2026-10-26T08:46:47.663Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.533Z",
-      "description": "Cross-Site Request Forgery (CSRF) vulnerability in Aman FunnelKit Automations wp-marketing-automations allows Cross Site Request Forgery.This issue affects FunnelKit Automations: from n/a through 3.8.5.2.",
+      "id": "CVE-2026-59106",
+      "publishedDate": "2026-10-26T13:15:02.436Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.374Z",
+      "description": "A security vulnerability has been identified in the WolfProt interface implementation. Insufficient neutralization of user-controlled input could allow an unauthenticated attacker with network access to a vulnerable service to execute operating-system commands with the privileges of the affected application service.",
+      "severity": 9.8,
+      "fix_suggestion": "📦 受影响组件：WolfVision Cynap Pure (Next Gen), Cynap Bridge\n🔓 漏洞类型：OS Command Injection (CWE-78)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wolfvision.com/de/security/cve-2026-59106-2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "WolfVision",
+          "product": "Cynap Pure (Next Gen), Cynap Bridge",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "2.00c",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "WolfVision",
+          "product": "Cynap Pro, Cynap Core Pro, Cynap Receiver, Cynap Pure, Cynap Pure Mini, Cynap Pure Pro",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.78a",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "WolfVision",
+          "product": "Cynap Videobar, Firmware Version",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "1.72e",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        },
+        {
+          "vendor": "WolfVision",
+          "product": "Cynap, Cynap Core, Cynap Pure SDM",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "affected"
+        }
+      ],
+      "problemType": [
+        "CWE-78 Improper neutralization of special elements used in an OS command ('OS command injection')"
+      ],
+      "cwe_ids": [
+        "CWE-78"
+      ]
+    },
+    {
+      "id": "CVE-2026-115748",
+      "publishedDate": "2026-10-26T15:01:40.644Z",
+      "lastModifiedDate": "2026-10-26T15:34:11.951Z",
+      "description": "**UNSUPPORTED WHEN ASSIGNED**  Authorization bypass in Apache Vysper, all versions.\n\n\n\n\nApache Vysper is an XMPP (Jabber) server library. Its XEP-0077 (In-Band Registration) implementation is missing an authentication check, allowing any authenticated user to compromise other accounts.\n\n\n\n\nAs this project is retired, we do not plan to release a version that fixes this issue. Users are recommended to find an alternative.",
       "severity": 8.8,
-      "fix_suggestion": "📦 受影响组件：Aman FunnelKit Automations\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Vysper\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://patchstack.com/database/wordpress/plugin/wp-marketing-automations/vulnerability/wordpress-funnelkit-automations-plugin-3-8-5-2-cross-site-request-forgery-csrf-vulnerability?_s_id=cve",
+          "url": "https://mina.apache.org/vysper-project/",
+          "type": "reference"
+        },
+        {
+          "url": "https://lists.apache.org/thread.html/979n9lzg10vc7tdrrlgy4lh5yrsw8wsj",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Aman",
-          "product": "FunnelKit Automations",
-          "packageName": "wp-marketing-automations",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
+          "vendor": "Apache Software Foundation",
+          "product": "Apache Vysper",
+          "packageURL": "pkg:maven/org.apache.vysper/vysper",
           "versions": [
             {
-              "version": "0",
-              "versionType": "custom",
               "status": "affected",
-              "lessThanOrEqual": "3.8.5.2",
-              "changes": [
-                {
-                  "at": "3.8.6",
-                  "status": "unaffected"
-                }
-              ]
+              "version": "0",
+              "lessThanOrEqual": "*",
+              "versionType": "maven"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected",
+          "collectionURL": "https://repo.maven.apache.org/maven2",
+          "packageName": "org.apache.vysper:vysper"
         }
       ],
       "problemType": [
-        "Cross-Site Request Forgery (CSRF)"
+        "CWE-639 Authorization bypass through User-Controlled key"
+      ],
+      "cwe_ids": [
+        "CWE-639"
       ]
     },
     {
-      "id": "CVE-2026-115608",
-      "publishedDate": "2026-10-26T10:28:00.697Z",
-      "lastModifiedDate": "2026-10-26T10:29:00.541Z",
-      "description": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Crocoblock JetEngine jet-engine allows SQL Injection.This issue affects JetEngine: from n/a through 3.9.0.",
-      "severity": 8.5,
-      "fix_suggestion": "📦 受影响组件：Crocoblock JetEngine\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115189",
+      "publishedDate": "2026-10-26T12:39:14.432Z",
+      "lastModifiedDate": "2026-10-26T15:35:53.698Z",
+      "description": "A server-side template injection vulnerability exists in the Twig theme rendering sandbox of Mautic. The sandbox introduced to restrict user-uploaded theme templates (the fix for GHSA-9fx4-7cmj-47vg) does not fully enforce its restrictions, allowing a crafted theme template to escape the sandbox. An authenticated user with the core:themes:create permission can upload a malicious theme whose template is later rendered, resulting in execution of arbitrary code on the server with the privileges of the web server process. This allows the attacker to execute operating system commands, read server-side files including configuration files and database credentials, write files, and reach internal services. In default installations the core:themes:create permission is granted to the Administrator role, and in multi-operator setups it may be delegated to other roles. This is an incomplete fix for GHSA-9fx4-7cmj-47vg.",
+      "severity": 8.8,
+      "fix_suggestion": "🔓 漏洞类型：CWE-1336 (CWE-1336)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://patchstack.com/database/wordpress/plugin/jet-engine/vulnerability/wordpress-jetengine-plugin-3-9-0-sql-injection-vulnerability?_s_id=cve",
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-h7pm-79gc-8867",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Crocoblock",
-          "product": "JetEngine",
-          "packageName": "jet-engine",
-          "collectionURL": "https://crocoblock.com",
-          "defaultStatus": "unaffected",
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
-              "version": "0",
-              "versionType": "custom",
               "status": "affected",
-              "lessThanOrEqual": "3.9.0",
-              "changes": [
-                {
-                  "at": "3.9.0.1",
-                  "status": "unaffected"
-                }
-              ]
+              "version": "1.3.0",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+        "CWE-1336 Improper Neutralization of Special Elements Used in a Template Engine"
+      ],
+      "cwe_ids": [
+        "CWE-1336"
       ]
     },
     {
-      "id": "CVE-2026-115948",
-      "publishedDate": "2026-10-26T10:08:37.779Z",
-      "lastModifiedDate": "2026-10-26T10:08:39.367Z",
-      "description": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in David Lingren Media LIbrary Assistant media-library-assistant allows Blind SQL Injection.This issue affects Media LIbrary Assistant: from n/a through 3.42.",
-      "severity": 8.5,
-      "fix_suggestion": "📦 受影响组件：David Lingren Media LIbrary Assistant\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115193",
+      "publishedDate": "2026-10-26T12:46:35.447Z",
+      "lastModifiedDate": "2026-10-26T15:35:53.085Z",
+      "description": "A stored Cross-Site Scripting (XSS) vulnerability exists in the contact detail view of Mautic 7. Values of HTML-type custom contact fields are rendered without output sanitization. A user or integration able to write a value to such a field (for example, through contact editing, the contact API, or a form submission mapped to the field) can store a script payload in it. When another user, including an administrator, opens the affected contact's detail page, the injected script executes within the context of their active browser session. This could allow an attacker to perform administrative actions on behalf of the victim, such as creating new administrator accounts, altering system configuration, or accessing contact and campaign data.",
+      "severity": 8.2,
+      "fix_suggestion": "🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://patchstack.com/database/wordpress/plugin/media-library-assistant/vulnerability/wordpress-media-library-assistant-plugin-3-42-sql-injection-vulnerability?_s_id=cve",
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-3295-vq3p-93rw",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "David Lingren",
-          "product": "Media LIbrary Assistant",
-          "packageName": "media-library-assistant",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
-              "version": "0",
-              "versionType": "custom",
               "status": "affected",
-              "lessThanOrEqual": "3.42",
-              "changes": [
-                {
-                  "at": "3.43",
-                  "status": "unaffected"
-                }
-              ]
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
-          ]
+          ],
+          "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+        "CWE-79 Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
       ]
     },
     {
-      "id": "CVE-2026-116256",
-      "publishedDate": "2026-10-26T10:15:13.683Z",
-      "lastModifiedDate": "2026-10-26T10:15:13.683Z",
-      "description": "A vulnerability was found in geesondog RhaPHP up to 7ae639ccf8dcb627faace096d030bd4cb4cfb905. Affected by this vulnerability is the function image of the file application/mp/controller/Show.php of the component Mp Module Media Proxy. The manipulation of the argument url results in server-side request forgery. The attack may be launched remotely. The exploit has been made public and could be used. This product operates on a rolling release basis, ensuring continuous delivery. Consequently, there are no version details for either affected or updated releases. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "id": "CVE-2026-115190",
+      "publishedDate": "2026-10-26T12:41:17.370Z",
+      "lastModifiedDate": "2026-10-26T15:35:53.561Z",
+      "description": "An insecure deserialization (PHP object injection) vulnerability exists in Mautic's handling of segment filters and custom field properties. Several code paths that read these stored values from the database deserialize them without restricting which PHP classes may be instantiated, instead of using Mautic's safe deserialization helper. An attacker who is able to store a crafted serialized value in these segment filter or custom field properties can cause arbitrary PHP objects to be instantiated when Mautic later processes the data, for example during segment evaluation, contact export, or custom field API requests. Combined with gadget chains available in Mautic's dependencies, this could allow an attacker to execute arbitrary code on the server, read, modify, or delete data stored in the Mautic instance, including contact data, and affect its availability. Exploitation requires high privileges or an existing ability to write to the affected stored data.",
+      "severity": 8,
+      "fix_suggestion": "🔓 漏洞类型：Deserialization of Untrusted Data (CWE-502)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-5r63-8h35-j3mw",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "2.15.2",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.2.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-502 Deserialization of Untrusted Data"
+      ],
+      "cwe_ids": [
+        "CWE-502"
+      ]
+    },
+    {
+      "id": "CVE-2026-90885",
+      "publishedDate": "2026-10-26T14:47:03.155Z",
+      "lastModifiedDate": "2026-10-26T15:35:49.414Z",
+      "description": "Improper Restriction of XML External Entity Reference vulnerability in Apache Camel Saxon component.\n\n\n\nThis issue affects Apache Camel: from 4.0.0 before 4.18.5, from 4.19.0 before 4.22.2.\n\n\n\nXQueryBuilder in camel-saxon, which evaluates expressions for the xquery language and the xquery component, built its default Saxon Configuration with parse options that set only a whitespace stripping rule, leaving the XML parser at its defaults, under which a DOCTYPE declaration is accepted and external entities are resolved. A message body of type String or byte[], or any body read as an InputStream, is first turned into a javax.xml.transform.Source by Camel's own XML type converters, which configure the parser against external entities, so those bodies were not affected. A body that was already a Source, however, was handed to Saxon unchanged, and when that Source still had to be parsed, as a stream-based Source does, Saxon parsed it with that Configuration, bypassing the protection applied to the other body types. Such a body arises, for example, after a route converts the message with convertBodyTo(Source.class), or when a component or processor earlier in the route sets the body to a stream-based Source. A DOCTYPE with an external subset, or an external entity, declared in that body was therefore resolved and expanded into the document the expression was evaluated against. An external sender whose XML reaches an XQuery expression or an xquery endpoint in that form could read files readable by the Camel process and cause the process to issue requests to hosts the document names. No non-default option is required, since the default Configuration is used whenever the route does not supply one of its own.\n\n\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.2. If users are on the 4.18.x releases stream, then they are suggested to upgrade to 4.18.5. The 4.14.x releases stream and earlier, as well as the 4.15.x to 4.17.x and 4.19.x to 4.21.x release lines, reached end of life before this issue was resolved and will not receive a fix, so deployments on them must move to a supported release. For deployments that cannot upgrade immediately, do not evaluate XQuery over a message body that is already a javax.xml.transform.Source when that body carries XML from an untrusted sender, or set the configuration option of the xquery endpoint or language to a Saxon Configuration whose parse options refuse a DOCTYPE declaration and disable external entities and external DTD loading, which is what the fixed releases now apply by default.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Camel\n🔓 漏洞类型：XML External Entity (XXE) (CWE-611)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://camel.apache.org/security/CVE-2026-90885.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.apache.org/jira/browse/CAMEL-24691",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apache/camel/pull/26344",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apache/camel/pull/26728",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apache/camel/pull/26730",
+          "type": "reference"
+        },
+        {
+          "url": "https://camel.apache.org/security/CVE-2026-85250.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Apache Software Foundation",
+          "product": "Apache Camel",
+          "collectionURL": "https://repo.maven.apache.org/maven2",
+          "packageName": "org.apache.camel:camel-saxon",
+          "packageURL": "pkg:maven/org.apache.camel/camel-saxon",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "4.0.0",
+              "lessThan": "4.18.5",
+              "versionType": "maven"
+            },
+            {
+              "status": "affected",
+              "version": "4.19.0",
+              "lessThan": "4.22.2",
+              "versionType": "maven"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-611 Improper Restriction of XML External Entity Reference"
+      ],
+      "cwe_ids": [
+        "CWE-611"
+      ]
+    },
+    {
+      "id": "CVE-2026-116368",
+      "publishedDate": "2026-10-26T15:45:16.223Z",
+      "lastModifiedDate": "2026-10-26T15:45:16.223Z",
+      "description": "A vulnerability was determined in DeepSeek Harness up to 0.2.0-rc.2. This issue affects some unknown processing of the file packages/client/connection/src/browser-auth.ts of the component Browser Auth. This manipulation causes improper authorization. The attack can be initiated remotely. The vendor was contacted early about this disclosure but did not respond in any way.",
       "severity": 7.3,
-      "fix_suggestion": "📦 受影响组件：geesondog RhaPHP\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：DeepSeek Harness\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://vuldb.com/vuln/426295",
+          "url": "https://vuldb.com/vuln/426332",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/vuln/426295/cti",
+          "url": "https://vuldb.com/vuln/426332/cti",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/cve/CVE-2026-116256",
+          "url": "https://vuldb.com/cve/CVE-2026-116368",
           "type": "reference"
         },
         {
-          "url": "https://vuldb.com/submit/1009907",
+          "url": "https://vuldb.com/submit/1012891",
           "type": "reference"
-        },
-        {
-          "url": "https://gist.github.com/qianqiusujiu/70461b0651f254299a310f27361d226f",
-          "type": "poc"
         }
       ],
       "affected": [
         {
-          "vendor": "geesondog",
-          "product": "RhaPHP",
+          "vendor": "DeepSeek",
+          "product": "Harness",
           "versions": [
             {
-              "version": "7ae639ccf8dcb627faace096d030bd4cb4cfb905",
+              "version": "0.2.0-rc.0",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.0-rc.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.2.0-rc.2",
               "status": "affected"
             }
           ],
           "cpes": [
-            "cpe:2.3:a:geesondog:rhaphp:*:*:*:*:*:*:*:*"
+            "cpe:2.3:a:deepseek:harness:*:*:*:*:*:*:*:*"
           ],
           "modules": [
-            "Mp Module Media Proxy"
+            "Browser Auth"
           ]
         }
       ],
       "problemType": [
-        "Server-Side Request Forgery"
+        "Improper Authorization",
+        "Incorrect Privilege Assignment"
       ]
     },
     {
-      "id": "CVE-2026-114707",
-      "publishedDate": "2026-10-26T10:28:54.378Z",
-      "lastModifiedDate": "2026-10-26T10:28:54.378Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Crocoblock JetElements For Elementor jet-elements allows Stored XSS.This issue affects JetElements For Elementor: from n/a through 2.9.2.5.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Crocoblock JetElements For Elementor\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115192",
+      "publishedDate": "2026-10-26T12:45:09.462Z",
+      "lastModifiedDate": "2026-10-26T15:35:53.230Z",
+      "description": "An SQL Injection vulnerability exists in the dashboard widget data API endpoint (/api/data/{type}). Chart filter parameters supplied by the client are not properly validated before they are used in the database queries that build dashboard chart data. An authenticated user with API access can exploit this to inject SQL into these reporting queries. Using blind SQL injection techniques, the attacker can read arbitrary data from the Mautic database, including contact and other marketing data and user account data with password hashes. The injected SQL can also be used to slow down database queries, which can have a limited impact on availability. Data modification is not possible through this vulnerability. Exploitation requires the Mautic API to be enabled.",
+      "severity": 7.1,
+      "fix_suggestion": "🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://patchstack.com/database/wordpress/plugin/jet-elements/vulnerability/wordpress-jetelements-for-elementor-plugin-2-9-2-5-cross-site-scripting-xss-vulnerability?_s_id=cve",
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-qpmx-7pq3-5q2v",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Crocoblock",
-          "product": "JetElements For Elementor",
-          "packageName": "jet-elements",
-          "collectionURL": "https://crocoblock.com",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "2.9.2.5",
-              "changes": [
-                {
-                  "at": "2.9.2.6",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115594",
-      "publishedDate": "2026-10-26T10:28:26.944Z",
-      "lastModifiedDate": "2026-10-26T10:28:26.944Z",
-      "description": "Insertion of Sensitive Information Into Sent Data vulnerability in David Lingren Media LIbrary Assistant media-library-assistant allows Retrieve Embedded Sensitive Data.This issue affects Media LIbrary Assistant: from n/a through 3.42.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：David Lingren Media LIbrary Assistant\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/media-library-assistant/vulnerability/wordpress-media-library-assistant-plugin-3-42-sensitive-data-exposure-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "David Lingren",
-          "product": "Media LIbrary Assistant",
-          "packageName": "media-library-assistant",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "3.42",
-              "changes": [
-                {
-                  "at": "3.43",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Insertion of Sensitive Information Into Sent Data"
-      ]
-    },
-    {
-      "id": "CVE-2026-115953",
-      "publishedDate": "2026-10-26T10:27:38.261Z",
-      "lastModifiedDate": "2026-10-26T10:28:38.278Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Dylan Kuhn  Geo Mashup geo-mashup allows Stored XSS.This issue affects  Geo Mashup: from n/a through 1.13.22.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Dylan Kuhn Geo Mashup\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/geo-mashup/vulnerability/wordpress-geo-mashup-plugin-1-13-22-cross-site-scripting-xss-vulnerability-2?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Dylan Kuhn",
-          "product": "Geo Mashup",
-          "packageName": "geo-mashup",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.13.22",
-              "changes": [
-                {
-                  "at": "1.13.23",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115950",
-      "publishedDate": "2026-10-26T10:26:54.044Z",
-      "lastModifiedDate": "2026-10-26T10:27:54.265Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WP Smart Widgets Better Post & Filter Widgets for Elementor better-post-filter-widgets-for-elementor allows Stored XSS.This issue affects Better Post & Filter Widgets for Elementor: from n/a through 1.9.1.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：WP Smart Widgets Better Post & Filter Widgets for Elementor\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/better-post-filter-widgets-for-elementor/vulnerability/wordpress-better-post-filter-widgets-for-elementor-plugin-1-9-1-cross-site-scripting-xss-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WP Smart Widgets",
-          "product": "Better Post & Filter Widgets for Elementor",
-          "packageName": "better-post-filter-widgets-for-elementor",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.9.1",
-              "changes": [
-                {
-                  "at": "1.9.2",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115951",
-      "publishedDate": "2026-10-26T10:26:34.727Z",
-      "lastModifiedDate": "2026-10-26T10:26:35.073Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Kevin Weber Lazy Load for Videos lazy-load-for-videos allows Stored XSS.This issue affects Lazy Load for Videos: from n/a through 2.18.11.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Kevin Weber Lazy Load for Videos\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/lazy-load-for-videos/vulnerability/wordpress-lazy-load-for-videos-plugin-2-18-11-cross-site-scripting-xss-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Kevin Weber",
-          "product": "Lazy Load for Videos",
-          "packageName": "lazy-load-for-videos",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "2.18.11",
-              "changes": [
-                {
-                  "at": "2.18.12",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-114709",
-      "publishedDate": "2026-10-26T10:08:01.188Z",
-      "lastModifiedDate": "2026-10-26T10:23:40.064Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Igor Funa Ad Inserter ad-inserter allows Reflected XSS.This issue affects Ad Inserter: from n/a through 2.8.18.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Igor Funa Ad Inserter\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/ad-inserter/vulnerability/wordpress-ad-inserter-plugin-2-8-18-cross-site-scripting-xss-vulnerability-4?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Igor Funa",
-          "product": "Ad Inserter",
-          "packageName": "ad-inserter",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "2.8.18",
-              "changes": [
-                {
-                  "at": "2.8.19",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115949",
-      "publishedDate": "2026-10-26T10:07:24.926Z",
-      "lastModifiedDate": "2026-10-26T10:23:40.211Z",
-      "description": "Missing Authorization vulnerability in WP Smart Widgets Better Post & Filter Widgets for Elementor better-post-filter-widgets-for-elementor allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Better Post & Filter Widgets for Elementor: from n/a through 1.9.1.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：WP Smart Widgets Better Post & Filter Widgets for Elementor\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/better-post-filter-widgets-for-elementor/vulnerability/wordpress-better-post-filter-widgets-for-elementor-plugin-1-9-1-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WP Smart Widgets",
-          "product": "Better Post & Filter Widgets for Elementor",
-          "packageName": "better-post-filter-widgets-for-elementor",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.9.1",
-              "changes": [
-                {
-                  "at": "1.9.2",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-97254",
-      "publishedDate": "2026-10-26T10:02:36.972Z",
-      "lastModifiedDate": "2026-10-26T10:23:40.688Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WProyal Royal Elementor Addons royal-elementor-addons allows Stored XSS.This issue affects Royal Elementor Addons: from n/a through 1.7.1069.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：WProyal Royal Elementor Addons\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/royal-elementor-addons/vulnerability/wordpress-royal-elementor-addons-plugin-1-7-1069-cross-site-scripting-xss-vulnerability-2?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WProyal",
-          "product": "Royal Elementor Addons",
-          "packageName": "royal-elementor-addons",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.7.1069",
-              "changes": [
-                {
-                  "at": "1.7.1070",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-112865",
-      "publishedDate": "2026-10-26T10:01:03.255Z",
-      "lastModifiedDate": "2026-10-26T10:23:41.001Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in WProyal Royal Elementor Addons royal-elementor-addons allows DOM-Based XSS.This issue affects Royal Elementor Addons: from n/a through 1.7.1069.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：WProyal Royal Elementor Addons\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/royal-elementor-addons/vulnerability/wordpress-royal-elementor-addons-plugin-1-7-1069-cross-site-scripting-xss-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WProyal",
-          "product": "Royal Elementor Addons",
-          "packageName": "royal-elementor-addons",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.7.1069",
-              "changes": [
-                {
-                  "at": "1.7.1070",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115602",
-      "publishedDate": "2026-10-26T09:59:24.845Z",
-      "lastModifiedDate": "2026-10-26T10:23:41.317Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in Liquid Web / StellarWP Gutenberg Blocks by Kadence Blocks kadence-blocks allows Stored XSS.This issue affects Gutenberg Blocks by Kadence Blocks: from n/a through 3.8.0.1.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：Liquid Web / StellarWP Gutenberg Blocks by Kadence Blocks\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/kadence-blocks/vulnerability/wordpress-gutenberg-blocks-by-kadence-blocks-plugin-3-8-0-1-cross-site-scripting-xss-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Liquid Web / StellarWP",
-          "product": "Gutenberg Blocks by Kadence Blocks",
-          "packageName": "kadence-blocks",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "3.8.0.1",
-              "changes": [
-                {
-                  "at": "3.8.0.2",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115613",
-      "publishedDate": "2026-10-26T09:54:36.992Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.674Z",
-      "description": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') vulnerability in bPlugins Image Gallery block – Create and display photo gallery/photo album. 3d-image-gallery allows Stored XSS.This issue affects Image Gallery block – Create and display photo gallery/photo album.: from n/a through 2.4.1.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：bPlugins Image Gallery block – Create and display photo gallery/photo album.\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/3d-image-gallery/vulnerability/wordpress-image-gallery-block-create-and-display-photo-gallery-photo-album-plugin-2-4-1-cross-site-scripting-xss-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "bPlugins",
-          "product": "Image Gallery block – Create and display photo gallery/photo album.",
-          "packageName": "3d-image-gallery",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "2.4.1",
-              "changes": [
-                {
-                  "at": "2.4.2",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
-      ]
-    },
-    {
-      "id": "CVE-2026-115954",
-      "publishedDate": "2026-10-26T10:27:16.990Z",
-      "lastModifiedDate": "2026-10-26T10:28:16.730Z",
-      "description": "Missing Authorization vulnerability in Dylan Kuhn  Geo Mashup geo-mashup allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects  Geo Mashup: from n/a through 1.13.22.",
-      "severity": 5.4,
-      "fix_suggestion": "📦 受影响组件：Dylan Kuhn Geo Mashup\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/geo-mashup/vulnerability/wordpress-geo-mashup-plugin-1-13-22-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Dylan Kuhn",
-          "product": "Geo Mashup",
-          "packageName": "geo-mashup",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.13.22",
-              "changes": [
-                {
-                  "at": "1.13.23",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-115614",
-      "publishedDate": "2026-10-26T10:05:22.425Z",
-      "lastModifiedDate": "2026-10-26T10:23:40.370Z",
-      "description": "Missing Authorization vulnerability in Magepeople inc. Booking and Rental Manager booking-and-rental-manager-for-woocommerce allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Booking and Rental Manager: from n/a through 2.8.2.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：Magepeople inc. Booking and Rental Manager\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/booking-and-rental-manager-for-woocommerce/vulnerability/wordpress-booking-and-rental-manager-plugin-2-8-2-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Magepeople inc.",
-          "product": "Booking and Rental Manager",
-          "packageName": "booking-and-rental-manager-for-woocommerce",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "2.8.2",
-              "changes": [
-                {
-                  "at": "2.8.3",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-97255",
-      "publishedDate": "2026-10-26T10:03:47.707Z",
-      "lastModifiedDate": "2026-10-26T10:23:40.524Z",
-      "description": "Authorization Bypass Through User-Controlled Key vulnerability in WProyal Royal Elementor Addons royal-elementor-addons allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Royal Elementor Addons: from n/a through 1.7.1069.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：WProyal Royal Elementor Addons\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/royal-elementor-addons/vulnerability/wordpress-royal-elementor-addons-plugin-1-7-1069-insecure-direct-object-references-idor-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WProyal",
-          "product": "Royal Elementor Addons",
-          "packageName": "royal-elementor-addons",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.7.1069",
-              "changes": [
-                {
-                  "at": "1.7.1070",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Authorization Bypass Through User-Controlled Key"
-      ]
-    },
-    {
-      "id": "CVE-2026-110377",
-      "publishedDate": "2026-10-26T09:59:47.003Z",
-      "lastModifiedDate": "2026-10-26T10:23:41.157Z",
-      "description": "Missing Authorization vulnerability in VillaTheme Bopo – WooCommerce Product Bundle Builder bopo-woo-product-bundle-builder allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects Bopo – WooCommerce Product Bundle Builder: from n/a through 1.2.3.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：VillaTheme Bopo – WooCommerce Product Bundle Builder\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/bopo-woo-product-bundle-builder/vulnerability/wordpress-bopo-woocommerce-product-bundle-builder-plugin-1-2-3-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "VillaTheme",
-          "product": "Bopo – WooCommerce Product Bundle Builder",
-          "packageName": "bopo-woo-product-bundle-builder",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.2.3",
-              "changes": [
-                {
-                  "at": "1.2.4",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-115958",
-      "publishedDate": "2026-10-26T09:54:20.583Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.956Z",
-      "description": "Missing Authorization vulnerability in WP Discussion Board WP Discussion Board wp-discussion-board allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects WP Discussion Board: from n/a through 2.6.0.",
-      "severity": 5.3,
-      "fix_suggestion": "📦 受影响组件：WP Discussion Board WP Discussion Board\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/wp-discussion-board/vulnerability/wordpress-wp-discussion-board-plugin-2-6-0-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "WP Discussion Board",
-          "product": "WP Discussion Board",
-          "packageName": "wp-discussion-board",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "2.6.0",
-              "changes": [
-                {
-                  "at": "2.6.1",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-97295",
-      "publishedDate": "2026-10-26T10:01:28.037Z",
-      "lastModifiedDate": "2026-10-26T10:23:40.842Z",
-      "description": "Cross-Site Request Forgery (CSRF) vulnerability in David Lingren Media LIbrary Assistant media-library-assistant allows Cross Site Request Forgery.This issue affects Media LIbrary Assistant: from n/a through 3.42.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：David Lingren Media LIbrary Assistant\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/media-library-assistant/vulnerability/wordpress-media-library-assistant-plugin-3-42-cross-site-request-forgery-csrf-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "David Lingren",
-          "product": "Media LIbrary Assistant",
-          "packageName": "media-library-assistant",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "3.42",
-              "changes": [
-                {
-                  "at": "3.43",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Cross-Site Request Forgery (CSRF)"
-      ]
-    },
-    {
-      "id": "CVE-2026-110376",
-      "publishedDate": "2026-10-26T08:47:06.966Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.243Z",
-      "description": "Missing Authorization vulnerability in VillaTheme DEPART depart-deposit-and-part-payment-for-woo allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects DEPART: from n/a through 1.0.10.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：VillaTheme DEPART\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/depart-deposit-and-part-payment-for-woo/vulnerability/wordpress-depart-plugin-1-0-10-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "VillaTheme",
-          "product": "DEPART",
-          "packageName": "depart-deposit-and-part-payment-for-woo",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "1.0.10",
-              "changes": [
-                {
-                  "at": "1.1.0",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-112828",
-      "publishedDate": "2026-10-26T08:45:37.443Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.809Z",
-      "description": "Missing Authorization vulnerability in Meow Apps AI Engine ai-engine allows Exploiting Incorrectly Configured Access Control Security Levels.This issue affects AI Engine: from n/a through 3.8.6.",
-      "severity": 4.3,
-      "fix_suggestion": "📦 受影响组件：Meow Apps AI Engine\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://patchstack.com/database/wordpress/plugin/ai-engine/vulnerability/wordpress-ai-engine-plugin-3-8-6-broken-access-control-vulnerability?_s_id=cve",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Meow Apps",
-          "product": "AI Engine",
-          "packageName": "ai-engine",
-          "collectionURL": "https://wordpress.org/plugins",
-          "defaultStatus": "unaffected",
-          "versions": [
-            {
-              "version": "0",
-              "versionType": "custom",
-              "status": "affected",
-              "lessThanOrEqual": "3.8.6",
-              "changes": [
-                {
-                  "at": "3.8.7",
-                  "status": "unaffected"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "Missing Authorization"
-      ]
-    },
-    {
-      "id": "CVE-2026-103319",
-      "publishedDate": "2026-10-26T06:00:18.562Z",
-      "lastModifiedDate": "2026-10-26T10:13:35.664Z",
-      "description": "The OPay Payment Gateway for WooCommerce WordPress plugin through 2.5.5 does not properly verify that payment notifications originate from the payment provider, as the secret used to validate their signature is empty by default, allowing unauthenticated attackers to forge a valid notification and mark arbitrary orders as paid, cancelled or failed.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown OPay Payment Gateway for WooCommerce\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/c07f15a0-3c15-429f-bcde-1511ad658c6c/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "OPay Payment Gateway for WooCommerce",
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThanOrEqual": "2.5.5"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-287 Improper Authentication"
-      ],
-      "cwe_ids": [
-        "CWE-287"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-103381",
-      "publishedDate": "2026-10-26T06:00:18.388Z",
-      "lastModifiedDate": "2026-10-26T10:13:35.811Z",
-      "description": "The Mintpay for WooCommerce WordPress plugin through 2.2.3 does not verify the authenticity of the payment callback it processes, allowing unauthenticated attackers to mark arbitrary orders as paid, to cancel arbitrary orders, and to disclose order details including customer contact information.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Unknown Mintpay for WooCommerce\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/593fa052-8917-416c-944b-11b890c9ab50/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Mintpay for WooCommerce",
-          "versions": [
+              "version": "2.8.1",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThanOrEqual": "2.2.3"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
-      ]
-    },
-    {
-      "id": "CVE-2026-103306",
-      "publishedDate": "2026-10-26T06:00:18.216Z",
-      "lastModifiedDate": "2026-10-26T10:13:35.951Z",
-      "description": "The Online Payments with iK Pay Gateway WordPress plugin before 3.0.4 does not properly verify the authenticity of its payment gateway callback on a default installation, allowing unauthenticated attackers to forge a successful payment notification and mark arbitrary orders as paid without any payment being made, and to mark arbitrary unprocessed orders as failed.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Online Payments with iK Pay Gateway\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/2d888e78-ed1f-4968-9bdc-19e9420f6956/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Online Payments with iK Pay Gateway",
-          "versions": [
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "3.0.4"
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-287 Improper Authentication"
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
       ],
       "cwe_ids": [
-        "CWE-287"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-103298",
-      "publishedDate": "2026-10-26T06:00:18.034Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.097Z",
-      "description": "The CCAvenue Payment Gateway for WooCommerce WordPress plugin through 3.1 does not verify that a payment-confirmation request genuinely originates from the payment provider, and derives its verification key from a value that is empty on a default install, allowing unauthenticated attackers to forge a confirmation and mark any WooCommerce order as paid without payment.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Unknown CCAvenue Payment Gateway for WooCommerce\n🔓 漏洞类型：CWE-284 (CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/7224481a-60f8-42c2-87e9-4615ce666357/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "CCAvenue Payment Gateway for WooCommerce",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThanOrEqual": "3.1"
-            }
-          ],
-          "defaultStatus": "unknown"
-        }
-      ],
-      "problemType": [
-        "CWE-284 Improper Access Control"
-      ],
-      "cwe_ids": [
-        "CWE-284"
+        "CWE-89"
       ]
     },
     {
-      "id": "CVE-2026-115251",
-      "publishedDate": "2026-10-25T06:00:22.211Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.247Z",
-      "description": "The Duplicator  WordPress plugin before 5.0.0 does not restrict its one-click upgrade routine to users allowed to install Duplicator  WordPress plugin before 5.0.0, and additionally exposes the routine without authentication, allowing an administrator of a multisite child site who is not a network administrator to install and run arbitrary PHP in the network-wide shared Duplicator  WordPress plugin before 5.0.0 directory.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Duplicator\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115191",
+      "publishedDate": "2026-10-26T12:42:57.873Z",
+      "lastModifiedDate": "2026-10-26T15:35:53.390Z",
+      "description": "A SQL injection vulnerability exists in a contact lookup AJAX endpoint of the Mautic administration interface (/s/ajax). A request parameter that selects the contact field to search by is not properly validated before it is used in a database query. Any authenticated Mautic user can exploit this, regardless of the role or permissions assigned to the account. Using blind (boolean-based or time-based) techniques, the attacker can run arbitrary SQL queries against the Mautic database and read any data the Mautic database user can access, including Mautic user accounts with email addresses and password hashes, contact data, and campaign and email content.",
+      "severity": 7.1,
+      "fix_suggestion": "🔓 漏洞类型：SQL Injection (CWE-89)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/c4512e96-6d96-474e-90c0-ad784eb1c145/",
-          "type": "poc"
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-fj8v-c9c3-7q26",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "Duplicator",
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "1.5.17",
-              "lessThan": "5.0.0"
+              "version": "2.1.0",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-269 Improper Privilege Management"
+        "CWE-89 Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
       ],
       "cwe_ids": [
-        "CWE-269"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-115214",
-      "publishedDate": "2026-10-25T06:00:22.035Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.399Z",
-      "description": "The Datawiza Proxy Auth Plugin  WordPress plugin before 1.1.1 does not verify that the user-identity and role HTTP request headers it trusts originate from a trusted reverse proxy, allowing unauthenticated attackers to create and authenticate as a WordPress administrator.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Datawiza Proxy Auth Plugin\n🔓 漏洞类型：Improper Privilege Management (CWE-269)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/2c6c7d10-2281-4a98-a0d6-769da5cce416/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Datawiza Proxy Auth Plugin",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "1.1.0",
-              "lessThan": "1.1.1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-269 Improper Privilege Management"
-      ],
-      "cwe_ids": [
-        "CWE-269"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-115183",
-      "publishedDate": "2026-10-25T06:00:21.850Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.538Z",
-      "description": "The Qi Addons For Elementor WordPress plugin before 1.11.2 does not properly sanitise a widget's heading text after decoding HTML entities in it, allowing users with the Contributor role and above to embed live HTML forms, including password fields that submit to an external host, into posts where WordPress would otherwise strip them.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Unknown Qi Addons For Elementor\n🔓 漏洞类型：CWE-345 (CWE-345)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/a9cd8675-25f3-4d81-b768-4f20ef9208a8/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "Qi Addons For Elementor",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "1.11.2"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-345 Insufficient Verification of Data Authenticity"
-      ],
-      "cwe_ids": [
-        "CWE-345"
+        "CWE-89"
       ]
     },
     {
-      "id": "CVE-2026-114743",
-      "publishedDate": "2026-10-25T06:00:21.676Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.679Z",
-      "description": "The InstaWP Connect  WordPress plugin before 0.1.4.2 does not perform a capability check on its InstaWP Connect  WordPress plugin before 0.1.4.2-settings update action, verifying only a nonce, allowing an authenticated user holding a low-privileged role that an administrator has granted access to the InstaWP Connect  WordPress plugin before 0.1.4.2's sync feature to overwrite the InstaWP Connect  WordPress plugin before 0.1.4.2's settings, including the setting controlling which roles may access that feature. The role grant is not enabled by default.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown InstaWP Connect\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-116516",
+      "publishedDate": "2026-10-26T13:56:57.973Z",
+      "lastModifiedDate": "2026-10-26T15:35:50.283Z",
+      "description": "Mattermost versions <=11.9 11.1.9 11.5.8 11.10.7.0 fail to validate Zoom chat line length before slicing which allows an authenticated attacker to crash the Agents plugin via summarizing a Zoom chat transcription containing short continuation lines. Mattermost Advisory ID: MMSA-2026-00723",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：Mattermost Mattermost\n🔓 漏洞类型：CWE-754 (CWE-754)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/b94671c5-c5b5-418d-ac9c-af21c7cbc6a4/",
-          "type": "poc"
+          "url": "https://mattermost.com/security-updates",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "InstaWP Connect",
+          "defaultStatus": "unaffected",
+          "product": "Mattermost",
+          "vendor": "Mattermost",
+          "versions": [
+            {
+              "lessThanOrEqual": "<=11.9 11.1.9 11.5.8 11.10.7.0",
+              "status": "affected",
+              "version": "<=11.9 11.1.9 11.5.8 11.10.7.0",
+              "versionType": "semver"
+            },
+            {
+              "version": "11.10.0",
+              "status": "unaffected"
+            },
+            {
+              "version": "11.9.2",
+              "status": "unaffected"
+            },
+            {
+              "version": "11.8.6",
+              "status": "unaffected"
+            },
+            {
+              "version": "11.7.11",
+              "status": "unaffected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-754: Improper Check for Unusual or Exceptional Conditions"
+      ],
+      "cwe_ids": [
+        "CWE-754"
+      ]
+    },
+    {
+      "id": "CVE-2026-115195",
+      "publishedDate": "2026-10-26T12:48:59.588Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.798Z",
+      "description": "A broken access control vulnerability exists in the Mautic Stats API (/api/stats/{table}). The endpoint did not enforce permissions for several internal tables: an intended administrator-only restriction was never applied, and tables without an explicit permission mapping were readable by default. As a result, any authenticated API user, including one whose role grants no permissions, could read data from these tables, including the application audit log with actions performed by all users and change details that may contain contact personal data, stored visitor IP addresses and their geolocation details, and tracked redirect URLs and their channel mappings.",
+      "severity": 6.5,
+      "fix_suggestion": "🔓 漏洞类型：Missing Authorization (CWE-862)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-7j28-9rg4-wg63",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "0.1.4.2"
+              "version": "2.3.0",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
@@ -1290,246 +657,44 @@
       ],
       "cwe_ids": [
         "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-114742",
-      "publishedDate": "2026-10-25T06:00:21.497Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.824Z",
-      "description": "The WPVR  WordPress plugin before 9.0.3 does not perform object-level ownership checks when updating virtual tours, allowing users with contributor-level access and above to modify, reconfigure and publish tours created by other users.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Unknown WPVR\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/201b0ca5-366d-446e-a92f-6962cd200bd7/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "WPVR",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "8.3.0",
-              "lessThan": "9.0.3"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-639 Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
       ]
     },
     {
-      "id": "CVE-2026-114741",
-      "publishedDate": "2026-10-25T06:00:21.321Z",
-      "lastModifiedDate": "2026-10-26T10:13:36.969Z",
-      "description": "The WPVR  WordPress plugin before 9.0.3 does not perform object-level authorization checks when reading and updating virtual tours, allowing users with contributor-level access and above to read and modify tours created by other users.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Unknown WPVR\n🔓 漏洞类型：CWE-639 (CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-115194",
+      "publishedDate": "2026-10-26T12:48:01.035Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.938Z",
+      "description": "A path traversal vulnerability exists in the Mautic Asset API. When creating a local asset through the API, the supplied file path is not restricted to the asset upload directory. An authenticated API user with permission to create assets can register any file that is readable by the web server process as a Mautic asset. When the asset is published, its public download URL serves the contents of that file without authentication. This allows the attacker to read arbitrary files from the server, including Mautic configuration files containing the database password, secret key, and mail (SMTP) credentials, as well as system files and any other file readable by the web server user. Exposed credentials can be used to access the database or other connected services, and anyone with the public asset URL can retrieve the file contents.",
+      "severity": 6.5,
+      "fix_suggestion": "🔓 漏洞类型：Path Traversal (CWE-22)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/bfa704b5-b934-4615-aa75-d50b28baedf7/",
-          "type": "poc"
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-wfhm-289v-79vp",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "WPVR",
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "9.0.0",
-              "lessThan": "9.0.3"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-639 Authorization Bypass Through User-Controlled Key"
-      ],
-      "cwe_ids": [
-        "CWE-639"
-      ]
-    },
-    {
-      "id": "CVE-2026-114740",
-      "publishedDate": "2026-10-25T06:00:21.122Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.109Z",
-      "description": "The WPVR  WordPress plugin before 9.1.3 does not correctly check user capabilities when creating a tour through its setup wizard, allowing users with the Contributor role and above to create and publish tour content and set arbitrary post metadata they could not otherwise create or publish.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown WPVR\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/ac47bef6-b870-49ae-b9ad-ace83687280d/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "WPVR",
-          "versions": [
+              "version": "2.3.0",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "8.5.55",
-              "lessThan": "9.1.3"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-111981",
-      "publishedDate": "2026-10-25T06:00:20.949Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.251Z",
-      "description": "The GiveWP  WordPress plugin before 4.19.0.1 does not perform a capability check when handling donor address changes, allowing users who have been granted donor-report (view) access but not donor-edit access to add, modify, or delete the stored address of any donor on the site.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown GiveWP\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/9fae25ff-51e6-4137-83d6-e752374dae57/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "GiveWP",
-          "versions": [
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.19.0.1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-111980",
-      "publishedDate": "2026-10-25T06:00:20.775Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.394Z",
-      "description": "The GiveWP  WordPress plugin before 4.19.0.1 does not correctly determine which page a page-capability request applies to, allowing users with a custom fundraising role to edit, publish and read pages owned by other users, including administrators.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown GiveWP\n🔓 漏洞类型：Incorrect Authorization (CWE-863)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/7664c532-7a74-47de-8ae1-df4862067689/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "GiveWP",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.19.0.1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-863 Incorrect Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-863"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-111979",
-      "publishedDate": "2026-10-25T06:00:20.600Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.532Z",
-      "description": "The GiveWP  WordPress plugin before 4.19.0.1 does not properly sanitise and escape one of its donation form template settings before outputting it inside an HTML attribute, allowing users with a custom form-editing GiveWP  WordPress plugin before 4.19.0.1 role to inject arbitrary web scripts that execute in the browser of any visitor or administrator who opens the affected donation form.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Unknown GiveWP\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/59b1b0ff-fbfb-4bb8-883e-94b5f2cee5a4/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "GiveWP",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.19.0.1"
-            }
-          ],
-          "defaultStatus": "unaffected"
-        }
-      ],
-      "problemType": [
-        "CWE-79 Cross-Site Scripting (XSS)"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-111978",
-      "publishedDate": "2026-10-25T06:00:20.427Z",
-      "lastModifiedDate": "2026-10-26T10:13:37.813Z",
-      "description": "The GiveWP  WordPress plugin before 4.19.0.1 does not properly validate a user-supplied filename before reading it from disk, allowing users with a high-privilege custom role to perform path traversal, disclose the contents of JSON-parseable files anywhere on the server, and overwrite the GiveWP  WordPress plugin before 4.19.0.1's stored configuration.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown GiveWP\n🔓 漏洞类型：Path Traversal (CWE-22)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://wpscan.com/vulnerability/ab77a13e-491e-47a9-a50d-839a8ad341aa/",
-          "type": "poc"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Unknown",
-          "product": "GiveWP",
-          "versions": [
-            {
-              "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.19.0.1"
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
@@ -1540,152 +705,1963 @@
       ],
       "cwe_ids": [
         "CWE-22"
-      ],
-      "cvss_severity": "HIGH"
+      ]
     },
     {
-      "id": "CVE-2026-111976",
-      "publishedDate": "2026-10-25T06:00:20.218Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.100Z",
-      "description": "The GiveWP  WordPress plugin before 4.19.0.1 does not perform any status or capability check when rendering a donation form on a public front-end route, allowing unauthenticated visitors to view the content and settings of unpublished (draft, pending, private and scheduled) donation forms that WordPress core otherwise keeps non-public.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown GiveWP\n🔓 漏洞类型：Exposure of Sensitive Information (CWE-200)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-116367",
+      "publishedDate": "2026-10-26T15:30:15.468Z",
+      "lastModifiedDate": "2026-10-26T15:30:15.468Z",
+      "description": "A vulnerability was found in DeepSeek Harness up to 0.1.0-rc.5. This vulnerability affects the function createContext of the file packages/extensions/cordis-host-runner/src/sandbox.ts. The manipulation results in sandbox issue. It is possible to launch the attack remotely. The vendor was contacted early about this disclosure but did not respond in any way.",
+      "severity": 6.3,
+      "fix_suggestion": "📦 受影响组件：DeepSeek Harness\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/f304401f-886c-4706-9629-d8f7a7146b78/",
-          "type": "poc"
+          "url": "https://vuldb.com/vuln/426331",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/426331/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-116367",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/1012736",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "GiveWP",
+          "vendor": "DeepSeek",
+          "product": "Harness",
+          "versions": [
+            {
+              "version": "0.1.0-rc.0",
+              "status": "affected"
+            },
+            {
+              "version": "0.1.0-rc.1",
+              "status": "affected"
+            },
+            {
+              "version": "0.1.0-rc.2",
+              "status": "affected"
+            },
+            {
+              "version": "0.1.0-rc.3",
+              "status": "affected"
+            },
+            {
+              "version": "0.1.0-rc.4",
+              "status": "affected"
+            },
+            {
+              "version": "0.1.0-rc.5",
+              "status": "affected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:deepseek:harness:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "Sandbox Issue",
+        "Improper Access Controls"
+      ]
+    },
+    {
+      "id": "CVE-2026-115196",
+      "publishedDate": "2026-10-26T12:50:18.637Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.657Z",
+      "description": "An Open Redirect vulnerability exists in the public form submission endpoint (/form/submit) of Mautic. After a form is submitted, the application redirects the visitor to a return address supplied with the submission without verifying that it points to the Mautic instance or another trusted host. An unauthenticated attacker can exploit this to send visitors from a legitimate Mautic domain to an arbitrary external website, for example to phishing pages that imitate the original landing page or to sites that deliver malware. Any Mautic instance with a published form is affected. Exploitation requires the victim to submit a form prepared by the attacker.",
+      "severity": 5.4,
+      "fix_suggestion": "🔓 漏洞类型：CWE-601 (CWE-601)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mautic/mautic/security/advisories/GHSA-5mm3-3g7p-9868",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://packagist.org",
+          "packageName": "mautic/core",
+          "repo": "https://github.com/mautic/mautic",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "4.19.0.1"
+              "version": "1.0.0-beta",
+              "lessThan": "5.2.12",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "6.0.0",
+              "lessThan": "6.0.10",
+              "versionType": "semver"
+            },
+            {
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.2.2",
+              "versionType": "semver"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-200 Information Exposure"
+        "CWE-601 URL Redirection to Untrusted Site ('Open Redirect')"
       ],
       "cwe_ids": [
-        "CWE-200"
-      ],
-      "cvss_severity": "HIGH"
+        "CWE-601"
+      ]
     },
     {
-      "id": "CVE-2026-110285",
-      "publishedDate": "2026-10-25T06:00:19.779Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.391Z",
-      "description": "The WP Stripe Checkout WordPress plugin before 1.2.2.62 does not verify the Stripe webhook signature when no signing secret is configured, which is its default state, allowing unauthenticated attackers to forge a payment completion notification and create a completed order without paying.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown WP Stripe Checkout\n🔓 漏洞类型：Improper Authentication (CWE-287)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-94386",
+      "publishedDate": "2026-10-26T14:46:11.551Z",
+      "lastModifiedDate": "2026-10-26T15:35:49.712Z",
+      "description": "Use of Cache Containing Sensitive Information vulnerability in Apache Camel Oauth component.\n\n\n\nThis issue affects Apache Camel: from 4.19.0 before 4.22.2.\n\n\n\nOAuthClientCredentialsTokenResolver obtains OAuth 2.0 bearer tokens through the client credentials grant on behalf of the components that authenticate their outbound calls with a named OAuth profile, such as camel-openai, camel-langchain4j-agent, camel-huggingface, camel-docling, camel-a2a, camel-spring-ai-chat and the IBM watsonx components, and of applications that call the OAuthClientAuthenticationFactory SPI directly. It kept the tokens it obtained in a static cache shared by every resolver instance and every CamelContext in the JVM, and keyed that cache on the token endpoint and the client ID only, although the token request also carries the client secret and the requested scope. Two profiles that share a token endpoint and a client ID but request different scopes, or authenticate with different client secrets, therefore mapped to the same cache entry: the profile that resolved a token first populated the entry, and the other profile was then handed that token, with no token request made under its own configuration, for as long as the token remained valid. Token caching is enabled by default, and pointing several profiles at one identity provider client is an ordinary use of the profile support rather than an opt-in to an insecure setting. The outcome is an outbound request that carries a token issued for another profile's scope, which can grant broader authority than the calling profile was configured for, or reach a service the token was not issued for; with identity providers that derive a token's audience from the requested scope, a different scope can mean a token for a different service altogether. A profile configured with a different client secret was likewise served the token obtained with the other secret, without authenticating with its own. The profiles are configured by the deployment, which is trusted, so no untrusted input reaches the cache: the party that gains is the service that receives a token it was not meant to receive, which, if hostile or compromised, can replay that token within its scope. Reaching the issue requires a deployment that defines more than one profile sharing a token endpoint and client ID while differing in scope or client secret.\n\nUsers are recommended to upgrade to version 4.23.0, which fixes the issue. If users are on the 4.22.x releases stream, then they are suggested to upgrade to 4.22.2. The 4.19.x to 4.21.x release lines reached end of life before this issue was resolved and will not receive a fix, so deployments on them must move to a supported release. For deployments that cannot upgrade immediately, disable token caching on every OAuth profile that shares a token endpoint and client ID with another profile, by setting camel.oauth.NAME.cache-tokens=false for a named profile or camel.oauth.cache-tokens=false for the default one, so that each resolution requests a token with that profile’s own scope and client secret, at the cost of a token request on every resolution. Alternatively, register a separate client at the identity provider for each profile that needs a different scope or client secret, so that no two such profiles share a client ID.",
+      "severity": 4.8,
+      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Camel\n🔓 漏洞类型：CWE-524 (CWE-524)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/0f32d471-2806-4271-9a82-87895ef903ae/",
-          "type": "poc"
+          "url": "https://camel.apache.org/security/CVE-2026-94386.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://issues.apache.org/jira/browse/CAMEL-24872",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apache/camel/pull/26681",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/apache/camel/pull/27779",
+          "type": "reference"
+        },
+        {
+          "url": "https://camel.apache.org/security/CVE-2026-85317.html",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "WP Stripe Checkout",
+          "vendor": "Apache Software Foundation",
+          "product": "Apache Camel",
+          "collectionURL": "https://repo.maven.apache.org/maven2",
+          "packageName": "org.apache.camel:camel-oauth",
+          "packageURL": "pkg:maven/org.apache.camel/camel-oauth",
           "versions": [
             {
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "1.2.2.62"
+              "version": "4.19.0",
+              "lessThan": "4.22.2",
+              "versionType": "maven"
             }
           ],
           "defaultStatus": "unaffected"
         }
       ],
       "problemType": [
-        "CWE-287 Improper Authentication"
+        "CWE-524 Use of Cache Containing Sensitive Information"
       ],
       "cwe_ids": [
-        "CWE-287"
+        "CWE-524"
+      ]
+    },
+    {
+      "id": "CVE-2026-65221",
+      "publishedDate": "2026-10-26T15:50:40.218085+00:00",
+      "lastModifiedDate": "2026-10-26T15:45:52.557Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65218",
+      "publishedDate": "2026-10-26T15:50:40.200777+00:00",
+      "lastModifiedDate": "2026-10-26T15:48:26.100Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65217",
+      "publishedDate": "2026-10-26T15:50:40.143371+00:00",
+      "lastModifiedDate": "2026-10-26T15:43:19.735Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65212",
+      "publishedDate": "2026-10-26T15:50:40.140071+00:00",
+      "lastModifiedDate": "2026-10-26T15:45:18.000Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65222",
+      "publishedDate": "2026-10-26T15:50:40.129006+00:00",
+      "lastModifiedDate": "2026-10-26T15:43:59.898Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65202",
+      "publishedDate": "2026-10-26T15:50:40.122949+00:00",
+      "lastModifiedDate": "2026-10-26T15:44:40.461Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65215",
+      "publishedDate": "2026-10-26T15:50:40.113242+00:00",
+      "lastModifiedDate": "2026-10-26T15:42:43.758Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65203",
+      "publishedDate": "2026-10-26T15:50:40.107423+00:00",
+      "lastModifiedDate": "2026-10-26T15:40:19.294Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65216",
+      "publishedDate": "2026-10-26T15:50:40.085722+00:00",
+      "lastModifiedDate": "2026-10-26T15:47:49.350Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-65214",
+      "publishedDate": "2026-10-26T15:50:40.084466+00:00",
+      "lastModifiedDate": "2026-10-26T15:46:43.449Z",
+      "description": "",
+      "severity": "N/A",
+      "fix_suggestion": "🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [],
+      "affected": [],
+      "problemType": []
+    },
+    {
+      "id": "CVE-2026-115679",
+      "publishedDate": "2026-10-26T15:46:01.084Z",
+      "lastModifiedDate": "2026-10-26T15:46:01.084Z",
+      "description": "Arm Keil MDK-Middleware 8.3.0 may allow out-of-bounds reads and writes to the FTP Server RX Buffer",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Keil MDK-Middleware\n🔓 漏洞类型：CWE-195 (CWE-195)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.arm.com/documentation/112560",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Keil",
+          "product": "MDK-Middleware",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "8.3.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-195 Signed to unsigned conversion error"
+      ],
+      "cwe_ids": [
+        "CWE-195"
+      ]
+    },
+    {
+      "id": "CVE-2026-115678",
+      "publishedDate": "2026-10-26T15:38:06.766Z",
+      "lastModifiedDate": "2026-10-26T15:38:06.766Z",
+      "description": "Arm Keil MDK-Middleware 8.0.0-8.3.0 may allow pre-authentication out-of-bounds read in SNMP processing",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Keil MDK-Middleware\n🔓 漏洞类型：CWE-195 (CWE-195)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://support.arm.com/documentation/112560",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Keil",
+          "product": "MDK-Middleware",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThanOrEqual": "8.3.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-195 Signed to unsigned conversion error"
+      ],
+      "cwe_ids": [
+        "CWE-195"
+      ]
+    },
+    {
+      "id": "CVE-2026-77062",
+      "publishedDate": "2026-10-26T14:46:12.663Z",
+      "lastModifiedDate": "2026-10-26T15:35:49.560Z",
+      "description": "The boneIO Black web interface lacks proper clickjacking protections. A remote attacker can embed the control panel in an iframe on a malicious web page and trick an authenticated user on the internal network into clicking buttons that activate relays, open gates, or control blinds. This can lead to unauthorized state changes with potential physical safety consequences. Critically, due to CVE-2026-77053 (authentication disabled by default), any user on the same internal network can trigger attacker-controlled actions by visiting the malicious website.\n\nThis issue was fixed in version 1.6.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：boneIO boneIO\n🔓 漏洞类型：CWE-1021 (CWE-1021)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cert.pl/en/posts/2026/10/CVE-2026-77052",
+          "type": "reference"
+        },
+        {
+          "url": "https://boneio.eu/en/docs/black",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "boneIO",
+          "product": "boneIO",
+          "collectionURL": "https://pypi.python.org",
+          "packageName": "boneio",
+          "repo": "https://github.com/boneIO-eu/app_black",
+          "modules": [
+            "app_black"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.2.0",
+              "lessThan": "1.6.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-1021 Improper Restriction of Rendered UI Layers or Frames"
+      ],
+      "cwe_ids": [
+        "CWE-1021"
+      ]
+    },
+    {
+      "id": "CVE-2026-77061",
+      "publishedDate": "2026-10-26T14:46:09.722Z",
+      "lastModifiedDate": "2026-10-26T15:35:49.857Z",
+      "description": "boneIO Black directly excludes several API endpoints from the authentication. An unauthenticated remote attacker on the local network can retrieve system logs, firmware version, serial number, MQTT username, configuration file listings, and API documentation. This data aids reconnaissance and enables targeted attacks against the device.\nThis issue was fixed in version 1.6.0: every API route requires an authenticated role, the interactive API documentation is disabled, and the serial number is withheld from anonymous callers.",
+      "severity": "8.5",
+      "fix_suggestion": "📦 受影响组件：boneIO boneIO\n🔓 漏洞类型：Missing Authentication for Critical Function (CWE-306)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cert.pl/en/posts/2026/10/CVE-2026-77052",
+          "type": "reference"
+        },
+        {
+          "url": "https://boneio.eu/en/docs/black",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "boneIO",
+          "product": "boneIO",
+          "collectionURL": "https://pypi.python.org",
+          "packageName": "boneio",
+          "repo": "https://github.com/boneIO-eu/app_black",
+          "modules": [
+            "app_black"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.2.0",
+              "lessThan": "1.6.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-306 Missing Authentication for Critical Function"
+      ],
+      "cwe_ids": [
+        "CWE-306"
       ],
       "cvss_severity": "HIGH"
     },
     {
-      "id": "CVE-2025-15705",
-      "publishedDate": "2026-10-25T06:00:19.597Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.671Z",
-      "description": "The Contact Form by Supsystic  WordPress plugin before 1.8.0 does not sanitise and escape a form name, allowing users with access to the form editor to inject arbitrary web scripts that execute when another user views the form. On multisite installations, where administrators do not hold the unfiltered_html capability, this crosses a privilege boundary.",
+      "id": "CVE-2026-77060",
+      "publishedDate": "2026-10-26T14:46:06.547Z",
+      "lastModifiedDate": "2026-10-26T15:35:49.996Z",
+      "description": "boneIO black_debian_images stores the Mosquitto MQTT broker password file at /etc/mosquitto/passwd with world-readable permissions. Any local user can read the password hashes for all MQTT accounts and perform offline dictionary attacks.\n\nThis issue was fixed in version 1.6.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：boneIO black_debian_images\n🔓 漏洞类型：CWE-732 (CWE-732)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cert.pl/en/posts/2026/10/CVE-2026-77052",
+          "type": "reference"
+        },
+        {
+          "url": "https://boneio.eu/en/docs/black",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "boneIO",
+          "product": "black_debian_images",
+          "repo": "https://github.com/boneIO-eu/black_debian_images",
+          "programFiles": [
+            "/etc/mosquitto/passwd"
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.2.0",
+              "lessThan": "1.6.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-732 Incorrect Permission Assignment for Critical Resource"
+      ],
+      "cwe_ids": [
+        "CWE-732"
+      ]
+    },
+    {
+      "id": "CVE-2026-77059",
+      "publishedDate": "2026-10-26T14:46:02.659Z",
+      "lastModifiedDate": "2026-10-26T15:35:50.139Z",
+      "description": "boneIO Black contains a TOCTOU race condition in the create_timedatectl_sudoers_file() function in boneio/webui/routes/timezone_sudoers.py. The function writes sudoers rules to a predictable temporary file, validates them, then installs them with root privileges. A local attacker can exploit the race window between validation and installation to substitute malicious content, or use the predictable filename for symlink attacks, resulting in arbitrary sudoers rule injection and local privilege escalation to root.\n\nThis issue was fixed in version 1.6.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：boneIO boneIO\n🔓 漏洞类型：CWE-367 (CWE-367)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://cert.pl/en/posts/2026/10/CVE-2026-77052",
+          "type": "reference"
+        },
+        {
+          "url": "https://boneio.eu/en/docs/black",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "boneIO",
+          "product": "boneIO",
+          "collectionURL": "https://pypi.python.org",
+          "packageName": "boneio",
+          "repo": "https://github.com/boneIO-eu/app_black",
+          "modules": [
+            "app_black",
+            "create_timedatectl_sudoers_file()"
+          ],
+          "programFiles": [
+            "boneio/webui/routes/timezone_sudoers.py"
+          ],
+          "programRoutines": [
+            {
+              "name": "create_timedatectl_sudoers_file"
+            }
+          ],
+          "versions": [
+            {
+              "status": "affected",
+              "version": "1.3.0",
+              "lessThan": "1.6.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-367 Time-of-check Time-of-use (TOCTOU) Race Condition"
+      ],
+      "cwe_ids": [
+        "CWE-367"
+      ]
+    },
+    {
+      "id": "CVE-2026-97200",
+      "publishedDate": "2026-10-26T13:49:40.392Z",
+      "lastModifiedDate": "2026-10-26T15:35:50.487Z",
+      "description": "Allocation of Resources Without Limits or Throttling vulnerability in hackney_conn in benoitc hackney allows a malicious HTTP server to exhaust client memory via an oversized or highly compressed response body. hackney:request/5 and hackney:body/1 return the whole response body, and nothing bounds how much the connection process buffers. Any server the client requests can trigger it.\n\nhackney_conn:read_full_body/2 and the HTTP/2 and HTTP/3 accumulators append every chunk until the body ends. With {auto_decompress, true} the buffered body is then inflated in one step with zlib:gunzip/1 or zlib:inflate/2, which return the whole output at once.\n\nThis issue affects hackney: from 2.0.0-beta.1 before 4.9.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：benoitc hackney\n🔓 漏洞类型：CWE-409, CWE-770 (CWE-409, CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/benoitc/hackney/releases/tag/4.9.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-97200.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-97200",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/benoitc/hackney/pull/980",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/benoitc/hackney/commit/dc41b79339ca0c41e16d3f2dd17172bc2de855d6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/benoitc/hackney/commit/493e8bf83a391548e5101792276ab3fc428fa76c",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:benoitc:hackney:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "hackney_conn",
+            "hackney"
+          ],
+          "packageName": "hackney",
+          "packageURL": "pkg:hex/hackney",
+          "product": "hackney",
+          "programFiles": [
+            "src/hackney_conn.erl",
+            "src/hackney.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "hackney_conn:read_full_body/2"
+            },
+            {
+              "name": "hackney_conn:maybe_decompress_body/2"
+            },
+            {
+              "name": "hackney_conn:decompress_gzip/1"
+            },
+            {
+              "name": "hackney_conn:decompress_deflate/1"
+            },
+            {
+              "name": "hackney:request/5"
+            },
+            {
+              "name": "hackney:body/1"
+            }
+          ],
+          "repo": "https://github.com/benoitc/hackney",
+          "vendor": "benoitc",
+          "versions": [
+            {
+              "lessThan": "4.9.0",
+              "status": "affected",
+              "version": "2.0.0-beta.1",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:benoitc:hackney:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "hackney_conn",
+            "hackney"
+          ],
+          "packageName": "benoitc/hackney",
+          "packageURL": "pkg:github/benoitc/hackney",
+          "product": "hackney",
+          "programFiles": [
+            "src/hackney_conn.erl",
+            "src/hackney.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "hackney_conn:read_full_body/2"
+            },
+            {
+              "name": "hackney_conn:maybe_decompress_body/2"
+            },
+            {
+              "name": "hackney_conn:decompress_gzip/1"
+            },
+            {
+              "name": "hackney_conn:decompress_deflate/1"
+            },
+            {
+              "name": "hackney:request/5"
+            },
+            {
+              "name": "hackney:body/1"
+            }
+          ],
+          "repo": "https://github.com/benoitc/hackney",
+          "vendor": "benoitc",
+          "versions": [
+            {
+              "lessThan": "493e8bf83a391548e5101792276ab3fc428fa76c",
+              "status": "affected",
+              "version": "dc41b79339ca0c41e16d3f2dd17172bc2de855d6",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-409 Improper Handling of Highly Compressed Data (Data Amplification)",
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-409",
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-112880",
+      "publishedDate": "2026-10-26T13:48:46.589Z",
+      "lastModifiedDate": "2026-10-26T15:35:50.632Z",
+      "description": "Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Request/Response Splitting') vulnerability in hackney_http_connect in benoitc hackney allows HTTP Request Splitting via the value a proxy_auth_fun callback returns. After a 407 response from an HTTP CONNECT proxy, hackney_http_connect:handle_proxy_auth/11 calls the caller's proxy_auth_fun with the status code and the response headers and writes the returned binary into the Proxy-Authorization line of the CONNECT retry without checking it. A CR, LF or NUL byte in that value adds header lines to the request sent to the proxy.\n\nThe value is attacker-influenced when the callback derives it from untrusted data, for example from the proxy's challenge headers. Other caller-supplied values on the CONNECT path, such as the target host and the request headers, were already checked for control bytes.\n\nThis issue affects hackney: from 2.0.0 before 4.9.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：benoitc hackney\n🔓 漏洞类型：CWE-113 (CWE-113)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/benoitc/hackney/releases/tag/4.9.0",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-112880.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-112880",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/benoitc/hackney/pull/989",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/benoitc/hackney/commit/5df5a74a2817d5b12880d217db33253ff1fae1b5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/benoitc/hackney/commit/5ee7d7d19eba27e774667d472feb1e93a08af7f9",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:benoitc:hackney:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "hackney_http_connect"
+          ],
+          "packageName": "hackney",
+          "packageURL": "pkg:hex/hackney",
+          "product": "hackney",
+          "programFiles": [
+            "src/hackney_http_connect.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "hackney_http_connect:connect/4"
+            },
+            {
+              "name": "hackney_http_connect:do_handshake_with_auth/9"
+            },
+            {
+              "name": "hackney_http_connect:handle_proxy_auth/11"
+            }
+          ],
+          "repo": "https://github.com/benoitc/hackney",
+          "vendor": "benoitc",
+          "versions": [
+            {
+              "lessThan": "4.9.0",
+              "status": "affected",
+              "version": "2.0.0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:benoitc:hackney:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "hackney_http_connect"
+          ],
+          "packageName": "benoitc/hackney",
+          "packageURL": "pkg:github/benoitc/hackney",
+          "product": "hackney",
+          "programFiles": [
+            "src/hackney_http_connect.erl"
+          ],
+          "programRoutines": [
+            {
+              "name": "hackney_http_connect:connect/4"
+            },
+            {
+              "name": "hackney_http_connect:do_handshake_with_auth/9"
+            },
+            {
+              "name": "hackney_http_connect:handle_proxy_auth/11"
+            }
+          ],
+          "repo": "https://github.com/benoitc/hackney",
+          "vendor": "benoitc",
+          "versions": [
+            {
+              "lessThan": "5ee7d7d19eba27e774667d472feb1e93a08af7f9",
+              "status": "affected",
+              "version": "5df5a74a2817d5b12880d217db33253ff1fae1b5",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-113 Improper Neutralization of CRLF Sequences in HTTP Headers ('HTTP Request/Response Splitting')"
+      ],
+      "cwe_ids": [
+        "CWE-113"
+      ]
+    },
+    {
+      "id": "CVE-2026-108529",
+      "publishedDate": "2026-10-26T13:35:26.080Z",
+      "lastModifiedDate": "2026-10-26T15:35:50.781Z",
+      "description": "Inefficient Algorithmic Complexity vulnerability in the HTTP/2 implementation of mtrudel bandit allows an unauthenticated remote attacker to exhaust server CPU via small SETTINGS or connection-level WINDOW_UPDATE frames. The attacker opens thousands of streams whose responses block on the connection send window, then sends cheap frames that each make the server walk the whole queue of blocked sends. In the reporter's run, with 3,000 blocked streams a single 9-byte SETTINGS frame took 133 ms to process.\n\ndo_pending_sends/2 in lib/bandit/http2/connection.ex retries every queued send and, before each retry, removes that entry from the queue with List.delete/2, so one frame costs O(n²) list operations for n blocked streams. max_concurrent_streams defaults to :infinity, so the attacker chooses n.\n\nThis issue affects bandit: from 0.3.4 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-407 (CWE-407)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-j363-h72p-296m",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-108529.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-108529",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/6feadb31189d18b7dcda6c663112cd3bbaf63a46",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "0.3.4",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "6feadb31189d18b7dcda6c663112cd3bbaf63a46",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-407 Inefficient Algorithmic Complexity"
+      ],
+      "cwe_ids": [
+        "CWE-407"
+      ]
+    },
+    {
+      "id": "CVE-2026-110499",
+      "publishedDate": "2026-10-26T13:32:38.613Z",
+      "lastModifiedDate": "2026-10-26T15:35:50.929Z",
+      "description": "Allocation of Resources Without Limits or Throttling vulnerability in the HTTP/2 implementation of mtrudel bandit allows an unauthenticated remote attacker to grow per-connection memory and CPU cost without bound via a large SETTINGS_HEADER_TABLE_SIZE. Bandit resizes its HPACK encoder table to whatever size the client advertises, up to 2^32-1 bytes, and indexes response headers into it. Because responses carry distinct values such as date or content-length, nothing is evicted and the table grows with every response for the life of the connection, while each lookup scans it linearly.\n\nThe SETTINGS handling in Bandit.HTTP2.Connection (lib/bandit/http2/connection.ex) passes remote_settings.header_table_size to HPAX.resize/2 with no server-side cap, and encode_headers encodes every response header as :store. Serving N responses on one connection therefore costs O(N²) CPU in the connection process.\n\nThis issue affects bandit: from 0.3.6 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-47x4-3fxf-82fr",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-110499.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-110499",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/0e68313fab9d204257ebad5c447e4cd9cea8e0ea",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "0.3.6",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "0e68313fab9d204257ebad5c447e4cd9cea8e0ea",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-109584",
+      "publishedDate": "2026-10-26T13:32:22.359Z",
+      "lastModifiedDate": "2026-10-26T15:35:51.081Z",
+      "description": "Improper Handling of Highly Compressed Data (Data Amplification) vulnerability in the HTTP/2 implementation of mtrudel bandit allows an unauthenticated remote attacker to exhaust server memory via a small HPACK-compressed HEADERS block. The block stores one large cookie value in the HPACK dynamic table and then references it tens of thousands of times with 1-byte indexed fields. In the reporter's run, a 49 KB block made a server with default settings allocate a 183 MB cookie binary before any application code ran, and every concurrent stream can repeat the cost.\n\nBandit.HTTP2.Connection caps only the compressed block (max_header_block_size), and its check of the decoded list against max_header_list_size never fires because that setting defaults to :infinity. combine_cookie_crumbs/1 in lib/bandit/http2/stream.ex then joins every crumb into one binary.\n\nThis issue affects bandit: from 0.3.3 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-409 (CWE-409)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-7gfj-7gvq-3xqj",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-109584.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-109584",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/44bf969cd59851622fb6ee4d16227fbc39a77fb4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "0.3.3",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "44bf969cd59851622fb6ee4d16227fbc39a77fb4",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-409 Improper Handling of Highly Compressed Data (Data Amplification)"
+      ],
+      "cwe_ids": [
+        "CWE-409"
+      ]
+    },
+    {
+      "id": "CVE-2026-111103",
+      "publishedDate": "2026-10-26T13:32:06.340Z",
+      "lastModifiedDate": "2026-10-26T15:35:51.229Z",
+      "description": "Improper Cleanup on Thrown Exception vulnerability in the HTTP/2 handler of mtrudel bandit allows an unauthenticated remote attacker to bypass per-connection resource limits via a single TCP write that carries several frames, one of which raises a stream error.\n\nWhen a frame raises StreamError partway through a chunk, Bandit.HTTP2.Handler.handle_data/3 sends RST_STREAM and continues with the connection state from before the chunk, dropping the rest of it. Streams opened by earlier frames in the chunk keep running their Plug calls, but the stream counts, last_stream_id, the rapid-reset timestamps, the HPACK decoder state and the buffer roll back, so max_concurrent_streams, max_requests and the rapid-reset limiter never see those streams. A client that sends one HEADERS frame more than max_concurrent_streams in each write has the extra refused and the others forgotten: with a limit of 10, five such writes run 50 Plug calls at once.\n\nThis issue affects bandit: from 1.9.0 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-460 (CWE-460)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-2238-pgfc-w82m",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-111103.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-111103",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/3ad49c80c268891e7cc412e69649115456638e59",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "1.9.0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "3ad49c80c268891e7cc412e69649115456638e59",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-460 Improper Cleanup on Thrown Exception"
+      ],
+      "cwe_ids": [
+        "CWE-460"
+      ]
+    },
+    {
+      "id": "CVE-2026-111101",
+      "publishedDate": "2026-10-26T13:31:48.184Z",
+      "lastModifiedDate": "2026-10-26T15:35:51.401Z",
+      "description": "Allocation of Resources Without Limits or Throttling vulnerability in the HTTP/1.1 chunked body reader of mtrudel bandit allows an unauthenticated remote attacker to exhaust server memory and CPU via a request body made of many 1-byte chunks.\n\nThe chunked reader in lib/bandit/http1/socket.ex keeps every chunk as its own list cell and binary term until IO.iodata_to_binary/1 joins them, and nothing limits the number of chunks. The :length option of read_body/2 counts only data bytes, so tiny chunks cost far more memory than their payload: 48 MB of 1-byte chunks grew one handler process to about 500 MB and took about 6 s of CPU. The route does not need to read the body, because on keep-alive connections ensure_completed/1 drains unread bodies through the same reader.\n\nThis issue affects bandit: from 0.1.0 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-jwh3-j29h-qfmw",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-111101.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-111101",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/7201270c34b90f6c9e15c0386c2bb802c0c72ab4",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "0.1.0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "7201270c34b90f6c9e15c0386c2bb802c0c72ab4",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-113436",
+      "publishedDate": "2026-10-26T13:31:35.033Z",
+      "lastModifiedDate": "2026-10-26T15:35:51.556Z",
+      "description": "Inefficient Algorithmic Complexity vulnerability in the header integer parser of mtrudel bandit allows an unauthenticated remote attacker to consume server CPU via a content-length value or a Host or :authority port made of thousands of digits.\n\nBandit.Headers.parse_integer/2 in lib/bandit/headers.ex builds the number one digit at a time with no limit on the digit count, allocating a new bignum at each step, so one value costs time quadratic in its length. It runs on raw request input over HTTP/1 and HTTP/2, before any range check. Over HTTP/2, a 4,000-digit value can be stored once in the HPACK dynamic table and re-sent on each new stream for about one byte: 124 KB of traffic kept the server busy for 27.9 s.\n\nThis issue affects bandit: from 1.0.0-pre.7 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-407 (CWE-407)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-29cr-8477-rg6r",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-113436.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-113436",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/e0c8c0c30af9b0f57d8aafac37ddd9294363a8be",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "1.0.0-pre.7",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "e0c8c0c30af9b0f57d8aafac37ddd9294363a8be",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-407 Inefficient Algorithmic Complexity"
+      ],
+      "cwe_ids": [
+        "CWE-407"
+      ]
+    },
+    {
+      "id": "CVE-2026-114213",
+      "publishedDate": "2026-10-26T13:30:58.262Z",
+      "lastModifiedDate": "2026-10-26T15:35:51.785Z",
+      "description": "Allocation of Resources Without Limits or Throttling vulnerability in the WebSocket fragment reassembly of mtrudel bandit allows an unauthenticated remote attacker to exhaust server memory via a fragmented message made of many 1-byte continuation frames.\n\nBandit.WebSocket.Connection checks max_fragmented_message_size against the payload bytes received, but keeps every non-final continuation frame as a new list cell around its own binary, and nothing limits the number of fragments. A 1-byte fragment costs 7 bytes on the wire but about 150 to 170 bytes of server memory, so one connection can hold about 150 times the configured limit, roughly 1.2 to 1.4 GB at the default 8 MB. Ping frames between fragments keep the connection alive past the idle timeout.\n\nThis issue affects bandit: from 1.11.0 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-cpx7-qf6w-jc63",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-114213.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-114213",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/21612c7c7b1ce43eccd36d3af3a2299d23513667",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "1.11.0",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "21612c7c7b1ce43eccd36d3af3a2299d23513667",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
+      ],
+      "cwe_ids": [
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-114216",
+      "publishedDate": "2026-10-26T13:30:41.225Z",
+      "lastModifiedDate": "2026-10-26T15:35:51.933Z",
+      "description": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling') vulnerability in the HTTP/1.1 chunked body reader of mtrudel bandit allows an unauthenticated remote attacker to smuggle a second request past a front-end proxy via a chunk extension that contains a bare LF.\n\nThe chunked reader in lib/bandit/http1/socket.ex takes the chunk-size line to be everything up to the first CRLF and discards everything after ; without checking it against the RFC 9112 chunk-ext grammar, so bare LF, bare CR and other control bytes pass. A proxy that ends the size line at a bare LF reads 2;\\nxx\\r\\n40\\r\\n... as one request whose second chunk holds a GET /admin, while Bandit ends the body early and dispatches GET /admin as a separate pipelined request. Deployments without such a proxy in front of Bandit are not affected.\n\nThis issue affects bandit: from 1.12.4 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-444 (CWE-444)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-w5wc-g2hc-g7m2",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-114216.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-114216",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/c31e9e3c76dcbfc239a96eabed5341ced7885ae5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "1.14.0",
+              "status": "affected",
+              "version": "1.12.4",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "c31e9e3c76dcbfc239a96eabed5341ced7885ae5",
+              "versionType": "git"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-444 Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+      ],
+      "cwe_ids": [
+        "CWE-444"
+      ]
+    },
+    {
+      "id": "CVE-2026-115269",
+      "publishedDate": "2026-10-26T13:30:24.621Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.079Z",
+      "description": "Allocation of Resources Without Limits or Throttling vulnerability in the HTTP/2 request body reader of mtrudel bandit allows an unauthenticated remote attacker to hold stream processes open indefinitely via WINDOW_UPDATE or empty SETTINGS frames sent while a Plug reads the request body.\n\nBandit.HTTP2.Stream.do_read_data/4 in lib/bandit/http2/stream.ex waits for each frame with a fresh read_timeout. A stream WINDOW_UPDATE, or the zero-delta window update that every empty SETTINGS frame delivers to all streams, ends the wait without delivering any body data, and the loop starts a new full countdown. A client that sends one of these 9-byte frames before each countdown expires keeps read_body blocked, together with the stream process and whatever the application holds while reading, for as long as it likes.\n\nThis issue affects bandit: from 1.4.0 before 1.14.0.",
       "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Contact Form by Supsystic\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：Infinite Loop / Unreachable Exit, CWE-770 (CWE-835, CWE-770)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/7b592632-614d-4792-8372-a38e667e547b/",
-          "type": "poc"
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-p2qv-vx88-385x",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-115269.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-115269",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/fff06efe3be962b484bd4d3eb339372fda5a231f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "Contact Form by Supsystic",
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
           "versions": [
             {
+              "lessThan": "1.14.0",
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThan": "1.8.0"
+              "version": "1.4.0",
+              "versionType": "semver"
             }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
           ],
-          "defaultStatus": "unaffected"
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "fff06efe3be962b484bd4d3eb339372fda5a231f",
+              "versionType": "git"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Cross-Site Scripting (XSS)"
+        "CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')",
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
       ],
       "cwe_ids": [
-        "CWE-79"
+        "CWE-835",
+        "CWE-770"
       ],
       "cvss_severity": "MEDIUM"
     },
     {
-      "id": "CVE-2026-94295",
-      "publishedDate": "2026-10-25T06:00:19.424Z",
-      "lastModifiedDate": "2026-10-26T10:13:38.948Z",
-      "description": "The Chikkili- Google Pay India for Woocommerce WordPress plugin through 1.0.6 does not verify that a payment notification actually originated from the payment provider before marking the associated order as paid, allowing unauthenticated attackers to mark arbitrary orders as paid without any payment being made.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Unknown Chikkili- Google Pay India for Woocommerce\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-108525",
+      "publishedDate": "2026-10-26T13:29:42.520Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.227Z",
+      "description": "Allocation of Resources Without Limits or Throttling vulnerability in the HTTP/2 implementation of mtrudel bandit allows an unauthenticated remote attacker to exhaust server memory via DATA frames sent past the advertised receive window. The attacker requests a response larger than the 65,535-byte initial window and withholds WINDOW_UPDATE, so the stream process blocks while sending and stops reading, then floods small DATA frames on that stream. Every frame is queued in the stream's mailbox until the BEAM node runs out of memory.\n\nBandit.HTTP2.Connection.handle_frame/3 in lib/bandit/http2/connection.ex forwards each DATA frame to the stream process without consulting the receive window, and Bandit.HTTP2.FlowControl.compute_recv_window/2 replenishes the window as data arrives rather than as it is consumed, and never answers a violation with FLOW_CONTROL_ERROR.\n\nThis issue affects bandit: from 0.3.1 before 1.14.0.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：mtrudel bandit\n🔓 漏洞类型：CWE-770 (CWE-770)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://wpscan.com/vulnerability/d6ee17a1-0db1-4610-8c96-96e98fb734ec/",
-          "type": "poc"
+          "url": "https://github.com/mtrudel/bandit/security/advisories/GHSA-c3g7-2pg5-qvwh",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-108525.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-108525",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/c8dc1e97050cf359f61ed6cdd110f3cdaf1d6f5f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mtrudel/bandit/commit/220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+          "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Unknown",
-          "product": "Chikkili- Google Pay India for Woocommerce",
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "packageName": "bandit",
+          "packageURL": "pkg:hex/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
           "versions": [
             {
+              "lessThan": "1.14.0",
               "status": "affected",
-              "versionType": "semver",
-              "version": "0",
-              "lessThanOrEqual": "1.0.6"
+              "version": "0.3.1",
+              "versionType": "semver"
             }
+          ]
+        },
+        {
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:mtrudel:bandit:*:*:*:*:*:*:*:*"
           ],
-          "defaultStatus": "unknown"
+          "defaultStatus": "unaffected",
+          "packageName": "mtrudel/bandit",
+          "packageURL": "pkg:github/mtrudel/bandit",
+          "product": "bandit",
+          "repo": "https://github.com/mtrudel/bandit",
+          "vendor": "mtrudel",
+          "versions": [
+            {
+              "lessThan": "220b9dfd27f9a21305be2afc75cbe585ddc24e7a",
+              "status": "affected",
+              "version": "c8dc1e97050cf359f61ed6cdd110f3cdaf1d6f5f",
+              "versionType": "git"
+            }
+          ]
         }
       ],
       "problemType": [
-        "CWE-862 Missing Authorization"
+        "CWE-770 Allocation of Resources Without Limits or Throttling"
       ],
       "cwe_ids": [
-        "CWE-862"
+        "CWE-770"
+      ]
+    },
+    {
+      "id": "CVE-2026-107157",
+      "publishedDate": "2026-10-26T12:52:26.628Z",
+      "lastModifiedDate": "2026-10-26T15:35:52.516Z",
+      "description": "Out-of-bounds read vulnerability in QCborValue::fromCbor() impacts Qt Framework.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：qt Qt\n🔓 漏洞类型：CWE-125 (CWE-125)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://wiki.qt.io/List_of_known_vulnerabilities_in_Qt_products#CVE-2026-107157:",
+          "type": "reference"
+        },
+        {
+          "url": "https://codereview.qt-project.org/c/qt/qtbase/+/745719",
+          "type": "reference"
+        }
       ],
-      "cvss_severity": "HIGH"
+      "affected": [
+        {
+          "vendor": "qt",
+          "product": "Qt",
+          "platforms": [
+            "64 bit"
+          ],
+          "modules": [
+            "qtbase"
+          ],
+          "versions": [
+            {
+              "status": "unaffected",
+              "version": "0",
+              "lessThan": "5.12.0",
+              "versionType": "python"
+            },
+            {
+              "status": "affected",
+              "version": "5.12.0",
+              "lessThanOrEqual": "6.8.8",
+              "versionType": "python"
+            },
+            {
+              "status": "affected",
+              "version": "6.9.0",
+              "lessThanOrEqual": "6.11.2",
+              "versionType": "python"
+            }
+          ],
+          "defaultStatus": "unaffected",
+          "cpes": [
+            "cpe:2.3:a:qt:qt:*:*:*:*:*:*:*:*",
+            "cpe:2.3:a:qt:qtbase:*:*:*:*:*:*:*:*"
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-125 Out-of-bounds Read"
+      ],
+      "cwe_ids": [
+        "CWE-125"
+      ]
+    },
+    {
+      "id": "CVE-2026-107080",
+      "publishedDate": "2026-10-26T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-26T15:32:56.608Z",
+      "description": "OpenJPEG 2.4.0 through 2.5.4, and git master through commit 8314119b, contains an out-of-bounds read and write in opj_dwt_encode_and_deinterleave_v() in src/lib/openjp2/dwt.c. This allows an attacker to cause a denial of service.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/uclouvain/openjpeg/issues/1673",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/uclouvain/openjpeg/pull/1674",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/uclouvain/openjpeg/commit/a38e970fa59abd796c703ec469e578b09f7ffa33",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.openwall.com/lists/oss-security/2026/10/05/5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2026-76526",
+      "publishedDate": "2026-10-21T22:52:15.442Z",
+      "lastModifiedDate": "2026-10-26T15:38:20.704Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, Cisco has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities. The vulnerabilities tracked by CVE-2026-76526 are related to improper neutralization and are grouped under the Common Weakness Enumeration (CWE) CWE-707.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Splunk Splunk SOAR\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://advisory.splunk.com/advisories/SVD-2026-1011",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Splunk SOAR",
+          "vendor": "Splunk",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "8.7.0"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "The product does not ensure or incorrectly ensures that structured messages or data are well-formed and that certain security properties at met before being read from an upstream component or sent to a downstream component."
+      ]
+    },
+    {
+      "id": "CVE-2026-76300",
+      "publishedDate": "2026-10-21T22:52:02.038Z",
+      "lastModifiedDate": "2026-10-26T15:39:25.984Z",
+      "description": "As part of Cisco's ongoing commitment to proactive security and product quality, Cisco has conducted a comprehensive internal security review. This review resulted in a software hardening release that addresses multiple internally discovered vulnerabilities. The vulnerabilities tracked by CVE-2026-76300 are related to improper control of a resource through its lifetime and are grouped under the Common Weakness Enumeration (CWE) CWE-664.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Splunk Splunk Enterprise\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://advisory.splunk.com/advisories/SVD-2026-1008",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "product": "Splunk Enterprise",
+          "vendor": "Splunk",
+          "versions": [
+            {
+              "version": "10.4",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.4.4"
+            },
+            {
+              "version": "10.2",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.2.8"
+            },
+            {
+              "version": "10.0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "10.0.11"
+            },
+            {
+              "version": "9.4",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "9.4.16"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "The software does not maintain or incorrectly maintains control over a resource throughout its lifetime of creation, use, and release."
+      ]
+    },
+    {
+      "id": "CVE-2025-60469",
+      "publishedDate": "2026-10-21T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-26T15:46:37.891Z",
+      "description": "A NULL pointer dereference in the gf_ac4_presentation_ch_mode function (/media_tools/av_parsers.c) of GPAC Project/MP4Box before 2.5 allows attackers to cause a Denial of Service (DoS) via supplying a crafted AC4 file.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/gpac/gpac/issues/3292",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpac/gpac/commit/e02d1fd24cdc26acb1b236ab38b3832cffcae21b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/41/README.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://infosec.exchange/@sigdevel/117456377012352192",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-60478",
+      "publishedDate": "2026-10-21T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-26T15:45:32.854Z",
+      "description": "A use-after-free in the gf_filter_packet_destroy function (/filter_core/filter_pck.c) of GPAC Project/MP4Box before 2.5 allows attackers to cause a Denial of Service (DoS) via supplying a crafted MPEG-2 file.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/gpac/gpac/issues/3300",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpac/gpac/commit/c592a144bbe339ee581ca88aaa3247362795b742",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/47/README.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://infosec.exchange/@sigdevel/117456560052551246",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-60479",
+      "publishedDate": "2026-10-21T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-26T15:44:11.101Z",
+      "description": "A NULL pointer dereference in the StatSFVec2f function (/scene_manager/scene_stats.c) of GPAC Project/MP4Box before 2.5 allows attackers to cause a Denial of Service (DoS) via supplying a crafted MPEG-4 file.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/gpac/gpac/issues/3322",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpac/gpac/commit/75786eb61b7cc838b57c3d4f8004b4f13b5b724c",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/58/README.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://infosec.exchange/@sigdevel/117451528497213210",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-71438",
+      "publishedDate": "2026-10-21T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-26T15:45:02.651Z",
+      "description": "An out-of-bounds read in gf_odf_ac4_cfg_dsi_v1 (/odf/descriptors.c) in GPAC Project/MP4Box before v26.07.0 allows attackers to cause a Denial of Service (DoS) via supplying a crafted AC4 file.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/50/50_gf_odf_ac4_cfg_dsi_v1_odf_descriptors_c_2179",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpac/gpac/issues/3303",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpac/gpac/commit/13eb5b76560aaf7813b865a2ad433258478e2695",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
+    },
+    {
+      "id": "CVE-2025-60496",
+      "publishedDate": "2026-10-20T00:00:00.000Z",
+      "lastModifiedDate": "2026-10-26T15:44:28.502Z",
+      "description": "A Floating-Point Exception (FPE) in the reframer_send_packet function (/filters/reframer.c) of GPAC Project/MP4Box before 2.5 allows attackers to cause a Denial of Service (DoS) via supplying a crafted MP4 file.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：n/a n/a\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/gpac/gpac/issues/3334",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/gpac/gpac/commit/f03c946aae129980f0426d4cbae9746d0536fee6",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/sigdevel/pocs/blob/main/res/gpac/MP4Box/65/README.md",
+          "type": "reference"
+        },
+        {
+          "url": "https://infosec.exchange/@sigdevel/117451461416101711",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "n/a",
+          "product": "n/a",
+          "versions": [
+            {
+              "version": "n/a",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "n/a"
+      ]
     }
   ]
 }
