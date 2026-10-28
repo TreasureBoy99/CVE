@@ -2,131 +2,51 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-10-28T17:16:08.710776",
+    "total_count": 1,
+    "last_updated": "2026-10-28T21:42:29.423043",
     "severity_distribution": {
       "critical": 0,
       "high": 1,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
       "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-82961",
-      "publishedDate": "2026-10-28T16:58:58.927Z",
-      "lastModifiedDate": "2026-10-28T16:58:58.927Z",
-      "description": "The GPIO syscall handlers in drivers/gpio/gpio_handlers.c did not validate the pin argument supplied by a user-mode caller. z_vrfy_gpio_pin_configure(), z_vrfy_gpio_pin_get_config() and z_vrfy_gpio_pin_interrupt_configure() verified only the device object (K_SYSCALL_DRIVER_GPIO() / K_SYSCALL_OBJ()) and then passed the caller-supplied gpio_pin_t straight through to z_impl_gpio_pin_*() and on to the driver. The only pin check in include/zephyr/drivers/gpio.h was __ASSERT(gpio_port_pin_is_supported(cfg->port_pin_mask, pin), ...), which compiles to nothing unless CONFIG_ASSERT is enabled, so in a production build no check existed at all.\n\nGPIO drivers use pin as a shift count and as an array index on the documented assumption that it is a pin the controller supports. On STM32, for example, gpio_stm32_pin_interrupt_configure() turns pin into an EXTI line and stm32_gpio_intc_set_irq_callback() writes data->cb[line_num].cb and data->cb[line_num].data into a NUM_EXTI_LINES-entry array (default 16) in drivers/interrupt_controller/intc_gpio_stm32.c, guarded only by a compiled-out __ASSERT_NO_MSG(); the same function then reads exti_irq_table[line_num] and calls irq_enable() on the result. Other controllers index fixed-size per-pin configuration tables the same way — drivers/gpio/gpio_ite_it8xxx2_v2.c reads an MMIO base pointer out of wuc_base[8] with the caller's pin and performs a read-modify-write through it.\n\nThe issue is reachable only in builds with CONFIG_USERSPACE=y (the file is compiled under that symbol), by a user-mode thread that has been granted access to a GPIO device object. Such a grant is intended to authorize control of that port's pins; the missing validation instead lets the thread drive a supervisor-mode out-of-bounds write of a function pointer and an associated void * past a kernel .bss array, and out-of-bounds reads that feed irq_enable() and MMIO accesses — an escape from the user-mode sandbox that can lead to kernel memory corruption, arbitrary code execution, or a crash.\n\nThe fix validates pin against the controller's gpio_driver_config.port_pin_mask with gpio_port_pin_is_supported() in every pin-taking z_vrfy_ handler and returns -EINVAL otherwise, complemented by an unconditional pin >= GPIO_MAX_PINS_PER_PORT range check added to the shared z_impl_gpio_pin_*() inlines.",
-      "severity": 7.8,
-      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-118804",
+      "publishedDate": "2026-10-28T21:18:28.475Z",
+      "lastModifiedDate": "2026-10-28T21:18:28.475Z",
+      "description": "Bricks Builder 2.4.3 and before contains a broken access control vulnerability that allows unauthenticated attackers to access restricted post content by submitting crafted post_status and post_type values in the originalQueryVars parameter to the POST /wp-json/bricks/v1/query_result REST endpoint using a publicly obtainable nonce. Attackers can set post_status to draft or private, or post_type to shop_coupon, to disclose unpublished posts, private content, and WooCommerce coupon data that is otherwise blocked by the standard WordPress REST API routes.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Bricks Bricks Builder\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/020e83e06b35e98a4a3c2354f67e5eee3f163363",
+          "url": "https://bricksbuilder.io/release/bricks-2-4-4/",
           "type": "reference"
         },
         {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/d145faab7e3a8cea62a8fd7ed5f30ef73e762f59",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/c9641fa5bfec44892e0cf2d84f78c7c60fca8ad6",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/d28a05d5de4420f27ba3de7b9e4442fa056d51de",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-4f2x-8qw8-jjgf",
+          "url": "https://www.vulncheck.com/advisories/bricks-broken-access-control-via-query-result-endpoint",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "zephyrproject",
-          "product": "zephyr",
-          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
-          "packageName": "zephyr",
           "defaultStatus": "unaffected",
-          "programFiles": [
-            "drivers/gpio/gpio_emul.c",
-            "drivers/gpio/gpio_handlers.c",
-            "include/drivers/gpio.h",
-            "include/zephyr/drivers/gpio.h"
-          ],
-          "programRoutines": [
-            {
-              "name": "z_vrfy_gpio_config"
-            },
-            {
-              "name": "z_vrfy_gpio_pin_configure"
-            },
-            {
-              "name": "z_vrfy_gpio_pin_get_config"
-            },
-            {
-              "name": "z_vrfy_gpio_pin_interrupt_configure"
-            }
-          ],
+          "vendor": "Bricks",
+          "product": "Bricks Builder",
           "versions": [
             {
-              "version": "2.2.0",
               "status": "affected",
+              "version": "0",
               "versionType": "semver",
-              "lessThanOrEqual": "4.4.2"
+              "lessThan": "2.4.4"
             }
           ]
         }
       ],
       "problemType": [
-        "bounds"
-      ]
-    },
-    {
-      "id": "CVE-2026-82962",
-      "publishedDate": "2026-10-28T16:59:00.030Z",
-      "lastModifiedDate": "2026-10-28T16:59:00.030Z",
-      "description": "ethernet_fill_header() in subsys/net/l2/ethernet/ethernet.c can prepend the Ethernet header in place, by pushing it into the headroom of the packet's first fragment, instead of allocating a separate header fragment. Before this fix the in-place path was selected purely from the build-time value of CONFIG_NET_L2_ETHERNET_RESERVE_HEADER, with no check that the packet actually has that headroom, and then called net_buf_push(pkt->buffer, hdr_len). Only Ethernet TX allocations reserve that space: net_pkt_alloc_buffer() invokes the L2 alloc hook (ethernet_l2_alloc()) only when is_pkt_tx() is true and the packet's interface is the Ethernet interface.\n\nA packet that was allocated by a different L2 and then handed to Ethernet for transmission therefore has too little (usually zero) headroom. Such packets are produced by ordinary routing and tunnelling paths: net_route_packet_if() re-targets a received packet to another interface when CONFIG_NET_IPV4_FORWARDING / CONFIG_NET_IPV6_FORWARDING are enabled (for example an 802.15.4/OpenThread or PPP interface forwarding to Wi-Fi/Ethernet), net_route_ipv6_mcast_forward_packet() forwards an RX-slab clone that carries no reserve, and the IPIP tunnel interface_send() prepends an outer IP header allocated on the virtual interface. In these configurations a remote or adjacent attacker triggers the condition simply by sending traffic that the device forwards.\n\nBecause net_buf_simple_push() only asserts on the headroom bound, a build without CONFIG_ASSERT (and without the newer CONFIG_NET_BUF_HARDENING) moves the fragment data pointer below the start of its data block and writes 14 bytes — 18 with VLAN — of Ethernet header out of bounds. With the default fixed-size buffer pools this overwrites the tail of the neighbouring buffer's payload or memory preceding the pool array; with variable-size pools it overwrites the buffer reference count and the heap chunk header. The attacker controls neither the written bytes nor the offset, so the practical impact is memory corruption leading to a crash, packet corruption, or heap inconsistency rather than controlled code execution. The fix takes the in-place path only when net_buf_headroom(pkt->buffer) is large enough and otherwise falls back to a separate header fragment.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：zephyrproject zephyr\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/commit/b39f86ea61d0a0fdd7e9f145110649394e2c22ca",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/zephyrproject-rtos/zephyr/security/advisories/GHSA-56gp-jq94-c9hh",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "zephyrproject",
-          "product": "zephyr",
-          "collectionURL": "https://github.com/zephyrproject-rtos/zephyr",
-          "packageName": "zephyr",
-          "defaultStatus": "unaffected",
-          "programFiles": [
-            "subsys/net/l2/ethernet/ethernet.c"
-          ],
-          "programRoutines": [
-            {
-              "name": "ethernet_fill_header"
-            }
-          ],
-          "versions": [
-            {
-              "version": "4.1.0",
-              "status": "affected",
-              "versionType": "semver",
-              "lessThanOrEqual": "4.4.2"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "memory-safety"
+        "Missing Authorization"
       ]
     }
   ]
