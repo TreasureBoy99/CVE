@@ -2,351 +2,165 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 8,
-    "last_updated": "2026-10-30T20:38:50.548281",
+    "total_count": 2,
+    "last_updated": "2026-10-31T00:03:38.999220",
     "severity_distribution": {
-      "critical": 1,
-      "high": 4,
-      "medium": 3,
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
       "low": 0,
-      "none": 0
+      "none": 2
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-62863",
-      "publishedDate": "2026-10-30T20:33:14.561Z",
-      "lastModifiedDate": "2026-10-30T20:33:14.561Z",
-      "description": "MoLing is a computer-use and browser-use based MCP server. Prior to 0.5.0, when MoLing runs in SSE mode using `-l`, its `/sse` and `/message` HTTP endpoints do not authenticate requests and the `mcp-go` dependency sets `Access-Control-Allow-Origin: *`. A malicious web page can open a cross-origin `EventSource` to `/sse`, including a loopback listener, and read the `endpoint` event to obtain `sessionId`. After a victim running SSE mode visits that page, the attacker can use the disclosed `sessionId` against `/message` to send unauthorized MCP tool calls. Depending on the configured tools, those calls can read or write local files, execute commands or perform other actions. Binding only to loopback does not prevent this browser-mediated attack. This issue is fixed in version 0.5.0.",
-      "severity": 9.6,
-      "fix_suggestion": "📦 受影响组件：gojue moling\n🔓 漏洞类型：CWE-942, Missing Authentication for Critical Function (CWE-942, CWE-306)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-77152",
+      "publishedDate": "2026-10-30T23:56:29.862Z",
+      "lastModifiedDate": "2026-10-30T23:56:29.862Z",
+      "description": "Improper Authorization vulnerability in Drupal Field Collection for Drupal 7 allows a user with the \"edit field collections\" permission to bypass access control on the parent (host) entity.\n\nThe access check for field collection items (field_collection_item_access()) granted edit and delete access to any user holding the \"edit field collections\" permission without verifying the user's access to the host entity. As a result, a user with \"edit field collections\" but without edit/update access to the host entity (for example a node they cannot edit) could edit or delete field collection items attached to that entity, bypassing the intended entity/node access restrictions. The fix requires access to the parent entity in addition to the field collection permission.\n\n\n\nThis issue affects Field Collection for Drupal 7: version 7.x-1.0 up to and including 7.x-1.2.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Drupal Field Collection for Drupal 7\n🔓 漏洞类型：CWE-285 (CWE-285)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/gojue/moling/security/advisories/GHSA-qpgh-hp5g-4vwp",
+          "url": "https://www.herodevs.com/vulnerability-directory/cve-2026-77152",
           "type": "reference"
         },
         {
-          "url": "https://github.com/gojue/moling/pull/48",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gojue/moling/commit/ae07f704cbc88d4419fc0fbaec278090fcd0502d",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/gojue/moling/releases/tag/v0.5.0",
+          "url": "https://d7es.tag1.com/security-advisories?field_project_target_id=96",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "gojue",
-          "product": "moling",
-          "versions": [
-            {
-              "version": "< 0.5.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-942: Permissive Cross-domain Policy with Untrusted Domains",
-        "CWE-306: Missing Authentication for Critical Function"
-      ],
-      "cwe_ids": [
-        "CWE-942",
-        "CWE-306"
-      ]
-    },
-    {
-      "id": "CVE-2026-40573",
-      "publishedDate": "2026-10-30T20:31:13.209Z",
-      "lastModifiedDate": "2026-10-30T20:31:13.209Z",
-      "description": "NovumOS is a custom 32-bit operating system written in Zig and x86 Assembly. Prior to version 0.25-beta.1, the `Nova` interpreter runs in Ring 0 with unrestricted kernel-memory access. Loading a malicious `.nv` script through the shell permits a local user to execute code with kernel privileges without security checks. The advisory identifies VM initialization in `zig/nova/vm.zig` as the affected component; script execution is not isolated in a restricted Ring 3 privilege domain. This issue is fixed in version 0.25-beta.1.",
-      "severity": 8.6,
-      "fix_suggestion": "📦 受影响组件：MinecAnton209 NovumOS\n🔓 漏洞类型：CWE-250 (CWE-250)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/MinecAnton209/NovumOS/security/advisories/GHSA-rq9v-wxp3-ffrr",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/MinecAnton209/NovumOS/commit/ca3e7a6b4bcdcac23413d39ecf863b94e6a3a207",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/MinecAnton209/NovumOS/tree/v0.25-beta.1",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "MinecAnton209",
-          "product": "NovumOS",
-          "versions": [
-            {
-              "version": "< 0.25-beta.1",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-250: Execution with Unnecessary Privileges"
-      ],
-      "cwe_ids": [
-        "CWE-250"
-      ]
-    },
-    {
-      "id": "CVE-2026-62864",
-      "publishedDate": "2026-10-30T20:34:42.963Z",
-      "lastModifiedDate": "2026-10-30T20:34:42.963Z",
-      "description": "Ring is a Clojure web applications library inspired by Python's WSGI and Ruby's Rack. Prior to 1.15.5, `wrap-nested-params` in the `ring.middleware.nested-params` namespace uses a backtracking regular expression to match parameter names from URL query strings and HTTP request bodies. An attacker can craft a parameter name that drives quadratic O(n^2) matching work, causing regular-expression denial of service in applications using the middleware. `Ring-Defaults` users are also exposed because nested-params is enabled by default. Applications omitting the middleware do not expose this parsing path. This issue is fixed in version 1.15.5.",
-      "severity": 7.5,
-      "fix_suggestion": "📦 受影响组件：ring-clojure ring\n🔓 漏洞类型：CWE-1333 (CWE-1333)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/ring-clojure/ring/security/advisories/GHSA-q2j3-fc6x-78jj",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ring-clojure/ring/commit/18738cbb8ab7504da4a5c72c9eb5fdcbf142646e",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/ring-clojure/ring/tree/1.15.5",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "ring-clojure",
-          "product": "ring",
-          "versions": [
-            {
-              "version": "< 1.15.5",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-1333: Inefficient Regular Expression Complexity"
-      ],
-      "cwe_ids": [
-        "CWE-1333"
-      ]
-    },
-    {
-      "id": "CVE-2026-119343",
-      "publishedDate": "2026-10-30T20:31:48.374Z",
-      "lastModifiedDate": "2026-10-30T20:31:48.374Z",
-      "description": "Stirling-PDF is a locally hosted web application that facilitates various operations on PDF files. Prior to 3.0.0, POST /api/v1/ai/tools/create-pdf-from-html-agent accepts attacker-controlled htmlContent and passes it to WeasyPrint without CustomHtmlSanitizer, unlike the sanitized /api/v1/convert/html/pdf control path. HTTP and HTTPS resource references can make server-side requests to internal or cloud-metadata destinations, while file references can embed local content readable by the Stirling-PDF process into the generated PDF. The endpoint is reachable without credentials when security.enableLogin is false, and the flaw is distinct from earlier Stirling-PDF WeasyPrint vulnerabilities in older conversion paths. This issue is fixed in version 3.0.0.",
-      "severity": 6.8,
-      "fix_suggestion": "📦 受影响组件：Stirling-Tools Stirling-PDF\n🔓 漏洞类型：CWE-73, Server-Side Request Forgery (SSRF) (CWE-73, CWE-918)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/Stirling-Tools/Stirling-PDF/security/advisories/GHSA-3x7x-943g-269w",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Stirling-Tools/Stirling-PDF/pull/7018",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Stirling-Tools/Stirling-PDF/commit/0570c4c4d9e7bf4786a02ab770ef75f116ac3719",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/Stirling-Tools/Stirling-PDF/releases/tag/v3.0.0",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "Stirling-Tools",
-          "product": "Stirling-PDF",
-          "versions": [
-            {
-              "version": "< 3.0.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-73: External Control of File Name or Path",
-        "CWE-918: Server-Side Request Forgery (SSRF)"
-      ],
-      "cwe_ids": [
-        "CWE-73",
-        "CWE-918"
-      ]
-    },
-    {
-      "id": "CVE-2026-62254",
-      "publishedDate": "2026-10-30T20:36:09.037Z",
-      "lastModifiedDate": "2026-10-30T20:36:09.037Z",
-      "description": "LibreDWG is a free C library to read and write DWG files. Prior to 0.14, a specially crafted R13-R2000 DWG can trigger algorithmic resource exhaustion in `decode_R13_R2000` in `src/decode.c`. The class-decoding loop performs `realloc` on every iteration without a sanity check on `num_classes`. Manipulating that field forces an extremely slow allocation loop and denial of service when the file is parsed. Running the parser in a sandbox with memory limits is a workaround rather than a remediation. This issue is fixed in version 0.14.",
-      "severity": 5.5,
-      "fix_suggestion": "📦 受影响组件：LibreDWG libredwg\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-789 (CWE-400, CWE-789)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://github.com/LibreDWG/libredwg/security/advisories/GHSA-gp83-hcvh-g255",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/LibreDWG/libredwg/issues/1261",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/LibreDWG/libredwg/commit/9de893a2e395ff5ac104a46cca54c5e2cf8f02cf",
-          "type": "reference"
-        },
-        {
-          "url": "https://github.com/LibreDWG/libredwg/releases/tag/0.14",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "vendor": "LibreDWG",
-          "product": "libredwg",
-          "versions": [
-            {
-              "version": "< 0.14",
-              "status": "affected"
-            }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-400: Uncontrolled Resource Consumption",
-        "CWE-789: Memory Allocation with Excessive Size Value"
-      ],
-      "cwe_ids": [
-        "CWE-400",
-        "CWE-789"
-      ]
-    },
-    {
-      "id": "CVE-2026-107308",
-      "publishedDate": "2026-10-30T03:10:03.911Z",
-      "lastModifiedDate": "2026-10-30T20:34:57.018Z",
-      "description": "Improper Neutralization of Input During Web Page Generation (\"Cross-site Scripting\") vulnerability in Drupal Country allows Cross-Site Scripting (XSS). This issue affects Country versions: from 0.0.0 to 2.1.3, from 2.2.0 to 2.2.1.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Drupal Country\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.drupal.org/sa-contrib-2026-211",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://www.drupal.org/project/country",
-          "product": "Country",
           "vendor": "Drupal",
-          "repo": "https://git.drupalcode.org/project/country",
+          "product": "Field Collection for Drupal 7",
+          "collectionURL": "https://www.drupal.org/project/field_collection",
+          "repo": "https://git.drupalcode.org/project/field_collection",
           "versions": [
             {
-              "lessThan": "2.1.3",
               "status": "affected",
-              "version": "0.0.0",
-              "versionType": "semver"
+              "version": "7.x-1.0",
+              "lessThanOrEqual": "7.x-1.2",
+              "versionType": "custom"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-285 Improper Authorization"
+      ],
+      "cwe_ids": [
+        "CWE-285"
+      ]
+    },
+    {
+      "id": "CVE-2026-117656",
+      "publishedDate": "2026-10-30T23:55:23.426Z",
+      "lastModifiedDate": "2026-10-30T23:55:23.426Z",
+      "description": "Acceptance of Extraneous Untrusted Data With Trusted Data vulnerability in the Sign in with Apple strategy in pow-auth Assent allows an unauthenticated remote attacker to impersonate another user via the user parameter of the authorization callback.\n\nApple posts the user's name to the callback endpoint in a user form parameter that the browser submits and the client controls. Assent.Strategy.Apple.callback/2 in lib/assent/strategies/apple.ex decodes that parameter, and fetch_user/2 merges it over the claims of the verified ID token, so the unverified map wins. An attacker who completes a Sign in with Apple login with their own Apple ID and edits the user parameter can replace sub, email, and any other claim. Applications that look up, link, or authorize accounts by the returned subject or email then act on the attacker's values.\n\nThis issue affects assent: from 0.1.25 before 0.3.2.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：pow-auth assent\n🔓 漏洞类型：CWE-290, CWE-349 (CWE-290, CWE-349)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/pow-auth/assent/security/advisories/GHSA-9fr5-g44g-9526",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.erlef.org/cves/CVE-2026-117656.html",
+          "type": "reference"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/EEF-CVE-2026-117656",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/pow-auth/assent/commit/a2d331e8c51376d6c0b04a81aad31e0b4d4d64a3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/pow-auth/assent/commit/18898bde0296152165ae470078490e5798329b1b",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "collectionURL": "https://repo.hex.pm",
+          "cpes": [
+            "cpe:2.3:a:pow-auth:assent:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Assent.Strategy.Apple'"
+          ],
+          "packageName": "assent",
+          "packageURL": "pkg:hex/assent",
+          "product": "assent",
+          "programFiles": [
+            "lib/assent/strategies/apple.ex"
+          ],
+          "programRoutines": [
+            {
+              "name": "'Elixir.Assent.Strategy.Apple':callback/2"
             },
             {
-              "lessThan": "2.2.1",
-              "status": "affected",
-              "version": "2.2.0",
-              "versionType": "semver"
+              "name": "'Elixir.Assent.Strategy.Apple':fetch_user/2"
             }
-          ]
-        }
-      ],
-      "problemType": [
-        "CWE-79 Improper Neutralization of Input During Web Page Generation (\"Cross-site Scripting\")"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
-    },
-    {
-      "id": "CVE-2026-107309",
-      "publishedDate": "2026-10-30T03:10:02.716Z",
-      "lastModifiedDate": "2026-10-30T20:35:36.354Z",
-      "description": "Missing Authorization vulnerability in Drupal Easy Breadcrumb allows Forceful Browsing. This issue affects Easy Breadcrumb versions: from 0.0.0 to 2.0.11.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Drupal Easy Breadcrumb\n🔓 漏洞类型：Missing Authorization (CWE-862)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
-        {
-          "url": "https://www.drupal.org/sa-contrib-2026-212",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://www.drupal.org/project/easy_breadcrumb",
-          "product": "Easy Breadcrumb",
-          "vendor": "Drupal",
-          "repo": "https://git.drupalcode.org/project/easy_breadcrumb",
+          ],
+          "repo": "https://github.com/pow-auth/assent",
+          "vendor": "pow-auth",
           "versions": [
             {
-              "lessThan": "2.0.11",
+              "lessThan": "0.3.2",
               "status": "affected",
-              "version": "0.0.0",
+              "version": "0.1.25",
               "versionType": "semver"
             }
           ]
-        }
-      ],
-      "problemType": [
-        "CWE-862 Missing Authorization"
-      ],
-      "cwe_ids": [
-        "CWE-862"
-      ],
-      "cvss_severity": "HIGH"
-    },
-    {
-      "id": "CVE-2026-107310",
-      "publishedDate": "2026-10-30T03:10:01.636Z",
-      "lastModifiedDate": "2026-10-30T20:36:20.608Z",
-      "description": "Server-Side Request Forgery (SSRF) vulnerability in Drupal Freelinking allows Server Side Request Forgery. This issue affects Freelinking versions: from 0.0.0 to 4.0.3.",
-      "severity": "8.5",
-      "fix_suggestion": "📦 受影响组件：Drupal Freelinking\n🔓 漏洞类型：Server-Side Request Forgery (SSRF) (CWE-918)\n📊 官方评级：HIGH (CVSS 8.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
-      "references": [
+        },
         {
-          "url": "https://www.drupal.org/sa-contrib-2026-213",
-          "type": "reference"
-        }
-      ],
-      "affected": [
-        {
-          "collectionURL": "https://www.drupal.org/project/freelinking",
-          "product": "Freelinking",
-          "vendor": "Drupal",
-          "repo": "https://git.drupalcode.org/project/freelinking",
+          "collectionURL": "https://github.com",
+          "cpes": [
+            "cpe:2.3:a:pow-auth:assent:*:*:*:*:*:*:*:*"
+          ],
+          "defaultStatus": "unaffected",
+          "modules": [
+            "'Elixir.Assent.Strategy.Apple'"
+          ],
+          "packageName": "pow-auth/assent",
+          "packageURL": "pkg:github/pow-auth/assent",
+          "product": "assent",
+          "programFiles": [
+            "lib/assent/strategies/apple.ex"
+          ],
+          "programRoutines": [
+            {
+              "name": "'Elixir.Assent.Strategy.Apple':callback/2"
+            },
+            {
+              "name": "'Elixir.Assent.Strategy.Apple':fetch_user/2"
+            }
+          ],
+          "repo": "https://github.com/pow-auth/assent",
+          "vendor": "pow-auth",
           "versions": [
             {
-              "lessThan": "4.0.3",
+              "lessThan": "18898bde0296152165ae470078490e5798329b1b",
               "status": "affected",
-              "version": "0.0.0",
-              "versionType": "semver"
+              "version": "a2d331e8c51376d6c0b04a81aad31e0b4d4d64a3",
+              "versionType": "git"
             }
           ]
         }
       ],
       "problemType": [
-        "CWE-918 Server-Side Request Forgery (SSRF)"
+        "CWE-290 Authentication Bypass by Spoofing",
+        "CWE-349 Acceptance of Extraneous Untrusted Data With Trusted Data"
       ],
       "cwe_ids": [
-        "CWE-918"
-      ],
-      "cvss_severity": "HIGH"
+        "CWE-290",
+        "CWE-349"
+      ]
     }
   ]
 }
