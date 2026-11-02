@@ -2,160 +2,558 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 3,
-    "last_updated": "2026-11-01T23:01:04.796058",
+    "total_count": 10,
+    "last_updated": "2026-11-02T02:19:48.849941",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
+      "high": 6,
       "medium": 2,
-      "low": 0,
-      "none": 1
+      "low": 2,
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-111089",
-      "publishedDate": "2026-11-01T22:32:09.104Z",
-      "lastModifiedDate": "2026-11-01T22:32:09.104Z",
-      "description": "Apache Wicket reads texts from the application's resource bundles — a localized label, a css class name — and writes some of them into the JavaScript and the markup it generates for a component. Those texts are placed inside single-quoted JavaScript string literals and inside quoted attribute values without being escaped for that context, so a text containing a quote ends the literal or the attribute, and what follows is parsed as script or as markup in the application's origin when the page loads.\n\nA resource bundle entry is authored for the application and does not say where the framework will write it. The same key is read by the framework into element text, where Wicket escapes it, and into the contexts below, where it did not. A text containing an apostrophe, which is ordinary in several languages, is enough to break the page; a text under the influence of another party is enough to run script.\n\nIn org.apache.wicket:wicket-core, org.apache.wicket.markup.html.form.upload.MultiFileUploadField writes the org.apache.wicket.mfu.delete message into a JavaScript string literal, and org.apache.wicket.markup.html.form.Form writes the hidden-fields css class into the class attribute of the container it renders for its hidden fields; on 8.0.0 through 8.19.0 and 9.0.0 through 9.24.0 Form#appendDefaultButtonField writes the same css class into a second container. In org.apache.wicket:wicket-extensions, UploadProgressBar writes its UploadProgressBar.starting text into a JavaScript string literal, FilterForm writes the hidden-fields css class into the class attribute of its hidden input markup, and on 9.0.0 through 9.24.0 and 10.0.0 through 10.11.0 TrapFocusBehavior writes its current css class into a JavaScript string literal.\n\nThe Content-Security-Policy that Apache Wicket 9.x and 10.x send by default does not prevent the JavaScript cases: the generated script is written into a script element carrying the per-response nonce, so the injected code is part of a script the policy admits. It does prevent an inline event handler injected through the attribute cases.\n\nThis issue affects Apache Wicket: from 8.0.0 through 8.19.0, from 9.0.0 through 9.24.0, from 10.0.0 through 10.11.0. Users of Apache Wicket 7.x or older, which are no longer supported, should upgrade to a supported version. Users are recommended to upgrade to version 8.20.0, 9.25.0 or 10.12.0, which fix the issue.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Wicket\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-120315",
+      "publishedDate": "2026-11-02T02:01:13.641Z",
+      "lastModifiedDate": "2026-11-02T02:01:13.641Z",
+      "description": "LobeHub Chat from 1.84.26 before 2.1.49 contains a path traversal vulnerability that allows authenticated users to write arbitrary files by supplying unsanitized file names to writeTempFile(). Attackers can create a file record via file.createFile with a traversal name, then trigger document parsing to overwrite application files like startServer.js for code execution or denial of service.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：lobehub chat\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://lists.apache.org/thread.html/xyp4sm5mm7s618fktstb22577qxbmqw8",
+          "url": "https://github.com/lobehub/lobehub/security/advisories/GHSA-2g9j-v25c-4j97",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/lobehub-chat-1.84.26-before-2.1.49-path-traversal-rce-via-writetempfile",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache Wicket",
-          "packageURL": "pkg:maven/org.apache.wicket/wicket-core",
+          "vendor": "lobehub",
+          "product": "chat",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/%40lobehub/chat",
           "versions": [
             {
+              "version": "1.84.26",
               "status": "affected",
-              "version": "8.0.0",
-              "lessThanOrEqual": "8.19.0",
-              "versionType": "semver"
+              "versionType": "semver",
+              "lessThan": "2.1.49"
             },
             {
-              "status": "affected",
-              "version": "9.0.0",
-              "lessThanOrEqual": "9.24.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "10.0.0",
-              "lessThanOrEqual": "10.11.0",
+              "version": "2.1.49",
+              "status": "unaffected",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://repo.maven.apache.org/maven2",
-          "packageName": "org.apache.wicket:wicket-core"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
     },
     {
-      "id": "CVE-2026-95863",
-      "publishedDate": "2026-11-01T22:30:47.259Z",
-      "lastModifiedDate": "2026-11-01T22:30:47.259Z",
-      "description": "Improper neutralization of input during web page generation in Apache Wicket.\n\nApache Wicket generates JavaScript that refers to the elements it renders, and\nwrites into that JavaScript two values it derives itself: a component's markup\nid, and the input name of a form component, which is built from component ids.\nBoth are placed inside single-quoted JavaScript string literals without being\nescaped for that context, so a value containing a single quote or a backslash\nends the literal, and what follows is parsed as script and runs in the\napplication's origin when the page loads.\n\nA markup id is the value passed to org.apache.wicket.Component#setMarkupId(String),\nor the id attribute written in the component's markup, or an id Wicket\ngenerates, in that order. The first two are supplied by the application in an\nHTML context, where both characters are legal and where Wicket escapes them\ncorrectly when it writes the same value into the id attribute of the element; a\ngenerated id cannot contain either. An input name is derived from the ids of the\ncomponents between the form and the form component, and a component id was\nrejected only for ':' and '~'.\n\nIn org.apache.wicket:wicket-core on 9.x and 10.x,\norg.apache.wicket.markup.head.OnEventHeaderItem#forMarkupId(String, String,\nCharSequence) quotes the id it is given into a Wicket.Event.add call, and\ncomponents in both wicket-core and wicket-extensions reach it through\n#forComponent(Component, String, CharSequence). On every affected version,\norg.apache.wicket.markup.html.form.Form writes its markup id and the id of its\nhidden-fields container into such literals,\norg.apache.wicket.markup.html.form.FormComponentUpdatingBehavior writes an input\nname, and org.apache.wicket.markup.html.form.upload.MultiFileUploadField writes\ntwo markup ids and an input name. On 8.x, Form also writes an input name into the\naction of a submitting link, and on 8.x and 9.x Form#appendDefaultButtonField\nwrites an input name into a name attribute with no escaping at all, so a value\ncontaining a double quote escapes the attribute into markup.\n\norg.apache.wicket:wicket-extensions is affected in its own right and not only\nthrough wicket-core: AjaxEditableLabel, AjaxIndicatorAppender,\nAjaxDisableComponentListener, UploadProgressBar, KittenCaptchaPanel, Palette,\nFilterForm and, on 9.x and 10.x, TrapFocusBehavior and AjaxListPanel each build\ntheir own JavaScript containing a markup id.\n\nAn application is affected where a markup id or a component id carries one of\nthose characters. Wicket does not put one there itself, so the value comes from\nthe application: an id set on a component, an id attribute in a template, or a\ncomponent id derived from data. None of those is a JavaScript context from the\napplication's point of view.\n\nThe Content-Security-Policy that Apache Wicket 9.x and 10.x send by default does\nnot prevent this. The generated script is written into a script element carrying\nthe per-response nonce, so the injected code is part of a script the policy\nadmits.\n\nThe fixed versions check an id where it enters instead of escaping each place it\nis written. A component id and a markup id may no longer contain a quote, a\nbackquote, a backslash, braces, angle brackets, a semicolon, an ampersand or a\ncontrol character, and a markup id may not contain parentheses or square\nbrackets either; a component constructed with such an id, or given such a markup\nid, fails with an exception.\n\nThis issue affects Apache Wicket: from 8.0.0 through 8.19.0, from 9.0.0 through\n9.24.0, from 10.0.0 through 10.11.0. Users of Apache Wicket 7.x or older, which\nare no longer supported, should upgrade to a supported version. Users are\nrecommended to upgrade to version 8.20.0, 9.25.0 or 10.12.0, which fix the issue.",
-      "severity": "5.5",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Wicket\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-120312",
+      "publishedDate": "2026-11-02T02:01:11.626Z",
+      "lastModifiedDate": "2026-11-02T02:01:11.626Z",
+      "description": "Network-AI from 5.13.4 before 5.15.5 contains a path traversal vulnerability in AgentVCR that allows attackers controlling the cassette name to read or write arbitrary .json files. Attackers can pass traversal sequences to load() or save() to disclose sensitive JSON data or overwrite policy files such as AuthGuardian trust-level configuration.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Jovancoding Network-AI\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://lists.apache.org/thread.html/5wg754b873tlnsc268myrwcoy9lt046v",
+          "url": "https://github.com/Jovancoding/Network-AI/security/advisories/GHSA-mfxv-jg44-xj48",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/network-ai-5.13.4-before-5.15.5-path-traversal-via-agentvcr-cassette-name",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache Wicket",
-          "packageURL": "pkg:maven/org.apache.wicket/wicket-core",
+          "vendor": "Jovancoding",
+          "product": "Network-AI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/network-ai",
           "versions": [
             {
+              "version": "5.13.4",
               "status": "affected",
-              "version": "8.0.0",
-              "lessThanOrEqual": "8.19.0",
-              "versionType": "semver"
+              "versionType": "semver",
+              "lessThan": "5.15.5"
             },
             {
-              "status": "affected",
-              "version": "9.0.0",
-              "lessThanOrEqual": "9.24.0",
-              "versionType": "semver"
-            },
-            {
-              "status": "affected",
-              "version": "10.0.0",
-              "lessThanOrEqual": "10.11.0",
+              "version": "5.15.5",
+              "status": "unaffected",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://repo.maven.apache.org/maven2",
-          "packageName": "org.apache.wicket:wicket-core"
+          ]
         }
       ],
       "problemType": [
-        "CWE-79 Improper neutralization of input during web page generation ('cross-site scripting')"
-      ],
-      "cwe_ids": [
-        "CWE-79"
-      ],
-      "cvss_severity": "MEDIUM"
+        "Relative Path Traversal"
+      ]
     },
     {
-      "id": "CVE-2026-87718",
-      "publishedDate": "2026-11-01T22:28:35.032Z",
-      "lastModifiedDate": "2026-11-01T22:28:35.032Z",
-      "description": "Apache Wicket 10.10.0, 10.11.0 and 9.24.0 do not set the Content-Security-Policy headers on a page whose render request handler is wrapped in more than one IRequestHandlerDelegate. The framework unwraps only a single delegate level when deciding whether a request renders a page, so with a deeper chain, for example an application-provided delegating request mapper combined with CryptoMapper, the page is served without any CSP header even though CSP is enabled, and no error or warning is raised. The nonce-based protection Wicket applies to inline scripts and styles, together with any other CSP directives configured by the application, is thereby lost for those pages, exposing them to content injection the policy was meant to prevent. Applications on stock Wicket that do not wrap request handlers themselves are not affected. Versions before 10.10.0 and 9.24.0 handled nested delegates correctly. Users are recommended to upgrade to version 10.12.0 or 9.25.0, which fix the issue.",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Apache Software Foundation Apache Wicket\n🔓 漏洞类型：CWE-693 (CWE-693)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-120311",
+      "publishedDate": "2026-11-02T02:01:10.936Z",
+      "lastModifiedDate": "2026-11-02T02:01:10.936Z",
+      "description": "Network-AI from 5.13.4 before 5.15.5 contains a path traversal vulnerability in FileJobStore that allows attackers to read or delete arbitrary .json files by supplying traversal sequences in the job id. Attackers controlling the id passed to FileJobStore.get(), FileJobStore.delete(), or JobQueue.getJob() can disclose credentials and grant tokens or delete configuration files to weaken AuthGuardian authorization.",
+      "severity": 8.8,
+      "fix_suggestion": "📦 受影响组件：Jovancoding Network-AI\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://lists.apache.org/thread.html/fjq8v35zpkbtjwpzwkkpzocwtdgokp1m",
+          "url": "https://github.com/Jovancoding/Network-AI/security/advisories/GHSA-v64j-mc7x-c7x7",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/network-ai-5.13.4-before-5.15.5-path-traversal-via-filejobstore-job-id",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Apache Software Foundation",
-          "product": "Apache Wicket",
-          "packageURL": "pkg:maven/org.apache.wicket/wicket-core",
+          "vendor": "Jovancoding",
+          "product": "Network-AI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/network-ai",
           "versions": [
             {
+              "version": "5.13.4",
               "status": "affected",
-              "version": "9.24.0",
-              "versionType": "semver"
+              "versionType": "semver",
+              "lessThan": "5.15.5"
             },
             {
-              "status": "affected",
-              "version": "10.10.0",
-              "lessThanOrEqual": "10.11.0",
+              "version": "5.15.5",
+              "status": "unaffected",
               "versionType": "semver"
             }
-          ],
-          "defaultStatus": "unaffected",
-          "collectionURL": "https://repo.maven.apache.org/maven2",
-          "packageName": "org.apache.wicket:wicket-core"
+          ]
         }
       ],
       "problemType": [
-        "CWE-693 Protection Mechanism Failure"
+        "Relative Path Traversal"
+      ]
+    },
+    {
+      "id": "CVE-2026-120324",
+      "publishedDate": "2026-11-02T02:15:22.746Z",
+      "lastModifiedDate": "2026-11-02T02:15:22.746Z",
+      "description": "A weakness has been identified in Aklivity Zilla up to 1.3.4/2.4.7/2.5.0-rc2. The affected element is the function Path.resolve of the file FileSystemServerFactory of the component http-filesystem Binding. This manipulation of the argument params causes path traversal. Remote exploitation of the attack is possible. The exploit has been made available to the public and could be used for attacks. Upgrading to version 2.5.0-rc3 is sufficient to fix this issue. Patch name: 46a8b15cbea157f7ae8b7cb865809a02fd6b1988. You should upgrade the affected component.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：Aklivity Zilla\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://vuldb.com/vuln/429656",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/vuln/429656/cti",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/cve/CVE-2026-120324",
+          "type": "reference"
+        },
+        {
+          "url": "https://vuldb.com/submit/1015032",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/0xGenesi/CVE/blob/main/Zilla_Http_Filesystem_Binding_Path_Traversal.md",
+          "type": "poc"
+        },
+        {
+          "url": "https://github.com/aklivity/zilla/pull/2623",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aklivity/zilla/commit/46a8b15cbea157f7ae8b7cb865809a02fd6b1988",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aklivity/zilla/releases/tag/2.5.0-rc3",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/aklivity/zilla/",
+          "type": "reference"
+        }
       ],
-      "cwe_ids": [
-        "CWE-693"
+      "affected": [
+        {
+          "vendor": "Aklivity",
+          "product": "Zilla",
+          "versions": [
+            {
+              "version": "1.3.0",
+              "status": "affected"
+            },
+            {
+              "version": "1.3.1",
+              "status": "affected"
+            },
+            {
+              "version": "1.3.2",
+              "status": "affected"
+            },
+            {
+              "version": "1.3.3",
+              "status": "affected"
+            },
+            {
+              "version": "1.3.4",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.0",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.1",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.2",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.3",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.4",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.5",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.6",
+              "status": "affected"
+            },
+            {
+              "version": "2.4.7",
+              "status": "affected"
+            },
+            {
+              "version": "2.5.0-rc1",
+              "status": "affected"
+            },
+            {
+              "version": "2.5.0-rc2",
+              "status": "affected"
+            },
+            {
+              "version": "2.5.0-rc3",
+              "status": "unaffected"
+            }
+          ],
+          "cpes": [
+            "cpe:2.3:a:aklivity:zilla:*:*:*:*:*:*:*:*"
+          ],
+          "modules": [
+            "http-filesystem Binding"
+          ]
+        }
+      ],
+      "problemType": [
+        "Path Traversal"
+      ]
+    },
+    {
+      "id": "CVE-2026-120313",
+      "publishedDate": "2026-11-02T02:01:12.302Z",
+      "lastModifiedDate": "2026-11-02T02:01:12.302Z",
+      "description": "Network-AI before 5.15.5 contains a path traversal vulnerability in InputSanitizer.sanitizePath() that allows attackers to escape the base directory using sibling-directory paths. Attackers can supply paths whose directory name shares a string prefix with the base, bypassing the unanchored startsWith check to read, list, or write files outside the sandbox.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Jovancoding Network-AI\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Jovancoding/Network-AI/security/advisories/GHSA-5mm5-4mh4-6gm6",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/network-ai-before-5.15.5-path-traversal-via-inputsanitizer-sanitizepath",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Jovancoding",
+          "product": "Network-AI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/network-ai",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.15.5"
+            },
+            {
+              "version": "5.15.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-120314",
+      "publishedDate": "2026-11-02T02:01:12.990Z",
+      "lastModifiedDate": "2026-11-02T02:01:12.990Z",
+      "description": "Network-AI from 5.14.0 before 5.15.5 contains a missing authentication vulnerability in the A2AServer class that allows unauthenticated attackers to access task operations when no secret is configured. Attackers can send JSON-RPC requests to tasks/send, tasks/get, and tasks/cancel without a Bearer token to execute tasks, read results, and cancel tasks.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：Jovancoding Network-AI\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/Jovancoding/Network-AI/security/advisories/GHSA-qvf5-9prv-7r9c",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/network-ai-5.14.0-before-5.15.5-missing-authentication-in-a2aserver-task-operations",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Jovancoding",
+          "product": "Network-AI",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/network-ai",
+          "versions": [
+            {
+              "version": "5.14.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "5.15.5"
+            },
+            {
+              "version": "5.15.5",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Missing Authentication for Critical Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-120317",
+      "publishedDate": "2026-11-02T02:01:15.054Z",
+      "lastModifiedDate": "2026-11-02T02:01:15.054Z",
+      "description": "http4k from 4.9.10.0 before 6.60.0.0 contains a missing integrity check vulnerability because DigestEncoder computes the auth-int digest without hashing the request entity body. On-path attackers on non-TLS channels can rewrite the body of authenticated requests while keeping the Authorization header valid, executing state-changing actions as the victim.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：http4k http4k\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/http4k/http4k/security/advisories/GHSA-9xx4-xjpj-xqcf",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/http4k-4.9.10.0-before-6.60.0.0-digest-auth-int-missing-body-integrity",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "http4k",
+          "product": "http4k",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:maven/org.http4k/http4k-security-digest",
+          "versions": [
+            {
+              "version": "4.9.10.0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "6.60.0.0"
+            },
+            {
+              "version": "6.60.0.0",
+              "status": "unaffected",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Insufficient Verification of Data Authenticity"
+      ]
+    },
+    {
+      "id": "CVE-2026-120316",
+      "publishedDate": "2026-11-02T02:01:14.357Z",
+      "lastModifiedDate": "2026-11-02T02:01:14.357Z",
+      "description": "http4k before 6.62.0.0-ee contains a path traversal vulnerability in ThymeleafTemplates Caching and HotReload that allows unauthenticated attackers to read files outside baseTemplateDir by supplying ../ segments in ViewModel.template() values. Attackers can influence request-driven template selection so Thymeleaf's FileTemplateResolver resolves escaped paths without containment checks, disclosing any file readable by the server process.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：http4k http4k\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/http4k/http4k/security/advisories/GHSA-wq4x-r858-gmmj",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/http4k-before-6.62.0.0-ee-path-traversal-via-thymeleaftemplates-template-resolution",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "http4k",
+          "product": "http4k",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:maven/org.http4k/http4k-template-thymeleaf",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "custom",
+              "lessThan": "6.62.0.0-ee"
+            },
+            {
+              "version": "6.62.0.0-ee",
+              "status": "unaffected",
+              "versionType": "custom"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+      ]
+    },
+    {
+      "id": "CVE-2026-120309",
+      "publishedDate": "2026-11-02T02:01:09.557Z",
+      "lastModifiedDate": "2026-11-02T02:01:09.557Z",
+      "description": "Nuxt from 4.6.0 before 4.6.2 contains a route parameter confusion vulnerability in getRouterParam and getRouterParams that lets attackers return a parameter value different from the one h3 matched by sending paths containing an encoded question mark (%3F). Attackers can craft requests where authorization checks use the Nuxt helper value while resource selection uses event.context.params, allowing access to unauthorized resources.",
+      "severity": 3.7,
+      "fix_suggestion": "📦 受影响组件：nuxt nuxt\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/nuxt/nuxt/security/advisories/GHSA-w7gw-66vg-99gq",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/nuxt-4.6.0-before-4.6.2-route-param-confusion-via-getrouterparam",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "nuxt",
+          "product": "nuxt",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/nuxt",
+          "versions": [
+            {
+              "version": "4.6.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.6.2"
+            },
+            {
+              "version": "4.6.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "nuxt",
+          "product": "nuxt",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/%40nuxt/nitro-server",
+          "versions": [
+            {
+              "version": "4.6.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "4.6.2"
+            },
+            {
+              "version": "4.6.2",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Interpretation Conflict"
+      ]
+    },
+    {
+      "id": "CVE-2026-120310",
+      "publishedDate": "2026-11-02T02:01:10.250Z",
+      "lastModifiedDate": "2026-11-02T02:01:10.250Z",
+      "description": "Parse Server before 8.6.109 and 9.0.0 before 9.10.6-alpha.1 returns stored field values in object update responses without checking read access, so clients whose class-level permissions or object ACLs allow update but not read can see object data. Attackers can update such objects to read atomic operation results (Increment, Add, AddUnique, Remove), Cloud Code trigger-set values, and, for dot notation keys under certain conditions, the whole stored parent field.",
+      "severity": 3.1,
+      "fix_suggestion": "📦 受影响组件：parse-community parse-server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/parse-community/parse-server/security/advisories/GHSA-2rcp-jc67-vq74",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/parse-server-before-8.6.109-and-9.0.0-before-9.10.6-alpha.1-information-disclosure-via-object-update-response",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "parse-community",
+          "product": "parse-server",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/parse-server",
+          "versions": [
+            {
+              "version": "9.0.0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "9.10.6-alpha.1"
+            },
+            {
+              "version": "9.10.6-alpha.1",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        },
+        {
+          "vendor": "parse-community",
+          "product": "parse-server",
+          "defaultStatus": "unaffected",
+          "packageURL": "pkg:npm/parse-server",
+          "versions": [
+            {
+              "version": "0",
+              "status": "affected",
+              "versionType": "semver",
+              "lessThan": "8.6.109"
+            },
+            {
+              "version": "8.6.109",
+              "status": "unaffected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Exposure of Sensitive Information to an Unauthorized Actor"
       ]
     }
   ]
