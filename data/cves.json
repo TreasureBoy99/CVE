@@ -2,86 +2,167 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 2,
-    "last_updated": "2026-11-03T21:56:12.283324",
+    "total_count": 3,
+    "last_updated": "2026-11-04T01:53:13.519753",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
+      "high": 1,
+      "medium": 2,
       "low": 0,
-      "none": 2
+      "none": 0
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-121233",
-      "publishedDate": "2026-11-03T20:42:24.454Z",
-      "lastModifiedDate": "2026-11-03T21:52:28.284Z",
-      "description": "Type confusion in CacheStorage in Google Chrome prior to 157.0.8103.38 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: High)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-45049",
+      "publishedDate": "2026-10-29T21:13:55.740Z",
+      "lastModifiedDate": "2026-11-04T01:49:05.356Z",
+      "description": "Open Access Management (OpenAM) is an access management solution. Prior to 16.1.1, the `Cross-Domain Single Sign-On` (`CDSSO`) servlet allows a logged-in user's raw OpenAM session token to be POSTed to an attacker-controlled URL. An attacker who induces an authenticated victim to visit a crafted URL can receive the session credential and potentially hijack the session. Deployments must have `CDSSO` enabled, as is common in multi-domain deployments, and exploitation is additionally gated on a non-default configuration being absent. This issue is fixed in version 16.1.1.",
+      "severity": 8.3,
+      "fix_suggestion": "📦 受影响组件：OpenIdentityPlatform OpenAM\n🔓 漏洞类型：CWE-201 (CWE-201)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop.html",
+          "url": "https://github.com/OpenIdentityPlatform/OpenAM/security/advisories/GHSA-r9pv-5rpp-vm8g",
           "type": "reference"
         },
         {
-          "url": "https://issues.chromium.org/issues/552757015",
+          "url": "https://github.com/OpenIdentityPlatform/OpenAM/commit/bda647f8540d8fb28aaaed716914692678c5a0a7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/OpenIdentityPlatform/OpenAM/releases/tag/16.1.1",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Google",
-          "product": "Chrome",
+          "vendor": "OpenIdentityPlatform",
+          "product": "OpenAM",
           "versions": [
             {
-              "version": "157.0.8103.38",
-              "status": "affected",
-              "lessThan": "157.0.8103.38",
-              "versionType": "custom"
+              "version": "< 16.1.1",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Type confusion"
-      ]
+        "CWE-201: Insertion of Sensitive Information Into Sent Data"
+      ],
+      "cwe_ids": [
+        "CWE-201"
+      ],
+      "ghsa_id": "GHSA-r9pv-5rpp-vm8g"
     },
     {
-      "id": "CVE-2026-121203",
-      "publishedDate": "2026-11-03T20:42:22.440Z",
-      "lastModifiedDate": "2026-11-03T21:52:28.705Z",
-      "description": "Use after free in Geometry in Google Chrome prior to 157.0.8103.38 allowed a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. (Chromium security severity: Critical)",
-      "severity": "N/A",
-      "fix_suggestion": "📦 受影响组件：Google Chrome\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-119281",
+      "publishedDate": "2026-10-29T20:58:39.322Z",
+      "lastModifiedDate": "2026-11-04T01:48:15.598Z",
+      "description": "MariaDB Connector/J is used to connect applications developed in Java to MariaDB and MySQL databases. From 3.0.0 until 3.3.7, 3.4.5, and 3.5.11, the connector assumed result bytes were UTF-8 but guarded only changes to character_set_client. It did not reject non-UTF-8 character_set_results changes and relied on the server's global session_track_system_variables configuration to report character-set changes. A malicious or compromised server, or a machine-in-the-middle attacker, could suppress tracking or change the result charset so application strings differed from the returned bytes, potentially defeating application-side validation or escaping that depended on the decoded values. This issue is fixed in versions 3.3.7, 3.4.5, and 3.5.11.",
+      "severity": 5.9,
+      "fix_suggestion": "📦 受影响组件：mariadb-corporation mariadb-connector-j\n🔓 漏洞类型：CWE-838 (CWE-838)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop.html",
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/security/advisories/GHSA-grfq-r75j-rw9x",
           "type": "reference"
         },
         {
-          "url": "https://issues.chromium.org/issues/571065824",
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/commit/af5e565eb171cfc66ea8e948ddc616abed0c4623",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/commit/d51b968c1b795c73d24e0b3f960205b7bc82d423",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/commit/fdabe74a7df6dce1d6c099f4d0ca1e2acc25919a",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/releases/tag/3.3.7",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/releases/tag/3.4.5",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-j/releases/tag/3.5.11",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "Google",
-          "product": "Chrome",
+          "vendor": "mariadb-corporation",
+          "product": "mariadb-connector-j",
           "versions": [
             {
-              "version": "157.0.8103.38",
-              "status": "affected",
-              "lessThan": "157.0.8103.38",
-              "versionType": "custom"
+              "version": ">= 3.0.0, < 3.3.7",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.4.0, < 3.4.5",
+              "status": "affected"
+            },
+            {
+              "version": ">= 3.5.0, < 3.5.11",
+              "status": "affected"
             }
           ]
         }
       ],
       "problemType": [
-        "Use after free"
-      ]
+        "CWE-838: Inappropriate Encoding for Output Context"
+      ],
+      "cwe_ids": [
+        "CWE-838"
+      ],
+      "ghsa_id": "GHSA-grfq-r75j-rw9x"
+    },
+    {
+      "id": "CVE-2026-61673",
+      "publishedDate": "2026-10-29T21:22:22.290Z",
+      "lastModifiedDate": "2026-11-04T01:50:23.862Z",
+      "description": "WeGIA is a web manager for charitable institutions. Prior to 3.8.7, a stored DOM cross-site scripting vulnerability in `web/html/memorando/listar_despachos.php` results from unsafe handling of the `texto` field. The affected flow spans `web/controle/memorando/DespachoControle.php` and `web/dao/memorando/DespachoDAO.php`: `FILTER_SANITIZE_SPECIAL_CHARS` is applied during storage, but `html_entity_decode()` later decodes the stored content and `jQuery .html()` inserts the result into the DOM. An attacker able to submit a memorandum dispatch through `/controle/control.php` using `DespachoControle` and `metodo=incluir` can store malicious HTML or JavaScript. The code executes automatically when another user views the memorandum thread through `/html/memorando/listar_despachos.php` with `id_memorando`. This permits arbitrary JavaScript execution, theft of administrator `PHPSESSID` session tokens, privileged session hijacking, account takeover, and unauthorized access to privileged or internal functionality. This issue is fixed in version 3.8.7.",
+      "severity": "5.5",
+      "fix_suggestion": "📦 受影响组件：LabRedesCefetRJ WeGIA\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n📊 官方评级：MEDIUM (CVSS 5.5)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/LabRedesCefetRJ/WeGIA/security/advisories/GHSA-83p7-cx5x-7g34",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/LabRedesCefetRJ/WeGIA/issues/516",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/LabRedesCefetRJ/WeGIA/commit/9524556c5940149e20cea389d2966dd010d3b5af",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/LabRedesCefetRJ/WeGIA/releases/tag/3.8.7",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "LabRedesCefetRJ",
+          "product": "WeGIA",
+          "versions": [
+            {
+              "version": "< 3.8.7",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ],
+      "cvss_severity": "MEDIUM"
     }
   ]
 }
