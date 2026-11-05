@@ -2,15 +2,267 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-11-05T09:31:05.320733",
+    "total_count": 6,
+    "last_updated": "2026-11-05T17:35:50.314032",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 0,
+      "medium": 2,
       "low": 0,
-      "none": 0
+      "none": 4
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-64860",
+      "publishedDate": "2026-11-05T14:11:08.672Z",
+      "lastModifiedDate": "2026-11-05T17:27:44.180Z",
+      "description": "ESP-Protocols is a collection of protocol components for ESP-IDF. Prior to mDNS version 1.11.2, the `mdns` component follows DNS name-compression pointers recursively when parsing fully qualified domain names (FQDNs) in inbound mDNS packets without capping pointer-follow depth in `mdns_utils_read_fqdn()`. An unauthenticated attacker on the same link-local network can send a crafted packet to UDP port 5353 on an `ESP-IDF` device using `espressif/mdns` with mDNS enabled. Deep recursion exhausts the fixed-size stack of the mDNS FreeRTOS task, causing a controlled panic and reboot; persistent malicious traffic can cause a crash loop. No confidentiality or integrity impact has been demonstrated, and remote code execution is not claimed. This issue is fixed in mDNS version 1.11.2.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：espressif esp-protocols\n🔓 漏洞类型：Uncontrolled Resource Consumption, CWE-674 (CWE-400, CWE-674)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/espressif/esp-protocols/security/advisories/GHSA-7fpr-vjw5-2c86",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/espressif/esp-protocols/commit/95c882c7d7d661d28d4685bd052b024154a8402f",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/espressif/esp-protocols/releases/tag/mdns-v1.11.2",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "espressif",
+          "product": "esp-protocols",
+          "versions": [
+            {
+              "version": "< 1.11.2",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-400: Uncontrolled Resource Consumption",
+        "CWE-674: Uncontrolled Recursion"
+      ],
+      "cwe_ids": [
+        "CWE-400",
+        "CWE-674"
+      ]
+    },
+    {
+      "id": "CVE-2026-76563",
+      "publishedDate": "2026-11-05T13:47:15.045Z",
+      "lastModifiedDate": "2026-11-05T17:28:52.645Z",
+      "description": "Improper neutralization of Script-Related HTML tags in a web page (basic XSS) vulnerability in Fileorbis Informatics Services Trade Inc. Fileorbis allows Using Malicious Files.\n\nThis issue affects Fileorbis: before 12.5.4.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：Fileorbis Informatics Services Trade Inc. Fileorbis\n🔓 漏洞类型：CWE-80 (CWE-80)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://siberguvenlik.gov.tr/guvenlik-bildirimleri/detay/tr-26-1468",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Fileorbis Informatics Services Trade Inc.",
+          "product": "Fileorbis",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "12.5.4",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-80 Improper neutralization of Script-Related HTML tags in a web page (basic XSS)"
+      ],
+      "cwe_ids": [
+        "CWE-80"
+      ]
+    },
+    {
+      "id": "CVE-2026-102927",
+      "publishedDate": "2026-11-05T17:29:59.103Z",
+      "lastModifiedDate": "2026-11-05T17:29:59.103Z",
+      "description": "HedgeDoc is an open source, real-time collaborative markdown notes application. Prior to 1.11.1, the WebSocket permission handler allows a note owner to store strings outside the supported freely, editable, limited, locked, protected, and private permission values. The viewing and editing checks handle only known values and can otherwise fall through to permissive behavior, making a note readable or writable more broadly than intended. SQLite deployments can persist the invalid value because the database column does not strictly enforce the set, while MySQL and PostgreSQL reject the database update but can leave the in-memory note state inconsistent for connected users until reload or cache eviction. Exploitation requires the note owner to intentionally submit an invalid permission value, and the owner could already choose a legitimate permissive setting, which limits the practical security impact. This issue is fixed in version 1.11.1.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：hedgedoc hedgedoc\n🔓 漏洞类型：CWE-20, CWE-284 (CWE-20, CWE-284)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/hedgedoc/hedgedoc/security/advisories/GHSA-93w7-49m2-cqwg",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/hedgedoc/hedgedoc/commit/0dda149c7f528a7e98a34a8459b7afb23c90a05b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/hedgedoc/hedgedoc/releases/tag/1.11.1",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "hedgedoc",
+          "product": "hedgedoc",
+          "versions": [
+            {
+              "version": "< 1.11.1",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-20: Improper Input Validation",
+        "CWE-284: Improper Access Control"
+      ],
+      "cwe_ids": [
+        "CWE-20",
+        "CWE-284"
+      ]
+    },
+    {
+      "id": "CVE-2026-54912",
+      "publishedDate": "2026-11-05T17:29:18.708Z",
+      "lastModifiedDate": "2026-11-05T17:29:18.708Z",
+      "description": "WebAssembly Micro Runtime (WAMR) is a lightweight standalone WebAssembly (Wasm) runtime. Prior to 2.4.5, the two-pass fast interpreter loader in core/iwasm/interpreter/wasm_loader.c can make inconsistent constant-table decisions between the sizing pass and the emitting pass. After duplicate constants inflate the first pass beyond the constant-slot limit, wasm_loader_get_const_offset emits later constants inline, but the between-pass sort and deduplication reduces the table so the second pass can choose table references and cause reserve_block_ret to emit additional copy operands that were not included in code_compiled_peak_size. A crafted module can therefore make the second pass write partially attacker-controlled compiled-code data beyond the heap buffer allocated from the first pass's size calculation during wasm_runtime_load, before guest code executes. This can corrupt host heap metadata and deterministically crash the process, causing denial of service; further consequences depend on the host application's heap layout. Builds using WAMR_BUILD_FAST_INTERP=1 are affected; disabling the fast interpreter avoids the vulnerable loader. This issue is fixed in version 2.4.5.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：bytecodealliance wasm-micro-runtime\n🔓 漏洞类型：CWE-787 (CWE-787)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/security/advisories/GHSA-jjv3-x3jf-cg49",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/commit/b1353b5e8983047ff68829c99abf1355d5f389cf",
+          "type": "reference"
+        },
+        {
+          "url": "https://gist.github.com/shumbo/b710c35b005ed871447fce385d1ab760",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/releases/tag/WAMR-2.4.5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bytecodealliance",
+          "product": "wasm-micro-runtime",
+          "versions": [
+            {
+              "version": "< 2.4.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-787: Out-of-bounds Write"
+      ],
+      "cwe_ids": [
+        "CWE-787"
+      ]
+    },
+    {
+      "id": "CVE-2026-54913",
+      "publishedDate": "2026-11-05T17:28:26.923Z",
+      "lastModifiedDate": "2026-11-05T17:28:26.923Z",
+      "description": "WebAssembly Micro Runtime (WAMR) is a lightweight standalone WebAssembly (Wasm) runtime. Prior to 2.4.5, load_init_expr in core/iwasm/interpreter/wasm_loader.c accepts a non-reference heap-type byte for ref.null when WASM_ENABLE_GC=0, while the local WASMValue cur_value union is not zero-initialized and setting ref_index writes only part of it. A crafted module can declare an i64, f64, or v128 global initialized through the invalid ref.null form, causing push_const_expr_stack and the later global initialization path to copy uninitialized host-stack bytes into a value readable by the guest. The classic and fast interpreters are affected in the default no-GC configuration; the GC-enabled path validates heap types. The disclosure is four bytes for i64 or f64 globals and up to twelve bytes for each v128 global. This issue is fixed in version 2.4.5.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：bytecodealliance wasm-micro-runtime\n🔓 漏洞类型：CWE-457 (CWE-457)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/security/advisories/GHSA-frwm-5hpr-2hq2",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/commit/c313279c548c6a93f55eb97455cab8696e39f6c1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/commit/e571797fbdf498d9ac4edb495205ea0f01370091",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/releases/tag/WAMR-2.4.5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bytecodealliance",
+          "product": "wasm-micro-runtime",
+          "versions": [
+            {
+              "version": "< 2.4.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-457: Use of Uninitialized Variable"
+      ],
+      "cwe_ids": [
+        "CWE-457"
+      ]
+    },
+    {
+      "id": "CVE-2026-54914",
+      "publishedDate": "2026-11-05T17:27:16.493Z",
+      "lastModifiedDate": "2026-11-05T17:27:16.493Z",
+      "description": "WebAssembly Micro Runtime (WAMR) is a lightweight standalone WebAssembly (Wasm) runtime. Prior to 2.4.5, wasi_poll_oneoff in core/iwasm/libraries/libc-wasi/libc_wasi_wrapper.c validates the output pointer for only one wasi_event_t, while wasmtime_ssp_poll_oneoff in core/iwasm/libraries/libc-wasi/sandboxed-system-primitives/src/posix.c can write as many events as the guest-controlled nsubscriptions value. A crafted guest module can provide multiple subscriptions that produce events while positioning an output region large enough for only one event, causing a later out[nevents] write to cross the validated Wasm linear-memory boundary into adjacent host heap memory. The overwrite contains partly attacker-controlled event data and can reliably crash the host process, with further confidentiality or integrity consequences depending on heap layout. This issue is fixed in version 2.4.5.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：bytecodealliance wasm-micro-runtime\n🔓 漏洞类型：CWE-122 (CWE-122)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/security/advisories/GHSA-wj3p-xhqm-pffc",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/commit/1f98fb01d09b2ef5e49dc0be2e6006f962fd87f1",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/commit/b49d10eac4176817305d60ea59d24bc69a53eb7b",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/wasm-micro-runtime/wasm-micro-runtime/releases/tag/WAMR-2.4.5",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "bytecodealliance",
+          "product": "wasm-micro-runtime",
+          "versions": [
+            {
+              "version": "< 2.4.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "CWE-122: Heap-based Buffer Overflow"
+      ],
+      "cwe_ids": [
+        "CWE-122"
+      ]
+    }
+  ]
 }
