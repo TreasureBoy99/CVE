@@ -2,15 +2,74 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 0,
-    "last_updated": "2026-11-06T02:52:44.874746",
+    "total_count": 1,
+    "last_updated": "2026-11-06T10:02:00.086460",
     "severity_distribution": {
       "critical": 0,
       "high": 0,
-      "medium": 0,
+      "medium": 1,
       "low": 0,
       "none": 0
     }
   },
-  "cves": []
+  "cves": [
+    {
+      "id": "CVE-2026-120474",
+      "publishedDate": "2026-11-06T09:57:46.664Z",
+      "lastModifiedDate": "2026-11-06T09:57:46.664Z",
+      "description": "undici is an HTTP client for Node.js. In versions 7.0.0 through 7.30.1 and 8.0.0 through 8.12.3, when the redirect interceptor and a shared response cache are used together, an authenticated request that is redirected to a same-origin target has the final response stored under the original request's cache key. That key omits the credential and carries no Vary header, so a later anonymous or different user can be served the first user's private response body. This results in cross-user disclosure of cached private responses. The issue is fixed in undici 7.30.2 and 8.12.4, and users should upgrade to one of those versions or later.",
+      "severity": 6.5,
+      "fix_suggestion": "📦 受影响组件：undici undici\n🔓 漏洞类型：CWE-524, CWE-639 (CWE-524, CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://github.com/nodejs/undici/security/advisories/GHSA-7xg3-fphp-28hg",
+          "type": "reference"
+        },
+        {
+          "url": "https://cna.openjsf.org/security-advisories.html",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "undici",
+          "product": "undici",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "versionType": "semver",
+              "status": "affected",
+              "version": "7.0.0",
+              "lessThan": "7.30.2"
+            },
+            {
+              "versionType": "semver",
+              "status": "unaffected",
+              "version": "7.30.2"
+            },
+            {
+              "versionType": "semver",
+              "status": "affected",
+              "version": "8.0.0",
+              "lessThan": "8.12.4"
+            },
+            {
+              "versionType": "semver",
+              "status": "unaffected",
+              "version": "8.12.4"
+            }
+          ],
+          "packageURL": "pkg:npm/undici"
+        }
+      ],
+      "problemType": [
+        "CWE-524: Use of Cache Containing Sensitive Information",
+        "CWE-639: Authorization Bypass Through User-Controlled Key"
+      ],
+      "cwe_ids": [
+        "CWE-524",
+        "CWE-639"
+      ]
+    }
+  ]
 }
