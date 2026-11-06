@@ -2,73 +2,355 @@
   "dataType": "CVE_RECORD",
   "dataVersion": "5.1",
   "cveMetadata": {
-    "total_count": 1,
-    "last_updated": "2026-11-06T10:02:00.086460",
+    "total_count": 8,
+    "last_updated": "2026-11-06T16:40:51.333704",
     "severity_distribution": {
       "critical": 0,
-      "high": 0,
+      "high": 3,
       "medium": 1,
       "low": 0,
-      "none": 0
+      "none": 4
     }
   },
   "cves": [
     {
-      "id": "CVE-2026-120474",
-      "publishedDate": "2026-11-06T09:57:46.664Z",
-      "lastModifiedDate": "2026-11-06T09:57:46.664Z",
-      "description": "undici is an HTTP client for Node.js. In versions 7.0.0 through 7.30.1 and 8.0.0 through 8.12.3, when the redirect interceptor and a shared response cache are used together, an authenticated request that is redirected to a same-origin target has the final response stored under the original request's cache key. That key omits the credential and carries no Vary header, so a later anonymous or different user can be served the first user's private response body. This results in cross-user disclosure of cached private responses. The issue is fixed in undici 7.30.2 and 8.12.4, and users should upgrade to one of those versions or later.",
-      "severity": 6.5,
-      "fix_suggestion": "📦 受影响组件：undici undici\n🔓 漏洞类型：CWE-524, CWE-639 (CWE-524, CWE-639)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "id": "CVE-2026-119978",
+      "publishedDate": "2026-10-30T17:28:31.216Z",
+      "lastModifiedDate": "2026-11-06T16:33:02.320Z",
+      "description": "Flowise through 3.1.4 contains a sandbox escape vulnerability that allows authenticated users to execute OS commands by abusing allowlisted langchain and mammoth modules when ALLOW_BUILTIN_DEP=true. Attackers can submit JavaScript to /api/v1/node-custom-function that writes a file into the mammoth package via LocalFileStore and requires it, escaping vm2 as the Flowise process user.",
+      "severity": 8.5,
+      "fix_suggestion": "📦 受影响组件：FlowiseAI Flowise\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
       "references": [
         {
-          "url": "https://github.com/nodejs/undici/security/advisories/GHSA-7xg3-fphp-28hg",
+          "url": "https://github.com/soovwv/cve/blob/a37354aff1e78c0601772e7716f5318c473e8640/CVE-2026-119978.md",
           "type": "reference"
         },
         {
-          "url": "https://cna.openjsf.org/security-advisories.html",
+          "url": "https://github.com/FlowiseAI/Flowise/blob/a65f81bb43ef66d3ce734bf0dff4223ae8041c95/packages/components/src/utils.ts#L55-L114",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/FlowiseAI/Flowise/blob/a65f81bb43ef66d3ce734bf0dff4223ae8041c95/packages/components/src/utils.ts#L1733",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/advisories/GHSA-9gvv-qjj3-2p6g",
+          "type": "reference"
+        },
+        {
+          "url": "https://github.com/FlowiseAI/Flowise",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/flowise-through-3.1.4-custom-function-sandbox-escape-rce-via-localfilestore",
           "type": "reference"
         }
       ],
       "affected": [
         {
-          "vendor": "undici",
-          "product": "undici",
+          "vendor": "FlowiseAI",
+          "product": "Flowise",
+          "packageURL": "pkg:github/FlowiseAI/Flowise",
           "defaultStatus": "unaffected",
           "versions": [
             {
-              "versionType": "semver",
+              "version": "0",
+              "lessThanOrEqual": "3.1.4",
               "status": "affected",
-              "version": "7.0.0",
-              "lessThan": "7.30.2"
-            },
-            {
-              "versionType": "semver",
-              "status": "unaffected",
-              "version": "7.30.2"
-            },
-            {
-              "versionType": "semver",
-              "status": "affected",
-              "version": "8.0.0",
-              "lessThan": "8.12.4"
-            },
-            {
-              "versionType": "semver",
-              "status": "unaffected",
-              "version": "8.12.4"
+              "versionType": "semver"
             }
           ],
-          "packageURL": "pkg:npm/undici"
+          "repo": "https://github.com/FlowiseAI/Flowise"
         }
       ],
       "problemType": [
-        "CWE-524: Use of Cache Containing Sensitive Information",
-        "CWE-639: Authorization Bypass Through User-Controlled Key"
+        "Exposed Dangerous Method or Function"
+      ]
+    },
+    {
+      "id": "CVE-2026-104657",
+      "publishedDate": "2026-11-06T16:33:21.722Z",
+      "lastModifiedDate": "2026-11-06T16:33:21.722Z",
+      "description": "Missing integrity verification in the Progress Software Fiddler Download and Setup Skill on Linux, macOS, and Windows which allows an attacker to compromise or influence a release component and execute attacker-controlled code when a user runs the skill. On macOS, the skill stages the package at a predictable path and installs it with administrator privileges, which may allow code execution with root privileges after user approval. A local process may also replace the staged macOS package while the skill waits for approval.",
+      "severity": 7.5,
+      "fix_suggestion": "📦 受影响组件：Progress Software Fiddler Download & Setup Skill\n🔓 漏洞类型：CWE-494, CWE-377 (CWE-494, CWE-377)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.telerik.com/fiddler/fiddler-everywhere/documentation/knowledge-base/kb-security-missing-download-integrity-verification-cve-2026-104657",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Progress Software",
+          "product": "Fiddler Download & Setup Skill",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.3.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-494: Download of Code Without Integrity Check",
+        "CWE-377: Insecure Temporary File"
       ],
       "cwe_ids": [
-        "CWE-524",
-        "CWE-639"
+        "CWE-494",
+        "CWE-377"
+      ]
+    },
+    {
+      "id": "CVE-2026-104656",
+      "publishedDate": "2026-11-06T16:34:59.574Z",
+      "lastModifiedDate": "2026-11-06T16:34:59.574Z",
+      "description": "Improper neutralization of input in the sessions grid in Progress Telerik Fiddler Everywhere 8.3.0 and earlier allows an attacker to execute backend IPC commands by convincing a user to open a specially crafted SAZ file.",
+      "severity": 7.3,
+      "fix_suggestion": "📦 受影响组件：Progress Software Progress® Telerik® Fiddler® Everywhere\n🔓 漏洞类型：Cross-site Scripting (XSS) (CWE-79)\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.telerik.com/fiddler/fiddler-everywhere/documentation/knowledge-base/kb-security-cross-site-scripting-cve-2026-104656",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Progress Software",
+          "product": "Progress® Telerik® Fiddler® Everywhere",
+          "versions": [
+            {
+              "status": "affected",
+              "version": "0",
+              "lessThan": "8.3.0",
+              "versionType": "semver"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ],
+      "cwe_ids": [
+        "CWE-79"
+      ]
+    },
+    {
+      "id": "CVE-2026-119761",
+      "publishedDate": "2026-10-30T17:19:53.886Z",
+      "lastModifiedDate": "2026-11-06T16:31:49.082Z",
+      "description": "Axigen Mail Server WebMail before 10.6.39 and 10.7.1 contains a stored cross-site scripting vulnerability that allows unauthenticated remote attackers to inject script via unescaped sender display names in the conversation view. Attackers can send an email with HTML and script in the From display name that executes when the recipient opens the folder, enabling mailbox content theft or redirection.",
+      "severity": 6.1,
+      "fix_suggestion": "📦 受影响组件：Axigen Axigen Mail Server\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://www.axigen.com/kb/show/411",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.axigen.com/updates/axigen-10.6.39",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.axigen.com/updates/axigen-10.7.1",
+          "type": "reference"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/axigen-mail-server-before-10.6.39-and-10.7.1-stored-xss-via-sender-display-name",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Axigen",
+          "product": "Axigen Mail Server",
+          "defaultStatus": "unaffected",
+          "versions": [
+            {
+              "version": "10.5.0",
+              "lessThan": "10.6.39",
+              "status": "affected",
+              "versionType": "semver"
+            },
+            {
+              "version": "10.7.0",
+              "lessThan": "10.7.1",
+              "status": "affected",
+              "versionType": "semver"
+            }
+          ]
+        }
+      ],
+      "problemType": [
+        "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      ]
+    },
+    {
+      "id": "CVE-2026-49903",
+      "publishedDate": "2026-11-02T20:21:07.826Z",
+      "lastModifiedDate": "2026-11-06T16:33:05.350Z",
+      "description": "The `ClusterRenderingService.dump()` method, accessible to processes holding `android.permission.DUMP` and `android.permission.PACKAGE_USAGE_STATS`, acts as a confused deputy. It allows attackers to write arbitrary values to `Settings.Global.OVERLAY_DISPLAY_DEVICES`, an operation normally requiring `android.permission.WRITE_SECURE_SETTINGS`, enabling persistent creation of system overlay displays and injection of key events into the cluster UI.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Android\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://source.android.com/docs/security/bulletin/aaos/2026/2026-11-01",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Android",
+          "versions": [
+            {
+              "version": "17",
+              "status": "affected"
+            },
+            {
+              "version": "16-qpr2",
+              "status": "affected"
+            },
+            {
+              "version": "16",
+              "status": "affected"
+            },
+            {
+              "version": "15",
+              "status": "affected"
+            },
+            {
+              "version": "14",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Elevation of privilege"
+      ]
+    },
+    {
+      "id": "CVE-2026-59048",
+      "publishedDate": "2026-11-02T19:55:14.970Z",
+      "lastModifiedDate": "2026-11-06T16:31:11.955Z",
+      "description": "In rb_cpu_init of trace.c, there is a possible out-of-bounds read due to an incorrect bounds check. This could lead to local information disclosure with no additional execution privileges needed. User interaction is not needed for exploitation.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Android\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://android.googlesource.com/kernel/common/+/e46b3a946c957ab463a8abf9333dea702e8a485e",
+          "type": "reference"
+        },
+        {
+          "url": "https://android.googlesource.com/kernel/common/+/5e31aa53a963b254ddac8a88b48e5b64cfc38eea",
+          "type": "reference"
+        },
+        {
+          "url": "https://source.android.com/docs/security/bulletin/2026/2026-11-01",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Android",
+          "versions": [
+            {
+              "version": "Android kernel",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Information disclosure"
+      ]
+    },
+    {
+      "id": "CVE-2026-59001",
+      "publishedDate": "2026-11-02T19:54:49.611Z",
+      "lastModifiedDate": "2026-11-06T16:33:52.482Z",
+      "description": "In checkQueryPermission of TelephonyProvider.java, there is a possible permission bypass due to a logic error in the code. This could lead to local information disclosure with no additional execution privileges needed. User interaction is not needed for exploitation.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Android\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://source.android.com/docs/security/bulletin/2026/2026-11-01",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Android",
+          "versions": [
+            {
+              "version": "17",
+              "status": "affected"
+            },
+            {
+              "version": "16-qpr2",
+              "status": "affected"
+            },
+            {
+              "version": "16",
+              "status": "affected"
+            },
+            {
+              "version": "15",
+              "status": "affected"
+            },
+            {
+              "version": "14",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Information disclosure"
+      ]
+    },
+    {
+      "id": "CVE-2026-58883",
+      "publishedDate": "2026-11-02T19:54:03.835Z",
+      "lastModifiedDate": "2026-11-06T16:34:25.688Z",
+      "description": "In multiple locations, there is a possible denial of service due to a logic error in the code. This could lead to remote denial of service with no additional execution privileges needed. User interaction is not needed for exploitation.",
+      "severity": "N/A",
+      "fix_suggestion": "📦 受影响组件：Google Android\n🛠️ 修复建议：\n1. 确认受影响的版本范围（见上方 Affected Products）\n2. 升级到厂商官方发布的最稳定安全版本\n3. 检查官方安全公告获取补丁链接\n4. 如无法立即升级，实施临时缓解措施：\n   - 网络层：WAF 规则 / IPS 签名 / 零信任策略\n   - 主机层：最小化暴露面 / 禁用危险功能 / 输入过滤\n5. 修复后使用 NVD / 厂商 PoC 验证修复有效性",
+      "references": [
+        {
+          "url": "https://source.android.com/docs/security/bulletin/2026/2026-11-01",
+          "type": "reference"
+        }
+      ],
+      "affected": [
+        {
+          "vendor": "Google",
+          "product": "Android",
+          "versions": [
+            {
+              "version": "17",
+              "status": "affected"
+            },
+            {
+              "version": "16-qpr2",
+              "status": "affected"
+            }
+          ],
+          "defaultStatus": "unaffected"
+        }
+      ],
+      "problemType": [
+        "Denial of service"
       ]
     }
   ]
